@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<title>eMachineShop</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<link href="images/favicon.png" rel="shortcut icon">
+		
+		<link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+		
+
+		<style>
+				.button {
+					width: 80px;
+					height: 20px;
+					position: absolute;
+					background: linear-gradient(0deg, rgb(100, 100, 100) 0px, rgb(140, 140, 140) 35px);
+					//box-shadow: 0px 0px 4px #ccc;
+					font-family: Arial;	 
+					color: #fff;
+					font-size:12px;
+					line-height: 20px;
+					cursor: pointer;
+					font-weight: 500;
+					transition: 0.4s;
+					text-align: center;
+					//border-radius: 4px;
+				}
+		   
+				.button:hover {
+					//background: linear-gradient(0deg, rgb(50, 50, 50) 0px, rgb(75, 75, 75) 35px);
+				}
+				
+				.menu_panel {
+					width: 150px;
+					height: 100px;
+					position: absolute;
+					background: linear-gradient(0deg, rgb(245, 245, 245) 0px, rgb(255, 255, 255) 125px);
+					box-shadow: 2px 4px 12px rgba(0, 0, 0, 0.25);
+					font-family: Arial;	 
+					color: #fa5;
+					font-size:12px;
+					line-height: 20px;
+					cursor: pointer;
+					font-weight: 500;
+					//transition: 0.25s;
+					text-align: center;
+				}
+				
+		</style>
+
+	</head>
+	
+				<?
+					$fp = fopen("history", "a+");
+						fputs($fp, date('d.m.Y H:i:s').'-----'.$_SERVER['REMOTE_ADDR'].chr(13));
+					fclose($fp);
+				?>
+
+
+	<body style = 'padding: 0px; margin: 0px; background: rgb(255, 255, 255)'>
+
+		<script type="text/javascript" src="functions.1.0.js"></script>
+		<script type="text/javascript" src="board.js"></script>
+
+
+		<script>
+		
+			document.body.onload = function(){
+				var PORT_1 = create_board().setPosition(0, 0).setSize(innerWidth, innerHeight);
+				window.onresize = function(){PORT_1.setSize(innerWidth, innerHeight)}
+			}
+		
+		</script>
+
+
+	</body>
+
+</html>
