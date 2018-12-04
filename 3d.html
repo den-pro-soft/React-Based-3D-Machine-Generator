@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>eMachineShop</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <link href="images/favicon.png" rel="shortcut icon">
+    <style>
+        body {
+            margin: 0px;
+            padding: 0px;
+        }
+        #3DView{
+            background-color: black;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="3DView"></canvas>
+
+    <script src="libs/three.js"></script>
+    <script src="libs/OrbitControls.js"></script>
+    <script src="libs/ThreeCSG.js"></script>
+    <script src="3Dview.js"></script>
+    <script type="application/javascript">
+        document.body.onload = function(){
+            var canvas = document.getElementById('3DView');
+            var view = new View3D(canvas, {width:innerWidth, height:innerHeight});
+
+        }
+
+    </script>
+</body>
+</html>
