@@ -33,107 +33,32 @@ var View3D = function (canvas, size) {
     scene.add(axes);
 
 
-    var material = new THREE.MeshLambertMaterial( { opacity:0.5, color: 0xcccccc, transparent:false, wireframe: true, side:THREE.DoubleSide } );
+    var material = new THREE.MeshLambertMaterial( { opacity:0.5, color: 0xcccccc, transparent:false, wireframe: false, side:THREE.DoubleSide } );
+
+    var geometry1 = new THREE.BoxGeometry(20, 20, 20);
+    var geometry2 =new THREE.Mesh(new THREE.CylinderGeometry(3,10,10,100,1));
+    geometry2.position.set(10,0,10);
 
 
-    // var vertices = [
-    //     new THREE.Vector3(1, 3, 1),
-    //     new THREE.Vector3(1, 3, -1),
-    //     new THREE.Vector3(1, -1, 1),
-    //     new THREE.Vector3(1, -1, -1),
-    //     new THREE.Vector3(-1, 3, -1),
-    //     new THREE.Vector3(-1, 3, 1),
-    //     new THREE.Vector3(-1, -1, -1),
-    //     new THREE.Vector3(-1, -1, 1)
-    // ];
-    // var faces = [
-    //     new THREE.Face3(0, 2, 1),
-    //     new THREE.Face3(2, 3, 1),
-    //     new THREE.Face3(4, 6, 5),
-    //     new THREE.Face3(6, 7, 5),
-    //     new THREE.Face3(4, 5, 1),
-    //     new THREE.Face3(5, 0, 1),
-    //     new THREE.Face3(7, 6, 2),
-    //     new THREE.Face3(6, 3, 2),
-    //     new THREE.Face3(5, 7, 0),
-    //     new THREE.Face3(7, 2, 0),
-    //     new THREE.Face3(1, 3, 4),
-    //     new THREE.Face3(3, 6, 4),
-    // ];
-    //
-    //
-    //
-    // var geom = new THREE.Geometry();
-    // geom.vertices = vertices;
-    // geom.faces = faces;
-    // geom.computeVertexNormals();
-    // geom.computeFaceNormals();
-    // geom.mergeVertices();
-    //
-    //
-    // scene.add(new THREE.Mesh(geom,material));
+    var result = new ThreeBSP(geometry1).subtract(new ThreeBSP(geometry2));
 
-    var cylinderGeometry = new THREE.CylinderGeometry(10,10, 15, 72,1,false);
-    var cylinderMesh = new THREE.Mesh( cylinderGeometry, material );
-    cylinderMesh.position.set(10,10,0);
-    // scene.add( cylinderMesh );
+    var geometry = result.toGeometry();
 
-    var cylinder_bsp = new ThreeBSP(cylinderMesh);
+    mesh = new THREE.Mesh(geometry, material);
+    // mesh.position.setX(15);
 
-    THREE.CSG
+    wireframe = new THREE.WireframeHelper(mesh, 0xffffff);
+    // wireframe.position.setX(-15);
+    scene.add(wireframe);
 
-    var boxGeormetry = new THREE.BoxGeometry(50, 20, 10);
-
-
-    var boxMesh = new THREE.Mesh( boxGeormetry, material);
-    // boxMesh.position.set(25,0,25);
-
-    var boxMesh_bsp = new ThreeBSP(boxMesh);
-
-    scene.add(boxMesh);
-    console.log(boxMesh_bsp);
-
-
-    var subtract_bsp2 = cylinder_bsp.subtract(boxMesh_bsp); //circle with missing
-
-
-
-
-
-    // var a = boxMesh_bsp.tree.clone(),
-    //     b = cylinder_bsp.tree.clone();
-    //
-    // a.invert();
-    // a.clipTo( b );
-    // b.clipTo( a );
-    // b.invert();
-    // b.clipTo( a );
-    // b.invert();
-    // a.build( b.allPolygons() );
-    // a.invert();
-    // a = new ThreeBSP( a );
-    // a.matrix = this.matrix;
-    // subtract_bsp2 =a;
-
-
-
-    var result = subtract_bsp2.toMesh( material );
-    result.geometry.computeVertexNormals();
-    result.geometry.computeFaceNormals();
-    // scene.add(result);
+    // scene.add(mesh);
 
 
     function animate() {
-
         requestAnimationFrame(animate);
-
-        // required if controls.enableDamping or controls.autoRotate are set to true
         controls.update();
-
         renderer.render(scene, camera);
         spotLight.position.set(camera.position.x * 10, camera.position.y * 10, camera.position.z * 10);
-
     }
-
     animate();
 };
