@@ -18,7 +18,7 @@ var View3D = function (size) {
     var renderer = new THREE.WebGLRenderer();
 
     var dom = renderer.domElement;
-    dom.style.height='800px';
+
     var controls = new THREE.OrbitControls(camera,dom);
 
     renderer.setClearColor("#EEEEEE");
@@ -34,8 +34,8 @@ var View3D = function (size) {
         wireframe:false
     };
 
-    var gui = new dat.GUI();
-    gui.add(settings, 'wireframe');
+    // var gui = new dat.GUI();
+    // gui.add(settings, 'wireframe');
 
 
 
@@ -110,17 +110,17 @@ var View3D = function (size) {
             }
         }
 
-        // for(var i=0; i<polilynes.length; i++){
-        //     for(var j=0; j<circles.length; j++){
-        //         polilynes[i] = new ThreeBSP(polilynes[i]).subtract(new ThreeBSP(circles[j])).toGeometry();
-        //     }
-        // }
+        for(var i=0; i<polilynes.length; i++){
+            for(var j=0; j<circles.length; j++){
+                polilynes[i] = new ThreeBSP(polilynes[i]).subtract(new ThreeBSP(circles[j])).toGeometry();
+            }
+        }
         for(var i=0; i<polilynes.length; i++){
             this.addGeometryToScene(polilynes[i]);
         }
-        for(var j=0; j<circles.length; j++){
-            this.addGeometryToScene(circles[j]);
-        }
+        // for(var j=0; j<circles.length; j++){
+        //     this.addGeometryToScene(circles[j]);
+        // }
 
 
 
