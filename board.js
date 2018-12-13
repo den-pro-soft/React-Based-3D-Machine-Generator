@@ -46,8 +46,11 @@
 
 			var infoline = element('div', board).background('rgb(240, 240, 240)').size(1200, 25).fontStyle(11, "Ubuntu", "#222", "left")
 				infoline.material = element('div', infoline).background('rgba(255, 255, 255, 0)').border('0px solid #aaa').size(200, 23).position(1000, 0);
-
-
+			
+			var popup3DView = new Popup().setSize(800,600).setPosition(200,100).moveToCenter();
+			var view3D = new View3D({width:800, height:600});
+			popup3DView.setContent(view3D.getContent());
+		
 			//*****************************************************************************************************************
 			var MMB_A = [	{name: "File", item:["New", "Open", "Reopen", "Save", "Save As", "Print", "Import", "Export", "Exit"], hint: ""},
 							{name: "Edit", item:["Undo", "Redo", "Cut", "Copy", "Paste", "Delete", "Select All", "Find", "Replace", "Preferences"], hint: ""},
@@ -101,7 +104,9 @@
 			//***************************************************************************
 			board.setSize = function(width, height){
 				board.size(width, height);
-				
+
+					popup3DView.moveToCenter();
+
 					canvas.style.position = 'absolute';
 					canvas.width = width - 60;
 					canvas.height = height - 105 - infoline.height;
@@ -428,6 +433,13 @@
 							canvas.style.cursor = "zoom-in";
 							for (var i = 0; i < MAB.length; i++) MAB[i].background("rgba(0, 0, 0, 0)").border("1px solid rgba(0, 0, 0, 0)");
 						}
+						//******************** Ungroup ************************
+						if (this.name == "3D preview"){
+							view3D.setGeometry(E);
+							popup3DView.show();
+						}
+						
+						
 					}
 			}
 
