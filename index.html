@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
-	<head>
+<head>
 		<title>eMachineShop</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<link href="images/favicon.png" rel="shortcut icon">
@@ -50,12 +50,7 @@
 
 	</head>
 	
-				<?
-					$fp = fopen("history", "a+");
-						fputs($fp, date('d.m.Y H:i:s').'-----'.$_SERVER['REMOTE_ADDR'].chr(13));
-					fclose($fp);
-				?>
-
+				
 
 	<body style = 'padding: 0px; margin: 0px; background: rgb(255, 255, 255)'>
 
@@ -74,5 +69,4 @@
 
 
 	</body>
-
 </html>
