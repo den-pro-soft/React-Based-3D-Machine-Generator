@@ -50,8 +50,24 @@
 			var popup3DView = new Popup().setSize(800,600).setPosition(200,100).moveToCenter();
 			var view3D = new View3D({width:800, height:600});
 			popup3DView.setContent(view3D.getContent());
-		
+
 			//*****************************************************************************************************************
+			var menu = new Menu("File")
+					.addMenuItem(new MenuItem("New"))
+					.addMenuItem(new MenuItem("Open"))
+					.addMenuItem(new MenuItem("Reopen"))
+					.addMenuItem(new MenuItem("Save"))
+					.addMenuItem(new MenuItem("Save As"))
+					.addMenuItem(new MenuItem("Print"))
+					.addMenuItem(new MenuItem("Import"))
+					.addMenuItem(new MenuItem("Export"))
+					.addMenuItem(new MenuItem("Exit"))
+					.setItemSize(80,20)
+					.setPosition(10,65)
+					.setSize(innerWidth-25,30)
+					.show();
+			board.appendChild(menu.getHtml());
+
 			var MMB_A = [	{name: "File", item:["New", "Open", "Reopen", "Save", "Save As", "Print", "Import", "Export", "Exit"], hint: ""},
 							{name: "Edit", item:["Undo", "Redo", "Cut", "Copy", "Paste", "Delete", "Select All", "Find", "Replace", "Preferences"], hint: ""},
 							{name: "View", item:["Zoom", "3D", "Top", "Bottom", "Front", "Back", "Left", "Right"], hint: ""},
