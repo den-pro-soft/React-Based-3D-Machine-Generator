@@ -5,47 +5,47 @@ class Popup{
         this.parent = parent;
         this.popupContainer= element('div').classname('popup-container');
         this.popup = element('div',this.popupContainer).classname('popup');
-        this.header = element('div',this.popup).background('#bbbbbb');
-        this.close = element('img',this.header).size(20,20).cursor('pointer');
-        this.close.src="images/Delete.png";
 
+        this.handlers = [];
+
+        this.size = {width:0,height:0};
+        this.position = {x:0,y:0};
+        this.visible=false;
         this.hide();
         if(parent){
-            this.popupContainer.background("rgba(0,0,0,0.5)");
-            this.popupContainer.order(parent.style.zIndex+50);
-            this.popup.order(parent.style.zIndex+100);
+            this.popupContainer.order(parseInt(parent.popup.style.zIndex)+50);
+            this.popup.order(parseInt(parent.popup.style.zIndex)+100);
         }else{
             this.popupContainer.order(1950);
             this.popup.order(2000);
         }
 
-        this.close.onclick= ()=>this.hide();
         this.popupContainer.onclick = (e)=>{
             if(e.target==this.popupContainer) {
                 this.hide();
             }
         };
-        Helper.Window.addResizeHandler((w,h)=> {
-            this.popupContainer.size(w,h);
-            console.log("df");
-            this.moveToCenter()
-        });
     }
 
+    setShadow(value){
+        if(value){
+            this.popupContainer.background("rgba(0,0,0,0.5)");
+        }else{
+            this.popupContainer.background("rgba(0,0,0,0)");
+        }
+        return this;
+    }
 
     setSize(width, height){
-        this.popup.size(width, height+25);
-        this.header.size(width,25);
-        this.close.position(this.header.width-23,3);
+        this.size = {width:width,height:height};
+        this.popup.size(width, height);
         return this;
     }
 
 
     setPosition(x,y){
+        this.position = {x:x,y:y};
         this.popup.position(x, y);
-        this.header.position(0,0);
-
-        this.close.position(this.header.width-23,3);
         return this;
     }
 
@@ -63,26 +63,81 @@ class Popup{
     setContent(content){
         content.style.position = 'absolute';
         content.style.left = '0px';
-        content.style.top = '25px';
+        content.style.top = '0px';
         this.popup.appendChild(content);
         return this;
     }
 
     hide(){
+        this.visible=false;
         this.popupContainer.hide();
-        this.popup.hide();
+        this.notifyHandlers("hide");
         return this;
     }
 
     show(){
+        this.visible=true;
         this.popupContainer.show();
-        this.popup.show();
         return this;
     }
 
+    isShow(){
+        return this.visible;
+    }
+
+    addHandler(eventName, handler){
+        if(!this.handlers[eventName]){
+            this.handlers[eventName]=[];
+        }
+        this.handlers[eventName].push(handler);
+    }
+
+    notifyHandlers(eventName, data){
+        if(this.handlers[eventName]) {
+            for(let handler of this.handlers[eventName]){
+                handler(data);
+            }
+        }
+    }
 }
 
-class DraggablePopup extends Popup{
+class DialogPopup extends Popup{
+    constructor(){
+        super();
+
+        this.header = element('div',this.popup).background('#bbbbbb');
+        this.close = element('img',this.header).size(20,20).cursor('pointer');
+        this.close.src="images/Delete.png";
+        this.close.onclick= ()=>this.hide();
+
+        Helper.Window.addResizeHandler((w,h)=> {
+            this.popupContainer.size(w,h);
+            this.moveToCenter()
+        });
+    }
+
+    setPosition(x,y){
+        super.setPosition(x,y);
+        this.header.position(0,0);
+
+        this.close.position(this.header.width-23,3);
+        return this;
+    }
+
+    setSize(width, height){
+        super.setSize(width,height+25);
+        this.header.size(width,25);
+        this.close.position(this.header.width-23,3);
+        return this;
+    }
+
+    setContent(content){
+        super.setContent(content);
+        content.style.top = '25px';
+    }
+}
+
+class DraggablePopup extends DialogPopup{
     constructor(parent){
         super(parent);
         this.position={x:0,y:0};
@@ -107,16 +162,12 @@ class DraggablePopup extends Popup{
 
     drag(e){
         if(this.mouseDownPosition){
-            this.setPosition(this.position.x+e.clientX-this.mouseDownPosition.x
-                ,this.position.y+e.clientY-this.mouseDownPosition.y);
+            let x=this.position.x+e.clientX-this.mouseDownPosition.x;
+            let y=this.position.y+e.clientY-this.mouseDownPosition.y;
+            this.setPosition(x,y<0?0:y);
             this.mouseDownPosition.x=e.clientX;
             this.mouseDownPosition.y=e.clientY;
         }
-    }
-    setPosition(x,y){
-        super.setPosition(x,y);
-        this.position={x:x,y:y};
-        return this;
     }
 
     setContent(content){
@@ -128,3 +179,5 @@ class DraggablePopup extends Popup{
 
 global.Popup = Popup;
 global.DraggablePopup = DraggablePopup;
+
+export {Popup, DialogPopup, DraggablePopup};
