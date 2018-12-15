@@ -47,7 +47,7 @@
 			var infoline = element('div', board).background('rgb(240, 240, 240)').size(1200, 25).fontStyle(11, "Ubuntu", "#222", "left")
 				infoline.material = element('div', infoline).background('rgba(255, 255, 255, 0)').border('0px solid #aaa').size(200, 23).position(1000, 0);
 			
-			var popup3DView = new Popup().setSize(800,600).setPosition(200,100).moveToCenter();
+			var popup3DView = new DraggablePopup().setSize(800,600).setPosition(200,100).moveToCenter();
 			var view3D = new View3D({width:800, height:600});
 			popup3DView.setContent(view3D.getContent());
 
@@ -120,8 +120,6 @@
 			//***************************************************************************
 			board.setSize = function(width, height){
 				board.size(width, height);
-
-					popup3DView.moveToCenter();
 
 					canvas.style.position = 'absolute';
 					canvas.width = width - 60;

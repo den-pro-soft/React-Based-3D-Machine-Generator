@@ -25,7 +25,12 @@ var View3D = function (size) {
 
     var controls = new OrbitControls(camera,dom);
 
-    console.log(controls);
+    dom.addEventListener('mousedown',function(){
+        dom.style.cursor = "move";
+    });
+    dom.addEventListener('mouseup',function(){
+        dom.style.cursor = "default";
+    });
     renderer.setClearColor("#EEEEEE");
 
     renderer.setSize(size.width, size.height);

@@ -1,3 +1,4 @@
 .idea
+js/npm-debug.log
 js/node_modules
-js/3Dview.js
+js/dist/

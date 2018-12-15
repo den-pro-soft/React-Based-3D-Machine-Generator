@@ -2,10 +2,15 @@ const path = require('path');
 
 module.exports = {
     mode: "development", // "production" | "development" | "none"  // Chosen mode tells webpack to use its built-in optimizations accordingly.
-    entry: "./src/3Dview.js",
+    entry: {
+        "3Dview":"./src/3Dview.js",
+        "menu":"./src/menu.js",
+        "popup":"./src/popup.js",
+        "Helper":"./src/Helper.js",
+    },
     output: {
-        path: path.resolve(__dirname),
-        filename: "3Dview.js",
+        path: path.resolve(__dirname+"/dist/"),
+        filename: "[name].js",
         publicPath: "assets/", // string    // the url to the output directory resolved relative to the HTML page
         library: "3DView",
         libraryTarget: "umd", // universal module definition    // the type of the exported library
@@ -36,18 +41,7 @@ module.exports = {
                 },
                 // options for the loader
             },
-            {
-                test: /\.html$/,
-                use: [
-                    // apply multiple loaders and options
-                    "htmllint-loader",
-                    {
-                        loader: "html-loader",
-                        options: {
-                        }
-                    }
-                ]
-            },
+
         ]
     }
 }
