@@ -34,12 +34,18 @@ class HoverPopup extends Popup{
         super.show();
         this.temp.show();
         this.popupContainer.onmouseover = (e)=>{
-            // console.log();
             if(e.target === this.popupContainer){
                 this.hide();
                 this.temp.hide();
             }
         };
+    }
+
+    hide(){
+        super.hide();
+        if(this.temp) {
+            this.temp.hide();
+        }
     }
 }
 
@@ -50,6 +56,8 @@ class MenuItem extends BlockElement{
         this.hide();
         this.name = name;
 
+        this._executors = [];
+
         this.setContentText(name);
 
         this.template.style.cursor = "pointer";
@@ -57,6 +65,7 @@ class MenuItem extends BlockElement{
         this.setState("default");
         this.template.onmouseover = ()=>this.mouseOver();
         this.template.onmouseout = ()=>this.mouseOut();
+        this.template.onclick= ()=>this.mouseClick();
     }
 
 
@@ -65,6 +74,11 @@ class MenuItem extends BlockElement{
     }
     mouseOut(){
         this.setState("default");
+    }
+    mouseClick(){
+        for(let exec of this._executors){
+            exec(this);
+        }
     }
 
     setState(state){
@@ -79,7 +93,8 @@ class MenuItem extends BlockElement{
     }
 
     setExecutor(executor){
-        this.template.onclick = ()=>executor(this);
+       this._executors.push(executor);
+        return this;
     }
 }
 
@@ -95,7 +110,7 @@ class Menu extends MenuItem{
 
     addMenuItem(item){
         if(item instanceof  Menu){
-            item.setParent(this);
+            item._parent=this;
         }
         this._menuItems.push(item);
         item.show();
@@ -113,38 +128,12 @@ class Menu extends MenuItem{
     mouseOver(){
         super.mouseOver();
 
-        if(this._popup){
-            if(!this._popup.isShow()) {
-                this._popup.show();
-            }
+        if(!this._popup) {
+            this._createPopup();
+        }
+        if(this._popup.isShow()) {
             return;
         }
-
-
-        this._popup = new HoverPopup(this._parent?this._parent._popup:undefined,this.getHtml())
-                                    .setShadow(false)
-                                    .setSize(this._itemSize.width,this._itemSize.height*this._menuItems.length);
-
-        let menuPosition = this.template.getBoundingClientRect();
-        if(!this._parent){
-            this._popup.setPosition(menuPosition.left,menuPosition.top+this.size.height)
-        }else{
-            this._popup.setPosition(menuPosition.left+this.size.width,menuPosition.top)
-        }
-
-        let contetn = new BlockElement();
-        let y=0;
-        for(let item of this._menuItems) {
-            item.setPosition(0,y);
-            y+=item.size.height;
-            contetn.addContent(item.getHtml());
-        }
-        this._popup.setContent(contetn.getHtml());
-
-        this._popup.addHandler("hide", ()=>{
-            this.setState("default");
-        });
-
         this._popup.show();
     }
 
@@ -153,10 +142,6 @@ class Menu extends MenuItem{
             return;
         }
         super.setState(state);
-    }
-
-    setParent(menu){
-        this._parent=menu;
     }
 
     getHtml(){
@@ -169,6 +154,38 @@ class Menu extends MenuItem{
             this.addContent(this.subImg);
         }
         return super.getHtml();
+    }
+
+    _createPopup(){
+        this._popup = new HoverPopup(this._parent?this._parent._popup:undefined,this.getHtml())
+            .setShadow(false)
+            .setSize(this._itemSize.width,this._itemSize.height*this._menuItems.length);
+
+        let menuPosition = this.template.getBoundingClientRect();
+        if(!this._parent){
+            this._popup.setPosition(menuPosition.left,menuPosition.top+this.size.height)
+        }else{
+            this._popup.setPosition(menuPosition.left+this.size.width,menuPosition.top)
+        }
+
+        let contetn = new BlockElement();
+        let y=0;
+        for(let item of this._menuItems) {
+            item.setExecutor(()=>{
+                if(this._popup) {
+                    this._popup.hide();
+                }
+            });
+
+            item.setPosition(0,y);
+            y+=item.size.height;
+            contetn.addContent(item.getHtml());
+        }
+        this._popup.setContent(contetn.getHtml());
+
+        this._popup.addHandler("hide", ()=>{
+            this.setState("default");
+        });
     }
 }
 
