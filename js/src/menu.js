@@ -62,9 +62,12 @@ class MenuItem extends BlockElement{
 
         this._executors = [];
 
+        this._handlers = [];
+
         this.setContentText(name);
 
         this.setStyle("cursor","pointer");
+        this.setStyle("position","unset");
 
         this.template.onmouseover = ()=>this._mouseOver();
         this.template.onmouseout = ()=>this._mouseOut();
@@ -95,6 +98,47 @@ class MenuItem extends BlockElement{
         return this;
     }
 
+    setStyle(styleName, value){
+        if(super.setStyle(styleName,value)) {
+            console.log(styleName+" "+/padding.*|margin.*/.test(styleName));
+            if (/padding.*|margin.*/.test(styleName)) {
+                this._resize();
+            }
+        }
+    }
+
+    /**
+     * @inheritDoc
+     * @param width
+     * @param height
+     */
+    setSize(width, height){
+        super.setSize(width,height);
+        this._resize();
+    }
+
+
+    addHandler(eventName, handler){
+        if(!this._handlers[eventName]){
+            this._handlers[eventName]=[];
+        }
+        this._handlers[eventName].push(handler);
+    }
+
+    _notifyHandlers(eventName, data){
+        for(let key in this._handlers){
+            if(key==eventName){
+                for(let handler of this._handlers[key]){
+                    handler(data);
+                }
+            }
+        }
+    }
+
+    _resize(){
+        console.log("resize of "+JSON.stringify(this.getFullSize()));
+        this._notifyHandlers('resize',this.getFullSize());
+    }
     _mouseOver(){
         this.isFocuse = true;
         this._changeState();
@@ -124,12 +168,22 @@ class Menu extends MenuItem{
     constructor(name){
         super(name);
         this._menuItems = [];
+
+        /** @var {Popup}*/
         this._popup;
+
+        /** @var {Menu} */
         this._parent;
 
         this._itemSize = {width:0,height:0};
     }
 
+    /**
+     * @public
+     * The method adding menu item to menu
+     * @param {MenuItem|Menu} item
+     * @returns {Menu}
+     */
     addMenuItem(item){
         if(item instanceof  Menu){
             item._parent=this;
@@ -139,6 +193,13 @@ class Menu extends MenuItem{
         return this;
     }
 
+    /**
+     * @public
+     * The method sets size for all children block
+     * @param width
+     * @param height
+     * @returns {Menu}
+     */
     setItemSize(width, height){
         this._itemSize = {width:width,height:height};
         for(let menuItem of this._menuItems){
@@ -147,26 +208,14 @@ class Menu extends MenuItem{
         return this;
     }
 
-    _mouseOver(){
-        super._mouseOver();
-        if(this.isEnable) {
-            if (!this._popup) {
-                this._createPopup();
-            }
-            if (this._popup.isShow()) {
-                return;
-            }
-            this._popup.show();
-        }
-    }
-    _mouseOut(){
-        if(this._popup && this._popup.isShow()){
-            return;
-        }
-        super._mouseOut();
-    }
 
+    /**
+     * @inheritDoc
+     * @returns {HTMLElement}
+     */
     getHtml(){
+
+        /**if the element is part of menu then add pointer to the HTML*/
         if(!this.subImg && this._parent) {
             this.subImg = element('img').position(this.size.width - this.size.height, this.size.height*0.25)
                 .size(this.size.height/1.5, this.size.height/1.5).pic(subImageUrl);
@@ -178,7 +227,28 @@ class Menu extends MenuItem{
         return super.getHtml();
     }
 
+    _mouseOver(){
+        if(this.isEnable) {
+            if (!this._popup) {
+                this._createPopup();
+            }
+            if (!this._popup.isShow()) {
+                this._popup.show();
+            }
+        }
+        super._mouseOver();
+    }
+    _mouseOut(){
+        if(this._popup && this._popup.isShow()){
+            return;
+        }
+        super._mouseOut();
+    }
+
+
+
     _createPopup(){
+        /** @var {Popup}*/
         this._popup = new HoverPopup(this._parent?this._parent._popup:undefined,this.getHtml())
             .setShadow(false)
             .setSize(this._itemSize.width,this._itemSize.height*this._menuItems.length);
@@ -192,24 +262,51 @@ class Menu extends MenuItem{
 
         let contetn = new BlockElement();
         let y=0;
+
+
         for(let item of this._menuItems) {
             item.setExecutor(()=>{
                 if(this._popup) {
                     this._popup.hide();
                 }
             });
-
+            item.addHandler('resize',(size)=>{
+                this._popup.setSize(size.width);
+            });
             item.setPosition(0,y);
             y+=item.size.height;
             contetn.addContent(item.getHtml());
         }
-        this._popup.setContent(contetn.getHtml());
+        this._popup.addContent(contetn.getHtml());
 
         this._popup.addHandler("hide", ()=>{
             this._mouseOut();
         });
     }
 
+    _resize(){
+        super._resize();
+        console.log("resize of "+this.name);
+        let size = this.getFullSize();
+        console.log(size);
+        if(this._popup){
+            for(let item of this._menuItems){
+                item.setSize(this._popup.size.width);
+            }
+        }
+        // this._itemSize.width=size.width;
+        //
+        //     this._popup.setSize(size.width);
+        //     if(!this._parent){
+        //         let menuPosition = this.template.getBoundingClientRect();
+        //         this._popup.setPosition(menuPosition.left+size.width,menuPosition.top)
+        //     }
+        // }
+        // console.log(this.subImg);
+        // if(this.subImg){
+        //     this.subImg.position(size.width - this.size.height, this.size.height*0.25);
+        // }
+    }
     setStateStyle(style){
         super.setStateStyle(style);
         let menuPosition = this.template.getBoundingClientRect();

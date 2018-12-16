@@ -49,7 +49,7 @@
 			
 			var popup3DView = new DraggablePopup().setSize(800,600).setPosition(200,100).moveToCenter();
 			var view3D = new View3D({width:800, height:600});
-			popup3DView.setContent(view3D.getContent());
+			popup3DView.addContent(view3D.getContent());
 
 			//*****************************************************************************************************************
 			var stateStyle = [
@@ -81,6 +81,7 @@
                         'font-size': '1em',
                         'background-color': '#ccc',
                         'cursor': 'no-drop',
+                        'color':'gray'
                     }
                 },{isActive: function (item) { return item.isEnable;},
                     style: {
@@ -89,8 +90,39 @@
                 }
             ];
 
+			var itemSize = {width:170, height:25}
 			var itemStyle = [
-
+                {isActive: function (item) { return true;},
+                    style: {
+                        'border-right': '#ccc solid 1px',
+                        'background-color': '#fff',
+                        'padding':'0 10px',
+						'border-bottom':'#ddd solid 1px'
+                    }
+                },{isActive: function (item) { return item.isFocuse;},
+                    style: {
+                        'background-color': '#f00',
+                    }
+                },{isActive: function (item) { return !item.isFocuse;},
+                    style: {
+                        'background-color': '#fff',
+                    }
+                },{isActive: function (item) { return item.isEnable;},
+                    style: {
+                        'font-style': 'inherit',
+                    }
+                },{isActive: function (item) { return item.isFocuse && item instanceof Menu;},
+                    style: {
+                        'background-color': '#FF7972',
+                    }
+                },{isActive: function (item) { return !item.isEnable;},
+                    style: {
+                        'font-style': 'italic',
+                        'background-color': '#ccc',
+                        'cursor': 'no-drop',
+                        'color':'gray'
+                    }
+                }
 			];
 
 			var menu = new MenuBar()
@@ -104,8 +136,8 @@
 					.addMenuItem(new MenuItem("Import"))
 					.addMenuItem(new MenuItem("Export"))
 					.addMenuItem(new MenuItem("Exit"))
+                    .setItemSize(itemSize.width,itemSize.height)
 					.setItemStyle(itemStyle)
-                    .setItemSize(150,20)
                 ).addMenu(new Menu("Edit")
                     .addMenuItem(new MenuItem("Undo"))
                     .addMenuItem(new MenuItem("Redo"))
@@ -117,9 +149,13 @@
                     .addMenuItem(new MenuItem("Find"))
                     .addMenuItem(new MenuItem("Replace"))
                     .addMenuItem(new MenuItem("Preferences"))
+                    .setItemSize(itemSize.width,itemSize.height)
                     .setItemStyle(itemStyle)
 					.disable()
-                    .setItemSize(150,20)
+                    .setExecutor(function(item){
+                        console.log(item.name);
+                    })
+
                 ).addMenu(new Menu("View")
                     .addMenuItem(new Menu("Zoom")
                         .addMenuItem(new MenuItem("To Fit Screen"))
@@ -128,7 +164,9 @@
                         .addMenuItem(new MenuItem("To Region"))
                         .addMenuItem(new MenuItem("Out"))
                         .addMenuItem(new MenuItem("In"))
-                        .setItemSize(150,20)
+                        .setItemSize(itemSize.width,itemSize.height)
+                        .setItemStyle(itemStyle)
+
                     ).addMenuItem(new MenuItem("3D"))
                     .addMenuItem(new MenuItem("Top"))
                     .addMenuItem(new MenuItem("Bottom"))
@@ -136,8 +174,10 @@
                     .addMenuItem(new MenuItem("Back"))
                     .addMenuItem(new MenuItem("Left"))
                     .addMenuItem(new MenuItem("Right"))
+                    .setItemSize(itemSize.width,itemSize.height)
                     .setItemStyle(itemStyle)
-                    .setItemSize(150,20)
+
+
                 ).addMenu(new Menu("Line")
                     .addMenuItem(new MenuItem("Group"))
                     .addMenuItem(new MenuItem("Ungroup"))
@@ -152,16 +192,18 @@
                     .addMenuItem(new Menu("Mirror")
                         .addMenuItem(new MenuItem("Hirizontally"))
                         .addMenuItem(new MenuItem("Vertically"))
+                        .setItemSize(itemSize.width,itemSize.height)
                         .setItemStyle(itemStyle)
-                        .setItemSize(150,20)
+
                     ).addMenuItem(new MenuItem("Simplify"))
                     .addMenuItem(new Menu("Nudge")
                         .addMenuItem(new MenuItem("Up"))
                         .addMenuItem(new MenuItem("Down"))
                         .addMenuItem(new MenuItem("Left"))
                         .addMenuItem(new MenuItem("Right"))
+                        .setItemSize(itemSize.width,itemSize.height)
                         .setItemStyle(itemStyle)
-                        .setItemSize(150,20)
+						.disable()
                     ).addMenuItem(new MenuItem("Convert spline to arc"))
                     .addMenuItem(new MenuItem("Machine..."))
                     .addMenuItem(new MenuItem("Properties...").disable())
@@ -170,8 +212,9 @@
                     .addMenuItem(new MenuItem("Prior"))
                     .addMenuItem(new MenuItem("Next"))
                     .addMenuItem(new MenuItem("Select connected"))
+                    .setItemSize(itemSize.width,itemSize.height)
                     .setItemStyle(itemStyle)
-                    .setItemSize(150,20)
+
                 )
                 //
                 .setItemSize(80,28)

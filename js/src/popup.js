@@ -37,6 +37,12 @@ class Popup{
     }
 
     setSize(width, height){
+        if(!width){
+            width = this.size.width;
+        }
+        if(!height){
+            height = this.size.height;
+        }
         this.size = {width:width,height:height};
         this.popup.size(width, height);
         return this;
@@ -60,7 +66,13 @@ class Popup{
     }
 
 
-    setContent(content){
+    /**
+     * @public
+     * The method adding some content to the popup block
+     * @param {HTMLElement} content
+     * @returns {Popup}
+     */
+    addContent(content){
         content.style.position = 'absolute';
         content.style.left = '0px';
         content.style.top = '0px';
@@ -131,8 +143,8 @@ class DialogPopup extends Popup{
         return this;
     }
 
-    setContent(content){
-        super.setContent(content);
+    addContent(content){
+        super.addContent(content);
         content.style.top = '25px';
     }
 }
@@ -170,8 +182,8 @@ class DraggablePopup extends DialogPopup{
         }
     }
 
-    setContent(content){
-        super.setContent(content);
+    addContent(content){
+        super.addContent(content);
         content.onmousemove=(e)=>this.drag(e);
         return this;
     }

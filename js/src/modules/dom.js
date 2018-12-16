@@ -16,7 +16,19 @@ class BlockElement{
         return this;
     }
 
+    /**
+     * The method sets size for internal part of block
+     * @param width
+     * @param height
+     * @returns {BlockElement}
+     */
     setSize(width,height){
+        if(!width){
+            width = this.size.width;
+        }
+        if(!height){
+            height = this.size.height;
+        }
         this.size = {width:width, height:height};
         this.setStyle('width', width+'px');
         this.setStyle('height', height+'px');
@@ -51,6 +63,10 @@ class BlockElement{
         return this;
     }
 
+    /**
+     * The method removing all children elements of the block
+     * @returns {BlockElement}
+     */
     clearContent(){
         while (this.template.firstChild) {
             this.template.removeChild(this.template.firstChild);
@@ -58,18 +74,36 @@ class BlockElement{
         return this;
     }
 
+    /**
+     * @public
+     * The method sets content text on the block
+     *
+     * Warning: the method can remove all children of ht block
+     *
+     * @param text
+     * @returns {BlockElement}
+     */
     setContentText(text) {
         this.template.innerHTML = text;
         return this;
     }
 
+    /**
+     * @public
+     * The method returns an HTML element that can be manipulated using this object
+     * @returns {HTMLElement}
+     */
     getHtml(){
         return this.template;
     }
 
     setStyle(styleName, value){
         this.template.style[styleName] = value;
-        return this;
+        return this.template.style[styleName] != value;
+    }
+
+    getFullSize(){
+        return {width:this.template.clientWidth, height:this.template.clientWidth};
     }
 
 }
