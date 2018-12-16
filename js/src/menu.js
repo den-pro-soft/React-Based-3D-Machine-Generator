@@ -55,46 +55,68 @@ class MenuItem extends BlockElement{
         super();
         this.hide();
         this.name = name;
+        this.isEnable = true;
+        this.isFocuse = false;
+
+        this._stateStyles = [];
 
         this._executors = [];
 
         this.setContentText(name);
 
-        this.template.style.cursor = "pointer";
+        this.setStyle("cursor","pointer");
 
-        this.setState("default");
-        this.template.onmouseover = ()=>this.mouseOver();
-        this.template.onmouseout = ()=>this.mouseOut();
-        this.template.onclick= ()=>this.mouseClick();
+        this.template.onmouseover = ()=>this._mouseOver();
+        this.template.onmouseout = ()=>this._mouseOut();
+        this.template.onclick= ()=>this._mouseClick();
     }
 
+    //todo: need use getter ang setter
+    enable(){
+        this.isEnable=true;
+        this._changeState();
+        return this;
+    }
 
-    mouseOver(){
-        this.setState("focuse");
+    disable(){
+        this.isEnable=false;
+        this._changeState();
+        return this;
     }
-    mouseOut(){
-        this.setState("default");
+
+    setExecutor(executor){
+        this._executors.push(executor);
+        return this;
     }
-    mouseClick(){
+
+    setStateStyle(stateStyleList){
+        this._stateStyles = stateStyleList;
+        this._changeState();
+        return this;
+    }
+
+    _mouseOver(){
+        this.isFocuse = true;
+        this._changeState();
+    }
+
+    _mouseOut(){
+        this.isFocuse=false;
+        this._changeState();
+    }
+
+    _mouseClick(){
         for(let exec of this._executors){
             exec(this);
         }
     }
 
-    setState(state){
-        switch (state) {
-            case "focuse":{
-                this.template.style.backgroundColor = "red";
-                break;
+    _changeState(){
+        for(let state of this._stateStyles){
+            if(state.isActive(this)){
+                this.setListStyle(state.style);
             }
-            default:
-                this.template.style.backgroundColor = "white";
         }
-    }
-
-    setExecutor(executor){
-       this._executors.push(executor);
-        return this;
     }
 }
 
@@ -125,23 +147,23 @@ class Menu extends MenuItem{
         return this;
     }
 
-    mouseOver(){
-        super.mouseOver();
-
-        if(!this._popup) {
-            this._createPopup();
+    _mouseOver(){
+        super._mouseOver();
+        if(this.isEnable) {
+            if (!this._popup) {
+                this._createPopup();
+            }
+            if (this._popup.isShow()) {
+                return;
+            }
+            this._popup.show();
         }
-        if(this._popup.isShow()) {
-            return;
-        }
-        this._popup.show();
     }
-
-    setState(state){
+    _mouseOut(){
         if(this._popup && this._popup.isShow()){
             return;
         }
-        super.setState(state);
+        super._mouseOut();
     }
 
     getHtml(){
@@ -184,8 +206,28 @@ class Menu extends MenuItem{
         this._popup.setContent(contetn.getHtml());
 
         this._popup.addHandler("hide", ()=>{
-            this.setState("default");
+            this._mouseOut();
         });
+    }
+
+    setStateStyle(style){
+        super.setStateStyle(style);
+        let menuPosition = this.template.getBoundingClientRect();
+        if(this._popup) {
+            if (!this._parent) {
+                this._popup.setPosition(menuPosition.left, menuPosition.top + this.size.height)
+            } else {
+                this._popup.setPosition(menuPosition.left + this.size.width, menuPosition.top)
+            }
+        }
+        return this;
+    }
+
+    setItemStyle(style){
+        for(let item of this._menuItems){
+            item.setStateStyle(style);
+        }
+        return this;
     }
 }
 
@@ -215,6 +257,13 @@ class MenuBar extends BlockElement{
     setItemSize(width, height){
         for(let menu of this.menuLish){
             menu.setSize(width,height);
+        }
+        return this;
+    }
+
+    setItemStyle(style){
+        for(let menu of this.menuLish){
+            menu.setStateStyle(style);
         }
         return this;
     }

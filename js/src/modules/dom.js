@@ -31,25 +31,36 @@ class BlockElement{
         this.setStyle('display', 'block');
         return this
     }
+    
+    setListStyle(list){
+        for (var key in list){
+            this.setStyle(key,list[key]);
+        }
+        return this;
+    }
 
     hide(){
         this.visible = false;
         this.setStyle('opacity', 0);
         this.setStyle('display', 'none');
+        return this;
     }
 
     addContent(content) {
         this.template.appendChild(content);
+        return this;
     }
 
     clearContent(){
         while (this.template.firstChild) {
             this.template.removeChild(this.template.firstChild);
         }
+        return this;
     }
 
     setContentText(text) {
         this.template.innerHTML = text;
+        return this;
     }
 
     getHtml(){
@@ -58,6 +69,7 @@ class BlockElement{
 
     setStyle(styleName, value){
         this.template.style[styleName] = value;
+        return this;
     }
 
 }

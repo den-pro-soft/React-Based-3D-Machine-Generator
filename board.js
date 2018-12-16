@@ -52,6 +52,47 @@
 			popup3DView.setContent(view3D.getContent());
 
 			//*****************************************************************************************************************
+			var stateStyle = [
+                {isActive: function (item) { return true;},
+                    style: {
+                        'display':'flex',
+                        'justify-content': 'center',
+                        'align-content': 'center',
+                        'line-height': '30px',
+                        'border-right': '#ccc solid 1px',
+                        'background-color': '#fff',
+                        'pading':'0 10px',
+                        'position': 'unset',
+                        'margin-right':'5px'
+                    }
+                },{isActive: function (item) { return item.isFocuse;},
+					style: {
+						'background-color': '#f00',
+						'font-size': '1.5em'
+					}
+            	},{isActive: function (item) { return !item.isFocuse;},
+					style: {
+						'background-color': '#fff',
+                        'font-size': '1em'
+					}
+            	},{isActive: function (item) { return !item.isEnable;},
+                    style: {
+                        'font-style': 'italic',
+                        'font-size': '1em',
+                        'background-color': '#ccc',
+                        'cursor': 'no-drop',
+                    }
+                },{isActive: function (item) { return item.isEnable;},
+                    style: {
+                        'font-style': 'inherit',
+                    }
+                }
+            ];
+
+			var itemStyle = [
+
+			];
+
 			var menu = new MenuBar()
                 .addMenu(new Menu("File")
 					.addMenuItem(new MenuItem("New"))
@@ -63,6 +104,7 @@
 					.addMenuItem(new MenuItem("Import"))
 					.addMenuItem(new MenuItem("Export"))
 					.addMenuItem(new MenuItem("Exit"))
+					.setItemStyle(itemStyle)
                     .setItemSize(150,20)
                 ).addMenu(new Menu("Edit")
                     .addMenuItem(new MenuItem("Undo"))
@@ -75,6 +117,8 @@
                     .addMenuItem(new MenuItem("Find"))
                     .addMenuItem(new MenuItem("Replace"))
                     .addMenuItem(new MenuItem("Preferences"))
+                    .setItemStyle(itemStyle)
+					.disable()
                     .setItemSize(150,20)
                 ).addMenu(new Menu("View")
                     .addMenuItem(new Menu("Zoom")
@@ -92,6 +136,7 @@
                     .addMenuItem(new MenuItem("Back"))
                     .addMenuItem(new MenuItem("Left"))
                     .addMenuItem(new MenuItem("Right"))
+                    .setItemStyle(itemStyle)
                     .setItemSize(150,20)
                 ).addMenu(new Menu("Line")
                     .addMenuItem(new MenuItem("Group"))
@@ -107,6 +152,7 @@
                     .addMenuItem(new Menu("Mirror")
                         .addMenuItem(new MenuItem("Hirizontally"))
                         .addMenuItem(new MenuItem("Vertically"))
+                        .setItemStyle(itemStyle)
                         .setItemSize(150,20)
                     ).addMenuItem(new MenuItem("Simplify"))
                     .addMenuItem(new Menu("Nudge")
@@ -114,22 +160,29 @@
                         .addMenuItem(new MenuItem("Down"))
                         .addMenuItem(new MenuItem("Left"))
                         .addMenuItem(new MenuItem("Right"))
+                        .setItemStyle(itemStyle)
                         .setItemSize(150,20)
                     ).addMenuItem(new MenuItem("Convert spline to arc"))
                     .addMenuItem(new MenuItem("Machine..."))
-                    .addMenuItem(new MenuItem("Properties..."))
+                    .addMenuItem(new MenuItem("Properties...").disable())
                     .addMenuItem(new MenuItem("Color fill"))
                     .addMenuItem(new MenuItem("Layer"))
                     .addMenuItem(new MenuItem("Prior"))
                     .addMenuItem(new MenuItem("Next"))
                     .addMenuItem(new MenuItem("Select connected"))
+                    .setItemStyle(itemStyle)
                     .setItemSize(150,20)
                 )
                 //
                 .setItemSize(80,28)
 				.setPosition(10,65)
 				.setSize(innerWidth-25,30)
-				.show();
+
+                .show()
+				.setItemStyle(stateStyle)
+				.setListStyle({
+                    'display':'flex'
+				});
 			board.appendChild(menu.getHtml());
 
 			var MMB_A = [	{name: "File", item:["New", "Open", "Reopen", "Save", "Save As", "Print", "Import", "Export", "Exit"], hint: ""},
