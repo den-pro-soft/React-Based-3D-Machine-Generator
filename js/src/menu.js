@@ -82,10 +82,12 @@ class MenuItem extends BlockElement{
     enable(){
         this.isEnable=true;
         this._changeState();
+        this._notifyHandlers('enable',this);
         return this;
     }
 
     disable(){
+        this._notifyHandlers('disable',this);
         this.isEnable=false;
         this._changeState();
         return this;
@@ -104,7 +106,6 @@ class MenuItem extends BlockElement{
 
     setStyle(styleName, value){
         if(super.setStyle(styleName,value)) {
-            console.log(styleName+" "+/padding.*|margin.*/.test(styleName));
             if (/padding.*|margin.*/.test(styleName)) {
                 this._resize();
             }
@@ -131,21 +132,31 @@ class MenuItem extends BlockElement{
         return this;
     }
 
+    /**
+     * @private
+     * handler can reject event if returns false
+     * @param eventName
+     * @param data
+     * @return {boolean}
+     * @private
+     */
     _notifyHandlers(eventName, data){
+        var res = true;
         for(let key in this._handlers){
             if(key==eventName){
                 for(let handler of this._handlers[key]){
-                    handler(data);
+                    res &=handler(data);
                 }
             }
         }
+        return res;
     }
 
     _resize(){
-        console.log("resize of "+JSON.stringify(this.getFullSize()));
         this._notifyHandlers('resize',this.getFullSize());
     }
     _mouseOver(){
+        this._notifyHandlers('hover',this);
         this.isFocuse = true;
         this._changeState();
     }
@@ -196,6 +207,19 @@ class Menu extends MenuItem{
         }
         this._menuItems.push(item);
         item.show();
+        item.addHandler('resize',(size)=>{
+            if(this._popup) {
+                this._popup.setSize(size.width);
+            }
+        });
+        item.addHandler('hover',(data)=>{
+            this._notifyHandlers('hover',data)
+        });
+        item.addHandler('enable', ()=>{
+            if(!this.isEnable){
+                this.enable();
+            }
+        });
         return this;
     }
 
@@ -250,7 +274,12 @@ class Menu extends MenuItem{
         super._mouseOut();
     }
 
-
+    _mouseClick(){ //todo need remove when board will be generated events
+        super._mouseClick();
+        if (!this._popup.isShow() && this._notifyHandlers('click',this)) {
+            this._popup.show();
+        }
+    }
 
     _createPopup(){
         /** @var {Popup}*/
@@ -276,9 +305,6 @@ class Menu extends MenuItem{
                     this._popup.hide();
                 }
             });
-            item.addHandler('resize',(size)=>{
-                this._popup.setSize(size.width);
-            });
             item.setPosition(0,y);
             y+=item.size.height;
             contetn.addContent(item.getHtml());
@@ -292,26 +318,12 @@ class Menu extends MenuItem{
 
     _resize(){
         super._resize();
-        console.log("resize of "+this.name);
         let size = this.getFullSize();
-        console.log(size);
         if(this._popup){
             for(let item of this._menuItems){
                 item.setSize(this._popup.size.width);
             }
         }
-        // this._itemSize.width=size.width;
-        //
-        //     this._popup.setSize(size.width);
-        //     if(!this._parent){
-        //         let menuPosition = this.template.getBoundingClientRect();
-        //         this._popup.setPosition(menuPosition.left+size.width,menuPosition.top)
-        //     }
-        // }
-        // console.log(this.subImg);
-        // if(this.subImg){
-        //     this.subImg.position(size.width - this.size.height, this.size.height*0.25);
-        // }
     }
     setStateStyle(style){
         super.setStateStyle(style);
@@ -332,17 +344,46 @@ class Menu extends MenuItem{
         }
         return this;
     }
+
+    getItem(name){
+        if(this.name==name){
+            return this;
+        }
+        for(let item of this._menuItems){
+            if(item instanceof Menu) {
+                let res = item.getItem(name);
+                if(res) {
+                    return res;
+                }
+            }else{
+                if(item.name==name){
+                    return item;
+                }
+            }
+        }
+        return null;
+    }
+
+    disableAllItem(){
+        for(let item of this._menuItems){
+            item.disable();
+        }
+    }
 }
 
 class MenuBar extends BlockElement{
     constructor(){
         super();
         this.menuLish = [];
+        this._handlers = [];
     }
 
     addMenu(menu){
         this.menuLish.push(menu);
         menu.show();
+        menu.addHandler('click',(data)=>{
+            return this._notifyHandlers('click',data)
+        });
         return this;
     }
 
@@ -369,6 +410,41 @@ class MenuBar extends BlockElement{
             menu.setStateStyle(style);
         }
         return this;
+    }
+
+    /**
+     * Return menu item by name
+     * @param name
+     * @return {MenuItem}
+     */
+    getItem(name){
+        for(let menu of this.menuLish){
+            let res = menu.getItem(name);
+            if(res){
+                return res;
+            }
+        }
+        return null;
+    }
+
+    addHandler(eventName, handler){
+        if(!this._handlers[eventName]){
+            this._handlers[eventName]=[];
+        }
+        this._handlers[eventName].push(handler);
+        return this;
+    }
+
+    _notifyHandlers(eventName, data){
+        var res=true;
+        for(let key in this._handlers){
+            if(key==eventName){
+                for(let handler of this._handlers[key]){
+                    res |=handler(data);
+                }
+            }
+        }
+        return res;
     }
 }
 
