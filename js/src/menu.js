@@ -24,6 +24,8 @@ class HoverPopup extends Popup{
 
         this.entryPointer=entryPointer;
 
+        this.popup.style.borderRadius="0px 3px 3px 3px";
+        this.popup.style.overflow="hidden";
         let ur = this.entryPointer.getBoundingClientRect(); //unclosable rect
 
         this.temp = element('div').position(ur.left, ur.top).size(ur.width,ur.height)
@@ -67,7 +69,9 @@ class MenuItem extends BlockElement{
         this.setContentText(name);
 
         this.setStyle("cursor","pointer");
-        this.setStyle("position","unset");
+
+
+        this.setStyle('padding','0 0 0 5px');
 
         this.template.onmouseover = ()=>this._mouseOver();
         this.template.onmouseout = ()=>this._mouseOut();
@@ -115,6 +119,7 @@ class MenuItem extends BlockElement{
     setSize(width, height){
         super.setSize(width,height);
         this._resize();
+        return this;
     }
 
 
@@ -123,6 +128,7 @@ class MenuItem extends BlockElement{
             this._handlers[eventName]=[];
         }
         this._handlers[eventName].push(handler);
+        return this;
     }
 
     _notifyHandlers(eventName, data){
@@ -201,10 +207,10 @@ class Menu extends MenuItem{
      * @returns {Menu}
      */
     setItemSize(width, height){
-        this._itemSize = {width:width,height:height};
         for(let menuItem of this._menuItems){
             menuItem.setSize(width,height);
         }
+        this._itemSize = {width:width+5,height:height};
         return this;
     }
 
@@ -219,7 +225,6 @@ class Menu extends MenuItem{
         if(!this.subImg && this._parent) {
             this.subImg = element('img').position(this.size.width - this.size.height, this.size.height*0.25)
                 .size(this.size.height/1.5, this.size.height/1.5).pic(subImageUrl);
-            this.subImg.setAttribute('id', "some");
             this.subImg.setAttribute('width', this.size.height/1.25);
             this.subImg.setAttribute('height', this.size.height/1.25);
             this.addContent(this.subImg);
@@ -257,8 +262,9 @@ class Menu extends MenuItem{
         if(!this._parent){
             this._popup.setPosition(menuPosition.left,menuPosition.top+this.size.height)
         }else{
-            this._popup.setPosition(menuPosition.left+this.size.width,menuPosition.top)
+            this._popup.setPosition(menuPosition.left+5+this.size.width,menuPosition.top)
         }
+        this._popup.popup.style.position = "relative";
 
         let contetn = new BlockElement();
         let y=0;

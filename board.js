@@ -59,27 +59,32 @@
                         'justify-content': 'center',
                         'align-content': 'center',
                         'line-height': '30px',
-                        'border-right': '#ccc solid 1px',
-                        'background-color': '#fff',
-                        'pading':'0 10px',
                         'position': 'unset',
-                        'margin-right':'5px'
+                        'margin-right':'5px',
+						'fontFamily':'Ubuntu',
+						'color':'#808080'
                     }
                 },{isActive: function (item) { return item.isFocuse;},
 					style: {
-						'background-color': '#f00',
-						'font-size': '1.5em'
+                        'border-top':'#ff6633 solid 3px',
+						// 'background-color': '#f00',
+						'font-size': '1.2em',
+						'height':'25px',
+                        'color':'#fff'
 					}
             	},{isActive: function (item) { return !item.isFocuse;},
 					style: {
-						'background-color': '#fff',
-                        'font-size': '1em'
+            			'border-top':'none',
+						// 'background-color': '#ffffff00',
+                        'font-size': '1em',
+                        'height':'28px',
+                        'color':'#808080'
 					}
             	},{isActive: function (item) { return !item.isEnable;},
                     style: {
                         'font-style': 'italic',
                         'font-size': '1em',
-                        'background-color': '#ccc',
+                        // 'background-color': '#ccc',
                         'cursor': 'no-drop',
                         'color':'gray'
                     }
@@ -94,28 +99,34 @@
 			var itemStyle = [
                 {isActive: function (item) { return true;},
                     style: {
-                        'border-right': '#ccc solid 1px',
                         'background-color': '#fff',
-                        'padding':'0 10px',
-						'border-bottom':'#ddd solid 1px'
+                        'color': '#555',
+                        'line-height': '25px'
                     }
                 },{isActive: function (item) { return item.isFocuse;},
                     style: {
-                        'background-color': '#f00',
+                        'background-color': '#656565',
+                        'color': '#fff',
+                    }
+                },{isActive: function (item) { return item.isFocuse && item.isEnable;},
+                    style: {
+                        'border-left':'#ff6633 solid 3px',
+                        'border-radius':'0px 4px 4px 0px',
+                        'width':(itemSize.width-3)+'px'
                     }
                 },{isActive: function (item) { return !item.isFocuse;},
                     style: {
                         'background-color': '#fff',
+                        'border-left':'none',
+                        'border-radius':'0px',
+                        'width':itemSize.width+'px'
                     }
                 },{isActive: function (item) { return item.isEnable;},
                     style: {
                         'font-style': 'inherit',
                     }
-                },{isActive: function (item) { return item.isFocuse && item instanceof Menu;},
-                    style: {
-                        'background-color': '#FF7972',
-                    }
-                },{isActive: function (item) { return !item.isEnable;},
+                }
+                ,{isActive: function (item) { return !item.isEnable;},
                     style: {
                         'font-style': 'italic',
                         'background-color': '#ccc',
@@ -137,8 +148,9 @@
 					.addMenuItem(new MenuItem("Export"))
 					.addMenuItem(new MenuItem("Exit"))
                     .setItemSize(itemSize.width,itemSize.height)
-					.setItemStyle(itemStyle)
-                ).addMenu(new Menu("Edit")
+                    .setItemStyle(itemStyle)
+                )
+                    .addMenu(new Menu("Edit")
                     .addMenuItem(new MenuItem("Undo"))
                     .addMenuItem(new MenuItem("Redo"))
                     .addMenuItem(new MenuItem("Cut"))
@@ -158,7 +170,7 @@
 
                 ).addMenu(new Menu("View")
                     .addMenuItem(new Menu("Zoom")
-                        .addMenuItem(new MenuItem("To Fit Screen"))
+                        .addMenuItem(new MenuItem("To Fit Screen").setExecutor())
                         .addMenuItem(new MenuItem("Actual Size"))
                         .addMenuItem(new MenuItem("To Selection"))
                         .addMenuItem(new MenuItem("To Region"))
@@ -216,7 +228,7 @@
                     .setItemStyle(itemStyle)
 
                 )
-                //
+
                 .setItemSize(80,28)
 				.setPosition(10,65)
 				.setSize(innerWidth-25,30)
@@ -224,8 +236,11 @@
                 .show()
 				.setItemStyle(stateStyle)
 				.setListStyle({
-                    'display':'flex'
-				});
+                    'display':'flex',
+					'background-color':'#ccc',
+					'color':'#fff'
+				})
+            ;
 			board.appendChild(menu.getHtml());
 
 			var MMB_A = [	{name: "File", item:["New", "Open", "Reopen", "Save", "Save As", "Print", "Import", "Export", "Exit"], hint: ""},
