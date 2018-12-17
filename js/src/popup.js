@@ -117,15 +117,23 @@ class DialogPopup extends Popup{
     constructor(){
         super();
 
-        this.header = element('div',this.popup).background('#bbbbbb');
-        this.close = element('img',this.header).size(20,20).cursor('pointer');
-        this.close.src="images/Delete.png";
+        this.header = element('div',this.popup).background('rgb(93, 93, 93)');
+        this.close = element('div',this.header).size(20,20).background("rgba(35, 35, 35, 0.0)")
+            .fontStyle(18, "Ubuntu", "#fff", "center").text("x", "center", true).cursor("pointer");
         this.close.onclick= ()=>this.hide();
+        this.close.onmouseover = ()=>{this.close.style.color = "#f55";};
+        this.close.onmouseout = ()=>{this.close.style.color = "#fff";};
 
+        this.title = element('div',this.header).fontStyle(14, "Ubuntu", "#fff", false).position(10,5);
         Helper.Window.addHandler('onresize',()=> {
             this.popupContainer.size(innerWidth,innerHeight);
             this.moveToCenter()
         });
+    }
+
+    setTitle(title){
+        this.title.text(title, false, true);
+        return this;
     }
 
     setPosition(x,y){
@@ -139,7 +147,7 @@ class DialogPopup extends Popup{
     setSize(width, height){
         super.setSize(width,height+25);
         this.header.size(width,25);
-        this.close.position(this.header.width-23,3);
+        this.close.position(this.header.width-23,0);
         return this;
     }
 

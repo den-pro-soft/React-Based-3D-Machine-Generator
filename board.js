@@ -47,7 +47,7 @@
 			var infoline = element('div', board).background('rgb(240, 240, 240)').size(1200, 25).fontStyle(11, "Ubuntu", "#222", "left")
 				infoline.material = element('div', infoline).background('rgba(255, 255, 255, 0)').border('0px solid #aaa').size(200, 23).position(1000, 0);
 			
-			var popup3DView = new DraggablePopup().setSize(800,600).setPosition(200,100).moveToCenter();
+			var popup3DView = new DraggablePopup().setSize(800,600).setPosition(200,100).moveToCenter().setTitle("3D view");
 			var view3D = new View3D({width:800, height:600});
 			popup3DView.addContent(view3D.getContent());
 
@@ -62,7 +62,7 @@
                         'position': 'unset',
                         'margin-right':'5px',
 						'fontFamily':'Ubuntu',
-						'color':'#808080'
+						'color':'rgb(235, 235, 235)'
                     }
                 },{isActive: function (item) { return item.isFocuse;},
 					style: {
@@ -70,7 +70,7 @@
 						// 'background-color': '#f00',
 						'font-size': '1.2em',
 						'height':'25px',
-                        'color':'#fff'
+                        // 'color':'#fff'
 					}
             	},{isActive: function (item) { return !item.isFocuse;},
 					style: {
@@ -78,7 +78,7 @@
 						// 'background-color': '#ffffff00',
                         'font-size': '1em',
                         'height':'28px',
-                        'color':'#808080'
+                        // 'color':'rgb(195, 195, 195)'
 					}
             	},{isActive: function (item) { return !item.isEnable;},
                     style: {
@@ -99,7 +99,7 @@
                 {isActive: function (item) { return true;}, //The standart stule
                     style: {
                         'background-color': '#fff',
-                        'color': '#555',
+                        'color': '#333',
                         'line-height': '25px'
                     }
                 },{isActive: function (item) { return item.isFocuse;}, //The hover
@@ -267,8 +267,7 @@
 				.setItemStyle(stateStyle)
 				.setListStyle({
                     'display':'flex',
-					'background-color':'#ccc',
-					'color':'#fff',
+					'background-color':'rgb(93, 93, 93)',
 					'padding-left':'10px'
 				});
 			board.appendChild(menu.getHtml());
