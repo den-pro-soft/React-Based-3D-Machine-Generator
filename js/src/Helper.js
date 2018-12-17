@@ -1,16 +1,27 @@
 class WindowHelper{
     constructor(){
-        this.resizeHandlers = [];
-
-        window.onresize = ()=>{
-            for(let handler of this.resizeHandlers){
-                handler(innerWidth,innerHeight);
-            }
-        }
+        this.handlers = [];
     }
 
-    addResizeHandler(handler){
-        this.resizeHandlers.push(handler);
+    /**
+     * @param {string} eventName
+     * @param handler
+     */
+    addHandler(eventName, handler){
+        if(!this.handlers[eventName]){
+            this.handlers[eventName]=[];
+            window[eventName]=(e)=>{
+                this._notifyHandlers(eventName,e)}
+        }
+        this.handlers[eventName].push(handler);
+    }
+
+    _notifyHandlers(eventName,data){
+        if(this.handlers[eventName]){
+            for(let handler of this.handlers[eventName]){
+                handler(data);
+            }
+        }
     }
 }
 

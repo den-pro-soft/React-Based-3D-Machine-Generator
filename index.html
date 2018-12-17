@@ -68,8 +68,8 @@
 
 			document.body.onload = function(){
                 var PORT_1 = create_board().setPosition(0, 0).setSize(innerWidth, innerHeight);
-                Helper.Window.addResizeHandler(function(width, height){
-                    PORT_1.setSize(width, height)
+                Helper.Window.addHandler('onresize',function(){
+                    PORT_1.setSize(innerWidth,innerHeight);
                 });
 			}
 		

@@ -122,8 +122,8 @@ class DialogPopup extends Popup{
         this.close.src="images/Delete.png";
         this.close.onclick= ()=>this.hide();
 
-        Helper.Window.addResizeHandler((w,h)=> {
-            this.popupContainer.size(w,h);
+        Helper.Window.addHandler('onresize',()=> {
+            this.popupContainer.size(innerWidth,innerHeight);
             this.moveToCenter()
         });
     }
