@@ -52,6 +52,7 @@
 			popup3DView.addContent(view3D.getContent());
 
 			//*****************************************************************************************************************
+			//<editor-fold defaultstate="collapsed" desc="create menu">
 			var stateStyle = [
                 {isActive: function (item) { return true;},
                     style: {
@@ -62,7 +63,7 @@
                         'position': 'unset',
                         'margin-right':'5px',
 						'fontFamily':'Ubuntu',
-						'color':'rgb(235, 235, 235)'
+						'color':'#808080'
                     }
                 },{isActive: function (item) { return item.isFocuse;},
 					style: {
@@ -70,7 +71,7 @@
 						// 'background-color': '#f00',
 						'font-size': '1.2em',
 						'height':'25px',
-                        // 'color':'#fff'
+                        'color':'#fff'
 					}
             	},{isActive: function (item) { return !item.isFocuse;},
 					style: {
@@ -78,7 +79,7 @@
 						// 'background-color': '#ffffff00',
                         'font-size': '1em',
                         'height':'28px',
-                        // 'color':'rgb(195, 195, 195)'
+                        'color':'#808080'
 					}
             	},{isActive: function (item) { return !item.isEnable;},
                     style: {
@@ -100,7 +101,8 @@
                     style: {
                         'background-color': '#fff',
                         'color': '#333',
-                        'line-height': '25px'
+                        'line-height': '25px',
+						'font-family': 'Helvetica'
                     }
                 },{isActive: function (item) { return item.isFocuse;}, //The hover
                     style: {
@@ -267,11 +269,13 @@
 				.setItemStyle(stateStyle)
 				.setListStyle({
                     'display':'flex',
-					'background-color':'rgb(93, 93, 93)',
+					'background-color':'#ccc',
 					'padding-left':'10px'
 				});
 			board.appendChild(menu.getHtml());
+		//</editor-fold>
 
+			// var
 
 			var MAB_A = [	{name: "Select", pic: "images/Select.png", hint: "Select<br>Chooses a line to which you want to issue a command or make a change. Click on the line.<br>To select multiple lines hold the SHIFT key.<br>To select connected lines hold down CTRL.<br>To select only one line hold down ALT."},
 							{name: "Line", pic: "images/Line.png", hint: "Line<br>Draws a straight line. Click again at end point. Hold the CTRL key while drawing<br>for a precise 0, 15, 30 or 45 deg angle. Press spacebar to restart line mode."},
@@ -316,7 +320,7 @@
 			board.setSize = function(width, height){
 				board.size(width, height);
 				menu.setSize(width-10);
-
+				
 					canvas.style.position = 'absolute';
 					canvas.width = width - 60;
 					canvas.height = height - 105 - infoline.height;
