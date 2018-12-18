@@ -55,22 +55,22 @@
 
 	<body style = 'padding: 0px; margin: 0px; background: rgb(255, 255, 255)'>
 
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.7.3/dat.gui.js"></script>
-		<script src="libs/three.js"></script>
-		<script src="libs/OrbitControls.js"></script>
-		<script src="libs/ThreeCSG.js"></script>
-		<script src="3Dview.js"></script>
+		<script src="js/dist/Helper.js"></script>
+		<script src="js/dist/3Dview.js"></script>
 
 		<script type="text/javascript" src="functions.1.0.js"></script>
-		<script type="text/javascript" src="popup.js"></script>
-		<script type="text/javascript" src="board.js"></script>
+		<script type="text/javascript" src="js/dist/popup.js"></script> <!--depended from function.1.0.js-->
+		<script type="text/javascript" src="js/dist/menu.js"></script> <!--depended from function.1.0.js-->
+		<script type="text/javascript" src="board.js"></script> <!--depended from function.1.0.js-->
 
 
 		<script>
-		
+
 			document.body.onload = function(){
-				var PORT_1 = create_board().setPosition(0, 0).setSize(innerWidth, innerHeight);
-				window.onresize = function(){PORT_1.setSize(innerWidth, innerHeight)}
+                var PORT_1 = create_board().setPosition(0, 0).setSize(innerWidth, innerHeight);
+                Helper.Window.addHandler('onresize',function(){
+                    PORT_1.setSize(innerWidth,innerHeight);
+                });
 			}
 		
 		</script>

@@ -82,20 +82,232 @@ function create_board(){
 			var infoline = element('div', board).background('rgb(240, 240, 240)').size(1200, 25).fontStyle(11, "Ubuntu", "#222", "left")
 				infoline.material = element('div', infoline).background('rgba(255, 255, 255, 0)').border('0px solid #aaa').size(200, 23).position(1000, 0);
 			
-			var popup3DView = new Popup().setSize(800,600).setPosition(200,100).moveToCenter();
+			var popup3DView = new DraggablePopup().setSize(800,600).setPosition(200,100).moveToCenter();
 			var view3D = new View3D({width:800, height:600});
-			popup3DView.setContent(view3D.getContent());
-		
+			popup3DView.addContent(view3D.getContent());
+
 			//*****************************************************************************************************************
-			var MMB_A = [	{name: "File", item:["New", "Open", "Reopen", "Save", "Save As", "Print", "Import", "Export", "Exit"], hint: ""},
-							{name: "Edit", item:["Undo", "Redo", "Cut", "Copy", "Paste", "Delete", "Select All", "Find", "Replace", "Preferences"], hint: ""},
-							{name: "View", item:["Zoom", "3D", "Top", "Bottom", "Front", "Back", "Left", "Right"], hint: ""},
-							{name: "Line", item:["Group", "Ungroup", "Intersect", "Divide", "Corner", "Tangents", "Contour", "Repeat", "Scale", "Rotate", "Mirror", "Simplify", "Nudge", "Convert spline to arc", "Machine...", "Properties...", "Color fill", "Layer", "Prior", "Next", "Select connected"], hint: ""},
-							{name: "Tools", item:["Statistics", "Compute", "Convert", "Shape library", "Fix all", "Confirm changes", "Show comments to Self"], hint: ""},
-							{name: "Job", item:["Material", "Settings", "Finishing", "Model bends", "Price/Analize", "Checklist"], hint: ""},
-							{name: "Order", item:["Review & place order... ", "Request order status"], hint: ""},
-							{name: "Help", item:["Drawing tutorial", "Quick start", "Contents...", "Forum", "Video Tutorials", "Tech Support", "Suggestion", "Check for Updates", "About..."], hint: ""}
+			var stateStyle = [
+                {isActive: function (item) { return true;},
+                    style: {
+                        'display':'flex',
+                        'justify-content': 'center',
+                        'align-content': 'center',
+                        'line-height': '30px',
+                        'position': 'unset',
+                        'margin-right':'5px',
+						'fontFamily':'Ubuntu',
+						'color':'#808080'
+                    }
+                },{isActive: function (item) { return item.isFocuse;},
+					style: {
+                        'border-top':'#ff6633 solid 3px',
+						// 'background-color': '#f00',
+						'font-size': '1.2em',
+						'height':'25px',
+                        'color':'#fff'
+					}
+            	},{isActive: function (item) { return !item.isFocuse;},
+					style: {
+            			'border-top':'none',
+						// 'background-color': '#ffffff00',
+                        'font-size': '1em',
+                        'height':'28px',
+                        'color':'#808080'
+					}
+            	},{isActive: function (item) { return !item.isEnable;},
+                    style: {
+                        'font-style': 'italic',
+                        'font-size': '1em',
+                        'cursor': 'no-drop',
+                        'color':'#ababab'
+                    }
+                },{isActive: function (item) { return item.isEnable;},
+                    style: {
+                        'font-style': 'inherit',
+                    }
+                }
+            ];
+
+			var itemSize = {width:170, height:25}
+			var itemStyle = [
+                {isActive: function (item) { return true;}, //The standart stule
+                    style: {
+                        'background-color': '#fff',
+                        'color': '#555',
+                        'line-height': '25px'
+                    }
+                },{isActive: function (item) { return item.isFocuse;}, //The hover
+                    style: {
+                        'background-color': '#656565',
+                        'color': '#fff',
+                    }
+                },{isActive: function (item) { return item.isFocuse && item.isEnable;},
+                    style: {
+                        'border-left':'#ff6633 solid 3px',
+                        'border-radius':'0px 4px 4px 0px',
+                        'width':(itemSize.width-3)+'px'
+                    }
+                },{isActive: function (item) { return !item.isFocuse;},
+                    style: {
+                        'background-color': '#fff',
+                        'border-left':'none',
+                        'border-radius':'0px',
+                        'width':itemSize.width+'px'
+                    }
+                },{isActive: function (item) { return item.isEnable;},
+                    style: {
+                        'font-style': 'inherit',
+						'cursor': 'pointer',
+                    }
+                }
+                ,{isActive: function (item) { return !item.isEnable;},
+                    style: {
+                        'font-style': 'italic',
+                        'background-color': '#ccc',
+                        'cursor': 'no-drop',
+                        'color':'gray'
+                    }
+                }
 			];
+
+			var menu = new MenuBar()
+                .addMenu(new Menu("File")
+					.addMenuItem(new MenuItem("New"))
+					.addMenuItem(new MenuItem("Open"))
+					.addMenuItem(new MenuItem("Reopen"))
+					.addMenuItem(new MenuItem("Save"))
+					.addMenuItem(new MenuItem("Save As"))
+					.addMenuItem(new MenuItem("Print"))
+					.addMenuItem(new MenuItem("Import"))
+					.addMenuItem(new MenuItem("Export"))
+					.addMenuItem(new MenuItem("Exit"))
+                    .setItemSize(itemSize.width,itemSize.height)
+                    .setItemStyle(itemStyle))
+				.addMenu(new Menu("Edit")
+                    .addMenuItem(new MenuItem("Undo"))
+                    .addMenuItem(new MenuItem("Redo"))
+                    .addMenuItem(new MenuItem("Cut"))
+                    .addMenuItem(new MenuItem("Copy"))
+                    .addMenuItem(new MenuItem("Paste"))
+                    .addMenuItem(new MenuItem("Delete"))
+                    .addMenuItem(new MenuItem("Select All"))
+                    // .addMenuItem(new MenuItem("Find"))
+                    // .addMenuItem(new MenuItem("Replace"))
+                    .addMenuItem(new MenuItem("Preferences"))
+                    .setItemSize(itemSize.width,itemSize.height)
+                    .setItemStyle(itemStyle))
+				.addMenu(new Menu("View")
+                    .addMenuItem(new Menu("Zoom")
+                        .addMenuItem(new MenuItem("To Fit Screen").setExecutor(zoomToFitScreen))
+                        .addMenuItem(new MenuItem("Actual Size").setExecutor(zoomToActualSize))
+                        // .addMenuItem(new MenuItem("To Selection"))
+                        // .addMenuItem(new MenuItem("To Region"))
+                        // .addMenuItem(new MenuItem("Out"))
+                        // .addMenuItem(new MenuItem("In"))
+                        .setItemSize(itemSize.width,itemSize.height)
+                        .setItemStyle(itemStyle))
+                    // .addMenuItem(new MenuItem("3D"))
+                    // .addMenuItem(new MenuItem("Top"))
+                    // .addMenuItem(new MenuItem("Bottom"))
+                    // .addMenuItem(new MenuItem("Front"))
+                    // .addMenuItem(new MenuItem("Back"))
+                    // .addMenuItem(new MenuItem("Left"))
+                    // .addMenuItem(new MenuItem("Right"))
+                    .setItemSize(itemSize.width,itemSize.height)
+                    .setItemStyle(itemStyle))
+				.addMenu(new Menu("Line")
+                    .addMenuItem(new MenuItem("Group").setExecutor(groupSelected))
+                    .addMenuItem(new MenuItem("Ungroup").setExecutor(ungroupSelected))
+                    .addMenuItem(new MenuItem("Intersect").setExecutor(intersectSelected))
+                    .addMenuItem(new MenuItem("Divide"))
+                    .addMenuItem(new MenuItem("Corner").setExecutor(showCornerBox))
+                    .addMenuItem(new MenuItem("Tangents").setExecutor(function(){ //todo: need separate function
+						if (circle_selected.length >= 2)
+							tangentsTwoCircles(circle_selected[0].CP[0], circle_selected[0].R, circle_selected[1].CP[0], circle_selected[1].R);
+					}))
+                    // .addMenuItem(new MenuItem("Contour"))
+                    // .addMenuItem(new MenuItem("Repeat"))
+                    // .addMenuItem(new MenuItem("Scale"))
+                    // .addMenuItem(new MenuItem("Rotate"))
+                    .addMenuItem(new Menu("Mirror")
+                        .addMenuItem(new MenuItem("Hirizontally").setExecutor(function(){mirrorSelected(true, false)}))
+                        .addMenuItem(new MenuItem("Vertically").setExecutor(function(){mirrorSelected(false, true)}))
+                        .setItemSize(itemSize.width,itemSize.height)
+                        .setItemStyle(itemStyle))
+					// .addMenuItem(new MenuItem("Simplify"))
+					.addMenuItem(new Menu("Nudge")
+						.addMenuItem(new MenuItem("Up").setExecutor(function(){moveSelected(0, parseFloat(input_Length.value))}))
+                        .addMenuItem(new MenuItem("Down").setExecutor(function(){moveSelected(0, -parseFloat(input_Length.value))}))
+                        .addMenuItem(new MenuItem("Left").setExecutor(function(){moveSelected(-parseFloat(input_Length.value), 0)}))
+                        .addMenuItem(new MenuItem("Right").setExecutor(function(){moveSelected(parseFloat(input_Length.value), 0)}))
+                        .setItemSize(itemSize.width,itemSize.height)
+                        .setItemStyle(itemStyle))
+                    // .addMenuItem(new MenuItem("Convert spline to arc"))
+                    // .addMenuItem(new MenuItem("Machine..."))
+                    // .addMenuItem(new MenuItem("Properties...").setExecutor(function(){
+						// console.log("Properties...");
+						// showMessage("Properties...")
+                    // }))
+                    // .addMenuItem(new MenuItem("Color fill"))
+                    // .addMenuItem(new MenuItem("Layer"))
+                    // .addMenuItem(new MenuItem("Prior"))
+                    // .addMenuItem(new MenuItem("Next"))
+                    // .addMenuItem(new MenuItem("Select connected"))
+                    .setItemSize(itemSize.width,itemSize.height)
+                    .setItemStyle(itemStyle)
+					// .disable()  //todo: uncomented when will be do disabled menu item
+				)
+				// .addMenu(new Menu("Tools")
+				// 	.addMenuItem(new MenuItem("Statistics"))
+				// 	.addMenuItem(new MenuItem("Compute"))
+				// 	.addMenuItem(new MenuItem("Convert"))
+				// 	.addMenuItem(new MenuItem("Shape library"))
+				// 	.addMenuItem(new MenuItem("Fix all"))
+				// 	.addMenuItem(new MenuItem("Confirm changes"))
+				// 	.addMenuItem(new MenuItem("Show comments to Self"))
+				// 	.setItemSize(itemSize.width,itemSize.height)
+				// 	.setItemStyle(itemStyle))
+				.addMenu(new Menu("Job")
+					// .addMenuItem(new MenuItem("Material"))
+					.addMenuItem(new MenuItem("Settings"))
+					// .addMenuItem(new MenuItem("Finishing"))
+					// .addMenuItem(new MenuItem("Model bends"))
+					.addMenuItem(new MenuItem("Price/Analize"))
+					.addMenuItem(new MenuItem("Checklist"))
+					.addMenuItem(new MenuItem("Review & place order... "))
+					.setItemSize(itemSize.width,itemSize.height)
+					.setItemStyle(itemStyle))
+				// .addMenu(new Menu("Order")
+				// 	.addMenuItem(new MenuItem("Review & place order... "))
+				// 	.addMenuItem(new MenuItem("Request order status"))
+				// 	.setItemSize(itemSize.width,itemSize.height)
+				// 	.setItemStyle(itemStyle))
+				.addMenu(new Menu("Help")
+					.addMenuItem(new MenuItem("Drawing tutorial"))
+					.addMenuItem(new MenuItem("Quick start"))
+					.addMenuItem(new MenuItem("Contents..."))
+					// .addMenuItem(new MenuItem("Forum"))
+					.addMenuItem(new MenuItem("Video Tutorials"))
+					.addMenuItem(new MenuItem("Tech Support"))
+					.addMenuItem(new MenuItem("Suggestion"))
+					// .addMenuItem(new MenuItem("Check for Updates"))
+					.addMenuItem(new MenuItem("About..."))
+					.setItemSize(itemSize.width,itemSize.height)
+					.setItemStyle(itemStyle))
+                .setItemSize(80,28)
+				.setPosition(0,0)
+				.setSize(innerWidth,30)
+                .show()
+				.setItemStyle(stateStyle)
+				.setListStyle({
+                    'display':'flex',
+					'background-color':'#ccc',
+					'color':'#fff',
+					'padding-left':'10px'
+				});
+			board.appendChild(menu.getHtml());
+
 
 			var MAB_A = [	{name: "Select", pic: "images/Select.png", hint: "Select<br>Chooses a line to which you want to issue a command or make a change. Click on the line.<br>To select multiple lines hold the SHIFT key.<br>To select connected lines hold down CTRL.<br>To select only one line hold down ALT."},
 							{name: "Line", pic: "images/Line.png", hint: "Line<br>Draws a straight line. Click again at end point. Hold the CTRL key while drawing<br>for a precise 0, 15, 30 or 45 deg angle. Press spacebar to restart line mode."},
@@ -139,8 +351,7 @@ function create_board(){
 			//***************************************************************************
 			board.setSize = function(width, height){
 				board.size(width, height);
-
-					popup3DView.moveToCenter();
+				menu.setSize(width-10);
 
 					canvas.style.position = 'absolute';
 					canvas.width = width - 60;
@@ -164,209 +375,6 @@ function create_board(){
 
 
 		//########################################### menu ###############################################################################################################
-			for (var n = 0; n < MMB_A.length; n++){
-					MMB[n] = element('div', board).size(80, 27).position(10 + n * 82, 5).text(MMB_A[n].name, "center", true).cursor('pointer').classname('button');
-
-					MMB[n].onclick = function(){
-							refreshMenuButtons();
-						for (var i = 0; i < MMB.length; i++) {MMB[i].background("linear-gradient(0deg, rgb(100, 100, 100) 0px, rgb(140, 140, 140) 35px)"); MMB[i].panel.hide()}
-						this.background("linear-gradient(0deg, rgb(50, 50, 50) 0px, rgb(75, 75, 75) 35px)");
-						if (current_MMB) {
-							if (current_MMB == this) {
-								this.panel.hide();
-								current_MMB = null;
-							} else {
-								this.panel.show();
-								current_MMB = this;
-							}
-						} else {
-							this.panel.show();
-							current_MMB = this;
-						};
-					}
-
-					MMB[n].panel = element('div', board).size(185, MMB_A[n].item.length * 25 + 20).position(10 + n * 82, 35).cursor('pointer').classname('menu_panel').order(1000).hide();
-					MMB[n].panel.item = [];
-					for (var i = 0; i < MMB_A[n].item.length; i++) {
-						MMB[n].panel.item[i] = element('div', MMB[n].panel).text(MMB_A[n].item[i]).size(160, 20).position(0, 10 + i * 25).cursor('pointer').fontStyle(12, "Ubuntu", "#555", "left").paddingLeft(25);
-						
-						MMB[n].panel.item[i].n = n;
-						MMB[n].panel.item[i].i = i;
-						
-						MMB[n].panel.item[i].onmouseover = function(){
-							this.fontStyle(12, "Ubuntu", "#fff", "left").background("rgb(125, 125, 125)");
-
-							if (this.n == 2) if (this.i != 0)  sub_Zoom.panel.hide();
-							if (this.n == 3) if (this.i != 10) sub_Mirror.panel.hide();
-							if (this.n == 3) if (this.i != 12) sub_Nudge.panel.hide();						
-						}
-						MMB[n].panel.item[i].onmouseout = function(){
-							this.fontStyle(12, "Ubuntu", "#555", "left").background("");
-						}
-					}
-			}
-
-
-					//************************************************************** Zoom Submenu **********************************************************************************
-					var sub_Zoom = element('img', MMB[2].panel.item[0]).size(20, 20).position(155, 0).cursor('pointer').pic("images/sub.png");
-						sub_Zoom.onmouseover = function(){
-							sub_Zoom.panel.show();
-						}
-
-						sub_Zoom.panel = element('div', MMB[2].panel.item[0]).cursor('pointer').classname('menu_panel').size(185, 6 * 25 + 15).position(180, -10).hide();
-						MMB[2].panel.item[0].sub = sub_Zoom.panel;
-						
-						sub_Zoom.panel.item = [];
-							var zoom_A = ["To Fit Screen", "Actual Size", "To Selection", "To Region", "Out", "In"];
-						for (var i = 0; i < zoom_A.length; i++) {
-							sub_Zoom.panel.item[i] = element('div', sub_Zoom.panel).text(zoom_A[i]).size(160, 20).position(0, 10 + i * 25).cursor('pointer').fontStyle(12, "Ubuntu", "#555", "left").paddingLeft(25);
-							
-							sub_Zoom.panel.item[i].onmouseover = function(){this.fontStyle(12, "Ubuntu", "#fff", "left").background("rgb(125, 125, 125)")}
-							sub_Zoom.panel.item[i].onmouseout = function(){this.fontStyle(12, "Ubuntu", "#555", "left").background("")}
-						}
-						
-							sub_Zoom.panel.item[0].onmousedown = function(){zoomToFitScreen()}
-							sub_Zoom.panel.item[1].onmousedown = function(){zoomToActualSize()}
-							
-
-
-					//***************************************************************** Mirror Submenu ******************************************************************************
-					var sub_Mirror = element('img', MMB[3].panel.item[10]).size(20, 20).position(155, 0).cursor('pointer').pic("images/sub.png");
-						sub_Mirror.onmouseover = function(){
-							sub_Mirror.panel.show();
-						}
-
-						sub_Mirror.panel = element('div', MMB[3].panel.item[10]).cursor('pointer').classname('menu_panel').size(185, 2 * 25 + 15).position(180, -10).hide();
-						MMB[3].panel.item[10].sub = sub_Mirror.panel;
-						
-						sub_Mirror.panel.item = [];
-							var mirror_A = ["Horizontally", "Vertically"];
-						for (var i = 0; i < mirror_A.length; i++) {
-							sub_Mirror.panel.item[i] = element('div', sub_Mirror.panel).text(mirror_A[i]).size(160, 20).position(0, 10 + i * 25).cursor('pointer').fontStyle(12, "Ubuntu", "#555", "left").paddingLeft(25);
-
-							sub_Mirror.panel.item[i].onmouseover = function(){this.fontStyle(12, "Ubuntu", "#fff", "left").background("rgb(125, 125, 125)")}
-							sub_Mirror.panel.item[i].onmouseout = function(){this.fontStyle(12, "Ubuntu", "#555", "left").background("");}
-						}
-						
-							sub_Mirror.panel.item[0].onmousedown = function(){mirrorSelected(true, false)}
-							sub_Mirror.panel.item[1].onmousedown = function(){mirrorSelected(false, true)}
-
-
-
-					//***************************************************************** Nudge Submenu *******************************************************************************
-					var sub_Nudge = element('img', MMB[3].panel.item[12]).size(20, 20).position(155, 0).cursor('pointer').pic("images/sub.png");
-						sub_Nudge.onmouseover = function(){
-							sub_Nudge.panel.show();
-						}
-
-						sub_Nudge.panel = element('div', MMB[3].panel.item[12]).cursor('pointer').classname('menu_panel').size(185, 4 * 25 + 15).position(180, -10).hide();
-						MMB[3].panel.item[12].sub = sub_Nudge.panel;
-						
-						sub_Nudge.panel.item = [];
-							var nudge_A = ["Up", "Down", "Left", "Right"];
-						for (var i = 0; i < nudge_A.length; i++) {
-							sub_Nudge.panel.item[i] = element('div', sub_Nudge.panel).text(nudge_A[i]).size(160, 20).position(0, 10 + i * 25).cursor('pointer').fontStyle(12, "Ubuntu", "#555", "left").paddingLeft(25);
-
-							sub_Nudge.panel.item[i].onmouseover = function(){this.fontStyle(12, "Ubuntu", "#fff", "left").background("rgb(125, 125, 125)")}
-							sub_Nudge.panel.item[i].onmouseout = function(){this.fontStyle(12, "Ubuntu", "#555", "left").background("")}
-						}
-						
-							sub_Nudge.panel.item[0].onmousedown = function(){moveSelected(0, parseFloat(input_Length.value))}
-							sub_Nudge.panel.item[1].onmousedown = function(){moveSelected(0, -parseFloat(input_Length.value))}
-							sub_Nudge.panel.item[2].onmousedown = function(){moveSelected(-parseFloat(input_Length.value), 0)}
-							sub_Nudge.panel.item[3].onmousedown = function(){moveSelected(parseFloat(input_Length.value), 0)}
-
-
-					//############################ Line ###########################################
-
-					//*************************** Group ****************************
-					MMB[3].panel.item[0].onmousedown = function(){
-						//console.log("Group");
-						groupSelected();
-					}
-
-					//*************************** Unroup ****************************
-					MMB[3].panel.item[1].onmousedown = function(){
-						//console.log("Unroup");
-						ungroupSelected();
-					}
-
-					//*************************** Intersect ****************************
-					MMB[3].panel.item[2].onmousedown = function() {
-						intersectSelected();
-					}
-
-					//*************************** Divide ****************************
-					MMB[3].panel.item[3].onmousedown = function(){
-						console.log("Divide");
-					}
-
-					//*************************** Corner ****************************
-					MMB[3].panel.item[4].onmousedown = function(){
-						//console.log("Corner");
-						//cornerSelected();
-						showCornerBox();
-					}
-
-					//*************************** Tangents ****************************
-					MMB[3].panel.item[5].onmousedown = function(){
-						if (circle_selected.length >= 2) tangentsTwoCircles(circle_selected[0].CP[0], circle_selected[0].R, circle_selected[1].CP[0], circle_selected[1].R);
-					}
-
-						//"Color fill", "Layer", "Prior", "Next", "Select connected"
-
-					//*************************** Contour ****************************
-					MMB[3].panel.item[6].onmousedown = function(){
-						console.log("Contour");
-					}
-
-					//*************************** Repeat ****************************
-					MMB[3].panel.item[7].onmousedown = function(){
-						console.log("Repeat");
-					}
-
-					//*************************** Scale ****************************
-					MMB[3].panel.item[8].onmousedown = function(){
-						console.log("Scale");
-					}
-
-					//*************************** Rotate ****************************
-					MMB[3].panel.item[9].onmousedown = function(){
-						console.log("Rotate");
-					}
-
-					//*************************** Mirror ****************************
-					MMB[3].panel.item[10].onmousedown = function(){
-						//console.log("Mirror");
-					}					
-
-					//*************************** Simplify ****************************
-					MMB[3].panel.item[11].onmousedown = function(){
-						console.log("Simplify");
-					}
-
-					//*************************** Nudge ****************************
-					MMB[3].panel.item[12].onmousedown = function(){
-						//console.log("Nudge");
-					}
-
-					//*************************** Convert spline to arc ****************************
-					MMB[3].panel.item[13].onmousedown = function(){
-						console.log("Convert spline to arc");
-					}
-
-					//*************************** Machine... ****************************
-					MMB[3].panel.item[14].onmousedown = function(){
-						console.log("Machine...");
-					}
-
-					//*************************** Properties... ****************************
-					MMB[3].panel.item[15].onmousedown = function(){
-						console.log("Properties...");
-						showMessage("Properties...")
-					}
-
-
 			//************************************ Left menu ****************************
 			for (var n = 0; n < MAB_A.length; n++){
 					MAB[n] = element('div', board).size(33, 33).position(10, 104 + n * 39).cursor('pointer').background("rgba(0, 0, 0, 0.0)").border("1px solid rgba(0, 0, 0, 0)");
@@ -479,32 +487,60 @@ function create_board(){
 			}
 
 
+		//todo: the code must execute in some event handler of drawing board for example "selectElement"
+		//todo: menu and drawing board must be independent
 			//********************************************* refreshMenuButtons **************************************************
 			function refreshMenuButtons(){
 
-				setBound();
+				// setBound();
+                //
+				// var total_selected = circle_selected.length + line_selected.length + spline_selected.length;
+                //
+				// for (var n = 0; n < MMB[3].panel.item.length; n++) MMB[3].panel.item[n].opacity(0.35);
+                //
+				// if (total_selected > 1) MMB[3].panel.item[0].opacity(1).fontStyle(12, "Ubuntu", "#333", "left");
+				// if (selected_groups.length > 0) if (circle_selected.length + line_selected.length + spline_selected.length > 1) MMB[3].panel.item[1].opacity(1).fontStyle(12, "Ubuntu", "#333", "left");
+                //
+				// if (total_selected > 1) MMB[3].panel.item[2].opacity(1).fontStyle(12, "Ubuntu", "#333", "left");
+                //
+				// if (line_selected.length + spline_selected.length > 0) MMB[3].panel.item[4].opacity(1).fontStyle(12, "Ubuntu", "#333", "left");
+				// if (circle_selected.length > 1) MMB[3].panel.item[5].opacity(1).fontStyle(12, "Ubuntu", "#333", "left");
+                //
+				// if (total_selected > 0) {
+				// 	MMB[3].panel.item[3].opacity(1).fontStyle(12, "Ubuntu", "#333", "left");
+				// 	MMB[3].panel.item[6].opacity(1).fontStyle(12, "Ubuntu", "#333", "left");
+				// 	MMB[3].panel.item[7].opacity(1).fontStyle(12, "Ubuntu", "#333", "left");
+				// 	MMB[3].panel.item[8].opacity(1).fontStyle(12, "Ubuntu", "#333", "left");
+				// 	MMB[3].panel.item[9].opacity(1).fontStyle(12, "Ubuntu", "#333", "left");
+				// 	MMB[3].panel.item[10].opacity(1).fontStyle(12, "Ubuntu", "#333", "left");
+				// 	MMB[3].panel.item[12].opacity(1).fontStyle(12, "Ubuntu", "#333", "left");
+				// }
 
-				var total_selected = circle_selected.length + line_selected.length + spline_selected.length;
-
-				for (var n = 0; n < MMB[3].panel.item.length; n++) MMB[3].panel.item[n].opacity(0.35);
-
-				if (total_selected > 1) MMB[3].panel.item[0].opacity(1).fontStyle(12, "Ubuntu", "#333", "left");
-				if (selected_groups.length > 0) if (circle_selected.length + line_selected.length + spline_selected.length > 1) MMB[3].panel.item[1].opacity(1).fontStyle(12, "Ubuntu", "#333", "left");
-
-				if (total_selected > 1) MMB[3].panel.item[2].opacity(1).fontStyle(12, "Ubuntu", "#333", "left");
-
-				if (line_selected.length + spline_selected.length > 0) MMB[3].panel.item[4].opacity(1).fontStyle(12, "Ubuntu", "#333", "left");
-				if (circle_selected.length > 1) MMB[3].panel.item[5].opacity(1).fontStyle(12, "Ubuntu", "#333", "left");
-
-				if (total_selected > 0) {
-					MMB[3].panel.item[3].opacity(1).fontStyle(12, "Ubuntu", "#333", "left");
-					MMB[3].panel.item[6].opacity(1).fontStyle(12, "Ubuntu", "#333", "left");
-					MMB[3].panel.item[7].opacity(1).fontStyle(12, "Ubuntu", "#333", "left");
-					MMB[3].panel.item[8].opacity(1).fontStyle(12, "Ubuntu", "#333", "left");
-					MMB[3].panel.item[9].opacity(1).fontStyle(12, "Ubuntu", "#333", "left");
-					MMB[3].panel.item[10].opacity(1).fontStyle(12, "Ubuntu", "#333", "left");
-					MMB[3].panel.item[12].opacity(1).fontStyle(12, "Ubuntu", "#333", "left");
-				}
+				//todo with the new menu the code will be like this
+				// menu.getItem("Line").disable();
+				// menu.getItem("Line").disableAllItem();
+                //
+				// if (total_selected > 1) {
+				// 	menu.getItem('Group').enable(); //0
+				// 	menu.getItem('Divide').enable(); //2
+				// }
+				// if (selected_groups.length > 0) if (circle_selected.length + line_selected.length + spline_selected.length > 1)
+				// 	menu.getItem('Ungroup').enable(); //1
+                //
+				// if (line_selected.length + spline_selected.length > 0)
+				// 	menu.getItem('Corner').enable(); //4
+				// if (circle_selected.length > 1)
+				// 	menu.getItem('Intersect').enable(); //5
+                //
+				// if (total_selected > 0) {
+				// 	menu.getItem('Intersect').enable();
+				// 	menu.getItem('Contour').enable();
+				// 	menu.getItem('Repeat').enable();
+				// 	menu.getItem('Scale').enable();
+				// 	menu.getItem('Rotate').enable();
+				// 	menu.getItem('Mirror').enable();
+				// 	menu.getItem('Nudge').enable();
+				// }
 					
 
 				//console.log("L: " + line_selected.length, "C: " + circle_selected.length, "S: " + spline_selected.length, "G: " + selected_groups.length,);
@@ -1818,8 +1854,7 @@ function create_board(){
 							canvas.addEventListener('mouseup', function(e){
 
 									if (current_MMB) for (var i = 0; i < MMB.length; i++) {MMB[i].background("linear-gradient(0deg, rgb(100, 100, 100) 0px, rgb(140, 140, 140) 35px)"); MMB[i].panel.hide()}
-										sub_Zoom.panel.hide();
-										sub_Mirror.panel.hide();
+
 									current_MMB = null;
 
 									button[e.which] = false;

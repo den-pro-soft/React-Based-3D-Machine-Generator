@@ -1,0 +1,22 @@
+{
+  "name": "cad",
+  "version": "1.0.0",
+  "description": "",
+  "private": true,
+  "main": "src/3Dview.js",
+  "scripts": {
+    "start": "webpack --watch --config webpack.config.js",
+    "compile": "webpack --config webpack.config.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "three-js": "^79.0.0",
+    "three-js-csg": "^72.0.0",
+    "three-orbit-controls": "^82.1.0"
+  },
+  "devDependencies": {
+    "webpack": "^4.27.1",
+    "webpack-cli": "^3.1.2"
+  }
+}
