@@ -1,48 +1,83 @@
+function create_board(){
 
+	var board = element('div').background('rgb(240, 240, 240)').size(1200, 800);
+	var canvas,	context, 
 
+	/* 
+	 * Array with selected item.
+	 * 
+	 * @array[] = x: {number}, y: {number}, X: {number}, Y:{number}}
+	 */
+	E = [],
 
+	/* 
+	 * Array with a group of elements
+	 * 
+	 * @array[] = x: {number}, y: {number}, X: {number}, Y:{number}}
+	 */
+	G = [],
 
-	function create_board(){
+	/* 
+	 * Related points.
+	 * 
+	 * @array[] = x: {number}, y: {number}, X: {number}, Y:{number}}
+	 */
+	B = [],
 
-			var board = element('div').background('rgb(240, 240, 240)').size(1200, 800);
-			var canvas,	context, 
+	/* 
+	 * array with coordinates of lines in the selected object.
+	 * 
+	 * @array = X: {number}, Y:{number}}
+	 */
+	BF = [],
+	/* 
+	 * cross points.
+	 * 
+	 * @array = {n: {number}, i: {number}, kind: {string}}.
+	 */
+	CROSS = [],
 
-			E = [],
-			G = [],
-			B = [],
-			BF = [],
-			CROSS = [],
+	// mouse coordinates
+	over =  {},
+	// coordinates when creating an object
+	real = {},
+	// fixing points
+	fixed = {},
+	// click coordinates
+	clicked = {},
+	O = {X: 0, Y: 0, x:0, y:0},
+	CR = {X: 0, Y: 0},
+	//coordinates of cross points
+	INTERSECT = [],
 
-			over =  {},
-			real = {},
-			fixed = {},
-			clicked = {},
-			O = {X: 0, Y: 0, x:0, y:0},
-			CR = {X: 0, Y: 0},
+	scale = 1,
 
-			INTERSECT = [],
+	fixpos = [],
+	button = [],
 
-			scale = 1,
+	edit_mode = 'Select',
+	edit_type = 'Resize', 
+	edit_step = 0,
 
-			fixpos = [],
-			button = [],
+	selected_groups = [],
+	same_clicked,
 
-			edit_mode = 'Select',
-			edit_type = 'Resize', 
-			edit_step = 0,
-			selected_groups = [],
-			same_clicked,
+	circle_selected = [],
+	line_selected = [],
+	spline_selected = [],
 
-			circle_selected = [],
-			line_selected = [],
-			spline_selected = [],
-
-			mesBox, hintBox, cornerBox, lineBox, transform_panel;
+	mesBox, hintBox, cornerBox, lineBox, transform_panel;
 
 
 			//*************************************
-			var MMB = [], MAB = [], MUAB = [],
-				current_MMB;
+			// iten in menu.
+			var MMB = [], 
+			// item in left menu.
+			MAB = [], 
+			// item in up menu.
+			MUAB = [],
+			//selected item menu
+			current_MMB;
 
 			var infoline = element('div', board).background('rgb(240, 240, 240)').size(1200, 25).fontStyle(11, "Ubuntu", "#222", "left")
 				infoline.material = element('div', infoline).background('rgba(255, 255, 255, 0)').border('0px solid #aaa').size(200, 23).position(1000, 0);
@@ -2477,13 +2512,23 @@
 
 
 
-						//*******************************************************************************************
+						/**
+						 * Creating element.
+						 *
+						 * @param {string} type.
+						 * @param {array} ControlPoints {X: {number}, Y: {number}}
+						 * @param {array} Points
+						 */
 						function add_Element(type, ControlPoints, Points){
 								var e = {};
 
+								// Element type.
 								e.type = type;
+								// Control points {X: {number}, Y: {number}}
 								e.CP = [];
+								//Points
 								e.P = [];
+
 								e.enable = true;
 
 								if (ControlPoints) for (var n = 0; n < ControlPoints.length; n++) e.CP.push(ControlPoints[n]);
@@ -2907,6 +2952,7 @@
 									E[n].P[i].XF = E[n].P[i].X;
 									E[n].P[i].YF = E[n].P[i].Y;
 							}
+									// {number} RF Radius.
 									E[n].RF = E[n].R;
 						}
 

@@ -1,8 +1,11 @@
-
-
-
-
-	//*********************************************************
+	/**
+	 * Returns the position of the cursor.
+	 *
+	 * @param {event} event MouseEvent
+	 * @param {object} element
+	 *
+     * @return { x: {number}, y: {number}}
+	 */
     function mouseXY(event, element){
 		var posx = 0;
 		var posy = 0;
@@ -34,8 +37,15 @@
 	}
 
 
-	//*********************************************************
-	function coord2D(xp, yp){
+	/**
+	 * Convert 2 values to 2d point
+	 * 
+	 * @param {float} xp X-coordinate
+	 * @param {float} yp Y-coordinate
+	 * @returns {object} Point object
+	 */
+	function coord2D(xp, yp)
+	{
 	   return {x:xp, y:yp};
 	}
 	
@@ -48,7 +58,6 @@
 	     data.append("data", textdata);
 	   req.send(data);
 	
-	   //******************** Ответ сервера ***************************
 	   req.onreadystatechange = function()
 	   {
 		  if (req.readyState == 4)
@@ -82,7 +91,11 @@
 
 	
 	
-	//**************************************************
+	/**
+	 * Add scroll functionality.
+	 *
+	 * @param {object} Scroll.
+	 */
 	function addScrollWheel(Scroll){
 	
 		function addHandler(object, event, handler){
@@ -90,7 +103,7 @@
 				object.addEventListener(event, handler, false);
 			}	else if(object.attachEvent){
 					object.attachEvent('on' + event, handler);
-			}	else alert("Обработчик не поддерживается");
+			}	else alert("Handler does not supported");
 		}
 
 
@@ -126,7 +139,14 @@
 
 
 
-	//****************************************************
+	/**
+	 * Creating the window element.
+	 *
+	 * @param {string} type.
+	 * @param {object} parent.
+	 *
+	 * @return {object} unit.
+	 */
 	function element(type, parent){
 	  var unit = document.createElement(type);
 
@@ -242,7 +262,14 @@
 	
 	
 	
-	//****************************************************
+	/**
+	 * Creating the element of the input type.
+	 * 
+	 * @param {string} ico Image.
+	 * @param {object} parent.
+	 *
+	 * @return {object} unit. 
+	 */
 	function input(ico, parent){
 
 	  var unit = document.createElement('input');
@@ -357,7 +384,14 @@
 
 	
 	
-	//****************************************************
+	/**
+	 * Creating the element of the select type.
+	 * 
+	 * @param {string} ico.
+	 * @param {object} parent.
+	 *
+	 * @return {onject} unit. 
+	 */
 	function select(ico, parent){
 
 	  var unit = document.createElement('select');
