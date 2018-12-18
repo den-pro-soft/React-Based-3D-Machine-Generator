@@ -274,13 +274,6 @@ class Menu extends MenuItem{
         super._mouseOut();
     }
 
-    _mouseClick(){ //todo need remove when board will be generated events
-        super._mouseClick();
-        if (!this._popup.isShow() && this._notifyHandlers('click',this)) {
-            this._popup.show();
-        }
-    }
-
     _createPopup(){
         /** @var {Popup}*/
         this._popup = new HoverPopup(this._parent?this._parent._popup:undefined,this.getHtml())

@@ -82,11 +82,12 @@ function create_board(){
 			var infoline = element('div', board).background('rgb(240, 240, 240)').size(1200, 25).fontStyle(11, "Ubuntu", "#222", "left")
 				infoline.material = element('div', infoline).background('rgba(255, 255, 255, 0)').border('0px solid #aaa').size(200, 23).position(1000, 0);
 			
-			var popup3DView = new DraggablePopup().setSize(800,600).setPosition(200,100).moveToCenter();
+			var popup3DView = new DraggablePopup().setSize(800,600).setPosition(200,100).moveToCenter().setTitle("3D view");
 			var view3D = new View3D({width:800, height:600});
 			popup3DView.addContent(view3D.getContent());
 
 			//*****************************************************************************************************************
+			//<editor-fold defaultstate="collapsed" desc="create menu">
 			var stateStyle = [
                 {isActive: function (item) { return true;},
                     style: {
@@ -134,8 +135,9 @@ function create_board(){
                 {isActive: function (item) { return true;}, //The standart stule
                     style: {
                         'background-color': '#fff',
-                        'color': '#555',
-                        'line-height': '25px'
+                        'color': '#333',
+                        'line-height': '25px',
+						'font-family': 'Helvetica'
                     }
                 },{isActive: function (item) { return item.isFocuse;}, //The hover
                     style: {
@@ -231,7 +233,7 @@ function create_board(){
                     // .addMenuItem(new MenuItem("Scale"))
                     // .addMenuItem(new MenuItem("Rotate"))
                     .addMenuItem(new Menu("Mirror")
-                        .addMenuItem(new MenuItem("Hirizontally").setExecutor(function(){mirrorSelected(true, false)}))
+                        .addMenuItem(new MenuItem("Horizontally").setExecutor(function(){mirrorSelected(true, false)}))
                         .addMenuItem(new MenuItem("Vertically").setExecutor(function(){mirrorSelected(false, true)}))
                         .setItemSize(itemSize.width,itemSize.height)
                         .setItemStyle(itemStyle))
@@ -273,7 +275,7 @@ function create_board(){
 					.addMenuItem(new MenuItem("Settings"))
 					// .addMenuItem(new MenuItem("Finishing"))
 					// .addMenuItem(new MenuItem("Model bends"))
-					.addMenuItem(new MenuItem("Price/Analize"))
+					.addMenuItem(new MenuItem("Price/Analyze"))
 					.addMenuItem(new MenuItem("Checklist"))
 					.addMenuItem(new MenuItem("Review & place order... "))
 					.setItemSize(itemSize.width,itemSize.height)
@@ -284,7 +286,7 @@ function create_board(){
 				// 	.setItemSize(itemSize.width,itemSize.height)
 				// 	.setItemStyle(itemStyle))
 				.addMenu(new Menu("Help")
-					.addMenuItem(new MenuItem("Drawing tutorial"))
+					.addMenuItem(new MenuItem("Drawing Tutorials"))
 					.addMenuItem(new MenuItem("Quick start"))
 					.addMenuItem(new MenuItem("Contents..."))
 					// .addMenuItem(new MenuItem("Forum"))
@@ -303,11 +305,12 @@ function create_board(){
 				.setListStyle({
                     'display':'flex',
 					'background-color':'#ccc',
-					'color':'#fff',
 					'padding-left':'10px'
 				});
 			board.appendChild(menu.getHtml());
+		//</editor-fold>
 
+			// var
 
 			var MAB_A = [	{name: "Select", pic: "images/Select.png", hint: "Select<br>Chooses a line to which you want to issue a command or make a change. Click on the line.<br>To select multiple lines hold the SHIFT key.<br>To select connected lines hold down CTRL.<br>To select only one line hold down ALT."},
 							{name: "Line", pic: "images/Line.png", hint: "Line<br>Draws a straight line. Click again at end point. Hold the CTRL key while drawing<br>for a precise 0, 15, 30 or 45 deg angle. Press spacebar to restart line mode."},
@@ -352,7 +355,7 @@ function create_board(){
 			board.setSize = function(width, height){
 				board.size(width, height);
 				menu.setSize(width-10);
-
+				
 					canvas.style.position = 'absolute';
 					canvas.width = width - 60;
 					canvas.height = height - 105 - infoline.height;
