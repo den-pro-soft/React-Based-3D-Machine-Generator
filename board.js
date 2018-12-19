@@ -446,7 +446,7 @@
 						}
 						//******************** Ungroup ************************
 						if (this.name == "3D preview"){
-							view3D.setGeometry(E);
+							view3D.setGeometry(E,G);
 							popup3DView.show();
 						}
 						
