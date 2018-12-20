@@ -1,6 +1,7 @@
 var THREE = require("three-js")();
 var OrbitControls = require('three-orbit-controls')(THREE);
 var ThreeBSP = require('three-js-csg')(THREE);
+import {PolygonGeometryBuilder} from './3d/GeometryBuilder';
 
 /**
  * Created by dev on 03.12.18.
@@ -15,7 +16,7 @@ class View3D{
         this.moveCamera(-30,40,30);
 
         this.renderer = new THREE.WebGLRenderer();
-
+        this.renderer.shadowMapEnabled = true;
         this.dom = this.renderer.domElement;
         this.controls = new OrbitControls(this.camera, this.dom);
 
@@ -29,14 +30,29 @@ class View3D{
 
         this.renderer.setSize(size.width, size.height);
 
-        this.spotLight = new THREE.SpotLight(0xffffff);
+        this.spotLight = new THREE.SpotLight(0xcccccc);
         this.spotLight.position.set(100, 1000, 100);
 
-        this.material = new THREE.MeshLambertMaterial( { opacity:0.5, color: 0xcccccc
-            , transparent:false, wireframe: false, side:THREE.DoubleSide } );
+        this.material = new THREE.MeshLambertMaterial( {
+            opacity:0.5,
+            color: 0xcccccc,
+            transparent:false,
+            wireframe: false,
+            // side:THREE.DoubleSide,
+            emissive: 0x444444,
+            emissiveIntensity: 1
+        } );
+        this.material2= new THREE.MeshStandardMaterial( {
+            color: 0xcccccc,
+            wireframe: true,
+            side:THREE.DoubleSide,
+        } );
 
         this.mesh = undefined;
 
+        this.asix = new THREE.AxisHelper(100);
+
+        this.geometryBuilder = new PolygonGeometryBuilder();
         this.animate();
         this.resetScene();
     }
@@ -62,9 +78,13 @@ class View3D{
             this.scene.remove(this.scene.children[0]);
         }
         this.scene.add(this.spotLight);
+        this.scene.add(this.asix);
     };
 
-
+    /**
+     * @public
+     * @return {*}
+     */
     getContent(){
         return this.dom;
     };
@@ -72,14 +92,25 @@ class View3D{
     addGeometryToScene(geometry){
         this.mesh = new THREE.Mesh(geometry, this.material);
         this.scene.add(this.mesh);
+        let mesh = new THREE.Mesh(geometry, this.material2);
+        this.scene.add(mesh);
     };
 
 
+    /**
+     * @public
+     * @param elements
+     * @param groups
+     */
     setGeometry(elements, groups){
-        console.log(elements);
-        console.log(groups);
         this.resetScene();
 
+        let geomerties = this.geometryBuilder.getGeometries(elements, groups);
+
+        for(let geometry of geomerties){
+            this.addGeometryToScene(geometry);
+        }
+        
 
         //
         // var circles = [];
@@ -126,19 +157,19 @@ class View3D{
 
 
 
-        var geometry1 = new THREE.BoxGeometry(20, 20, 20);
-        var geometry3 = new THREE.Mesh(new THREE.BoxGeometry(10, 10, 10));
-        geometry3.position.set(6,3,0);
-
-        var geometry2 =new THREE.Mesh(new THREE.CylinderGeometry(3,10,10,100,1));
-        geometry2.position.set(10,0,10);
-
-
-        var result = new ThreeBSP(geometry1).subtract(new ThreeBSP(geometry2));
-        result = result.subtract(new ThreeBSP(geometry3));
-
-        var geometry = result.toGeometry();
-        this.addGeometryToScene(geometry);
+        // var geometry1 = new THREE.BoxGeometry(20, 20, 20);
+        // var geometry3 = new THREE.Mesh(new THREE.BoxGeometry(10, 10, 10));
+        // geometry3.position.set(6,3,0);
+        //
+        // var geometry2 =new THREE.Mesh(new THREE.CylinderGeometry(3,10,10,100,1));
+        // geometry2.position.set(10,0,10);
+        //
+        //
+        // var result = new ThreeBSP(geometry1).subtract(new ThreeBSP(geometry2));
+        // result = result.subtract(new ThreeBSP(geometry3));
+        //
+        // var geometry = result.toGeometry();
+        // this.addGeometryToScene(geometry);
     }
 };
 
