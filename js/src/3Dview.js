@@ -1,7 +1,7 @@
 var THREE = require("three-js")();
 var OrbitControls = require('three-orbit-controls')(THREE);
 var ThreeBSP = require('three-js-csg')(THREE);
-import {PolygonGeometryBuilder} from './3d/GeometryBuilder';
+import {PolygonMeshBuilder} from './3d/GeometryBuilder';
 
 /**
  * Created by dev on 03.12.18.
@@ -13,10 +13,10 @@ class View3D{
         this.scene = new THREE.Scene();
         this.scene.background = new THREE.Color(0x121212);
         this.camera = new THREE.PerspectiveCamera(45, size.width / size.height, 0.1, 10000);
-        this.moveCamera(-30,40,30);
+        this.moveCamera(0,400,300);
 
         this.renderer = new THREE.WebGLRenderer();
-        this.renderer.shadowMapEnabled = true;
+        this.renderer.shadowMap.enabled = true;
         this.dom = this.renderer.domElement;
         this.controls = new OrbitControls(this.camera, this.dom);
 
@@ -38,21 +38,16 @@ class View3D{
             color: 0xcccccc,
             transparent:false,
             wireframe: false,
-            // side:THREE.DoubleSide,
+            side:THREE.DoubleSide,
             emissive: 0x444444,
             emissiveIntensity: 1
-        } );
-        this.material2= new THREE.MeshStandardMaterial( {
-            color: 0xcccccc,
-            wireframe: true,
-            side:THREE.DoubleSide,
         } );
 
         this.mesh = undefined;
 
         this.asix = new THREE.AxisHelper(100);
 
-        this.geometryBuilder = new PolygonGeometryBuilder();
+        this.meshBuilder = new PolygonMeshBuilder(this.material);
         this.animate();
         this.resetScene();
     }
@@ -89,12 +84,6 @@ class View3D{
         return this.dom;
     };
 
-    addGeometryToScene(geometry){
-        this.mesh = new THREE.Mesh(geometry, this.material);
-        this.scene.add(this.mesh);
-        let mesh = new THREE.Mesh(geometry, this.material2);
-        this.scene.add(mesh);
-    };
 
 
     /**
@@ -103,12 +92,12 @@ class View3D{
      * @param groups
      */
     setGeometry(elements, groups){
+        groups = groups.filter(x=>x.E.reduce((res,e)=>res&elements[e].enable)); //filtering groups with disabled items
         this.resetScene();
+        let meshes = this.meshBuilder.getMeshes(elements, groups);
 
-        let geomerties = this.geometryBuilder.getGeometries(elements, groups);
-
-        for(let geometry of geomerties){
-            this.addGeometryToScene(geometry);
+        for(let mesh of meshes){
+            this.scene.add(mesh);
         }
         
 

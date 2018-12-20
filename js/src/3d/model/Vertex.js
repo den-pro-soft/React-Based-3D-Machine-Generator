@@ -16,7 +16,7 @@ class Vertex2{
      * @return {THREE.Vector3}
      */
     getThreeVertex(){
-        return new THREE.Vector3(this.x, this.y,1);
+        return new THREE.Vector3(this.x, this.y, 0);
     }
 
     /**
