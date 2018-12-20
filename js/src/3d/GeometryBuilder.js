@@ -1,7 +1,7 @@
 /**
  * Created by dev on 19.12.18.
  */
-import {Vertex2} from './model/Vertex';
+import {Vertex3} from './model/Vertex';
 import TriangulationAlgorithm from './algorithms/implementation/SimpleTriangulationAlgorithm';
 var THREE = require("three-js")();
 
@@ -116,58 +116,20 @@ class Polygon{
 
 
 }
-    
-    
+
 class PolygonGeometryBuilder{
-    constructor(){
-        this.triangulationAlgorithm = new TriangulationAlgorithm();
-    }
-
-    getGeometries(elements, groups){
-        let geometries = [];
-        for(let group of groups){
-            let polygon = new Polygon();
-            let height =0;
-
-            for(let elementIndex of group.E){
-                if(elements[elementIndex].type!='line') {
-                    console.warn("The geometry group has not line elements, the element will not include to result geometry!");
-                    continue;
-                }
-                if(elements[elementIndex]['Z'] && height<elements[elementIndex].Z){ //todo: the method of height calculating doesn't take account of inside blocks
-                    height=elements[elementIndex].Z;
-                }
-                polygon.addEdge(new Line(new Vertex2(elements[elementIndex].P[0].X,elements[elementIndex].P[0].Y),
-                    new Vertex2(elements[elementIndex].P[1].X,elements[elementIndex].P[1].Y)));
-
-            }
-            //todo: check cross edges of polygon
-            if(polygon.isClosed()){
-                //todo: calculate height for polygon (now it's max height of line)
-                if(height==0){
-                    console.warn("The polygon has zero height, we cant add it to 3D view!");
-                }else{
-                    let geometry = this._createThreeGeometry(polygon, height);
-                    geometries.push(geometry);
-                }
-            }else{
-                console.warn("The polygon isn't closed!");
-            }
-
-        }
-
-        return geometries;
+    constructor(triangulationAlgorithm){
+        this.triangulationAlgorithm = triangulationAlgorithm;
     }
 
     /**
-     * @param {Polygon} polygon
+     * @param {Array} of Vertex3
      * @param {int} height
      * @return {THREE.Geometry}
      * @private
      */
-    _createThreeGeometry(polygon, height){
+    createThreeGeometry(vertices, height){
         let geometry = new THREE.Geometry();
-        let vertices = polygon.getConsistentlyVertex();
 
         for(let vertex of vertices){
             geometry.vertices.push(vertex.getThreeVertex());
@@ -187,21 +149,77 @@ class PolygonGeometryBuilder{
         for(let triangle of triangles){
             geometry.faces.push(new THREE.Face3(...triangle.map((x)=>x+vertices.length).reverse()));
         }
-        
+
         for(let i=0; i<vertices.length; i++){
             let temp = (i+1)%vertices.length; //need for last edge
             geometry.faces.push(new THREE.Face3(temp, i, i+vertices.length));
             geometry.faces.push(new THREE.Face3(temp+vertices.length,temp,i+vertices.length));
         }
 
-        geometry.computeBoundingSphere();
-        geometry.normalize();
         geometry.computeVertexNormals();
-        geometry.computeFaceNormals();
         return geometry;
     }
 }
 
 
 
-export {PolygonGeometryBuilder};
+class PolygonMeshBuilder{
+    constructor(material){
+        this.material = material;
+        this.geometryBuilder = new PolygonGeometryBuilder(new TriangulationAlgorithm());
+    }
+
+    /**
+     * @param elements
+     * @param groups
+     * @return {Array}
+     */
+    getMeshes(elements, groups){
+        let meshes = [];
+        for(let group of groups){
+            let polygon = this._createPolygonByGroup(group, elements);
+            let height = group.E.reduce((max,i)=>(elements[i]['Z'] && elements[i].Z>max)?elements[i].Z:max); //todo: the method of height calculating doesn't take account of inside blocks
+
+            //todo: check cross edges of polygon
+            if(polygon.isClosed()){
+                //todo: calculate height for polygon (now it's max height of line)
+                if(height==0){
+                    console.warn("The polygon has zero height, we cant add it to 3D view!");
+                }else{
+                    let vertices = polygon.getConsistentlyVertex();
+                    let geometry = this.geometryBuilder.createThreeGeometry(vertices, height);
+                    let mesh = new THREE.Mesh(geometry, this.material);
+                    mesh.rotateX(-90* Math.PI/180);
+                    meshes.push(mesh);
+                }
+            }else{
+                console.warn("The polygon isn't closed!");
+            }
+        }
+        return meshes;
+    }
+
+    /**
+     * @param group
+     * @param elements
+     * @return {Polygon}
+     * @private
+     */
+    _createPolygonByGroup(group, elements){
+        let polygon = new Polygon();
+        for(let elementIndex of group.E){
+            if(elements[elementIndex].type!='line') {
+                console.warn("The geometry group has not line elements, the element will not include to result geometry!");
+                continue;
+            }
+            polygon.addEdge(new Line(new Vertex3(elements[elementIndex].P[0].X,elements[elementIndex].P[0].Y),
+                new Vertex3(elements[elementIndex].P[1].X,elements[elementIndex].P[1].Y)));
+        }
+        return polygon;
+    }
+
+}
+
+
+
+export {PolygonMeshBuilder};
