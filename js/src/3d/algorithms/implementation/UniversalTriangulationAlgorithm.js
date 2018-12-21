@@ -52,6 +52,10 @@ class DoubleList {
         if (node.data.compare(data)) {
             return node;
         }
+        if(node==this.tail){
+            return null;
+        }
+
         return this._getNodeByData(node.right, data);
     }
 
@@ -102,9 +106,9 @@ class DoubleList {
     _createNewList(list, from,to){
         list.addToEnd(from.data);
         if(from==to){
-            return;
+            return list;
         }
-        this._createNewList(list,from.left, to);
+        return this._createNewList(list,from.left, to);
     }
 
     getDataList(){
@@ -138,16 +142,19 @@ class Vertex {
 
 class Triangle {
     constructor(v1, v2, v3) {
-        this.v1 = new Line(v1,v2);
-        this.v2 = new Line(v2,v3);
-        this.v3 = new Line(v3,v1);
+        this.v1=v1;
+        this.v2=v2;
+        this.v3=v3;
+        this.l1 = new Line(v1,v2);
+        this.l2 = new Line(v2,v3);
+        this.l3 = new Line(v3,v1);
     }
 
     square(){
-        let a = this.v1.length();
-        let b = this.v2.length();
-        let c = this.v3.length();
-        let P = a+b+c;
+        let a = this.l1.length();
+        let b = this.l2.length();
+        let c = this.l3.length();
+        let P = (a+b+c)/2;
         return Math.sqrt(P*(P-a)*(P-b)*(P-c));
     }
 
@@ -162,7 +169,7 @@ class Triangle {
         sum+=new Triangle(this.v1, this.v2, vertex).square();
         sum+=new Triangle(this.v2, this.v3, vertex).square();
         sum+=new Triangle(this.v1, this.v3, vertex).square();
-        return sum<this.square()+1E-7;
+        return sum<this.square()+1E-4;
     }
 }
 export default class UniversalTriangulationAlgorithm extends TriangulationAlgorithm {
@@ -197,7 +204,8 @@ export default class UniversalTriangulationAlgorithm extends TriangulationAlgori
 
     _getTriangles(res,list) { //todo: the method modify the list argument, but it mustn't do it
         let vertices = list.getDataList().map(e=>e.vertex3);
-        let node = list.getNodeByData(this._getExtremeVertex(vertices));
+        let maxVertex = this._getExtremeVertex(vertices);
+        let node = list.getNodeByData(new Vertex(maxVertex, 0));
 
         if (list.size() === 3) {
             res.push([node.data.index, node.left.data.index, node.right.data.index]);
@@ -212,7 +220,7 @@ export default class UniversalTriangulationAlgorithm extends TriangulationAlgori
         //check so the triangle doesn't cross another vertices
         let containsList = [];
         for (let i = 0; i < vertices.length; i++) {
-            if (vertices[i] == v1 || vertices[i] == v2 || vertices[i] == v3) {
+            if (vertices[i].compare(v1) || vertices[i].compare(v2) || vertices[i].compare(v3)) {
                 continue;
             }
             if (triangle.contains(vertices[i])) {
@@ -232,6 +240,7 @@ export default class UniversalTriangulationAlgorithm extends TriangulationAlgori
             }
             let minNode = list.getNodeByData(new Vertex(minVertex, 0));
             let {sublist1, sublist2} = list.separateByNodes(node, minNode);
+            console.log(sublist1);
             this._getTriangles(res,sublist1);
             this._getTriangles(res,sublist2);
         } else {

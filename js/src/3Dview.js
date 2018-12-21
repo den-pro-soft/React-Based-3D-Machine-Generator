@@ -100,8 +100,8 @@ class View3D{
             this.scene.add(mesh);
 
             mesh = new THREE.Mesh(mesh.geometry,new THREE.MeshLambertMaterial( {
-                opacity:0.5,
-                color: 0xcccccc,
+                opacity:1,
+                color: 0xfff,
                 transparent:false,
                 wireframe: true,
                 side:THREE.DoubleSide,

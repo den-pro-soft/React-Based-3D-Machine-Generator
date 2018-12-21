@@ -179,8 +179,11 @@ class PolygonMeshBuilder{
             for (var i = 1; i < meshes.length; i++) {
                 res =res.union(new ThreeBSP(meshes[i]));
             }
-            return [new THREE.Mesh(res.toGeometry(),this.material)];
+            meshes = [new THREE.Mesh(res.toGeometry(),this.material)];
         }
+
+
+
         return meshes;
     }
 
