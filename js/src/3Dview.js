@@ -101,7 +101,7 @@ class View3D{
 
             mesh = new THREE.Mesh(mesh.geometry,new THREE.MeshLambertMaterial( {
                 opacity:1,
-                color: 0xfff,
+                color: 0x000000,
                 transparent:false,
                 wireframe: true,
                 side:THREE.DoubleSide,

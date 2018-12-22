@@ -226,21 +226,19 @@ export default class UniversalTriangulationAlgorithm extends TriangulationAlgori
             if (triangle.contains(vertices[i])) {
                 containsList.push(vertices[i]);
             }
-        }
-
+        };
         if (containsList.length > 0) {
             let minVertex = containsList[0];
-            let minLenght = new Line(node.data.vertex3, containsList[0]).length();
+            let minLenght = new Line(v3, containsList[0]).length();
             for(let i=1; i<containsList.length; i++){
-                let tempLength = new Line(node.data.vertex3, containsList[i]).length();
+                let tempLength = new Line(v1, containsList[i]).length();
                 if(tempLength<minLenght){
                     minLenght=tempLength;
-                    minLenght=containsList[i];
+                    minVertex=containsList[i];
                 }
             }
             let minNode = list.getNodeByData(new Vertex(minVertex, 0));
             let {sublist1, sublist2} = list.separateByNodes(node, minNode);
-            console.log(sublist1);
             this._getTriangles(res,sublist1);
             this._getTriangles(res,sublist2);
         } else {
@@ -266,7 +264,6 @@ export default class UniversalTriangulationAlgorithm extends TriangulationAlgori
         }
 
         let res = this._getTriangles([],list);
-        console.log(res);
         return res;
     }
 }
