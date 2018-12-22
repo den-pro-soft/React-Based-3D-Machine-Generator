@@ -1,37 +1,15 @@
 /**
  * Created by dev on 19.12.18.
  */
-import {Vertex3} from './model/Vertex';
-import TriangulationAlgorithm from './algorithms/implementation/SimpleTriangulationAlgorithm';
+
 var THREE = require("three-js")();
+var ThreeBSP = require('three-js-csg')(THREE);
+
+import {Vertex3} from './model/Vertex';
+import TriangulationAlgorithm from './algorithms/implementation/UniversalTriangulationAlgorithm';
+import Line from './model/Line';
 
 
-
-class Line{
-    constructor(v1,v2){
-        this.v1=v1;
-        this.v2=v2;
-    }
-
-    /**
-     * @param {Line} line
-     * @return {boolean}
-     */
-    isParalel(line){
-        return false;
-    }
-
-    /**
-     * @param {Line} line
-     * @return {boolean}
-     */
-    compare(line){
-        if(line instanceof Line){
-            return this.v1.compare(line.v1) && this.v2.compare(line.v2);
-        }
-        return false;
-    }
-}
 
 class Polygon{
     constructor(){
@@ -75,7 +53,7 @@ class Polygon{
                 this.consistentlyVertex=undefined;
                 return false;
             }
-            let edge = edges[0].compare(currentEdge)?edges[1]:edges[0];
+            let edge = (edges[0].compare(currentEdge) || edges[0].opposite(currentEdge))?edges[1]:edges[0];
             if(edge.v1.compare(currentEdge.v2)){
                 currentEdge=edge;
             }else{
@@ -189,13 +167,23 @@ class PolygonMeshBuilder{
                     let vertices = polygon.getConsistentlyVertex();
                     let geometry = this.geometryBuilder.createThreeGeometry(vertices, height);
                     let mesh = new THREE.Mesh(geometry, this.material);
-                    mesh.rotateX(-90* Math.PI/180);
                     meshes.push(mesh);
                 }
             }else{
                 console.warn("The polygon isn't closed!");
             }
         }
+
+        if(meshes.length>1) {
+            let res = new ThreeBSP(meshes[0]);
+            for (var i = 1; i < meshes.length; i++) {
+                res =res.union(new ThreeBSP(meshes[i]));
+            }
+            meshes = [new THREE.Mesh(res.toGeometry(),this.material)];
+        }
+
+
+
         return meshes;
     }
 

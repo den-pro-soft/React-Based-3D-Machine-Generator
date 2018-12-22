@@ -1,6 +1,5 @@
 var THREE = require("three-js")();
 var OrbitControls = require('three-orbit-controls')(THREE);
-var ThreeBSP = require('three-js-csg')(THREE);
 import {PolygonMeshBuilder} from './3d/GeometryBuilder';
 
 /**
@@ -97,6 +96,19 @@ class View3D{
         let meshes = this.meshBuilder.getMeshes(elements, groups);
 
         for(let mesh of meshes){
+            mesh.rotateX(-90* Math.PI/180);
+            this.scene.add(mesh);
+
+            mesh = new THREE.Mesh(mesh.geometry,new THREE.MeshLambertMaterial( {
+                opacity:1,
+                color: 0x000000,
+                transparent:false,
+                wireframe: true,
+                side:THREE.DoubleSide,
+                emissive: 0x444444,
+                emissiveIntensity: 1
+            }));
+            mesh.rotateX(-90* Math.PI/180);
             this.scene.add(mesh);
         }
         
