@@ -1,4 +1,5 @@
 var THREE = require("three-js")();
+var ThreeBSP = require('three-js-csg')(THREE);
 var OrbitControls = require('three-orbit-controls')(THREE);
 import {PolygonMeshBuilder} from './3d/GeometryBuilder';
 
@@ -66,7 +67,6 @@ class View3D{
         this.spotLight.position.set(this.camera.position.x * 10, this.camera.position.y * 10, this.camera.position.z * 10);
     }
 
-
     resetScene(){
         while(this.scene.children.length > 0){
             this.scene.remove(this.scene.children[0]);
@@ -82,8 +82,6 @@ class View3D{
     getContent(){
         return this.dom;
     };
-
-
 
     /**
      * @public
@@ -111,7 +109,26 @@ class View3D{
             mesh.rotateX(-90* Math.PI/180);
             this.scene.add(mesh);
         }
-        
+
+
+        // let mesh = this.meshBuilder.getMeshes(elements, groups);
+        //
+        //
+        // mesh.rotateX(-90* Math.PI/180);
+        // this.scene.add(mesh);
+        //
+        // mesh = new THREE.Mesh(mesh.geometry,new THREE.MeshLambertMaterial( {
+        //     opacity:1,
+        //     color: 0x000000,
+        //     transparent:false,
+        //     wireframe: true,
+        //     side:THREE.DoubleSide,
+        //     emissive: 0x444444,
+        //     emissiveIntensity: 1
+        // }));
+        // mesh.rotateX(-90* Math.PI/180);
+        // this.scene.add(mesh);
+
 
         //
         // var circles = [];
@@ -170,7 +187,15 @@ class View3D{
         // result = result.subtract(new ThreeBSP(geometry3));
         //
         // var geometry = result.toGeometry();
-        // this.addGeometryToScene(geometry);
+        // this.scene.add(new THREE.Mesh(geometry,new THREE.MeshLambertMaterial( {
+        //     opacity:1,
+        //     color: 0x000000,
+        //     transparent:false,
+        //     wireframe: true,
+        //     side:THREE.DoubleSide,
+        //     emissive: 0x444444,
+        //     emissiveIntensity: 1
+        // })));
     }
 };
 

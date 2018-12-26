@@ -15,3 +15,5 @@ export default class Exception{
         return this.message
     };
 }
+
+global.Exception = Exception;
