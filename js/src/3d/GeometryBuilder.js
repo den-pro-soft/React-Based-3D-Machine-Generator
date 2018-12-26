@@ -8,6 +8,7 @@ var ThreeBSP = require('three-js-csg')(THREE);
 import {Vertex3} from './model/Vertex';
 import TriangulationAlgorithm from './algorithms/implementation/UniversalTriangulationAlgorithm';
 import Line from './model/Line';
+import Exception from '../Exception';
 
 
 
@@ -75,6 +76,24 @@ class Polygon{
         return this.consistentlyVertex;
     }
 
+    /**
+     * @return {boolean}
+     */
+    hasLoop(){
+        let crosses = this._getCrossPoints();
+        return crosses.length > 0;
+    }
+
+    /**
+     * @return {Array}
+     */
+    getSimplePolygons(){
+        throw new Exception('The polygon shouldn\'t cross itself. ' +
+                            'The function of splitting into several polygons will be ' +
+                            'implemented in a next version.');
+        return [];
+    }
+
 
     /**
      * 
@@ -93,6 +112,29 @@ class Polygon{
     }
 
 
+    /**
+     * @return {Array}  {edge1, edge2, Vertex3}
+     * @private
+     */
+    _getCrossPoints(){
+        let crosses = [];
+
+        for(let i=0; i<this.edges.length; i++){
+            m: for(let j=0; j<this.edges.length; j++){
+                let crossPoint = this.edges[i].isCross(this.edges[j]);
+                if(crossPoint){
+                    for(let cross of crosses){ //if the cross in crosses array
+                        if((cross.edge1.compare(this.edges[i]) && cross.edge2.compare(this.edges[j])) ||
+                            (cross.edge1.compare(this.edges[j]) && cross.edge2.compare(this.edges[i]))){
+                            continue m;
+                        }
+                    }
+                    crosses.push({edge1:this.edges[i], edge2:this.edges[j], vertex:crossPoint});
+                }
+            }
+        }
+        return crosses;
+    }
 }
 
 class PolygonGeometryBuilder{
@@ -155,22 +197,23 @@ class PolygonMeshBuilder{
     getMeshes(elements, groups){
         let meshes = [];
         for(let group of groups){
-            let polygon = this._createPolygonByGroup(group, elements);
+            let polygons = this._createPolygonsByGroup(group, elements);
             let height = group.E.reduce((max,i)=>(elements[i]['Z'] && elements[i].Z>max)?elements[i].Z:max); //todo: the method of height calculating doesn't take account of inside blocks
 
-            //todo: check cross edges of polygon
-            if(polygon.isClosed()){
-                //todo: calculate height for polygon (now it's max height of line)
-                if(height==0){
-                    console.warn("The polygon has zero height, we cant add it to 3D view!");
-                }else{
-                    let vertices = polygon.getConsistentlyVertex();
-                    let geometry = this.geometryBuilder.createThreeGeometry(vertices, height);
-                    let mesh = new THREE.Mesh(geometry, this.material);
-                    meshes.push(mesh);
+            for(let polygon of polygons) {
+                if (polygon.isClosed()) {
+                    //todo: calculate height for polygon (now it's max height of line)
+                    if (height == 0) {
+                        throw new Exception("The polygon has zero height, we cant add it to 3D view!",polygon);
+                    } else {
+                        let vertices = polygon.getConsistentlyVertex();
+                        let geometry = this.geometryBuilder.createThreeGeometry(vertices, height);
+                        let mesh = new THREE.Mesh(geometry, this.material);
+                        meshes.push(mesh);
+                    }
+                } else {
+                    throw new Exception("The polygon isn't closed!",polygon);
                 }
-            }else{
-                console.warn("The polygon isn't closed!");
             }
         }
 
@@ -193,17 +236,20 @@ class PolygonMeshBuilder{
      * @return {Polygon}
      * @private
      */
-    _createPolygonByGroup(group, elements){
+    _createPolygonsByGroup(group, elements){
         let polygon = new Polygon();
         for(let elementIndex of group.E){
             if(elements[elementIndex].type!='line') {
-                console.warn("The geometry group has not line elements, the element will not include to result geometry!");
+                throw new Exception("The geometry group has not line elements, the element will not include to result geometry!");
                 continue;
             }
             polygon.addEdge(new Line(new Vertex3(elements[elementIndex].P[0].X,elements[elementIndex].P[0].Y),
                 new Vertex3(elements[elementIndex].P[1].X,elements[elementIndex].P[1].Y)));
         }
-        return polygon;
+        if(polygon.hasLoop()){
+            return polygon.getSimplePolygons();
+        }
+        return [polygon];
     }
 
 }

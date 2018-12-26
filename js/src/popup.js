@@ -11,7 +11,6 @@ class Popup{
         this.size = {width:0,height:0};
         this.position = {x:0,y:0};
         this.visible=false;
-        this.hide();
         if(parent){
             this.popupContainer.order(parseInt(parent.popup.style.zIndex)+50);
             this.popup.order(parseInt(parent.popup.style.zIndex)+100);
@@ -114,8 +113,8 @@ class Popup{
 }
 
 class DialogPopup extends Popup{
-    constructor(){
-        super();
+    constructor(parent){
+        super(parent);
 
         this.header = element('div',this.popup).background('rgb(93, 93, 93)');
         this.close = element('div',this.header).size(20,20).background("rgba(35, 35, 35, 0.0)")
@@ -197,7 +196,53 @@ class DraggablePopup extends DialogPopup{
     }
 }
 
+class MessagePopup extends DialogPopup{
+    constructor(parent, message){
+        super(parent);
+        let content = element('div',this.popup).text(message).position(150,15).fontStyle(null,null,'rgb(158, 69, 69)','center');
+        this.setSize(this._getTextWidth(message,"bold 12pt arial"),100);
+        this.addContent(content);
+    }
+
+    show(){
+        setTimeout(()=>{
+            this.hide();
+        },3000);
+        return super.show();
+    }
+
+    hide(){
+        super.hide();
+        this.popupContainer.remove();
+        return this;
+    }
+
+    addContent(content){
+        super.addContent(content);
+        content.style.top = '35px';
+        content.style.left = '15px';
+    }
+
+    /**
+     * Uses canvas.measureText to compute and return the width of the given text of given font in pixels.
+     *
+     * @param {String} text The text to be rendered.
+     * @param {String} font The css font descriptor that text is to be rendered with (e.g. "bold 14px verdana").
+     *
+     * @see https://stackoverflow.com/questions/118241/calculate-text-width-with-javascript/21015393#21015393
+     */
+    _getTextWidth(text, font) {
+        //todo: need re-use canvas object for better performance
+        var canvas = document.createElement("canvas");
+        var context = canvas.getContext("2d");
+        context.font = font;
+        var metrics = context.measureText(text);
+        return metrics.width;
+    }
+}
+
 global.Popup = Popup;
 global.DraggablePopup = DraggablePopup;
+global.MessagePopup = MessagePopup;
 
 export {Popup, DialogPopup, DraggablePopup};
