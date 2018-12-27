@@ -1,4 +1,4 @@
-var THREE = require("three-js")();
+import * as THREE from 'three';
 var OrbitControls = require('three-orbit-controls')(THREE);
 import {PolygonMeshBuilder} from './3d/GeometryBuilder';
 
@@ -98,7 +98,7 @@ class View3D{
         for(let mesh of meshes){
             mesh.rotateX(-90* Math.PI/180);
             this.scene.add(mesh);
-
+            let p = mesh.position;
             mesh = new THREE.Mesh(mesh.geometry,new THREE.MeshLambertMaterial( {
                 opacity:1,
                 color: 0x000000,
@@ -108,69 +108,10 @@ class View3D{
                 emissive: 0x444444,
                 emissiveIntensity: 1
             }));
+            mesh.position.set(p.x,p.y,p.z);
             mesh.rotateX(-90* Math.PI/180);
             this.scene.add(mesh);
         }
-        
-
-        //
-        // var circles = [];
-        // var polilynes = [];
-        //
-        // for(var i=0; i<gd2.length; i++){
-        //     if((gd2[i].type=="polyline" || gd2[i].type=="circle") && gd2[i].enable){
-        //         var shape = new THREE.Shape();
-        //         for(var j=0; j<gd2[i].P.length; j++){
-        //             if(j==0){
-        //                 shape.moveTo(gd2[i].P[j].X,gd2[i].P[j].Y);
-        //             }else{
-        //                 shape.lineTo(gd2[i].P[j].X,gd2[i].P[j].Y);
-        //             }
-        //         }
-        //         var extrudeSettings= {
-        //                 steps: 0,
-        //                 depth: 0,
-        //                 bevelEnabled: true,
-        //                 bevelThickness: gd2[i].type=="circle"?11:10,
-        //                 bevelSize: 0,
-        //                 bevelSegments: 1
-        //             };
-        //         var geometry = new THREE.ExtrudeGeometry( shape, extrudeSettings );
-        //         if(gd2[i].type=="circle"){
-        //             circles.push(geometry);
-        //         }else{
-        //             polilynes.push(geometry);
-        //         }
-        //     }
-        // }
-        //
-        // for(var i=0; i<polilynes.length; i++){
-        //     for(var j=0; j<circles.length; j++){
-        //         polilynes[i] = new ThreeBSP(polilynes[i]).subtract(new ThreeBSP(circles[j])).toGeometry();
-        //     }
-        // }
-        // for(var i=0; i<polilynes.length; i++){
-        //     this.addGeometryToScene(polilynes[i]);
-        // }
-        // for(var j=0; j<circles.length; j++){
-        //     this.addGeometryToScene(circles[j]);
-        // }
-
-
-
-        // var geometry1 = new THREE.BoxGeometry(20, 20, 20);
-        // var geometry3 = new THREE.Mesh(new THREE.BoxGeometry(10, 10, 10));
-        // geometry3.position.set(6,3,0);
-        //
-        // var geometry2 =new THREE.Mesh(new THREE.CylinderGeometry(3,10,10,100,1));
-        // geometry2.position.set(10,0,10);
-        //
-        //
-        // var result = new ThreeBSP(geometry1).subtract(new ThreeBSP(geometry2));
-        // result = result.subtract(new ThreeBSP(geometry3));
-        //
-        // var geometry = result.toGeometry();
-        // this.addGeometryToScene(geometry);
     }
 };
 

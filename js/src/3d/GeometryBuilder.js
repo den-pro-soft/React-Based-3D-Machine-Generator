@@ -2,11 +2,10 @@
  * Created by dev on 19.12.18.
  */
 
-var THREE = require("three-js")();
+import * as THREE from 'three';
 var ThreeBSP = require('three-js-csg')(THREE);
 
 import {Vertex3} from './model/Vertex';
-import TriangulationAlgorithm from './algorithms/implementation/UniversalTriangulationAlgorithm';
 import Line from './model/Line';
 import Exception from '../Exception';
 
@@ -138,9 +137,6 @@ class Polygon{
 }
 
 class PolygonGeometryBuilder{
-    constructor(triangulationAlgorithm){
-        this.triangulationAlgorithm = triangulationAlgorithm;
-    }
 
     /**
      * @param {Array} of Vertex3
@@ -149,32 +145,20 @@ class PolygonGeometryBuilder{
      * @private
      */
     createThreeGeometry(vertices, height){
-        let geometry = new THREE.Geometry();
-
-        for(let vertex of vertices){
-            geometry.vertices.push(vertex.getThreeVertex());
+        var shape = new THREE.Shape();
+        shape.moveTo( vertices[0].x, vertices[0].y );
+        for(let i=1; i<vertices.length; i++){
+            shape.lineTo(vertices[i].x, vertices[i].y );
         }
 
-        for(let vertex of vertices){
-            let t3 = vertex.getThreeVertex();
-            t3.z=height;
-            geometry.vertices.push(t3);
-        }
+        var extrudeSettings = {
+            steps: 1,
+            amount: height,
+            bevelEnabled: false
+        };
 
-        let triangles = this.triangulationAlgorithm.getTriangles(vertices);
-        for(let triangle of triangles){
-            geometry.faces.push(new THREE.Face3(...triangle));
-        }
+        var geometry = new THREE.ExtrudeGeometry( shape, extrudeSettings );
 
-        for(let triangle of triangles){
-            geometry.faces.push(new THREE.Face3(...triangle.map((x)=>x+vertices.length).reverse()));
-        }
-
-        for(let i=0; i<vertices.length; i++){
-            let temp = (i+1)%vertices.length; //need for last edge
-            geometry.faces.push(new THREE.Face3(temp, i, i+vertices.length));
-            geometry.faces.push(new THREE.Face3(temp+vertices.length,temp,i+vertices.length));
-        }
 
         geometry.computeVertexNormals();
         return geometry;
@@ -186,7 +170,7 @@ class PolygonGeometryBuilder{
 class PolygonMeshBuilder{
     constructor(material){
         this.material = material;
-        this.geometryBuilder = new PolygonGeometryBuilder(new TriangulationAlgorithm());
+        this.geometryBuilder = new PolygonGeometryBuilder();
     }
 
     /**

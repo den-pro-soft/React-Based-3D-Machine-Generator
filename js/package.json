@@ -11,7 +11,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "three-js": "^79.0.0",
+    "three": "git+https://github.com/mrdoob/three.js.git",
     "three-js-csg": "^72.0.0",
     "three-orbit-controls": "^82.1.0"
   },

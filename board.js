@@ -485,7 +485,7 @@ function create_board(){
 								view3D.setGeometry(E, G);
 								popup3DView.show();
 							}catch (e){
-								console.log(e.message);
+								throw e;
 								new MessagePopup(null,e.message).setTitle('Error').moveToCenter().show();
 							}
 						}
