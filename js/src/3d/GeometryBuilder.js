@@ -185,14 +185,13 @@ class PolygonMeshBuilder{
             let height = this._getHeightByGroup(group,elements);
             for(let polygon of polygons) {
                 if (polygon.isClosed()) {
-                    //todo: calculate height for polygon (now it's max height of line)
                     let vertices = polygon.getConsistentlyVertex();
                     if (height>0) {
                         let geometry = this.geometryBuilder.createThreeGeometry(vertices, height);
                         let mesh = new THREE.Mesh(geometry, this.material);
                         meshes.push(mesh);
                     }else {
-                        let geometry = this.geometryBuilder.createThreeGeometry(vertices, +height);
+                        let geometry = this.geometryBuilder.createThreeGeometry(vertices, Math.abs(height));
                         let mesh = new THREE.Mesh(geometry, this.material);
                         internalMeshes.push(mesh);
                     }
@@ -215,13 +214,13 @@ class PolygonMeshBuilder{
             }
         }
 
-        // if(resultMesh && internalMeshes.length>0){
-        //     let res = new ThreeBSP(resultMesh);
-        //     for (let internalMesh of internalMeshes) {
-        //         res = res.subtract(new ThreeBSP(internalMesh));
-        //     }
-        //     resultMesh = new THREE.Mesh(res.toGeometry(),this.material);
-        // }
+        if(resultMesh && internalMeshes.length>0){
+            let res = new ThreeBSP(resultMesh);
+            for (let internalMesh of internalMeshes) {
+                res = res.subtract(new ThreeBSP(internalMesh));
+            }
+            resultMesh = new THREE.Mesh(res.toGeometry(),this.material);
+        }
         return resultMesh;
     }
 
@@ -260,12 +259,21 @@ class PolygonMeshBuilder{
     _createPolygonsByGroup(group, elements){
         let polygon = new Polygon();
         for(let elementIndex of group.E){
-            if(elements[elementIndex].type!='line') {
-                throw new Exception("The geometry group has not line elements, the element will not include to result geometry!");
-                continue;
+            switch(elements[elementIndex].type){
+                case 'line':
+                    polygon.addEdge(new Line(new Vertex3(elements[elementIndex].P[0].X,elements[elementIndex].P[0].Y),
+                        new Vertex3(elements[elementIndex].P[1].X,elements[elementIndex].P[1].Y)));
+                    break;
+                case 'spline':
+                    for(let i=1; i<elements[elementIndex].P.length; i++){
+                        polygon.addEdge(new Line(new Vertex3(elements[elementIndex].P[i-1].X,elements[elementIndex].P[i-1].Y),
+                            new Vertex3(elements[elementIndex].P[i].X,elements[elementIndex].P[i].Y)));
+                    }
+                    break;
+                default:
+                    throw new Exception(`The geometry group has ${elements[elementIndex].type} elements, the element 
+                                            will not include to result geometry!`);
             }
-            polygon.addEdge(new Line(new Vertex3(elements[elementIndex].P[0].X,elements[elementIndex].P[0].Y),
-                new Vertex3(elements[elementIndex].P[1].X,elements[elementIndex].P[1].Y)));
         }
         if(polygon.hasLoop()){
             return polygon.getSimplePolygons();
