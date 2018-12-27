@@ -44,7 +44,7 @@ class View3D{
 
         this.mesh = undefined;
 
-        this.asix = new THREE.AxisHelper(100);
+        this.asix = new THREE.AxesHelper(100);
 
         this.meshBuilder = new PolygonMeshBuilder(this.material);
         this.animate();
@@ -66,7 +66,6 @@ class View3D{
         this.spotLight.position.set(this.camera.position.x * 10, this.camera.position.y * 10, this.camera.position.z * 10);
     }
 
-
     resetScene(){
         while(this.scene.children.length > 0){
             this.scene.remove(this.scene.children[0]);
@@ -83,8 +82,6 @@ class View3D{
         return this.dom;
     };
 
-
-
     /**
      * @public
      * @param elements
@@ -93,9 +90,8 @@ class View3D{
     setGeometry(elements, groups){
         groups = groups.filter(x=>x.E.reduce((res,e)=>res&elements[e].enable)); //filtering groups with disabled items
         this.resetScene();
-        let meshes = this.meshBuilder.getMeshes(elements, groups);
-
-        for(let mesh of meshes){
+        let mesh = this.meshBuilder.getMeshes(elements, groups);
+        if(mesh){
             mesh.rotateX(-90* Math.PI/180);
             this.scene.add(mesh);
             let p = mesh.position;

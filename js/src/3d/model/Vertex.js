@@ -2,7 +2,7 @@
  * Created by dev on 19.12.18.
  */
 
-var THREE = require("three-js")();
+import {Vector3} from 'three';
 
 
 class Vertex2{
@@ -16,7 +16,7 @@ class Vertex2{
      * @return {THREE.Vector3}
      */
     getThreeVertex(){
-        return new THREE.Vector3(this.x, this.y, 0);
+        return new Vector3(this.x, this.y, 0);
     }
 
     /**
@@ -42,7 +42,7 @@ class Vertex3 extends Vertex2{
      * @return {THREE.Vector3}
      */
     getThreeVertex(){
-        return new THREE.Vector3(this.x, this.y, this.z);
+        return new Vector3(this.x, this.y, this.z);
     }
 
     /**

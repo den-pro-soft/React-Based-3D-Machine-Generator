@@ -158,8 +158,6 @@ class PolygonGeometryBuilder{
         };
 
         var geometry = new THREE.ExtrudeGeometry( shape, extrudeSettings );
-
-
         geometry.computeVertexNormals();
         return geometry;
     }
@@ -176,24 +174,27 @@ class PolygonMeshBuilder{
     /**
      * @param elements
      * @param groups
-     * @return {Array}
+     * @return {THREE.Mesh}
      */
     getMeshes(elements, groups){
+        console.log(elements);
         let meshes = [];
+        let internalMeshes = [];
         for(let group of groups){
             let polygons = this._createPolygonsByGroup(group, elements);
-            let height = group.E.reduce((max,i)=>(elements[i]['Z'] && elements[i].Z>max)?elements[i].Z:max); //todo: the method of height calculating doesn't take account of inside blocks
-
+            let height = this._getHeightByGroup(group,elements);
             for(let polygon of polygons) {
                 if (polygon.isClosed()) {
                     //todo: calculate height for polygon (now it's max height of line)
-                    if (height == 0) {
-                        throw new Exception("The polygon has zero height, we cant add it to 3D view!",polygon);
-                    } else {
-                        let vertices = polygon.getConsistentlyVertex();
+                    let vertices = polygon.getConsistentlyVertex();
+                    if (height>0) {
                         let geometry = this.geometryBuilder.createThreeGeometry(vertices, height);
                         let mesh = new THREE.Mesh(geometry, this.material);
                         meshes.push(mesh);
+                    }else {
+                        let geometry = this.geometryBuilder.createThreeGeometry(vertices, +height);
+                        let mesh = new THREE.Mesh(geometry, this.material);
+                        internalMeshes.push(mesh);
                     }
                 } else {
                     throw new Exception("The polygon isn't closed!",polygon);
@@ -201,17 +202,53 @@ class PolygonMeshBuilder{
             }
         }
 
+        let resultMesh = null;
         if(meshes.length>1) {
             let res = new ThreeBSP(meshes[0]);
             for (var i = 1; i < meshes.length; i++) {
                 res =res.union(new ThreeBSP(meshes[i]));
             }
-            meshes = [new THREE.Mesh(res.toGeometry(),this.material)];
+            resultMesh = new THREE.Mesh(res.toGeometry(),this.material);
+        }else{
+            if(meshes.length==1) {
+                resultMesh = meshes[0];
+            }
         }
 
+        // if(resultMesh && internalMeshes.length>0){
+        //     let res = new ThreeBSP(resultMesh);
+        //     for (let internalMesh of internalMeshes) {
+        //         res = res.subtract(new ThreeBSP(internalMesh));
+        //     }
+        //     resultMesh = new THREE.Mesh(res.toGeometry(),this.material);
+        // }
+        return resultMesh;
+    }
 
+    _getHeightByGroup(group, elements){
+        let startZ = elements[group.E[0]].Z;
+        if(!startZ){
+            throw new Exception("Group doesn't have height!",group);
+        }
+        let min=startZ;
+        let max=startZ;
+        for(let i=1; i<group.E.length; i++){
+            let z = elements[group.E[i]].Z;
+            if(!z){
+                throw new Exception("Group elements doesn't have height!",{group, i});
+            }
+            if(z>max){
+                max=z;
+            }
+            if(z<min){
+                min=z;
+            }
+        }
 
-        return meshes;
+        if(min<0){
+            return min;
+        }
+        return max;
     }
 
     /**
