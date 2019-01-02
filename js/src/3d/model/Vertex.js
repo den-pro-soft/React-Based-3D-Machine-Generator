@@ -4,6 +4,7 @@
 
 import {Vector3} from 'three';
 
+const Eps = 1E-8;
 
 class Vertex2{
     constructor(x,y){
@@ -25,7 +26,8 @@ class Vertex2{
      */
     compare(vertex){
         if(vertex instanceof Vertex2) {
-            return this.x == vertex.x && this.y==vertex.y;
+            return this.x<vertex.x+Eps && this.x>vertex.x-Eps &&
+                this.y<vertex.y+Eps && this.y>vertex.y-Eps;
         }
         return false;
     }
@@ -34,7 +36,7 @@ class Vertex2{
 class Vertex3 extends Vertex2{
     constructor(x,y,z){
         super(x,y);
-        this.z=z;
+        this.z=z?z:0;
     }
 
     /**
@@ -51,7 +53,7 @@ class Vertex3 extends Vertex2{
      */
     compare(vertex){
         if(vertex instanceof Vertex3){
-            return super.compare(vertex) && this.z==vertex.z;
+            return super.compare(vertex) && this.z<vertex.z+Eps && this.z>vertex.z-Eps;
         }
         return false;
     }

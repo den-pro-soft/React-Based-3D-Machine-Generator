@@ -50,6 +50,9 @@ class Polygon{
             this.consistentlyVertex.push(currentEdge.v2);
             let edges = this._getEdgesContainsPoint(currentEdge.v2);
             if(edges.length!=2){ //closed polygon cannot have hanging edges or loops
+                console.log(currentEdge.v2);
+                console.log(edges);
+                console.log(this.consistentlyVertex);
                 this.consistentlyVertex=undefined;
                 return false;
             }
@@ -178,6 +181,7 @@ class PolygonMeshBuilder{
      */
     getMeshes(elements, groups){
         console.log(elements);
+        console.log(groups);
         let meshes = [];
         let internalMeshes = [];
         for(let group of groups){
@@ -201,22 +205,32 @@ class PolygonMeshBuilder{
             }
         }
 
+        return this._groupMeshes(meshes,internalMeshes);
+    }
+
+    /**
+     * @param {Array} addMeshList
+     * @param {Array} intersectMeshList
+     * @return {Mesh|null}
+     * @private
+     */
+    _groupMeshes(addMeshList,intersectMeshList){
         let resultMesh = null;
-        if(meshes.length>1) {
-            let res = new ThreeBSP(meshes[0]);
-            for (var i = 1; i < meshes.length; i++) {
-                res =res.union(new ThreeBSP(meshes[i]));
+        if(addMeshList.length>1) {
+            let res = new ThreeBSP(addMeshList[0]);
+            for (var i = 1; i < addMeshList.length; i++) {
+                res =res.union(new ThreeBSP(addMeshList[i]));
             }
             resultMesh = new THREE.Mesh(res.toGeometry(),this.material);
         }else{
-            if(meshes.length==1) {
-                resultMesh = meshes[0];
+            if(addMeshList.length==1) {
+                resultMesh = addMeshList[0];
             }
         }
 
-        if(resultMesh && internalMeshes.length>0){
+        if(resultMesh && intersectMeshList.length>0){
             let res = new ThreeBSP(resultMesh);
-            for (let internalMesh of internalMeshes) {
+            for (let internalMesh of intersectMeshList) {
                 res = res.subtract(new ThreeBSP(internalMesh));
             }
             resultMesh = new THREE.Mesh(res.toGeometry(),this.material);
@@ -253,7 +267,7 @@ class PolygonMeshBuilder{
     /**
      * @param group
      * @param elements
-     * @return {Polygon}
+     * @return {Array} of {Polygon}
      * @private
      */
     _createPolygonsByGroup(group, elements){
@@ -261,10 +275,8 @@ class PolygonMeshBuilder{
         for(let elementIndex of group.E){
             switch(elements[elementIndex].type){
                 case 'line':
-                    polygon.addEdge(new Line(new Vertex3(elements[elementIndex].P[0].X,elements[elementIndex].P[0].Y),
-                        new Vertex3(elements[elementIndex].P[1].X,elements[elementIndex].P[1].Y)));
-                    break;
                 case 'spline':
+                case 'circle':
                     for(let i=1; i<elements[elementIndex].P.length; i++){
                         polygon.addEdge(new Line(new Vertex3(elements[elementIndex].P[i-1].X,elements[elementIndex].P[i-1].Y),
                             new Vertex3(elements[elementIndex].P[i].X,elements[elementIndex].P[i].Y)));
