@@ -50,9 +50,9 @@ class Polygon{
             this.consistentlyVertex.push(currentEdge.v2);
             let edges = this._getEdgesContainsPoint(currentEdge.v2);
             if(edges.length!=2){ //closed polygon cannot have hanging edges or loops
-                console.log(currentEdge.v2);
-                console.log(edges);
-                console.log(this.consistentlyVertex);
+                // console.log(currentEdge.v2);
+                // console.log(edges);
+                // console.log(this.consistentlyVertex);
                 this.consistentlyVertex=undefined;
                 return false;
             }
@@ -180,8 +180,6 @@ class PolygonMeshBuilder{
      * @return {THREE.Mesh}
      */
     getMeshes(elements, groups){
-        console.log(elements);
-        console.log(groups);
         let meshes = [];
         let internalMeshes = [];
         for(let group of groups){
@@ -190,13 +188,11 @@ class PolygonMeshBuilder{
             for(let polygon of polygons) {
                 if (polygon.isClosed()) {
                     let vertices = polygon.getConsistentlyVertex();
+                    let geometry = this.geometryBuilder.createThreeGeometry(vertices, Math.abs(height));
+                    let mesh = new THREE.Mesh(geometry, this.material);
                     if (height>0) {
-                        let geometry = this.geometryBuilder.createThreeGeometry(vertices, height);
-                        let mesh = new THREE.Mesh(geometry, this.material);
                         meshes.push(mesh);
                     }else {
-                        let geometry = this.geometryBuilder.createThreeGeometry(vertices, Math.abs(height));
-                        let mesh = new THREE.Mesh(geometry, this.material);
                         internalMeshes.push(mesh);
                     }
                 } else {
@@ -205,7 +201,51 @@ class PolygonMeshBuilder{
             }
         }
 
+        let circles = this._getCirclesWithoutGroup(groups, elements);
+        for(let circle of circles){
+            if(!circle.Z){
+                throw new Exception("Circle doesn't have height!",circle);
+            }
+            let vertices = [];
+
+            for(let point of circle.P){
+                vertices.push(new Vertex3(point.X,point.Y,0));
+            }
+
+            let geometry = this.geometryBuilder.createThreeGeometry(vertices, Math.abs(circle.Z));
+            let mesh = new THREE.Mesh(geometry, this.material);
+            if (circle.Z>0) {
+                meshes.push(mesh);
+            }else {
+                internalMeshes.push(mesh);
+            }
+        }
+
+
         return this._groupMeshes(meshes,internalMeshes);
+    }
+
+    /**
+     * @param {Array} groups
+     * @param {Array} elements
+     * @return {Array} elements
+     * @private
+     */
+    _getCirclesWithoutGroup(groups, elements){
+        let el = [];
+        e: for(let i=0; i<elements.length; i++){
+            if(elements[i].type=='circle') {
+                for (let group of groups) {
+                    for (let ind of group.E) {
+                        if (ind == i) {
+                            continue e;
+                        }
+                    }
+                }
+                el.push(elements[i]);
+            }
+        }
+        return el;
     }
 
     /**

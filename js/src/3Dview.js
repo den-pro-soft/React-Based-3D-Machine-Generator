@@ -120,7 +120,7 @@ class View3D{
             }));
             mesh.position.set(p.x,p.y,p.z);
             mesh.rotateX(-90* Math.PI/180);
-            this.scene.add(mesh);
+            // this.scene.add(mesh);
         }
     }
 };
