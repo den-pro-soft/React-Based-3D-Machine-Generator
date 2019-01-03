@@ -234,7 +234,7 @@ class PolygonMeshBuilder{
     _getCirclesWithoutGroup(groups, elements){
         let el = [];
         e: for(let i=0; i<elements.length; i++){
-            if(elements[i].type=='circle') {
+            if(elements[i].enable && elements[i].type=='circle') {
                 for (let group of groups) {
                     for (let ind of group.E) {
                         if (ind == i) {
