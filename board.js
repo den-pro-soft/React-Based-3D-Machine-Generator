@@ -2799,8 +2799,9 @@ function create_board(){
 							input_Height.value = Math.round((extremums.max.Y - extremums.min.Y) * 1000) / 1000 + " \'\'";
 							
 							input_Z.value = "0.76 \'\'";
-							if (Zvalue) input_Z.value = Zvalue + " \'\'";
-							
+							if (Zvalue ) input_Z.value = Zvalue + " \'\'";
+							if (Zvalue == -1E8) input_Z.value ="Air inside";
+
 							if (calculate_only) return(extremums)
 
 						extremums.min.X -= 12 / scale;
