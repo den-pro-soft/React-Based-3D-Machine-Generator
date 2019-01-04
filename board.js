@@ -199,25 +199,25 @@ function create_board(){
                     .addMenuItem(new MenuItem("Preferences"))
                     .setItemSize(itemSize.width,itemSize.height)
                     .setItemStyle(itemStyle))
-				.addMenu(new Menu("View")
-                    .addMenuItem(new Menu("Zoom")
-                        .addMenuItem(new MenuItem("To Fit Screen").setExecutor(zoomToFitScreen))
-                        .addMenuItem(new MenuItem("Actual Size").setExecutor(zoomToActualSize))
-                        // .addMenuItem(new MenuItem("To Selection"))
-                        // .addMenuItem(new MenuItem("To Region"))
-                        // .addMenuItem(new MenuItem("Out"))
-                        // .addMenuItem(new MenuItem("In"))
-                        .setItemSize(itemSize.width,itemSize.height)
-                        .setItemStyle(itemStyle))
-                    // .addMenuItem(new MenuItem("3D"))
-                    // .addMenuItem(new MenuItem("Top"))
-                    // .addMenuItem(new MenuItem("Bottom"))
-                    // .addMenuItem(new MenuItem("Front"))
-                    // .addMenuItem(new MenuItem("Back"))
-                    // .addMenuItem(new MenuItem("Left"))
-                    // .addMenuItem(new MenuItem("Right"))
-                    .setItemSize(itemSize.width,itemSize.height)
-                    .setItemStyle(itemStyle))
+				// .addMenu(new Menu("View")
+                 //    .addMenuItem(new Menu("Zoom")
+                 //        .addMenuItem(new MenuItem("To Fit Screen").setExecutor(zoomToFitScreen))
+                 //        .addMenuItem(new MenuItem("Actual Size").setExecutor(zoomToActualSize))
+                 //        .addMenuItem(new MenuItem("To Selection"))
+                 //        .addMenuItem(new MenuItem("To Region"))
+                 //        .addMenuItem(new MenuItem("Out"))
+                 //        .addMenuItem(new MenuItem("In"))
+                 //        .setItemSize(itemSize.width,itemSize.height)
+                 //        .setItemStyle(itemStyle))
+                 //    .addMenuItem(new MenuItem("3D"))
+                 //    .addMenuItem(new MenuItem("Top"))
+                 //    .addMenuItem(new MenuItem("Bottom"))
+                 //    .addMenuItem(new MenuItem("Front"))
+                 //    .addMenuItem(new MenuItem("Back"))
+                 //    .addMenuItem(new MenuItem("Left"))
+                 //    .addMenuItem(new MenuItem("Right"))
+                 //    .setItemSize(itemSize.width,itemSize.height)
+                 //    .setItemStyle(itemStyle))
 				.addMenu(new Menu("Line")
                     .addMenuItem(new MenuItem("Group").setExecutor(groupSelected))
                     .addMenuItem(new MenuItem("Ungroup").setExecutor(ungroupSelected))
@@ -368,7 +368,7 @@ function create_board(){
 						line1.size(width - 25);
 						line2.size(width - 25);
 					
-					O = {x: (canvas.width - 0) / 2 , y: (canvas.height - 0) / 2, X:canvas.width / 2, Y: canvas.height / 2};
+					O = {x: 20 , y: canvas.height-20 , X:0, Y: canvas.height};
 					setBound();
 					refresh_All();
 					redraw();
@@ -1891,8 +1891,8 @@ function create_board(){
 													O.X = (maxX + minX) / 2;
 													O.Y = (maxY + minY) / 2;
 
-													O.x = canvas.width / 2 - O.X * scale;
-													O.y = (canvas.height - 20) / 2 - O.Y * scale;
+													O.x = 0 - O.X * scale;
+													O.y = 10 / 2 - O.Y * scale;
 													
 											} else {
 												
@@ -4284,8 +4284,8 @@ function create_board(){
 
 								if (!extremums){
 									scale = 1;
-									O.x = canvas.width / 2;
-									O.y = (canvas.height - 20) / 2;
+									O.x = 20;
+									O.y = (canvas.height - 20);
 									refresh_All();
 									redraw();
 									return
@@ -4316,8 +4316,8 @@ function create_board(){
 
 								if (!extremums){
 									scale = 3.6;
-									O.x = canvas.width / 2;
-									O.y = (canvas.height - 20) / 2;
+									O.x = 20;
+									O.y = (canvas.height - 20);
 									refresh_All();
 									redraw();
 									return
