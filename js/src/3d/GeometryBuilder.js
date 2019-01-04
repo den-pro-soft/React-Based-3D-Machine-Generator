@@ -73,7 +73,7 @@ class Polygon{
      */
     getConsistentlyVertex(){
         if(!this.isClosed()){
-            throw new Exception("The polygon isn't closed");
+            throw new Exception("The polygon should be closed. Please finish the closed polygon creating.");
         }
         return this.consistentlyVertex;
     }
@@ -90,9 +90,7 @@ class Polygon{
      * @return {Array}
      */
     getSimplePolygons(){
-        throw new Exception('The polygon shouldn\'t cross itself. ' +
-                            'The function of splitting into several polygons will be ' +
-                            'implemented in a next version.');
+        throw new Exception('The polygon shouldn\'t cross itself. The function of splitting into several polygons will be implemented in the next version.');
         return [];
     }
 
@@ -196,7 +194,7 @@ class PolygonMeshBuilder{
                         internalMeshes.push(mesh);
                     }
                 } else {
-                    throw new Exception("The polygon isn't closed!",polygon);
+                    throw new Exception("The polygon should be closed. Please finish the closed polygon creating",polygon);
                 }
             }
         }
@@ -204,7 +202,7 @@ class PolygonMeshBuilder{
         let circles = this._getCirclesWithoutGroup(groups, elements);
         for(let circle of circles){
             if(!circle.Z){
-                throw new Exception("Circle doesn't have height!",circle);
+                throw new Exception("Please fill the  Z value for  the Circle 3D displaying!",circle);
             }
             let vertices = [];
 
@@ -281,14 +279,14 @@ class PolygonMeshBuilder{
     _getHeightByGroup(group, elements){
         let startZ = elements[group.E[0]].Z;
         if(!startZ){
-            throw new Exception("Group doesn't have height!",group);
+            throw new Exception("Please fill the  Z value for the Group 3D displaying!",group);
         }
         let min=startZ;
         let max=startZ;
         for(let i=1; i<group.E.length; i++){
             let z = elements[group.E[i]].Z;
             if(!z){
-                throw new Exception("Group elements doesn't have height!",{group, i});
+                throw new Exception("Please fill the  Z value for the Group Element  3D displaying!",{group, i});
             }
             if(z>max){
                 max=z;
@@ -323,8 +321,7 @@ class PolygonMeshBuilder{
                     }
                     break;
                 default:
-                    throw new Exception(`The geometry group has ${elements[elementIndex].type} elements, the element 
-                                            will not include to result geometry!`);
+                    throw new Exception(`This MVP 3D version is working only with line, spline and circle!`);
             }
         }
         if(polygon.hasLoop()){

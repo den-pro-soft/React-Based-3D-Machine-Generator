@@ -244,7 +244,7 @@ export default class UniversalTriangulationAlgorithm extends TriangulationAlgori
         } else {
             res.push([node.data.index, node.left.data.index, node.right.data.index]);
             if(!list.removeNodeByData(node.data)){
-                throw new Exception("cand delete node form list: "+JSON.stringify(node));
+                throw new Exception("Can't delete node form list: "+JSON.stringify(node));
             }
             this._getTriangles(res,list);
         }

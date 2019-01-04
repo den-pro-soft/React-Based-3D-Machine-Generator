@@ -197,17 +197,20 @@ class DraggablePopup extends DialogPopup{
 }
 
 class MessagePopup extends DialogPopup{
-    constructor(parent, message){
+    constructor(parent, message, timeout){
         super(parent);
+        this.timeout = timeout;
         let content = element('div',this.popup).text(message).position(150,15).fontStyle(null,null,'rgb(158, 69, 69)','center');
         this.setSize(this._getTextWidth(message,"bold 12pt arial"),100);
         this.addContent(content);
     }
 
     show(){
-        setTimeout(()=>{
-            this.hide();
-        },3000);
+        if(this.timeout) {
+            setTimeout(()=> {
+                this.hide();
+            }, this.timeout);
+        }
         return super.show();
     }
 
