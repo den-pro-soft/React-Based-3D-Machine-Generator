@@ -628,11 +628,15 @@ function create_board(){
 
 
 						var select_Z = select("images/Z.png", transform_panel).position(560, 3);
-							select_Z.add_option(["Air inside", "Revolve", "0.051 \'\'", "0.76 \'\'", "0.127 \'\'", "0.254 \'\'", "0.508 \'\'"," 0.794 \'\'"
+							select_Z.add_option(["Air inside",  "0.051 \'\'", "0.76 \'\'", "0.127 \'\'", "0.254 \'\'", "0.508 \'\'"," 0.794 \'\'"
 								, "1.143 \'\'", "1.588 \'\'", "2.362 \'\'", "3.175 \'\'", "4.750 \'\'", "6.350 \'\'", "9.525 \'\'", "12.700 \'\'", "19.050 \'\'", "25.400 \'\'", "31.750 \'\'", "38.100 \'\'", "50.800 \'\'", "63.500 \'\'", "76.200 \'\'", "Other"]);
-							select_Z.onchange = function(){
+							select_Z.onclick = function(){
 								input_Z.value = select_Z.value;
-								for (var n = 1; n < E.length; n++) if (E[n].enable) if (E[n].selected) E[n].Z = parseFloat(input_Z.value);
+								var Z = input_Z.value;
+								if(Z=="Air inside"){
+									Z=-1E8;
+								}
+								for (var n = 1; n < E.length; n++) if (E[n].enable) if (E[n].selected) E[n].Z = parseFloat(Z);
 							}
 
 

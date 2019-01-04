@@ -73,7 +73,7 @@ class Polygon{
      */
     getConsistentlyVertex(){
         if(!this.isClosed()){
-            throw new Exception("The polygon should be closed. Please finish the closed polygon creating.");
+            throw new Exception("Please close open shapes.");
         }
         return this.consistentlyVertex;
     }
@@ -90,7 +90,7 @@ class Polygon{
      * @return {Array}
      */
     getSimplePolygons(){
-        throw new Exception('The polygon shouldn\'t cross itself. The function of splitting into several polygons will be implemented in the next version.');
+        throw new Exception('Lines must not intersect. Consider using the eraser tool to remove appropriate line segments.');
         return [];
     }
 
@@ -140,10 +140,9 @@ class Polygon{
 class PolygonGeometryBuilder{
 
     /**
-     * @param {Array} of Vertex3
+     * @param {Array} vertices of Vertex3
      * @param {int} height
      * @return {THREE.Geometry}
-     * @private
      */
     createThreeGeometry(vertices, height){
         var shape = new THREE.Shape();
@@ -194,7 +193,7 @@ class PolygonMeshBuilder{
                         internalMeshes.push(mesh);
                     }
                 } else {
-                    throw new Exception("The polygon should be closed. Please finish the closed polygon creating",polygon);
+                    throw new Exception("Please close open shapes.",polygon);
                 }
             }
         }
@@ -202,7 +201,7 @@ class PolygonMeshBuilder{
         let circles = this._getCirclesWithoutGroup(groups, elements);
         for(let circle of circles){
             if(!circle.Z){
-                throw new Exception("Please fill the  Z value for  the Circle 3D displaying!",circle);
+                circle.Z=0.76;
             }
             let vertices = [];
 
