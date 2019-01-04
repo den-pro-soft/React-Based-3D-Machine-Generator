@@ -598,7 +598,7 @@ function create_board(){
 
 									//if (input_Width.value.indexOf(".") > 0) return
 									var value = Math.abs(parseFloat(input_Width.value));
-									input_Width.value = value + " mm";
+									input_Width.value = value + " \'\'";
 
 									resizeSelected(value, 0);
 
@@ -617,7 +617,7 @@ function create_board(){
 
 									//if (input_Width.value.indexOf(".") > 0) return
 									var value = Math.abs(parseFloat(input_Height.value));
-									input_Height.value = value + " mm";
+									input_Height.value = value + " \'\'";
 
 									resizeSelected(0, value);
 
@@ -628,7 +628,8 @@ function create_board(){
 
 
 						var select_Z = select("images/Z.png", transform_panel).position(560, 3);
-							select_Z.add_option(["Air inside", "Revolve", "0.051 mm", "0.76 mm", "0.127 mm", "0.254 mm", "0.508 mm"," 0.794 mm", "1.143 mm", "1.588 mm", "2.362 mm", "3.175 mm", "4.750 mm", "6.350 mm", "9.525 mm", "12.700 mm", "19.050 mm", "25.400 mm", "31.750 mm", "38.100 mm", "50.800 mm", "63.500 mm", "76.200 mm", "Other"]);
+							select_Z.add_option(["Air inside", "Revolve", "0.051 \'\'", "0.76 \'\'", "0.127 \'\'", "0.254 \'\'", "0.508 \'\'"," 0.794 \'\'"
+								, "1.143 \'\'", "1.588 \'\'", "2.362 \'\'", "3.175 \'\'", "4.750 \'\'", "6.350 \'\'", "9.525 \'\'", "12.700 \'\'", "19.050 \'\'", "25.400 \'\'", "31.750 \'\'", "38.100 \'\'", "50.800 \'\'", "63.500 \'\'", "76.200 \'\'", "Other"]);
 							select_Z.onchange = function(){
 								input_Z.value = select_Z.value;
 								for (var n = 1; n < E.length; n++) if (E[n].enable) if (E[n].selected) E[n].Z = parseFloat(input_Z.value);
@@ -678,7 +679,7 @@ function create_board(){
 								if (input_Length.value.indexOf(".") == input_Length.value.length-1) return
 								input_Length.value = Math.abs(parseFloat(input_Length.value));
 							}
-							input_Length.value = "10 mm";
+							input_Length.value = "10 \'\'";
 
 
 						var button_UnClock = element('img', transform_panel).position(990, 3).size(22, 22).imagename("images/Unclock.png").cursor("pointer");
@@ -779,7 +780,7 @@ function create_board(){
 						picture.src = "images/Round.png";
 						
 					var inputSize = input(null, cornerBox).setsize(112, 18).position(45, 290).border("1px solid #555");
-						inputSize.value = "10.000 mm";
+						inputSize.value = "10.000 \'\'";
 
 					var applyBut = element('div', cornerBox).size(120, 35).position(45, 330).background("rgba(35, 35, 35, 0.75)").fontStyle(16, "Ubuntu", "#fff", "center").text("Apply", "center", true).cursor("pointer").transition(0.4);
 						applyBut.onmousedown = function(){
@@ -917,13 +918,13 @@ function create_board(){
 																						//edge_pic.src = "images/StraightLine.png";
 
 																					var inputSize = input(null, auto_Pan).setsize(100, 18).position(300, 75).border("1px solid #555");
-																						inputSize.value = "10.000 mm";
+																						inputSize.value = "10.000 \'\'";
 
 																					var inputAngle = input(null, auto_Pan).setsize(100, 18).position(300, 109).border("1px solid #555");
 																						inputAngle.value = "10.000 deg";
 
 																					var inputRadius = input(null, auto_Pan).setsize(100, 18).position(300, 75).border("1px solid #555");
-																						inputRadius.value = "10.000 mm";
+																						inputRadius.value = "10.000 \'\'";
 
 
 
@@ -1082,7 +1083,7 @@ function create_board(){
 							canvas.addEventListener('mousemove', function(e){
 
 									over = getOverMouse(e);
-									infoline.material.text('x: ' + Math.round(over.X * 1000) / 1000 + ' mm,      y: ' + Math.round(over.Y * 1000) / 1000 + ' mm');
+									infoline.material.text('x: ' + Math.round(over.X * 1000) / 1000 + ' \'\',      y: ' + Math.round(over.Y * 1000) / 1000 + ' \'\'');
 
 
 												//******************************* moving scene ********************************
@@ -2790,11 +2791,11 @@ function create_board(){
 						extremums.max.x = O.x + extremums.max.X * scale + 12;
 						extremums.min.y = canvas.height - (O.y + extremums.max.Y * scale) - 12;
 						
-							input_Width.value = Math.round((extremums.max.X - extremums.min.X) * 1000) / 1000 + " mm";
-							input_Height.value = Math.round((extremums.max.Y - extremums.min.Y) * 1000) / 1000 + " mm";
+							input_Width.value = Math.round((extremums.max.X - extremums.min.X) * 1000) / 1000 + " \'\'";
+							input_Height.value = Math.round((extremums.max.Y - extremums.min.Y) * 1000) / 1000 + " \'\'";
 							
-							input_Z.value = " ";
-							if (Zvalue) input_Z.value = Zvalue + " mm";
+							input_Z.value = "0.76 \'\'";
+							if (Zvalue) input_Z.value = Zvalue + " \'\'";
 							
 							if (calculate_only) return(extremums)
 

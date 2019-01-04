@@ -279,14 +279,16 @@ class PolygonMeshBuilder{
     _getHeightByGroup(group, elements){
         let startZ = elements[group.E[0]].Z;
         if(!startZ){
-            throw new Exception("Please fill the  Z value for the Group 3D displaying!",group);
+            startZ=0.76;
+            // throw new Exception("Please fill the  Z value for the Group 3D displaying!",group);
         }
         let min=startZ;
         let max=startZ;
         for(let i=1; i<group.E.length; i++){
             let z = elements[group.E[i]].Z;
             if(!z){
-                throw new Exception("Please fill the  Z value for the Group Element  3D displaying!",{group, i});
+                z=0.76;
+                // throw new Exception("Please fill the  Z value for the Group Element  3D displaying!",{group, i});
             }
             if(z>max){
                 max=z;
