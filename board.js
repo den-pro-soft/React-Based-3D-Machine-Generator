@@ -369,10 +369,10 @@ function create_board(){
 						line2.size(width - 25);
 					
 					O = {x: 20 , y: canvas.height-20 , X:0, Y: canvas.height};
-					setBound();
-					refresh_All();
-					redraw();
-					
+					// setBound();
+					// refresh_All();
+					// redraw();
+				newBoard.setSize(width, height);
 				return board;
 			}
 
@@ -1000,6 +1000,7 @@ function create_board(){
 			canvas = document.createElement('canvas');
 			canvas.style.background = '#fff';
 			board.appendChild(canvas);
+			var newBoard  = new Board2(canvas);
 			context = canvas.getContext('2d');
 			
 			//**************************************************************************
@@ -1084,917 +1085,917 @@ function create_board(){
 
 
 							//############################################## Mouse move ################################################
-							canvas.addEventListener('mousemove', function(e){
-
-									over = getOverMouse(e);
-									infoline.material.text('x: ' + Math.round(over.X * 1000) / 1000 + ' \'\',      y: ' + Math.round(over.Y * 1000) / 1000 + ' \'\'');
-
-
-												//******************************* moving scene ********************************
-												if (button[1])
-												if (edit_mode == 'move_scene'){
-													O.x = fixed.Ox + over.dx;
-													O.y = fixed.Oy + over.dy;
-
-													O.X = O.x / scale;
-													O.Y = O.y / scale;
-
-														setBound();	
-														refresh_All();
-														redraw();
-														return
-												}
-
-
-												//****************************** draw freehand line ***************************
-												if (button[1])
-												if (edit_mode == "Freehand"){
-													E[E.length-1].CP.push({X: over.X, Y: over.Y});
-													recalculateCurve(E[E.length-1]);
-												}
-
-
-												//****************************** moving center point **************************
-												if (button[1])
-												if (edit_mode == 'Line Edit')
-												if (fixed.Element && fixed.Point == 5){
-														E[fixed.Element].CP[5].X = E[fixed.Element].CP[5].XF + over.DX;
-														E[fixed.Element].CP[5].Y = E[fixed.Element].CP[5].YF + over.DY;
-														E[fixed.Element].CP[5].unique = true;
-
-															checkCross(fixed.Element, 5);
-															recalculateCurve(E[fixed.Element]);
-															setBound();
-															refresh_All();
-															redraw();
-															return
-												}
-
-
-												//****************************** moving points ********************************
-												if (button[1])
-												if (edit_mode == 'Line Edit')
-												if (fixed.Element && fixed.Point){
-
-															E[fixed.Element].CP[fixed.Point].X = E[fixed.Element].CP[fixed.Point].XF + over.DX;
-															E[fixed.Element].CP[fixed.Point].Y = E[fixed.Element].CP[fixed.Point].YF + over.DY;
-															
-															//console.log(E[fixed.Element].CP[fixed.Point]);
-															
-														
-														for (var n = 1; n < E.length; n++) if (E[n].enable) if (E[n].selected) if (n != fixed.Element)
-														for (var i = 1; i < E[n].CP.length; i++) if (i != fixed.Point)
-														if (E[fixed.Element].CP[fixed.Point].XF == E[n].CP[i].XF)
-														if (E[fixed.Element].CP[fixed.Point].YF == E[n].CP[i].YF)
-															E[n].CP[i] = {X: E[fixed.Element].CP[fixed.Point].X, Y: E[fixed.Element].CP[fixed.Point].Y, XF:E[fixed.Element].CP[fixed.Point].XF, YF: E[fixed.Element].CP[fixed.Point].YF}
-
-														if (E[fixed.Element].type == "spline") if (fixed.Point == 1){
-															E[fixed.Element].CP[2].X = E[fixed.Element].CP[2].XF + over.DX;
-															E[fixed.Element].CP[2].Y = E[fixed.Element].CP[2].YF + over.DY;
-														}
-
-														if (E[fixed.Element].type == "spline") if (fixed.Point == 4){
-															E[fixed.Element].CP[3].X = E[fixed.Element].CP[3].XF + over.DX;
-															E[fixed.Element].CP[3].Y = E[fixed.Element].CP[3].YF + over.DY;
-														}
-
-
-														if (E[fixed.Element].type == "circle") {
-
-															var PAR = projections(E[fixed.Element].CP[0], E[fixed.Element].CP[1]);
-															var PAR2 = projections(E[fixed.Element].CP[0], E[fixed.Element].CP[2]);
-															var PAR3 = projections(E[fixed.Element].CP[0], E[fixed.Element].CP[3]);
-															if (PAR2.angle > PAR3.angle)  PAR3.angle += 2 * Math.PI;
-
-															E[fixed.Element].CP[2].X = E[fixed.Element].CP[0].X + PAR.R * Math.cos(PAR2.angle);
-															E[fixed.Element].CP[2].Y = E[fixed.Element].CP[0].Y + PAR.R * Math.sin(PAR2.angle);
-
-															E[fixed.Element].startAngle = PAR2.angle;
-
-															E[fixed.Element].CP[3].X = E[fixed.Element].CP[0].X + PAR.R * Math.cos(PAR3.angle);
-															E[fixed.Element].CP[3].Y = E[fixed.Element].CP[0].Y + PAR.R * Math.sin(PAR3.angle);
-															E[fixed.Element].endAngle = PAR3.angle;
-
-															E[fixed.Element].R = PAR.R;
-														}
-
-															//checkCross(fixed.Element, fixed.Point);
-															for (var n = 1; n < E.length; n++) if (E[n].enable) if (E[n].selected) recalculateCurve(E[n]);
-
-															setBound();
-															refresh_All();
-															redraw();
-
-															return
-												}
-
-
-												//**************************** resizing selected ******************************
-												if (button[1])
-												if (edit_mode == 'Select')
-												if (edit_type == 'Resize')
-												if (fixed.B){
-
-														var X1 = BF[1].X + 12 / scale;
-														var Y1 = BF[1].Y + 12 / scale;
-														var X2 = BF[3].X - 12 / scale;
-														var Y2 = BF[3].Y - 12 / scale;
-														
-														var DX = X2 - X1; if (DX == 0) DX = 0.00000000000000000000001;
-														var DY = Y2 - Y1; if (DY == 0) DY = 0.00000000000000000000001;
-
-													if (fixed.B == 1){
-															var kf = (DY - over.DY) / DY;
-														for (var n = 0; n < E.length; n++) if (E[n].selected){
-																E[n].R = E[n].RF * kf;												//console.log(E[n])
-															for (var i = 0; i < E[n].CP.length; i++) if (E[n].CP[i]){
-																E[n].CP[i].X = X2 - (X2 - E[n].CP[i].XF) * kf;
-																E[n].CP[i].Y = Y2 - (Y2 - E[n].CP[i].YF) * kf;
-															}
-														}		
-													}
-
-													if (fixed.B == 2){
-															var kf = (DY + over.DY) / DY;
-														for (var n = 0; n < E.length; n++) if (E[n].selected){
-																E[n].R = E[n].RF * kf;
-															for (var i = 0; i < E[n].CP.length; i++) if (E[n].CP[i]){
-																E[n].CP[i].X = X2 + (E[n].CP[i].XF - X2) * kf;
-																E[n].CP[i].Y = Y1 + (E[n].CP[i].YF - Y1) * kf;
-															}
-														}
-													}
-
-													if (fixed.B == 3){
-															var kf = (DY + over.DY) / DY;
-														for (var n = 0; n < E.length; n++) if (E[n].selected){
-																E[n].R = E[n].RF * kf;
-															for (var i = 0; i < E[n].CP.length; i++) if (E[n].CP[i]){
-																E[n].CP[i].X = X1 + (E[n].CP[i].XF - X1) * kf;
-																E[n].CP[i].Y = Y1 + (E[n].CP[i].YF - Y1) * kf;
-															}
-														}
-													}
-
-													if (fixed.B == 4){
-															var kf = (DY - over.DY) / DY;
-														for (var n = 0; n < E.length; n++) if (E[n].selected){
-																E[n].R = E[n].RF * kf;
-															for (var i = 0; i < E[n].CP.length; i++) if (E[n].CP[i]){
-																E[n].CP[i].X = X1 + (E[n].CP[i].XF - X1) * kf;
-																E[n].CP[i].Y = Y2 - (Y2 - E[n].CP[i].YF) * kf;
-															}
-														}
-													}
-
-													if (fixed.B == 5){
-															var kf = (DX - over.DX) / DX;
-														for (var n = 0; n < E.length; n++) if (E[n].selected){
-															for (var i = 0; i < E[n].CP.length; i++) if (E[n].CP[i]) E[n].CP[i].X = X2 - (X2 - E[n].CP[i].XF) * kf;
-															E[n].R = E[n].RF * kf;
-														}
-													}
-
-													if (fixed.B == 6){
-															var kf = (DY + over.DY) / DY;
-														for (var n = 0; n < E.length; n++) if (E[n].selected){
-															for (var i = 0; i < E[n].CP.length; i++) if (E[n].CP[i]) E[n].CP[i].Y = Y1 + (E[n].CP[i].YF - Y1) * kf;
-															E[n].R = E[n].RF * kf;
-														}
-													}
-
-													if (fixed.B == 7){
-															var kf = (DX + over.DX) / DX;
-														for (var n = 0; n < E.length; n++) if (E[n].selected){
-															for (var i = 0; i < E[n].CP.length; i++) if (E[n].CP[i]) E[n].CP[i].X = X1 + (E[n].CP[i].XF - X1) * kf;
-															E[n].R = E[n].RF * kf;
-														}
-													}
-
-													if (fixed.B == 8){
-															var kf = (DY - over.DY) / DY;
-														for (var n = 0; n < E.length; n++) if (E[n].selected){
-															for (var i = 0; i < E[n].CP.length; i++) if (E[n].CP[i]) E[n].CP[i].Y = Y2 - (Y2 - E[n].CP[i].YF) * kf;
-															E[n].R = E[n].RF * kf;
-														}
-													}
-
-
-															checkCross();
-														for (var n = 0; n < E.length; n++) if (E[n].selected) recalculateCurve(E[n]);
-															setBound();
-															refresh_All();
-															redraw();
-															return
-												}
-
-
-												//**************************** rotating selected ******************************
-												if (button[1])
-												if (edit_mode == 'Select')
-												if (edit_type == 'Rotate')
-												if (fixed.B){
-
-													var DX = fixed.X - CR.X;
-													var DY = fixed.Y - CR.Y;
-													R = Math.sqrt(DX * DX + DY * DY);
-													var start_angle = Math.acos(DX / R);
-													if (DY < 0) start_angle = 2 * Math.PI - start_angle;
-
-													var DX = over.X - CR.X;
-													var DY = over.Y - CR.Y;
-													R = Math.sqrt(DX * DX + DY * DY);
-													var angle = Math.acos(DX / R);
-													if (DY < 0) angle = 2 * Math.PI - angle;
-
-													//console.log(angle - start_angle);
-
-													for (var n = 1; n < E.length; n++) if (E[n].selected){										//console.log(E[n])
-														for (var i = 0; i < E[n].CP.length; i++) if (E[n].CP[i]) {
-															var RC = rotate({X: E[n].CP[i].XF, Y: E[n].CP[i].YF}, CR, angle - start_angle);
-															E[n].CP[i].X = RC.X;
-															E[n].CP[i].Y = RC.Y;
-														}
-													}
-
-													
-													for (var i = 9; i < B.length; i++) {
-															var RC = rotate({X: BF[i].X, Y: BF[i].Y}, CR, angle - start_angle);
-															B[i].X = RC.X;
-															B[i].Y = RC.Y;
-													}
-
-
-
-														//checkCross();
-														for (var n = 0; n < E.length; n++) if (E[n].selected) recalculateCurve(E[n]);
-															setBound(true);
-															refresh_All();
-															redraw();
-															return
-												}
-
-
-												//****************************** moving selected ******************************
-												//if (button[1]) console.log(Math.sqrt(over.dx * over.dx + over.dy * over.dy))
-												if (button[1])
-												if (edit_mode == 'Select')
-												if (same_clicked)
-												if (!fixed.B && fixed.Element) //if (!fixed.Point){
-												if (Math.sqrt(over.dx * over.dx + over.dy * over.dy) > 4){
-													for (var n = 0; n < E.length; n++)
-														if (E[n].selected){
-															for (var i = 0; i < E[n].CP.length; i++) if (E[n].CP[i]) {
-																E[n].CP[i].X = E[n].CP[i].XF + over.DX;
-																E[n].CP[i].Y = E[n].CP[i].YF + over.DY;
-															}
-															for (var i = 0; i < E[n].P.length; i++){
-																E[n].P[i].X = E[n].P[i].XF + over.DX;
-																E[n].P[i].Y = E[n].P[i].YF + over.DY;
-															}	
-														}
-															checkCross();
-															for (var n = 0; n < E.length; n++) if (E[n].selected) recalculateCurve(E[n]);
-															setBound();	
-															refresh_All();
-															redraw();
-															return
-												}
-
-
-												if (edit_mode == "Line" || edit_mode == "Rectangle" || edit_mode == "Circle" || edit_mode == "Spline"){
-													checkCross();
-													refresh_All();
-													redraw();
-													return
-												}
-
-									//*****************************
-									refresh_All();
-									redraw();
-							});
+							// canvas.addEventListener('mousemove', function(e){
+                            //
+								// 	over = getOverMouse(e);
+							// 		infoline.material.text('x: ' + Math.round(over.X * 1000) / 1000 + ' \'\',      y: ' + Math.round(over.Y * 1000) / 1000 + ' \'\'');
+                            //
+                            //
+							// 					//******************************* moving scene ********************************
+							// 					if (button[1])
+							// 					if (edit_mode == 'move_scene'){
+							// 						O.x = fixed.Ox + over.dx;
+							// 						O.y = fixed.Oy + over.dy;
+                            //
+							// 						O.X = O.x / scale;
+							// 						O.Y = O.y / scale;
+                            //
+							// 							setBound();	
+							// 							refresh_All();
+							// 							redraw();
+							// 							return
+							// 					}
+                            //
+                            //
+							// 					//****************************** draw freehand line ***************************
+							// 					if (button[1])
+							// 					if (edit_mode == "Freehand"){
+							// 						E[E.length-1].CP.push({X: over.X, Y: over.Y});
+							// 						recalculateCurve(E[E.length-1]);
+							// 					}
+                            //
+                            //
+							// 					//****************************** moving center point **************************
+							// 					if (button[1])
+							// 					if (edit_mode == 'Line Edit')
+							// 					if (fixed.Element && fixed.Point == 5){
+							// 							E[fixed.Element].CP[5].X = E[fixed.Element].CP[5].XF + over.DX;
+							// 							E[fixed.Element].CP[5].Y = E[fixed.Element].CP[5].YF + over.DY;
+							// 							E[fixed.Element].CP[5].unique = true;
+                            //
+							// 								checkCross(fixed.Element, 5);
+							// 								recalculateCurve(E[fixed.Element]);
+							// 								setBound();
+							// 								refresh_All();
+							// 								redraw();
+							// 								return
+							// 					}
+                            //
+                            //
+							// 					//****************************** moving points ********************************
+							// 					if (button[1])
+							// 					if (edit_mode == 'Line Edit')
+							// 					if (fixed.Element && fixed.Point){
+                            //
+							// 								E[fixed.Element].CP[fixed.Point].X = E[fixed.Element].CP[fixed.Point].XF + over.DX;
+							// 								E[fixed.Element].CP[fixed.Point].Y = E[fixed.Element].CP[fixed.Point].YF + over.DY;
+							//								
+							// 								//console.log(E[fixed.Element].CP[fixed.Point]);
+							//								
+							//							
+							// 							for (var n = 1; n < E.length; n++) if (E[n].enable) if (E[n].selected) if (n != fixed.Element)
+							// 							for (var i = 1; i < E[n].CP.length; i++) if (i != fixed.Point)
+							// 							if (E[fixed.Element].CP[fixed.Point].XF == E[n].CP[i].XF)
+							// 							if (E[fixed.Element].CP[fixed.Point].YF == E[n].CP[i].YF)
+							// 								E[n].CP[i] = {X: E[fixed.Element].CP[fixed.Point].X, Y: E[fixed.Element].CP[fixed.Point].Y, XF:E[fixed.Element].CP[fixed.Point].XF, YF: E[fixed.Element].CP[fixed.Point].YF}
+                            //
+							// 							if (E[fixed.Element].type == "spline") if (fixed.Point == 1){
+							// 								E[fixed.Element].CP[2].X = E[fixed.Element].CP[2].XF + over.DX;
+							// 								E[fixed.Element].CP[2].Y = E[fixed.Element].CP[2].YF + over.DY;
+							// 							}
+                            //
+							// 							if (E[fixed.Element].type == "spline") if (fixed.Point == 4){
+							// 								E[fixed.Element].CP[3].X = E[fixed.Element].CP[3].XF + over.DX;
+							// 								E[fixed.Element].CP[3].Y = E[fixed.Element].CP[3].YF + over.DY;
+							// 							}
+                            //
+                            //
+							// 							if (E[fixed.Element].type == "circle") {
+                            //
+							// 								var PAR = projections(E[fixed.Element].CP[0], E[fixed.Element].CP[1]);
+							// 								var PAR2 = projections(E[fixed.Element].CP[0], E[fixed.Element].CP[2]);
+							// 								var PAR3 = projections(E[fixed.Element].CP[0], E[fixed.Element].CP[3]);
+							// 								if (PAR2.angle > PAR3.angle)  PAR3.angle += 2 * Math.PI;
+                            //
+							// 								E[fixed.Element].CP[2].X = E[fixed.Element].CP[0].X + PAR.R * Math.cos(PAR2.angle);
+							// 								E[fixed.Element].CP[2].Y = E[fixed.Element].CP[0].Y + PAR.R * Math.sin(PAR2.angle);
+                            //
+							// 								E[fixed.Element].startAngle = PAR2.angle;
+                            //
+							// 								E[fixed.Element].CP[3].X = E[fixed.Element].CP[0].X + PAR.R * Math.cos(PAR3.angle);
+							// 								E[fixed.Element].CP[3].Y = E[fixed.Element].CP[0].Y + PAR.R * Math.sin(PAR3.angle);
+							// 								E[fixed.Element].endAngle = PAR3.angle;
+                            //
+							// 								E[fixed.Element].R = PAR.R;
+							// 							}
+                            //
+							// 								//checkCross(fixed.Element, fixed.Point);
+							// 								for (var n = 1; n < E.length; n++) if (E[n].enable) if (E[n].selected) recalculateCurve(E[n]);
+                            //
+							// 								setBound();
+							// 								refresh_All();
+							// 								redraw();
+                            //
+							// 								return
+							// 					}
+                            //
+                            //
+							// 					//**************************** resizing selected ******************************
+							// 					if (button[1])
+							// 					if (edit_mode == 'Select')
+							// 					if (edit_type == 'Resize')
+							// 					if (fixed.B){
+                            //
+							// 							var X1 = BF[1].X + 12 / scale;
+							// 							var Y1 = BF[1].Y + 12 / scale;
+							// 							var X2 = BF[3].X - 12 / scale;
+							// 							var Y2 = BF[3].Y - 12 / scale;
+							//							
+							// 							var DX = X2 - X1; if (DX == 0) DX = 0.00000000000000000000001;
+							// 							var DY = Y2 - Y1; if (DY == 0) DY = 0.00000000000000000000001;
+                            //
+							// 						if (fixed.B == 1){
+							// 								var kf = (DY - over.DY) / DY;
+							// 							for (var n = 0; n < E.length; n++) if (E[n].selected){
+							// 									E[n].R = E[n].RF * kf;												//console.log(E[n])
+							// 								for (var i = 0; i < E[n].CP.length; i++) if (E[n].CP[i]){
+							// 									E[n].CP[i].X = X2 - (X2 - E[n].CP[i].XF) * kf;
+							// 									E[n].CP[i].Y = Y2 - (Y2 - E[n].CP[i].YF) * kf;
+							// 								}
+							// 							}		
+							// 						}
+                            //
+							// 						if (fixed.B == 2){
+							// 								var kf = (DY + over.DY) / DY;
+							// 							for (var n = 0; n < E.length; n++) if (E[n].selected){
+							// 									E[n].R = E[n].RF * kf;
+							// 								for (var i = 0; i < E[n].CP.length; i++) if (E[n].CP[i]){
+							// 									E[n].CP[i].X = X2 + (E[n].CP[i].XF - X2) * kf;
+							// 									E[n].CP[i].Y = Y1 + (E[n].CP[i].YF - Y1) * kf;
+							// 								}
+							// 							}
+							// 						}
+                            //
+							// 						if (fixed.B == 3){
+							// 								var kf = (DY + over.DY) / DY;
+							// 							for (var n = 0; n < E.length; n++) if (E[n].selected){
+							// 									E[n].R = E[n].RF * kf;
+							// 								for (var i = 0; i < E[n].CP.length; i++) if (E[n].CP[i]){
+							// 									E[n].CP[i].X = X1 + (E[n].CP[i].XF - X1) * kf;
+							// 									E[n].CP[i].Y = Y1 + (E[n].CP[i].YF - Y1) * kf;
+							// 								}
+							// 							}
+							// 						}
+                            //
+							// 						if (fixed.B == 4){
+							// 								var kf = (DY - over.DY) / DY;
+							// 							for (var n = 0; n < E.length; n++) if (E[n].selected){
+							// 									E[n].R = E[n].RF * kf;
+							// 								for (var i = 0; i < E[n].CP.length; i++) if (E[n].CP[i]){
+							// 									E[n].CP[i].X = X1 + (E[n].CP[i].XF - X1) * kf;
+							// 									E[n].CP[i].Y = Y2 - (Y2 - E[n].CP[i].YF) * kf;
+							// 								}
+							// 							}
+							// 						}
+                            //
+							// 						if (fixed.B == 5){
+							// 								var kf = (DX - over.DX) / DX;
+							// 							for (var n = 0; n < E.length; n++) if (E[n].selected){
+							// 								for (var i = 0; i < E[n].CP.length; i++) if (E[n].CP[i]) E[n].CP[i].X = X2 - (X2 - E[n].CP[i].XF) * kf;
+							// 								E[n].R = E[n].RF * kf;
+							// 							}
+							// 						}
+                            //
+							// 						if (fixed.B == 6){
+							// 								var kf = (DY + over.DY) / DY;
+							// 							for (var n = 0; n < E.length; n++) if (E[n].selected){
+							// 								for (var i = 0; i < E[n].CP.length; i++) if (E[n].CP[i]) E[n].CP[i].Y = Y1 + (E[n].CP[i].YF - Y1) * kf;
+							// 								E[n].R = E[n].RF * kf;
+							// 							}
+							// 						}
+                            //
+							// 						if (fixed.B == 7){
+							// 								var kf = (DX + over.DX) / DX;
+							// 							for (var n = 0; n < E.length; n++) if (E[n].selected){
+							// 								for (var i = 0; i < E[n].CP.length; i++) if (E[n].CP[i]) E[n].CP[i].X = X1 + (E[n].CP[i].XF - X1) * kf;
+							// 								E[n].R = E[n].RF * kf;
+							// 							}
+							// 						}
+                            //
+							// 						if (fixed.B == 8){
+							// 								var kf = (DY - over.DY) / DY;
+							// 							for (var n = 0; n < E.length; n++) if (E[n].selected){
+							// 								for (var i = 0; i < E[n].CP.length; i++) if (E[n].CP[i]) E[n].CP[i].Y = Y2 - (Y2 - E[n].CP[i].YF) * kf;
+							// 								E[n].R = E[n].RF * kf;
+							// 							}
+							// 						}
+                            //
+                            //
+							// 								checkCross();
+							// 							for (var n = 0; n < E.length; n++) if (E[n].selected) recalculateCurve(E[n]);
+							// 								setBound();
+							// 								refresh_All();
+							// 								redraw();
+							// 								return
+							// 					}
+                            //
+                            //
+							// 					//**************************** rotating selected ******************************
+							// 					if (button[1])
+							// 					if (edit_mode == 'Select')
+							// 					if (edit_type == 'Rotate')
+							// 					if (fixed.B){
+                            //
+							// 						var DX = fixed.X - CR.X;
+							// 						var DY = fixed.Y - CR.Y;
+							// 						R = Math.sqrt(DX * DX + DY * DY);
+							// 						var start_angle = Math.acos(DX / R);
+							// 						if (DY < 0) start_angle = 2 * Math.PI - start_angle;
+                            //
+							// 						var DX = over.X - CR.X;
+							// 						var DY = over.Y - CR.Y;
+							// 						R = Math.sqrt(DX * DX + DY * DY);
+							// 						var angle = Math.acos(DX / R);
+							// 						if (DY < 0) angle = 2 * Math.PI - angle;
+                            //
+							// 						//console.log(angle - start_angle);
+                            //
+							// 						for (var n = 1; n < E.length; n++) if (E[n].selected){										//console.log(E[n])
+							// 							for (var i = 0; i < E[n].CP.length; i++) if (E[n].CP[i]) {
+							// 								var RC = rotate({X: E[n].CP[i].XF, Y: E[n].CP[i].YF}, CR, angle - start_angle);
+							// 								E[n].CP[i].X = RC.X;
+							// 								E[n].CP[i].Y = RC.Y;
+							// 							}
+							// 						}
+                            //
+							//						
+							// 						for (var i = 9; i < B.length; i++) {
+							// 								var RC = rotate({X: BF[i].X, Y: BF[i].Y}, CR, angle - start_angle);
+							// 								B[i].X = RC.X;
+							// 								B[i].Y = RC.Y;
+							// 						}
+                            //
+                            //
+                            //
+							// 							//checkCross();
+							// 							for (var n = 0; n < E.length; n++) if (E[n].selected) recalculateCurve(E[n]);
+							// 								setBound(true);
+							// 								refresh_All();
+							// 								redraw();
+							// 								return
+							// 					}
+                            //
+                            //
+							// 					//****************************** moving selected ******************************
+							// 					//if (button[1]) console.log(Math.sqrt(over.dx * over.dx + over.dy * over.dy))
+							// 					if (button[1])
+							// 					if (edit_mode == 'Select')
+							// 					if (same_clicked)
+							// 					if (!fixed.B && fixed.Element) //if (!fixed.Point){
+							// 					if (Math.sqrt(over.dx * over.dx + over.dy * over.dy) > 4){
+							// 						for (var n = 0; n < E.length; n++)
+							// 							if (E[n].selected){
+							// 								for (var i = 0; i < E[n].CP.length; i++) if (E[n].CP[i]) {
+							// 									E[n].CP[i].X = E[n].CP[i].XF + over.DX;
+							// 									E[n].CP[i].Y = E[n].CP[i].YF + over.DY;
+							// 								}
+							// 								for (var i = 0; i < E[n].P.length; i++){
+							// 									E[n].P[i].X = E[n].P[i].XF + over.DX;
+							// 									E[n].P[i].Y = E[n].P[i].YF + over.DY;
+							// 								}	
+							// 							}
+							// 								checkCross();
+							// 								for (var n = 0; n < E.length; n++) if (E[n].selected) recalculateCurve(E[n]);
+							// 								setBound();	
+							// 								refresh_All();
+							// 								redraw();
+							// 								return
+							// 					}
+                            //
+                            //
+							// 					if (edit_mode == "Line" || edit_mode == "Rectangle" || edit_mode == "Circle" || edit_mode == "Spline"){
+							// 						checkCross();
+							// 						refresh_All();
+							// 						redraw();
+							// 						return
+							// 					}
+                            //
+							// 		//*****************************
+							// 		refresh_All();
+							// 		redraw();
+							// });
 
 
 
 
 							//############################################## Mouse down ####################################################
-							canvas.addEventListener('mousedown', function(e){
-
-									button[e.which] = true;
-
-									if (over.x < 20) return;
-
-												edit_step ++;
-
-											//******************************************************** Zoom ******************************************************************
-											if (edit_mode == "Zoom"){
-												if (button[1]) canvas.style.cursor = "zoom-in";
-												if (button[3]) canvas.style.cursor = "zoom-out";
-											}
-
-
-											//******************************************************** Select ******************************************************************
-											if (edit_mode == "Select" || edit_mode == "Line Edit"){
-
-												//************************** click on empty place ****************************
-												if (!over.B)
-												if (!over.Element){
-														if (input_Width.changed)  resizeSelected(Math.abs(parseFloat(input_Width.value)), 0);
-														if (input_Height.changed) resizeSelected(0, Math.abs(parseFloat(input_Height.value)));
-
-													if (!input_Width.changed && !input_Height.changed) skipSelected();
-													
-													setBound();
-												}								
-
-
-												//************************** click on B **************************************
-												if (over.B)	fixPoints();
-
-
-												//************************** click on Element ********************************
-												if (over.Element){
-
-													if (E[over.Element].selected) {same_clicked = true} else {same_clicked = false}
-
-													if (!E[over.Element].selected)	skipSelected();
-
-													E[over.Element].selected = true;
-													fixPoints();
-
-													//****************************** select new element **********************
-													if (!same_clicked){
-														
-															MUAB[0].pic.src = MUAB_A[0].pic;
-															MUAB[1].pic.src = MUAB_A[1].pic;
-															selected_groups = [];
-
-														//***************************** checking groups *************************
-															var group_num = -1;
-														for (var n = 0; n < G.length; n++) if (G[n]) if (G[n].enable)
-															for (i = 0; i < G[n].E.length; i++) if (G[n].E[i] == over.Element) group_num = n;
-
-															if (group_num >= 0){
-																for (i = 0; i < G[group_num].E.length; i++) E[G[group_num].E[i]].selected = true;
-																MUAB[1].pic.src = MUAB_A[1].pic_active;
-																selected_groups.push(group_num);
-															}
-															
-															//console.log(selected_groups);
-															setBound();
-													}	
-												}
-											}
-
-
-											//******************************************************** Freehand *****************************************************************
-											if (edit_mode == "Freehand"){
-												if (edit_step == 1)	add_Element('line', [{X: over.X, Y: over.Y}], []);
-											}
-
-
-											//******************************************************** Line ********************************************************************
-											if (edit_mode == "Line"){
-												if (edit_step == 2){
-													var line = add_Line({X: clicked.XR, Y: clicked.YR}, {X: real.X, Y: real.Y}).selected = true;
-													setBound();
-												}
-											}
-
-
-											//******************************************************** Rectangle ***************************************************************
-											if (edit_mode == "Rectangle"){
-
-												if (edit_step == 2){
-
-														var P = getExtremums([{X: clicked.XR, Y: clicked.YR}, real]);
-
-														var group = {enable: true, E: []};
-
-														add_Line({X: P.min.X, Y: P.min.Y}, {X: P.min.X, Y: P.max.Y}).selected = true;	group.E.push(E.length-1);
-														add_Line({X: P.min.X, Y: P.max.Y}, {X: P.max.X, Y: P.max.Y}).selected = true;	group.E.push(E.length-1);
-														add_Line({X: P.max.X, Y: P.max.Y}, {X: P.max.X, Y: P.min.Y}).selected = true;	group.E.push(E.length-1);
-														add_Line({X: P.max.X, Y: P.min.Y}, {X: P.min.X, Y: P.min.Y}).selected = true;	group.E.push(E.length-1);
-														setBound();
-
-														G.push(group);
-														selected_groups = [G.length-1];
-												}
-											}
-
-
-											//******************************************************** Circle ***************************************************************
-											if (edit_mode == "Circle"){
-
-												if (edit_step == 2){
-														var DX =  real.X - clicked.XR;
-														var DY =  real.Y - clicked.YR;
-														var R = Math.sqrt(DX * DX + DY * DY);
-
-														add_Circle(clicked, R).selected = true;
-														setBound();
-												}
-											}
-
-
-											//******************************************************** Spline ***************************************************************
-											if (edit_mode == "Spline"){
-
-												if (edit_step == 2){
-														add_Spline({X: clicked.XR, Y: clicked.YR}, {X: real.X, Y: real.Y}).selected = true;
-														setBound();
-												}
-											}
-
-
-											//******************************************************** Erase ******************************************************************
-											if (edit_mode == "Erase"){
-
-												if (over.Element){
-
-													var current_Element = over.Element;
-													var CRS = {X: over.CR.X, Y: over.CR.Y, L: over.Line};
-													INTERSECT = [];
-
-														for (var i = 0; i < E[current_Element].P.length - 1; i++)
-														for (var m = 1; m < E.length; m++) if (E[m].enable)
-														for (var j = 0; j < E[m].P.length - 1; j++){
-															var res = intersect(E[current_Element].P[i], E[current_Element].P[i+1], E[m].P[j], E[m].P[j+1]);
-															if (res) INTERSECT.push({X: res.X, Y: res.Y, L: i, TE: m, TL: j});
-														}
-
-
-													//****************************** 0 **********************	
-													if (INTERSECT.length == 0) E[current_Element].enable = false;
-
-
-													//****************************** 1 **********************	
-													if (INTERSECT.length == 1) if (E[current_Element].closed) E[current_Element].enable = false;
-
-
-													//******************************************* line ************************************************
-													if (E[current_Element].enable)
-													if (E[current_Element].type == "line"){
-
-																var e = E[current_Element];
-
-																		var SEC = [];
-																		
-																for (var i = 0; i < e.P.length - 1; i++){
-																		var dx = (e.P[i+1].X - e.P[i].X) / 1000;
-																		var dy = (e.P[i+1].Y - e.P[i].Y) / 1000;
-																		var ds = Math.sqrt(dx*dx + dy*dy);
-
-																	for (var p = 0; p <= 1000; p++){
-																		var pos = {X: e.P[i].X + p * dx, Y: e.P[i].Y + p * dy}
-																		if (distance2Point(pos, CRS) <= ds / 2) SEC.push({kind: "cursor", X: pos.X, Y: pos.Y, L: i});
-																		for (n = 0; n < INTERSECT.length; n++) if (distance2Point(pos, INTERSECT[n]) <= ds / 2) SEC.push({kind: "cross", X: INTERSECT[n].X, Y: INTERSECT[n].Y, L: INTERSECT[n].L});
-																	}
-																}
-
-																					var catched_cross = 0;
-																					var CR0 = {};
-																					var CR1 = {};
-																					var CR2 = {};
-																					var CR3 = {};
-																				for (var n = 0; n < SEC.length; n++){
-																					if (SEC[n].kind == "cursor") catched_cross = 1;
-																					if (SEC[n].kind == "cross"){
-																						if (catched_cross == 0)  CR1 = {X: SEC[n].X, Y: SEC[n].Y, L: SEC[n].L}
-																						if (catched_cross == 1) {CR2 = {X: SEC[n].X, Y: SEC[n].Y, L: SEC[n].L}; catched_cross = 2}
-																						if (e.closed) CR3 = {X: SEC[n].X, Y: SEC[n].Y, L: SEC[n].L}
-																					}
-																				}
-																						if (!CR2.X)
-																						if (SEC.length > 2) CR0 = {X: SEC[0].X, Y: SEC[0].Y, L: SEC[0].L}
-
-
-																					//****************************
-																					if (CR1.X){
-																						var NP = [{X: 0, Y: 0}];
-
-																						if (CR3.X) if (CR2.X)
-																						if (CR3.X == CR2.X && CR3.Y == CR2.Y){
-																							NP.push({X: CR2.X, Y: CR2.Y});
-																							for (var i = CR2.L+1; i < e.P.length; i++) NP.push({X: e.P[i].X, Y: e.P[i].Y});
-																						}
-																						
-
-
-																						if (!CR0.X) for (var i = 0; i <= CR1.L; i++) NP.push({X: e.P[i].X, Y: e.P[i].Y});
-																						if (CR0.X) {
-																							NP.push({X: CR0.X, Y: CR0.Y});
-																							for (var i = CR0.L + 1; i <= CR1.L; i++) NP.push({X: e.P[i].X, Y: e.P[i].Y});
-																						}
-																						NP.push({X: CR1.X, Y: CR1.Y});
-
-																						if (polylineLength(NP) / polylineLength(E[current_Element].CP) > 0.02) 
-																						recalculateCurve(add_Element("line", NP, []));
-																					}
-
-																					//****************************
-																					if (CR2.X){
-																						var NP = [{X: 0, Y: 0}];
-																						NP.push({X: CR2.X, Y: CR2.Y});
-																						if (!CR3.X) for (var i = CR2.L+1; i < e.P.length; i++) NP.push({X: e.P[i].X, Y: e.P[i].Y});
-																						if (CR3.X) {
-																							for (var i = CR2.L+1; i <= CR3.L; i++) NP.push({X: e.P[i].X, Y: e.P[i].Y});
-																							NP.push({X: CR3.X, Y: CR3.Y});
-																						}
-																						
-																						if (CR3.X)
-																						if (CR3.X != CR2.X || CR3.Y != CR2.Y){
-																							NP.push({X: CR3.X, Y: CR3.Y});
-																							for (var i = CR3.L+1; i < e.P.length; i++) NP.push({X: e.P[i].X, Y: e.P[i].Y});
-																						}
-
-																						if (polylineLength(NP) / polylineLength(E[current_Element].CP) > 0.02) 
-																						recalculateCurve(add_Element("line", NP, []));
-																					}
-
-																						E[current_Element].enable = false;
-
-																						console.log("CR0: " + CR0.X + "/" + CR0.Y);
-																						console.log("CR1: " + CR1.X + "/" + CR1.Y);
-																						console.log("CR2: " + CR2.X + "/" + CR2.Y);
-																						console.log("CR3: " + CR3.X + "/" + CR3.Y);
-																						
-													}
-
-
-
-													
-													//******************************************* Circle ************************************************
-													if (E[current_Element].enable)
-													if (E[current_Element].type == "circle"){
-
-																	var e = E[current_Element];
-
-																		var SEC_0 = [];
-																		var SEC = [];
-
-																		var angle_1 = 0, angle_2 = 0;
-																		var closedCurve = false; 
-																		if (e.startAngle + 2 * Math.PI == e.endAngle) closedCurve = true;
-
-																	for (var n = 0; n < INTERSECT.length; n++){
-																	//if (INTERSECT[n].X != e.CP[0].X && INTERSECT[n].y != e.CP[0].y) 
-																		var proj = projections(e.CP[0], INTERSECT[n]);
-																		//if (!closedCurve) SEC_0.push(proj);
-																		//if (closedCurve) 
-																			if (INTERSECT[n].TE != current_Element) SEC_0.push(proj);
-																		//if (proj.angle != e.startAngle && proj.angle != e.endAngle)
-																		//if (proj.angle != e.startAngle + 2 * Math.PI && proj.angle != e.endAngle + 2 * Math.PI)
-																	}
-
-																	for (n = 0; n < SEC_0.length; n++){
-																		if (SEC_0[n].angle < e.startAngle) SEC_0[n].angle += 2 * Math.PI;
-																		if (SEC_0[n].angle > e.endAngle) SEC_0[n].angle -= 2 * Math.PI;
-																	}
-
-																	for (n = 0; n < SEC_0.length; n++) SEC.push({angle: SEC_0[n].angle});
-																	if (closedCurve) for (n = 0; n < SEC_0.length; n++) SEC.push({angle: SEC_0[n].angle - 2 * Math.PI});
-																	if (closedCurve) for (n = 0; n < SEC_0.length; n++) SEC.push({angle: SEC_0[n].angle + 2 * Math.PI});
-
-																	//var allbigger = false;
-																	//for (n = 0; n < SEC.length; n++) if (SEC[n].angle)
-
-																	SEC.push(projections(e.CP[0], CRS));
-																	SEC[SEC.length - 1].cursor = true;
-
-
-																	for (n = 0; n < SEC.length - 1; n++)
-																	for (var i = 0; i < SEC.length - 1; i++)
-																		if (SEC[i].angle > SEC[i+1].angle){
-																			var TEMP = {angle: SEC[i].angle, cursor: SEC[i].cursor};
-																			SEC[i] = {angle: SEC[i+1].angle, cursor: SEC[i+1].cursor};
-																			SEC[i+1] = {angle: TEMP.angle, cursor: TEMP.cursor};
-																		}
-
-																		var cursor_num;
-																		for (n = 0; n < SEC.length; n++) if (SEC[n].cursor)	cursor_num = n;
-
-																		console.log(SEC);
-
-																		if (closedCurve){
-																			//if (cursor_num < SEC.length - 1) angle_1 = SEC[cursor_num + 1].angle;
-																			//if (cursor_num > 0) angle_2 = SEC[cursor_num - 1].angle;
-																			//if (!angle_2) angle_2 = SEC[0].angle;
-																			angle_1 = SEC[cursor_num + 1].angle;
-																			angle_2 = SEC[cursor_num - 1].angle;
-
-																			add_Curve(e.CP[0], e.R, angle_1, angle_2 + 2 * Math.PI);
-																			console.log(angle_1, angle_2 + 2 * Math.PI)
-																		}
-																		if (!closedCurve){
-																			if (cursor_num > 0) {angle_1 = SEC[cursor_num - 1].angle} else {angle_1 = e.startAngle}
-																			if (cursor_num < SEC.length - 1) {angle_2 = SEC[cursor_num + 1].angle} else {angle_2 = e.endAngle}
-																			if (angle_1 != e.startAngle) add_Curve(e.CP[0], e.R, e.startAngle, angle_1);
-																			if (angle_2 != e.endAngle)   add_Curve(e.CP[0], e.R, angle_2, e.endAngle);
-																				console.log("angle_1: " + angle_1);
-																				console.log("angle_2: " + angle_2);
-																		}
-
-																						//*************************************************************************
-																						function add_Curve(C, R, start, end){
-																							
-																							//if (start >= 2 * Math.PI) start -= 2 * Math.PI;
-																							//if (end >= 2 * Math.PI) end -= 2 * Math.PI;
-
-																							var P0 = {X: C.X, Y: C.Y}
-																							var P1 = {X: C.X + R, Y: C.Y}
-																							var P2 = {X: C.X + R * Math.cos(start), Y: C.Y + R * Math.sin(start)}
-																							var P3 = {X: C.X + R * Math.cos(end), Y: C.Y + R * Math.sin(end)}
-
-																							var newE = add_Element("circle", [P0, P1, P2, P3]);
-																							newE.R = e.R;
-																							newE.startAngle = start;
-																							newE.endAngle = end;
-																							recalculateCurve(newE);
-																						}
-
-																	e.enable = false;
-
-																	//console.log(SEC);
-													}
-
-
-
-
-													//******************************************** Spline ***********************************************
-													if (E[current_Element].enable)
-													if (E[current_Element].type == "spline"){
-
-																var e = E[current_Element];
-
-																		var SEC = [];
-
-																		for (n = 0; n < INTERSECT.length; n++) SEC.push({kind: "cross", X: INTERSECT[n].X, Y: INTERSECT[n].Y, L: INTERSECT[n].L})
-																		SEC.push({kind: "cursor", X: CRS.X, Y: CRS.Y, L: CRS.L})
-
-																		for (n = 0; n < SEC.length; n++)
-																		for (var i = 0; i < SEC.length - 1; i++)
-																			if (SEC[i].L > SEC[i+1].L){
-																				var TEMP = {kind: SEC[i].kind, X: SEC[i].X, Y: SEC[i].Y, L: SEC[i].L}
-																				SEC[i] = {kind: SEC[i+1].kind, X: SEC[i+1].X, Y: SEC[i+1].Y, L: SEC[i+1].L}
-																				SEC[i+1] = {kind: TEMP.kind, X: TEMP.X, Y: TEMP.Y, L: TEMP.L}
-																			}
-
-																					var CR1 = {};
-																					var CR2 = {};
-																		for (n = 0; n < SEC.length; n++) if (SEC[n].kind == "cursor"){
-																			if (n > 0) CR1 = {kind: SEC[n-1].kind, X: SEC[n-1].X, Y: SEC[n-1].Y, L: SEC[n-1].L}
-																			if (n < SEC.length - 1) CR2 = {kind: SEC[n+1].kind, X: SEC[n+1].X, Y: SEC[n+1].Y, L: SEC[n+1].L}
-																		}
-
-																				//console.log(SEC);
-
-																					if (CR1.X){
-																						
-																						var NP = [{X: 0, Y: 0}];
-
-																							var P1 = {X: e.CP[1].X, Y: e.CP[1].Y}
-																							var P2 = {X: e.CP[2].X, Y: e.CP[2].Y}
-																							var P3 = {X: e.CP[3].X, Y: e.CP[3].Y}
-																							var P4 = {X: e.CP[4].X, Y: e.CP[4].Y}
-																							
-																							//CR1 = spline1000(over.Line * 20, E[over.Element].CP[1], E[over.Element].CP[2], E[over.Element].CP[3], E[over.Element].CP[4]);
-																						
-																							var DX_P1P2 = P2.X - P1.X;
-																							var DY_P1P2 = P2.Y - P1.Y;
-																							
-																							var DX_P2P3 = P3.X - P2.X;
-																							var DY_P2P3 = P3.Y - P2.Y;
-
-																							var DX_P3P4 = P4.X - P3.X;
-																							var DY_P3P4 = P4.Y - P3.Y;
-																							
-																							var t = CR1.L / 50;
-																							
-																							var P5 = {X: P1.X + DX_P1P2 * t, Y: P1.Y + DY_P1P2 * t}
-																							var P6 = {X: P2.X + DX_P2P3 * t, Y: P2.Y + DY_P2P3 * t}
-																							var P7 = {X: P3.X + DX_P3P4 * t, Y: P3.Y + DY_P3P4 * t}
-																							
-																							var DX_P5P6 = P6.X - P5.X;
-																							var DY_P5P6 = P6.Y - P5.Y;
-																							
-																							var DX_P6P7 = P7.X - P6.X;
-																							var DY_P6P7 = P7.Y - P6.Y;
-																							
-																							var P8 = {X: P5.X + DX_P5P6 * t, Y: P5.Y + DY_P5P6 * t}
-																							var P9 = {X: P6.X + DX_P6P7 * t, Y: P6.Y + DY_P6P7 * t}
-																							
-																							var DX_P8P9 = P9.X - P8.X;
-																							var DY_P8P9 = P9.Y - P8.Y;
-																							
-
-																							var P10 = {X: P8.X + DX_P8P9 * t, Y: P8.Y + DY_P8P9 * t}
-																							
-																							NP.push({X: P1.X, Y: P1.Y}, {X: P5.X,  Y: P5.Y});
-																							NP.push({X: P8.X, Y: P8.Y}, {X: CR1.X, Y: CR1.Y});
-																							
-																							console.log("SLEN: " + splineLength(NP));
-																							
-																							if (splineLength(E[current_Element].CP) / splineLength(NP) < 40)
-																							recalculateCurve(add_Element("spline", NP, []));
-																					}
-
-
-																					if (CR2.X){
-																						var NP = [{X: 0, Y: 0}];
-
-																							var P1 = {X: e.CP[1].X, Y: e.CP[1].Y}
-																							var P2 = {X: e.CP[2].X, Y: e.CP[2].Y}
-																							var P3 = {X: e.CP[3].X, Y: e.CP[3].Y}
-																							var P4 = {X: e.CP[4].X, Y: e.CP[4].Y}
-
-																							var DX_P1P2 = P2.X - P1.X;
-																							var DY_P1P2 = P2.Y - P1.Y;
-
-																							var DX_P2P3 = P3.X - P2.X;
-																							var DY_P2P3 = P3.Y - P2.Y;
-
-																							var DX_P3P4 = P4.X - P3.X;
-																							var DY_P3P4 = P4.Y - P3.Y;
-																							
-																							var t = CR2.L / 50;
-																							
-																							var P5 = {X: P1.X + DX_P1P2 * t, Y: P1.Y + DY_P1P2 * t}
-																							var P6 = {X: P2.X + DX_P2P3 * t, Y: P2.Y + DY_P2P3 * t}
-																							var P7 = {X: P3.X + DX_P3P4 * t, Y: P3.Y + DY_P3P4 * t}
-
-																							var DX_P5P6 = P6.X - P5.X;
-																							var DY_P5P6 = P6.Y - P5.Y;
-
-																							var DX_P6P7 = P7.X - P6.X;
-																							var DY_P6P7 = P7.Y - P6.Y;
-
-																							var P8 = {X: P5.X + DX_P5P6 * t, Y: P5.Y + DY_P5P6 * t}
-																							var P9 = {X: P6.X + DX_P6P7 * t, Y: P6.Y + DY_P6P7 * t}
-
-																							var DX_P8P9 = P9.X - P8.X;
-																							var DY_P8P9 = P9.Y - P8.Y;
-
-
-																							var P10 = {X: P8.X + DX_P8P9 * t, Y: P8.Y + DY_P8P9 * t}
-
-																							NP.push({X: CR2.X, Y: CR2.Y}, {X: P9.X,  Y: P9.Y});
-																							NP.push({X: P7.X, Y: P7.Y}, {X: P4.X, Y: P4.Y});
-
-																							if (splineLength(E[current_Element].CP) / splineLength(NP) < 40)
-																							recalculateCurve(add_Element("spline", NP, []));
-																					}
-
-																							E[current_Element].enable = false;
-													}
-													
-														setTimeout(function(){INTERSECT = []}, 500);
-												}
-											}
-
-
-
-											//********************************************************************************************************************************
-											fixed = {x: over.x, y: over.y, X: over.X, Y: over.Y, Element: over.Element, Line: over.Line, Point: over.Point, Ox: O.x, Oy: O.y, B: over.B}
-											clicked = {x: over.x, y: over.y, X: over.X, Y: over.Y, Element: over.Element, Line: over.Line, Point: over.Point, Ox: O.x, Oy: O.y, B: over.B, xr: real.x, yr: real.y, XR: real.X, YR: real.Y}
-
-
-											//*****************************
-											refresh_All();
-											redraw();
-							});
-
-
+							// canvas.addEventListener('mousedown', function(e){
+                            //
+							// 		button[e.which] = true;
+                            //
+							// 		if (over.x < 20) return;
+                            //
+							// 					edit_step ++;
+                            //
+							// 				//******************************************************** Zoom ******************************************************************
+							// 				if (edit_mode == "Zoom"){
+							// 					if (button[1]) canvas.style.cursor = "zoom-in";
+							// 					if (button[3]) canvas.style.cursor = "zoom-out";
+							// 				}
+                            //
+                            //
+							// 				//******************************************************** Select ******************************************************************
+							// 				if (edit_mode == "Select" || edit_mode == "Line Edit"){
+                            //
+							// 					//************************** click on empty place ****************************
+							// 					if (!over.B)
+							// 					if (!over.Element){
+							// 							if (input_Width.changed)  resizeSelected(Math.abs(parseFloat(input_Width.value)), 0);
+							// 							if (input_Height.changed) resizeSelected(0, Math.abs(parseFloat(input_Height.value)));
+                            //
+							// 						if (!input_Width.changed && !input_Height.changed) skipSelected();
+							//						
+							// 						setBound();
+							// 					}								
+                            //
+                            //
+							// 					//************************** click on B **************************************
+							// 					if (over.B)	fixPoints();
+                            //
+                            //
+							// 					//************************** click on Element ********************************
+							// 					if (over.Element){
+                            //
+							// 						if (E[over.Element].selected) {same_clicked = true} else {same_clicked = false}
+                            //
+							// 						if (!E[over.Element].selected)	skipSelected();
+                            //
+							// 						E[over.Element].selected = true;
+							// 						fixPoints();
+                            //
+							// 						//****************************** select new element **********************
+							// 						if (!same_clicked){
+							//							
+							// 								MUAB[0].pic.src = MUAB_A[0].pic;
+							// 								MUAB[1].pic.src = MUAB_A[1].pic;
+							// 								selected_groups = [];
+                            //
+							// 							//***************************** checking groups *************************
+							// 								var group_num = -1;
+							// 							for (var n = 0; n < G.length; n++) if (G[n]) if (G[n].enable)
+							// 								for (i = 0; i < G[n].E.length; i++) if (G[n].E[i] == over.Element) group_num = n;
+                            //
+							// 								if (group_num >= 0){
+							// 									for (i = 0; i < G[group_num].E.length; i++) E[G[group_num].E[i]].selected = true;
+							// 									MUAB[1].pic.src = MUAB_A[1].pic_active;
+							// 									selected_groups.push(group_num);
+							// 								}
+							//								
+							// 								//console.log(selected_groups);
+							// 								setBound();
+							// 						}	
+							// 					}
+							// 				}
+                            //
+                            //
+							// 				//******************************************************** Freehand *****************************************************************
+							// 				if (edit_mode == "Freehand"){
+							// 					if (edit_step == 1)	add_Element('line', [{X: over.X, Y: over.Y}], []);
+							// 				}
+                            //
+                            //
+							// 				//******************************************************** Line ********************************************************************
+							// 				if (edit_mode == "Line"){
+							// 					if (edit_step == 2){
+							// 						var line = add_Line({X: clicked.XR, Y: clicked.YR}, {X: real.X, Y: real.Y}).selected = true;
+							// 						setBound();
+							// 					}
+							// 				}
+                            //
+                            //
+							// 				//******************************************************** Rectangle ***************************************************************
+							// 				if (edit_mode == "Rectangle"){
+                            //
+							// 					if (edit_step == 2){
+                            //
+							// 							var P = getExtremums([{X: clicked.XR, Y: clicked.YR}, real]);
+                            //
+							// 							var group = {enable: true, E: []};
+                            //
+							// 							add_Line({X: P.min.X, Y: P.min.Y}, {X: P.min.X, Y: P.max.Y}).selected = true;	group.E.push(E.length-1);
+							// 							add_Line({X: P.min.X, Y: P.max.Y}, {X: P.max.X, Y: P.max.Y}).selected = true;	group.E.push(E.length-1);
+							// 							add_Line({X: P.max.X, Y: P.max.Y}, {X: P.max.X, Y: P.min.Y}).selected = true;	group.E.push(E.length-1);
+							// 							add_Line({X: P.max.X, Y: P.min.Y}, {X: P.min.X, Y: P.min.Y}).selected = true;	group.E.push(E.length-1);
+							// 							setBound();
+                            //
+							// 							G.push(group);
+							// 							selected_groups = [G.length-1];
+							// 					}
+							// 				}
+                            //
+                            //
+							// 				//******************************************************** Circle ***************************************************************
+							// 				if (edit_mode == "Circle"){
+                            //
+							// 					if (edit_step == 2){
+							// 							var DX =  real.X - clicked.XR;
+							// 							var DY =  real.Y - clicked.YR;
+							// 							var R = Math.sqrt(DX * DX + DY * DY);
+                            //
+							// 							add_Circle(clicked, R).selected = true;
+							// 							setBound();
+							// 					}
+							// 				}
+                            //
+                            //
+							// 				//******************************************************** Spline ***************************************************************
+							// 				if (edit_mode == "Spline"){
+                            //
+							// 					if (edit_step == 2){
+							// 							add_Spline({X: clicked.XR, Y: clicked.YR}, {X: real.X, Y: real.Y}).selected = true;
+							// 							setBound();
+							// 					}
+							// 				}
+                            //
+                            //
+							// 				//******************************************************** Erase ******************************************************************
+							// 				if (edit_mode == "Erase"){
+                            //
+							// 					if (over.Element){
+                            //
+							// 						var current_Element = over.Element;
+							// 						var CRS = {X: over.CR.X, Y: over.CR.Y, L: over.Line};
+							// 						INTERSECT = [];
+                            //
+							// 							for (var i = 0; i < E[current_Element].P.length - 1; i++)
+							// 							for (var m = 1; m < E.length; m++) if (E[m].enable)
+							// 							for (var j = 0; j < E[m].P.length - 1; j++){
+							// 								var res = intersect(E[current_Element].P[i], E[current_Element].P[i+1], E[m].P[j], E[m].P[j+1]);
+							// 								if (res) INTERSECT.push({X: res.X, Y: res.Y, L: i, TE: m, TL: j});
+							// 							}
+                            //
+                            //
+							// 						//****************************** 0 **********************	
+							// 						if (INTERSECT.length == 0) E[current_Element].enable = false;
+                            //
+                            //
+							// 						//****************************** 1 **********************	
+							// 						if (INTERSECT.length == 1) if (E[current_Element].closed) E[current_Element].enable = false;
+                            //
+                            //
+							// 						//******************************************* line ************************************************
+							// 						if (E[current_Element].enable)
+							// 						if (E[current_Element].type == "line"){
+                            //
+							// 									var e = E[current_Element];
+                            //
+							// 											var SEC = [];
+							//											
+							// 									for (var i = 0; i < e.P.length - 1; i++){
+							// 											var dx = (e.P[i+1].X - e.P[i].X) / 1000;
+							// 											var dy = (e.P[i+1].Y - e.P[i].Y) / 1000;
+							// 											var ds = Math.sqrt(dx*dx + dy*dy);
+                            //
+							// 										for (var p = 0; p <= 1000; p++){
+							// 											var pos = {X: e.P[i].X + p * dx, Y: e.P[i].Y + p * dy}
+							// 											if (distance2Point(pos, CRS) <= ds / 2) SEC.push({kind: "cursor", X: pos.X, Y: pos.Y, L: i});
+							// 											for (n = 0; n < INTERSECT.length; n++) if (distance2Point(pos, INTERSECT[n]) <= ds / 2) SEC.push({kind: "cross", X: INTERSECT[n].X, Y: INTERSECT[n].Y, L: INTERSECT[n].L});
+							// 										}
+							// 									}
+                            //
+							// 														var catched_cross = 0;
+							// 														var CR0 = {};
+							// 														var CR1 = {};
+							// 														var CR2 = {};
+							// 														var CR3 = {};
+							// 													for (var n = 0; n < SEC.length; n++){
+							// 														if (SEC[n].kind == "cursor") catched_cross = 1;
+							// 														if (SEC[n].kind == "cross"){
+							// 															if (catched_cross == 0)  CR1 = {X: SEC[n].X, Y: SEC[n].Y, L: SEC[n].L}
+							// 															if (catched_cross == 1) {CR2 = {X: SEC[n].X, Y: SEC[n].Y, L: SEC[n].L}; catched_cross = 2}
+							// 															if (e.closed) CR3 = {X: SEC[n].X, Y: SEC[n].Y, L: SEC[n].L}
+							// 														}
+							// 													}
+							// 															if (!CR2.X)
+							// 															if (SEC.length > 2) CR0 = {X: SEC[0].X, Y: SEC[0].Y, L: SEC[0].L}
+                            //
+                            //
+							// 														//****************************
+							// 														if (CR1.X){
+							// 															var NP = [{X: 0, Y: 0}];
+                            //
+							// 															if (CR3.X) if (CR2.X)
+							// 															if (CR3.X == CR2.X && CR3.Y == CR2.Y){
+							// 																NP.push({X: CR2.X, Y: CR2.Y});
+							// 																for (var i = CR2.L+1; i < e.P.length; i++) NP.push({X: e.P[i].X, Y: e.P[i].Y});
+							// 															}
+							//															
+                            //
+                            //
+							// 															if (!CR0.X) for (var i = 0; i <= CR1.L; i++) NP.push({X: e.P[i].X, Y: e.P[i].Y});
+							// 															if (CR0.X) {
+							// 																NP.push({X: CR0.X, Y: CR0.Y});
+							// 																for (var i = CR0.L + 1; i <= CR1.L; i++) NP.push({X: e.P[i].X, Y: e.P[i].Y});
+							// 															}
+							// 															NP.push({X: CR1.X, Y: CR1.Y});
+                            //
+							// 															if (polylineLength(NP) / polylineLength(E[current_Element].CP) > 0.02) 
+							// 															recalculateCurve(add_Element("line", NP, []));
+							// 														}
+                            //
+							// 														//****************************
+							// 														if (CR2.X){
+							// 															var NP = [{X: 0, Y: 0}];
+							// 															NP.push({X: CR2.X, Y: CR2.Y});
+							// 															if (!CR3.X) for (var i = CR2.L+1; i < e.P.length; i++) NP.push({X: e.P[i].X, Y: e.P[i].Y});
+							// 															if (CR3.X) {
+							// 																for (var i = CR2.L+1; i <= CR3.L; i++) NP.push({X: e.P[i].X, Y: e.P[i].Y});
+							// 																NP.push({X: CR3.X, Y: CR3.Y});
+							// 															}
+							//															
+							// 															if (CR3.X)
+							// 															if (CR3.X != CR2.X || CR3.Y != CR2.Y){
+							// 																NP.push({X: CR3.X, Y: CR3.Y});
+							// 																for (var i = CR3.L+1; i < e.P.length; i++) NP.push({X: e.P[i].X, Y: e.P[i].Y});
+							// 															}
+                            //
+							// 															if (polylineLength(NP) / polylineLength(E[current_Element].CP) > 0.02) 
+							// 															recalculateCurve(add_Element("line", NP, []));
+							// 														}
+                            //
+							// 															E[current_Element].enable = false;
+                            //
+							// 															console.log("CR0: " + CR0.X + "/" + CR0.Y);
+							// 															console.log("CR1: " + CR1.X + "/" + CR1.Y);
+							// 															console.log("CR2: " + CR2.X + "/" + CR2.Y);
+							// 															console.log("CR3: " + CR3.X + "/" + CR3.Y);
+							//															
+							// 						}
+                            //
+                            //
+                            //
+							//						
+							// 						//******************************************* Circle ************************************************
+							// 						if (E[current_Element].enable)
+							// 						if (E[current_Element].type == "circle"){
+                            //
+							// 										var e = E[current_Element];
+                            //
+							// 											var SEC_0 = [];
+							// 											var SEC = [];
+                            //
+							// 											var angle_1 = 0, angle_2 = 0;
+							// 											var closedCurve = false; 
+							// 											if (e.startAngle + 2 * Math.PI == e.endAngle) closedCurve = true;
+                            //
+							// 										for (var n = 0; n < INTERSECT.length; n++){
+							// 										//if (INTERSECT[n].X != e.CP[0].X && INTERSECT[n].y != e.CP[0].y) 
+							// 											var proj = projections(e.CP[0], INTERSECT[n]);
+							// 											//if (!closedCurve) SEC_0.push(proj);
+							// 											//if (closedCurve) 
+							// 												if (INTERSECT[n].TE != current_Element) SEC_0.push(proj);
+							// 											//if (proj.angle != e.startAngle && proj.angle != e.endAngle)
+							// 											//if (proj.angle != e.startAngle + 2 * Math.PI && proj.angle != e.endAngle + 2 * Math.PI)
+							// 										}
+                            //
+							// 										for (n = 0; n < SEC_0.length; n++){
+							// 											if (SEC_0[n].angle < e.startAngle) SEC_0[n].angle += 2 * Math.PI;
+							// 											if (SEC_0[n].angle > e.endAngle) SEC_0[n].angle -= 2 * Math.PI;
+							// 										}
+                            //
+							// 										for (n = 0; n < SEC_0.length; n++) SEC.push({angle: SEC_0[n].angle});
+							// 										if (closedCurve) for (n = 0; n < SEC_0.length; n++) SEC.push({angle: SEC_0[n].angle - 2 * Math.PI});
+							// 										if (closedCurve) for (n = 0; n < SEC_0.length; n++) SEC.push({angle: SEC_0[n].angle + 2 * Math.PI});
+                            //
+							// 										//var allbigger = false;
+							// 										//for (n = 0; n < SEC.length; n++) if (SEC[n].angle)
+                            //
+							// 										SEC.push(projections(e.CP[0], CRS));
+							// 										SEC[SEC.length - 1].cursor = true;
+                            //
+                            //
+							// 										for (n = 0; n < SEC.length - 1; n++)
+							// 										for (var i = 0; i < SEC.length - 1; i++)
+							// 											if (SEC[i].angle > SEC[i+1].angle){
+							// 												var TEMP = {angle: SEC[i].angle, cursor: SEC[i].cursor};
+							// 												SEC[i] = {angle: SEC[i+1].angle, cursor: SEC[i+1].cursor};
+							// 												SEC[i+1] = {angle: TEMP.angle, cursor: TEMP.cursor};
+							// 											}
+                            //
+							// 											var cursor_num;
+							// 											for (n = 0; n < SEC.length; n++) if (SEC[n].cursor)	cursor_num = n;
+                            //
+							// 											console.log(SEC);
+                            //
+							// 											if (closedCurve){
+							// 												//if (cursor_num < SEC.length - 1) angle_1 = SEC[cursor_num + 1].angle;
+							// 												//if (cursor_num > 0) angle_2 = SEC[cursor_num - 1].angle;
+							// 												//if (!angle_2) angle_2 = SEC[0].angle;
+							// 												angle_1 = SEC[cursor_num + 1].angle;
+							// 												angle_2 = SEC[cursor_num - 1].angle;
+                            //
+							// 												add_Curve(e.CP[0], e.R, angle_1, angle_2 + 2 * Math.PI);
+							// 												console.log(angle_1, angle_2 + 2 * Math.PI)
+							// 											}
+							// 											if (!closedCurve){
+							// 												if (cursor_num > 0) {angle_1 = SEC[cursor_num - 1].angle} else {angle_1 = e.startAngle}
+							// 												if (cursor_num < SEC.length - 1) {angle_2 = SEC[cursor_num + 1].angle} else {angle_2 = e.endAngle}
+							// 												if (angle_1 != e.startAngle) add_Curve(e.CP[0], e.R, e.startAngle, angle_1);
+							// 												if (angle_2 != e.endAngle)   add_Curve(e.CP[0], e.R, angle_2, e.endAngle);
+							// 													console.log("angle_1: " + angle_1);
+							// 													console.log("angle_2: " + angle_2);
+							// 											}
+                            //
+							// 															//*************************************************************************
+							// 															function add_Curve(C, R, start, end){
+							//																
+							// 																//if (start >= 2 * Math.PI) start -= 2 * Math.PI;
+							// 																//if (end >= 2 * Math.PI) end -= 2 * Math.PI;
+                            //
+							// 																var P0 = {X: C.X, Y: C.Y}
+							// 																var P1 = {X: C.X + R, Y: C.Y}
+							// 																var P2 = {X: C.X + R * Math.cos(start), Y: C.Y + R * Math.sin(start)}
+							// 																var P3 = {X: C.X + R * Math.cos(end), Y: C.Y + R * Math.sin(end)}
+                            //
+							// 																var newE = add_Element("circle", [P0, P1, P2, P3]);
+							// 																newE.R = e.R;
+							// 																newE.startAngle = start;
+							// 																newE.endAngle = end;
+							// 																recalculateCurve(newE);
+							// 															}
+                            //
+							// 										e.enable = false;
+                            //
+							// 										//console.log(SEC);
+							// 						}
+                            //
+                            //
+                            //
+                            //
+							// 						//******************************************** Spline ***********************************************
+							// 						if (E[current_Element].enable)
+							// 						if (E[current_Element].type == "spline"){
+                            //
+							// 									var e = E[current_Element];
+                            //
+							// 											var SEC = [];
+                            //
+							// 											for (n = 0; n < INTERSECT.length; n++) SEC.push({kind: "cross", X: INTERSECT[n].X, Y: INTERSECT[n].Y, L: INTERSECT[n].L})
+							// 											SEC.push({kind: "cursor", X: CRS.X, Y: CRS.Y, L: CRS.L})
+                            //
+							// 											for (n = 0; n < SEC.length; n++)
+							// 											for (var i = 0; i < SEC.length - 1; i++)
+							// 												if (SEC[i].L > SEC[i+1].L){
+							// 													var TEMP = {kind: SEC[i].kind, X: SEC[i].X, Y: SEC[i].Y, L: SEC[i].L}
+							// 													SEC[i] = {kind: SEC[i+1].kind, X: SEC[i+1].X, Y: SEC[i+1].Y, L: SEC[i+1].L}
+							// 													SEC[i+1] = {kind: TEMP.kind, X: TEMP.X, Y: TEMP.Y, L: TEMP.L}
+							// 												}
+                            //
+							// 														var CR1 = {};
+							// 														var CR2 = {};
+							// 											for (n = 0; n < SEC.length; n++) if (SEC[n].kind == "cursor"){
+							// 												if (n > 0) CR1 = {kind: SEC[n-1].kind, X: SEC[n-1].X, Y: SEC[n-1].Y, L: SEC[n-1].L}
+							// 												if (n < SEC.length - 1) CR2 = {kind: SEC[n+1].kind, X: SEC[n+1].X, Y: SEC[n+1].Y, L: SEC[n+1].L}
+							// 											}
+                            //
+							// 													//console.log(SEC);
+                            //
+							// 														if (CR1.X){
+							//															
+							// 															var NP = [{X: 0, Y: 0}];
+                            //
+							// 																var P1 = {X: e.CP[1].X, Y: e.CP[1].Y}
+							// 																var P2 = {X: e.CP[2].X, Y: e.CP[2].Y}
+							// 																var P3 = {X: e.CP[3].X, Y: e.CP[3].Y}
+							// 																var P4 = {X: e.CP[4].X, Y: e.CP[4].Y}
+							//																
+							// 																//CR1 = spline1000(over.Line * 20, E[over.Element].CP[1], E[over.Element].CP[2], E[over.Element].CP[3], E[over.Element].CP[4]);
+							//															
+							// 																var DX_P1P2 = P2.X - P1.X;
+							// 																var DY_P1P2 = P2.Y - P1.Y;
+							//																
+							// 																var DX_P2P3 = P3.X - P2.X;
+							// 																var DY_P2P3 = P3.Y - P2.Y;
+                            //
+							// 																var DX_P3P4 = P4.X - P3.X;
+							// 																var DY_P3P4 = P4.Y - P3.Y;
+							//																
+							// 																var t = CR1.L / 50;
+							//																
+							// 																var P5 = {X: P1.X + DX_P1P2 * t, Y: P1.Y + DY_P1P2 * t}
+							// 																var P6 = {X: P2.X + DX_P2P3 * t, Y: P2.Y + DY_P2P3 * t}
+							// 																var P7 = {X: P3.X + DX_P3P4 * t, Y: P3.Y + DY_P3P4 * t}
+							//																
+							// 																var DX_P5P6 = P6.X - P5.X;
+							// 																var DY_P5P6 = P6.Y - P5.Y;
+							//																
+							// 																var DX_P6P7 = P7.X - P6.X;
+							// 																var DY_P6P7 = P7.Y - P6.Y;
+							//																
+							// 																var P8 = {X: P5.X + DX_P5P6 * t, Y: P5.Y + DY_P5P6 * t}
+							// 																var P9 = {X: P6.X + DX_P6P7 * t, Y: P6.Y + DY_P6P7 * t}
+							//																
+							// 																var DX_P8P9 = P9.X - P8.X;
+							// 																var DY_P8P9 = P9.Y - P8.Y;
+							//																
+                            //
+							// 																var P10 = {X: P8.X + DX_P8P9 * t, Y: P8.Y + DY_P8P9 * t}
+							//																
+							// 																NP.push({X: P1.X, Y: P1.Y}, {X: P5.X,  Y: P5.Y});
+							// 																NP.push({X: P8.X, Y: P8.Y}, {X: CR1.X, Y: CR1.Y});
+							//																
+							// 																console.log("SLEN: " + splineLength(NP));
+							//																
+							// 																if (splineLength(E[current_Element].CP) / splineLength(NP) < 40)
+							// 																recalculateCurve(add_Element("spline", NP, []));
+							// 														}
+                            //
+                            //
+							// 														if (CR2.X){
+							// 															var NP = [{X: 0, Y: 0}];
+                            //
+							// 																var P1 = {X: e.CP[1].X, Y: e.CP[1].Y}
+							// 																var P2 = {X: e.CP[2].X, Y: e.CP[2].Y}
+							// 																var P3 = {X: e.CP[3].X, Y: e.CP[3].Y}
+							// 																var P4 = {X: e.CP[4].X, Y: e.CP[4].Y}
+                            //
+							// 																var DX_P1P2 = P2.X - P1.X;
+							// 																var DY_P1P2 = P2.Y - P1.Y;
+                            //
+							// 																var DX_P2P3 = P3.X - P2.X;
+							// 																var DY_P2P3 = P3.Y - P2.Y;
+                            //
+							// 																var DX_P3P4 = P4.X - P3.X;
+							// 																var DY_P3P4 = P4.Y - P3.Y;
+							//																
+							// 																var t = CR2.L / 50;
+							//																
+							// 																var P5 = {X: P1.X + DX_P1P2 * t, Y: P1.Y + DY_P1P2 * t}
+							// 																var P6 = {X: P2.X + DX_P2P3 * t, Y: P2.Y + DY_P2P3 * t}
+							// 																var P7 = {X: P3.X + DX_P3P4 * t, Y: P3.Y + DY_P3P4 * t}
+                            //
+							// 																var DX_P5P6 = P6.X - P5.X;
+							// 																var DY_P5P6 = P6.Y - P5.Y;
+                            //
+							// 																var DX_P6P7 = P7.X - P6.X;
+							// 																var DY_P6P7 = P7.Y - P6.Y;
+                            //
+							// 																var P8 = {X: P5.X + DX_P5P6 * t, Y: P5.Y + DY_P5P6 * t}
+							// 																var P9 = {X: P6.X + DX_P6P7 * t, Y: P6.Y + DY_P6P7 * t}
+                            //
+							// 																var DX_P8P9 = P9.X - P8.X;
+							// 																var DY_P8P9 = P9.Y - P8.Y;
+                            //
+                            //
+							// 																var P10 = {X: P8.X + DX_P8P9 * t, Y: P8.Y + DY_P8P9 * t}
+                            //
+							// 																NP.push({X: CR2.X, Y: CR2.Y}, {X: P9.X,  Y: P9.Y});
+							// 																NP.push({X: P7.X, Y: P7.Y}, {X: P4.X, Y: P4.Y});
+                            //
+							// 																if (splineLength(E[current_Element].CP) / splineLength(NP) < 40)
+							// 																recalculateCurve(add_Element("spline", NP, []));
+							// 														}
+                            //
+							// 																E[current_Element].enable = false;
+							// 						}
+							//						
+							// 							setTimeout(function(){INTERSECT = []}, 500);
+							// 					}
+							// 				}
+                            //
+                            //
+                            //
+							// 				//********************************************************************************************************************************
+							// 				fixed = {x: over.x, y: over.y, X: over.X, Y: over.Y, Element: over.Element, Line: over.Line, Point: over.Point, Ox: O.x, Oy: O.y, B: over.B}
+							// 				clicked = {x: over.x, y: over.y, X: over.X, Y: over.Y, Element: over.Element, Line: over.Line, Point: over.Point, Ox: O.x, Oy: O.y, B: over.B, xr: real.x, yr: real.y, XR: real.X, YR: real.Y}
+                            //
+                            //
+							// 				//*****************************
+							// 				// refresh_All();
+							// 				// redraw();
+							// });
+                            //
+                            //
 
 
 							//################################################ Mouse up ##################################################
-							canvas.addEventListener('mouseup', function(e){
-
-									if (current_MMB) for (var i = 0; i < MMB.length; i++) {MMB[i].background("linear-gradient(0deg, rgb(100, 100, 100) 0px, rgb(140, 140, 140) 35px)"); MMB[i].panel.hide()}
-
-									current_MMB = null;
-
-									button[e.which] = false;
-
-									//****************** Zoom ******************************************************
-									if (edit_mode == "Zoom"){
-										
-										canvas.style.cursor = "zoom-in";
-										var ds = distance2Point(fixed, over);
-										
-											if (ds > 10){
-
-												var minX = fixed.X; if (over.X < minX) minX = over.X;
-												var minY = fixed.Y; if (over.Y < minY) minY = over.Y;
-												var maxX = fixed.X; if (over.X > maxX) maxX = over.X;
-												var maxY = fixed.Y; if (over.Y > maxY) maxY = over.Y;
-
-													scale = canvas.width / (maxX - minX) * 0.9;
-													scale2 = (canvas.height - 20) / (maxY - minY) * 0.9;
-													if (scale2 < scale) scale = scale2;
-
-													O.X = (maxX + minX) / 2;
-													O.Y = (maxY + minY) / 2;
-
-													O.x = 0 - O.X * scale;
-													O.y = 10 / 2 - O.Y * scale;
-													
-											} else {
-												
-												if (e.which == 1) scale *= 1.3;
-												if (e.which == 3) scale *= 0.7;
-								
-												O.x = over.x - over.X * scale;
-												O.y = over.y - over.Y * scale;								
-											}
-											
-												refresh_All();
-												//redraw();
-									}
-
-
-									//****************** change edit type ******************************************
-									if (same_clicked)
-									if (!fixed.B)
-									if (!over.dx && !over.dy){
-										if (edit_type == "Resize") {edit_type = "Rotate"} else {edit_type = "Resize"}
-									}
-
-
-									//******************** select **************************************************
-									if (edit_mode == "Select")
-									if (!fixed.Element) 
-									if (!over.Element)
-									if (!fixed.B)
-									if (!input_Width.changed && !input_Height.changed){
-										skipSelected();
-										if (distance2Point({X: fixed.x, Y: fixed.y}, {X: over.x, Y: over.y}) > 10) select_Elements_inRect(fixed, over);
-									}
-										input_Width.changed = false;
-										input_Height.changed = false;
-
-
-									//********************* skip after building lines ********************************************
-									if (edit_mode == "Line" || edit_mode == "Rectangle" || edit_mode == "Circle" || edit_mode == "Spline") if (edit_step == 2) {
-										edit_mode = "Select";
-										edit_step = 0;
-
-										for (var i = 1; i < MAB.length; i++) MAB[i].background("rgba(0, 0, 0, 0)").border("1px solid rgba(0, 0, 0, 0)");
-										MAB[0].background("rgba(255, 255, 255, 1.0)").border("1px solid rgba(0, 0, 0, 0.35)");
-									};
-
-
-									//********************* skip after building freehand line ************************************
-									if (edit_mode == "Freehand"){
-										edit_step = 0;
-
-												var current = E.length-1;
-												E[current].enable = false;
-												var group = {enable: true, E: []};
-												
-											for (var n = 0; n < Math.floor(E[current].CP.length / 3); n++) if (n*3 + 4 < E[current].CP.length){
-													var P1 = {X: E[current].CP[n*3+1].X, Y: E[current].CP[n*3+1].Y};
-													var P2 = {X: E[current].CP[n*3+2].X, Y: E[current].CP[n*3+2].Y};
-													var P3 = {X: E[current].CP[n*3+3].X, Y: E[current].CP[n*3+3].Y};
-													var P4 = {X: E[current].CP[n*3+4].X, Y: E[current].CP[n*3+4].Y};
-													var newE = add_Element('spline', [{X: 0, Y: 0}, P1, P2, P3, P4]);
-													recalculateCurve(newE);
-													newE.selected = true;
-												group.E.push(E.length-1);
-											}
-												
-											G.push(group);	
-											setBound();		
-									}
-
-										//refreshSelectedCircles();
-										if (edit_type != "Rotate") setBound();
-										fixed = {};
-										real = {};
-										CROSS = [];
-										redraw();
-							});
-
+							// canvas.addEventListener('mouseup', function(e){
+                            //
+							// 		if (current_MMB) for (var i = 0; i < MMB.length; i++) {MMB[i].background("linear-gradient(0deg, rgb(100, 100, 100) 0px, rgb(140, 140, 140) 35px)"); MMB[i].panel.hide()}
+                            //
+							// 		current_MMB = null;
+                            //
+							// 		button[e.which] = false;
+                            //
+							// 		//****************** Zoom ******************************************************
+							// 		if (edit_mode == "Zoom"){
+							//			
+							// 			canvas.style.cursor = "zoom-in";
+							// 			var ds = distance2Point(fixed, over);
+							//			
+							// 				if (ds > 10){
+                            //
+							// 					var minX = fixed.X; if (over.X < minX) minX = over.X;
+							// 					var minY = fixed.Y; if (over.Y < minY) minY = over.Y;
+							// 					var maxX = fixed.X; if (over.X > maxX) maxX = over.X;
+							// 					var maxY = fixed.Y; if (over.Y > maxY) maxY = over.Y;
+                            //
+							// 						scale = canvas.width / (maxX - minX) * 0.9;
+							// 						scale2 = (canvas.height - 20) / (maxY - minY) * 0.9;
+							// 						if (scale2 < scale) scale = scale2;
+                            //
+							// 						O.X = (maxX + minX) / 2;
+							// 						O.Y = (maxY + minY) / 2;
+                            //
+							// 						O.x = 0 - O.X * scale;
+							// 						O.y = 10 / 2 - O.Y * scale;
+							//						
+							// 				} else {
+							//					
+							// 					if (e.which == 1) scale *= 1.3;
+							// 					if (e.which == 3) scale *= 0.7;
+							//	
+							// 					O.x = over.x - over.X * scale;
+							// 					O.y = over.y - over.Y * scale;								
+							// 				}
+							//				
+							// 					refresh_All();
+							// 					//redraw();
+							// 		}
+                            //
+                            //
+							// 		//****************** change edit type ******************************************
+							// 		if (same_clicked)
+							// 		if (!fixed.B)
+							// 		if (!over.dx && !over.dy){
+							// 			if (edit_type == "Resize") {edit_type = "Rotate"} else {edit_type = "Resize"}
+							// 		}
+                            //
+                            //
+							// 		//******************** select **************************************************
+							// 		if (edit_mode == "Select")
+							// 		if (!fixed.Element) 
+							// 		if (!over.Element)
+							// 		if (!fixed.B)
+							// 		if (!input_Width.changed && !input_Height.changed){
+							// 			skipSelected();
+							// 			if (distance2Point({X: fixed.x, Y: fixed.y}, {X: over.x, Y: over.y}) > 10) select_Elements_inRect(fixed, over);
+							// 		}
+							// 			input_Width.changed = false;
+							// 			input_Height.changed = false;
+                            //
+                            //
+							// 		//********************* skip after building lines ********************************************
+							// 		if (edit_mode == "Line" || edit_mode == "Rectangle" || edit_mode == "Circle" || edit_mode == "Spline") if (edit_step == 2) {
+							// 			edit_mode = "Select";
+							// 			edit_step = 0;
+                            //
+							// 			for (var i = 1; i < MAB.length; i++) MAB[i].background("rgba(0, 0, 0, 0)").border("1px solid rgba(0, 0, 0, 0)");
+							// 			MAB[0].background("rgba(255, 255, 255, 1.0)").border("1px solid rgba(0, 0, 0, 0.35)");
+							// 		};
+                            //
+                            //
+							// 		//********************* skip after building freehand line ************************************
+							// 		if (edit_mode == "Freehand"){
+							// 			edit_step = 0;
+                            //
+							// 					var current = E.length-1;
+							// 					E[current].enable = false;
+							// 					var group = {enable: true, E: []};
+							//					
+							// 				for (var n = 0; n < Math.floor(E[current].CP.length / 3); n++) if (n*3 + 4 < E[current].CP.length){
+							// 						var P1 = {X: E[current].CP[n*3+1].X, Y: E[current].CP[n*3+1].Y};
+							// 						var P2 = {X: E[current].CP[n*3+2].X, Y: E[current].CP[n*3+2].Y};
+							// 						var P3 = {X: E[current].CP[n*3+3].X, Y: E[current].CP[n*3+3].Y};
+							// 						var P4 = {X: E[current].CP[n*3+4].X, Y: E[current].CP[n*3+4].Y};
+							// 						var newE = add_Element('spline', [{X: 0, Y: 0}, P1, P2, P3, P4]);
+							// 						recalculateCurve(newE);
+							// 						newE.selected = true;
+							// 					group.E.push(E.length-1);
+							// 				}
+							//					
+							// 				G.push(group);	
+							// 				setBound();		
+							// 		}
+                            //
+							// 			//refreshSelectedCircles();
+							// 			if (edit_type != "Rotate") setBound();
+							// 			fixed = {};
+							// 			real = {};
+							// 			CROSS = [];
+							// 			redraw();
+							// });
+                            //
 
 
 
 							//################################################ Scroll Wheel ##############################################
-							addScrollWheel(function(delta){
-
-									scale *= (1 + delta / 10);
-
-									O.x = over.x - over.X * scale;
-									O.y = over.y - over.Y * scale;
-
-											clicked.xr = clicked.XR * scale + O.x;
-											clicked.yr = clicked.YR * scale + O.y;
-
-									setBound();
-
-									//******************************
-									refresh_All();
-									redraw();
-							});
+							// addScrollWheel(function(delta){
+                            //
+							// 		scale *= (1 + delta / 10);
+                            //
+							// 		O.x = over.x - over.X * scale;
+							// 		O.y = over.y - over.Y * scale;
+                            //
+							// 				clicked.xr = clicked.XR * scale + O.x;
+							// 				clicked.yr = clicked.YR * scale + O.y;
+                            //
+							// 		setBound();
+                            //
+							// 		//******************************
+							// 		refresh_All();
+							// 		redraw();
+							// });
 
 
 
@@ -4340,11 +4341,11 @@ function create_board(){
 									refresh_All();
 									redraw();
 					}
-					
-					
 
 
 
 
+
+			newBoard.clear();
 			return board;
 	}

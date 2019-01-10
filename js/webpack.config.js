@@ -7,6 +7,7 @@ module.exports = {
         "menu":"./src/menu.js",
         "popup":"./src/popup.js",
         "Helper":"./src/Helper.js",
+        "board":"./src/2d/Board.js",
     },
     output: {
         path: path.resolve(__dirname+"/dist/"),

@@ -138,7 +138,7 @@ class MenuItem extends BlockElement{
      * @param eventName
      * @param data
      * @return {boolean}
-     * @private
+     * @protected
      */
     _notifyHandlers(eventName, data){
         var res = true;
