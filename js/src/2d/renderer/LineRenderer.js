@@ -3,7 +3,7 @@
  */
 
 import Render from './Render';
-import Line from './../../model/Line';
+import Line from '../../model/elements/Line';
 
 export default class LineRenderer extends Render{
     /**

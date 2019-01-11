@@ -3,8 +3,9 @@
  */
 
 import LineTool from './tool/LineTool';
-import Document from './../model/Document';
-import Point from './../model/Point';
+import PointerTool from './tool/PointerTool';
+import Document from '../model/Document';
+import Point from '../model/Point';
 
 export default class Board {
     /**
@@ -63,8 +64,8 @@ export default class Board {
 
     renderDocument() {
         this.clear('#ffffff');
-        this.document.render();
         this.tool.renderElement();
+        this.document.render();
 
 
         this._drawRulers();
@@ -120,6 +121,19 @@ export default class Board {
         this.tool.mouseDbClick(this._convertToGlobalCoordinateSystem({x: e.offsetX, y: e.offsetY}));
     }
 
+    /**
+     *
+     * @param {String} name
+     */
+    setTool(name){
+        switch(name){
+            case 'Line':
+                this.tool = new LineTool(this.document);
+                break;
+            default:
+                this.tool = new PointerTool(this.document);
+        }
+    }
 
     setBias(x,y){
         this._bias.x=x;

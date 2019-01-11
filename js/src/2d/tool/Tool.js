@@ -2,8 +2,8 @@
  * Created by dev on 09.01.19.
  */
 
-import Document from './../../model/Document';
-import Point from './../../model/Point';
+import Document from '../../model/Document';
+import Point from '../../model/Point';
 
 export default class Tool{
     /**

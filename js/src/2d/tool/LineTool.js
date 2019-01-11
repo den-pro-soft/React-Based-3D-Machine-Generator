@@ -3,7 +3,7 @@
  */
 
 import Tool from './Tool';
-import Line from './../../model/Line';
+import Line from '../../model/elements/Line';
 
 export default class LineTool extends Tool{
     constructor(document){

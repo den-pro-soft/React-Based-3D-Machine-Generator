@@ -46,6 +46,20 @@ export default class Document{
         return res;
     }
 
+    /**
+     * @param {ClosedFigure} figure
+     * @return {Array.<Element>}
+     */
+    getElementsIntoFigure(figure){
+        let res = [];
+        for(let element of this._elements){
+            if(element.isIntoFigure(figure)){
+                res.push(element);
+            }
+        }
+        return res;
+    }
+
     resetRendererConfig(){
         for(let element of this._elements) {
             element.resetRendererConfig();

@@ -16,11 +16,24 @@ export default class Element{
         this._renderer.drawElement();
     }
 
+    resetRendererConfig(){
+        this._renderer.resetConfig();
+    }
+
+    /**
+     * @param {Point} point
+     * @param {float} eps
+     */
     isNear(point, eps){
         throw new Exception('The method doesn\'n have implementation.');
     }
 
-    resetRendererConfig(){
-        this._renderer.resetConfig();
+
+    /**
+     * @param {ClosedFigure} figure
+     * @return {boolean}
+     */
+    isIntoFigure(figure){
+        throw new Exception('The method doesn\'n have implementation.');
     }
 }

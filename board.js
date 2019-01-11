@@ -411,6 +411,7 @@ function create_board(){
 						//edit_type == "Resize";
 						//same_clicked = false;
 						if (edit_mode == "Line" || edit_mode == "Rectangle" || edit_mode == "Circle" || edit_mode == "Spline") skipSelected();
+						container.board.setTool(edit_mode);
 						
 						if (this.name == "Corner"){
 							//cornerSelected();

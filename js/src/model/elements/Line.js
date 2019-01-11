@@ -1,9 +1,9 @@
 /**
  * Created by dev on 04.01.19.
  */
-import Exception from '../Exception';
-import Element from './Element';
-import LineRenderer from '../2d/renderer/LineRenderer';
+import Exception from '../../Exception';
+import Element from '../Element';
+import LineRenderer from '../../2d/renderer/LineRenderer';
 
 export default class Line extends Element{
     constructor(p1, p2){
@@ -58,6 +58,9 @@ export default class Line extends Element{
         return 2 * Math.sqrt(p * (p - AB) * (p - BC) * (p - AC)) / AB;
     }
 
+    isIntoFigure(figure){
+        return figure.contain(this.p1) && figure.contain(this.p2);
+    }
 
     isNear(point, eps){
         return this.distanceTo(point)<eps;
