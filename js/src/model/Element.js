@@ -23,6 +23,7 @@ export default class Element{
     /**
      * @param {Point} point
      * @param {float} eps
+     * @return {boolean}
      */
     isNear(point, eps){
         throw new Exception('The method doesn\'n have implementation.');

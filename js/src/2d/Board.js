@@ -4,6 +4,7 @@
 
 import LineTool from './tool/LineTool';
 import PointerTool from './tool/PointerTool';
+import RectTool from './tool/RectTool';
 import Document from '../model/Document';
 import Point from '../model/Point';
 
@@ -129,6 +130,9 @@ export default class Board {
         switch(name){
             case 'Line':
                 this.tool = new LineTool(this.document);
+                break;
+            case 'Rectangle':
+                this.tool = new RectTool(this.document);
                 break;
             default:
                 this.tool = new PointerTool(this.document);

@@ -24,7 +24,7 @@ export default class Group extends Element{
     isNear(point, eps){
         let res = false;
         for(let element of this.elements){
-            res |= element.isNear(point);
+            res |= element.isNear(point, eps);
         }
 
         return res;
