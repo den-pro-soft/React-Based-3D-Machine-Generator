@@ -26,6 +26,7 @@ export default class Board {
         this._height = 500;
 
         this._mouseDown = null;
+        this._mousePosition = {x: 0, y: 0};
         canvas.addEventListener('mousemove', e=>this.mouseMove(e));
         canvas.addEventListener('mousedown', e=>this.mouseDown(e));
         canvas.addEventListener('mouseup', e=>this.mouseUp(e));
@@ -74,6 +75,7 @@ export default class Board {
                 this._mouseDown = e;
             }
         }
+        this._mousePosition={x:e.offsetX, y:e.offsetY};
         this.renderDocument();
     }
 
@@ -124,106 +126,105 @@ export default class Board {
 
         let rulerWidth = 20;
         let rulerBackgroundColor = '#efefef';
-        let fillColor = '#000000';
+        let fillColor = '#444444';
 
         this._context.font = "400 9px Arial";
         this._context.textBaseline = "middle";
         this._context.textAlign = "center";
-        this._context.fillStyle = 'rgba(50, 50, 50, 1.0)';
-        this._context.strokeStyle = 'rgba(125, 125, 125, 0.5)';
+        this._context.fillStyle = fillColor;
+        this._context.strokeStyle = fillColor;
 
-
-        console.log(this._scale);
 
         this._drawRect({x: rulerWidth, y: 0}, {x: this._width, y: rulerWidth}, rulerBackgroundColor, true);
         let convertX =x=>x*this._pixelPerOne*this._scale+this._initCenterPosition.x+this._bias.x;
-        for (let x = 0; x < 100/this._scale; x++) {
-            let localX = convertX(x);
-            let l = 1;
-            l = x%(this._scale<1?10:l)==0? 10:5;
-            l = x%(this._scale<=0.1?20:l)==0? 10:5;
-            l = x%(this._scale<=0.05?50:l)==0? 10:5;
 
+        let divider=1;
+        if(this._scale<0.002)       divider = 1E3;
+        else if(this._scale<0.003)  divider = 500;
+        else if(this._scale<0.005)  divider = 200;
+        else if(this._scale<0.01)   divider = 100;
+        else if(this._scale<0.03)   divider = 50;
+        else if(this._scale<0.05)   divider = 25;
+        else if(this._scale<0.2)    divider = 10;
+        else if(this._scale<1)      divider = 5;
+        else if(this._scale>500)     divider = 0.005;
+        else if(this._scale>100)     divider = 0.01;
+        else if(this._scale>15)     divider = 0.05;
+        else if(this._scale>7)     divider = 0.2;
+        else if(this._scale>2)      divider = 0.5;
+
+        let drawDivision = (x)=>{
+            x=Math.round((x)*1E3)/1E3;
+            let localX = convertX(x);
+            let l = (x*1E3)%(divider*1E3)==0?10:5;
             if(l==10){
                 this._context.fillText(x, localX, 6);
             }
             this._context.fillRect(localX, rulerWidth-l, 1, l);
-        }
-        for (let x = 0; x>-100; x--) {
-            let localX = convertX(x);
-            let l = x%(this._scale>1?1:10)==0? 10:5;
+        };
 
 
-            if(x%10==0){
-                this._context.fillText(x, localX, 6);
-            }
-            this._context.fillRect(localX, rulerWidth-l, 1, l);
+        let delta = 1;
+        if(divider>5){
+            delta = parseInt(divider/5);
+        }else {
+            delta = divider == 5?1:divider;
         }
 
-
-
-
-
-
-
-
-
-        //********************************** coordinates *********************
-        var len = 50 * this._scale;
-
-        len = Math.round(len / 50 + 1) * 50;
-
-        var step = len * this._scale;
-        if (step < 30) {len = (len * 2 / 100 + 1) * 100;
-            if (len > 1000) len = (len * 2 / 1000 + 1) * 1000; if (len > 3000)
-                len = (len * 2 / 1000 + 1) * 1000; step = len * this._scale}
-
-        for (var n = 0; n < 5; n++){
-            if (step > 80) if (len == 5) {len = 2; step = len * this._scale}
-            if (step > 80) if (len == 10) {len = 5; step = len * this._scale}
-            if (step > 80) if (len == 15) {len = 10; step = len * this._scale}
-            if (step > 80) if (len == 25) {len = 10; step = len * this._scale}
-            if (step > 80) if (len == 50) {len = 20; step = len * this._scale}
-            if (step > 80) if (len == 100) {len = 50; step = len * this._scale}
-            if (step > 80) if (len == 150) {len = 100; step = len * this._scale}
-            if (step > 80) if (len == 200) {len = 100; step = len * this._scale}
-            if (step > 80) if (len == 250) {len = 200; step = len * this._scale}
-            if (step > 80) if (len == 300) {len = 150; step = len * this._scale}
-            if (step > 80) if (len == 350) {len = 250; step = len * this._scale}
-            if (step > 80) if (len == 400) {len = 200; step = len * this._scale}
-            if (step > 80) if (len == 450) {len = 200; step = len * this._scale}
-            if (step > 80) if (len == 500) {len = 200; step = len * this._scale}
-            if (step > 80) if (len == 550) {len = 200; step = len * this._scale}
-            if (step > 80) if (len == 600) {len = 200; step = len * this._scale}
-            if (step > 80) if (len == 650) {len = 200; step = len * this._scale}
-            if (step > 80) if (len == 700) {len = 500; step = len * this._scale}
-            if (step > 80) if (len == 750) {len = 500; step = len * this._scale}
+        let minX = parseInt(this._convertToGlobalCoordinateSystem({x:0,y:0}).x)-1;
+        let maxX = parseInt(this._convertToGlobalCoordinateSystem({x:this._width+rulerWidth,y:0}).x)+1;
+        if(maxX<=0 || minX>0){
+            for (let x = minX; x < maxX; x+=delta) drawDivision(x);
+        }else{
+            for (let x = 0; x < maxX; x+=delta) drawDivision(x);
+            for (let x = 0; x > minX; x-=delta) drawDivision(x);
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
         this._drawRect({x: 0, y: 0}, {x: rulerWidth, y: this._height}, rulerBackgroundColor, true);
+
+        this._context.rotate(-Math.PI / 2);
+
         let convertY =y=>y*this._pixelPerOne*this._scale+this._initCenterPosition.y+this._bias.y;
-        for (let y = 0; y < 100; y++) {
-            this._drawLine({x:rulerWidth-5, y: convertY(y)}, {x: rulerWidth, y: convertY(y)}, fillColor, 1);
-        }
-        for (let y = 0; y>-100; y--) {
-            this._drawLine({x:rulerWidth-5, y: convertY(y)}, {x: rulerWidth, y: convertY(y)}, fillColor, 1);
+
+
+        let drawDivisionY = (x)=>{
+            x=Math.round((x)*1E3)/1E3;
+            let localX = convertY(-x);
+            let l = (x*1E3)%(divider*1E3)==0?10:5;
+            if(l==10){
+                this._context.fillText(x, -localX, 6);
+            }
+            this._context.fillRect(-localX,rulerWidth-l, 1,l);
+        };
+        let maxY = parseInt(this._convertToGlobalCoordinateSystem({x:0,y:rulerWidth}).y)+1;
+        let minY = parseInt(this._convertToGlobalCoordinateSystem({x:0,y:this._height}).y)-1;
+        if(maxY<=0 || minX>0){
+            for (let y = minY; y < maxY; y+=delta) drawDivisionY(y);
+        }else{
+            for (let y = 0; y < maxY; y+=delta) drawDivisionY(y);
+            for (let y = 0; y > minY; y-=delta) drawDivisionY(y);
         }
 
+        this._context.rotate(Math.PI / 2);
+
+
+
+        this._context.fillStyle = 'rgba(200, 100, 50, 1.0)';
+        this._context.beginPath();
+        this._context.moveTo(this._mousePosition.x, 20);
+        this._context.lineTo(this._mousePosition.x - 3, 20 - 9);
+        this._context.lineTo(this._mousePosition.x + 3, 20 - 9);
+        this._context.lineTo(this._mousePosition.x, 20);
+        this._context.fill();
+
+
+        this._context.beginPath();
+        this._context.moveTo(20, this._mousePosition.y);
+        this._context.lineTo(20 - 9, this._mousePosition.y - 3);
+        this._context.lineTo(20 - 9, this._mousePosition.y + 3);
+        this._context.lineTo(20,this._mousePosition.y);
+        this._context.fill();
 
         this._drawRect({x: 0, y: 0}, {x: rulerWidth+5, y: rulerWidth+5}, rulerBackgroundColor, true);
     }
