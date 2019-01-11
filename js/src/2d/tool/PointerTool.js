@@ -42,7 +42,11 @@ export default class PointerTool extends Tool{
 
     mouseUp(point){
         if(this.selectRect) {
-            this._selectElements = this.document.getElementsIntoFigure(this.selectRect);
+            if(this.selectRect.getSquare()<1E-3){
+                this._selectElements = this._getNearElements(point);
+            }else {
+                this._selectElements = this.document.getElementsIntoFigure(this.selectRect);
+            }
             this.selectRect = null;
         }
         this._mouseDown=false;
@@ -59,10 +63,12 @@ export default class PointerTool extends Tool{
         }
     }
 
-    _selectNearElements(point){
+    _getNearElements(point){
         let scale = container.board._scale; //todo: container
-        let elements = this.document.getNearElements(point, (scale>1?0.2:0.05)/scale);
-        for(let element of elements){
+        return this.document.getNearElements(point, (scale>1?0.2:0.05)/scale);
+    }
+    _selectNearElements(point){
+        for(let element of this._getNearElements(point)){
             element._renderer.setFocus(true);
         }
     }
