@@ -10,7 +10,7 @@ export default class Tool{
      * @param {Document} document
      */
     constructor(document){
-        this._document = document;
+        this.document = document;
     }
 
     /**
@@ -18,14 +18,46 @@ export default class Tool{
      * @return {boolean} false if not changing any Elements
      */
     mouseMove(point){
-        // throw new Exception("The method doesn't have implementation");
+        throw new Exception("The method doesn't have implementation");
         return false;
+    }
+
+    /**
+     * @param {Point} point
+     * @return {boolean} false if not changing any Elements
+     */
+    mouseDbClick(point){
+        throw new Exception("The method doesn't have implementation");
+    }
+
+    /**
+     * @param {Point} point
+     * @return {boolean} false if not changing any Elements
+     */
+    mouseClick(point){
+        throw new Exception("The method doesn't have implementation");
+    }
+
+    /**
+     * @param {Point} point
+     * @return {boolean} false if not changing any Elements
+     */
+    mouseDown(point){
+        throw new Exception("The method doesn't have implementation");
+    }
+
+    /**
+     * @param {Point} point
+     * @return {boolean} false if not changing any Elements
+     */
+    mouseUp(point){
+        throw new Exception("The method doesn't have implementation");
     }
 
     /**
      *
      */
     renderElement(){
-        // throw new Exception("The method doesn't have implementation");
+        throw new Exception("The method doesn't have implementation");
     }
 }

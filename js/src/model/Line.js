@@ -10,7 +10,6 @@ export default class Line extends Element{
         super();
         this.p1=p1;
         this.p2=p2;
-        // this._points = [p1,p2];
         // this._constrolPoints = [{x: (p2.x + p1.x) / 2, y: (p2.y + p1.y) / 2},...this._points];
         this._renderer = new LineRenderer(this);
     }
@@ -25,4 +24,42 @@ export default class Line extends Element{
         return Math.sqrt(Math.pow(p1.x-p2.x,2)+Math.pow(p1.y-p2.y,2)+z);
     }
 
+    /**
+     * http://www.cat-in-web.ru/notebook/rasstoyanie-ot-tochki-do-otrezka/
+     */
+    _isObtuseAngle( oppositeLine,  a,  b){
+        var cos = (a*a + b*b - oppositeLine*oppositeLine) / (2 * a * b);
+        return cos < 0;
+    }
+
+    /**
+     * http://www.cat-in-web.ru/notebook/rasstoyanie-ot-tochki-do-otrezka/
+     */
+    distanceTo(point){
+        let p1=this.p1;
+        let p2=this.p2;
+        if (p1.compare(point) || p2.compare(point))
+            return 0;
+
+        var AB = p1.distanceTo(p2);
+        var AC = p1.distanceTo(point);
+
+        if (AB == 0)
+            return AC;
+
+        var BC = p2.distanceTo(point);
+
+        if (this._isObtuseAngle(AC, BC, AB))
+            return BC;
+        if (this._isObtuseAngle(BC, AC, AB))
+            return AC;
+
+        var p = (AC + BC + AB) / 2;
+        return 2 * Math.sqrt(p * (p - AB) * (p - BC) * (p - AC)) / AB;
+    }
+
+
+    isNear(point, eps){
+        return this.distanceTo(point)<eps;
+    }
 }

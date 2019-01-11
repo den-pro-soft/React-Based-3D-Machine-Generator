@@ -1,3 +1,6 @@
+var container = {
+	board: null
+};
 function create_board(){
 
 	var board = element('div').background('rgb(240, 240, 240)').size(1200, 800);
@@ -372,7 +375,7 @@ function create_board(){
 					// setBound();
 					// refresh_All();
 					// redraw();
-				newBoard.setSize(width, height);
+				container.board.setSize(width, height);
 				return board;
 			}
 
@@ -1000,7 +1003,7 @@ function create_board(){
 			canvas = document.createElement('canvas');
 			canvas.style.background = '#fff';
 			board.appendChild(canvas);
-			var newBoard  = new Board2(canvas);
+			container.board  = new Board2(canvas);
 			context = canvas.getContext('2d');
 			
 			//**************************************************************************
@@ -4346,6 +4349,6 @@ function create_board(){
 
 
 
-			newBoard.clear();
+			container.board.clear();
 			return board;
 	}

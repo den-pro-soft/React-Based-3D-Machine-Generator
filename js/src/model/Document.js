@@ -31,6 +31,27 @@ export default class Document{
         }
     }
 
+    /**
+     * @param {Point} point
+     * @param {float} eps
+     * @return {Array.<Element>}
+     */
+    getNearElements(point, eps){
+        let res = [];
+        for(let element of this._elements){
+            if(element.isNear(point, eps)){
+                res.push(element);
+            }
+        }
+        return res;
+    }
+
+    resetRendererConfig(){
+        for(let element of this._elements) {
+            element.resetRendererConfig();
+        }
+    }
+
     getSnapshot(){
         throw new Exception("The method doesn't hae implementation");
     }

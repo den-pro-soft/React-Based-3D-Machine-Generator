@@ -41,6 +41,8 @@ export default class Board {
         } else {
             this.canvas.attachEvent("onmousewheel", e=>this._mouseWheel(e));
         }
+        canvas.addEventListener('click',  e=>this.mouseClick(e));
+        canvas.addEventListener('dblclick',  e=>this._mouseDbClick(e));
 
         this.renderDocument();
     }
@@ -61,13 +63,15 @@ export default class Board {
 
     renderDocument() {
         this.clear('#ffffff');
+        this.document.render();
+        this.tool.renderElement();
+
+
         this._drawRulers();
-        //
-        // this.document.render();
-        // this.tool.renderElement();
     }
 
     mouseMove(e) {
+        this.document.resetRendererConfig();
         if (!this.tool.mouseMove(this._convertToGlobalCoordinateSystem({x:e.offsetX, y:e.offsetY}))) {
             if (this._mouseDown) {
                 this.setBias(this._bias.x - (this._mouseDown.offsetX - e.offsetX)
@@ -80,20 +84,26 @@ export default class Board {
     }
 
     mouseUp(e) {
+        this.document.resetRendererConfig();
+        this.tool.mouseUp(this._convertToGlobalCoordinateSystem({x: e.offsetX, y: e.offsetY}));
         this._mouseDown = null;
         this.renderDocument();
     }
 
     mouseDown(e) {
+        this.document.resetRendererConfig();
+        this.tool.mouseDown(this._convertToGlobalCoordinateSystem({x: e.offsetX, y: e.offsetY}));
         this._mouseDown = e;
         this.renderDocument();
     }
 
     mouseClick(e) {
-        throw new Exception("The method doesn't have implementation");
+        this.document.resetRendererConfig();
+        this.tool.mouseClick(this._convertToGlobalCoordinateSystem({x:e.offsetX, y:e.offsetY}));
     }
 
     _mouseWheel(e) {
+        this.document.resetRendererConfig();
         let dScale = e.deltaY / 500;
         let was = this._convertToGlobalCoordinateSystem({x:e.offsetX, y:e.offsetY});
         if(this.setScale(this._scale*(1+dScale))) {
@@ -104,6 +114,12 @@ export default class Board {
 
         this.renderDocument();
     }
+
+    _mouseDbClick(e) {
+        this.document.resetRendererConfig();
+        this.tool.mouseDbClick(this._convertToGlobalCoordinateSystem({x: e.offsetX, y: e.offsetY}));
+    }
+
 
     setBias(x,y){
         this._bias.x=x;
@@ -120,10 +136,6 @@ export default class Board {
     }
 
     _drawRulers() {
-
-        this.drawLine({x: 0, y: 0}, {x: 10, y: 0}, '#00ff00', 1);
-
-
         let rulerWidth = 20;
         let rulerBackgroundColor = '#efefef';
         let fillColor = '#444444';
@@ -235,19 +247,23 @@ export default class Board {
      * @param {string} color
      * @param {int} width
      */
-    drawLine(p1,p2,color,width){
-        this._drawLine(this._convertToLocalCoordinateSystem(p1), this._convertToLocalCoordinateSystem(p2), color, width);
+    drawLine(p1,p2,color,width, dash){
+        this._drawLine(this._convertToLocalCoordinateSystem(p1), this._convertToLocalCoordinateSystem(p2), color, width, dash);
     }
 
-    _drawLine(p1, p2, color, width) {
+    _drawLine(p1, p2, color, width, dash) {
         let oldColor = this._context.strokeStyle;
         let oldLineWidth = this._context.lineWidth;
+        let oldDash = this._context.das;
 
         if (color) {
             this._context.strokeStyle = color;
         }
         if (width) {
             this._context.lineWidth = width;
+        }
+        if(dash){
+            this._context.setLineDash(dash);
         }
 
         this._context.beginPath();

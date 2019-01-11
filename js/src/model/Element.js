@@ -15,4 +15,12 @@ export default class Element{
     render(){
         this._renderer.drawElement();
     }
+
+    isNear(point, eps){
+        throw new Exception('The method doesn\'n have implementation.');
+    }
+
+    resetRendererConfig(){
+        this._renderer.resetConfig();
+    }
 }
