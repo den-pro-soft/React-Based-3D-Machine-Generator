@@ -21,6 +21,21 @@ export default class Element{
     }
 
     /**
+     * @returns {{max:{x:number, y:number}, min:{x:number, y:number}}}
+     */
+    getExtrenum(){
+        throw new Exception('The method doesn\'n have implementation.');
+    }
+
+    /**
+     * @param {number} x
+     * @param {number} y
+     */
+    move(x,y){
+        throw new Exception('The method doesn\'n have implementation.');
+    }
+
+    /**
      * @param {Point} point
      * @param {float} eps
      * @return {boolean}
@@ -31,8 +46,10 @@ export default class Element{
 
 
     /**
+     * @deprecated The method can have an error if the figure is a concave element
+     *
      * @param {ClosedFigure} figure
-     * @return {boolean}
+     * @return {boolean} - true if current elements into figure.
      */
     isIntoFigure(figure){
         throw new Exception('The method doesn\'n have implementation.');

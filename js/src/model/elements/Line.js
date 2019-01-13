@@ -4,6 +4,9 @@
 import Exception from '../../Exception';
 import Element from '../Element';
 import LineRenderer from '../../2d/renderer/LineRenderer';
+import Point from "../Point";
+import Martix from './../math/Matrix';
+import Matrix from "../math/Matrix";
 
 export default class Line extends Element{
     constructor(p1, p2){
@@ -30,6 +33,13 @@ export default class Line extends Element{
     _isObtuseAngle( oppositeLine,  a,  b){
         var cos = (a*a + b*b - oppositeLine*oppositeLine) / (2 * a * b);
         return cos < 0;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    getExtrenum(){
+        return Point.getExtrenum([this.p1, this.p2]);
     }
 
     /**
@@ -64,5 +74,12 @@ export default class Line extends Element{
 
     isNear(point, eps){
         return this.distanceTo(point)<eps;
+    }
+
+    move(x,y){
+        let points = [this.p1, this.p2];
+        for(let point of points){
+            point.move(x,y,0);
+        }
     }
 }
