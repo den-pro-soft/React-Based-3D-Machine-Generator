@@ -1,6 +1,7 @@
 function create_board(){
 
 	var board = element('div').background('rgb(240, 240, 240)').size(1200, 800);
+	
 	var canvas,	context, 
 
 	/* 
@@ -219,7 +220,7 @@ function create_board(){
                  //    .setItemSize(itemSize.width,itemSize.height)
                  //    .setItemStyle(itemStyle))
 				.addMenu(new Menu("Line")
-                    .addMenuItem(new MenuItem("Group").setExecutor(groupSelected))
+                    .addMenuItem(new MenuItem("Group - Test").setExecutor(groupSelected))
                     .addMenuItem(new MenuItem("Ungroup").setExecutor(ungroupSelected))
                     .addMenuItem(new MenuItem("Intersect").setExecutor(intersectSelected))
                     .addMenuItem(new MenuItem("Divide"))
@@ -271,9 +272,9 @@ function create_board(){
 				// 	.setItemSize(itemSize.width,itemSize.height)
 				// 	.setItemStyle(itemStyle))
 				.addMenu(new Menu("Job")
-					// .addMenuItem(new MenuItem("Material"))
+					.addMenuItem(new MenuItem("Material"))
 					.addMenuItem(new MenuItem("Settings"))
-					// .addMenuItem(new MenuItem("Finishing"))
+					.addMenuItem(new MenuItem("Finishing"))
 					// .addMenuItem(new MenuItem("Model bends"))
 					.addMenuItem(new MenuItem("Price/Analyze"))
 					.addMenuItem(new MenuItem("Checklist"))
