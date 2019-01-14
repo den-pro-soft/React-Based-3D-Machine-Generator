@@ -8,6 +8,7 @@ import Point from './../../model/Point';
  * 2. move canvas
  * 3. resize elements
  * 4. rotate elements
+ * 5. move elements on board
  */
 export default class PointerTool extends Tool{
     constructor(document){
@@ -24,6 +25,8 @@ export default class PointerTool extends Tool{
         this.resizeRect = null;
         
         this._selectMode = true;
+
+        this.cursor=null;
     }
 
     mouseMove(point){
@@ -47,6 +50,7 @@ export default class PointerTool extends Tool{
         if(this._mouseDown){
             this._mouseDown=point;
         }
+        super.mouseMove(point);
         return this._selectMode;
     }
 
@@ -85,6 +89,11 @@ export default class PointerTool extends Tool{
         this._mouseDown=null;
     }
 
+    render(){
+        this.renderElement();
+        super.render();
+    }
+    
     renderElement(){
         if(this.selectRect){
             let element = this.selectRect.toElement();

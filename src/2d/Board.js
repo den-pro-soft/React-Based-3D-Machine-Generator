@@ -68,7 +68,7 @@ export default class Board {
 
     renderDocument() {
         this.clear('#ffffff');
-        this.tool.renderElement();
+        this.tool.render();
         this.document.render();
 
 

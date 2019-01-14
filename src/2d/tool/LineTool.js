@@ -11,9 +11,11 @@ export default class LineTool extends Tool{
 
         this._line = null;
 
+        this.cursor.src = 'images/Line.png';
     }
 
     mouseMove(point){
+        super.mouseMove(point);
         if(this._line){
             this._line.p2=point;
             this._selectNearElements(point);
@@ -42,10 +44,11 @@ export default class LineTool extends Tool{
         }
     }
 
-    renderElement(){
+    render(){
         if(this._line){
             this._line.render();
         }
+        super.render();
     }
     
     

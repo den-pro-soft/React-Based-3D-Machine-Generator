@@ -11,9 +11,11 @@ export default class CircleTool extends Tool{
 
         this._circle = null;
 
+        this.cursor.src = 'images/Circle.png';
     }
 
     mouseMove(point){
+        super.mouseMove(point);
         if(this._circle){
             this._circle.radius = new Line(this._circle.center, point).length();
             this._selectNearElements(point);
@@ -41,10 +43,11 @@ export default class CircleTool extends Tool{
         }
     }
 
-    renderElement(){
+    render(){
         if(this._circle){
             this._circle.render();
         }
+        super.render();
     }
 
 
