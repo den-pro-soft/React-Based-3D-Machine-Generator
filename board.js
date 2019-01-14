@@ -220,7 +220,7 @@ function create_board(){
                  //    .setItemSize(itemSize.width,itemSize.height)
                  //    .setItemStyle(itemStyle))
 				.addMenu(new Menu("Line")
-                    .addMenuItem(new MenuItem("Group - Test").setExecutor(groupSelected))
+                    .addMenuItem(new MenuItem("Group").setExecutor(groupSelected))
                     .addMenuItem(new MenuItem("Ungroup").setExecutor(ungroupSelected))
                     .addMenuItem(new MenuItem("Intersect").setExecutor(intersectSelected))
                     .addMenuItem(new MenuItem("Divide"))

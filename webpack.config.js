@@ -8,6 +8,7 @@ module.exports = {
     menu: "./src/menu.js",
     popup: "./src/popup.js",
     Helper: "./src/Helper.js",
+    // board:"./src/board.js",
     //React enry point
     index: "./src/index.js"
   },
@@ -40,6 +41,7 @@ module.exports = {
         }
         // options for the loader
       },
+      //React and SCSS config
       {
         test: /\.js$/,
         exclude: /node_modules/,
