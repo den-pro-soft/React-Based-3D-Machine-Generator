@@ -3,10 +3,9 @@
  */
 import Exception from '../../Exception';
 import Element from '../Element';
-import LineRenderer from '../../2d/renderer/LineRenderer';
+import LineRenderer from './../../2d/renderer/LineRenderer';
 import Point from "../Point";
-import Martix from './../math/Matrix';
-import Matrix from "../math/Matrix";
+import Martix from '../math/Matrix';
 
 export default class Line extends Element{
     constructor(p1, p2){

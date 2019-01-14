@@ -2,7 +2,7 @@
  * Created by dev on 09.01.19.
  */
 
-import Board from './../../2d/Board'
+import Board from '../Board'
 
 /**
  *

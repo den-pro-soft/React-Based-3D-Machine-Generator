@@ -2,8 +2,8 @@
  * Created by dev on 14.01.19.
  */
 
-import Element from './../Element';
-import Point from './../Point';
+import Element from '../Element';
+import Point from '../Point';
 import Line from './Line';
 import ArcRenderer from './../../2d/renderer/ArcRenderer';
 

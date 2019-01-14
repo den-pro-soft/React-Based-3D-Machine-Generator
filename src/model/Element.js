@@ -1,7 +1,7 @@
 /**
  * Created by dev on 04.01.19.
  */
-import Render from '../2d/renderer/Render'
+import Render from './../2d/renderer/Render'
 
 export default class Element{
     constructor(){
