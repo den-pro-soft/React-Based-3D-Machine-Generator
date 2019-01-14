@@ -51,7 +51,9 @@ export default class PointerTool extends Tool{
     }
 
     mouseDbClick(point){
-        this._selectMode=!this._selectMode;
+        if(this._selectElements.length==0) {
+            this._selectMode = !this._selectMode;
+        }
     }
 
     mouseClick(point){}
