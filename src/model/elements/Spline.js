@@ -12,33 +12,19 @@ export default class Spline extends Element{
         this.startPoint = startPoint;
         this.endPoint = endPoint;
 
-        this._controlPoint1=null;
-        this._controlPoint2=null;
+        this.controlPoint1=null;
+        this.controlPoint2=null;
 
 
 
         this._renderer = new SplineRenderer(this);
     }
 
-    get controlPoint1(){
-        if(!this._controlPoint1){
-            this._controlPoint1 = new Point(this.endPoint.x-this.startPoint.x+2,this.endPoint.y-this.startPoint.y+2);
-        }
-        return this._controlPoint1;
-    }
-
-    get controlPoint2(){
-        if(!this._controlPoint2){
-            this._controlPoint2 = new Point(this.endPoint.x-this.startPoint.x-2,this.endPoint.y-this.startPoint.y-2);
-        }
-        return this._controlPoint2;
-    }
-
     /**
      * @returns {{max:{x:number, y:number}, min:{x:number, y:number}}}
      */
     getExtrenum(){
-        return Point.getExtrenum([
+        return Point.getExtrenum([ //todo: isn't correct method
             this.startPoint, this.endPoint, this.controlPoint1, this.controlPoint2
         ]);
     }
@@ -60,7 +46,7 @@ export default class Spline extends Element{
      * @return {boolean}
      */
     isNear(point, eps){
-        throw new Exception('The method doesn\'n have implementation.');
+
     }
 
 
@@ -71,7 +57,7 @@ export default class Spline extends Element{
      * @return {boolean} - true if current elements into figure.
      */
     isIntoFigure(figure){
-        throw new Exception('The method doesn\'n have implementation.');
+
     }
     
 }

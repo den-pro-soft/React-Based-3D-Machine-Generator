@@ -6,6 +6,7 @@ import Element from '../Element';
 import LineRenderer from './../../2d/renderer/LineRenderer';
 import Point from "../Point";
 import Martix from '../math/Matrix';
+import Matrix from "../math/Matrix";
 
 export default class Line extends Element{
     constructor(p1, p2){
@@ -80,5 +81,15 @@ export default class Line extends Element{
         for(let point of points){
             point.move(x,y,0);
         }
+    }
+
+    /**
+     * Return point which offset is the size of crop number(presented by fraction)
+     * Start is p1
+     * @param {number} offset - 0..1
+     * @return {Point}
+     */
+    getPointOffset(offset){
+        return new Point(this.p1.x +(this.p2.x-this.p1.x)*offset, this.p1.y +(this.p2.y-this.p1.y)*offset);
     }
 }

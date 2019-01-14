@@ -5,6 +5,7 @@
 import LineTool from './tool/LineTool';
 import PointerTool from './tool/PointerTool';
 import RectTool from './tool/RectTool';
+import SplineTool from './tool/SplineTool';
 import CircleTool from './tool/CircleTool';
 import Document from '../model/Document';
 import Point from '../model/Point';
@@ -139,6 +140,9 @@ export default class Board {
                 break;
             case 'Circle':
                 this.tool = new CircleTool(this.document);
+                break;
+            case 'Spline':
+                this.tool = new SplineTool(this.document);
                 break;
             default:
                 this.tool = new PointerTool(this.document);
@@ -390,7 +394,7 @@ export default class Board {
     _convertToGlobalCoordinateSystem(point){
         let divider = this._pixelPerOne*this._scale;
         return new Point((point.x-this._initCenterPosition.x-this._bias.x)/divider
-                        ,-(point.y-this._initCenterPosition.y-this._bias.y)/divider);
+                        ,-(point.y-this._initCenterPosition.y-this._bias.y)/divider,0);
     }
 }
 
