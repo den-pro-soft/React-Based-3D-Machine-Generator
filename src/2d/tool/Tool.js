@@ -4,7 +4,7 @@
 
 import Document from '../../model/Document';
 import Point from '../../model/Point';
-import Cursor from './cursor/Cursor';
+import Cursor from './Cursor';
 
 export default class Tool{
     /**
