@@ -47,7 +47,7 @@ export default class Line{
         let v1= this.v1;
         let v2= this.v2;
         let z = Math.pow(v1.z-v2.z,2);
-        let rez = Math.sqrt(Math.pow(v1.x-v2.x,2)+Math.pow(v1.y-v2.y,2)+((z&&z!=NaN)?z:0));
+        let rez = Math.sqrt(Math.pow(v1.x-v2.x,2)+Math.pow(v1.y-v2.y,2)+z);
         return rez;
     }
 

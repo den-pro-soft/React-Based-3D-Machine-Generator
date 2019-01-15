@@ -1,14 +1,12 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import "./index.scss";
+import ReactApp from './React/ReactApp';
 
 ReactDOM.render(
-  <>
-    <h2>
-      Hello colle colleagues, React is working with <span>Webpack</span> and{" "}
-      <span>SCSS</span> here!
-    </h2>
-    {/* <TestAsk /> */}
-  </>,
+  <div>
+   <ReactApp />
+  </div>,
   document.getElementById("root")
-);
+
+)

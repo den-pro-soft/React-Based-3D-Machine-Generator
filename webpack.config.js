@@ -8,7 +8,7 @@ module.exports = {
     menu: "./src/menu.js",
     popup: "./src/popup.js",
     Helper: "./src/Helper.js",
-    // board:"./src/board.js",
+    Board:"./src/2d/Board.js",
     //React enry point
     index: "./src/index.js"
   },
