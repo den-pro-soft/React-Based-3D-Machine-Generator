@@ -34,10 +34,11 @@ export default class Spline extends Element{
      * @param {number} y
      */
     move(x,y){
-        this.startPoint.move(x,y,0);
-        this.endPoint.move(x,y,0);
-        this.controlPoint1.move(x,y,0);
-        this.controlPoint2.move(x,y,0);
+        let moveMatrix = this.createMoveMatrix(x,y);
+        this.startPoint.changeByMatrix(moveMatrix);
+        this.endPoint.changeByMatrix(moveMatrix);
+        this.controlPoint1.changeByMatrix(moveMatrix);
+        this.controlPoint2.changeByMatrix(moveMatrix);
     }
 
     /**
@@ -46,7 +47,7 @@ export default class Spline extends Element{
      * @return {boolean}
      */
     isNear(point, eps){
-
+        return true;
     }
 
 

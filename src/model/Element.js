@@ -1,7 +1,8 @@
 /**
  * Created by dev on 04.01.19.
  */
-import Render from './../2d/renderer/Render'
+import Render from './../2d/renderer/Render';
+import Matrix from "../model/math/Matrix";
 
 export default class Element{
     constructor(){
@@ -62,4 +63,25 @@ export default class Element{
     isIntoFigure(figure){
         throw new Exception('The method doesn\'n have implementation.');
     }
+
+    /**
+     * @param {number} x
+     * @param {number} y
+     * @return {Matrix}
+     * @protected
+     */
+    createMoveMatrix(x,y){
+        return new Matrix([[1,0,0,0],[0,1,0,0],[0,0,1,0],[x,y,0,1]]);
+    }
+
+    /**
+     * @param {number} x
+     * @param {number} y
+     * @return {Matrix}
+     * @protected
+     */
+    createResizeMatrix(x,y){
+        return new Matrix([[1+x,0,0,0],[0,1+y,0,0],[0,0,1,0],[0,0,0,1]])
+    }
+    
 }

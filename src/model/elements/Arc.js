@@ -28,7 +28,8 @@ export default class Arc extends Element{
      * @param {number} y
      */
     move(x,y){
-        this.center.move(x,y,0);
+        let moveMatrix = this.createMoveMatrix(x,y);
+        this.center.changeByMatrix(moveMatrix);
     }
 
     /**
