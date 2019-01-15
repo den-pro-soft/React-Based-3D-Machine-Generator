@@ -83,11 +83,28 @@ export default class Line extends Element{
     }
 
     resize(x, y){
-        let resizeMatrix = this.createResizeMatrix(x,y);
+        let tempP = this.getCenter();
+        let wX = this.p2.x-this.p1.x;
+
+        let wY = this.p2.y-this.p1.y;
+
+        console.log((wX+x)/wX);
+        let resizeMatrix = this.createResizeMatrix((wX+x)/wX-1,(wY+y)/wY-1); //todo: move the method to Matrix class, and change it to static
+
+
+        let moveMatrix = this.createMoveMatrix(-tempP.x, -tempP.y);
+        let removeMatrix = this.createMoveMatrix(tempP.x, tempP.y);
+
         let points = [this.p1, this.p2];
         for(let point of points){
+            point.changeByMatrix(moveMatrix);
             point.changeByMatrix(resizeMatrix);
+            point.changeByMatrix(removeMatrix);
         }
+    }
+
+    getCenter(){
+        return this.getPointOffset(0.5);
     }
 
     /**

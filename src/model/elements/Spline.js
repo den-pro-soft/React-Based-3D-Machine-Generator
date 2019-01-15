@@ -9,24 +9,48 @@ import SplineRenderer from './../../2d/renderer/SplineRenderer';
 export default class Spline extends Element{
     constructor(startPoint, endPoint){
         super();
-        this.startPoint = startPoint;
-        this.endPoint = endPoint;
-
-        this.controlPoint1=null;
-        this.controlPoint2=null;
-
-
-
+        this._points = [startPoint, endPoint, null, null];
         this._renderer = new SplineRenderer(this);
     }
+
+    set startPoint(p){
+        this._points[0]=p;
+    }
+    get startPoint(){
+        return this._points[0];
+    }
+
+
+    set endPoint(p){
+        this._points[1]=p;
+    }
+    get endPoint(){
+        return this._points[1];
+    }
+
+
+    set controlPoint1(p){
+        this._points[2]=p;
+    }
+    get controlPoint1(){
+        return this._points[2];
+    }
+
+
+    set controlPoint2(p){
+        this._points[3]=p;
+    }
+    get controlPoint2(){
+        return this._points[3];
+    }
+
+
 
     /**
      * @returns {{max:{x:number, y:number}, min:{x:number, y:number}}}
      */
     getExtrenum(){
-        return Point.getExtrenum([ //todo: isn't correct method
-            this.startPoint, this.endPoint, this.controlPoint1, this.controlPoint2
-        ]);
+        return Point.getExtrenum(this._points); //todo: isn't correct method
     }
 
     /**
@@ -35,10 +59,9 @@ export default class Spline extends Element{
      */
     move(x,y){
         let moveMatrix = this.createMoveMatrix(x,y);
-        this.startPoint.changeByMatrix(moveMatrix);
-        this.endPoint.changeByMatrix(moveMatrix);
-        this.controlPoint1.changeByMatrix(moveMatrix);
-        this.controlPoint2.changeByMatrix(moveMatrix);
+        for(let p of this._points){
+            p.changeByMatrix(moveMatrix);
+        }
     }
 
     /**
@@ -50,6 +73,18 @@ export default class Spline extends Element{
         return true;
     }
 
+    getCenter(){
+        let res = new Point(0,0);
+        for(let p of this._points){
+            res.x+=p.x;
+            res.y+=p.y;
+            res.y+=p.y;
+        }
+        res.x/=this._points.length;
+        res.y/=this._points.length;
+        res.y/=this._points.length;
+        return res;
+    }
 
     /**
      * @deprecated The method can have an error if the figure is a concave element

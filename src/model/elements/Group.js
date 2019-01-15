@@ -3,6 +3,7 @@
  */
 
 import Element from '../Element';
+import Point from '../Point';
 import GroupRenderer from './../../2d/renderer/GroupRenderer';
 import Exception from "../../Exception";
 
@@ -68,5 +69,25 @@ export default class Group extends Element{
         for(let element of this.elements){
             element.move(x, y);
         }
+    }
+
+    resize(x,y){
+        for(let element of this.elements){
+            element.resize(x, y);
+        }
+    }
+
+    getCenter(){
+        let res = new Point(0,0);
+        for(let element of this.elements){
+            let p = element.getCenter();
+            res.x+=p.x;
+            res.y+=p.y;
+            res.y+=p.z;
+        }
+        res.x/=this.elements.length;
+        res.y/=this.elements.length;
+        res.z/=this.elements.length;
+        return res;
     }
 }

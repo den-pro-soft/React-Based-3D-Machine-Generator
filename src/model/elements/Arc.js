@@ -32,6 +32,10 @@ export default class Arc extends Element{
         this.center.changeByMatrix(moveMatrix);
     }
 
+
+    getCenter(){
+        return this.center;
+    }
     /**
      * @param {Point} point
      * @param {float} eps

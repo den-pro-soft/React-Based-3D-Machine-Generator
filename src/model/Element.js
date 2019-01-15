@@ -65,6 +65,13 @@ export default class Element{
     }
 
     /**
+     * @return {Point}
+     */
+    getCenter(){
+        throw new Exception('The method doesn\'n have implementation.');
+    }
+
+    /**
      * @param {number} x
      * @param {number} y
      * @return {Matrix}
