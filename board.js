@@ -331,19 +331,19 @@ function create_board(){
 			// 				{name: "Help", pic: "images/Help.png", hint: "Mechanical drawing is easy if you know a few key methods<br>Click this button for help on these techniques. For example, it is essential to know how<br>to enter dimensions numerically, apply the intersect command, use the snap feature,<br>nudge lines a specified distance, and combine commands to draw needed shapes."}
 			// ];
 
-			var MUAB_A = [	{name: "Group", pic: "images/Group.png", pic_active: "images/Group_active.png", hint: "Group (Ctrl + G)<br>Combine selected lines into one group to allow selection in one click.<br>Hold the SHIFT key whilw selecting multiple lines, then click this button.<br>To select a series of connected lines in one step - hold CTRL while clicking on one of the lines."},
-							{name: "Ungroup", pic: "images/Ungroup.png", pic_active: "images/Ungroup_active.png", hint: "Ungroup (Ctrl + U)<br>Separates a group into its component lines."},
-							{name: "Zoom to fit screen", pic: "images/ZoomToFitScreen.png", hint: "Zoom to fit screen (=)<br>Set magnification to show the full design."},
-							{name: "Zoom to actual size", pic: "images/ZoomToActualSize.png", hint: "Zoom actual size (1)<br>Show design approximately in real-life size."},
-							{name: "Zoom", pic: "images/Zoom.png", hint: "Zoom<br>To magnify a specific area, in workspace drag a rectangle around the area.<br>To set center of magnification and increase magnification, click at desired new center of drawing.<br>To set center of magnification and decrease magnification, right click at desired new center of drawing."},
-							{name: "Delete", pic: "images/Delete.png", hint: "Delete (Del)<br>Removes part of your drawing. Click the Selection (arrow) button,<br>then click the line to remove, then click this button."},
-							{name: "Preferences", pic: "images/Preferences.png", hint: "Preferences (F2)<br>Set preference options."},
-							{name: "Toggle inch", pic: "images/ToggleInch.png", hint: "Toggle inch / metric mode<br>Show all dimensions in inches or in millimeters."},
-							{name: "Line type", pic: "images/LinyType.png", hint: "Line type (F5)<br>Specifies whether the selected line represents a shape, bend, thread, comment,<br>dimension, tolerance, etc. Select «Auto» in most cases when creating the part shape."},
-							{name: "Intersect", pic: "images/Intersect.png", hint: "Intersect (Ctrl + I)<br>Split lines where they cross."},
-							{name: "3D preview", pic: "images/3DPreview.png", hint: "3D Preview (Ctrl + R)<br>Show 3D view of the current design.<br>Use frequently during creation of your drawing."},
-							{name: "Price/Analize", pic: "images/check2.png", hint: "Price/Analyze (f9)<br>Check design validity and compute cost.<br>You can also use this button to guide you through the steps.<br>For example, if you click this button with a blanl screen you will be advised to draw a line."}
-			];
+			// var MUAB_A = [	{name: "Group", pic: "images/Group.png", pic_active: "images/Group_active.png", hint: "Group (Ctrl + G)<br>Combine selected lines into one group to allow selection in one click.<br>Hold the SHIFT key whilw selecting multiple lines, then click this button.<br>To select a series of connected lines in one step - hold CTRL while clicking on one of the lines."},
+			// 				{name: "Ungroup", pic: "images/Ungroup.png", pic_active: "images/Ungroup_active.png", hint: "Ungroup (Ctrl + U)<br>Separates a group into its component lines."},
+			// 				{name: "Zoom to fit screen", pic: "images/ZoomToFitScreen.png", hint: "Zoom to fit screen (=)<br>Set magnification to show the full design."},
+			// 				{name: "Zoom to actual size", pic: "images/ZoomToActualSize.png", hint: "Zoom actual size (1)<br>Show design approximately in real-life size."},
+			// 				{name: "Zoom", pic: "images/Zoom.png", hint: "Zoom<br>To magnify a specific area, in workspace drag a rectangle around the area.<br>To set center of magnification and increase magnification, click at desired new center of drawing.<br>To set center of magnification and decrease magnification, right click at desired new center of drawing."},
+			// 				{name: "Delete", pic: "images/Delete.png", hint: "Delete (Del)<br>Removes part of your drawing. Click the Selection (arrow) button,<br>then click the line to remove, then click this button."},
+			// 				{name: "Preferences", pic: "images/Preferences.png", hint: "Preferences (F2)<br>Set preference options."},
+			// 				{name: "Toggle inch", pic: "images/ToggleInch.png", hint: "Toggle inch / metric mode<br>Show all dimensions in inches or in millimeters."},
+			// 				{name: "Line type", pic: "images/LinyType.png", hint: "Line type (F5)<br>Specifies whether the selected line represents a shape, bend, thread, comment,<br>dimension, tolerance, etc. Select «Auto» in most cases when creating the part shape."},
+			// 				{name: "Intersect", pic: "images/Intersect.png", hint: "Intersect (Ctrl + I)<br>Split lines where they cross."},
+			// 				{name: "3D preview", pic: "images/3DPreview.png", hint: "3D Preview (Ctrl + R)<br>Show 3D view of the current design.<br>Use frequently during creation of your drawing."},
+			// 				{name: "Price/Analize", pic: "images/check2.png", hint: "Price/Analyze (f9)<br>Check design validity and compute cost.<br>You can also use this button to guide you through the steps.<br>For example, if you click this button with a blanl screen you will be advised to draw a line."}
+			// ];
 
 
 			//***************************************************************************

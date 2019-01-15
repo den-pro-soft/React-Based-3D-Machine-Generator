@@ -1,26 +1,31 @@
 .LeftMenu {
-    margin-top:75px;
-    margin-left:10px;
+  margin-top: 75px;
+  margin-left: 10px;
   display: flex;
   flex-direction: column;
   button {
     width: 35px;
     height: 35px;
-    margin-bottom:4px;
-    background-color: rgba(240,240,240,0.85);
-    border:none;
-    // font-size: 12px;
-    // color: rgb(255, 255, 255);
-    // font-family: Ubuntu;
+    margin-bottom: 4px;
+    background-color: rgba(240, 240, 240, 0.85);
+    border: none;
     text-align: left;
-    // line-height: 16px;
-    // padding: 8px;
-    // left: 84px;
-    // top: 265px;
-    // opacity: 0;
-    // display: none;
-    &:hover{
-        background-color: white;  
+    &:hover {
+      background-color: white;
     }
+  }
+  .tooltipBackgroundTheme{
+      background: rgb(243, 204, 132) !important;
+      opacity: 0.6;
+      color: black;
+      margin-left:50px;
+      margin-top:20px;
+    //   &.place-right {
+    //   &:after {
+    //   border-right-color:  rgb(243, 204, 132)!important;
+    //   border-right-style: solid !important;
+    //   border-right-width: 6px !important;
+    //   }
+    //  }
   }
 }
