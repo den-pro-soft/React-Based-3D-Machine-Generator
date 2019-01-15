@@ -3,7 +3,7 @@
  */
 
 import Element from '../Element';
-import GroupRenderer from '../../2d/renderer/GroupRenderer';
+import GroupRenderer from './../../2d/renderer/GroupRenderer';
 import Exception from "../../Exception";
 import Matrix from "../math/Matrix";
 

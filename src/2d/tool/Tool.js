@@ -4,6 +4,7 @@
 
 import Document from '../../model/Document';
 import Point from '../../model/Point';
+import Cursor from './cursor/Cursor';
 
 export default class Tool{
     /**
@@ -11,6 +12,9 @@ export default class Tool{
      */
     constructor(document){
         this.document = document;
+        this.cursor = new Cursor();
+
+        this.mousePosition = new Point(0,0,0);
     }
 
     /**
@@ -18,7 +22,7 @@ export default class Tool{
      * @return {boolean} false if not changing any Elements
      */
     mouseMove(point){
-        throw new Exception("The method doesn't have implementation");
+        this.mousePosition=point;
         return false;
     }
 
@@ -57,7 +61,9 @@ export default class Tool{
     /**
      *
      */
-    renderElement(){
-        throw new Exception("The method doesn't have implementation");
+    render(){
+        if(this.cursor) {
+            this.cursor.render(this.mousePosition);
+        }
     }
 }

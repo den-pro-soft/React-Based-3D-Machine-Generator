@@ -5,8 +5,12 @@
 import LineTool from './tool/LineTool';
 import PointerTool from './tool/PointerTool';
 import RectTool from './tool/RectTool';
+import SplineTool from './tool/SplineTool';
+import CircleTool from './tool/CircleTool';
 import Document from '../model/Document';
 import Point from '../model/Point';
+
+//todo: maybe add a few method for style?
 
 export default class Board {
     /**
@@ -65,7 +69,7 @@ export default class Board {
 
     renderDocument() {
         this.clear('#ffffff');
-        this.tool.renderElement();
+        this.tool.render();
         this.document.render();
 
 
@@ -133,6 +137,12 @@ export default class Board {
                 break;
             case 'Rectangle':
                 this.tool = new RectTool(this.document);
+                break;
+            case 'Circle':
+                this.tool = new CircleTool(this.document);
+                break;
+            case 'Spline':
+                this.tool = new SplineTool(this.document);
                 break;
             default:
                 this.tool = new PointerTool(this.document);
@@ -264,15 +274,55 @@ export default class Board {
      * @param {Point} p2
      * @param {string} color
      * @param {int} width
+     * @param {Array.<number>} dash
      */
     drawLine(p1,p2,color,width, dash){
         this._drawLine(this._convertToLocalCoordinateSystem(p1), this._convertToLocalCoordinateSystem(p2), color, width, dash);
     }
 
+    /**
+     * @param {Point} center
+     * @param {number} radius - in global coordinate system
+     * @param {string} color
+     * @param {int} lineWidth
+     * @param {Array.<number>} dash
+     */
+    drawArc(center, radius, color, lineWidth, dash){
+        this._drawArc(this._convertToLocalCoordinateSystem(center),radius*this._pixelPerOne*this._scale, color,lineWidth,dash);
+    }
+
+    /**
+     * @param {{x: number, y: number}} center
+     * @param {number} radius - in pixel
+     * @param {string} color
+     * @param {int} lineWidth
+     * @param {Array.<number>} dash
+     */
+    _drawArc(center, radius, color, lineWidth, dash){
+        let oldColor = this._context.strokeStyle;
+        let oldLineWidth = this._context.lineWidth;
+
+        if (color) {
+            this._context.strokeStyle = color;
+        }
+        if (lineWidth) {
+            this._context.lineWidth = lineWidth;
+        }
+        if(dash){
+            this._context.setLineDash(dash);
+        }
+
+        this._context.beginPath();
+        this._context.arc(center.x, center.y, radius, 0, 2* Math.PI);
+        this._context.stroke();
+
+        this._context.strokeStyle = oldColor;
+        this._context.lineWidth = oldLineWidth;
+    }
+
     _drawLine(p1, p2, color, width, dash) {
         let oldColor = this._context.strokeStyle;
         let oldLineWidth = this._context.lineWidth;
-        let oldDash = this._context.das;
 
         if (color) {
             this._context.strokeStyle = color;
@@ -344,7 +394,7 @@ export default class Board {
     _convertToGlobalCoordinateSystem(point){
         let divider = this._pixelPerOne*this._scale;
         return new Point((point.x-this._initCenterPosition.x-this._bias.x)/divider
-                        ,-(point.y-this._initCenterPosition.y-this._bias.y)/divider);
+                        ,-(point.y-this._initCenterPosition.y-this._bias.y)/divider,0);
     }
 }
 

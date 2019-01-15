@@ -10,9 +10,12 @@ export default class RectTool extends Tool{
         super(document);
         
         this._rect = null;
+
+        this.cursor.src = 'images/Rectangle.png';
     }
 
     mouseMove(point){
+        super.mouseMove(point);
         if(this._rect){
             this._rect.p2=point;
             return true;
@@ -41,9 +44,10 @@ export default class RectTool extends Tool{
         }
     }
 
-    renderElement(){
+    render(){
         if(this._rect) {
             this._rect.toElement().render();
         }
+        super.render();
     }
 }
