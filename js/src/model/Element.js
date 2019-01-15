@@ -36,6 +36,14 @@ export default class Element{
     }
 
     /**
+     * @param {number} x
+     * @param {number} y
+     */
+    resize(x, y){
+        throw new Exception('The method doesn\'n have implementation.');
+    }
+
+    /**
      * @param {Point} point
      * @param {float} eps
      * @return {boolean}

@@ -20,12 +20,12 @@ export default class Point{
         return Math.sqrt(Math.pow(point.x - this.x,2) + Math.pow(point.y - this.y,2)+ Math.pow(point.z - this.z,2));
     }
 
-
-
-    move(x,y,z){
-        let moveMatrix = new Matrix([[1,0,0,0],[0,1,0,0],[0,0,1,0],[x,y,z,1]]);
+    /**
+     * @param {Matrix} matrix
+     */
+    changeByMatrix(matrix){
         let vector = new Matrix([[this.x, this.y, this.z, 1]]);
-        let res = vector.multiply(moveMatrix).array;
+        let res = vector.multiply(matrix).array;
         this.x=res[0][0];
         this.y=res[0][1];
         this.z=res[0][2];

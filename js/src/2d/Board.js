@@ -294,9 +294,9 @@ export default class Board {
     }
 
     /**
-     * @param p1
-     * @param p2
-     * @param color
+     * @param {{x:number,y:number}} p1
+     * @param {{x:number,y:number}} p2
+     * @param {string} color
      * @param {boolean} fill
      * @param {int} lineWidth
      * @private

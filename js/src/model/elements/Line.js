@@ -5,7 +5,6 @@ import Exception from '../../Exception';
 import Element from '../Element';
 import LineRenderer from '../../2d/renderer/LineRenderer';
 import Point from "../Point";
-import Martix from './../math/Matrix';
 import Matrix from "../math/Matrix";
 
 export default class Line extends Element{
@@ -77,9 +76,18 @@ export default class Line extends Element{
     }
 
     move(x,y){
+        let moveMatrix = new Matrix([[1,0,0,0],[0,1,0,0],[0,0,1,0],[x,y,0,1]]);
         let points = [this.p1, this.p2];
         for(let point of points){
-            point.move(x,y,0);
+            point.changeByMatrix(moveMatrix);
+        }
+    }
+
+    resize(x, y){
+        let resizeMatrix = new Matrix([[1+x,0,0,0],[0,1+y,0,0],[0,0,1,0],[0,0,0,1]]);
+        let points = [this.p1, this.p2];
+        for(let point of points){
+            point.changeByMatrix(resizeMatrix);
         }
     }
 }

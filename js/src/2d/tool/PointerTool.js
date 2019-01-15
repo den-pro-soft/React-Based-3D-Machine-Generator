@@ -1,6 +1,7 @@
 import Tool from './Tool';
 import RectElementController from './RectElementControler';
 import Point from './../../model/Point';
+import Rect from "../../model/Rect";
 
 /**
  * The tool can
@@ -20,7 +21,7 @@ export default class PointerTool extends Tool{
         /** @var {RectElementController} */
         this.selectRect = null;
 
-        /** @var {RectElementController} */
+        /** @var {ResizeRect} */
         this.resizeRect = null;
         
         this._selectMode = true;
@@ -33,10 +34,16 @@ export default class PointerTool extends Tool{
             if(this.resizeRect && this._mouseDown){
                 let dx = point.x-this._mouseDown.x;
                 let dy = point.y-this._mouseDown.y;
-                for(let element of this._selectElements) {
-                    element.move(dx,dy);
+                if(this.resizeRect.haveActiveControlPoint()){
+                    for (let element of this._selectElements) {
+                        element.resize(dx, dy);
+                    }
+                }else {
+                    for (let element of this._selectElements) {
+                        element.move(dx, dy);
+                    }
                 }
-                this.resizeRect.toElement().move(dx,dy);
+                this._createResizeRect();
             }else{
                 if (!this._mouseDown && this._selectMode) {
                     this._selectNearElements(point);
@@ -58,7 +65,17 @@ export default class PointerTool extends Tool{
 
     mouseDown(point){
         if(this._selectMode) {
-            if(!(this.resizeRect && this.resizeRect.contain(point))){
+            if(this.resizeRect){
+                console.log(this.resizeRect.isControllPoint(point));
+                if(this.resizeRect.isControllPoint(point)){
+                    this.resizeRect.activeControlPoint();
+                }else{
+                    if(!this.resizeRect.contain(point)) {
+                        this.resizeRect = null; //todo: if not ctrl
+                        this.selectRect = new RectElementController(point, point);
+                    }
+                }
+            }else{
                 this.resizeRect = null; //todo: if not ctrl
                 this.selectRect = new RectElementController(point, point);
             }
@@ -91,9 +108,7 @@ export default class PointerTool extends Tool{
         }
 
         if(this.resizeRect) {
-            let element = this.resizeRect.toElement();
-            element._renderer.drawAsNew();
-            element.render();
+            this.resizeRect.render();
         }
         for(let element of this._selectElements){
             element._renderer.setFocus(true);
@@ -114,8 +129,80 @@ export default class PointerTool extends Tool{
         let scale = container.board._scale; //todo: container
         let paddingSelectedRect = 0.3 / scale;
         let extrenum = this.document.getExtrenum(this._selectElements);
-        this.resizeRect = new RectElementController(
+        this.resizeRect = new ResizeRect(
             new Point(extrenum.min.x - paddingSelectedRect, extrenum.max.y + paddingSelectedRect)
             , new Point(extrenum.max.x + paddingSelectedRect, extrenum.min.y - paddingSelectedRect));
+    }
+}
+
+class ResizeRect extends RectElementController{
+    constructor(p1,p2){
+        super(p1,p2);
+        this.board = container.board;
+
+        this.pointPadding = 4;
+        this.activeCP = false;
+    }
+
+    activeControlPoint(){
+        this.activeCP = true;
+    }
+
+    haveActiveControlPoint(){
+        return this.activeCP;
+    }
+
+    /**
+     * @param {Point} point
+     */
+    isControllPoint(point){
+        let cPoints = this.getListControllPoints();
+        point = this.board._convertToLocalCoordinateSystem(point);
+
+        for(let p of cPoints){
+            p = this.board._convertToLocalCoordinateSystem(p);
+            let rect = new Rect(new Point(p.x-this.pointPadding,p.y+this.pointPadding),
+                                new Point(p.x+this.pointPadding,p.y-this.pointPadding));
+            if(rect.contain(point)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    getListControllPoints(){
+        let res = [];
+        let element = this.toElement();
+        let ext = element.getExtrenum();
+        let px1 = ext.min.x+this.l1.length()/2;
+        let py1 = ext.min.y+this.l2.length()/2;
+
+        res.push(new Point(px1, ext.min.y,0));
+        res.push(new Point(px1, ext.max.y,0));
+        res.push(new Point(ext.min.x, py1, 0));
+        res.push(new Point(ext.max.x, py1, 0));
+        res.push(new Point(ext.min.x, ext.min.y,0));
+        res.push(new Point(ext.max.x, ext.min.y,0));
+        res.push(new Point(ext.min.x, ext.max.y,0));
+        res.push(new Point(ext.max.x, ext.max.y,0));
+        return res;
+    }
+
+    render(){
+        let element = this.toElement();
+        element._renderer.drawAsNew();
+        element.render();
+
+        let points = this.getListControllPoints();
+        for(let point of points){
+            let p = this.board._convertToLocalCoordinateSystem(point);
+            this._drawControlPoint(p);
+        }
+    }
+
+    _drawControlPoint(p){
+
+        this.board._drawRect({x:p.x-this.pointPadding,y:p.y+this.pointPadding}
+            ,{x:p.x+this.pointPadding,y:p.y-this.pointPadding},'#000000',true);
     }
 }
