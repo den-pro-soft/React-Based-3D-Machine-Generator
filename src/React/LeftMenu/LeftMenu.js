@@ -1,5 +1,6 @@
 import React from "react";
-import './left-menu.scss'
+import './left-menu.scss';
+
 const LeftMenu = context => {
   return (
     <div className="LeftMenu">
@@ -15,11 +16,7 @@ const LeftMenu = context => {
         <button><img  width='25px'  src="images/LineEdit.png"/></button>
         <button><img  width='25px' src="images/Ruler.png"/></button>
         <button><img  width='25px' src="images/SnapToLines.png"/></button>
-        <button><img  width='25px' src="images/Help.png"/></button>
-     {/* <div>Select</div>
-     <div>Line</div> */}
-
-      
+        <button><img  width='25px' src="images/Help.png"/></button>    
     </div>
   );
 };

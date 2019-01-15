@@ -1,11 +1,15 @@
 import React from "react";
-import LeftMenu from './LeftMenu/LeftMenu'
+import LeftMenu from "./LeftMenu/LeftMenu";
+import UpMenu from "./UpMenu/UpMenu";
+
 const ReactApp = context => {
   return (
-    <div>
-      {/* <h2>Here will be buttons lef menu</h2> style={{marginTop:"105px"}}*/}
-      <LeftMenu />
-    </div>
+    <>
+      <div>
+        <UpMenu />
+        <LeftMenu />
+      </div>
+    </>
   );
 };
 
