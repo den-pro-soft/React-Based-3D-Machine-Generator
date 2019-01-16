@@ -14,6 +14,15 @@ export default class Group extends Element{
         this._renderer = new GroupRenderer(this);
     }
 
+    get _points(){
+        let res = [];
+        for(let element of this.elements){
+            res = [...res, ...element._points];
+        }
+        return res;
+    }
+
+    set _points(points){}
     
     /**
      * @param {Element} element
@@ -24,28 +33,6 @@ export default class Group extends Element{
             throw new Exception("Expected Element object type.", element);
         }
         this.elements.push(element);
-    }
-
-
-    getExtrenum(){
-        let elements = this.elements;
-        let extrenum = elements[0].getExtrenum();
-        for(let i=1; i<elements.length; i++){
-            let ext = elements[i].getExtrenum();
-            if(ext.max.x>extrenum.max.x){
-                extrenum.max.x = ext.max.x;
-            }
-            if(ext.min.x<extrenum.min.x){
-                extrenum.min.x = ext.min.x;
-            }
-            if(ext.max.y>extrenum.max.y){
-                extrenum.max.y = ext.max.y;
-            }
-            if(ext.min.y<extrenum.min.y){
-                extrenum.min.y = ext.min.y;
-            }
-        }
-        return extrenum;
     }
 
     isNear(point, eps){
@@ -65,29 +52,4 @@ export default class Group extends Element{
         return res;
     }
 
-    move(x,y){
-        for(let element of this.elements){
-            element.move(x, y);
-        }
-    }
-
-    resize(x,y){
-        for(let element of this.elements){
-            element.resize(x, y);
-        }
-    }
-
-    getCenter(){
-        let res = new Point(0,0);
-        for(let element of this.elements){
-            let p = element.getCenter();
-            res.x+=p.x;
-            res.y+=p.y;
-            res.y+=p.z;
-        }
-        res.x/=this.elements.length;
-        res.y/=this.elements.length;
-        res.z/=this.elements.length;
-        return res;
-    }
 }

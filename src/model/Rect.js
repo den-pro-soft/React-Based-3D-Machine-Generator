@@ -40,4 +40,12 @@ export default class Rect extends ClosedFigure{
         return p1.x<p.x && p2.x> p.x && p1.y>p.y && p2.y<p.y;
     }
 
+    get width(){
+        return this._p2.x - this.p1.x;
+    }
+
+    get height(){
+        return this._p2.y - this.p1.y;
+    }
+
 }

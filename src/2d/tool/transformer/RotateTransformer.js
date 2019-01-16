@@ -6,6 +6,9 @@ import Transformer from './Transformer';
 import Point from './../../../model/Point';
 import Line from './../../../model/elements/Line';
 
+/**
+ *  rotate elements
+ */
 export default class RotateTransformer extends Transformer{
     constructor(document){
         super(document);
@@ -54,8 +57,20 @@ export default class RotateTransformer extends Transformer{
         let line = new Line(center, new Point(extr.max.x, extr.max.y));
         let radius = line.length();
 
-        this.board.drawArc(center, radius+0.1, '#ff0000',1,[4,4]);
+        let centerPoint = this.board._convertToLocalCoordinateSystem(center);
+        let localRadius = this.board._scale*this.board._pixelPerOne*radius+10;
+        this.board._drawArc(centerPoint, localRadius, '#ff0000',1,[4,4]);
+
+        let grad45 = this.gradToRad(45);
+        this.board._drawArc({x:centerPoint.x+localRadius*Math.sin(grad45),y:centerPoint.y-localRadius*Math.cos(grad45)}, 3, '#00ff00',1,[]);
+        this.board._drawArc({x:centerPoint.x-localRadius*Math.sin(grad45),y:centerPoint.y+localRadius*Math.cos(grad45)}, 3, '#00ff00',1,[]);
+        this.board._drawArc({x:centerPoint.x-localRadius*Math.sin(grad45),y:centerPoint.y-localRadius*Math.cos(grad45)}, 3, '#00ff00',1,[]);
+        this.board._drawArc({x:centerPoint.x+localRadius*Math.sin(grad45),y:centerPoint.y+localRadius*Math.cos(grad45)}, 3, '#00ff00',1,[]);
 
 
+    }
+
+    gradToRad(grad){
+        return (grad*180)/Math.PI;
     }
 }

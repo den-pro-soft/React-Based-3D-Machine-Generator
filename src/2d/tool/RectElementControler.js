@@ -35,7 +35,14 @@ export default class RectElementController extends Rect{
         this.l3.p2.x=p1.x;
         this.l4.p1.x=p1.x;
         this.l4.p2=p1.copy();
-        this._p1=p1;
+        this._p1=p1.copy();
+    }
+
+    /**
+     * @return {Point}
+     */
+    get p1(){
+        return this._p1;
     }
 
     /**
@@ -48,7 +55,11 @@ export default class RectElementController extends Rect{
         this.l3.p1=p2.copy();
         this.l3.p2.y=p2.y;
         this.l4.p1.y=p2.y;
-        this._p2=p2;
+        this._p2=p2.copy();
+    }
+
+    get p2(){
+        return this._p2;
     }
 
     /**

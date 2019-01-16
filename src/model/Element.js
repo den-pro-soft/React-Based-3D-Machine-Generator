@@ -3,10 +3,15 @@
  */
 import Render from './../2d/renderer/Render';
 import Matrix from "../model/math/Matrix";
+import Point from "./Point";
+
+let id = 0;
 
 export default class Element{
     constructor(){
-        this._constrolPoints = [];
+        this.id=id++;
+     
+        /** @var {Array.<Point>} */
         this._points = [];
 
         /** @var {Render} */
@@ -25,7 +30,7 @@ export default class Element{
      * @returns {{max:{x:number, y:number}, min:{x:number, y:number}}}
      */
     getExtrenum(){
-        throw new Exception('The method doesn\'n have implementation.');
+        return Point.getExtrenum(this._points);
     }
 
     /**
@@ -33,16 +38,12 @@ export default class Element{
      * @param {number} y
      */
     move(x,y){
-        throw new Exception('The method doesn\'n have implementation.');
+        let moveMatrix = this.createMoveMatrix(x,y);
+        for(let point of this._points){
+            point.changeByMatrix(moveMatrix);
+        }
     }
 
-    /**
-     * @param {number} x
-     * @param {number} y
-     */
-    resize(x, y){
-        throw new Exception('The method doesn\'n have implementation.');
-    }
 
     /**
      * @param {Point} point
@@ -68,8 +69,54 @@ export default class Element{
      * @return {Point}
      */
     getCenter(){
-        throw new Exception('The method doesn\'n have implementation.');
+
+        let res = new Point(0,0);
+        for(let p of this._points){
+            res.x+=p.x;
+            res.y+=p.y;
+            res.y+=p.z;
+        }
+        res.x/=this._points.length;
+        res.y/=this._points.length;
+        res.z/=this._points.length;
+        return res;
     }
+
+    /**
+     * @param {number} x
+     * @param {number} y
+     */
+    resize(x, y){
+        let tempP = this.getCenter();
+        let extr = this.getExtrenum();
+
+        let wX = Math.abs(extr.max.x-extr.min.x);
+
+        let wY = Math.abs(extr.max.y-extr.min.y);
+
+        let dx = 0;
+        let dy = 0;
+        if(wX!=0){
+            dx = (wX+x)/wX-1;
+        }
+
+        if(wY!=0){
+            dy = (wY+y)/wY-1;
+        }
+
+        let resizeMatrix = this.createResizeMatrix(dx,dy); //todo: move the method to Matrix class, and change it to static
+
+
+        let moveMatrix = this.createMoveMatrix(-tempP.x, -tempP.y);
+        let removeMatrix = this.createMoveMatrix(tempP.x, tempP.y);
+
+        for(let point of this._points){
+            point.changeByMatrix(moveMatrix);
+            point.changeByMatrix(resizeMatrix);
+            point.changeByMatrix(removeMatrix);
+        }
+    }
+
 
     /**
      * @param {number} x

@@ -17,7 +17,7 @@ export default class Board {
      * @param {HTMLCanvasElement} canvas
      */
     constructor(canvas) {
-        this._scale = 1;
+        this._scale = 0.2;
         this._bias = {x: 0, y: 0}; // pixel
         this._initCenterPosition = {x: 0, y: 0}; //pixel
 
@@ -156,7 +156,7 @@ export default class Board {
     }
 
     setScale(scale){
-        if(scale>1000 || scale <0.001){
+        if(scale>1E4 || scale <1E-4){
             return false;
         }
         this._scale=scale;
@@ -179,7 +179,9 @@ export default class Board {
         let convertX =x=>x*this._pixelPerOne*this._scale+this._initCenterPosition.x+this._bias.x;
 
         let divider=1;
-        if(this._scale<0.002)       divider = 1E3;
+        // if(this._scale<0.0002)       divider = 7000;
+        // else if(this._scale<0.0005) divider = 5E3;
+        if(this._scale<0.002)  divider = 1E3;
         else if(this._scale<0.003)  divider = 500;
         else if(this._scale<0.005)  divider = 200;
         else if(this._scale<0.01)   divider = 100;
@@ -187,6 +189,7 @@ export default class Board {
         else if(this._scale<0.05)   divider = 25;
         else if(this._scale<0.2)    divider = 10;
         else if(this._scale<1)      divider = 5;
+        // else if(this._scale>1000)     divider = 0.002;
         else if(this._scale>500)     divider = 0.005;
         else if(this._scale>100)     divider = 0.01;
         else if(this._scale>15)     divider = 0.05;

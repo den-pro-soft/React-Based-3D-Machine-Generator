@@ -9,18 +9,34 @@ import Point from "../Point";
 export default class Line extends Element{
     constructor(p1, p2){
         super();
-        this.p1=p1;
-        this.p2=p2;
-        // this._constrolPoints = [{x: (p2.x + p1.x) / 2, y: (p2.y + p1.y) / 2},...this._points];
+        this._p1=p1;
+        this._p2=p2;
+        this._points=[p1,p2];
         this._renderer = new LineRenderer(this);
+    }
+
+    set p1(point){
+        this._points[0]=point;
+        this._p1=point;
+    }
+    get p1(){
+        return this._p1;
+    }
+
+    set p2(point){
+        this._points[1]=point;
+        this._p2=point;
+    }
+    get p2(){
+        return this._p2;
     }
 
     /**
      * @return {number}
      */
     length(){
-        let p1= this.p1;
-        let p2= this.p2;
+        let p1= this._p1;
+        let p2= this._p2;
         let z = Math.pow(p1.z-p2.z,2);
         return Math.sqrt(Math.pow(p1.x-p2.x,2)+Math.pow(p1.y-p2.y,2)+z);
     }
@@ -34,18 +50,11 @@ export default class Line extends Element{
     }
 
     /**
-     * @inheritDoc
-     */
-    getExtrenum(){
-        return Point.getExtrenum([this.p1, this.p2]);
-    }
-
-    /**
      * http://www.cat-in-web.ru/notebook/rasstoyanie-ot-tochki-do-otrezka/
      */
     distanceTo(point){
-        let p1=this.p1;
-        let p2=this.p2;
+        let p1=this._p1;
+        let p2=this._p2;
         if (p1.compare(point) || p2.compare(point))
             return 0;
 
@@ -67,36 +76,38 @@ export default class Line extends Element{
     }
 
     isIntoFigure(figure){
-        return figure.contain(this.p1) && figure.contain(this.p2);
+        return figure.contain(this._p1) && figure.contain(this._p2);
     }
 
     isNear(point, eps){
         return this.distanceTo(point)<eps;
     }
 
-    move(x,y){
-        let moveMatrix = this.createMoveMatrix(x,y);
-        let points = [this.p1, this.p2];
-        for(let point of points){
-            point.changeByMatrix(moveMatrix);
-        }
-    }
-
     resize(x, y){
         let tempP = this.getCenter();
-        let wX = this.p2.x-this.p1.x;
+        let extr = this.getExtrenum();
 
-        let wY = this.p2.y-this.p1.y;
+        let wX = Math.abs(extr.max.x-extr.min.x);
 
-        console.log((wX+x)/wX);
-        let resizeMatrix = this.createResizeMatrix((wX+x)/wX-1,(wY+y)/wY-1); //todo: move the method to Matrix class, and change it to static
+        let wY = Math.abs(extr.max.y-extr.min.y);
+
+        let dx = 0;
+        let dy = 0;
+        if(wX!=0){
+            dx = (wX+x)/wX-1;
+        }
+
+        if(wY!=0){
+            dy = (wY+y)/wY-1;
+        }
+
+        let resizeMatrix = this.createResizeMatrix(dx,dy); //todo: move the method to Matrix class, and change it to static
 
 
         let moveMatrix = this.createMoveMatrix(-tempP.x, -tempP.y);
         let removeMatrix = this.createMoveMatrix(tempP.x, tempP.y);
 
-        let points = [this.p1, this.p2];
-        for(let point of points){
+        for(let point of this._points){
             point.changeByMatrix(moveMatrix);
             point.changeByMatrix(resizeMatrix);
             point.changeByMatrix(removeMatrix);
@@ -114,6 +125,6 @@ export default class Line extends Element{
      * @return {Point}
      */
     getPointOffset(offset){
-        return new Point(this.p1.x +(this.p2.x-this.p1.x)*offset, this.p1.y +(this.p2.y-this.p1.y)*offset);
+        return new Point(this._p1.x +(this._p2.x-this._p1.x)*offset, this._p1.y +(this._p2.y-this._p1.y)*offset);
     }
 }

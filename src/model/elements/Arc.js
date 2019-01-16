@@ -10,9 +10,19 @@ import ArcRenderer from './../../2d/renderer/ArcRenderer';
 export default class Arc extends Element{
     constructor(center, radius){
         super();
-        this.center=center;
+        this._center=center;
+        this._points[0]=center;
         this.radius=radius;
         this._renderer = new ArcRenderer(this);
+    }
+
+    set center(point){
+        this._center = point;
+        this._points[0]=point;
+    }
+
+    get center(){
+        return this._center;
     }
 
     /**
@@ -29,20 +39,21 @@ export default class Arc extends Element{
      */
     move(x,y){
         let moveMatrix = this.createMoveMatrix(x,y);
-        this.center.changeByMatrix(moveMatrix);
+        this._center.changeByMatrix(moveMatrix);
     }
 
 
     getCenter(){
-        return this.center;
+        return this._center;
     }
+
     /**
      * @param {Point} point
      * @param {float} eps
      * @return {boolean}
      */
     isNear(point, eps){
-        let l = new Line(this.center, point).length();
+        let l = new Line(this._center, point).length();
         return this.radius+eps>l && this.radius-eps<l;
     }
 
@@ -64,10 +75,10 @@ export default class Arc extends Element{
 
     _getExtrenumPoints(){
         return [
-            new Point(this.center.x+this.radius, this.center.y),
-            new Point(this.center.x, this.center.y+this.radius),
-            new Point(this.center.x-this.radius, this.center.y),
-            new Point(this.center.x, this.center.y-this.radius)
+            new Point(this._center.x+this.radius, this._center.y),
+            new Point(this._center.x, this._center.y+this.radius),
+            new Point(this._center.x-this.radius, this._center.y),
+            new Point(this._center.x, this._center.y-this.radius)
         ];
     }
 }
