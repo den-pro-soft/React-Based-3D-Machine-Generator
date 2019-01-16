@@ -14,7 +14,6 @@
   "dependencies": {
     "react": "^16.7.0",
     "react-dom": "^16.7.0",
-    "react-toolbox": "^2.0.0-beta.13",
     "react-tooltip": "^3.9.2",
     "three": "git+https://github.com/mrdoob/three.js.git",
     "three-js-csg": "^72.0.0",

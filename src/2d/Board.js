@@ -129,7 +129,7 @@ export default class Board {
      *
      * @param {String} name
      */
-    setTool(name){
+     setTool(name){
         switch(name){
             case 'Line':
                 this.tool = new LineTool(this.document);
