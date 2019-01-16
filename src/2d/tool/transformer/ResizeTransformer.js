@@ -77,10 +77,13 @@ class ResizeRect extends RectElementController{
 
         let p1 = {x:p1Local.x-this.rectPadding, y:p1Local.y-this.rectPadding};
         let p2 = {x:p2Local.x+this.rectPadding, y:p2Local.y+this.rectPadding};
-        this.board._drawLine(p1, {x:p2.x, y:p1.y}, '#000000', 1, [4,4]);
-        this.board._drawLine({x:p2.x, y:p1.y}, p2, '#000000', 1, [4,4]);
-        this.board._drawLine(p2, {x:p1.x, y:p2.y}, '#000000', 1, [4,4]);
-        this.board._drawLine({x:p1.x, y:p2.y}, p1, '#000000', 1, [4,4]); //todo: use theme
+        this.board.style('strokeStyle', '#000000');
+        this.board.style('lineWidth', 1);   //todo: use theme
+        this.board.style('dash', [4,4]);
+        this.board._drawLine(p1, {x:p2.x, y:p1.y});
+        this.board._drawLine({x:p2.x, y:p1.y}, p2);
+        this.board._drawLine(p2, {x:p1.x, y:p2.y});
+        this.board._drawLine({x:p1.x, y:p2.y}, p1); 
 
        let controlPoints = this.getControlPoints();
         for(let p of controlPoints) {
@@ -102,7 +105,8 @@ class ResizeRect extends RectElementController{
     }
     _drawControlPoint(p){
         let r = this._createControlPointRect(p);
-        this.board._drawRect(r._p1, r._p2,'#000000',true);
+        this.board.style('fillStyle','#000000');
+        this.board._drawRect(r._p1, r._p2,true);
     }
 
     /**

@@ -18,17 +18,18 @@ export default class LineRenderer extends Render{
     }
 
     drawElement(){
-        let dash = [];
-        let color = '#222222';
         if(this.new){
-            dash = [4, 4];
-            color = '#555555';
+            this.board.style('dash', [4, 4]);
+            this.board.style('strokeStyle', '#555555');
+        }else{
+            this.board.style('dash', []);
+            this.board.style('strokeStyle', '#222222');
         }
 
         if(this.focus){
-            color = '#ff641a';
+            this.board.style('strokeStyle', '#ff641a');
         }
-
-        this.board.drawLine(this.element.p1, this.element.p2,color,1, dash);
+        this.board.style('lineWidth', 1);
+        this.board.drawLine(this.element.p1, this.element.p2);
     }
 }

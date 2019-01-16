@@ -59,13 +59,20 @@ export default class RotateTransformer extends Transformer{
 
         let centerPoint = this.board._convertToLocalCoordinateSystem(center);
         let localRadius = this.board._scale*this.board._pixelPerOne*radius+10;
-        this.board._drawArc(centerPoint, localRadius, '#ff0000',1,[4,4]);
+
+        this.board.style('strokeStyle', '#000000');
+        this.board.style('lineWidth', 1);   //todo: use theme
+        this.board.style('dash', [4,4]);
+        this.board._drawArc(centerPoint, localRadius);
 
         let grad45 = this.gradToRad(45);
-        this.board._drawArc({x:centerPoint.x+localRadius*Math.sin(grad45),y:centerPoint.y-localRadius*Math.cos(grad45)}, 3, '#00ff00',1,[]);
-        this.board._drawArc({x:centerPoint.x-localRadius*Math.sin(grad45),y:centerPoint.y+localRadius*Math.cos(grad45)}, 3, '#00ff00',1,[]);
-        this.board._drawArc({x:centerPoint.x-localRadius*Math.sin(grad45),y:centerPoint.y-localRadius*Math.cos(grad45)}, 3, '#00ff00',1,[]);
-        this.board._drawArc({x:centerPoint.x+localRadius*Math.sin(grad45),y:centerPoint.y+localRadius*Math.cos(grad45)}, 3, '#00ff00',1,[]);
+        this.board.style('fillStyle', '#000000');
+        this.board.style('lineWidth', 1);   //todo: use theme
+        this.board.style('dash', []);
+        this.board._drawArc({x:centerPoint.x+localRadius*Math.sin(grad45),y:centerPoint.y-localRadius*Math.cos(grad45)}, 4, true);
+        this.board._drawArc({x:centerPoint.x-localRadius*Math.sin(grad45),y:centerPoint.y+localRadius*Math.cos(grad45)}, 4, true);
+        this.board._drawArc({x:centerPoint.x-localRadius*Math.sin(grad45),y:centerPoint.y-localRadius*Math.cos(grad45)}, 4, true);
+        this.board._drawArc({x:centerPoint.x+localRadius*Math.sin(grad45),y:centerPoint.y+localRadius*Math.cos(grad45)}, 4, true);
 
 
     }

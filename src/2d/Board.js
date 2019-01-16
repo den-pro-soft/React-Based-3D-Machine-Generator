@@ -64,7 +64,8 @@ export default class Board {
      * @param {string|undefined} color
      */
     clear(color) {
-        this._drawRect({x: 0, y: 0}, {x: this._width, y: this._height}, '#ffffff', true);
+        this.style('fillStyle', color?color:'#ffffff');
+        this._drawRect({x: 0, y: 0}, {x: this._width, y: this._height}, true);
     }
 
     renderDocument() {
@@ -174,8 +175,9 @@ export default class Board {
         this._context.fillStyle = fillColor;
         this._context.strokeStyle = fillColor;
 
-
-        this._drawRect({x: rulerWidth, y: 0}, {x: this._width, y: rulerWidth}, rulerBackgroundColor, true);
+        this.style('fillStyle',rulerBackgroundColor);
+        this._drawRect({x: rulerWidth, y: 0}, {x: this._width, y: rulerWidth}, true);
+        this.style('fillStyle',fillColor);
         let convertX =x=>x*this._pixelPerOne*this._scale+this._initCenterPosition.x+this._bias.x;
 
         let divider=1;
@@ -223,9 +225,9 @@ export default class Board {
             for (let x = 0; x > minX; x-=delta) drawDivision(x);
         }
 
-
-        this._drawRect({x: 0, y: 0}, {x: rulerWidth, y: this._height}, rulerBackgroundColor, true);
-
+        this.style('fillStyle',rulerBackgroundColor);
+        this._drawRect({x: 0, y: 0}, {x: rulerWidth, y: this._height}, true);
+        this.style('fillStyle',fillColor);
         this._context.rotate(-Math.PI / 2);
 
         let convertY =y=>y*this._pixelPerOne*this._scale+this._initCenterPosition.y+this._bias.y;
@@ -253,7 +255,7 @@ export default class Board {
 
 
 
-        this._context.fillStyle = 'rgba(200, 100, 50, 1.0)';
+        this.style('fillStyle','rgba(200, 100, 50, 1.0)');
         this._context.beginPath();
         this._context.moveTo(this._mousePosition.x, 20);
         this._context.lineTo(this._mousePosition.x - 3, 20 - 9);
@@ -269,9 +271,21 @@ export default class Board {
         this._context.lineTo(20,this._mousePosition.y);
         this._context.fill();
 
-        this._drawRect({x: 0, y: 0}, {x: rulerWidth+5, y: rulerWidth+5}, rulerBackgroundColor, true);
+        this.style('fillStyle',rulerBackgroundColor);
+        this._drawRect({x: 0, y: 0}, {x: rulerWidth+5, y: rulerWidth+5}, true);
     }
 
+
+    style(property, value){
+        switch(property){
+            case 'dash':
+                this._context.setLineDash(value);
+                break;
+            default:
+                this._context[property]=value;
+        }
+
+    }
     /**
      * @param {Point} p1
      * @param {Point} p2
@@ -279,90 +293,49 @@ export default class Board {
      * @param {int} width
      * @param {Array.<number>} dash
      */
-    drawLine(p1,p2,color,width, dash){
-        this._drawLine(this._convertToLocalCoordinateSystem(p1), this._convertToLocalCoordinateSystem(p2), color, width, dash);
+    drawLine(p1,p2){
+        this._drawLine(this._convertToLocalCoordinateSystem(p1), this._convertToLocalCoordinateSystem(p2));
     }
 
     /**
      * @param {Point} center
      * @param {number} radius - in global coordinate system
-     * @param {string} color
-     * @param {int} lineWidth
-     * @param {Array.<number>} dash
+     * @param {boolean} fill
      */
-    drawArc(center, radius, color, lineWidth, dash){
-        this._drawArc(this._convertToLocalCoordinateSystem(center),radius*this._pixelPerOne*this._scale, color,lineWidth,dash);
+    drawArc(center, radius, fill){
+        this._drawArc(this._convertToLocalCoordinateSystem(center),radius*this._pixelPerOne*this._scale,fill);
     }
 
     /**
      * @param {{x: number, y: number}} center
      * @param {number} radius - in pixel
-     * @param {string} color
-     * @param {int} lineWidth
-     * @param {Array.<number>} dash
+     * @param {boolean} fill
      */
-    _drawArc(center, radius, color, lineWidth, dash){
-        let oldColor = this._context.strokeStyle;
-        let oldLineWidth = this._context.lineWidth;
-
-        if (color) {
-            this._context.strokeStyle = color;
-        }
-        if (lineWidth) {
-            this._context.lineWidth = lineWidth;
-        }
-        if(dash){
-            this._context.setLineDash(dash);
-        }
-
+    _drawArc(center, radius, fill){
         this._context.beginPath();
         this._context.arc(center.x, center.y, radius, 0, 2* Math.PI);
-        this._context.stroke();
 
-        this._context.strokeStyle = oldColor;
-        this._context.lineWidth = oldLineWidth;
+        if(fill){
+            this._context.fill();
+        }else {
+            this._context.stroke();
+        }
     }
 
-    _drawLine(p1, p2, color, width, dash) {
-        let oldColor = this._context.strokeStyle;
-        let oldLineWidth = this._context.lineWidth;
-
-        if (color) {
-            this._context.strokeStyle = color;
-        }
-        if (width) {
-            this._context.lineWidth = width;
-        }
-        if(dash){
-            this._context.setLineDash(dash);
-        }
-
+    _drawLine(p1, p2) {
         this._context.beginPath();
         this._context.moveTo(parseInt(p1.x), parseInt(p1.y));
         this._context.lineTo(parseInt(p2.x), parseInt(p2.y));
         this._context.stroke();
-
-        this._context.strokeStyle = oldColor;
-        this._context.lineWidth = oldLineWidth;
     }
 
     /**
      * @param {{x:number,y:number}} p1
      * @param {{x:number,y:number}} p2
-     * @param {string} color
      * @param {boolean} fill
-     * @param {int} lineWidth
      * @private
      */
-    _drawRect(p1, p2, color, fill, lineWidth) {
-        let oldColor = fill ? this._context.fillStyle : this._context.strokeStyle;
-        let oldLineWidth = this._context.lineWidth;
-        if (color) {
-            this._context.fillStyle = color;
-        }
-        if (lineWidth) {
-            this._context.lineWidth = lineWidth;
-        }
+    _drawRect(p1, p2, fill) {
         this._context.beginPath();
         this._context.moveTo(p1.x, p1.y);
         this._context.lineTo(p2.x, p1.y);
@@ -370,12 +343,9 @@ export default class Board {
         this._context.lineTo(p1.x, p2.y);
         if (fill) {
             this._context.fill();
-            this._context.fillStyle = oldColor;
         } else {
             this._context.stroke();
-            this._context.strokeStyle = oldColor;
         }
-        this._context.lineWidth = oldLineWidth;
     }
 
     /**

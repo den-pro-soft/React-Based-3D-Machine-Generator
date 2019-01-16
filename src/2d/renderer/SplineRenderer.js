@@ -35,14 +35,16 @@ export default class SplineRenderer extends Render{
 
             let xt = pt.x;
             let yt = pt.y;
-            this.board.drawLine(new Point(x,y), new Point(xt,yt),'#00ff00',1);
+            this.board.style('strokeStyle', '#00ff00');
+            this.board.style('lineWidth', 1);
+            this.board.drawLine(new Point(x,y), new Point(xt,yt));
             x=xt;
             y=yt;
         }
-
-        this.board.drawArc(e.startPoint, 0.02, '#ff0000');
-        this.board.drawArc(e.controlPoint1, 0.02, '#00ff00');
-        this.board.drawArc(e.controlPoint2, 0.02, '#0000ff');
+        this.board.style('strokeStyle', '#ff0000');
+        this.board.drawArc(e.startPoint, 0.02, true);
+        this.board.drawArc(e.controlPoint1, 0.02, true);
+        this.board.drawArc(e.controlPoint2, 0.02, true);
 
     }
 }

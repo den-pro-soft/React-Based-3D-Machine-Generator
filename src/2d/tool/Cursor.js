@@ -25,8 +25,12 @@ export default class Cursor{
         }else {
             let p = this.board._convertToLocalCoordinateSystem(position);
 
-            this.board._drawArc(p, 5, '#ff641a', 2);
-            this.board._drawArc(p, 3, '#ffffff', 2,);
+            this.board.style('strokeStyle', '#ff641a');
+            this.board.style('lineWidth', 2);   //todo: use theme
+            this.board.style('dash', []);
+            this.board._drawArc(p, 5);
+            this.board.style('strokeStyle', '#ffffff');
+            this.board._drawArc(p, 3);
 
             if(this.imageLoad){
                 this.board._context.drawImage(this.image,p.x+10,p.y+10,25,25);
