@@ -4,6 +4,12 @@
 
 import Element from './../../../model/Element';
 
+/**
+ * The class need for changing elements
+ *
+ * If the object start transforming some element, than the object remove the element from document
+ * and after transforming the object must return the element to document and execute command
+ */
 export default class Transformer{
     constructor(document){
         this.document = document;

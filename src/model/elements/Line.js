@@ -5,6 +5,8 @@ import Exception from '../../Exception';
 import Element from '../Element';
 import LineRenderer from './../../2d/renderer/LineRenderer';
 import Point from "../Point";
+import Trigonometric from './../math/Trigonometric';
+
 
 export default class Line extends Element{
     constructor(p1, p2){
@@ -75,6 +77,9 @@ export default class Line extends Element{
         return 2 * Math.sqrt(p * (p - AB) * (p - BC) * (p - AC)) / AB;
     }
 
+    /**
+     * @inheritDoc
+     */
     isIntoFigure(figure){
         return figure.contain(this._p1) && figure.contain(this._p2);
     }
@@ -83,35 +88,24 @@ export default class Line extends Element{
         return this.distanceTo(point)<eps;
     }
 
-    resize(x, y){
-        let tempP = this.getCenter();
-        let extr = this.getExtrenum();
-
-        let wX = Math.abs(extr.max.x-extr.min.x);
-
-        let wY = Math.abs(extr.max.y-extr.min.y);
-
-        let dx = 0;
-        let dy = 0;
-        if(wX!=0){
-            dx = (wX+x)/wX-1;
+    /**
+     * @param {Line} line
+     * @return {number} - angle between current line and line in parameter
+     */
+    getAngle(line){
+        if(!line instanceof Line){
+            throw new Exception('Parameter must be Line type!');
         }
 
-        if(wY!=0){
-            dy = (wY+y)/wY-1;
-        }
+        let m1 = this._p2.x - this._p1.x;
+        let n1 = this._p2.y - this._p1.y;
+        let m2 = line._p2.x - line._p1.x;
+        let n2 = line._p2.y - line._p1.y;
 
-        let resizeMatrix = this.createResizeMatrix(dx,dy); //todo: move the method to Matrix class, and change it to static
+        let cos = (m1*m2+n1*n2)/(this.length()*line.length());
+        
 
-
-        let moveMatrix = this.createMoveMatrix(-tempP.x, -tempP.y);
-        let removeMatrix = this.createMoveMatrix(tempP.x, tempP.y);
-
-        for(let point of this._points){
-            point.changeByMatrix(moveMatrix);
-            point.changeByMatrix(resizeMatrix);
-            point.changeByMatrix(removeMatrix);
-        }
+        return Trigonometric.radToGrad(Math.acos(cos));
     }
 
     getCenter(){

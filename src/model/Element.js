@@ -3,6 +3,7 @@
  */
 import Render from './../2d/renderer/Render';
 import Matrix from "../model/math/Matrix";
+import Trigonometric from "../model/math/Trigonometric";
 import Point from "./Point";
 
 let id = 0;
@@ -117,6 +118,32 @@ export default class Element{
         }
     }
 
+    rotate(center,grad){
+        let rotateMatrix = this.createRotateMatrix(grad); //todo: move the method to Matrix class, and change it to static
+
+        let moveMatrix = this.createMoveMatrix(-center.x, -center.y);
+        let removeMatrix = this.createMoveMatrix(center.x, center.y);
+
+        for(let point of this._points){
+            point.changeByMatrix(moveMatrix);
+            point.changeByMatrix(rotateMatrix);
+            point.changeByMatrix(removeMatrix);
+        }
+    }
+
+
+    /**
+     * @param {Point} center
+     * @param {number} grad -  -360...360
+     */
+    createRotateMatrix(grad){
+        grad = Trigonometric.gradToRad(grad);
+        return new Matrix([
+            [Math.cos(grad),-Math.sin(grad),0,0],
+            [Math.sin(grad),Math.cos(grad),0,0],
+            [0,0,1,0],
+            [0,0,0,1]]);
+    }
 
     /**
      * @param {number} x

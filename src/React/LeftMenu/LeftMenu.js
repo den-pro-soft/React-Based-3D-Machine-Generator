@@ -35,7 +35,7 @@ const LeftMenu = context => {
           data-tip="<span>Line<br>Draws a straight line. Click again at end point. Hold the CTRL key while drawing<br>for a precise 0, 15, 30 or 45 deg angle. Press spacebar to restart line mode.</span>"
         />
       </button>
-      <button onClick={() => container.board.setTool("Pointer")}>
+      <button onClick={() => container.board.setTool("Spline")}>
         <img
           width="25px"
           src="images/Spline.png"

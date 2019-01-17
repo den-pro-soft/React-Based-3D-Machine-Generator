@@ -44,6 +44,9 @@ export default class Group extends Element{
         return res;
     }
 
+    /**
+     * @inheritDoc
+     */
     isIntoFigure(figure){
         let res = true;
         for(let i=0; res && i<this.elements.length; i++){

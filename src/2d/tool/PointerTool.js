@@ -8,6 +8,7 @@ import RotateTransformer from './transformer/RotateTransformer';
  * The tool can
  * 1. select elements by click and by select rect
  * 2. move canvas
+ * Also the class use transformers for moving, resize and rotate elements 
  */
 export default class PointerTool extends Tool{
     constructor(document){
@@ -132,6 +133,7 @@ export default class PointerTool extends Tool{
         }
         for(let element of this._selectElements){
             element._renderer.setFocus(true);
+            // element.render();
         }
     }
 
