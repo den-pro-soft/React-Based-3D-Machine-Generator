@@ -8,6 +8,7 @@ import Element from './Element';
 
 export default class Document{
     constructor(){
+        /** @var {Array.<Element>} */
         this._elements = [];
     }
 
@@ -23,7 +24,7 @@ export default class Document{
     }
 
     /**
-     * Call render methods for add elements
+     * Call render methods for all elements
      */
     render(){
         for(let element of this._elements){
@@ -108,10 +109,14 @@ export default class Document{
     }
 
     getSnapshot(){
-        throw new Exception("The method doesn't hae implementation");
+        let sn = new Document();
+        for(let el of this._elements){
+            sn.addElement(el.copy());
+        }
+        return sn;
     }
 
     load(snapshot){
-        throw new Exception("The method doesn't hae implementation");
+        throw new Exception("The method doesn't have implementation");
     }
 }

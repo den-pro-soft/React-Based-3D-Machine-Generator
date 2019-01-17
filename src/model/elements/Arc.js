@@ -81,4 +81,8 @@ export default class Arc extends Element{
             new Point(this._center.x, this._center.y-this.radius)
         ];
     }
+
+    copy(){
+        return new Arc(this.center.copy(), this.radius);
+    }
 }

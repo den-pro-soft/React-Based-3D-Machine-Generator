@@ -95,5 +95,12 @@ export default class Spline extends Element{
     isIntoFigure(figure){
 
     }
-    
+
+
+    copy(){
+        let res = new Spline(this._points[0].copy(),this._points[1].copy());
+        res.controlPoint1 = this._points[2].copy();
+        res.controlPoint2 = this._points[3].copy();
+        return res;
+    }
 }

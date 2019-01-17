@@ -55,4 +55,12 @@ export default class Group extends Element{
         return res;
     }
 
+    copy(){
+        let res = new Group();
+        for(let element of this.elements){
+            res.addElement(element.copy());
+        }
+        return res;
+    }
+
 }

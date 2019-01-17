@@ -121,4 +121,8 @@ export default class Line extends Element{
     getPointOffset(offset){
         return new Point(this._p1.x +(this._p2.x-this._p1.x)*offset, this._p1.y +(this._p2.y-this._p1.y)*offset);
     }
+
+    copy(){
+       return new Line(this._p1.copy(), this._p2.copy());
+    }
 }

@@ -164,5 +164,8 @@ export default class Element{
     createResizeMatrix(x,y){
         return new Matrix([[1+x,0,0,0],[0,1+y,0,0],[0,0,1,0],[0,0,0,1]])
     }
-    
+
+    copy(){
+        throw new Exception('The method doesn\'n have implementation.');
+    }
 }

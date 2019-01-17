@@ -41,7 +41,7 @@ export default class Command{
     /**
      * The method need for revert current command from snapshot
      */
-    undo(){
+    redo(){
         if(!this._snapshot){
             throw new Exception("The command wasn't execute.");
         }
