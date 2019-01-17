@@ -1,7 +1,7 @@
 import React from "react";
-import "./help.scss";
+import "./job.scss";
 
-export default class Help extends React.Component {
+export default class Job extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -27,41 +27,41 @@ export default class Help extends React.Component {
 
   render() {
     return (
-      <div className="Help">
-        {/* style={{ background: "red", width: "200px" }} */}
+      <div className="Job">
         <div
-          className="btn-Help"
-          // style={{ background: "transparent" }}
-          onClick={this.showDropdownMenu}
+          className="btn-Job"
+          // onClick={this.showDropdownMenu}
+          onMouseEnter={this.showDropdownMenu}
+          onMouseLeave={this.hideDropdownMenu}
         >
-          Help
-        </div>
-
-        {this.state.displayMenu ? (
-          <ul>
+          Job
+          {this.state.displayMenu ? (
+          <ul
+          >
             <li>
               {/* className="active" */}
-              <a href="#">Drawing Tutorials</a>
+              <a href="#">Settings</a>
             </li>
             <li>
-              <a href="#">Contents</a>
+              <a href="#">Price/Analyze</a>
             </li>
             <li>
-              <a href="https://www.emachineshop.com/video-tutorials/"   target="_blank"
-                rel="noreferrer noopener">Video Tutorials</a>
+              <a
+                href="https://www.emachineshop.com/help-ordering/#pre-order-checklist"
+                target="_blank"
+                rel="noreferrer noopener"
+              >
+                Checklist
+              </a>
             </li>
             <li>
-              <a href="#">Windows version</a>
-            </li>
-            <li>
-              <a href="#">Tech Support</a>
-            </li>
-
-            <li>
-              <a href="#">About</a>
+              <a href="#">Review Order</a>
             </li>
           </ul>
         ) : null}
+        </div>
+
+      
       </div>
     );
   }

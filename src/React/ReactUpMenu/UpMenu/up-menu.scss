@@ -5,15 +5,17 @@
   .Drop{
     display: flex;
     justify-content: space-between;
-    margin-bottom: 4px;
+    // margin-bottom: 4px;
   }
   .Buttons{
     display: flex;
     flex-direction: row;
     .btn-group-two {
+      display: flex;
+      justify-content: space-between;
       button {
         width: 35px;
-        height: 35px;
+        height: 34px;
         margin-right: 2px;
         // background-color: rgba(240,240,240,0.85);
         background-color: transparent;
@@ -26,9 +28,11 @@
       }
     }
     .btn-group-three {
+      display: flex;
+      justify-content: space-between;
       button {
-        width: 35px;
-        height: 35px;
+        width: 34px;
+        height: 34px;
         margin-right: 2px;
         // background-color: rgba(240,240,240,0.85);
         background-color: transparent;
@@ -41,8 +45,10 @@
       }
     }
     .btn-group-other {
+      display: flex;
+      justify-content: space-between;
       button {
-        width: 34px;
+        width: 35px;
         height: 34px;
         // background-color: rgba(240,240,240,0.85);
         background-color: transparent;

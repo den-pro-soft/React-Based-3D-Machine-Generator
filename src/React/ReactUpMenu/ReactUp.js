@@ -1,11 +1,11 @@
 import React from "react";
-import "./react-app.scss";
+import "./react-up.scss";
 import UpMenu from "./UpMenu/UpMenu";
-import Aluminium6061 from "./RightButtons/Aluminium6061";
+
+import Material from "./RightButtons/Material";
 import SelectFinish from "./RightButtons/SelectFinish";
-const ReactApp = context => {
+const ReactUp = context => {
   return (
-    // <div className="ReactApp">
       <div className="Up-And-RightMenu">
         <div className="TopMenu">
            <div className="Drop">
@@ -13,12 +13,11 @@ const ReactApp = context => {
          <UpMenu />
         </div>
         <div className="RightButtons">
-          <Aluminium6061 />
+          <Material />
           <SelectFinish />
         </div>
       </div>
-    // </div>
   );
 };
 
-export default ReactApp;
+export default ReactUp;
