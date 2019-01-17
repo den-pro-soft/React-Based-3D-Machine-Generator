@@ -9,6 +9,7 @@ module.exports = {
     popup: "./src/popup.js",
     Helper: "./src/Helper.js",
     Board:"./src/2d/Board.js",
+    Application:"./src/Application.js",
     //React enry point
     index: "./src/index.js"
   },

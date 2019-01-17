@@ -117,6 +117,6 @@ export default class Document{
     }
 
     load(snapshot){
-        throw new Exception("The method doesn't have implementation");
+        this._elements = snapshot._elements;
     }
 }

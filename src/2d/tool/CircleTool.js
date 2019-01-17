@@ -4,6 +4,7 @@
 import Tool from './Tool'
 import Arc from './../../model/elements/Arc'
 import Line from './../../model/elements/Line'
+import AddElementCommand from './../../2d/command/AddElementCommand';
 
 export default class CircleTool extends Tool{
     constructor(document){
@@ -38,7 +39,7 @@ export default class CircleTool extends Tool{
     mouseUp(point){
         if(!point.compare(this._circle.center)){
             this._circle.radius=new Line(this._circle.center, point).length();;
-            this.document.addElement(this._circle);
+            app.executeCommand(new AddElementCommand(this.document, this._circle));
             this._circle=null;
         }
     }

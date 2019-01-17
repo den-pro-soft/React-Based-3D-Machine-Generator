@@ -6,6 +6,7 @@ import Tool from './Tool';
 import Spline from './../../model/elements/Spline';
 import Point from './../../model/Point';
 import Line from './../../model/elements/Line';
+import AddElementCommand from './../../2d/command/AddElementCommand';
 
 export default class SplineTool extends Tool{
 
@@ -45,7 +46,7 @@ export default class SplineTool extends Tool{
     mouseUp(point){
         if(!point.compare(this._spline.startPoint)){
             this._setEndSplinePoint(point);
-            this.document.addElement(this._spline);
+            app.executeCommand(new AddElementCommand(this.document, this._spline));
             this._spline._renderer.new=false;
             this._spline=null;
         }

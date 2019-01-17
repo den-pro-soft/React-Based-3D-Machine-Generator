@@ -2,8 +2,11 @@
  * Created by dev on 04.01.19.
  */
 
-import Exception from '../Exception';
-import Document from '../model/Document';
+import Exception from '../../Exception';
+import Document from '../../model/Document';
+
+
+let id = 0;
 
 
 /**
@@ -18,6 +21,7 @@ export default class Command{
             throw new Exception("Document is required parameter");
         }
 
+        this.id=id++;
         /** @var {Document} */
         this._document = document;
 
@@ -41,11 +45,15 @@ export default class Command{
     /**
      * The method need for revert current command from snapshot
      */
-    redo(){
+    undo(){
         if(!this._snapshot){
             throw new Exception("The command wasn't execute.");
         }
         this._document.load(this._snapshot);
+        this._snapshot = null;
+    }
 
+    compare(command){
+        return this.id==command.id;
     }
 }

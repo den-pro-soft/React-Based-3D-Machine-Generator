@@ -2,13 +2,13 @@
  * Created by dev on 17.01.19.
  */
 
-import Document from './model/Document';
 import Board from './2d/Board';
 import Command from './2d/command/Command';
 import CommandHistory from './CommandHistory';
+import Document from './model/Document';
 
 
-export default class Application{
+class Application{
     constructor(){
         /** @param {Document} */
         this.currentDocument = new Document();
@@ -34,14 +34,22 @@ export default class Application{
         }
     }
 
-
+    /**
+     * Redo command which was undo
+     */
+    redo(){
+        if(this.commandHistory.hasRedo()){
+            this.executeCommand(this.commandHistory.getRedo());
+        }
+    }
+    
     /**
      * The method need for revert last command
      */
-    redo(){
+    undo(){
         let command = this.commandHistory.pop();
         if(command){
-            command.redo();
+            command.undo();
         }
 
         if(this.board){
@@ -53,4 +61,4 @@ export default class Application{
 
 }
 
-global.app = new Application();
+window.app = new Application();

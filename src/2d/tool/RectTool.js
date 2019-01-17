@@ -4,6 +4,7 @@
 
 import Tool from './Tool'
 import RectElementController from './RectElementControler'
+import AddElementCommand from './../../2d/command/AddElementCommand';
 
 export default class RectTool extends Tool{
     constructor(document){
@@ -39,7 +40,7 @@ export default class RectTool extends Tool{
         if(this._rect) {
             this._rect.p2=point;
             let element = this._rect.toElement();
-            this.document.addElement(element);
+            app.executeCommand(new AddElementCommand(this.document, element));
             this._rect = null;
         }
     }

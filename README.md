@@ -6,3 +6,7 @@ For compiling 3DView.js need using <code>npm start</code> or <code>npm compile</
 
 Before run the command execute <code>npm install</code> for installing all dependency.
 
+##### App architecture
+
+Class diagram
+![](./doc/img/classDiagramm.png)

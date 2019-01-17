@@ -2,15 +2,15 @@
  * Created by dev on 04.01.19.
  */
 
-import Command from 'Command';
-import Element from './../model/Element'
+import Command from './Command';
+import Element from './../../model/Element'
 
 export default class AddElementCommand extends Command{
     /**
-     *
+     * @param {Document} document
      * @param {Element} element
      */
-    constructor(element){
+    constructor(document, element){
         super(document);
 
         this._element = element;

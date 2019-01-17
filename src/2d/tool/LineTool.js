@@ -4,6 +4,7 @@
 
 import Tool from './Tool';
 import Line from '../../model/elements/Line';
+import AddElementCommand from './../../2d/command/AddElementCommand';
 
 export default class LineTool extends Tool{
     constructor(document){
@@ -38,7 +39,8 @@ export default class LineTool extends Tool{
     mouseUp(point){
         if(!point.compare(this._line.p1)){
             this._line.p2=point;
-            this.document.addElement(this._line);
+            app.executeCommand(new AddElementCommand(this.document, this._line));
+
             this._line._renderer.new=false;
             this._line=null;
         }

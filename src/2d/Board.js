@@ -10,8 +10,6 @@ import CircleTool from './tool/CircleTool';
 import Document from '../model/Document';
 import Point from '../model/Point';
 
-//todo: maybe add a few method for style?
-
 export default class Board {
     /**
      * @param {HTMLCanvasElement} canvas
