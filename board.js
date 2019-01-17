@@ -223,7 +223,7 @@ function create_board(){
                  //    .setItemSize(itemSize.width,itemSize.height)
                  //    .setItemStyle(itemStyle))
 				.addMenu(new Menu("Line")
-                    .addMenuItem(new MenuItem("Group - Test").setExecutor(groupSelected))
+                    .addMenuItem(new MenuItem("Group").setExecutor(groupSelected))
                     .addMenuItem(new MenuItem("Ungroup").setExecutor(ungroupSelected))
                     .addMenuItem(new MenuItem("Intersect").setExecutor(intersectSelected))
                     .addMenuItem(new MenuItem("Divide"))
@@ -289,18 +289,22 @@ function create_board(){
 				// 	.addMenuItem(new MenuItem("Request order status"))
 				// 	.setItemSize(itemSize.width,itemSize.height)
 				// 	.setItemStyle(itemStyle))
-				.addMenu(new Menu("Help")
-					.addMenuItem(new MenuItem("Drawing Tutorials"))
-					.addMenuItem(new MenuItem("Quick start"))
-					.addMenuItem(new MenuItem("Contents..."))
-					// .addMenuItem(new MenuItem("Forum"))
-					.addMenuItem(new MenuItem("Video Tutorials"))
-					.addMenuItem(new MenuItem("Tech Support"))
-					.addMenuItem(new MenuItem("Suggestion"))
-					// .addMenuItem(new MenuItem("Check for Updates"))
-					.addMenuItem(new MenuItem("About..."))
-					.setItemSize(itemSize.width,itemSize.height)
-					.setItemStyle(itemStyle))
+				
+				// ---Help comment----
+				// .addMenu(new Menu("Help")
+				// 	.addMenuItem(new MenuItem("Drawing Tutorials"))
+				// 	.addMenuItem(new MenuItem("Quick start"))
+				// 	.addMenuItem(new MenuItem("Contents..."))
+				// 	// .addMenuItem(new MenuItem("Forum"))
+				// 	.addMenuItem(new MenuItem("Video Tutorials"))
+				// 	.addMenuItem(new MenuItem("Tech Support"))
+				// 	.addMenuItem(new MenuItem("Suggestion"))
+				// 	// .addMenuItem(new MenuItem("Check for Updates"))
+				// 	.addMenuItem(new MenuItem("About..."))
+				// .setItemSize(itemSize.width,itemSize.height)
+					// .setItemStyle(itemStyle))
+				// ----------/Help com----m----ent -
+
                 .setItemSize(80,28)
 				.setPosition(0,0)
 				.setSize(innerWidth,30)
@@ -316,34 +320,34 @@ function create_board(){
 
 			// var
 
-			var MAB_A = [	{name: "Select", pic: "images/Select.png", hint: "Select<br>Chooses a line to which you want to issue a command or make a change. Click on the line.<br>To select multiple lines hold the SHIFT key.<br>To select connected lines hold down CTRL.<br>To select only one line hold down ALT."},
-							{name: "Line", pic: "images/Line.png", hint: "Line<br>Draws a straight line. Click again at end point. Hold the CTRL key while drawing<br>for a precise 0, 15, 30 or 45 deg angle. Press spacebar to restart line mode."},
-							{name: "Spline", pic: "images/Spline.png", hint: "Spline<br>Draws a special style of curve. In workarea? click to specify start point of the curve.<br>Click again at end poin. Drag the control points to define the desired curve."},
-							{name: "Rectangle", pic: "images/Rectangle.png", hint: "Rectangle<br>Draws a rectangle. In workarea, click to specify first corner of the rectangle.<br>Click again at opposite corner."},
-							{name: "Circle", pic: "images/Circle.png", hint: "Circle.<br>Draws a circle. In workarea, click to specify center of the circle.<br>Click again to specify circle."},
-							{name: "Freehand", pic: "images/Freehand.png", hint: "Freehand.<br>Draws a freehand sketch. To draw click and hold mouse button while moving the mouse.<br>Use the Node edit mode to modify."},
-							{name: "Erase", pic: "images/Eraser.png", hint: "Eraser.<br>You nttd this essential tool to create most shapes. First draw overlapping circles,<br>rectangles and straight lines; then click this Eraser tool and click on the appropriate line<br>segments to erase up to where it crosses another line.<br>For example, try creating a «D» shape by drawing a vertical line through a circle<br>and then erasing the appropriate line segments.<br>Or try drawing a thick «+» shape by first drawing overlapping vertical and horisontal<br>rectangles and then erasing the internal segments."},
-							{name: "Corner", pic: "images/Corner.png", hint: "Corner<br>Rounds or chamfers sharp 2D corners when two or more lines are selected.<br>To create arcs separately? enable the arc button in preferences or intercect a circle."},
-							{name: "Text", pic: "images/Text.png", hint: "Text<br>Adds text to design for making comments or machining letters.<br>In workarea, click to specify starting point. Type the text and press Enter.<br>To machine the text choose Line | Machine | Auto and set Z value on the numeric bar."},
-							{name: "Line Edit", pic: "images/LineEdit.png", hint: "Line Edit<br>Allows to move line endpoints or full line segments while staying attached.<br>In workarea click on the line. Drag the line or its endpoint to the desired location."},
-							{name: "Ruler", pic: "images/Ruler.png", hint: "Ruler<br>Measures a distance in the workspace. Left-click on the start and end points to be measured."},
-							{name: "Snap to Lines", pic: "images/SnapToLines.png", hint: "Snap to lines<br>Places new or moved lines to meet key points on existing lines.<br>It is generally recommended to keep this pushed in."},
-							{name: "Help", pic: "images/Help.png", hint: "Mechanical drawing is easy if you know a few key methods<br>Click this button for help on these techniques. For example, it is essential to know how<br>to enter dimensions numerically, apply the intersect command, use the snap feature,<br>nudge lines a specified distance, and combine commands to draw needed shapes."}
-			];
+			// var MAB_A = [	{name: "Select", pic: "images/Select.png", hint: "Select<br>Chooses a line to which you want to issue a command or make a change. Click on the line.<br>To select multiple lines hold the SHIFT key.<br>To select connected lines hold down CTRL.<br>To select only one line hold down ALT."},
+			// 				{name: "Line", pic: "images/Line.png", hint: "Line<br>Draws a straight line. Click again at end point. Hold the CTRL key while drawing<br>for a precise 0, 15, 30 or 45 deg angle. Press spacebar to restart line mode."},
+			// 				{name: "Spline", pic: "images/Spline.png", hint: "Spline<br>Draws a special style of curve. In workarea? click to specify start point of the curve.<br>Click again at end poin. Drag the control points to define the desired curve."},
+			// 				{name: "Rectangle", pic: "images/Rectangle.png", hint: "Rectangle<br>Draws a rectangle. In workarea, click to specify first corner of the rectangle.<br>Click again at opposite corner."},
+			// 				{name: "Circle", pic: "images/Circle.png", hint: "Circle.<br>Draws a circle. In workarea, click to specify center of the circle.<br>Click again to specify circle."},
+			// 				{name: "Freehand", pic: "images/Freehand.png", hint: "Freehand.<br>Draws a freehand sketch. To draw click and hold mouse button while moving the mouse.<br>Use the Node edit mode to modify."},
+			// 				{name: "Erase", pic: "images/Eraser.png", hint: "Eraser.<br>You nttd this essential tool to create most shapes. First draw overlapping circles,<br>rectangles and straight lines; then click this Eraser tool and click on the appropriate line<br>segments to erase up to where it crosses another line.<br>For example, try creating a «D» shape by drawing a vertical line through a circle<br>and then erasing the appropriate line segments.<br>Or try drawing a thick «+» shape by first drawing overlapping vertical and horisontal<br>rectangles and then erasing the internal segments."},
+			// 				{name: "Corner", pic: "images/Corner.png", hint: "Corner<br>Rounds or chamfers sharp 2D corners when two or more lines are selected.<br>To create arcs separately? enable the arc button in preferences or intercect a circle."},
+			// 				{name: "Text", pic: "images/Text.png", hint: "Text<br>Adds text to design for making comments or machining letters.<br>In workarea, click to specify starting point. Type the text and press Enter.<br>To machine the text choose Line | Machine | Auto and set Z value on the numeric bar."},
+			// 				{name: "Line Edit", pic: "images/LineEdit.png", hint: "Line Edit<br>Allows to move line endpoints or full line segments while staying attached.<br>In workarea click on the line. Drag the line or its endpoint to the desired location."},
+			// 				{name: "Ruler", pic: "images/Ruler.png", hint: "Ruler<br>Measures a distance in the workspace. Left-click on the start and end points to be measured."},
+			// 				{name: "Snap to Lines", pic: "images/SnapToLines.png", hint: "Snap to lines<br>Places new or moved lines to meet key points on existing lines.<br>It is generally recommended to keep this pushed in."},
+			// 				{name: "Help", pic: "images/Help.png", hint: "Mechanical drawing is easy if you know a few key methods<br>Click this button for help on these techniques. For example, it is essential to know how<br>to enter dimensions numerically, apply the intersect command, use the snap feature,<br>nudge lines a specified distance, and combine commands to draw needed shapes."}
+			// ];
 
-			var MUAB_A = [	{name: "Group", pic: "images/Group.png", pic_active: "images/Group_active.png", hint: "Group (Ctrl + G)<br>Combine selected lines into one group to allow selection in one click.<br>Hold the SHIFT key whilw selecting multiple lines, then click this button.<br>To select a series of connected lines in one step - hold CTRL while clicking on one of the lines."},
-							{name: "Ungroup", pic: "images/Ungroup.png", pic_active: "images/Ungroup_active.png", hint: "Ungroup (Ctrl + U)<br>Separates a group into its component lines."},
-							{name: "Zoom to fit screen", pic: "images/ZoomToFitScreen.png", hint: "Zoom to fit screen (=)<br>Set magnification to show the full design."},
-							{name: "Zoom to actual size", pic: "images/ZoomToActualSize.png", hint: "Zoom actual size (1)<br>Show design approximately in real-life size."},
-							{name: "Zoom", pic: "images/Zoom.png", hint: "Zoom<br>To magnify a specific area, in workspace drag a rectangle around the area.<br>To set center of magnification and increase magnification, click at desired new center of drawing.<br>To set center of magnification and decrease magnification, right click at desired new center of drawing."},
-							{name: "Delete", pic: "images/Delete.png", hint: "Delete (Del)<br>Removes part of your drawing. Click the Selection (arrow) button,<br>then click the line to remove, then click this button."},
-							{name: "Preferences", pic: "images/Preferences.png", hint: "Preferences (F2)<br>Set preference options."},
-							{name: "Toggle inch", pic: "images/ToggleInch.png", hint: "Toggle inch / metric mode<br>Show all dimensions in inches or in millimeters."},
-							{name: "Line type", pic: "images/LinyType.png", hint: "Line type (F5)<br>Specifies whether the selected line represents a shape, bend, thread, comment,<br>dimension, tolerance, etc. Select «Auto» in most cases when creating the part shape."},
-							{name: "Intersect", pic: "images/Intersect.png", hint: "Intersect (Ctrl + I)<br>Split lines where they cross."},
-							{name: "3D preview", pic: "images/3DPreview.png", hint: "3D Preview (Ctrl + R)<br>Show 3D view of the current design.<br>Use frequently during creation of your drawing."},
-							{name: "Price/Analize", pic: "images/Check.png", hint: "Price/Analyze (f9)<br>Check design validity and compute cost.<br>You can also use this button to guide you through the steps.<br>For example, if you click this button with a blanl screen you will be advised to draw a line."}
-			];
+			// var MUAB_A = [	{name: "Group", pic: "images/Group.png", pic_active: "images/Group_active.png", hint: "Group (Ctrl + G)<br>Combine selected lines into one group to allow selection in one click.<br>Hold the SHIFT key whilw selecting multiple lines, then click this button.<br>To select a series of connected lines in one step - hold CTRL while clicking on one of the lines."},
+			// 				{name: "Ungroup", pic: "images/Ungroup.png", pic_active: "images/Ungroup_active.png", hint: "Ungroup (Ctrl + U)<br>Separates a group into its component lines."},
+			// 				{name: "Zoom to fit screen", pic: "images/ZoomToFitScreen.png", hint: "Zoom to fit screen (=)<br>Set magnification to show the full design."},
+			// 				{name: "Zoom to actual size", pic: "images/ZoomToActualSize.png", hint: "Zoom actual size (1)<br>Show design approximately in real-life size."},
+			// 				{name: "Zoom", pic: "images/Zoom.png", hint: "Zoom<br>To magnify a specific area, in workspace drag a rectangle around the area.<br>To set center of magnification and increase magnification, click at desired new center of drawing.<br>To set center of magnification and decrease magnification, right click at desired new center of drawing."},
+			// 				{name: "Delete", pic: "images/Delete.png", hint: "Delete (Del)<br>Removes part of your drawing. Click the Selection (arrow) button,<br>then click the line to remove, then click this button."},
+			// 				{name: "Preferences", pic: "images/Preferences.png", hint: "Preferences (F2)<br>Set preference options."},
+			// 				{name: "Toggle inch", pic: "images/ToggleInch.png", hint: "Toggle inch / metric mode<br>Show all dimensions in inches or in millimeters."},
+			// 				{name: "Line type", pic: "images/LinyType.png", hint: "Line type (F5)<br>Specifies whether the selected line represents a shape, bend, thread, comment,<br>dimension, tolerance, etc. Select «Auto» in most cases when creating the part shape."},
+			// 				{name: "Intersect", pic: "images/Intersect.png", hint: "Intersect (Ctrl + I)<br>Split lines where they cross."},
+			// 				{name: "3D preview", pic: "images/3DPreview.png", hint: "3D Preview (Ctrl + R)<br>Show 3D view of the current design.<br>Use frequently during creation of your drawing."},
+			// 				{name: "Price/Analize", pic: "images/check2.png", hint: "Price/Analyze (f9)<br>Check design validity and compute cost.<br>You can also use this button to guide you through the steps.<br>For example, if you click this button with a blanl screen you will be advised to draw a line."}
+			// ];
 
 
 			//***************************************************************************
@@ -382,126 +386,130 @@ function create_board(){
 
 
 		//########################################### menu ###############################################################################################################
-			//************************************ Left menu ****************************
-			for (var n = 0; n < MAB_A.length; n++){
-					MAB[n] = element('div', board).size(33, 33).position(10, 104 + n * 39).cursor('pointer').background("rgba(0, 0, 0, 0.0)").border("1px solid rgba(0, 0, 0, 0)");
-						if (MAB_A[n].pic){
-							MAB[n].pic = element('img', MAB[n]).size(27, 27).position(3, 3);
-							MAB[n].pic.src = MAB_A[n].pic;
-						}
-						
-					MAB[n].name = MAB_A[n].name;
-					MAB[n].hint = MAB_A[n].hint;
+			//************************************ Left menu ****************************	
+			// for (var n = 0; n < MAB_A.length; n++){
+			// 		MAB[n] = element('div', board).size(33, 33).position(10, 104 + n * 39).cursor('pointer').background("rgba(0, 0, 0, 0.0)").border("1px solid rgba(0, 0, 0, 0)");
+			// 			if (MAB_A[n].pic){
+			// 				MAB[n].pic = element('img', MAB[n]).size(27, 27).position(3, 3);
+			// 				MAB[n].pic.src = MAB_A[n].pic;
+			// 			}
+			// 		// MAB[0].id = MAB_A[0].id;
+
+			// 		MAB[n].name = MAB_A[n].name;
+			// 		MAB[n].hint = MAB_A[n].hint;
 					
-					MAB[n].onmouseover = function(){
-						this.background("rgba(255, 255, 255, 0.75)");
-						showHint(this.hint);
-					}
+			// 		MAB[n].onmouseover = function(){
+			// 			this.background("rgba(255, 255, 255, 0.75)");
+			// 			showHint(this.hint);
+			// 		}
 
-					MAB[n].onmouseleave = function(){
-						this.background("rgba(0, 0, 0, 0.0)");
-						showHint();
-					}
+			// 		MAB[n].onmouseleave = function(){
+			// 			this.background("rgba(0, 0, 0, 0.0)");
+			// 			showHint();
+			// 		}
 
-					MAB[n].onmousedown = function(){
-						canvas.style.cursor = "default";
-						for (var i = 0; i < MAB.length; i++) MAB[i].background("rgba(0, 0, 0, 0)").border("1px solid rgba(0, 0, 0, 0)");
-						this.background("rgba(255, 255, 255, 1.0)").border("1px solid rgba(0, 0, 0, 0.35)");
-						edit_mode = this.name;
-						edit_step = 0;
-						//edit_type == "Resize";
-						//same_clicked = false;
-						if (edit_mode == "Line" || edit_mode == "Rectangle" || edit_mode == "Circle" || edit_mode == "Spline") skipSelected();
-						container.board.setTool(edit_mode);
+			// 		MAB[n].onmousedown = function(){
+			// 			canvas.style.cursor = "default";
+			// 			for (var i = 0; i < MAB.length; i++) MAB[i].background("rgba(0, 0, 0, 0)").border("1px solid rgba(0, 0, 0, 0)");
+			// 			this.background("rgba(255, 255, 255, 1.0)").border("1px solid rgba(0, 0, 0, 0.35)");
+			// 			edit_mode = this.name;
+			// 			edit_step = 0;
+			// 			edit_type == "Resize";
+			// 			same_clicked = false;
+			// 			if (edit_mode == "Line" || edit_mode == "Rectangle" || edit_mode == "Circle" || edit_mode == "Spline") skipSelected();
+			// 			container.board.setTool(edit_mode);
 						
-						if (this.name == "Corner"){
-							//cornerSelected();
-							showCornerBox();
-							this.background("rgba(0, 0, 0, 0)").border("1px solid rgba(0, 0, 0, 0)");
-							MAB[0].background("rgba(255, 255, 255, 1.0)").border("1px solid rgba(0, 0, 0, 0.35)");
-							edit_mode = "Select";
-						}
+			// 			if (this.name == "Corner"){
+			// 				cornerSelected();
+			// 				showCornerBox();
+			// 				this.background("rgba(0, 0, 0, 0)").border("1px solid rgba(0, 0, 0, 0)");
+			// 				MAB[0].background("rgba(255, 255, 255, 1.0)").border("1px solid rgba(0, 0, 0, 0.35)");
+			// 				edit_mode = "Select";
+			// 			}
 						
-						setBound();
-						redraw();
-					}
-			}
+			// 			setBound();
+			// 			redraw();
+			// 		}
+			// }
 
 
 			//************************************ Up menu ******************************
-			for (var n = 0; n < MUAB_A.length; n++){
-					MUAB[n] = element('div', board).size(27, 27).position(10 + n * 35, 35).cursor('pointer').background("rgba(0, 0, 0, 0.0)").border("1px solid rgba(0, 0, 0, 0)");
-						if (MUAB_A[n].pic) MUAB[n].pic = element('img', MUAB[n]).size(23, 23).position(2, 2);
-							MUAB[n].pic.src = MUAB_A[n].pic;
-
-					MUAB[n].name = MUAB_A[n].name;
-					MUAB[n].hint = MUAB_A[n].hint;
+			// for (var n = 0; n < MUAB_A.length; n++){
+			// 		// MUAB[n] = element('div', board).size(27, 27).position(10 + n * 35, 35).cursor('pointer').background("rgba(0, 0, 0, 0.0)").border("1px solid rgba(0, 0, 0, 0)");
+			// 		MUAB[n] = element('div', board).size(27, 27).position(10 + n * 35, 35).cursor('pointer').background("rgba(0, 0, 0, 0.0)").border("1px solid rgba(0, 0, 0, 0)");
+			// 		// console.log(MUAB[n])
 					
-					MUAB[n].onmouseover = function(){
-						this.background("rgba(255, 255, 255, 0.75)");
-						showHint(this.hint);
-					}
+			// 			if (MUAB_A[n].pic) MUAB[n].pic = element('img', MUAB[n]).size(23, 23).position(2, 2);
+			// 				MUAB[n].pic.src = MUAB_A[n].pic;
 
-					MUAB[n].onmouseleave = function(){
-						this.background("rgba(0, 0, 0, 0.0)");
-						showHint();
-					}
+			// 		MUAB[n].name = MUAB_A[n].name;
+			// 		MUAB[n].hint = MUAB_A[n].hint;
+					
+			// 		MUAB[n].onmouseover = function(){
+			// 			this.background("rgba(255, 255, 255, 0.75)");
+			// 			showHint(this.hint);
+			// 		}
 
-					MUAB[n].onmousedown = function(){
+			// 		MUAB[n].onmouseleave = function(){
+			// 			this.background("rgba(0, 0, 0, 0.0)");
+			// 			showHint();
+			// 		}
+
+			// 		MUAB[n].onmousedown = function(){
 						
 
-						//****************** Intersect *************************
-						if (this.name == "Intersect") intersectSelected();
+			// 			//****************** Intersect *************************
+			// 			if (this.name == "Intersect") intersectSelected();
 
 
-						//******************* Group ************************
-						if (this.name == "Group") groupSelected();
+			// 			//******************* Group ************************
+			// 			if (this.name == "Group") groupSelected();
 
 
-						//******************** Ungroup ************************
-						if (this.name == "Ungroup")	ungroupSelected()
+			// 			//******************** Ungroup ************************
+			// 			if (this.name == "Ungroup")	ungroupSelected()
 
-						//******************** Zoom to fit screen ************************
-						if (this.name == "Zoom to fit screen"){
-							zoomToFitScreen();
-						}
+			// 			//******************** Zoom to fit screen ************************
+			// 			if (this.name == "Zoom to fit screen"){
+			// 				zoomToFitScreen();
+			// 			}
 
-						//******************** Zoom to actual size ************************
-						if (this.name == "Zoom to actual size"){
-							zoomToActualSize();
-						}
+			// 			//******************** Zoom to actual size ************************
+			// 			if (this.name == "Zoom to actual size"){
+			// 				zoomToActualSize();
+			// 			}
 
-						//******************** Delete ************************
-						if (this.name == "Delete"){
-								for (var n = 0; n < E.length; n++) if (E[n].selected) E[n].enable = false;
-								setBound();
-								redraw();
-						}
+			// 			//******************** Delete ************************
+			// 			if (this.name == "Delete"){
+			// 					for (var n = 0; n < E.length; n++) if (E[n].selected) E[n].enable = false;
+			// 					setBound();
+			// 					redraw();
+			// 			}
 
-						//******************** Zoom ************************
-						if (this.name == "Zoom"){
-							edit_mode = "Zoom";
-							canvas.style.cursor = "zoom-in";
-							for (var i = 0; i < MAB.length; i++) MAB[i].background("rgba(0, 0, 0, 0)").border("1px solid rgba(0, 0, 0, 0)");
-						}
-						//******************** Ungroup ************************
-						if (this.name == "3D preview"){
-							try {
-								view3D.setGeometry(E, G);
-								popup3DView.show();
-							}catch (e){
-								if(e instanceof Exception) {
-									console.log(e.message);
-									new MessagePopup(null, e.message).setTitle('Error').moveToCenter().show();
-								}else{
-									throw e;
-								}
-							}
-						}
+			// 			//******************** Zoom ************************
+			// 			if (this.name == "Zoom"){
+			// 				edit_mode = "Zoom";
+			// 				canvas.style.cursor = "zoom-in";
+			// 				for (var i = 0; i < MAB.length; i++) MAB[i].background("rgba(0, 0, 0, 0)").border("1px solid rgba(0, 0, 0, 0)");
+			// 			}
+			// 			//******************** Ungroup ************************
+			// 			if (this.name == "3D preview"){
+			// 				try {
+			// 					view3D.setGeometry(E, G);
+			// 					popup3DView.show();
+			// 				}catch (e){
+			// 					if(e instanceof Exception) {
+			// 						console.log(e.message);
+			// 						new MessagePopup(null, e.message).setTitle('Error').moveToCenter().show();
+			// 					}else{
+			// 						throw e;
+			// 					}
+			// 				}
+			// 			}
 						
 						
-					}
-			}
+			// 		}
+			// }
 
 
 		//todo: the code must execute in some event handler of drawing board for example "selectElement"

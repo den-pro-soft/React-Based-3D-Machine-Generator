@@ -64,9 +64,11 @@
   </head>
 
   <body style="padding: 0px; margin: 0px; background: rgb(255, 255, 255)">
-	<div id="root"></div>
+  <div id="UpMenu" style="position:absolute;z-index:100"></div>
+	<div id="LeftMenu" style="position: absolute;;z-index:90"></div>
+  
 	<!-- React connection-script -->
-    <script src="dist/index.js"></script>
+  <script src="dist/index.js"></script>
 
     <script src="dist/Helper.js"></script>
     <script src="dist/3Dview.js"></script>
@@ -76,9 +78,11 @@
     <!--depended from function.1.0.js-->
     <script type="text/javascript" src="dist/menu.js"></script>
     <!--depended from function.1.0.js-->
-    <script type="text/javascript" src="dist/board.js"></script>
+    <script type="text/javascript" src="dist/Board.js"></script>
 
+    <!-- <script type="text/javascript" src="src/board.js"></script> -->
     <script type="text/javascript" src="board.js"></script>
+
     <!--depended from function.1.0.js-->
     <script>
       document.body.onload = function() {

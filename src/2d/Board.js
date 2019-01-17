@@ -131,7 +131,7 @@ export default class Board {
      *
      * @param {String} name
      */
-    setTool(name){
+     setTool(name){
         switch(name){
             case 'Line':
                 this.tool = new LineTool(this.document);
@@ -371,4 +371,5 @@ export default class Board {
     }
 }
 
-global.Board2 = Board;
+// global.Board2 = Board;
+window.Board2 = Board;

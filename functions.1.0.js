@@ -149,6 +149,7 @@
 	 */
 	function element(type, parent){
 	  var unit = document.createElement(type);
+// unit.setAttribute( "id", "test" );
 
 	  unit.type = type;
 	  

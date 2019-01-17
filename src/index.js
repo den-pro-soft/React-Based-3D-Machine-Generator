@@ -1,14 +1,21 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import "./index.scss";
+import LeftMenu from "./React/LeftMenu/LeftMenu"
+import ReactApp from './React/ReactApp';
+
 
 ReactDOM.render(
-  <>
-    <h2>
-      Hello colle colleagues, React is working with <span>Webpack</span> and{" "}
-      <span>SCSS</span> here!
-    </h2>
-    {/* <TestAsk /> */}
-  </>,
-  document.getElementById("root")
-);
+  <div classname="root-LeftMenu">
+   <LeftMenu /> 
+  </div>,
+  document.getElementById("LeftMenu")
+
+)
+ReactDOM.render(
+  <div>
+   <ReactApp />
+  </div>,
+  document.getElementById("UpMenu")
+
+)
