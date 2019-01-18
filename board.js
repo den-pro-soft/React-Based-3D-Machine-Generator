@@ -1017,6 +1017,7 @@ function create_board(){
 			canvas.style.background = '#fff';
 			board.appendChild(canvas);
 			container.board  = new Board2(canvas);
+			app.board = container.board;
 			context = canvas.getContext('2d');
 			
 			//**************************************************************************
