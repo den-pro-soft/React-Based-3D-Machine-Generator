@@ -61,6 +61,7 @@ export default class Group extends GraphicElement{
         for(let element of this.elements){
             res.addElement(element.copy());
         }
+        res.height=this.height;
         return res;
     }
 

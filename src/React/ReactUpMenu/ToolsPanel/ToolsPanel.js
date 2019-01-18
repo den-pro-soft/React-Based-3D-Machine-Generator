@@ -35,7 +35,7 @@ const ToolsPanel = context => {
         data-place="right"
         className="tooltipBackgroundTheme"
       /> */}
-      <form>
+
         <button className="btn-Z">
           <a href="#">
             <img
@@ -46,19 +46,23 @@ const ToolsPanel = context => {
           </a>
         </button>
       
-        <input list="browsers" name="browser"style={{width:'120px'}} />
+        <input list="browsers" name="browser"style={{width:'120px'}}
+               onChange={e=>{
+                    let val = parseInt(e.target.value);
+                        app.setElementsHeight(val?val:0.075);
+               }}
+        />
         <datalist id="browsers">
           <option value="">Air Inside</option>
           <option value="">Revolve</option>
-          {data.map((item, i) => (
-            <option key={i} value={item}>
-              {/* {item}&quot; */}
-            </option>
-          ))}
+            {data.map((item, i) => (
+              <option key={i} value={item}>
+                {/* {item}&quot; */}
+              </option>
+            ))}
           <option value="">Other</option>
         
         </datalist>
-      </form>
 
       
     </div>

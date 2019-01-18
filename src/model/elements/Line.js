@@ -125,6 +125,8 @@ export default class Line extends GraphicElement{
     }
 
     copy(){
-       return new Line(this._p1.copy(), this._p2.copy());
+        let line = new Line(this._p1.copy(), this._p2.copy());
+        line.height=this.height;
+        return line;
     }
 }

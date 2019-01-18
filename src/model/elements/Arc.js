@@ -94,6 +94,8 @@ export default class Arc extends GraphicElement{
     }
 
     copy(){
-        return new Arc(this.center.copy(), this.radius);
+        let arc = new Arc(this.center.copy(), this.radius);
+        arc.height=this.height;
+        return arc;
     }
 }
