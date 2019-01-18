@@ -4,8 +4,8 @@ import ReactTooltip from "react-tooltip";
 
 const ToolsPanel = context => {
   const data = [
-    'Air Inside',
-    'Revolve',
+    "Air Inside",
+    "Revolve",
     "0.002",
     "0.005",
     "0.010",
@@ -26,7 +26,7 @@ const ToolsPanel = context => {
     "2.000",
     "2.500",
     "3.000",
-    'Other'
+    "Other"
   ];
   return (
     <div className="ToolsPanel">
@@ -36,6 +36,14 @@ const ToolsPanel = context => {
         className="tooltipBackgroundTheme"
       /> */}
       <form>
+      <select className="select-1">
+          <option value="Auto">Auto</option>
+          <option value="Bend">Bend</option>
+          <option value="mercedes">Thread&amp;Tap</option>
+          <option value="LazerMark">Comments to Self</option>
+          <option value="LazerMark">Comments to Machinist</option>
+          <option value="LazerMark">LazerMark</option>
+        </select>
         <button className="btn-Z">
           <a href="#">
             <img
@@ -45,8 +53,9 @@ const ToolsPanel = context => {
             />
           </a>
         </button>
-      
-        <input list="browsers" name="browser"style={{width:'120px'}} />
+       
+
+        <input list="browsers" name="browser" style={{ width: "120px" }} />
         <datalist id="browsers">
           <option value="">Air Inside</option>
           <option value="">Revolve</option>
@@ -56,11 +65,8 @@ const ToolsPanel = context => {
             </option>
           ))}
           <option value="">Other</option>
-        
         </datalist>
       </form>
-
-      
     </div>
   );
 };
