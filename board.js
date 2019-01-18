@@ -86,9 +86,7 @@ function create_board(){
 			var infoline = element('div', board).background('rgb(240, 240, 240)').size(1200, 25).fontStyle(11, "Ubuntu", "#222", "left")
 				infoline.material = element('div', infoline).background('rgba(255, 255, 255, 0)').border('0px solid #aaa').size(200, 23).position(1000, 0);
 			
-			var popup3DView = new DraggablePopup().setSize(800,600).setPosition(200,100).moveToCenter().setTitle("3D view").hide();
-			var view3D = new View3D({width:800, height:600});
-			popup3DView.addContent(view3D.getContent());
+
 
 			//*****************************************************************************************************************
 			//<editor-fold defaultstate="collapsed" desc="create menu">
@@ -4363,6 +4361,6 @@ function create_board(){
 
 
 
-			container.board.clear();
+			container.board.renderDocument();
 			return board;
 	}

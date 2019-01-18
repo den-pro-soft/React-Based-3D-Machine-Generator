@@ -9,6 +9,7 @@ import {Vertex3} from './model/Vertex';
 import Line from './model/Line';
 import Exception from '../Exception';
 
+// import Group from './../model/elements/Group';
 
 
 class Polygon{
@@ -172,51 +173,72 @@ class PolygonMeshBuilder{
     }
 
     /**
-     * @param elements
-     * @param groups
+     * @param document
      * @return {THREE.Mesh}
      */
-    getMeshes(elements, groups){
+    getMeshes(document){
         let meshes = [];
         let internalMeshes = [];
-        for(let group of groups){
-            let polygons = this._createPolygonsByGroup(group, elements);
-            let height = this._getHeightByGroup(group,elements);
-            for(let polygon of polygons) {
-                if (polygon.isClosed()) {
-                    let vertices = polygon.getConsistentlyVertex();
-                    let geometry = this.geometryBuilder.createThreeGeometry(vertices, Math.abs(height));
-                    let mesh = new THREE.Mesh(geometry, this.material);
-                    if (height>0) {
-                        meshes.push(mesh);
-                    }else {
-                        internalMeshes.push(mesh);
+
+        for(let element of document._elements){
+            if(element.typeName == 'Group') {
+                let polygons = this._createPolygonsByGroup(element);
+                for(let polygon of polygons) {
+                    if (polygon.isClosed()) {
+                        let vertices = polygon.getConsistentlyVertex();
+                        let geometry = this.geometryBuilder.createThreeGeometry(vertices, Math.abs(element.height));
+                        let mesh = new THREE.Mesh(geometry, this.material);
+                        if (element.height>0) {
+                            meshes.push(mesh);
+                        }else {
+                            internalMeshes.push(mesh);
+                        }
+                    } else {
+                        throw new Exception("Please close open shapes.",polygon);
                     }
-                } else {
-                    throw new Exception("Please close open shapes.",polygon);
                 }
             }
         }
 
-        let circles = this._getCirclesWithoutGroup(groups, elements);
-        for(let circle of circles){
-            if(!circle.Z){
-                circle.Z=0.76;
-            }
-            let vertices = [];
-
-            for(let point of circle.P){
-                vertices.push(new Vertex3(point.X,point.Y,0));
-            }
-
-            let geometry = this.geometryBuilder.createThreeGeometry(vertices, Math.abs(circle.Z));
-            let mesh = new THREE.Mesh(geometry, this.material);
-            if (circle.Z>0) {
-                meshes.push(mesh);
-            }else {
-                internalMeshes.push(mesh);
-            }
-        }
+        //
+        // for(let group of groups){
+        //
+        //     let height = this._getHeightByGroup(group,elements);
+        //     for(let polygon of polygons) {
+        //         if (polygon.isClosed()) {
+        //             let vertices = polygon.getConsistentlyVertex();
+        //             let geometry = this.geometryBuilder.createThreeGeometry(vertices, Math.abs(height));
+        //             let mesh = new THREE.Mesh(geometry, this.material);
+        //             if (height>0) {
+        //                 meshes.push(mesh);
+        //             }else {
+        //                 internalMeshes.push(mesh);
+        //             }
+        //         } else {
+        //             throw new Exception("Please close open shapes.",polygon);
+        //         }
+        //     }
+        // }
+        //
+        // let circles = this._getCirclesWithoutGroup(groups, elements);
+        // for(let circle of circles){
+        //     if(!circle.Z){
+        //         circle.Z=0.76;
+        //     }
+        //     let vertices = [];
+        //
+        //     for(let point of circle.P){
+        //         vertices.push(new Vertex3(point.X,point.Y,0));
+        //     }
+        //
+        //     let geometry = this.geometryBuilder.createThreeGeometry(vertices, Math.abs(circle.Z));
+        //     let mesh = new THREE.Mesh(geometry, this.material);
+        //     if (circle.Z>0) {
+        //         meshes.push(mesh);
+        //     }else {
+        //         internalMeshes.push(mesh);
+        //     }
+        // }
 
 
         return this._groupMeshes(meshes,internalMeshes);
@@ -309,25 +331,24 @@ class PolygonMeshBuilder{
      * @return {Array} of {Polygon}
      * @private
      */
-    _createPolygonsByGroup(group, elements){
+    _createPolygonsByGroup(group){
         let polygon = new Polygon();
-        for(let elementIndex of group.E){
-            switch(elements[elementIndex].type){
-                case 'line':
-                case 'spline':
-                case 'circle':
-                    for(let i=1; i<elements[elementIndex].P.length; i++){
-                        polygon.addEdge(new Line(new Vertex3(elements[elementIndex].P[i-1].X,elements[elementIndex].P[i-1].Y),
-                            new Vertex3(elements[elementIndex].P[i].X,elements[elementIndex].P[i].Y)));
-                    }
-                    break;
-                default:
-                    throw new Exception(`This MVP 3D version is working only with line, spline and circle!`);
+        for(let element of group.elements){
+            if(element.typeName = 'Line') {
+                let points = element._points;
+
+                for (let i = 1; i < points.length; i++) {
+                    polygon.addEdge(new Line(new Vertex3(points[i - 1].x, points[i - 1].y),
+                        new Vertex3(points[i].x, points[i].y)));
+                }
+            }
+            if(element.typeName = 'Arc') {
+                
             }
         }
-        if(polygon.hasLoop()){
-            return polygon.getSimplePolygons();
-        }
+        // if(polygon.hasLoop()){
+        //     return polygon.getSimplePolygons();
+        // }
         return [polygon];
     }
 

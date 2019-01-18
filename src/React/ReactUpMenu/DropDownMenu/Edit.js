@@ -1,6 +1,6 @@
 import React from "react";
 import "./edit.scss";
-import DeleteElementCommand from './../../../2d/command/DeleteElementCommand';
+
 
 
 export default class Edit extends React.Component {
@@ -57,7 +57,7 @@ export default class Edit extends React.Component {
               <a href="#">Paste</a>
             </li>
 
-            <li onClick={() => app.executeCommand(new DeleteElementCommand(app.currentDocument, app.selectElements))}>
+            <li onClick={() => app.deleteSelected()}>
               <a href="#">Delete</a>
             </li>
             <li>

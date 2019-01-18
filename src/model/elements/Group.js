@@ -12,6 +12,8 @@ export default class Group extends GraphicElement{
         super();
         this.elements = [];
         this._renderer = new GroupRenderer(this);
+
+        this.typeName = 'Group';
     }
 
     get _points(){

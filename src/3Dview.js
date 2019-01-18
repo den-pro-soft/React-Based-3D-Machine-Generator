@@ -84,27 +84,11 @@ class View3D{
 
     /**
      * @public
-     * @param elements
-     * @param groups
+     * @param {Document} document
      */
-    setGeometry(elements, groups){
-        groups = groups.filter(x=>x.enable); //filtering disabled groups
-        groups = groups.filter(x=>x.E.reduce((res,e)=>res&elements[e].enable)); //filtering groups with disabled items
-        groups = groups.map(group =>{  //filtering group elements (remove reiterations);
-            let E = [];
-            m: for(let i=0; i<group.E.length; i++){
-                for(let j=0; j<E.length; j++){
-                    if(E[j]==group.E[i]){
-                        continue m;
-                    }
-                }
-                E.push(group.E[i]);
-            }
-            group.E = E;
-            return group;
-        });
+    setGeometry(document){
         this.resetScene();
-        let mesh = this.meshBuilder.getMeshes(elements, groups);
+        let mesh = this.meshBuilder.getMeshes(document);
         if(mesh){
             mesh.rotateX(-90* Math.PI/180);
             this.scene.add(mesh);

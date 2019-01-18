@@ -10,12 +10,16 @@ let id = 0;
 export default class GraphicElement{
     constructor(){
         this.id=id++;
-     
+
+        this.height = 10;
+
         /** @var {Array.<Point>} */
         this._points = [];
 
         /** @var {Render} */
         this._renderer = null; //todo: transfer the creation of a new sample from GraphicElement classes to a IOC container
+
+        this.typeName= "Element"; //todo: understand  instanceof and remove this shit
     }
 
     render(){

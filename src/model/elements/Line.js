@@ -15,6 +15,8 @@ export default class Line extends GraphicElement{
         this._p2=p2;
         this._points=[p1,p2];
         this._renderer = new LineRenderer(this);
+
+        this.typeName = 'Line';
     }
 
     set p1(point){

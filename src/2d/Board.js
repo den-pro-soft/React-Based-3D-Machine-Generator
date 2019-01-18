@@ -48,7 +48,7 @@ export default class Board {
         canvas.addEventListener('click',  e=>this.mouseClick(e));
         canvas.addEventListener('dblclick',  e=>this._mouseDbClick(e));
 
-        this.renderDocument();
+        setTimeout(()=>{this.renderDocument()}, 100);
     }
     
     set document(doc){

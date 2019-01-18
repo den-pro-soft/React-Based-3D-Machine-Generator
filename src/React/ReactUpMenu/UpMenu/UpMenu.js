@@ -2,6 +2,29 @@ import React from "react";
 import "./up-menu.scss";
 import Help from "../DropDownMenu/Help";
 import DropDownMenu from "../DropDownMenu/DropDownMenu";
+
+import {DraggablePopup} from './../../../popup';
+var popup3DView = new DraggablePopup().setSize(800,600).setPosition(200,100).moveToCenter().setTitle("3D view").hide();
+var view3D = new View3D({width:800, height:600});
+popup3DView.addContent(view3D.getContent());
+
+
+
+let show3D = function(){
+  try {
+    view3D.setGeometry(app.currentDocument);
+    popup3DView.show();
+  }catch (e){
+    if(e instanceof Exception) {
+      console.log(e.message);
+      new MessagePopup(null, e.message).setTitle('Error').moveToCenter().show();
+    }else{
+      throw e;
+    }
+  }
+}
+
+
 const UpMenu = context => {
   return (
     <div className="UpMenu">
@@ -47,7 +70,7 @@ const UpMenu = context => {
           <button>
             <img width="24px" src="images/Intersect.png" />
           </button>
-          <button>
+          <button onClick={() => show3D()}>
             <img width="24px" src="images/3DPreview.png" />
           </button>
           <button>

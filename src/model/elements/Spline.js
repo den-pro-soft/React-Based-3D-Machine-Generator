@@ -11,6 +11,8 @@ export default class Spline extends GraphicElement{
         super();
         this._points = [startPoint, endPoint, null, null];
         this._renderer = new SplineRenderer(this);
+
+        this.typeName= 'Spline';
     }
 
     set startPoint(p){

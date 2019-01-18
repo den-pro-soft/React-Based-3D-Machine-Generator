@@ -14,6 +14,8 @@ export default class Arc extends GraphicElement{
         this._points[0]=center;
         this.radius=radius;
         this._renderer = new ArcRenderer(this);
+
+        this.typeName = 'Arc';
     }
 
     set center(point){
