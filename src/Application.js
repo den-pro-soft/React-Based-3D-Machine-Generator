@@ -7,6 +7,7 @@ import Command from './2d/command/Command';
 import CommandHistory from './CommandHistory';
 import Document from './model/Document';
 import GroupCommand from './2d/command/GroupCommand';
+import UngroupCommand from './2d/command/UngroupCommand';
 import DeleteElementCommand from './2d/command/DeleteElementCommand';
 
 class Application{
@@ -77,7 +78,11 @@ class Application{
     group(){
         this.executeCommand(new GroupCommand(app.currentDocument, app.selectElements));
     }
-    
+
+    ungroup(){
+        this.executeCommand(new UngroupCommand(app.currentDocument, app.selectElements));
+    }
+
     deleteSelected(){
         if(this.board){
             this.board.setTool('Pointer');

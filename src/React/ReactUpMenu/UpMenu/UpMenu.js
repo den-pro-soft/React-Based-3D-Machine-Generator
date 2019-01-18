@@ -39,7 +39,7 @@ const UpMenu = context => {
           <button onClick={() => app.group()}>
             <img width="25px" src="images/Group.png" />
           </button>
-          <button>
+          <button onClick={() => app.ungroup()}>
             <img width="25px" src="images/Ungroup.png" />
           </button>
         </div>

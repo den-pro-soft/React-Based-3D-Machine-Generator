@@ -42,7 +42,7 @@ export default class Line extends React.Component {
               {/* className="active" */}
               <a href="#">Group</a>
             </li>
-            <li>
+            <li onClick={() => app.ungroup()}>
               <a href="#">Ungroup</a>
             </li>
             <li>
