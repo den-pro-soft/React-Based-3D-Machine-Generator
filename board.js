@@ -2064,517 +2064,517 @@ function create_board(){
 
 			//##################################### REDRAW #######################################
 			function redraw(){
-						context.clearRect(0, 0, canvas.width, canvas.height);
-						context.lineJoin = 'round';
-
-									drawElements();
-									drawAxis();
-									drawScales();
-									drawSides();
-									drawCursor();
-									//drawInfo();
-
-								//********************************** draw Axis *******************************************************
-								function drawAxis(){
-										context.fillStyle = 'rgba(0, 0, 0, 0.2)';
-										context.strokeStyle = 'rgba(125, 125, 125, 0.5)';
-										context.lineWidth = 1;
-										context.setLineDash([4, 4]);
-										
-										context.beginPath();
-											context.moveTo(O.x, 40);
-											context.lineTo(O.x, canvas.height - 40);
-											context.moveTo(20, canvas.height - O.y);
-											context.lineTo(canvas.width - 20, canvas.height - O.y);
-										context.stroke();
-										
-										context.fillStyle = 'rgb(240, 240, 240)';
-										context.fillRect(0, 0, canvas.width, 19);
-										context.fillRect(0, 0, 19, canvas.height);
-								}
-
-	
-								//********************************** draw elements *******************************************************
-								function drawElements(){
-
-										for (var n = 1; n < E.length; n++) if (E[n].enable){
-
-																					setStyle(null, 'rgba(50, 50, 50, 1.0)', 1, []);
-													if (E[n].lineType == "bend")	setStyle(null, 'rgba(50, 175, 0, 1.0)', 1, []);
-													if (n == over.Element)			setStyle(null, 'rgba(255, 100, 25, 0.7)', 2, []);
-													if (E[n].selected)				setStyle(null, 'rgba(255, 100, 25, 1.0)', 2, []);
-													
-													if (E[n].lineType == "bend" && n == over.Element)	setStyle(null, 'rgba(50, 225, 0, 0.7)', 1, []);
-													if (E[n].lineType == "bend" && E[n].selected)		setStyle(null, 'rgba(50, 225, 0, 1.0)', 1, []);
-
-													drawPolyLine(E[n].P);
-
-
-												//*********************** draw polyline ************************
-												if (E[n].type == "polyline"){
-													
-												}
-
-
-												//*********************** draw circles ************************
-												if (E[n].type == "circle"){
-
-												}
-
-
-												//*********************** draw splines ************************
-												if (E[n].type == "spline"){
-
-														if (edit_mode == "Line Edit")
-														if (E[n].selected){
-															drawLine(E[n].CP[1], E[n].CP[2], 'rgba(125, 125, 125, 1.0)', 1, [4, 4]);
-															drawLine(E[n].CP[3], E[n].CP[4], 'rgba(125, 125, 125, 1.0)', 1, [4, 4]);
-														}
-												}
-										}
-
-
-														//*********************** draw points *****************************
-														if (edit_mode == "Line Edit")
-														for (var n = 1; n < E.length; n++) if (E[n].enable){
-																if (E[n].selected){
-																	
-																	if (E[n].type == "circle") drawLine(E[n].CP[0], E[n].CP[1], 'rgba(125, 125, 125, 1.0)', 1, [4, 4]);
-																	
-																	for (var i = 0; i < E[n].CP.length; i++) if (E[n].CP[i]){
-
-																		arc(E[n].CP[i].x, E[n].CP[i].y, 3, 'rgba(255, 255, 255, 1.0)', 'rgba(50, 50, 50, 1.0)', 1, []);
-
-																		if (n == over.Element) if (over.Point == i){
-																			arc(E[n].CP[i].x, E[n].CP[i].y, 4, 'rgba(255, 255, 255, 1.0)', 'rgba(200, 70, 0, 1.0)', 2, []);
-																		}
-																	}
-																}
-	
-														}
-
-
-
-														//********************* draw selected bound **********************************************************
-														if (edit_mode == "Select")
-														if (B.length > 0){
-
-																//************************** Resize ***********************
-																if (edit_type == "Resize"){
-																
-																		context.strokeStyle = 'rgba(125, 125, 125, 1.0)';
-																		context.setLineDash([4, 4]);
-																		context.lineWidth = 1;
-																		context.strokeRect(B[1].x, B[1].y, B[3].x - B[1].x, B[3].y - B[1].y);
-																	
-																	for (var n = 1; n <= 8; n++){
-																		if (n == fixed.B) {
-																			context.fillStyle = 'rgba(50, 50, 50, 1.0)';
-																			context.fillRect(B[n].x - 5, B[n].y - 5, 10, 10);
-																		} else 
-																		if (n == over.B) {
-																			context.fillStyle = 'rgba(50, 50, 50, 1.0)';
-																			context.fillRect(B[n].x - 4, B[n].y - 4, 8, 8);
-																		} else {
-																			context.fillStyle = 'rgba(50, 50, 50, 1.0)';
-																			context.fillRect(B[n].x - 3, B[n].y - 3, 6, 6);
-																		}
-																	}
-																}
-
-
-																//************************** Rotate ***********************
-																if (edit_type == "Rotate"){
-
-																		/*
-																		for (var n = 1; n < E.length; n++) if (E[n].enable)
-																		if (E[n].selected){
-																			arc(E[n].CP[5].x, E[n].CP[5].y, 8, 'rgba(255, 255, 255, 1.0)', 'rgba(100, 100, 100, 1.0)', 2, []);
-																			arc(E[n].CP[5].x, E[n].CP[5].y, 2, 'rgba(100, 100, 100, 1.0)', 'rgba(100, 100, 100, 1.0)', 1, []);
-																		}
-																		*/
-
-
-																			arc(CR.x, CR.y, 8, 'rgba(255, 255, 255, 1.0)', 'rgba(100, 100, 100, 1.0)', 2, []);
-																			arc(CR.x, CR.y, 2, 'rgba(100, 100, 100, 1.0)', 'rgba(100, 100, 100, 1.0)', 1, []);
-
-
-																			var r = distance2Point(B[9], CR) * scale; // Math.sqrt(DX * DX + DY * DY) * scale;
-																			arc(CR.x, CR.y, r, null, 'rgba(100, 100, 100, 1.0)', 1, [4, 4]);
-
-
-																			for (var n = 9; n <= 12; n++){
-
-																					var DX = B[n].X - CR.X;
-																					var DY = B[n].Y - CR.Y;
-																					R = Math.sqrt(DX * DX + DY * DY);
-																					var angle = -Math.acos(DX / R);
-																					if (DY < 0) angle = 2 * Math.PI - angle;
-
-																					var da = 0.02;
-
-																					arc(B[n].x, B[n].y, 3.5,'rgb(50, 50, 50)',  null, 1, []);
-																					arc(CR.x, CR.y, r, null, 'rgb(50, 50, 50)', 1, [], angle - Math.PI / 16, angle + Math.PI / 16);
-
-																					if (over.B == n){
-																							arc(B[n].x, B[n].y, 4.5,'rgb(50, 50, 50)',  null, 1, []);
-																							
-																							setStyle('rgb(220, 220, 220)', null, 1, [2, 5]);
-																							context.beginPath();
-																								context.moveTo(CR.x + r * Math.cos(angle), CR.y + r * Math.sin(angle));
-																								context.lineTo(CR.x + 8 * Math.cos(angle), CR.y + 8 * Math.sin(angle));
-																							context.stroke();
-																					}
-																					
-																					if (fixed.B == n){
-																							arc(B[n].x, B[n].y, 5.5,'rgb(50, 50, 50)',  null, 1, []);
-																							
-																							setStyle('rgb(150, 150, 150)', null, 1, [2, 5]);
-																							context.beginPath();
-																								context.moveTo(CR.x + r * Math.cos(angle), CR.y + r * Math.sin(angle));
-																								context.lineTo(CR.x + 8 * Math.cos(angle), CR.y + 8 * Math.sin(angle));
-																							context.stroke();	
-																					}
-																			}
-																}
-														}
-								}
-
-
-												//************************************* draw select area *************************************************
-												if (edit_mode == "Select" || edit_mode == "Line Edit" || edit_mode == "Zoom") if (fixed.x) if (!fixed.Element && !fixed.B){
-													context.setLineDash([4, 4]);
-													context.strokeStyle = 'rgba(125, 125, 125, 1.0)';
-													context.strokeRect(clicked.x, canvas.height - clicked.y, over.x - clicked.x, - over.y + clicked.y);
-												}
-
-
-												if (edit_mode == "Line") if (edit_step == 1){
-														drawLine({x: clicked.xr, y: canvas.height - clicked.yr}, {x: real.x, y: canvas.height - real.y}, 'rgba(125, 125, 125, 1.0)', 1, [4, 4]);
-												}
-
-
-												if (edit_mode == "Rectangle") if (edit_step == 1){
-														setStyle(null, 'rgba(125, 125, 125, 1.0)', 1, [4, 4]);
-														context.strokeRect(clicked.xr, canvas.height - clicked.yr, real.x - clicked.x, - real.y + clicked.y);
-												}
-
-
-												if (edit_mode == "Circle") if (edit_step == 1){
-															var dx = real.x - clicked.xr;
-															var dy = real.y - clicked.yr;
-															var r = Math.sqrt(dx * dx + dy * dy);
-														arc(clicked.xr, canvas.height - clicked.yr, r, null, 'rgba(125, 125, 125, 1.0)',  1, [4, 4]);
-												}
-
-
-												if (edit_mode == "Spline") if (edit_step == 1){
-
-														var P1 = {X: clicked.xr, Y: canvas.height - clicked.yr}
-														var P4 = {X: real.x, Y: canvas.height - real.y}
-														
-														var P2 = rotate({X: P1.X + (P4.X - P1.X)/2, Y: P1.Y + (P4.Y - P1.Y)/2}, P1, -Math.PI / 6);
-														var P3 = rotate({X: P4.X + (P1.X - P4.X)/2, Y: P4.Y + (P1.Y - P4.Y)/2}, P4, -Math.PI / 6);
-														
-														context.setLineDash([4, 4]);
-														context.strokeStyle = 'rgba(125, 125, 125, 1.0)';
-														context.beginPath();
-															context.moveTo(P1.X, P1.Y);
-															context.bezierCurveTo(P2.X, P2.Y, P3.X, P3.Y, P4.X, P4.Y);
-														context.stroke();
-												}
-												
-												
-														//*********************************** Cursor ******************************************************
-														arc(real.x, canvas.height - real.y, 4, 'rgba(255, 255, 255, 1.0)', 'rgba(200, 70, 0, 1.0)', 2, []);
-												
-														//*********************** draw CROSS points *******************************************************
-														if (CROSS.length > 0)
-														for (var k = 0; k < CROSS.length; k++) try{
-															arc(E[CROSS[k].n].CP[CROSS[k].i].x, E[CROSS[k].n].CP[CROSS[k].i].y, 5, 'rgba(255, 255, 255, 1.0)', 'rgba(200, 70, 0, 1.0)', 2, []);
-														} catch(e) {console.log()}
-
-
-														//*********************** draw INTERSEC points *******************************************************
-														if (INTERSECT.length > 0)
-														for (var k = 0; k < INTERSECT.length; k++) try{
-															arc(INTERSECT[k].x, INTERSECT[k].y, 3, 'rgba(255, 255, 255, 1.0)', 'rgba(200, 70, 0, 1.0)', 2, []);
-														} catch(e) {console.log()}
-
-
-								//************************************ draw scales & cursors ******************************************
-								function drawScales(){
-									
-										//********************************** coordinates *********************
-											var len = 50 * scale;
-
-											len = Math.round(len / 50 + 1) * 50;
-
-											var step = len * scale;
-											if (step < 30) {len = (len * 2 / 100 + 1) * 100;  if (len > 1000) len = (len * 2 / 1000 + 1) * 1000; if (len > 3000) len = (len * 2 / 1000 + 1) * 1000; step = len * scale}
-											if (step < 30) {len = (len * 2 / 100 + 1) * 100;  if (len > 1000) len = (len * 2 / 1000 + 1) * 1000; if (len > 3000) len = (len * 2 / 1000 + 1) * 1000; step = len * scale}
-											if (step < 30) {len = (len * 2 / 100 + 1) * 100;  if (len > 1000) len = (len * 2 / 1000 + 1) * 1000; if (len > 3000) len = (len * 2 / 1000 + 1) * 1000; step = len * scale}
-											
-											for (var n = 0; n < 5; n++){
-												if (step > 80) if (len == 5) {len = 2; step = len * scale}
-												if (step > 80) if (len == 10) {len = 5; step = len * scale}
-												if (step > 80) if (len == 15) {len = 10; step = len * scale}
-												if (step > 80) if (len == 25) {len = 10; step = len * scale}
-												if (step > 80) if (len == 50) {len = 20; step = len * scale}
-												if (step > 80) if (len == 100) {len = 50; step = len * scale}
-												if (step > 80) if (len == 150) {len = 100; step = len * scale}
-												if (step > 80) if (len == 200) {len = 100; step = len * scale}
-												if (step > 80) if (len == 250) {len = 200; step = len * scale}
-												if (step > 80) if (len == 300) {len = 150; step = len * scale}
-												if (step > 80) if (len == 350) {len = 250; step = len * scale}
-												if (step > 80) if (len == 400) {len = 200; step = len * scale}
-												if (step > 80) if (len == 450) {len = 200; step = len * scale}
-												if (step > 80) if (len == 500) {len = 200; step = len * scale}
-												if (step > 80) if (len == 550) {len = 200; step = len * scale}
-												if (step > 80) if (len == 600) {len = 200; step = len * scale}
-												if (step > 80) if (len == 650) {len = 200; step = len * scale}
-												if (step > 80) if (len == 700) {len = 500; step = len * scale}
-												if (step > 80) if (len == 750) {len = 500; step = len * scale}
-											}
-
-									
-											context.font = "400 9px Arial";
-											context.textBaseline = "middle";
-											context.textAlign = "center";
-											context.fillStyle = 'rgba(50, 50, 50, 1.0)';
-											context.strokeStyle = 'rgba(125, 125, 125, 0.5)';
-
-									//*************************************** X Scale *************************************
-									for (var x = 0; x <= canvas.width / step * 2; x++){
-										context.fillRect(O.x  + x * step, 13, 1, 7);
-										context.fillText(len * x, O.x  + x * step, 6);
-											for (x2 = 1; x2 < 10; x2++) context.fillRect(O.x + x * step + x2 * step/10, 17, 1, 3);
-									}
-
-									for (var x = 0; x <= canvas.width / step * 2; x++){
-										context.fillRect(O.x  - x * step, 13, 1, 7);
-										context.fillText(-len * x, O.x  - x * step, 6);
-										for (x2 = 1; x2 < 10; x2++) context.fillRect(O.x - x * step - x2 * step/10, 17, 1, 3);
-									}
-
-											//********************************** X Cursor *********************************
-											context.fillStyle = 'rgba(200, 100, 50, 1.0)';
-											context.beginPath();
-												context.moveTo(over.x, 20);
-												context.lineTo(over.x - 3, 20 - 9);
-												context.lineTo(over.x + 3, 20 - 9);
-												context.lineTo(over.x, 20);
-											context.fill();
-
-											
-									//*************************************** X Scale *************************************
-														context.setTransform(1, 0, 0, 1, 0, 0);
-														context.translate(canvas.height / 2, canvas.height / 2);
-														context.rotate(-Math.PI / 2);
-														context.translate(-canvas.height / 2, -canvas.height / 2);
-														
-
-											context.fillStyle = 'rgba(50, 50, 50, 1.0)';
-									for (var y = 0; y <= canvas.width / step * 2; y++){
-										context.fillRect(O.y + y * step, 13, 1, 7);
-										context.fillText(len * y, O.y  + y * step, 6);
-											for (y2 = 1; y2 < 10; y2++) context.fillRect(O.y + y * step + y2 * step / 10, 17, 1, 3);
-									}
-
-									for (var y = 0; y <= canvas.width / step * 2; y++){
-										context.fillRect(O.y - y * step, 13, 1, 7);
-										context.fillText(-len * y, O.y  - y * step, 6);
-										for (y2 = 1; y2 < 10; y2++) context.fillRect(O.y - y * step - y2 * step / 10, 17, 1, 3);
-									}
-									
-											//********************************** Y Cursor *********************************
-											context.fillStyle = 'rgba(200, 100, 50, 1.0)';
-											context.beginPath();
-												context.moveTo(over.y, 20);
-												context.lineTo(over.y - 3, 20 - 9);
-												context.lineTo(over.y + 3, 20 - 9);
-												context.lineTo(over.y, 20);
-											context.fill();
-
-												context.setTransform(1, 0, 0, 1, 0, 0);
-																											
-															
-											//**********************************************************************					
-											context.fillStyle = 'rgb(240, 240, 240)';
-											context.strokeStyle = 'rgb(140, 140, 140)';
-											context.font = '300 11px Arial';
-										
-											context.setLineDash([]);
-											context.fillRect(0, 0, 19, 27);
-											context.fillRect(0, 0, 27, 19);
-											context.fillRect(0, 0, 25, 25);
-											
-											context.beginPath();
-												context.moveTo(20, canvas.height-1);
-												context.lineTo(canvas.width-1, canvas.height-1);
-												context.lineTo(canvas.width-1, 20);
-											context.stroke();
-								}
-
-
-								//********************************** draw sides *******************************************************		
-								function drawSides(){		
-										context.font = "400 11px  Ubuntu, Arial";
-										context.textBaseline = "middle";
-										context.textAlign = "center";
-										
-										context.setLineDash([]);
-										context.strokeStyle = 'rgba(125, 125, 125, 0.5)';
-										context.lineWidth = 1;
-
-										//********************* Back **************************************************************************************************************									
-											context.fillStyle = 'rgb(240, 240, 240)';
-											if (over.y > canvas.height - 40) if (over.y < canvas.height - 17) if (over.x > canvas.width / 2 - 40) if (over.x < canvas.width / 2 + 40) context.fillStyle = 'rgb(140, 140, 140)';
-
-										context.beginPath();
-											context.moveTo(canvas.width / 2 - 40, 19);
-											context.lineTo(canvas.width / 2 - 30, 40);
-											context.lineTo(canvas.width / 2 + 30, 40);
-											context.lineTo(canvas.width / 2 + 40, 19);
-										context.fill();
-										context.stroke();
-										
-											context.fillStyle = 'rgb(100, 100, 100)';
-											if (over.y > canvas.height - 40) if (over.y < canvas.height - 17) if (over.x > canvas.width / 2 - 40) if (over.x < canvas.width / 2 + 40) context.fillStyle = 'rgb(255, 255, 255)';
-											context.fillText("Back", canvas.width / 2, 30);
-
-
-										//********************* Front **************************************************************************************************************
-											context.fillStyle = 'rgb(240, 240, 240)';
-											if (over.y > 0) if (over.y < 23) if (over.x > canvas.width / 2 - 40) if (over.x < canvas.width / 2 + 40) context.fillStyle = 'rgb(140, 140, 140)';
-
-										context.beginPath();
-											context.moveTo(canvas.width / 2 - 40, canvas.height);
-											context.lineTo(canvas.width / 2 - 30, canvas.height - 21);
-											context.lineTo(canvas.width / 2 + 30, canvas.height - 21);
-											context.lineTo(canvas.width / 2 + 40, canvas.height);
-										context.fill();
-										context.stroke();
-
-											context.fillStyle = 'rgb(100, 100, 100)';
-											if (over.y > 0) if (over.y < 23) if (over.x > canvas.width / 2 - 40) if (over.x < canvas.width / 2 + 40) context.fillStyle = 'rgb(255, 255, 255)';
-											context.fillText("Front", canvas.width / 2, canvas.height - 10);
-
-
-										//********************* Left **************************************************************************************************************
-											context.fillStyle = 'rgb(240, 240, 240)';
-											if (over.x > 18) if (over.x < 41) if (over.y > canvas.height / 2 - 40) if (over.y < canvas.height / 2 + 40) context.fillStyle = 'rgb(140, 140, 140)';
-
-										context.beginPath();
-											context.moveTo(19, canvas.height / 2 - 40);
-											context.lineTo(40, canvas.height / 2 - 30);
-											context.lineTo(40, canvas.height / 2 + 30);
-											context.lineTo(19, canvas.height / 2 + 40);
-										context.fill();
-										context.stroke();
-										
-											context.fillStyle = 'rgb(100, 100, 100)';
-											if (over.x > 18) if (over.x < 41) if (over.y > canvas.height / 2 - 40) if (over.y < canvas.height / 2 + 40) context.fillStyle = 'rgb(255, 255, 255)';
-											
-													context.setTransform(1, 0, 0, 1, 0, 0);
-													context.translate(canvas.width / 2, canvas.height / 2);
-													context.rotate(-Math.PI / 2);
-												context.fillText("Left", 0, -canvas.width / 2 + 30);
-													context.setTransform(1, 0, 0, 1, 0, 0);
-
-
-										//********************* Right **************************************************************************************************************										
-											context.fillStyle = 'rgb(240, 240, 240)';
-											if (over.x > canvas.width - 22) if (over.x < canvas.width) if (over.y > canvas.height / 2 - 40) if (over.y < canvas.height / 2 + 40) context.fillStyle = 'rgb(140, 140, 140)';
-
-										context.beginPath();
-											context.moveTo(canvas.width, canvas.height / 2 - 40);
-											context.lineTo(canvas.width - 21, canvas.height / 2 - 30);
-											context.lineTo(canvas.width - 21, canvas.height / 2 + 30);
-											context.lineTo(canvas.width, canvas.height / 2 + 40);
-										context.fill();
-										context.stroke();
-										
-											context.fillStyle = 'rgb(100, 100, 100)';
-											if (over.x > canvas.width - 22) if (over.x < canvas.width) if (over.y > canvas.height / 2 - 40) if (over.y < canvas.height / 2 + 40) context.fillStyle = 'rgb(255, 255, 255)';
-
-													context.setTransform(1, 0, 0, 1, 0, 0);
-													context.translate(canvas.width / 2, canvas.height / 2);
-													context.rotate(Math.PI / 2);
-											context.fillText("Right", 0, -canvas.width / 2 + 10);
-													context.setTransform(1, 0, 0, 1, 0, 0);
-								}
-
-
-								//********************************** draw cursor & selecting *******************************************************
-								function drawCursor(){
-										if (edit_mode == "Line") context.drawImage(MAB[1].pic, real.x + 5, canvas.height - real.y + 17, 24, 24);
-										if (edit_mode == "Spline") context.drawImage(MAB[2].pic, real.x + 5, canvas.height - real.y + 17, 24, 24);
-										if (edit_mode == "Rectangle") context.drawImage(MAB[3].pic, real.x + 5, canvas.height - real.y + 17, 24, 24);
-										if (edit_mode == "Circle") context.drawImage(MAB[4].pic, real.x + 5, canvas.height - real.y + 17, 24, 24);
-										if (edit_mode == "Freehand") context.drawImage(MAB[5].pic, over.x + 5, canvas.height - over.y + 17, 24, 24);
-										if (edit_mode == "Erase") context.drawImage(MAB[6].pic, over.x + 5, canvas.height - over.y + 17, 24, 24);
-										//if (edit_mode == "Corner") context.drawImage(MAB[7].pic, over.x + 5, canvas.height - over.y + 17, 24, 24);
-										if (edit_mode == "Text") context.drawImage(MAB[8].pic, over.x + 5, canvas.height - over.y + 17, 24, 24);
-										if (edit_mode == "Line Edit") context.drawImage(MAB[9].pic, over.x + 5, canvas.height - over.y + 17, 24, 24);
-										if (edit_mode == "Ruler") context.drawImage(MAB[10].pic, over.x + 5, canvas.height - over.y + 17, 24, 24);
-										if (edit_mode == "Snap to Lines") context.drawImage(MAB[11].pic, over.x + 5, canvas.height - over.y + 17, 24, 24);
-										//if (edit_mode == "Zoom") context.drawImage(MUAB[4].pic, over.x + 5, canvas.height - over.y + 17, 24, 24);
-								}
-
-
-
-								//******************************** draw information ***************************************************	
-								function drawInfo(){
-
-											context.textAlign = "left";
-											context.fillStyle = 'rgb(40, 40, 40)';
-											context.font = '300 11px Arial';
-												
-											context.fillText('O.x: ' + O.x + " / " + O.X, 100, 40);
-											context.fillText('O.y: ' + O.y + " / " + O.Y, 100, 60);
-											
-											//context.fillText('yy: ' + over.yy, 120, 480);
-											context.fillText('edit_mode: ' + edit_mode, 100, 90);
-											context.fillText('edit_step: ' + edit_step, 100, 110);											
-																
-											context.fillText('x: ' + Math.round(over.x), 100, 130);	
-											context.fillText('y: ' + Math.round(over.y), 185, 130);
-											
-											context.fillText('X: ' + Math.round(over.X), 100, 150);	
-											context.fillText('Y: ' + Math.round(over.Y), 185, 150);
-											
-											context.fillText('DX: ' + over.DX , 100, 170);
-											context.fillText('DY: ' + over.DY , 185, 170);
-
-											//context.fillText('X: ' + Math.round(over.X), 100, 140);	context.fillText('Y: ' + Math.round(over.Y), 150, 140);
-
-											context.fillText('over_Element: ' + over.Element, 100, 200);  if (over.Element) context.fillText('Element_type: ' + E[over.Element].P.length, 200, 200);
-											context.fillText('over_Point: ' + over.Point, 100, 220);
-											context.fillText('over_Line: ' + over.Line, 100, 240);
-
-											context.fillText('fixed_Element: ' + fixed.Element, 100, 300);
-											context.fillText('fixed_Point: ' + fixed.Point, 100, 320);
-											context.fillText('fixed_Line: ' + fixed.Line, 100, 340);
-											
-											context.fillText('clicked_Element: ' + clicked.Element, 100, 400);
-											context.fillText('clicked_Point: ' + clicked.Point, 100, 420);
-											context.fillText('clicked_Line: ' + clicked.Line, 100, 440);
-											
-											context.fillText('over_B: ' + over.B, 100, 480);
-
-											//context.fillText('fixed: ' + fixed.x + ' / ' + fixed.y, 120, 540);
-											//context.fillText('clicked: ' + clicked.x + ' / ' + clicked.y, 120, 560);
-											
-											//for (var n = 1; n < B.length; n++) context.fillText(B[n].XF, 100 * n, 520);
-											//if (B[3]) context.fillText(B[3].X + " / " + B[3].Y, 100, 520);
-											
-											if (over.CR) context.fillText('CR_X: ' + over.CR.X, 100, 520);
-											if (over.CR) context.fillText('CR_Y: ' + over.CR.Y, 250, 520);
-											
-											context.fillText('same_clicked: ' + same_clicked, 100, 540);
-											context.fillText('selected_groups: ' + selected_groups.length, 100, 565);
-								}
+						// context.clearRect(0, 0, canvas.width, canvas.height);
+						// context.lineJoin = 'round';
+                        //
+						// 			drawElements();
+						// 			drawAxis();
+						// 			drawScales();
+						// 			drawSides();
+						// 			drawCursor();
+						// 			//drawInfo();
+                        //
+						// 		//********************************** draw Axis *******************************************************
+						// 		function drawAxis(){
+						// 				context.fillStyle = 'rgba(0, 0, 0, 0.2)';
+						// 				context.strokeStyle = 'rgba(125, 125, 125, 0.5)';
+						// 				context.lineWidth = 1;
+						// 				context.setLineDash([4, 4]);
+						//
+						// 				context.beginPath();
+						// 					context.moveTo(O.x, 40);
+						// 					context.lineTo(O.x, canvas.height - 40);
+						// 					context.moveTo(20, canvas.height - O.y);
+						// 					context.lineTo(canvas.width - 20, canvas.height - O.y);
+						// 				context.stroke();
+						//
+						// 				context.fillStyle = 'rgb(240, 240, 240)';
+						// 				context.fillRect(0, 0, canvas.width, 19);
+						// 				context.fillRect(0, 0, 19, canvas.height);
+						// 		}
+                        //
+                        //
+						// 		//********************************** draw elements *******************************************************
+						// 		function drawElements(){
+                        //
+						// 				for (var n = 1; n < E.length; n++) if (E[n].enable){
+                        //
+						// 															setStyle(null, 'rgba(50, 50, 50, 1.0)', 1, []);
+						// 							if (E[n].lineType == "bend")	setStyle(null, 'rgba(50, 175, 0, 1.0)', 1, []);
+						// 							if (n == over.Element)			setStyle(null, 'rgba(255, 100, 25, 0.7)', 2, []);
+						// 							if (E[n].selected)				setStyle(null, 'rgba(255, 100, 25, 1.0)', 2, []);
+						//
+						// 							if (E[n].lineType == "bend" && n == over.Element)	setStyle(null, 'rgba(50, 225, 0, 0.7)', 1, []);
+						// 							if (E[n].lineType == "bend" && E[n].selected)		setStyle(null, 'rgba(50, 225, 0, 1.0)', 1, []);
+                        //
+						// 							drawPolyLine(E[n].P);
+                        //
+                        //
+						// 						//*********************** draw polyline ************************
+						// 						if (E[n].type == "polyline"){
+						//
+						// 						}
+                        //
+                        //
+						// 						//*********************** draw circles ************************
+						// 						if (E[n].type == "circle"){
+                        //
+						// 						}
+                        //
+                        //
+						// 						//*********************** draw splines ************************
+						// 						if (E[n].type == "spline"){
+                        //
+						// 								if (edit_mode == "Line Edit")
+						// 								if (E[n].selected){
+						// 									drawLine(E[n].CP[1], E[n].CP[2], 'rgba(125, 125, 125, 1.0)', 1, [4, 4]);
+						// 									drawLine(E[n].CP[3], E[n].CP[4], 'rgba(125, 125, 125, 1.0)', 1, [4, 4]);
+						// 								}
+						// 						}
+						// 				}
+                        //
+                        //
+						// 								//*********************** draw points *****************************
+						// 								if (edit_mode == "Line Edit")
+						// 								for (var n = 1; n < E.length; n++) if (E[n].enable){
+						// 										if (E[n].selected){
+						//
+						// 											if (E[n].type == "circle") drawLine(E[n].CP[0], E[n].CP[1], 'rgba(125, 125, 125, 1.0)', 1, [4, 4]);
+						//
+						// 											for (var i = 0; i < E[n].CP.length; i++) if (E[n].CP[i]){
+                        //
+						// 												arc(E[n].CP[i].x, E[n].CP[i].y, 3, 'rgba(255, 255, 255, 1.0)', 'rgba(50, 50, 50, 1.0)', 1, []);
+                        //
+						// 												if (n == over.Element) if (over.Point == i){
+						// 													arc(E[n].CP[i].x, E[n].CP[i].y, 4, 'rgba(255, 255, 255, 1.0)', 'rgba(200, 70, 0, 1.0)', 2, []);
+						// 												}
+						// 											}
+						// 										}
+                        //
+						// 								}
+                        //
+                        //
+                        //
+						// 								//********************* draw selected bound **********************************************************
+						// 								if (edit_mode == "Select")
+						// 								if (B.length > 0){
+                        //
+						// 										//************************** Resize ***********************
+						// 										if (edit_type == "Resize"){
+						//
+						// 												context.strokeStyle = 'rgba(125, 125, 125, 1.0)';
+						// 												context.setLineDash([4, 4]);
+						// 												context.lineWidth = 1;
+						// 												context.strokeRect(B[1].x, B[1].y, B[3].x - B[1].x, B[3].y - B[1].y);
+						//
+						// 											for (var n = 1; n <= 8; n++){
+						// 												if (n == fixed.B) {
+						// 													context.fillStyle = 'rgba(50, 50, 50, 1.0)';
+						// 													context.fillRect(B[n].x - 5, B[n].y - 5, 10, 10);
+						// 												} else
+						// 												if (n == over.B) {
+						// 													context.fillStyle = 'rgba(50, 50, 50, 1.0)';
+						// 													context.fillRect(B[n].x - 4, B[n].y - 4, 8, 8);
+						// 												} else {
+						// 													context.fillStyle = 'rgba(50, 50, 50, 1.0)';
+						// 													context.fillRect(B[n].x - 3, B[n].y - 3, 6, 6);
+						// 												}
+						// 											}
+						// 										}
+                        //
+                        //
+						// 										//************************** Rotate ***********************
+						// 										if (edit_type == "Rotate"){
+                        //
+						// 												/*
+						// 												for (var n = 1; n < E.length; n++) if (E[n].enable)
+						// 												if (E[n].selected){
+						// 													arc(E[n].CP[5].x, E[n].CP[5].y, 8, 'rgba(255, 255, 255, 1.0)', 'rgba(100, 100, 100, 1.0)', 2, []);
+						// 													arc(E[n].CP[5].x, E[n].CP[5].y, 2, 'rgba(100, 100, 100, 1.0)', 'rgba(100, 100, 100, 1.0)', 1, []);
+						// 												}
+						// 												*/
+                        //
+                        //
+						// 													arc(CR.x, CR.y, 8, 'rgba(255, 255, 255, 1.0)', 'rgba(100, 100, 100, 1.0)', 2, []);
+						// 													arc(CR.x, CR.y, 2, 'rgba(100, 100, 100, 1.0)', 'rgba(100, 100, 100, 1.0)', 1, []);
+                        //
+                        //
+						// 													var r = distance2Point(B[9], CR) * scale; // Math.sqrt(DX * DX + DY * DY) * scale;
+						// 													arc(CR.x, CR.y, r, null, 'rgba(100, 100, 100, 1.0)', 1, [4, 4]);
+                        //
+                        //
+						// 													for (var n = 9; n <= 12; n++){
+                        //
+						// 															var DX = B[n].X - CR.X;
+						// 															var DY = B[n].Y - CR.Y;
+						// 															R = Math.sqrt(DX * DX + DY * DY);
+						// 															var angle = -Math.acos(DX / R);
+						// 															if (DY < 0) angle = 2 * Math.PI - angle;
+                        //
+						// 															var da = 0.02;
+                        //
+						// 															arc(B[n].x, B[n].y, 3.5,'rgb(50, 50, 50)',  null, 1, []);
+						// 															arc(CR.x, CR.y, r, null, 'rgb(50, 50, 50)', 1, [], angle - Math.PI / 16, angle + Math.PI / 16);
+                        //
+						// 															if (over.B == n){
+						// 																	arc(B[n].x, B[n].y, 4.5,'rgb(50, 50, 50)',  null, 1, []);
+						//
+						// 																	setStyle('rgb(220, 220, 220)', null, 1, [2, 5]);
+						// 																	context.beginPath();
+						// 																		context.moveTo(CR.x + r * Math.cos(angle), CR.y + r * Math.sin(angle));
+						// 																		context.lineTo(CR.x + 8 * Math.cos(angle), CR.y + 8 * Math.sin(angle));
+						// 																	context.stroke();
+						// 															}
+						//
+						// 															if (fixed.B == n){
+						// 																	arc(B[n].x, B[n].y, 5.5,'rgb(50, 50, 50)',  null, 1, []);
+						//
+						// 																	setStyle('rgb(150, 150, 150)', null, 1, [2, 5]);
+						// 																	context.beginPath();
+						// 																		context.moveTo(CR.x + r * Math.cos(angle), CR.y + r * Math.sin(angle));
+						// 																		context.lineTo(CR.x + 8 * Math.cos(angle), CR.y + 8 * Math.sin(angle));
+						// 																	context.stroke();
+						// 															}
+						// 													}
+						// 										}
+						// 								}
+						// 		}
+                        //
+                        //
+						// 						//************************************* draw select area *************************************************
+						// 						if (edit_mode == "Select" || edit_mode == "Line Edit" || edit_mode == "Zoom") if (fixed.x) if (!fixed.Element && !fixed.B){
+						// 							context.setLineDash([4, 4]);
+						// 							context.strokeStyle = 'rgba(125, 125, 125, 1.0)';
+						// 							context.strokeRect(clicked.x, canvas.height - clicked.y, over.x - clicked.x, - over.y + clicked.y);
+						// 						}
+                        //
+                        //
+						// 						if (edit_mode == "Line") if (edit_step == 1){
+						// 								drawLine({x: clicked.xr, y: canvas.height - clicked.yr}, {x: real.x, y: canvas.height - real.y}, 'rgba(125, 125, 125, 1.0)', 1, [4, 4]);
+						// 						}
+                        //
+                        //
+						// 						if (edit_mode == "Rectangle") if (edit_step == 1){
+						// 								setStyle(null, 'rgba(125, 125, 125, 1.0)', 1, [4, 4]);
+						// 								context.strokeRect(clicked.xr, canvas.height - clicked.yr, real.x - clicked.x, - real.y + clicked.y);
+						// 						}
+                        //
+                        //
+						// 						if (edit_mode == "Circle") if (edit_step == 1){
+						// 									var dx = real.x - clicked.xr;
+						// 									var dy = real.y - clicked.yr;
+						// 									var r = Math.sqrt(dx * dx + dy * dy);
+						// 								arc(clicked.xr, canvas.height - clicked.yr, r, null, 'rgba(125, 125, 125, 1.0)',  1, [4, 4]);
+						// 						}
+                        //
+                        //
+						// 						if (edit_mode == "Spline") if (edit_step == 1){
+                        //
+						// 								var P1 = {X: clicked.xr, Y: canvas.height - clicked.yr}
+						// 								var P4 = {X: real.x, Y: canvas.height - real.y}
+						//
+						// 								var P2 = rotate({X: P1.X + (P4.X - P1.X)/2, Y: P1.Y + (P4.Y - P1.Y)/2}, P1, -Math.PI / 6);
+						// 								var P3 = rotate({X: P4.X + (P1.X - P4.X)/2, Y: P4.Y + (P1.Y - P4.Y)/2}, P4, -Math.PI / 6);
+						//
+						// 								context.setLineDash([4, 4]);
+						// 								context.strokeStyle = 'rgba(125, 125, 125, 1.0)';
+						// 								context.beginPath();
+						// 									context.moveTo(P1.X, P1.Y);
+						// 									context.bezierCurveTo(P2.X, P2.Y, P3.X, P3.Y, P4.X, P4.Y);
+						// 								context.stroke();
+						// 						}
+						//
+						//
+						// 								//*********************************** Cursor ******************************************************
+						// 								arc(real.x, canvas.height - real.y, 4, 'rgba(255, 255, 255, 1.0)', 'rgba(200, 70, 0, 1.0)', 2, []);
+						//
+						// 								//*********************** draw CROSS points *******************************************************
+						// 								if (CROSS.length > 0)
+						// 								for (var k = 0; k < CROSS.length; k++) try{
+						// 									arc(E[CROSS[k].n].CP[CROSS[k].i].x, E[CROSS[k].n].CP[CROSS[k].i].y, 5, 'rgba(255, 255, 255, 1.0)', 'rgba(200, 70, 0, 1.0)', 2, []);
+						// 								} catch(e) {console.log()}
+                        //
+                        //
+						// 								//*********************** draw INTERSEC points *******************************************************
+						// 								if (INTERSECT.length > 0)
+						// 								for (var k = 0; k < INTERSECT.length; k++) try{
+						// 									arc(INTERSECT[k].x, INTERSECT[k].y, 3, 'rgba(255, 255, 255, 1.0)', 'rgba(200, 70, 0, 1.0)', 2, []);
+						// 								} catch(e) {console.log()}
+                        //
+                        //
+						// 		//************************************ draw scales & cursors ******************************************
+						// 		function drawScales(){
+						//
+						// 				//********************************** coordinates *********************
+						// 					var len = 50 * scale;
+                        //
+						// 					len = Math.round(len / 50 + 1) * 50;
+                        //
+						// 					var step = len * scale;
+						// 					if (step < 30) {len = (len * 2 / 100 + 1) * 100;  if (len > 1000) len = (len * 2 / 1000 + 1) * 1000; if (len > 3000) len = (len * 2 / 1000 + 1) * 1000; step = len * scale}
+						// 					if (step < 30) {len = (len * 2 / 100 + 1) * 100;  if (len > 1000) len = (len * 2 / 1000 + 1) * 1000; if (len > 3000) len = (len * 2 / 1000 + 1) * 1000; step = len * scale}
+						// 					if (step < 30) {len = (len * 2 / 100 + 1) * 100;  if (len > 1000) len = (len * 2 / 1000 + 1) * 1000; if (len > 3000) len = (len * 2 / 1000 + 1) * 1000; step = len * scale}
+						//
+						// 					for (var n = 0; n < 5; n++){
+						// 						if (step > 80) if (len == 5) {len = 2; step = len * scale}
+						// 						if (step > 80) if (len == 10) {len = 5; step = len * scale}
+						// 						if (step > 80) if (len == 15) {len = 10; step = len * scale}
+						// 						if (step > 80) if (len == 25) {len = 10; step = len * scale}
+						// 						if (step > 80) if (len == 50) {len = 20; step = len * scale}
+						// 						if (step > 80) if (len == 100) {len = 50; step = len * scale}
+						// 						if (step > 80) if (len == 150) {len = 100; step = len * scale}
+						// 						if (step > 80) if (len == 200) {len = 100; step = len * scale}
+						// 						if (step > 80) if (len == 250) {len = 200; step = len * scale}
+						// 						if (step > 80) if (len == 300) {len = 150; step = len * scale}
+						// 						if (step > 80) if (len == 350) {len = 250; step = len * scale}
+						// 						if (step > 80) if (len == 400) {len = 200; step = len * scale}
+						// 						if (step > 80) if (len == 450) {len = 200; step = len * scale}
+						// 						if (step > 80) if (len == 500) {len = 200; step = len * scale}
+						// 						if (step > 80) if (len == 550) {len = 200; step = len * scale}
+						// 						if (step > 80) if (len == 600) {len = 200; step = len * scale}
+						// 						if (step > 80) if (len == 650) {len = 200; step = len * scale}
+						// 						if (step > 80) if (len == 700) {len = 500; step = len * scale}
+						// 						if (step > 80) if (len == 750) {len = 500; step = len * scale}
+						// 					}
+                        //
+						//
+						// 					context.font = "400 9px Arial";
+						// 					context.textBaseline = "middle";
+						// 					context.textAlign = "center";
+						// 					context.fillStyle = 'rgba(50, 50, 50, 1.0)';
+						// 					context.strokeStyle = 'rgba(125, 125, 125, 0.5)';
+                        //
+						// 			//*************************************** X Scale *************************************
+						// 			for (var x = 0; x <= canvas.width / step * 2; x++){
+						// 				context.fillRect(O.x  + x * step, 13, 1, 7);
+						// 				context.fillText(len * x, O.x  + x * step, 6);
+						// 					for (x2 = 1; x2 < 10; x2++) context.fillRect(O.x + x * step + x2 * step/10, 17, 1, 3);
+						// 			}
+                        //
+						// 			for (var x = 0; x <= canvas.width / step * 2; x++){
+						// 				context.fillRect(O.x  - x * step, 13, 1, 7);
+						// 				context.fillText(-len * x, O.x  - x * step, 6);
+						// 				for (x2 = 1; x2 < 10; x2++) context.fillRect(O.x - x * step - x2 * step/10, 17, 1, 3);
+						// 			}
+                        //
+						// 					//********************************** X Cursor *********************************
+						// 					context.fillStyle = 'rgba(200, 100, 50, 1.0)';
+						// 					context.beginPath();
+						// 						context.moveTo(over.x, 20);
+						// 						context.lineTo(over.x - 3, 20 - 9);
+						// 						context.lineTo(over.x + 3, 20 - 9);
+						// 						context.lineTo(over.x, 20);
+						// 					context.fill();
+                        //
+						//
+						// 			//*************************************** X Scale *************************************
+						// 								context.setTransform(1, 0, 0, 1, 0, 0);
+						// 								context.translate(canvas.height / 2, canvas.height / 2);
+						// 								context.rotate(-Math.PI / 2);
+						// 								context.translate(-canvas.height / 2, -canvas.height / 2);
+						//
+                        //
+						// 					context.fillStyle = 'rgba(50, 50, 50, 1.0)';
+						// 			for (var y = 0; y <= canvas.width / step * 2; y++){
+						// 				context.fillRect(O.y + y * step, 13, 1, 7);
+						// 				context.fillText(len * y, O.y  + y * step, 6);
+						// 					for (y2 = 1; y2 < 10; y2++) context.fillRect(O.y + y * step + y2 * step / 10, 17, 1, 3);
+						// 			}
+                        //
+						// 			for (var y = 0; y <= canvas.width / step * 2; y++){
+						// 				context.fillRect(O.y - y * step, 13, 1, 7);
+						// 				context.fillText(-len * y, O.y  - y * step, 6);
+						// 				for (y2 = 1; y2 < 10; y2++) context.fillRect(O.y - y * step - y2 * step / 10, 17, 1, 3);
+						// 			}
+						//
+						// 					//********************************** Y Cursor *********************************
+						// 					context.fillStyle = 'rgba(200, 100, 50, 1.0)';
+						// 					context.beginPath();
+						// 						context.moveTo(over.y, 20);
+						// 						context.lineTo(over.y - 3, 20 - 9);
+						// 						context.lineTo(over.y + 3, 20 - 9);
+						// 						context.lineTo(over.y, 20);
+						// 					context.fill();
+                        //
+						// 						context.setTransform(1, 0, 0, 1, 0, 0);
+						//
+						//
+						// 					//**********************************************************************
+						// 					context.fillStyle = 'rgb(240, 240, 240)';
+						// 					context.strokeStyle = 'rgb(140, 140, 140)';
+						// 					context.font = '300 11px Arial';
+						//
+						// 					context.setLineDash([]);
+						// 					context.fillRect(0, 0, 19, 27);
+						// 					context.fillRect(0, 0, 27, 19);
+						// 					context.fillRect(0, 0, 25, 25);
+						//
+						// 					context.beginPath();
+						// 						context.moveTo(20, canvas.height-1);
+						// 						context.lineTo(canvas.width-1, canvas.height-1);
+						// 						context.lineTo(canvas.width-1, 20);
+						// 					context.stroke();
+						// 		}
+                        //
+                        //
+						// 		//********************************** draw sides *******************************************************
+						// 		function drawSides(){
+						// 				context.font = "400 11px  Ubuntu, Arial";
+						// 				context.textBaseline = "middle";
+						// 				context.textAlign = "center";
+						//
+						// 				context.setLineDash([]);
+						// 				context.strokeStyle = 'rgba(125, 125, 125, 0.5)';
+						// 				context.lineWidth = 1;
+                        //
+						// 				//********************* Back **************************************************************************************************************
+						// 					context.fillStyle = 'rgb(240, 240, 240)';
+						// 					if (over.y > canvas.height - 40) if (over.y < canvas.height - 17) if (over.x > canvas.width / 2 - 40) if (over.x < canvas.width / 2 + 40) context.fillStyle = 'rgb(140, 140, 140)';
+                        //
+						// 				context.beginPath();
+						// 					context.moveTo(canvas.width / 2 - 40, 19);
+						// 					context.lineTo(canvas.width / 2 - 30, 40);
+						// 					context.lineTo(canvas.width / 2 + 30, 40);
+						// 					context.lineTo(canvas.width / 2 + 40, 19);
+						// 				context.fill();
+						// 				context.stroke();
+						//
+						// 					context.fillStyle = 'rgb(100, 100, 100)';
+						// 					if (over.y > canvas.height - 40) if (over.y < canvas.height - 17) if (over.x > canvas.width / 2 - 40) if (over.x < canvas.width / 2 + 40) context.fillStyle = 'rgb(255, 255, 255)';
+						// 					context.fillText("Back", canvas.width / 2, 30);
+                        //
+                        //
+						// 				//********************* Front **************************************************************************************************************
+						// 					context.fillStyle = 'rgb(240, 240, 240)';
+						// 					if (over.y > 0) if (over.y < 23) if (over.x > canvas.width / 2 - 40) if (over.x < canvas.width / 2 + 40) context.fillStyle = 'rgb(140, 140, 140)';
+                        //
+						// 				context.beginPath();
+						// 					context.moveTo(canvas.width / 2 - 40, canvas.height);
+						// 					context.lineTo(canvas.width / 2 - 30, canvas.height - 21);
+						// 					context.lineTo(canvas.width / 2 + 30, canvas.height - 21);
+						// 					context.lineTo(canvas.width / 2 + 40, canvas.height);
+						// 				context.fill();
+						// 				context.stroke();
+                        //
+						// 					context.fillStyle = 'rgb(100, 100, 100)';
+						// 					if (over.y > 0) if (over.y < 23) if (over.x > canvas.width / 2 - 40) if (over.x < canvas.width / 2 + 40) context.fillStyle = 'rgb(255, 255, 255)';
+						// 					context.fillText("Front", canvas.width / 2, canvas.height - 10);
+                        //
+                        //
+						// 				//********************* Left **************************************************************************************************************
+						// 					context.fillStyle = 'rgb(240, 240, 240)';
+						// 					if (over.x > 18) if (over.x < 41) if (over.y > canvas.height / 2 - 40) if (over.y < canvas.height / 2 + 40) context.fillStyle = 'rgb(140, 140, 140)';
+                        //
+						// 				context.beginPath();
+						// 					context.moveTo(19, canvas.height / 2 - 40);
+						// 					context.lineTo(40, canvas.height / 2 - 30);
+						// 					context.lineTo(40, canvas.height / 2 + 30);
+						// 					context.lineTo(19, canvas.height / 2 + 40);
+						// 				context.fill();
+						// 				context.stroke();
+						//
+						// 					context.fillStyle = 'rgb(100, 100, 100)';
+						// 					if (over.x > 18) if (over.x < 41) if (over.y > canvas.height / 2 - 40) if (over.y < canvas.height / 2 + 40) context.fillStyle = 'rgb(255, 255, 255)';
+						//
+						// 							context.setTransform(1, 0, 0, 1, 0, 0);
+						// 							context.translate(canvas.width / 2, canvas.height / 2);
+						// 							context.rotate(-Math.PI / 2);
+						// 						context.fillText("Left", 0, -canvas.width / 2 + 30);
+						// 							context.setTransform(1, 0, 0, 1, 0, 0);
+                        //
+                        //
+						// 				//********************* Right **************************************************************************************************************
+						// 					context.fillStyle = 'rgb(240, 240, 240)';
+						// 					if (over.x > canvas.width - 22) if (over.x < canvas.width) if (over.y > canvas.height / 2 - 40) if (over.y < canvas.height / 2 + 40) context.fillStyle = 'rgb(140, 140, 140)';
+                        //
+						// 				context.beginPath();
+						// 					context.moveTo(canvas.width, canvas.height / 2 - 40);
+						// 					context.lineTo(canvas.width - 21, canvas.height / 2 - 30);
+						// 					context.lineTo(canvas.width - 21, canvas.height / 2 + 30);
+						// 					context.lineTo(canvas.width, canvas.height / 2 + 40);
+						// 				context.fill();
+						// 				context.stroke();
+						//
+						// 					context.fillStyle = 'rgb(100, 100, 100)';
+						// 					if (over.x > canvas.width - 22) if (over.x < canvas.width) if (over.y > canvas.height / 2 - 40) if (over.y < canvas.height / 2 + 40) context.fillStyle = 'rgb(255, 255, 255)';
+                        //
+						// 							context.setTransform(1, 0, 0, 1, 0, 0);
+						// 							context.translate(canvas.width / 2, canvas.height / 2);
+						// 							context.rotate(Math.PI / 2);
+						// 					context.fillText("Right", 0, -canvas.width / 2 + 10);
+						// 							context.setTransform(1, 0, 0, 1, 0, 0);
+						// 		}
+                        //
+                        //
+						// 		//********************************** draw cursor & selecting *******************************************************
+						// 		function drawCursor(){
+						// 				if (edit_mode == "Line") context.drawImage(MAB[1].pic, real.x + 5, canvas.height - real.y + 17, 24, 24);
+						// 				if (edit_mode == "Spline") context.drawImage(MAB[2].pic, real.x + 5, canvas.height - real.y + 17, 24, 24);
+						// 				if (edit_mode == "Rectangle") context.drawImage(MAB[3].pic, real.x + 5, canvas.height - real.y + 17, 24, 24);
+						// 				if (edit_mode == "Circle") context.drawImage(MAB[4].pic, real.x + 5, canvas.height - real.y + 17, 24, 24);
+						// 				if (edit_mode == "Freehand") context.drawImage(MAB[5].pic, over.x + 5, canvas.height - over.y + 17, 24, 24);
+						// 				if (edit_mode == "Erase") context.drawImage(MAB[6].pic, over.x + 5, canvas.height - over.y + 17, 24, 24);
+						// 				//if (edit_mode == "Corner") context.drawImage(MAB[7].pic, over.x + 5, canvas.height - over.y + 17, 24, 24);
+						// 				if (edit_mode == "Text") context.drawImage(MAB[8].pic, over.x + 5, canvas.height - over.y + 17, 24, 24);
+						// 				if (edit_mode == "Line Edit") context.drawImage(MAB[9].pic, over.x + 5, canvas.height - over.y + 17, 24, 24);
+						// 				if (edit_mode == "Ruler") context.drawImage(MAB[10].pic, over.x + 5, canvas.height - over.y + 17, 24, 24);
+						// 				if (edit_mode == "Snap to Lines") context.drawImage(MAB[11].pic, over.x + 5, canvas.height - over.y + 17, 24, 24);
+						// 				//if (edit_mode == "Zoom") context.drawImage(MUAB[4].pic, over.x + 5, canvas.height - over.y + 17, 24, 24);
+						// 		}
+                        //
+                        //
+                        //
+						// 		//******************************** draw information ***************************************************
+						// 		function drawInfo(){
+                        //
+						// 					context.textAlign = "left";
+						// 					context.fillStyle = 'rgb(40, 40, 40)';
+						// 					context.font = '300 11px Arial';
+						//
+						// 					context.fillText('O.x: ' + O.x + " / " + O.X, 100, 40);
+						// 					context.fillText('O.y: ' + O.y + " / " + O.Y, 100, 60);
+						//
+						// 					//context.fillText('yy: ' + over.yy, 120, 480);
+						// 					context.fillText('edit_mode: ' + edit_mode, 100, 90);
+						// 					context.fillText('edit_step: ' + edit_step, 100, 110);
+						//
+						// 					context.fillText('x: ' + Math.round(over.x), 100, 130);
+						// 					context.fillText('y: ' + Math.round(over.y), 185, 130);
+						//
+						// 					context.fillText('X: ' + Math.round(over.X), 100, 150);
+						// 					context.fillText('Y: ' + Math.round(over.Y), 185, 150);
+						//
+						// 					context.fillText('DX: ' + over.DX , 100, 170);
+						// 					context.fillText('DY: ' + over.DY , 185, 170);
+                        //
+						// 					//context.fillText('X: ' + Math.round(over.X), 100, 140);	context.fillText('Y: ' + Math.round(over.Y), 150, 140);
+                        //
+						// 					context.fillText('over_Element: ' + over.Element, 100, 200);  if (over.Element) context.fillText('Element_type: ' + E[over.Element].P.length, 200, 200);
+						// 					context.fillText('over_Point: ' + over.Point, 100, 220);
+						// 					context.fillText('over_Line: ' + over.Line, 100, 240);
+                        //
+						// 					context.fillText('fixed_Element: ' + fixed.Element, 100, 300);
+						// 					context.fillText('fixed_Point: ' + fixed.Point, 100, 320);
+						// 					context.fillText('fixed_Line: ' + fixed.Line, 100, 340);
+						//
+						// 					context.fillText('clicked_Element: ' + clicked.Element, 100, 400);
+						// 					context.fillText('clicked_Point: ' + clicked.Point, 100, 420);
+						// 					context.fillText('clicked_Line: ' + clicked.Line, 100, 440);
+						//
+						// 					context.fillText('over_B: ' + over.B, 100, 480);
+                        //
+						// 					//context.fillText('fixed: ' + fixed.x + ' / ' + fixed.y, 120, 540);
+						// 					//context.fillText('clicked: ' + clicked.x + ' / ' + clicked.y, 120, 560);
+						//
+						// 					//for (var n = 1; n < B.length; n++) context.fillText(B[n].XF, 100 * n, 520);
+						// 					//if (B[3]) context.fillText(B[3].X + " / " + B[3].Y, 100, 520);
+						//
+						// 					if (over.CR) context.fillText('CR_X: ' + over.CR.X, 100, 520);
+						// 					if (over.CR) context.fillText('CR_Y: ' + over.CR.Y, 250, 520);
+						//
+						// 					context.fillText('same_clicked: ' + same_clicked, 100, 540);
+						// 					context.fillText('selected_groups: ' + selected_groups.length, 100, 565);
+						// 		}
 			
 			}
 
