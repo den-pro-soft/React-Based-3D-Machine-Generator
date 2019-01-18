@@ -4,23 +4,36 @@
 
 
 import Exception from '../Exception';
-import Element from './Element';
+import GraphicElement from './GraphicElement';
 
 export default class Document{
     constructor(){
-        /** @var {Array.<Element>} */
+        /** @var {Array.<GraphicElement>} */
         this._elements = [];
     }
 
     /**
-     * @param {Element} element
+     * @param {GraphicElement} element
      */
     addElement(element){
-        if(element instanceof Element) {
+        // if(element instanceof GraphicElement) {
             this._elements.push(element);
-        }else{
-            throw new Exception("To document can be added only elements which instances Element class.");
-        }
+        // }else{
+        //     throw new Exception("To document can be added only elements which instances GraphicElement class.",element);
+        // }
+    }
+
+    removeElement(element){
+        // if(element instanceof GraphicElement) {
+            for(let i=0; i<this._elements.length; i++){
+                if(this._elements[i].compare(element)){
+                    this._elements.splice(i,1);
+                    return;
+                }
+            }
+        // }else{
+        //     throw new Exception("To document can be remove only elements which instances GraphicElement class.",element);
+        // }
     }
 
     /**
@@ -35,7 +48,7 @@ export default class Document{
     /**
      * @param {Point} point
      * @param {float} eps
-     * @return {Array.<Element>}
+     * @return {Array.<GraphicElement>}
      */
     getNearElements(point, eps){
         let res = [];
@@ -51,7 +64,7 @@ export default class Document{
      * @deprecated  The method can have an error if the figure is a concave element
      *
      * @param {ClosedFigure} figure
-     * @return {Array.<Element>}
+     * @return {Array.<GraphicElement>}
      */
     getElementsIntoFigure(figure){
         let res = [];
@@ -64,19 +77,19 @@ export default class Document{
     }
 
     /**
-     * @param {Array.<Element>|Element} elements
+     * @param {Array.<GraphicElement>|GraphicElement} elements
      * @returns {{max:{x:number, y:number}, min:{x:number, y:number}}}
      */
     getExtrenum(elements){
         if(elements instanceof Array){
-            if(!elements[0] instanceof Element){
-                throw new Exception('Array have not Element object', element);
+            if(!elements[0] instanceof GraphicElement){
+                throw new Exception('Array have not GraphicElement object', element);
             }
             //todo: copy of the algorithm in @see{model/elements/Group} class
             let extrenum = elements[0].getExtrenum();
             for(let i=1; i<elements.length; i++){
-                if(!elements[i] instanceof Element){
-                    throw new Exception('Array have not Element object', element);
+                if(!elements[i] instanceof GraphicElement){
+                    throw new Exception('Array have not GraphicElement object', element);
                 }
                 let ext = elements[i].getExtrenum();
                 if(ext.max.x>extrenum.max.x){
@@ -94,10 +107,10 @@ export default class Document{
             }
             return extrenum;
         }else{
-            if(elements instanceof Element){
+            if(elements instanceof GraphicElement){
                 return elements.getExtrenum();
             }else{
-                throw new Exception('Excepted object of Element class', elements);
+                throw new Exception('Excepted object of GraphicElement class', elements);
             }
         }
     }

@@ -2,12 +2,12 @@
  * Created by dev on 11.01.19.
  */
 
-import Element from '../Element';
+import GraphicElement from '../GraphicElement';
 import Point from '../Point';
 import GroupRenderer from './../../2d/renderer/GroupRenderer';
 import Exception from "../../Exception";
 
-export default class Group extends Element{
+export default class Group extends GraphicElement{
     constructor(){
         super();
         this.elements = [];

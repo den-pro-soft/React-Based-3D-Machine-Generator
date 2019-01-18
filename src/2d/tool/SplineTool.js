@@ -46,7 +46,7 @@ export default class SplineTool extends Tool{
     mouseUp(point){
         if(!point.compare(this._spline.startPoint)){
             this._setEndSplinePoint(point);
-            app.executeCommand(new AddElementCommand(this.document, this._spline));
+            app.executeCommand(new AddElementCommand(this._document, this._spline));
             this._spline._renderer.new=false;
             this._spline=null;
         }

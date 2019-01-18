@@ -13,7 +13,7 @@ const UpMenu = context => {
       </div>
       <div className="Buttons">
         <div className="btn-group-two">
-          <button>
+          <button onClick={() => app.group()}>
             <img width="25px" src="images/Group.png" />
           </button>
           <button>

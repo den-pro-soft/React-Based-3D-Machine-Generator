@@ -3,7 +3,7 @@
  */
 
 import Command from './Command';
-import Element from './../../model/Element'
+import GraphicElement from './../../model/GraphicElement'
 
 export default class AddElementCommand extends Command{
     /**

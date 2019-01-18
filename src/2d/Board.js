@@ -20,9 +20,9 @@ export default class Board {
         this._initCenterPosition = {x: 0, y: 0}; //pixel
 
         this._pixelPerOne=50;
-        this.document = new Document();
+        this._document = new Document();
 
-        this.tool = new LineTool(this.document);
+        this.tool = new LineTool(this._document);
 
         this._context = canvas.getContext('2d');
 
@@ -50,6 +50,15 @@ export default class Board {
 
         this.renderDocument();
     }
+    
+    set document(doc){
+        this._document=doc;
+        this.tool.document=doc;
+    }
+
+    get document(){
+        return this._document;
+    }
 
     setSize(width, height) {
         this._width = width;
@@ -69,14 +78,14 @@ export default class Board {
     renderDocument() {
         this.clear('#ffffff');
         this.tool.render();
-        this.document.render();
+        this._document.render();
 
 
         this._drawRulers();
     }
 
     mouseMove(e) {
-        this.document.resetRendererConfig();
+        this._document.resetRendererConfig();
         if (!this.tool.mouseMove(this._convertToGlobalCoordinateSystem({x:e.offsetX, y:e.offsetY}))) {
             if (this._mouseDown) {
                 this.setBias(this._bias.x - (this._mouseDown.offsetX - e.offsetX)
@@ -89,26 +98,26 @@ export default class Board {
     }
 
     mouseUp(e) {
-        this.document.resetRendererConfig();
+        this._document.resetRendererConfig();
         this.tool.mouseUp(this._convertToGlobalCoordinateSystem({x: e.offsetX, y: e.offsetY}));
         this._mouseDown = null;
         this.renderDocument();
     }
 
     mouseDown(e) {
-        this.document.resetRendererConfig();
+        this._document.resetRendererConfig();
         this.tool.mouseDown(this._convertToGlobalCoordinateSystem({x: e.offsetX, y: e.offsetY}));
         this._mouseDown = e;
         this.renderDocument();
     }
 
     mouseClick(e) {
-        this.document.resetRendererConfig();
+        this._document.resetRendererConfig();
         this.tool.mouseClick(this._convertToGlobalCoordinateSystem({x:e.offsetX, y:e.offsetY}));
     }
 
     _mouseWheel(e) {
-        this.document.resetRendererConfig();
+        this._document.resetRendererConfig();
         let dScale = e.deltaY / 500;
         let was = this._convertToGlobalCoordinateSystem({x:e.offsetX, y:e.offsetY});
         if(this.setScale(this._scale*(1+dScale))) {
@@ -121,7 +130,7 @@ export default class Board {
     }
 
     _mouseDbClick(e) {
-        this.document.resetRendererConfig();
+        this._document.resetRendererConfig();
         this.tool.mouseDbClick(this._convertToGlobalCoordinateSystem({x: e.offsetX, y: e.offsetY}));
     }
 
@@ -132,19 +141,19 @@ export default class Board {
      setTool(name){
         switch(name){
             case 'Line':
-                this.tool = new LineTool(this.document);
+                this.tool = new LineTool(this._document);
                 break;
             case 'Rectangle':
-                this.tool = new RectTool(this.document);
+                this.tool = new RectTool(this._document);
                 break;
             case 'Circle':
-                this.tool = new CircleTool(this.document);
+                this.tool = new CircleTool(this._document);
                 break;
             case 'Spline':
-                this.tool = new SplineTool(this.document);
+                this.tool = new SplineTool(this._document);
                 break;
             default:
-                this.tool = new PointerTool(this.document);
+                this.tool = new PointerTool(this._document);
         }
     }
 

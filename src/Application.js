@@ -6,7 +6,7 @@ import Board from './2d/Board';
 import Command from './2d/command/Command';
 import CommandHistory from './CommandHistory';
 import Document from './model/Document';
-
+import GroupCommand from './2d/command/GroupCommand';
 
 class Application{
     constructor(){
@@ -17,7 +17,18 @@ class Application{
         this.commandHistory = new CommandHistory();
 
         /** @param {Board} */
-        this.board = null;
+        this._board = null;
+
+        this.selectElements = [];
+    }
+
+    set board(board){
+        this._board = board;
+        board.document=this.currentDocument;
+    }
+    
+    get board(){
+        return this._board;
     }
 
     /**
@@ -29,8 +40,8 @@ class Application{
             this.commandHistory.push(command);
         }
 
-        if(this.board){
-            this.board.renderDocument();
+        if(this._board){
+            this._board.renderDocument();
         }
     }
 
@@ -39,7 +50,12 @@ class Application{
      */
     redo(){
         if(this.commandHistory.hasRedo()){
-            this.executeCommand(this.commandHistory.getRedo());
+            let command = this.commandHistory.getRedo();
+            this.commandHistory.push(command);
+            command.execute();
+        }
+        if(this._board){
+            this._board.renderDocument();
         }
     }
     
@@ -52,12 +68,14 @@ class Application{
             command.undo();
         }
 
-        if(this.board){
-            this.board.renderDocument();
+        if(this._board){
+            this._board.renderDocument();
         }
     }
-
-
+    
+    group(){
+        this.executeCommand(new GroupCommand(app.currentDocument, app.selectElements));
+    }
 
 }
 

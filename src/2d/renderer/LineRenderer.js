@@ -2,8 +2,8 @@
  * Created by dev on 09.01.19.
  */
 
-import Render from './Render';
 import Line from '../../model/elements/Line';
+import Render from './Render';
 
 export default class LineRenderer extends Render{
     /**

@@ -2,12 +2,12 @@
  * Created by dev on 14.01.19.
  */
 
-import Element from '../Element';
+import GraphicElement from '../GraphicElement';
 import Point from '../Point';
 import Line from './Line';
 import ArcRenderer from './../../2d/renderer/ArcRenderer';
 
-export default class Arc extends Element{
+export default class Arc extends GraphicElement{
     constructor(center, radius){
         super();
         this._center=center;

@@ -40,7 +40,7 @@ export default class RectTool extends Tool{
         if(this._rect) {
             this._rect.p2=point;
             let element = this._rect.toElement();
-            app.executeCommand(new AddElementCommand(this.document, element));
+            app.executeCommand(new AddElementCommand(this._document, element));
             this._rect = null;
         }
     }

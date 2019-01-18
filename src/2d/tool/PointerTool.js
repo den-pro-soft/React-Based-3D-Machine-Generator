@@ -15,8 +15,6 @@ export default class PointerTool extends Tool{
         super(document);
 
         this._mouseDown = false;
-                
-        this._selectElements = [];
 
         /** @var {RectElementController} */
         this.selectRect = null;
@@ -26,6 +24,13 @@ export default class PointerTool extends Tool{
         this.cursor=null;
 
         this.transformer = null;
+    }
+
+    set document(doc){
+        this._document=doc;
+        if(this.transformer) {
+            this.transformer.document = doc;
+        }
     }
 
     mouseMove(point){
@@ -61,13 +66,13 @@ export default class PointerTool extends Tool{
         if(this.transformer){
             if(this.transformer.mouseDown(point)) {
                 this.transformer = null;
-                this._selectElements = [];
+                app.selectElements = [];
                 this.selectRect = new RectElementController(point, point);
             }
         }else{
             if(true) { //todo: if !Ctrl
                 this.transformer = null;
-                this._selectElements = [];
+                app.selectElements = [];
             }
             this.selectRect = new RectElementController(point, point);
         }
@@ -80,11 +85,11 @@ export default class PointerTool extends Tool{
         if(this.transformer){
             if(this.transformer.mouseUp(point)){ //click
                 if(this.transformer instanceof ResizeTransformer) {
-                    this.transformer = new RotateTransformer(this.document);
+                    this.transformer = new RotateTransformer(this._document);
                 }else{
-                    this.transformer = new ResizeTransformer(this.document);
+                    this.transformer = new ResizeTransformer(this._document);
                 }
-                this.transformer.addElements(this._selectElements);
+                this.transformer.addElements(app.selectElements);
             }
         }
 
@@ -96,18 +101,18 @@ export default class PointerTool extends Tool{
         if(this.selectRect.getSquare()<1E-3){
             newSelectElements = this._getNearElements(point);
         }else {
-            newSelectElements = this.document.getElementsIntoFigure(this.selectRect);
+            newSelectElements = this._document.getElementsIntoFigure(this.selectRect);
         }
 
         if(false) { //todo: if Ctrl
-            this._selectElements = [...this._selectElements, ...newSelectElements];
+            app.selectElements = [...app.selectElements, ...newSelectElements];
         }else{
-            this._selectElements = newSelectElements;
+            app.selectElements = newSelectElements;
         }
 
         if(newSelectElements.length>0) {
             if(!this.transformer) {
-                this.transformer = new ResizeTransformer(this.document);
+                this.transformer = new ResizeTransformer(this._document);
             }
             this.transformer.addElements(newSelectElements);
         }else{
@@ -131,7 +136,7 @@ export default class PointerTool extends Tool{
         if(this.transformer) {
             this.transformer.render();
         }
-        for(let element of this._selectElements){
+        for(let element of app.selectElements){
             element._renderer.setFocus(true);
             // element.render();
         }
@@ -139,7 +144,7 @@ export default class PointerTool extends Tool{
 
     _getNearElements(point){
         let scale = container.board._scale; //todo: container
-        return this.document.getNearElements(point, (scale>1?0.2:0.05)/scale);
+        return this._document.getNearElements(point, (scale>1?0.2:0.05)/scale);
     }
     _selectNearElements(point){
         for(let element of this._getNearElements(point)){

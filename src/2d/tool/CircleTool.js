@@ -39,7 +39,7 @@ export default class CircleTool extends Tool{
     mouseUp(point){
         if(!point.compare(this._circle.center)){
             this._circle.radius=new Line(this._circle.center, point).length();;
-            app.executeCommand(new AddElementCommand(this.document, this._circle));
+            app.executeCommand(new AddElementCommand(this._document, this._circle));
             this._circle=null;
         }
     }
@@ -54,7 +54,7 @@ export default class CircleTool extends Tool{
 
     _selectNearElements(point){
         let scale = container.board._scale; //todo: container
-        let elements = this.document.getNearElements(point, (scale>1?0.2:0.05)/scale);
+        let elements = this._document.getNearElements(point, (scale>1?0.2:0.05)/scale);
         for(let element of elements){
             element._renderer.setFocus(true);
         }

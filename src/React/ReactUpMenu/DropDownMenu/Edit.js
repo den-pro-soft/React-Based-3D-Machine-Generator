@@ -1,5 +1,7 @@
 import React from "react";
 import "./edit.scss";
+import DeleteElementCommand from './../../../2d/command/DeleteElementCommand';
+
 
 export default class Edit extends React.Component {
   constructor(props) {
@@ -38,11 +40,11 @@ export default class Edit extends React.Component {
           {this.state.displayMenu ? (
           <ul         
           >
-            <li>
+            <li  onClick={() => app.undo()}>
               {/* className="active" */}
               <a href="#">Undo</a>
             </li>
-            <li>
+            <li  onClick={() => app.redo()}>
               <a href="#">Redo</a>
             </li>
             <li>
@@ -55,7 +57,7 @@ export default class Edit extends React.Component {
               <a href="#">Paste</a>
             </li>
 
-            <li>
+            <li onClick={() => app.executeCommand(new DeleteElementCommand(app.currentDocument, app.selectElements))}>
               <a href="#">Delete</a>
             </li>
             <li>

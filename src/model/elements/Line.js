@@ -1,14 +1,14 @@
 /**
  * Created by dev on 04.01.19.
  */
-import Exception from '../../Exception';
-import Element from '../Element';
+import Exception from './../../Exception';
+import GraphicElement from './../GraphicElement';
 import LineRenderer from './../../2d/renderer/LineRenderer';
-import Point from "../Point";
+import Point from "./../Point";
 import Trigonometric from './../math/Trigonometric';
 
 
-export default class Line extends Element{
+export default class Line extends GraphicElement{
     constructor(p1, p2){
         super();
         this._p1=p1;

@@ -2,11 +2,11 @@
  * Created by dev on 14.01.19.
  */
 
-import Element from './../Element';
+import GraphicElement from './../GraphicElement';
 import Point from './../Point';
 import SplineRenderer from './../../2d/renderer/SplineRenderer';
 
-export default class Spline extends Element{
+export default class Spline extends GraphicElement{
     constructor(startPoint, endPoint){
         super();
         this._points = [startPoint, endPoint, null, null];

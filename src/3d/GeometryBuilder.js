@@ -287,7 +287,7 @@ class PolygonMeshBuilder{
             let z = elements[group.E[i]].Z;
             if(!z){
                 z=0.76;
-                // throw new Exception("Please fill the  Z value for the Group Element  3D displaying!",{group, i});
+                // throw new Exception("Please fill the  Z value for the Group GraphicElement  3D displaying!",{group, i});
             }
             if(z>max){
                 max=z;

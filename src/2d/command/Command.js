@@ -3,7 +3,7 @@
  */
 
 import Exception from '../../Exception';
-import Document from '../../model/Document';
+// import Document from '../../model/Document';
 
 
 let id = 0;
@@ -17,9 +17,9 @@ let id = 0;
  */
 export default class Command{
     constructor(document){
-        if(!document instanceof Document){
-            throw new Exception("Document is required parameter");
-        }
+        // if(!document instanceof Document){
+        //     throw new Exception("Document is required parameter");
+        // }
 
         this.id=id++;
         /** @var {Document} */

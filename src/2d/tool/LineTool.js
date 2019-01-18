@@ -39,7 +39,7 @@ export default class LineTool extends Tool{
     mouseUp(point){
         if(!point.compare(this._line.p1)){
             this._line.p2=point;
-            app.executeCommand(new AddElementCommand(this.document, this._line));
+            app.executeCommand(new AddElementCommand(this._document, this._line));
 
             this._line._renderer.new=false;
             this._line=null;

@@ -1,14 +1,13 @@
 /**
  * Created by dev on 04.01.19.
  */
-import Render from './../2d/renderer/Render';
 import Matrix from "../model/math/Matrix";
 import Trigonometric from "../model/math/Trigonometric";
 import Point from "./Point";
 
 let id = 0;
 
-export default class Element{
+export default class GraphicElement{
     constructor(){
         this.id=id++;
      
@@ -16,7 +15,7 @@ export default class Element{
         this._points = [];
 
         /** @var {Render} */
-        this._renderer = null; //todo: transfer the creation of a new sample from Element classes to a IOC container
+        this._renderer = null; //todo: transfer the creation of a new sample from GraphicElement classes to a IOC container
     }
 
     render(){
@@ -167,5 +166,9 @@ export default class Element{
 
     copy(){
         throw new Exception('The method doesn\'n have implementation.');
+    }
+
+    compare(element){
+        return this.id==element.id;
     }
 }

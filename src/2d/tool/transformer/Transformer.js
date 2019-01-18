@@ -2,7 +2,7 @@
  * Created by dev on 15.01.19.
  */
 
-import Element from './../../../model/Element';
+import GraphicElement from './../../../model/GraphicElement';
 
 /**
  * The class need for changing elements

@@ -38,7 +38,7 @@ export default class Line extends React.Component {
           {this.state.displayMenu ? (
           <ul
           >
-            <li>
+            <li onClick={() => app.group()}>
               {/* className="active" */}
               <a href="#">Group</a>
             </li>

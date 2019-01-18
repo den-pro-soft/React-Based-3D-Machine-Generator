@@ -1,4 +1,4 @@
-import Element from "./Element";
+import GraphicElement from "./GraphicElement";
 import Exception from "../Exception";
 import Matrix from "./math/Matrix";
 

@@ -16,7 +16,7 @@ class Node{
 
 export default class CommandHistory{
     constructor(){
-        this.head = null;
+        this.head = new Node();
     }
 
     /**
@@ -42,8 +42,10 @@ export default class CommandHistory{
     pop(){
        if(this.head){
            let res = this.head.data;
-           this.head = this.head.before;
-           return res;
+           if(this.head.before) {
+               this.head = this.head.before;
+               return res;
+           }
        }
         return null;
     }
@@ -52,7 +54,7 @@ export default class CommandHistory{
      * @return {boolean}
      */
     hasRedo(){
-        return this.head.next!=null;
+        return this.head && this.head.next!=null;
     }
 
     /**
