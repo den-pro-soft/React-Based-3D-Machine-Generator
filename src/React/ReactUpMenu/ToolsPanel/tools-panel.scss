@@ -1,0 +1,32 @@
+.ToolsPanel {
+  display: flex;
+  flex-direction: row;
+  form {
+    .btn-Z {
+      display: block;
+      margin-left: 300px;
+      // width: 35px;
+      // height: 35px;
+      padding-top: 2px;
+      background-color: rgba(240, 240, 240, 0.85);
+      // border: none;
+      &:hover {
+        background-color: white;
+        cursor: pointer;
+        border: none;
+        //   border: 1px solid black;
+      }
+    }
+    .select {
+      display: block;
+      margin-left: 2px;
+      //   margin-bottom:2px;
+    }
+    .tooltipBackgroundTheme {
+      background: rgb(248, 199, 108) !important;
+      color: black;
+      margin-left: 50px;
+      margin-top: 10px;
+    }
+  }
+}

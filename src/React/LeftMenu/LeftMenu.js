@@ -19,11 +19,11 @@ export default class LeftMenu extends React.Component {
     return (
    
       <div className="LeftMenu">
-        <ReactTooltip
-          html={true}
-          data-place="right"
-          className="tooltipBackgroundTheme"
-        />
+          {/* <ReactTooltip
+           html={true}
+           data-place="right"
+           className="leftTooltipBackgroundTheme"
+           /> */}
         <button onClick={() => app.board.setTool("Pointer")}
       // style={{background: this.state.background}}
       // onClick={()=>this.backgroundColor()}

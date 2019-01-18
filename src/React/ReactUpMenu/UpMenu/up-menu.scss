@@ -2,12 +2,8 @@
   display: flex;
   flex-direction: column;
   // margin-top: 30px;
-  .Drop{
-    display: flex;
-    justify-content: space-between;
-    // margin-bottom: 4px;
-  }
-  .Buttons{
+
+  .Buttons {
     display: flex;
     flex-direction: row;
     .btn-group-two {
@@ -61,48 +57,4 @@
       }
     }
   }
-  // .btn-group-two {
-  //   button {
-  //     width: 35px;
-  //     height: 35px;
-  //     margin-right: 2px;
-  //     // background-color: rgba(240,240,240,0.85);
-  //     background-color: transparent;
-
-  //     border: none;
-  //     &:hover {
-  //       background-color: white;
-  //       cursor: pointer;
-  //     }
-  //   }
-  // }
-  // .btn-group-three {
-  //   button {
-  //     width: 35px;
-  //     height: 35px;
-  //     margin-right: 2px;
-  //     // background-color: rgba(240,240,240,0.85);
-  //     background-color: transparent;
-
-  //     border: none;
-  //     &:hover {
-  //       background-color: white;
-  //       cursor: pointer;
-  //     }
-  //   }
-  // }
-  // .btn-group-other {
-  //   button {
-  //     width: 35px;
-  //     height: 35px;
-  //     // background-color: rgba(240,240,240,0.85);
-  //     background-color: transparent;
-
-  //     border: none;
-  //     &:hover {
-  //       background-color: white;
-  //       cursor: pointer;
-  //     }
-  //   }
-  // }
 }

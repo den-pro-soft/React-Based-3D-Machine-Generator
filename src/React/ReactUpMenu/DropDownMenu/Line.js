@@ -5,11 +5,17 @@ export default class Line extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      displayMenu: false
+      displayMenu: false,
+      displaySubMenu: false,
+      displaySubNudge: false
     };
 
     this.showDropdownMenu = this.showDropdownMenu.bind(this);
     this.hideDropdownMenu = this.hideDropdownMenu.bind(this);
+    this.showSubMenu = this.showSubMenu.bind(this);
+    this.hideSubMenu = this.hideSubMenu.bind(this);
+    this.showSubNudge = this.showSubNudge.bind(this);
+    this.hideSubNudge = this.hideSubNudge.bind(this);
   }
 
   showDropdownMenu(event) {
@@ -24,7 +30,33 @@ export default class Line extends React.Component {
       document.removeEventListener("click", this.hideDropdownMenu);
     });
   }
+  showSubMenu(event) {
+    console.log(event);
+    event.preventDefault();
+    this.setState({ displaySubMenu: true }, () => {
+      document.addEventListener("click", this.hideSubMenu);
+    });
+  }
 
+  hideSubMenu() {
+    this.setState({ displaySubMenu: false }, () => {
+      document.removeEventListener("click", this.hideSubMenu);
+    });
+  }
+
+  showSubNudge(event) {
+    console.log(event);
+    event.preventDefault();
+    this.setState({ displaySubNudge: true }, () => {
+      document.addEventListener("click", this.hideSubNudge);
+    });
+  }
+
+  hideSubNudge() {
+    this.setState({ displaySubNudge: false }, () => {
+      document.removeEventListener("click", this.hideSubNudge);
+    });
+  }
   render() {
     return (
       <div className="Line">
@@ -57,17 +89,63 @@ export default class Line extends React.Component {
               <a href="#">Corner</a>
             </li>
 
-            <li>
-              <a href="#">Tangents</a>
-            </li>
-            <li>
-              <a href="#">Mirror</a>
-            </li>
-            <li>
-              <a href="#">Nudge</a>
-            </li>
-          </ul>
-        ) : null}
+              <li>
+                <a href="#">Tangents</a>
+              </li>
+              <li
+                onMouseEnter={this.showSubMenu}
+                onMouseLeave={this.hideSubMenu}
+              >
+                <a href="#">
+                  <span>Mirror</span>
+                  <span>&#x25BA;</span>
+                </a>
+                {this.state.displaySubMenu ? (
+                  <ul className="SubMirror">
+                    <li>
+                      <a href="#">Horizontally</a>
+                    </li>
+                    <li>
+                      <a href="#">Vertically</a>
+                    </li>
+                  </ul>
+                ) : null}
+              </li>
+              <li
+                onMouseEnter={this.showSubNudge}
+                onMouseLeave={this.hideSubNudge}
+              >
+                <a href="#">
+                  <span>Nudge</span>
+                  <span>&#x25BA;</span>
+                </a>
+                {this.state.displaySubNudge ? (
+                  <ul className="SubNudge">
+                    <li>
+                      <a href="#">
+                     Up  Up Arrow
+                      </a>
+                    </li>
+                    <li>
+                      <a href="#">
+                      Down Down Arrow
+                      </a>
+                    </li>
+                    <li>
+                      <a href="#">
+                      Left Left Arrow
+                      </a>
+                    </li>
+                    <li>
+                      <a href="#">
+                      Right Right Arrow
+                      </a>
+                    </li>
+                  </ul>
+                ) : null}
+              </li>
+            </ul>
+          ) : null}
         </div>
 
       

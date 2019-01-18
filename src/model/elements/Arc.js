@@ -27,6 +27,15 @@ export default class Arc extends GraphicElement{
         return this._center;
     }
 
+    set center(point){
+        this._center = point;
+        this._points[0]=point;
+    }
+
+    get center(){
+        return this._center;
+    }
+
     /**
      * @returns {{max:{x:number, y:number}, min:{x:number, y:number}}}
      */

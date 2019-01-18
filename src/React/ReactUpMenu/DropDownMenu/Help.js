@@ -5,11 +5,14 @@ export default class Help extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      displayMenu: false
+      displayMenu: false,
+      displaySubMenu: false
     };
 
     this.showDropdownMenu = this.showDropdownMenu.bind(this);
     this.hideDropdownMenu = this.hideDropdownMenu.bind(this);
+    this.showSubMenu = this.showSubMenu.bind(this);
+    this.hideSubMenu = this.hideSubMenu.bind(this);
   }
 
   showDropdownMenu(event) {
@@ -26,6 +29,19 @@ export default class Help extends React.Component {
     });
   }
 
+  showSubMenu(event) {
+    console.log(event);
+    event.preventDefault();
+    this.setState({ displaySubMenu: true }, () => {
+      document.addEventListener("click", this.hideSubMenu);
+    });
+  }
+
+  hideSubMenu() {
+    this.setState({ displaySubMenu: false }, () => {
+      document.removeEventListener("click", this.hideSubMenu);
+    });
+  }
   render() {
     return (
       <div className="Help">
@@ -38,14 +54,31 @@ export default class Help extends React.Component {
           Help
           {this.state.displayMenu ? (
             <ul
-            // onMouseEnter={this.showDropdownMenu}
             >
-              <li>
-                <a href="#">Drawing Tutorials</a>
-                {/* className="active" */}
+              <li
+                onMouseEnter={this.showSubMenu}
+                onMouseLeave={this.hideSubMenu}
+              >
+                <a href="#"><span>Drawing Tutorials</span><span>&#x25BA;</span></a> 
+                {this.state.displaySubMenu ? (
+                  <ul className="Submenu">
+                    <li>
+                      <a href="#">Flat 2D</a>
+                    </li>
+                    <li>
+                      <a href="#">Bend 2D</a>
+                    </li>
+                  </ul>
+                ) : null}
               </li>
               <li>
-                <a href="#">Contents</a>
+                <a
+                  href="https://www.emachineshop.com/help/"
+                  target="_blank"
+                  rel="noreferrer noopener"
+                >
+                  Contents
+                </a>
               </li>
               <li>
                 <a
@@ -69,7 +102,6 @@ export default class Help extends React.Component {
             </ul>
           ) : null}
         </div>
-      
       </div>
     );
   }

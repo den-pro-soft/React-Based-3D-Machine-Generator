@@ -29,10 +29,7 @@ const UpMenu = context => {
   return (
     <div className="UpMenu">
       <div className="Drop">
-      
-        {/* <span> */}
-          <DropDownMenu/>
-          {/* </span> */}
+        <DropDownMenu />
       </div>
       <div className="Buttons">
         <div className="btn-group-two">

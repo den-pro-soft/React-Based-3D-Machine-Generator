@@ -3,7 +3,6 @@
  */
 
 import GraphicElement from '../GraphicElement';
-import Point from '../Point';
 import GroupRenderer from './../../2d/renderer/GroupRenderer';
 import Exception from "../../Exception";
 

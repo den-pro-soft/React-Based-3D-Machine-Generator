@@ -4,8 +4,8 @@
 import Exception from './../../Exception';
 import GraphicElement from './../GraphicElement';
 import LineRenderer from './../../2d/renderer/LineRenderer';
-import Point from "./../Point";
-import Trigonometric from './../math/Trigonometric';
+import Point from "../Point";
+import Martix from '../math/Matrix';
 
 
 export default class Line extends GraphicElement{

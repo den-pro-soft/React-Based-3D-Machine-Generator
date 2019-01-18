@@ -8,7 +8,6 @@ import GraphicElement from './GraphicElement';
 
 export default class Document{
     constructor(){
-        /** @var {Array.<GraphicElement>} */
         this._elements = [];
     }
 

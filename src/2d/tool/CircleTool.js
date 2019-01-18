@@ -39,7 +39,7 @@ export default class CircleTool extends Tool{
     mouseUp(point){
         if(!point.compare(this._circle.center)){
             this._circle.radius=new Line(this._circle.center, point).length();;
-            app.executeCommand(new AddElementCommand(this._document, this._circle));
+            this.document.addElement(this._circle);
             this._circle=null;
         }
     }

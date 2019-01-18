@@ -9,7 +9,59 @@
     display: flex;
     flex-direction: column;
     padding: 0;
+    .InputFieldMenu {
+      padding: 2px;
+     
+      .Panel {
+        display:flex;
+        justify-content: flex-start;
+        // .tooltipBackgroundTheme {
+        //   background: rgb(248, 199, 108) !important;
+        //   // opacity: 0.85;
+        //   color: black;
+        //   margin-left: 50px;
+        //   margin-top: 10px;
+        // }
+        button {
+          // margin-left:300px;
+          // width: 35px;
+          // height: 35px;
+          display:inline;
+          padding-top: 2px;
+          background-color: rgba(240, 240, 240, 0.85);
+          border: none;
+          &:hover {
+            background-color: white;
+            cursor: pointer;
+            border:none;
+            // border: 1px solid black;
+          }
+        }
+      }
+    }
   }
+    .tooltipBackgroundTheme{
+      background: rgb(248, 199, 108) !important;
+      // opacity: 0.85;
+      color: black;
+      margin-left:50px;
+      margin-top:10px;
+
+  }
+  //     button {
+  //       // width: 35px;
+  //       // height: 35px;
+  //       padding-top:2px;
+  //       background-color: rgba(240, 240, 240, 0.85);
+  //       border: none;
+  //       &:hover {
+  //         background-color: white;
+  //         cursor:pointer;
+  //         border:1px solid black;
+  //       }
+  //     }
+  //   }
+  // }
   .RightButtons {
     display: inline-flex;
     justify-content: space-between;
