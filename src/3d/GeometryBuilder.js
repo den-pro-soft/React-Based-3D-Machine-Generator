@@ -74,7 +74,7 @@ class Polygon{
      */
     getConsistentlyVertex(){
         if(!this.isClosed()){
-            throw new Exception("Please close open shapes.");
+            throw new Exception("Please close open shapes.", this);
         }
         return this.consistentlyVertex;
     }
@@ -179,7 +179,6 @@ class PolygonMeshBuilder{
     getMeshes(document){
         let meshes = [];
         let internalMeshes = [];
-
         for(let element of document._elements){
             if(element.typeName == 'Group') {
                 let polygons = this._createPolygonsByGroup(element);
@@ -196,6 +195,17 @@ class PolygonMeshBuilder{
                     } else {
                         throw new Exception("Please close open shapes.",polygon);
                     }
+                }
+            }
+            if(element.typeName == 'Arc') {
+                let polygon = this._createPolygonsByArc(element);
+                let vertices = polygon.getConsistentlyVertex();
+                let geometry = this.geometryBuilder.createThreeGeometry(vertices, Math.abs(element.height));
+                let mesh = new THREE.Mesh(geometry, this.material);
+                if (element.height>0) {
+                    meshes.push(mesh);
+                }else {
+                    internalMeshes.push(mesh);
                 }
             }
         }
@@ -220,7 +230,7 @@ class PolygonMeshBuilder{
         //     }
         // }
         //
-        // let circles = this._getCirclesWithoutGroup(groups, elements);
+
         // for(let circle of circles){
         //     if(!circle.Z){
         //         circle.Z=0.76;
@@ -327,8 +337,7 @@ class PolygonMeshBuilder{
 
     /**
      * @param group
-     * @param elements
-     * @return {Array} of {Polygon}
+     * @return {Array.<Polygon>}
      * @private
      */
     _createPolygonsByGroup(group){
@@ -342,9 +351,6 @@ class PolygonMeshBuilder{
                         new Vertex3(points[i].x, points[i].y)));
                 }
             }
-            if(element.typeName = 'Arc') {
-                
-            }
         }
         // if(polygon.hasLoop()){
         //     return polygon.getSimplePolygons();
@@ -352,6 +358,34 @@ class PolygonMeshBuilder{
         return [polygon];
     }
 
+    _createPolygonsByArc(element){
+        let createVertex = function(x){
+            return new Vertex3(Math.cos(x)*element.radius+element.center.x, Math.sin(x)*element.radius+element.center.y);
+        };
+
+        let randomColor = function(){
+            var o = Math.round, r = Math.random, s = 255;
+            return 'rgba( 255,' + o(r()*s) + ',' + o(r()*s) + ',' + r().toFixed(1) + ')';
+            return 'rgba( 255,' + o(r()*s) + ',' + o(r()*s) + ',' + r().toFixed(1) + ')';
+        };
+
+        let polygon = new Polygon();
+        let delta = Math.PI /60;
+        let board = app.board;
+        for (var a = 0; (a+delta) < 2*Math.PI; a += delta) {
+            board.style('strokeStyle',randomColor());
+            let p1 = createVertex(a);
+            let p2 = createVertex(a+delta);
+            polygon.addEdge(new Line(p1,p2));
+            board.drawLine(p1, p2);
+        }
+        let p1 = createVertex(a);
+        let p2 = createVertex(a+delta);
+        board.drawLine(p1, p2);
+        polygon.addEdge(new Line(p1,p2));
+
+        return polygon;
+    }
 }
 
 
