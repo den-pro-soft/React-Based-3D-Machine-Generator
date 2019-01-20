@@ -62,7 +62,7 @@ const UpMenu = context => {
             <img width="24px" src="images/ToggleInch.png" />
           </button>
           <button>
-            <img width="24px" src="images/LinyType.png" />
+            <img width="24px" src="images/LineType.png" />
           </button>
           <button>
             <img width="24px" src="images/Intersect.png" />

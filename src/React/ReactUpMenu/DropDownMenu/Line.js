@@ -96,7 +96,7 @@ export default class Line extends React.Component {
                 onMouseEnter={this.showSubMenu}
                 onMouseLeave={this.hideSubMenu}
               >
-                <a href="#">
+                <a className="a-Mirror"href="#">
                   <span>Mirror</span>
                   <span>&#x25BA;</span>
                 </a>
@@ -115,7 +115,7 @@ export default class Line extends React.Component {
                 onMouseEnter={this.showSubNudge}
                 onMouseLeave={this.hideSubNudge}
               >
-                <a href="#">
+                <a href="#" className="a-Nudge">
                   <span>Nudge</span>
                   <span>&#x25BA;</span>
                 </a>

@@ -8,26 +8,27 @@
       display: block;
       margin-left: 2px;
     }
-    .btn-Z {
+    button.btn-Z {
       display: block;
-      margin-left: 250px;
+      margin-left: 270px;
       // width: 35px;
       // height: 35px;
-      padding-top: 2px;
-      background-color: rgba(240, 240, 240, 0.85);
-      // border: none;
-      &:hover {
-        background-color: white;
-        cursor: pointer;
-        border: none;
-        //   border: 1px solid black;
-      }
+      // padding-top: 2px;
+      // background-color: rgba(240, 240, 240, 0.85);
+      // // border: none;
+      // &:hover {
+      //   background-color: white;
+      //   cursor: pointer;
+      //   // border: none;
+      //     border: 1px solid orange;
+      // }
     }
     .select {
       display: block;
       margin-left: 2px;
-      //   margin-bottom:2px;
+    
     }
+  
     .tooltipBackgroundTheme {
       background: rgb(248, 199, 108) !important;
       color: black;
