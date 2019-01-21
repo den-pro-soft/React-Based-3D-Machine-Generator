@@ -9,6 +9,7 @@ import Document from './model/Document';
 import GroupCommand from './2d/command/GroupCommand';
 import UngroupCommand from './2d/command/UngroupCommand';
 import DeleteElementCommand from './2d/command/DeleteElementCommand';
+import ChangeElementsHeightCommand from './2d/command/ChangeElementsHeightCommand';
 
 class Application{
     constructor(){
@@ -88,6 +89,10 @@ class Application{
             this.board.setTool('Pointer');
         }
         this.executeCommand(new DeleteElementCommand(this.currentDocument, this.selectElements));
+    }
+
+    setElementsHeight(height){
+        this.executeCommand(new ChangeElementsHeightCommand(app.currentDocument, app.selectElements, height));
     }
 
 }
