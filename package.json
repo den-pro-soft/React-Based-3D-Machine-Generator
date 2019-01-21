@@ -12,7 +12,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@material-ui/core": "^3.9.0",
     "react": "^16.7.0",
     "react-dom": "^16.7.0",
     "react-select": "^2.3.0",
