@@ -1,7 +1,9 @@
 import React from "react";
 import "./help.scss";
 
+import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
+import Link from "@material-ui/core/Link";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
@@ -70,7 +72,6 @@ export default class Help extends React.Component {
         console.log(this.state.open, "clickOpen-72");
       }
     );
-
   }
 
   handleClose() {
@@ -161,17 +162,14 @@ export default class Help extends React.Component {
                 <a href="#">Windows version</a>
               </li>
               <li>
-                <a href="#" id="examle">
+                <a href="#" >
+               
                   Tech Support
                 </a>
               </li>
 
-              <li
-              // onMouseEnter={this.handleClickOpen}
-              // onClick={this.handleClickOpen}
-              // onClick={()=>{this.setState({open:true})}}
-              >
-                {/* <li> */}
+              <li>
+            
                 <a href="#" onClick={this.handleClickOpen}>
                   About{this.state.counter}
                 </a>
@@ -203,96 +201,98 @@ export default class Help extends React.Component {
             className="Content"
             style={{ background: "#a8a7a7", padding: 10 }}
           >
-            {/* <img
-                width="64px"
-                src="images/icon.jpg"
-                // data-tip="<span>Shows how to use numeric values.</span>"
-              /> */}
-            <DialogContentText
-              id="alert-dialog-description"
-              style={{ height: "320px", width: "280px", color: "black" }}
-            >
-              <DialogContentText
-                className="ContentHeader"
-                style={{ display: "flex", alignItems: "flex-start" }}
+            {/* <Typography> */}
+              <div
+                id="alert-dialog-description"
+                style={{ height: "320px", width: "280px", color: "black" }}
               >
-                <img
-                  width="45px"
-                  src="images/icon.jpg"
-                  // data-tip="<span>Shows how to use numeric values.</span>"
-                />
-                <DialogContentText
-                  style={{ textAlign: "center", color: "black" }}
+                <div
+                  className="ContentHeader"
+                  style={{ display: "flex", alignItems: "flex-start" }}
                 >
-                  {" "}
-                  eMashine Shop&reg;Version 1.931.1.26
-                </DialogContentText>
-              </DialogContentText>
-              <DialogContentText
-                className="ContentTop"
-                style={{
-                  textAlign: "center",
-                  borderBottom: "1px solid black",
-                  padding: 5
-                }}
-              >
-                <DialogContentText>
-                  {" "}
-                  Compilation Data: 22.11.2018
-                </DialogContentText>
-                <DialogContentText> Price file number: 3527</DialogContentText>
-                <DialogContentText>
-                  {" "}
-                  Program folder: C:\ProgramFiles(x86)\eMashineshop
-                </DialogContentText>
-              </DialogContentText>
-              <DialogContentText
-                className="ContentBottom"
-                style={{ textAlign: "center", padding: 0 }}
-              >
-                <DialogContentText
-                  style={{ margonBottom: "5px", padding: "5px" }}
-                >
-                  {" "}
-                  Copyright&copy; 2003-2018 eMashineshop&reg;
-                </DialogContentText>
-                <DialogContentText style={{ margon: "5px", padding: "5px" }}>
-                  {" "}
-                  CAD version is current
-                </DialogContentText>
-                <DialogContentText style={{ margon: "5px", padding: "5px" }}>
-                  {" "}
-                  Price File is current
-                </DialogContentText>
-                <DialogContentText>
-                  <a
-                    href="https://www.emachineshop.com/"
-                    target="_blank"
-                    rel="noreferrer noopener"
+                  <img
+                    width="45px"
+                    src="images/icon.jpg"
+                    // data-tip="<span>Shows how to use numeric values.</span>"
+                  />
+                  <DialogContentText
+                    style={{ textAlign: "center", color: "black" }}
                   >
-                    www.emachineshop.com
-                  </a>
-                </DialogContentText>
-              </DialogContentText>
-            </DialogContentText>
+                    {" "}
+                    eMashine Shop&reg;Version 1.931.1.26
+                  </DialogContentText>
+                </div>
+                <div
+                  className="ContentTop"
+                  style={{
+                    textAlign: "center",
+                    borderBottom: "1px solid black",
+                    padding: 5
+                  }}
+                >
+                  <DialogContentText>
+                    {" "}
+                    Compilation Data: 22.11.2018
+                  </DialogContentText>
+                  <DialogContentText>
+                    {" "}
+                    Price file number: 3527
+                  </DialogContentText>
+                  <DialogContentText>
+                    {" "}
+                    Program folder: C:\ProgramFiles(x86)\eMashineshop
+                  </DialogContentText>
+                </div>
+                <div
+                  className="ContentBottom"
+                  style={{ textAlign: "center", padding: 0 }}
+                >
+                  <DialogContentText
+                    style={{ margonBottom: "5px", padding: "5px" }}
+                  >
+                    {" "}
+                    Copyright&copy; 2003-2018 eMashineshop&reg;
+                  </DialogContentText>
+                  <DialogContentText style={{ margon: "5px", padding: "5px" }}>
+                    {" "}
+                    CAD version is current
+                  </DialogContentText>
+                  <DialogContentText style={{ margon: "5px", padding: "5px" }}>
+                    {" "}
+                    Price File is current
+                  </DialogContentText>
+                  <DialogContentText>
+                    <Link
+                      href="https://www.emachineshop.com/"
+                      // href={'https://www.emachineshop.com/'}
+
+                      target="_blank"
+                      rel="noreferrer noopener"
+                    >
+                      www.emachineshop.com
+                    </Link>
+                  </DialogContentText>
+                </div>
+              </div>
+            {/* </Typography> */}
           </DialogContent>
 
           <DialogActions>
-              <Button
-                onClick={this.clickSubModal}
-                style={{backgroundColor: "#808080", color: "white" }}
-                color="primary"
-              >
-                Licenses...
-              </Button>
-              <Button
-                onClick={this.handleClose}
-                style={{backgroundColor: "#808080", color: "orange" }}
-                color="primary"
-                autoFocus
-              >
-                OK
-              </Button>
+            <Button
+              onClick={this.clickSubModal}
+              style={{ backgroundColor: "#808080", color: "white" }}
+              color="primary"
+            >
+              Licenses...
+            </Button>
+            <Button
+              onClick={this.handleClose}
+              style={{ backgroundColor: "#808080", color: "orange" }}
+              color="primary"
+              autoFocus
+            >
+              OK
+            </Button>
           </DialogActions>
         </Dialog>
         {/* ----------------------------------------------------------------------   */}
@@ -321,127 +321,114 @@ export default class Help extends React.Component {
           <DialogContent
             style={{ width: "400px", background: "#a8a7a7", padding: 10 }}
           >
-          
-            <DialogContentText
-            ><div
-            style={{ display: "flex", justifyContent: "space-between" }}            
-            >
-              <div>Free Type</div>
-              <div >
-                <a
-                  href="https://www.freetype.org/"
-                  target="_blank"
-                  rel="noreferrer noopener"
-                  style={{marginRight:"10px"}}
-                >
-                  homepage
-                </a>
-                <a href="" target="_blank" rel="noreferrer noopener">
-                  show license
-                </a>
-              </div>
+            <DialogContentText>
+              <div style={{ display: "flex", justifyContent: "space-between" }}>
+                <div>Free Type</div>
+                <div>
+                  <a
+                    href="https://www.freetype.org/"
+                    target="_blank"
+                    rel="noreferrer noopener"
+                    style={{ marginRight: "10px" }}
+                  >
+                    homepage
+                  </a>
+                  <a href="" target="_blank" rel="noreferrer noopener">
+                    show license
+                  </a>
+                </div>
               </div>
             </DialogContentText>
-          
-            <DialogContentText
-            ><div
-            style={{ display: "flex", justifyContent: "space-between" }}            
-            >
-              <div>Indy</div>
-              <div >
-                <a
-                  href="https://www.indyproject.org/"
-                  target="_blank"
-                  rel="noreferrer noopener"
-                  style={{marginRight:"10px"}}
-                >
-                  homepage
-                </a>
-                <a href="" target="_blank" rel="noreferrer noopener">
-                  show license
-                </a>
-              </div>
+
+            <DialogContentText>
+              <div style={{ display: "flex", justifyContent: "space-between" }}>
+                <div>Indy</div>
+                <div>
+                  <a
+                    href="https://www.indyproject.org/"
+                    target="_blank"
+                    rel="noreferrer noopener"
+                    style={{ marginRight: "10px" }}
+                  >
+                    homepage
+                  </a>
+                  <a href="" target="_blank" rel="noreferrer noopener">
+                    show license
+                  </a>
+                </div>
               </div>
             </DialogContentText>
-          
-            <DialogContentText
-            ><div
-            style={{ display: "flex", justifyContent: "space-between" }}            
-            >
-              <div>GLTT</div>
-              <div >
-                <a
-                  href="http://gltt.sourceforge.net/"
-                  target="_blank"
-                  rel="noreferrer noopener"
-                  style={{marginRight:"10px"}}
-                >
-                  homepage
-                </a>
-                <a href="" target="_blank" rel="noreferrer noopener">
-                  show license
-                </a>
-              </div>
+
+            <DialogContentText>
+              <div style={{ display: "flex", justifyContent: "space-between" }}>
+                <div>GLTT</div>
+                <div>
+                  <a
+                    href="http://gltt.sourceforge.net/"
+                    target="_blank"
+                    rel="noreferrer noopener"
+                    style={{ marginRight: "10px" }}
+                  >
+                    homepage
+                  </a>
+                  <a href="" target="_blank" rel="noreferrer noopener">
+                    show license
+                  </a>
+                </div>
               </div>
             </DialogContentText>
-            <DialogContentText
-            ><div
-            style={{ display: "flex", justifyContent: "space-between" }}            
-            >
-              <div>Open CASCADE</div>
-              <div >
-                <a
-                  href="https://www.opencascade.com/"
-                  target="_blank"
-                  rel="noreferrer noopener"
-                  style={{marginRight:"10px"}}
-                >
-                  homepage
-                </a>
-                <a href="" target="_blank" rel="noreferrer noopener">
-                  show license
-                </a>
-              </div>
+            <DialogContentText>
+              <div style={{ display: "flex", justifyContent: "space-between" }}>
+                <div>Open CASCADE</div>
+                <div>
+                  <a
+                    href="https://www.opencascade.com/"
+                    target="_blank"
+                    rel="noreferrer noopener"
+                    style={{ marginRight: "10px" }}
+                  >
+                    homepage
+                  </a>
+                  <a href="" target="_blank" rel="noreferrer noopener">
+                    show license
+                  </a>
+                </div>
               </div>
             </DialogContentText>
-            <DialogContentText
-            ><div
-            style={{ display: "flex", justifyContent: "space-between" }}            
-            >
-              <div>FastMM</div>
-              <div >
-                <a
-                  href="https://sourceforge.net/projects/fastmm/"
-                  target="_blank"
-                  rel="noreferrer noopener"
-                  style={{marginRight:"10px"}}
-                >
-                  homepage
-                </a>
-                <a href="" target="_blank" rel="noreferrer noopener">
-                  show license
-                </a>
-              </div>
+            <DialogContentText>
+              <div style={{ display: "flex", justifyContent: "space-between" }}>
+                <div>FastMM</div>
+                <div>
+                  <a
+                    href="https://sourceforge.net/projects/fastmm/"
+                    target="_blank"
+                    rel="noreferrer noopener"
+                    style={{ marginRight: "10px" }}
+                  >
+                    homepage
+                  </a>
+                  <a href="" target="_blank" rel="noreferrer noopener">
+                    show license
+                  </a>
+                </div>
               </div>
             </DialogContentText>
-            <DialogContentText
-            ><div
-            style={{ display: "flex", justifyContent: "space-between" }}            
-            >
-              <div>JEDY Code Library</div>
-              <div>
-                <a
-                  href='http://www.delphi-jedi.org/'
-                  target="_blank"
-                  rel="noreferrer noopener"
-                  style={{marginRight:"10px"}}
-                >
-                  homepage
-                </a>
-                <a href="" target="_blank" rel="noreferrer noopener">
-                  show license
-                </a>
-              </div>
+            <DialogContentText>
+              <div style={{ display: "flex", justifyContent: "space-between" }}>
+                <div>JEDY Code Library</div>
+                <div>
+                  <a
+                    href="http://www.delphi-jedi.org/"
+                    target="_blank"
+                    rel="noreferrer noopener"
+                    style={{ marginRight: "10px" }}
+                  >
+                    homepage
+                  </a>
+                  <a href="" target="_blank" rel="noreferrer noopener">
+                    show license
+                  </a>
+                </div>
               </div>
             </DialogContentText>
           </DialogContent>

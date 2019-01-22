@@ -4,36 +4,51 @@
   form {
     display: flex;
     flex-direction: row;
-    .select-1{
-      display: block;
-      margin-left: 2px;
+    // div{
+      .select-1 {
+        display: block;
+        margin-left: 2px;
+      }
+      button.btn-Z {
+        display: block;
+        margin-left: 240px;
+        // width: 35px;
+        // height: 35px;
+        // padding-top: 2px;
+        // background-color: rgba(240, 240, 240, 0.85);
+        // // border: none;
+        // &:hover {
+        //   background-color: white;
+        //   cursor: pointer;
+        //   // border: none;
+        //     border: 1px solid orange;
+        // }
+      }
+      .select {
+        display: block;
+        margin-left: 2px;
+      }
+    // }
+  //  div{
+    .btn-Copy{
+      margin-left:180px;
     }
-    button.btn-Z {
-      display: block;
-      margin-left: 270px;
-      // width: 35px;
-      // height: 35px;
-      // padding-top: 2px;
-      // background-color: rgba(240, 240, 240, 0.85);
-      // // border: none;
-      // &:hover {
-      //   background-color: white;
-      //   cursor: pointer;
-      //   // border: none;
-      //     border: 1px solid orange;
-      // }
+    input {
+      width: 70px;
     }
-    .select {
-      display: block;
-      margin-left: 2px;
-    
-    }
-  
-    .tooltipBackgroundTheme {
-      background: rgb(248, 199, 108) !important;
-      color: black;
-      margin-left: 50px;
-      margin-top: 10px;
-    }
+
+  //  }
+  //  .tooltip-Z{
+  //   background: rgb(248, 199, 108) !important;
+  //   color: black;
+  //   margin-left: 50px;
+  //   margin-top: -10px;
+  //  }
+    // .tooltipBackgroundTheme {
+    //   background: rgb(248, 199, 108) !important;
+    //   color: black;
+    //   margin-left: 0px!important;
+    //   margin-top: -10px;
+    // }
   }
 }

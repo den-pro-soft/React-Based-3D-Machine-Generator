@@ -6,9 +6,7 @@ import CreatableSelect from "react-select/lib/Creatable";
 import InputSelect from "./InputSelect";
 
 // const ToolsPanel = context => {
-  export default class ToolsPanel extends React.Component{
-
- 
+export default class ToolsPanel extends React.Component {
   render() {
     // const data = [
     //   "0.002",
@@ -42,37 +40,53 @@ import InputSelect from "./InputSelect";
           className="tooltipBackgroundTheme"
         /> */}
         <form>
-          <button className="btn-LineType">
-            <a href="#">
-              <img
-                width="18px"
-                // src="images/question.png"
-                src="images/LineType.png"
-                data-tip='<span>Line type.</br>Specifies whether the selected line a shape,bend,</br>thread,relation,comment,etc.Select "Auto" in most cases</br>
+          {/* <div> */}
+            <button className="btn-LineType">
+              <a href="#">
+                <img
+                  width="18px"
+                  // src="images/question.png"
+                  src="images/LineType.png"
+                  data-tip='<span>Line type.</br>Specifies whether the selected line a shape,bend,</br>thread,relation,comment,etc.Select "Auto" in most cases</br>
                 when creating the part shape.
                 </span>'
-              />
-            </a>
-          </button>
-          <select className="select-1">
-            <option value="Auto">Auto</option>
-            <option value="Bend">Bend</option>
-            <option value="mercedes">Thread&amp;Tap</option>
-            <option value="LazerMark">Comments to Self</option>
-            <option value="LazerMark">Comments to Machinist</option>
-            <option value="LazerMark">LazerMark</option>
-          </select>
-
-          <button className="btn-Z">
-            <a href="#">
-              <img
-                width="18px"
-                src="images/Z.png"
-                // data-tip="<span>Z-button</span>"
-              />
-            </a>
-          </button>
-          {/*   <input
+                />
+              </a>
+            </button>
+            <select className="select-1">
+              <option value="Auto">Auto</option>
+              <option value="Bend">Bend</option>
+              <option value="mercedes">Thread&amp;Tap</option>
+              <option value="LazerMark">Comments to Self</option>
+              <option value="LazerMark">Comments to Machinist</option>
+              <option value="LazerMark">LazerMark</option>
+            </select>
+            <button className="btn-Diameter">
+              <a href="#">
+                <img
+                  width="18px"
+                  src="images/Diameter18.png"
+                  data-place="bottom"
+                  data-tip="<span>Diameter.</br>Distance fully across the circle. To change, enter a value and</br>
+                 press the Enter key.
+                </span>"
+                />
+              </a>
+            </button>
+            <button className="btn-Z tooltip-Z">
+              <a href="#">
+                <img
+                  width="18px"
+                  src="images/Z.png"
+                  data-place="bottom"
+                  data-tip="<span>To make a 3D shape, make a 2D drawling and then set this value</br>
+                 to the distance material will extend perpendicular to the screen.</br>The value specifies the perpendicular
+                 distance for the material<br> inside the associated line, relative to the material
+                  </span>"
+                />
+              </a>
+            </button>
+            {/*   <input
             list="browsers"
             onClick={this.toogleDatalist}
             onMouseEnter={this.toogleDatalist}
@@ -92,6 +106,88 @@ import InputSelect from "./InputSelect";
           </datalist> */}
 
             <InputSelect className="CreatableSelect" />
+            <button className="btn-Question">
+              <a
+                href="https://www.emachineshop.com/help-2d-drawing/#numeric-values"
+                target="_blank"
+                rel="noreferrer noopener"
+              >
+                <img
+                  width="18px"
+                  // src="images/question.png"
+                  src="images/Help.png"
+                  data-tip="<span>Shows how to use numeric values.</span>"
+                />
+              </a>
+            </button>
+          {/* </div>
+          <div> */}
+            <button className="btn-Copy">
+              <a href="#">
+                <img
+                  width="18px"
+                  src="images/copy.png"
+                  // data-tip="<span>Z-button</span>"
+                />
+              </a>
+            </button>
+            <button className="btn-Up">
+              <a href="#">
+                <img
+                  width="18px"
+                  src="images/Up.png"
+                  // data-tip="<span>Z-button</span>"
+                />
+              </a>
+            </button>
+            <button className="btn-Down">
+              <a href="#">
+                <img
+                  width="18px"
+                  src="images/Down.png"
+                  // data-tip="<span>Z-button</span>"
+                />
+              </a>
+            </button>
+            <button className="btn-Left">
+              <a href="#">
+                <img
+                  width="18px"
+                  src="images/Left.png"
+                  // data-tip="<span>Z-button</span>"
+                />
+              </a>
+            </button>
+            <button className="btn-Right">
+              <a href="#">
+                <img
+                  width="18px"
+                  src="images/Right.png"
+                  // data-tip="<span>Z-button</span>"
+                />
+              </a>
+            </button>
+            <input type="text" />
+            <button className="btn-Right">
+              <a href="#">
+                <img
+                  width="18px"
+                  src="images/Unclock.png"
+                  // data-tip="<span>Z-button</span>"
+                />
+              </a>
+            </button>
+            <button className="btn-Right">
+              <a href="#">
+                <img
+                  width="18px"
+                  src="images/Clock.png"
+                  // data-tip="<span>Z-button</span>"
+                />
+              </a>
+            </button>
+            <input type="text" className="InputRotate" />
+          {/* </div> */}
         </form>
       </div>
     );

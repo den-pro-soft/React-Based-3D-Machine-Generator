@@ -21,7 +21,8 @@ const ReactUp = context => {
             data-place="right"
             className="tooltipBackgroundTheme"
           />
-          <button className="btn-Question">
+          
+     { false && <button className="btn-Question">
             <a
               href="https://www.emachineshop.com/help-2d-drawing/#numeric-values"
               target="_blank"
@@ -34,7 +35,7 @@ const ReactUp = context => {
                 data-tip="<span>Shows how to use numeric values.</span>"
               />
             </a>
-          </button>
+          </button>}
           <ToolsPanel/>
           </div>
         </div>
