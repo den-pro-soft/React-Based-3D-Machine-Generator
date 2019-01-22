@@ -15,7 +15,6 @@
     "@material-ui/core": "^3.9.0",
     "react": "^16.7.0",
     "react-dom": "^16.7.0",
-    "react-modal": "^3.8.1",
     "react-select": "^2.3.0",
     "react-tooltip": "^3.9.2",
     "three": "git+https://github.com/mrdoob/three.js.git",
