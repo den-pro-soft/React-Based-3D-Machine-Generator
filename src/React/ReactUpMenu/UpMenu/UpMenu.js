@@ -1,6 +1,6 @@
 import React from "react";
 import "./up-menu.scss";
-import Help from "../DropDownMenu/Help";
+// import Help from "../DropDownMenu/Help";
 import DropDownMenu from "../DropDownMenu/DropDownMenu";
 
 import {DraggablePopup} from './../../../popup';
@@ -71,7 +71,7 @@ const UpMenu = context => {
             <img width="24px" src="images/3DPreview.png" />
           </button>
           <button>
-            <img width="24px" src="images/check2.png" />
+            <img width="18px" src="images/check2.png" />
           </button>
         </div>
       </div>
