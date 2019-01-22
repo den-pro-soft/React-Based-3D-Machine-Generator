@@ -168,9 +168,9 @@ export default class Help extends React.Component {
                 </a>
               </li>
 
-              <li>
+              <li onClick={this.handleClickOpen}>
             
-                <a href="#" onClick={this.handleClickOpen}>
+                <a href="#" >
                   About{this.state.counter}
                 </a>
               </li>
