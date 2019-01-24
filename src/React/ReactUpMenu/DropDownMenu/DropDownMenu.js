@@ -4,7 +4,7 @@ import File from "./File";
 import Edit from "./Edit";
 
 import Line from "./Line";
-import Job from "./Job";
+import Job from "./Job/Job";
 import Help from "./Help/Help";
 
 const DropDownMenu = context => {

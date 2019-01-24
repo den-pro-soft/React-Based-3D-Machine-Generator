@@ -1,0 +1,25 @@
+.Settings{
+    padding:20px;
+    display:flex;
+    justify-content: flex-start;
+    .Menu{
+        width:20%;
+        ul{
+            list-style-type: none;
+            margin: 0;
+            padding: 0; 
+            color:orange;
+            li{
+                .Adress, .Summary, .Payment,.OrderOption{
+                    text-decoration: none;
+                    color:#000;
+                }
+            }   
+        }
+    }
+    .Content{
+        width:80%;
+
+        margin-left:80px;
+    }
+}
