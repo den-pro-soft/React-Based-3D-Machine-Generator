@@ -20,7 +20,6 @@ export default class Help extends React.Component {
       openSubModal: false
     };
 
-    console.log(this.state.open, "constructor.open");
     this.handleClickOpen = this.handleClickOpen.bind(this);
     this.handleClose = this.handleClose.bind(this);
     this.clickSubModal = this.clickSubModal.bind(this);
@@ -33,8 +32,6 @@ export default class Help extends React.Component {
   }
 
   showDropdownMenu(event) {
-    console.log(event);
-    console.log(this.state.open, "showDropMenu-open");
     // event.preventDefault();
     this.setState({ displayMenu: true }, () => {
       document.addEventListener("click", this.hideDropdownMenu);
@@ -48,7 +45,6 @@ export default class Help extends React.Component {
   }
 
   showSubMenu(event) {
-    console.log(event);
     // event.preventDefault();
     this.setState({ displaySubMenu: true }, () => {
       document.addEventListener("click", this.hideSubMenu);
@@ -69,7 +65,6 @@ export default class Help extends React.Component {
       prevState => ({ open: !prevState.open }),
       () => {
         this.setState({ open: this.state.open });
-        console.log(this.state.open, "clickOpen-72");
       }
     );
   }
@@ -79,7 +74,6 @@ export default class Help extends React.Component {
       prevState => ({ open: prevState.open }),
       () => {
         this.setState({ open: this.state.open });
-        console.log(this.state.open, "Close");
       }
     );
   }
@@ -96,14 +90,11 @@ export default class Help extends React.Component {
   }
 
   closeSubModal() {
-    // this.setState({
-    //   openSubModal: false
-    // });
+  
     this.setState(
       prevState => ({ openSubModal: prevState.openSubModal }),
       () => {
         this.setState({ openSubModal: !this.state.openSubModal });
-        console.log(this.state.openSubModal, "Close");
       }
     );
   }
