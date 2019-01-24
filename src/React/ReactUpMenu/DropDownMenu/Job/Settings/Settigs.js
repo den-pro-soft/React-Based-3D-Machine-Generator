@@ -22,30 +22,29 @@ const Settings = (context, props) => {
       <div className="Menu">
         <ul>
           <li>
-            <NavLink className="Adress" exact activeStyle={{ color: "orange" }} to="/">
+            <NavLink className="Adress" exact activeStyle={{ color: "orangered" }} to="/">
               Adress
             </NavLink>
             {/* <Adress onClick={this.props.history.push('/index.html?#/adress')}/> */}
           </li>
           <li>
-            <NavLink className="Payment" activeStyle={{ color: "orange" }} to="/payment">
+            <NavLink className="Payment" activeStyle={{ color: "orangered" }} to="/payment">
               Payment
             </NavLink>
           </li>
           <li>
-            <NavLink className="OrderOption" activeStyle={{ color: "orange" }} to="/order-options">
+            <NavLink className="OrderOption" activeStyle={{ color: "orangered" }} to="/order-options">
               OrderOption
             </NavLink>
           </li>
           <li>
-            <NavLink className="Summary" activeStyle={{ color: "orange" }} to="/summary">
+            <NavLink className="Summary" activeStyle={{ color: "orangered" }} to="/summary">
               Summary
             </NavLink>
           </li>
         </ul>
       </div>
       <div className="Content">
-        Content
         <Switch>
           <Route path="/" exact render={() => <Adress />} />
           <Route path="/payment" component={Payment} />

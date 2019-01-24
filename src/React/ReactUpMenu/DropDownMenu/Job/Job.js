@@ -14,7 +14,6 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 export default class Job extends React.Component {
   constructor(props,context) {
     super(props,context);
-    console.log(context,props,'context,props in Job')
     this.state = {
       displayMenu: false,
       openSubModal: false
@@ -103,15 +102,15 @@ export default class Job extends React.Component {
         <Dialog
           onClick={this.clickSubModal}
           fullScreen={true}
-          fullWidth={false}
+          // fullWidth={false}
           style={{
             backgroundColor: "transparent",
             // width: "1600px",
             // height: "750px",
             width: "100vw",
             height: "100vh",
-            // paddingTop:'50px',
-            // paddingBottom:'50px'
+            // marginTop:'30px',
+            // marginBottom:'50px'
             // margin: "0 auto"
           }}
           // onClick={this.handleClickOpen}
@@ -136,8 +135,10 @@ export default class Job extends React.Component {
           {/* <div */}
           <DialogContent 
           // fullWidth={true}
+          // classes={{container:{width:"1600px"}}}
+// maxWidth="lg"
         style={{ 
-        /*width: "2400px",height:'800px',*/background: "#a8a7a7", padding: 0,margin:0 
+        /*width: "800px",height:'800px',*/background: "#a8a7a7", padding: 0,margin:0 
 
          }}
 
