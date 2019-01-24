@@ -1,5 +1,8 @@
 import React from "react";
 import "./Adress.scss";
+import Button from "@material-ui/core/Button";
+import Link from "@material-ui/core/Link";
+// import { Link } from 'react-router-dom';
 import { withRouter } from "react-router-dom";
 
 export default class Adress extends React.Component {
@@ -7,12 +10,15 @@ export default class Adress extends React.Component {
     super(props);
     this.state = {
       isChecked: false,
-      bottomFieldset: false
+      bottomFieldset: false,
+      statesUSA:false
     };
     console.log(this.state, "this.state");
     this.handleChecked = this.handleChecked.bind(this);
   }
   handleChecked(event) {
+    event.preventDefault();
+
     console.log(this.state.isChecked, "Checked before");
     console.log(this.state.bottomFieldset, "fieldset before");
 
@@ -30,14 +36,13 @@ export default class Adress extends React.Component {
     //   // }
     // );
     this.setState({
-      isChecked:event.target.checked,
+      isChecked: !event.target.checked,
       // isChecked: !this.state.isChecked,
       bottomFieldset: !this.state.bottomFieldset
     });
     // this.setState({ isChecked: !this.state.isChecked, bottomFieldset:!this.state.bottomFieldset });
     console.log(this.state.isChecked, "checked after");
     console.log(this.state.bottomFieldset, "fieldset after");
-
   }
 
   render() {
@@ -78,7 +83,58 @@ export default class Adress extends React.Component {
       "Spain",
       "Turkey"
     ];
-
+    const statesUSA = [
+      "AL",
+      "AK",
+      "AZ",
+      "AR",
+      "CA",
+      "CO",
+      "CT",
+      "DE",
+      "FL",
+      "GA",
+      "HI",
+      "ID",
+      "IL",
+      "IN",
+      "IA",
+      "KS",
+      "KY",
+      "LA",
+      "ME",
+      "MD",
+      "MA",
+      "MI",
+      "MN",
+      "MS",
+      "MO",
+      "MT",
+      "NE",
+      "NV",
+      "NH",
+      "NJ",
+      "NM",
+      "NY",
+      "NC",
+      "ND",
+      "OH",
+      "OK",
+      "OR",
+      "PA",
+      "RI",
+      "SC",
+      "SD",
+      "TN",
+      "TX",
+      "UT",
+      "VT",
+      "VA",
+      "WA",
+      "WV",
+      "WI",
+      "WY"
+    ];
     return (
       <div className="Adress">
         <form>
@@ -160,8 +216,15 @@ export default class Adress extends React.Component {
                 <br />
                 <input type="text" />
                 <br />
-                <input type="text" />
-                <br />
+                {this.state.statesUSA &&  <input type="text" />}
+                  <select>
+                    {statesUSA.map((item, i) => (
+                      <option value={item} key={i}>
+                        {item}
+                      </option>
+                    ))}
+                  </select>
+                  <br />
                 <input type="text" />
                 <br />
                 <select>
@@ -215,7 +278,14 @@ export default class Adress extends React.Component {
                   <br />
                   <input type="text" />
                   <br />
-                  <input type="text" />
+               {this.state.statesUSA &&  <input type="text" />}
+                  <select>
+                    {statesUSA.map((item, i) => (
+                      <option value={item} key={i}>
+                        {item}
+                      </option>
+                    ))}
+                  </select>
                   <br />
                   <input type="text" />
                   <br />
@@ -235,7 +305,15 @@ export default class Adress extends React.Component {
               </div>
               <div className="CopyBlock">
                 <div>Must match the billing adress on file for credit card</div>
-                <button>Copy</button>
+                {/* <button>Copy</button> */}
+                <Button
+                  size="small"
+                  // onClick={this.closeSubModal}
+                  style={{ backgroundColor: "#fff", color: "orangered" }}
+                  autoFocus
+                >
+                  Copy
+                </Button>
               </div>
             </fieldset>
           )}
