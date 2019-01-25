@@ -138,7 +138,7 @@ export default class Job extends React.Component {
           // classes={{container:{width:"1600px"}}}
 // maxWidth="lg"
         style={{ 
-        /*width: "800px",height:'800px',*/background: "#a8a7a7", padding: 0,margin:0 
+        /*width: "800px",height:'800px',*/background: "#f0ecec", padding: 0,margin:0 
 
          }}
 
@@ -155,7 +155,7 @@ export default class Job extends React.Component {
           <DialogActions>
             <Button
               onClick={this.closeSubModal}
-              style={{ backgroundColor: "#808080", color: "orange" }}
+              style={{ backgroundColor: "#f0ecec", color: "orangered" }}
               color="primary"
               autoFocus
             >
@@ -163,7 +163,7 @@ export default class Job extends React.Component {
             </Button>
             <Button
               onClick={this.closeSubModal}
-              style={{ backgroundColor: "#808080", color: "orange" }}
+              style={{ backgroundColor: "#f0ecec", color: "orangered" }}
               color="primary"
               autoFocus
             >
@@ -171,7 +171,7 @@ export default class Job extends React.Component {
             </Button>
             <Button
               onClick={this.closeSubModal}
-              style={{ backgroundColor: "#808080", color: "orange" }}
+              style={{ backgroundColor: "#f0ecec", color: "orangered" }}
               color="primary"
               autoFocus
             >

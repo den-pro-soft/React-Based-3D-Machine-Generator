@@ -15,13 +15,11 @@ export default class Adress extends React.Component {
       provinceOther:false,
       valueTopCountries: 'Canada'
     };
-    this.handleChecked = this.handleChecked.bind(this);
+    // this.handleChecked = this.handleChecked.bind(this);
   }
 
-  componentDidMount(){
 
-  }
-  handleChecked(event) {
+  handleChecked=(event) =>{
     window.setTimeout(
         () =>{
             this.setState({
@@ -318,7 +316,6 @@ export default class Adress extends React.Component {
                 {/* <button>Copy</button> */}
                 <Button
                   size="small"
-                  // onClick={this.closeSubModal}
                   style={{ backgroundColor: "#fff", color: "orangered" }}
                   autoFocus
                 >
