@@ -10,42 +10,29 @@ export default class Adress extends React.Component {
     super(props);
     this.state = {
       isChecked: false,
-      bottomFieldset: false,
-      statesUSA:false
+      statesUSA:false,
+      statesCanada:true,
+      provinceOther:false,
+      valueTopCountries: 'Canada'
     };
-    console.log(this.state, "this.state");
     this.handleChecked = this.handleChecked.bind(this);
   }
+
+  componentDidMount(){
+
+  }
   handleChecked(event) {
-    event.preventDefault();
-
-    console.log(this.state.isChecked, "Checked before");
-    console.log(this.state.bottomFieldset, "fieldset before");
-
-    // this.setState(
-    //   prevState => ({
-    //     isChecked: !prevState.isChecked,
-    //     bottomFieldset: prevState.bottomFieldset
-    //   })
-    //   // ,
-    //   // () => {
-    //   //   this.setState({
-    //   //     isChecked: this.state.isChecked,
-    //   //     bottomFieldset: !this.state.bottomFieldset
-    //   //   });
-    //   // }
-    // );
-    this.setState({
-      isChecked: !event.target.checked,
-      // isChecked: !this.state.isChecked,
-      bottomFieldset: !this.state.bottomFieldset
-    });
-    // this.setState({ isChecked: !this.state.isChecked, bottomFieldset:!this.state.bottomFieldset });
-    console.log(this.state.isChecked, "checked after");
-    console.log(this.state.bottomFieldset, "fieldset after");
+    window.setTimeout(
+        () =>{
+            this.setState({
+                isChecked: !this.state.isChecked,
+            });
+        }, 0);
   }
 
+
   render() {
+    
     const countries = [
       "U.S.A.",
       "Canada",
@@ -135,6 +122,20 @@ export default class Adress extends React.Component {
       "WI",
       "WY"
     ];
+    const statesCanada = [
+      "AB",
+      "BC",
+      "MB","NB",
+      "NL",
+      "NS",
+      "NT",
+      "NU",
+      "ON",
+      "PE",
+      "QC",
+      "SK",
+      "YT"]
+    
     return (
       <div className="Adress">
         <form>
@@ -190,19 +191,15 @@ export default class Adress extends React.Component {
                   <span>*</span>Adress Line 1:
                 </div>
                 <div>
-                  {" "}
                   <span style={{ color: "transparent" }}>*</span>Adress Line 2:
                 </div>
                 <div>
-                  {" "}
                   <span>*</span>City:
                 </div>
                 <div>
-                  {" "}
                   <span>*</span>State of province:
                 </div>
                 <div>
-                  {" "}
                   <span>*</span>ZIP or postal code:
                 </div>
                 <div>
@@ -216,14 +213,23 @@ export default class Adress extends React.Component {
                 <br />
                 <input type="text" />
                 <br />
-                {this.state.statesUSA &&  <input type="text" />}
-                  <select>
+                {this.state.provinceOther &&  <input type="text" />}
+                {this.state.statesUSA &&      <select>
                     {statesUSA.map((item, i) => (
+                      // <option value={this.setState({valueTopCountries:item})} key={i}>
+                      <option value={item} key={i}>
+
+                        {item}
+                      </option>
+                    ))}
+                  </select>}
+                  {this.state.statesCanada && <select>
+                    {statesCanada.map((item, i) => (
                       <option value={item} key={i}>
                         {item}
                       </option>
                     ))}
-                  </select>
+                  </select>}
                   <br />
                 <input type="text" />
                 <br />
@@ -240,20 +246,17 @@ export default class Adress extends React.Component {
           </fieldset>
           <div
             style={{ padding: "10px" }}
-            // onClick={()=>this.handleChecked()}
           >
             <input
               type="checkbox"
               checked={this.state.isChecked}
-              onClick={this.handleChecked}
               onChange={this.handleChecked}
             />
             Billing adress (enter only if different from shipping adress)
             <br />
           </div>
-          {this.state.bottomFieldset && (
+          {this.state.isChecked && (
             <fieldset className="Fieldset">
-              {/* <legend></legend> */}
               <div className="InputLabel-Block InputBlock-Hide">
                 <div className="Label">
                   <div>First Name:</div>
@@ -278,14 +281,21 @@ export default class Adress extends React.Component {
                   <br />
                   <input type="text" />
                   <br />
-               {this.state.statesUSA &&  <input type="text" />}
-                  <select>
+               {this.state.provinceOther &&  <input type="text" />}
+               {this.state.statesUSA &&    <select>
                     {statesUSA.map((item, i) => (
                       <option value={item} key={i}>
                         {item}
                       </option>
                     ))}
-                  </select>
+                  </select>}
+                  {this.state.statesCanada &&   <select>
+                    {statesCanada.map((item, i) => (
+                      <option value={item} key={i}>
+                        {item}
+                      </option>
+                    ))}
+                  </select>}
                   <br />
                   <input type="text" />
                   <br />
