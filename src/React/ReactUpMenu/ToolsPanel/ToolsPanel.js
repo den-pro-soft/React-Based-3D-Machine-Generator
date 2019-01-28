@@ -7,6 +7,8 @@ import InputSelect from "./InputSelect";
 
 // const ToolsPanel = context => {
 export default class ToolsPanel extends React.Component {
+
+
   render() {
     // const data = [
     //   "0.002",
@@ -131,7 +133,7 @@ export default class ToolsPanel extends React.Component {
                 />
               </a>
             </button>
-            <button className="btn-Up">
+            <button className="btn-Up" onClick={()=>{app.moveSelected(0,this.moveValue);}}>
               <a href="#">
                 <img
                   width="18px"
@@ -140,7 +142,7 @@ export default class ToolsPanel extends React.Component {
                 />
               </a>
             </button>
-            <button className="btn-Down">
+            <button className="btn-Down" onClick={()=>{app.moveSelected(0,-this.moveValue);}}>
               <a href="#">
                 <img
                   width="18px"
@@ -149,7 +151,7 @@ export default class ToolsPanel extends React.Component {
                 />
               </a>
             </button>
-            <button className="btn-Left">
+            <button className="btn-Left" onClick={()=>{app.moveSelected(-this.moveValue,0);}}>
               <a href="#">
                 <img
                   width="18px"
@@ -158,7 +160,7 @@ export default class ToolsPanel extends React.Component {
                 />
               </a>
             </button>
-            <button className="btn-Right">
+            <button className="btn-Right" onClick={()=>{app.moveSelected(this.moveValue,0);}}>
               <a href="#">
                 <img
                   width="18px"
@@ -167,8 +169,8 @@ export default class ToolsPanel extends React.Component {
                 />
               </a>
             </button>
-            <input type="text" />
-            <button className="btn-Right">
+            <input type="text" onChange={(e) =>{this.moveValue = e.target.value;}}/>
+            <button className="btn-Right" onClick={()=>{app.rotateSelected(-this.rotateStep);}}>
               <a href="#">
                 <img
                   width="18px"
@@ -177,7 +179,7 @@ export default class ToolsPanel extends React.Component {
                 />
               </a>
             </button>
-            <button className="btn-Right">
+            <button className="btn-Right" onClick={()=>{app.rotateSelected(this.rotateStep);}}>
               <a href="#">
                 <img
                   width="18px"
@@ -186,10 +188,15 @@ export default class ToolsPanel extends React.Component {
                 />
               </a>
             </button>
-            <input type="text" className="InputRotate" />
+            <input type="text" className="InputRotate" onChange={(e) =>{this.rotateStep = e.target.value;}}/>
           {/* </div> */}
         </form>
       </div>
     );
   }
 }
+
+ToolsPanel.protoTypes = {
+  moveValue:1,
+  rotateStep:10
+};
