@@ -52,7 +52,7 @@ const UpMenu = context => {
           </button>
         </div>
         <div className="btn-group-other">
-          <button>
+          <button onClick={() => app.deleteSelected()}>
             <img width="24px" src="images/Delete.png" />
           </button>
           <button>
