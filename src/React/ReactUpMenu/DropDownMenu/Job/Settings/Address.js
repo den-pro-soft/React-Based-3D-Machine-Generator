@@ -1,5 +1,5 @@
 import React from "react";
-import "./address.scss";
+import "./Address.scss";
 import Button from "@material-ui/core/Button";
 import Checkbox from "@material-ui/core/Checkbox";
 
