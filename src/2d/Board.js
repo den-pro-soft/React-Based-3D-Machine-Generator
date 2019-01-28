@@ -314,6 +314,30 @@ export default class Board {
     }
 
     /**
+     * @param {Array.<Point>} points
+     */
+    drawPolyLine(points){
+        let localPoints = [];
+        for(let p of points){
+            localPoints.push(this._convertToLocalCoordinateSystem(p));
+        }
+        this._drawPolyLine(localPoints);
+    }
+
+    /**
+     * @param {Array.<{x: number, y: number}>}points
+     * @private
+     */
+    _drawPolyLine(points){
+        this._context.beginPath();
+        this._context.moveTo(parseInt(points[0].x), parseInt(points[0].y));
+        for(let i=1; i<points.length; i++) {
+            this._context.lineTo(points[i].x, points[i].y);
+        }
+        this._context.stroke();
+    }
+
+    /**
      * @param {{x: number, y: number}} center
      * @param {number} radius - in pixel
      * @param {boolean} fill

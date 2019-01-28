@@ -70,15 +70,10 @@ export default class SplineTool extends Tool{
 
     _setEndSplinePoint(point){
         this._spline.endPoint=point;
-        let line = new Line(this._spline.startPoint, point);
-
-        let length = line.length();
-        let t = line.getPointOffset(0.5);
-
-        let dx = point.x-this._spline.startPoint.x;
-        let dy = point.y-this._spline.startPoint.y;
-        let delta = dx/dy;
-        this._spline.controlPoint1 = new Point(t.x-(length/4)*(1/delta),t.y-(length/4)*(1-1/delta));
-        this._spline.controlPoint2 = new Point(t.x+(length/4)*(1/delta),t.y+(length/4)*(1-1/delta));
+        let line = new Line(this._spline.startPoint.copy(),  point.copy());
+        let center = line.getCenter();
+        line.rotate(center,65);
+        this._spline.controlPoint1 = line.p1;
+        this._spline.controlPoint2 = line.p2;
     }
 }
