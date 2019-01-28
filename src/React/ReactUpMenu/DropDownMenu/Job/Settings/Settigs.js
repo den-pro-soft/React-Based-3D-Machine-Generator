@@ -1,6 +1,6 @@
 import React from "react";
 import "./settings.scss";
-import Adress from "./Adress";
+import Address from "./Address";
 import Payment from "./Payment";
 import OrderOptions from "./OrderOptions";
 import Summary from "./Summary";
@@ -22,8 +22,8 @@ const Settings = (context, props) => {
       <div className="Menu">
         <ul>
           <li>
-            <NavLink className="Adress" exact activeStyle={{ color: "orangered" }} to="/">
-              Adress
+            <NavLink className="Address" exact activeStyle={{ color: "orangered" }} to="/">
+              Address
             </NavLink>
             {/* <Adress onClick={this.props.history.push('/index.html?#/adress')}/> */}
           </li>
@@ -34,7 +34,7 @@ const Settings = (context, props) => {
           </li>
           <li>
             <NavLink className="OrderOption" activeStyle={{ color: "orangered" }} to="/order-options">
-              OrderOption
+              Order Options
             </NavLink>
           </li>
           <li>
@@ -46,7 +46,7 @@ const Settings = (context, props) => {
       </div>
       <div className="Content">
         <Switch>
-          <Route path="/" exact render={() => <Adress />} />
+          <Route path="/" exact render={() => <Address />} />
           <Route path="/payment" component={Payment} />
           <Route path="/order-options" component={OrderOptions} />
           <Route path="/summary" component={Summary} />

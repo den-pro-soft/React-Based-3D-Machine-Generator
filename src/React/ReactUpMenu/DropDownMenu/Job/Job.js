@@ -142,7 +142,7 @@ export default class Job extends React.Component {
               color="primary"
               autoFocus
             >
-              Cansel
+              Cancel
             </Button>
             <Button
               onClick={this.closeSubModal}
