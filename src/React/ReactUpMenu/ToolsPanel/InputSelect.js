@@ -95,7 +95,6 @@ export default class InputSelect extends React.Component {
         color: "orange"
       })
     };
-    console.log(this.state.displayInputSelect, "++");
 
     return (
       <CreatableSelect

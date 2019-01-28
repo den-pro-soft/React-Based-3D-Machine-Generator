@@ -1,6 +1,6 @@
 import React from "react";
 import "./job.scss";
-import Settings from "./Settings/Settigs"
+import Settings from "./Settings/Settigs";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import Link from "@material-ui/core/Link";
@@ -12,8 +12,8 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 // import classNames from 'classnames';
 // import { withStyles } from '@material-ui/core/styles';
 export default class Job extends React.Component {
-  constructor(props,context) {
-    super(props,context);
+  constructor(props, context) {
+    super(props, context);
     this.state = {
       displayMenu: false,
       openSubModal: false
@@ -21,8 +21,8 @@ export default class Job extends React.Component {
 
     this.showDropdownMenu = this.showDropdownMenu.bind(this);
     this.hideDropdownMenu = this.hideDropdownMenu.bind(this);
-    this.clickSubModal = this.clickSubModal.bind(this);
-    this.closeSubModal = this.closeSubModal.bind(this);
+    // this.clickSubModal = this.clickSubModal.bind(this);
+    // this.closeSubModal = this.closeSubModal.bind(this);
   }
 
   showDropdownMenu(event) {
@@ -38,7 +38,7 @@ export default class Job extends React.Component {
     });
   }
   // --------------methods for SubModal Window-------------------------------------
-  clickSubModal(event) {
+  clickSubModal = event => {
     event.preventDefault();
     this.setState({
       openSubModal: true
@@ -47,9 +47,9 @@ export default class Job extends React.Component {
       //   this.setState({ open: this.state.open });
       //   console.log(this.state.open, "clickOpen-72");
     });
-  }
+  };
 
-  closeSubModal() {
+  closeSubModal = () => {
     // this.setState({
     //   openSubModal: false
     // });
@@ -60,11 +60,11 @@ export default class Job extends React.Component {
         console.log(this.state.openSubModal, "Close");
       }
     );
-  }
+  };
   render() {
     // const contenClass={
     //   root:{
-    //     width: "1600px",height:'800px',background: "#a8a7a7", padding: 0,margin:0 
+    //     width: "1600px",height:'800px',background: "#a8a7a7", padding: 0,margin:0
     //   }
     // }
     return (
@@ -101,55 +101,30 @@ export default class Job extends React.Component {
         </div>
         <Dialog
           onClick={this.clickSubModal}
-          fullScreen={true}
-          // fullWidth={false}
-          style={{
-            backgroundColor: "transparent",
-            // width: "1600px",
-            // height: "750px",
-            width: "100vw",
-            height: "100vh",
-            // marginTop:'30px',
-            // marginBottom:'50px'
-            // margin: "0 auto"
-          }}
-          // onClick={this.handleClickOpen}
+          maxWidth={false}
           open={this.state.openSubModal}
           onClose={this.handleClose}
           aria-labelledby="alert-dialog-title"
           aria-describedby="alert-dialog-description"
         >
-        
-            <DialogTitle
-              style={{ height: "10px", color: "black", textAlign: "left" }}
-              id="alert-dialog-title"
-            >
-              <img
-                width="25px"
-                src="images/icon.jpg"
-                // data-tip="<span>Shows how to use numeric values.</span>"
-              />
-              <span>Job settings</span>
-            </DialogTitle>
-        
-          {/* <div */}
-          <DialogContent 
-          // fullWidth={true}
-          // classes={{container:{width:"1600px"}}}
-// maxWidth="lg"
-        style={{ 
-        /*width: "800px",height:'800px',*/background: "#f0ecec", padding: 0,margin:0 
-
-         }}
-
-          //  maxWidth="1600px"
-          //  classes={contenClass.root}
+          <DialogTitle
+            style={{ /*height: "30px",*/ color: "black", textAlign: "left" }}
+            id="alert-dialog-title"
           >
-          <Settings 
-          // style={{ marginTop:'50px',
-          //   marginBottom:'50px'}}
+            <img
+              width="25px"
+              src="images/icon.jpg"
+              // data-tip="<span>Shows how to use numeric values.</span>"
             />
-      {/* </div> */}
+            <span>Job settings</span>
+          </DialogTitle>
+
+          <DialogContent
+            // classes={{ root: 'styleDialog', container: 'container' }}
+
+            style={{ width: "950px",height:'425px', backgroundColor: "#f0ecec" }}
+          >
+            <Settings />
           </DialogContent>
 
           <DialogActions>

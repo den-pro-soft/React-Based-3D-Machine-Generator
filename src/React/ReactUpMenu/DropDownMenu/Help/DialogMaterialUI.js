@@ -1,168 +1,100 @@
 import React from "react";
-import "./help.scss";
-import DialogMaterialUi from "./DialogMaterialUI";
+import { Fragment } from "react";
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
+export default class DialogMaterialUi extends React.Component {
+    constructor(props){
+super(props);
+console.log(this.props.open,'props.open');
+this.state={
+    open: this.props.open,
+    openSubModal: false
+}
+console.log(this.state.open,'state.open');
 
-export default class Help extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      displayMenu: false,
-      displaySubMenu: false,
-      open: false,
-      openSubModal: false
-    };
-
-    this.showDropdownMenu = this.showDropdownMenu.bind(this);
-    this.hideDropdownMenu = this.hideDropdownMenu.bind(this);
-    this.showSubMenu = this.showSubMenu.bind(this);
-    this.hideSubMenu = this.hideSubMenu.bind(this);
-  }
-
-  showDropdownMenu(event) {
-    // event.preventDefault();
-    this.setState({ displayMenu: true }, () => {
-      document.addEventListener("click", this.hideDropdownMenu);
-    });
-  }
-
-  hideDropdownMenu() {
-    this.setState({ displayMenu: false }, () => {
-      document.removeEventListener("click", this.hideDropdownMenu);
-    });
-  }
-
-  showSubMenu(event) {
-    // event.preventDefault();
-    this.setState({ displaySubMenu: true }, () => {
-      document.addEventListener("click", this.hideSubMenu);
-    });
-  }
-
-  hideSubMenu() {
-    this.setState({ displaySubMenu: false }, () => {
-      document.removeEventListener("click", this.hideSubMenu);
-    });
-  }
-
+    }
+    componentDidMount(){
+        this.setState=({
+            open: this.props.open,
+        })
+        console.log(this.state.open,'didMount')
+    }
   // -----Dialog MOdal-----
 
-  handleClickOpen = event => {
-    event.preventDefault();
-    this.setState(
-      prevState => ({ open: !prevState.open }),
-      () => {
-        this.setState({ open: this.state.open });
-      }
-    );
-  };
+//   handleClickOpen=(event)=> {
+//     event.preventDefault();
+//     this.setState(
+//       prevState => ({ open: !prevState.open }),
+//       () => {
+//         this.setState({ open: this.state.open });
+//       }
+//     );
+//   }
 
-  handleClose = () => {
-    this.setState(
-      prevState => ({ open: prevState.open }),
-      () => {
-        this.setState({ open: !this.state.open });
-      }
-    );
-  };
-  // --------------methods for SubModal Window-------------------------------------
-  clickSubModal = event => {
+//   handleClose=()=> {
+//     this.setState(
+//       prevState => ({ open: prevState.open }),
+//       () => {
+//         this.setState({ open: this.state.open });
+//       }
+//     );
+//   }
+handleClose=(e)=> {
+    e.preventDefault();
+    // this.setState(
+    //   prevState => ({ open: prevState.open }),
+    //   () => {
+    //     this.setState({ open: this.state.open });
+    //   }
+    // );
+    // this.state.open=this.props.open;
+    this.setState({open:!this.props.open})
+    console.log(this.state.open,'close')
+  }
+//   --------------methods for SubModal Window-------------------------------------
+  clickSubModal=(event)=> {
     event.preventDefault();
     this.setState({
       openSubModal: true
+     
     });
-  };
+  }
 
-  closeSubModal = () => {
+  closeSubModal=()=> {
+  
     this.setState(
       prevState => ({ openSubModal: prevState.openSubModal }),
       () => {
         this.setState({ openSubModal: !this.state.openSubModal });
       }
     );
-  };
-  render() {
-    const { open } = this.state;
-    return (
-      <div className="Help">
-        <div
-          className="btn-Help"
-          // onClick={this.showDropdownMenu}
-          onMouseEnter={this.showDropdownMenu}
-          onMouseLeave={this.hideDropdownMenu}
-        >
-          Help
-          {this.state.displayMenu ? (
-            <ul>
-              <li
-                onMouseEnter={this.showSubMenu}
-                onMouseLeave={this.hideSubMenu}
-                onClick={this.handleClickOpen}
-              >
-                <a href="#">
-                  <span>Drawing Tutorials</span>
-                  <span>&#x25BA;</span>
-                </a>
-                {this.state.displaySubMenu ? (
-                  <ul className="Submenu">
-                    <li>
-                      <a href="#">Flat 2D</a>
-                    </li>
-                    <li>
-                      <a href="#">Bend 2D</a>
-                    </li>
-                  </ul>
-                ) : null}
-              </li>
-              <li>
-                <a
-                  href="https://www.emachineshop.com/help/"
-                  target="_blank"
-                  rel="noreferrer noopener"
-                >
-                  Contents
-                </a>
-              </li>
-              <li>
-                <a
-                  href="https://www.emachineshop.com/video-tutorials/"
-                  target="_blank"
-                  rel="noreferrer noopener"
-                >
-                  Video Tutorials
-                </a>
-              </li>
-              <li>
-                <a href="#">Windows version</a>
-              </li>
-              <li>
-                <a href="#">Tech Support</a>
-              </li>
+  }
+      render(){
+console.log(this.state.open,'render-state.open');
 
-              <li onClick={this.handleClickOpen}>
-                <a href="#">About</a>
-              </li>
-            </ul>
-          ) : null}
-        </div>
-        <Dialog
-          // style={{
-          //   backgroundColor: "transparent",
-          //   width: "400px",
-          //   height: "750px",
-          //   margin: "0 auto"
-          // }}
+  return (
+    <Fragment>
+  <Dialog
+        //   onClick={this.handleClickOpen}
+          style={{
+            backgroundColor: "transparent",
+            width: "400px",
+            height: "750px",
+            margin: "0 auto"
+          }}
+        //   open={this.state.open}
           open={this.state.open}
+
+          // onClose={this.handleClose}
           aria-labelledby="alert-dialog-title"
           aria-describedby="alert-dialog-description"
         >
           <DialogTitle
-            // style={{ height: "10px", color: "black", textAlign: "center" }}
+            style={{ height: "10px", color: "black", textAlign: "center" }}
             id="alert-dialog-title"
           >
             About eMashine shop
@@ -171,78 +103,83 @@ export default class Help extends React.Component {
             className="Content"
             style={{ background: "#f0ecec", padding: 10 }}
           >
-            <div
-              id="alert-dialog-description"
-              style={{ height: "320px", width: "280px", color: "black" }}
-            >
+            {/* <Typography> */}
               <div
-                className="ContentHeader"
-                style={{ display: "flex", alignItems: "flex-start" }}
+                id="alert-dialog-description"
+                style={{ height: "320px", width: "280px", color: "black" }}
               >
-                <img
-                  width="45px"
-                  src="images/icon.jpg"
-                  // data-tip="<span>Shows how to use numeric values.</span>"
-                />
-                <DialogContentText
-                  style={{ textAlign: "center", color: "black" }}
+                <div
+                  className="ContentHeader"
+                  style={{ display: "flex", alignItems: "flex-start" }}
                 >
-                  {" "}
-                  eMashine Shop&reg;Version 1.931.1.26
-                </DialogContentText>
-              </div>
-              <div
-                className="ContentTop"
-                style={{
-                  textAlign: "center",
-                  borderBottom: "1px solid black",
-                  padding: 5
-                }}
-              >
-                <DialogContentText>
-                  {" "}
-                  Compilation Data: 22.11.2018
-                </DialogContentText>
-                <DialogContentText> Price file number: 3527</DialogContentText>
-                <DialogContentText>
-                  {" "}
-                  Program folder: C:\ProgramFiles(x86)\eMashineshop
-                </DialogContentText>
-              </div>
-              <div
-                className="ContentBottom"
-                style={{ textAlign: "center", padding: 0 }}
-              >
-                <DialogContentText
-                  style={{ margonBottom: "5px", padding: "5px" }}
-                >
-                  {" "}
-                  Copyright&copy; 2003-2018 eMashineshop&reg;
-                </DialogContentText>
-                <DialogContentText style={{ margon: "5px", padding: "5px" }}>
-                  {" "}
-                  CAD version is current
-                </DialogContentText>
-                <DialogContentText style={{ margon: "5px", padding: "5px" }}>
-                  {" "}
-                  Price File is current
-                </DialogContentText>
-                <DialogContentText>
-                  <a
-                    href="https://www.emachineshop.com/"
-                    target="_blank"
-                    rel="noreferrer noopener"
+                  <img
+                    width="45px"
+                    src="images/icon.jpg"
+                    // data-tip="<span>Shows how to use numeric values.</span>"
+                  />
+                  <DialogContentText
+                    style={{ textAlign: "center", color: "black" }}
                   >
-                    www.emachineshop.com
-                  </a>
-                </DialogContentText>
+                    {" "}
+                    eMashine Shop&reg;Version 1.931.1.26
+                  </DialogContentText>
+                </div>
+                <div
+                  className="ContentTop"
+                  style={{
+                    textAlign: "center",
+                    borderBottom: "1px solid black",
+                    padding: 5
+                  }}
+                >
+                  <DialogContentText>
+                    {" "}
+                    Compilation Data: 22.11.2018
+                  </DialogContentText>
+                  <DialogContentText>
+                    {" "}
+                    Price file number: 3527
+                  </DialogContentText>
+                  <DialogContentText>
+                    {" "}
+                    Program folder: C:\ProgramFiles(x86)\eMashineshop
+                  </DialogContentText>
+                </div>
+                <div
+                  className="ContentBottom"
+                  style={{ textAlign: "center", padding: 0 }}
+                >
+                  <DialogContentText
+                    style={{ margonBottom: "5px", padding: "5px" }}
+                  >
+                    {" "}
+                    Copyright&copy; 2003-2018 eMashineshop&reg;
+                  </DialogContentText>
+                  <DialogContentText style={{ margon: "5px", padding: "5px" }}>
+                    {" "}
+                    CAD version is current
+                  </DialogContentText>
+                  <DialogContentText style={{ margon: "5px", padding: "5px" }}>
+                    {" "}
+                    Price File is current
+                  </DialogContentText>
+                  <DialogContentText>
+                    <a
+                      href="https://www.emachineshop.com/"
+
+                      target="_blank"
+                      rel="noreferrer noopener"
+                    >
+                      www.emachineshop.com
+                    </a>
+                  </DialogContentText>
+                </div>
               </div>
-            </div>
           </DialogContent>
 
           <DialogActions>
             <Button
-              onClick={this.clickSubModal}
+            //   onClick={this.clickSubModal}
               style={{ backgroundColor: "#f0ecec", color: "orangered" }}
               color="primary"
             >
@@ -261,7 +198,7 @@ export default class Help extends React.Component {
         {/* ----------------------------------------------------------------------   */}
         {/* SubModalWindow-License */}
 
-        <Dialog
+        {/* <Dialog
           onClick={this.clickSubModal}
           style={{
             width: "800px",
@@ -404,9 +341,8 @@ export default class Help extends React.Component {
               OK
             </Button>
           </DialogActions>
-        </Dialog>
-        {/* <DialogMaterialUi open={this.state.open} /> */}
-      </div>
-    );
-  }
+        </Dialog> */}
+    </Fragment>
+  );
+}
 }
