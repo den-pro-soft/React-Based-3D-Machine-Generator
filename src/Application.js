@@ -10,6 +10,8 @@ import GroupCommand from './2d/command/GroupCommand';
 import UngroupCommand from './2d/command/UngroupCommand';
 import DeleteElementCommand from './2d/command/DeleteElementCommand';
 import ChangeElementsHeightCommand from './2d/command/ChangeElementsHeightCommand';
+import MoveElementsCommand from './2d/command/MoveElementsCommand';
+import RotateElementsCommand from './2d/command/RotateElementsCommand';
 
 /**
  * The main application class is a facade for board
@@ -121,6 +123,22 @@ class Application{
 
     setElementsHeight(height){
         this.executeCommand(new ChangeElementsHeightCommand(app.currentDocument, app.selectElements, height));
+    }
+
+    /**
+     * 
+     * @param {number} x
+     * @param {number} y
+     */
+    moveSelected(x,y){
+        this.executeCommand(new MoveElementsCommand(app.currentDocument, app.selectElements, x,y));
+    }
+
+    /**
+     * @param angle
+     */
+    rotateSelected(angle){
+        this.executeCommand(new RotateElementsCommand(app.currentDocument, app.selectElements, angle));
     }
 
     addHandler(eventName, handler){
