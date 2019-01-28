@@ -6,7 +6,7 @@ import GraphicElement from './../GraphicElement';
 import LineRenderer from './../../2d/renderer/LineRenderer';
 import Point from "../Point";
 import Martix from '../math/Matrix';
-
+import Trigonometric from './../math/Trigonometric'
 
 export default class Line extends GraphicElement{
     constructor(p1, p2){
