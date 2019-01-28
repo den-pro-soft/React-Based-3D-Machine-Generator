@@ -16,6 +16,8 @@ export default class SplineTool extends Tool{
 
         /** @var {Spline} */
         this._spline = null;
+
+        this.step = 0;
     }
 
     mouseMove(point){
@@ -32,7 +34,9 @@ export default class SplineTool extends Tool{
     }
 
     mouseClick(point){
-        this._line=null;
+        if(this.step==2) {
+            this._spline = null;
+        }
     }
 
     mouseDown(point){
@@ -40,15 +44,20 @@ export default class SplineTool extends Tool{
             this._spline = new Spline(point, point);
             this._setEndSplinePoint(point);
             this._spline._renderer.drawAsNew();
+            this.step = 1;
+        }else{
+            this.step=2;
         }
     }
 
     mouseUp(point){
-        if(!point.compare(this._spline.startPoint)){
-            this._setEndSplinePoint(point);
-            app.executeCommand(new AddElementCommand(this._document, this._spline));
-            this._spline._renderer.new=false;
-            this._spline=null;
+        if(this._spline){
+            if(this.step ==2) {
+                this._setEndSplinePoint(point);
+                app.executeCommand(new AddElementCommand(this._document, this._spline));
+                this._spline._renderer.new = false;
+                this._spline = null;
+            }
         }
     }
 

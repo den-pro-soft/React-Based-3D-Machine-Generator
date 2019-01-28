@@ -13,6 +13,7 @@ export default class RectTool extends Tool{
         this._rect = null;
 
         this.cursor.src = 'images/Rectangle.png';
+        this.step = 0;
     }
 
     mouseMove(point){
@@ -27,21 +28,29 @@ export default class RectTool extends Tool{
     }
 
     mouseClick(point){
+        if(this.step==2) {
+            this._rect = null;
+        }
     }
 
     mouseDown(point){
         if(!this._rect){
             this._rect = new RectElementController(point, point);
             this._rect.toElement()._renderer.drawAsNew();
+            this.step = 1;
+        }else{
+            this.step=2;
         }
     }
 
     mouseUp(point){
-        if(this._rect) {
-            this._rect.p2=point;
-            let element = this._rect.toElement();
-            app.executeCommand(new AddElementCommand(this._document, element));
-            this._rect = null;
+        if(this._rect){
+            if(this.step ==2) {
+                this._rect.p2=point;
+                let element = this._rect.toElement();
+                app.executeCommand(new AddElementCommand(this._document, element));
+                this._rect = null;
+            }
         }
     }
 
