@@ -4,57 +4,22 @@ import Radio from "@material-ui/core/Radio";
 import RadioGroup from "@material-ui/core/RadioGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormControl from "@material-ui/core/FormControl";
+import Checkbox from "@material-ui/core/Checkbox";
 
 export default class OrderOptions extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      order1: true,
-      order2: false,
-      order3: false,
       value: "order1",
       isChecked: false
     };
   }
 
   handleRadioChange = event => {
-    // event.persist();
-    // event.preventDefault();
- 
-        this.setState({ value: event.target.value });
-        console.log(this.state.value, "this.state.value");
-        switch (this.state.value) {
-          case "order1":
-            this.setState({
-              order1: true,
-              order2: false,
-              order3: false
-            });
-            break;
-    
-          case "order2":
-            this.setState({
-              order1: false,
-              order2: true,
-              order3: false
-            });
-            break;
-          case "order3": // if (this.state.value === 'value1')
-            this.setState({
-              order1: false,
-              order2: false,
-              order3: true
-            });
-            break;
-          default:
-            this.setState({
-              order1: true,
-              order2: false,
-              order3: false
-            });
-            break;
-        }
-  
+    event.preventDefault();
+
+    this.setState({ value: event.target.value });
+    console.log(this.state.value, "this.state.value");
   };
 
   handleChecked = event => {
@@ -69,49 +34,49 @@ export default class OrderOptions extends React.Component {
       <div className="OrderOptions">
         <form>
           <div className="RadioButton">
-            <FormControl /*component="fieldset" */
-            >
+            <FormControl /*component="fieldset" */>
               <RadioGroup
                 // aria-label="Order"
-                
+
                 value={this.state.value}
                 onChange={this.handleRadioChange}
               >
                 <FormControlLabel
                   value="order1"
-                      control={<Radio 
-                        color="primary" 
-                        // color="default" 
-                        classes={{root:"root"}}
-                      />}
+                  control={
+                    <Radio
+                      color="primary"
+                      // color="default"
+                      classes={{ root: "root" }}
+                    />
+                  }
                   label="Standard Order"
                 />
                 <FormControlLabel
                   value="order2"
                   control={
                     <Radio
-                    classes={{root:"root"}}
+                      classes={{ root: "root" }}
                       color="primary"
-                      // color="default" 
+                      // color="default"
                     />
                   }
                   label="Change order in progress"
                 />
                 <FormControlLabel
                   value="order3"
-                  control={<Radio 
-
-                   color="primary"
-                  //  color="default" 
-
-                    />}
+                  control={
+                    <Radio
+                      color="primary"
+                      //  color="default"
+                    />
+                  }
                   label="Resubmit payment information"
                 />
               </RadioGroup>
             </FormControl>
-          
           </div>
-          {this.state.order1 && (
+          {this.state.value === "order1" && (
             <div className="Text">
               <p>
                 Use this option normally
@@ -126,7 +91,7 @@ export default class OrderOptions extends React.Component {
             </div>
           )}
 
-          {this.state.order2 && (
+          {this.state.value === "order2" && (
             <div className="Text">
               <p>
                 Use this option to make a change to in order in progress.(Do not
@@ -158,13 +123,13 @@ export default class OrderOptions extends React.Component {
                 <br />
               </div>
               <div className="Textarea">
-              <p> Summary of changes:</p>
-              <textarea  rows="10" cols="88" />
+                <p> Summary of changes:</p>
+                <textarea rows="10" cols="88" />
               </div>
             </div>
           )}
 
-          {this.state.order3 && (
+          {this.state.value === "order3" && (
             <div className="Text">
               <p>
                 Use this option if the eMachineShop staff advises you to make a
@@ -185,7 +150,17 @@ export default class OrderOptions extends React.Component {
 
           <fieldset className="Fieldset">
             <legend>Wrap parts individually (extra cost):</legend>
-            <label>
+            <div style={{ padding: "10px" }}>
+              <label>
+                <Checkbox
+                  checked={this.state.isChecked}
+                  onChange={this.handleChecked}
+                  color="primary"
+                />
+                Recommended for decorative parts
+              </label>
+            </div>
+            {/* <label>
               <input
                 type="checkbox"
                 checked={this.state.isChecked}
@@ -193,7 +168,7 @@ export default class OrderOptions extends React.Component {
               />
               Recommended for decorative parts
             </label>
-            <br />
+            <br /> */}
           </fieldset>
           <fieldset className="Fieldset">
             <legend>Reuse tooling</legend>
