@@ -10,7 +10,7 @@ import {
   Redirect,
   Switch
 } from "react-router-dom";
-
+// var browserHistory = ReactRouter.browserHistory;
 ReactDOM.render(
   <div className="root-LeftMenu">
     <LeftMenu />
@@ -18,6 +18,7 @@ ReactDOM.render(
   document.getElementById("LeftMenu")
 );
 ReactDOM.render(
+  // <Router history={browserHistory}>
   <Router>
     <div>
       <ReactUp />

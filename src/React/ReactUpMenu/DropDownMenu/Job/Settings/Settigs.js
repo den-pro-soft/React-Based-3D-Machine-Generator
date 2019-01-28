@@ -8,6 +8,7 @@ import { withRouter } from "react-router-dom";
 import {
   BrowserRouter as Router,
   Route,
+  IndexRoute,
   Redirect,
   Switch,
   Link,
@@ -22,35 +23,54 @@ const Settings = (context, props) => {
       <div className="Menu">
         <ul>
           <li>
-            <NavLink className="Address" exact activeStyle={{ color: "orangered" }} to="/">
+            <NavLink
+              className="Address"
+              exact
+              activeStyle={{ color: "orangered" }}
+              to="/"
+            >
               Address
             </NavLink>
             {/* <Adress onClick={this.props.history.push('/index.html?#/adress')}/> */}
           </li>
           <li>
-            <NavLink className="Payment" activeStyle={{ color: "orangered" }} to="/payment">
+            <NavLink
+              className="Payment"
+              activeStyle={{ color: "orangered" }}
+              to="/payment"
+            >
               Payment
             </NavLink>
           </li>
           <li>
-            <NavLink className="OrderOption" activeStyle={{ color: "orangered" }} to="/order-options">
+            <NavLink
+              className="OrderOption"
+              activeStyle={{ color: "orangered" }}
+              to="/order-options"
+            >
               Order Options
             </NavLink>
           </li>
           <li>
-            <NavLink className="Summary" activeStyle={{ color: "orangered" }} to="/summary">
+            <NavLink
+              className="Summary"
+              activeStyle={{ color: "orangered" }}
+              to="/summary"
+            >
               Summary
             </NavLink>
           </li>
         </ul>
       </div>
       <div className="Content">
-        <Switch>
+      <Switch>
           <Route path="/" exact render={() => <Address />} />
+          {/* <IndexRoute path="/" component={Address} /> */}
           <Route path="/payment" component={Payment} />
           <Route path="/order-options" component={OrderOptions} />
           <Route path="/summary" component={Summary} />
         </Switch>
+
       </div>
     </div>
   );

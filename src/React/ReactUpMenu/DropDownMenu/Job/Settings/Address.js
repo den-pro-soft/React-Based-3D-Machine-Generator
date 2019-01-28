@@ -354,7 +354,7 @@ export default class Adress extends React.Component {
             </fieldset>
           )}
           <div>
-            <span style={{ color: "red" }}>*</span> -required to place in order
+            <span style={{ color: "red" }}>*</span> - required to place in order
           </div>
           <div>
             For our privacy policy please visit{" "}

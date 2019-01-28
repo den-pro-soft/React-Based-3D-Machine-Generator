@@ -95,15 +95,15 @@ export default class OrderOptions extends React.Component {
             <div className="Text">
               <p>
                 Use this option to make a change to in order in progress.(Do not
-                use thismode if you received parts already and are changing your
+                use this mode if you received parts already and are changing your
                 disign.) The minimum cost is 25$.The maximum can be substantial
                 if the job has progressed.Your approval of the cost will be
-                requestedif above the minimum. The charge will be determined
-                manually be eMachineShop staff.
+                requested if above the minimum. The charge will be determined
+                manually by eMachineShop staff.
                 <br />
-                Changing your order willdelay your job. If your request a change
+                Changing your order will delay your job. If your request a change
                 and don't approve the cost a 25$ administrative fee will be
-                charged.After placing order, a new order number wiil be assigned
+                charged.After placing order, a new order number will be assigned
                 as a replacement for the old order number.The new number will be
                 emailed to you.
                 <br />
@@ -111,7 +111,7 @@ export default class OrderOptions extends React.Component {
                 Place Order
               </p>
               <div className="InputOrder">
-                Machine IDs #: <input type="text" /> (separated by commas)
+                Machine IDs: <input type="text" /> (separated by commas)
                 <br />
               </div>
               <p>
@@ -160,20 +160,12 @@ export default class OrderOptions extends React.Component {
                 Recommended for decorative parts
               </label>
             </div>
-            {/* <label>
-              <input
-                type="checkbox"
-                checked={this.state.isChecked}
-                onChange={this.handleChecked}
-              />
-              Recommended for decorative parts
-            </label>
-            <br /> */}
+        
           </fieldset>
           <fieldset className="Fieldset">
             <legend>Reuse tooling</legend>
             <label>
-              Reuse from job #: <input type="text" /> Tooling is kept for 1 year
+              Reuse from job # <input type="text" /> Tooling is kept for 1 year
               (renewed on reordering)
             </label>
             <br />
