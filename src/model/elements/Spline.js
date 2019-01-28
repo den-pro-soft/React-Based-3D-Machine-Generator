@@ -5,6 +5,7 @@
 import GraphicElement from './../GraphicElement';
 import Point from './../Point';
 import SplineRenderer from './../../2d/renderer/SplineRenderer';
+import Line from './Line';
 
 export default class Spline extends GraphicElement{
     constructor(startPoint, endPoint){
@@ -46,13 +47,42 @@ export default class Spline extends GraphicElement{
         return this._points[3];
     }
 
+    /**
+     * @return {Array.<Point>}
+     */
+    get polyLinePoints(){
+        let l1 = new Line(this.startPoint, this.controlPoint1);
+        let l2 = new Line(this.controlPoint1, this.controlPoint2);
+        let l3 = new Line(this.controlPoint2, this.endPoint);
+
+        let x=l1.p1.x;
+        let y=l1.p1.y;
+        let discret = 200;
+        let polyLine = [];
+
+        for(let t=1; t<=discret; t++){
+            polyLine.push(new Point(x,y));
+            let p1 = l1.getPointOffset(t/discret);
+            let p2 = l2.getPointOffset(t/discret);
+
+            let pt1 = new Line(p1,p2).getPointOffset(t/discret);
+            p1 = l2.getPointOffset(t/discret);
+            p2 = l3.getPointOffset(t/discret);
+
+            let pt2 = new Line(p1,p2).getPointOffset(t/discret);
+            let pt = new Line(pt1, pt2).getPointOffset(t/discret);
+            x = pt.x;
+            y = pt.y;
+        }
+        return polyLine;
+    }
 
 
     /**
      * @returns {{max:{x:number, y:number}, min:{x:number, y:number}}}
      */
     getExtrenum(){
-        return Point.getExtrenum(this._points); //todo: isn't correct method
+        return Point.getExtrenum(this.polyLinePoints);
     }
 
     /**
@@ -72,7 +102,13 @@ export default class Spline extends GraphicElement{
      * @return {boolean}
      */
     isNear(point, eps){
-        return true;
+        let points = this.polyLinePoints;
+
+        let res = false;
+        for(let i=1; i<points.length; i++){
+            res|=new Line(points[i-1], points[i]).isNear(point,eps);
+        }
+        return res;
     }
 
     getCenter(){
@@ -95,7 +131,13 @@ export default class Spline extends GraphicElement{
      * @return {boolean} - true if current elements into figure.
      */
     isIntoFigure(figure){
+        let points = this.polyLinePoints;
 
+        let res = true;
+        for(let i=1; i<points.length; i++){
+            res&=new Line(points[i-1], points[i]).isIntoFigure(figure);
+        }
+        return res;
     }
 
 
