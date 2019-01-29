@@ -19,20 +19,19 @@ export default class Job extends React.Component {
       openSubModal: false
     };
 
-    this.showDropdownMenu = this.showDropdownMenu.bind(this);
-    this.hideDropdownMenu = this.hideDropdownMenu.bind(this);
-    // this.clickSubModal = this.clickSubModal.bind(this);
-    // this.closeSubModal = this.closeSubModal.bind(this);
+    // this.showDropdownMenu = this.showDropdownMenu.bind(this);
+    // this.hideDropdownMenu = this.hideDropdownMenu.bind(this);
+   
   }
 
-  showDropdownMenu(event) {
+  showDropdownMenu = (event)=> {
     event.preventDefault();
     this.setState({ displayMenu: true }, () => {
       document.addEventListener("click", this.hideDropdownMenu);
     });
   }
 
-  hideDropdownMenu() {
+  hideDropdownMenu = ()=> {
     this.setState({ displayMenu: false }, () => {
       document.removeEventListener("click", this.hideDropdownMenu);
     });
@@ -62,11 +61,7 @@ export default class Job extends React.Component {
     );
   };
   render() {
-    // const contenClass={
-    //   root:{
-    //     width: "1600px",height:'800px',background: "#a8a7a7", padding: 0,margin:0
-    //   }
-    // }
+   
     return (
       <div className="Job">
         <div
