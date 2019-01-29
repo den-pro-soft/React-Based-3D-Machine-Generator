@@ -4,6 +4,7 @@
 
 import LineTool from './tool/LineTool';
 import PointerTool from './tool/PointerTool';
+import EraserTool from './tool/EraserTool';
 import RectTool from './tool/RectTool';
 import SplineTool from './tool/SplineTool';
 import CircleTool from './tool/CircleTool';
@@ -151,6 +152,9 @@ export default class Board {
                 break;
             case 'Spline':
                 this.tool = new SplineTool(this._document);
+                break;
+            case 'Eraser':
+                this.tool = new EraserTool(this._document);
                 break;
             default:
                 this.tool = new PointerTool(this._document);

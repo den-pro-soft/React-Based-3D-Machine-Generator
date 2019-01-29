@@ -1,4 +1,5 @@
 import Exception from '../../Exception';
+import Trigonometric from "../../model/math/Trigonometric";
 
 export default class Matrix {
 
@@ -37,5 +38,37 @@ export default class Matrix {
             }
         }
         return new Matrix(C);
+    }
+
+     /**
+     * @param {number} x
+     * @param {number} y
+     * @return {Matrix}
+     * @protected
+     */
+    static createMoveMatrix(x,y){
+        return new Matrix([[1,0,0,0],[0,1,0,0],[0,0,1,0],[x,y,0,1]]);
+    }
+
+    /**
+     * @param {number} grad -  -360...360
+     */
+    static createRotateMatrix(grad){
+        grad = Trigonometric.gradToRad(grad);
+        return new Matrix([
+            [Math.cos(grad),-Math.sin(grad),0,0],
+            [Math.sin(grad),Math.cos(grad),0,0],
+            [0,0,1,0],
+            [0,0,0,1]]);
+    }
+
+    /**
+     * @param {number} x
+     * @param {number} y
+     * @return {Matrix}
+     * @protected
+     */
+    static createResizeMatrix(x,y){
+        return new Matrix([[1+x,0,0,0],[0,1+y,0,0],[0,0,1,0],[0,0,0,1]])
     }
 }
