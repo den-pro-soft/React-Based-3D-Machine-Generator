@@ -14,11 +14,14 @@ export default class InputSelect extends React.Component {
     this.handleInputChange = this.handleInputChange.bind(this);
   }
 
+//data processing from input-select - Z
   handleChange(selectedOption) {
+   
     this.setState({ selectedOption, displayInputSelect: false });
-    console.log(`Option selected:`, selectedOption);
+    console.log(`Option selected:`, selectedOption.value);
+    let val = parseInt(selectedOption.value);
+    app.setElementsHeight(val?val:0.075);
   }
-
   handleInputChange(inputValue, actionMeta) {
     // setState({displayInputSelect:false});
     console.group("Input Changed");
@@ -26,6 +29,11 @@ export default class InputSelect extends React.Component {
     console.log(`action: ${actionMeta.action}`);
     console.groupEnd();
   }
+//   onChange={e=>{
+//     let val = parseInt(e.target.value);
+//         app.setElementsHeight(val?val:0.075);
+//         console.log(e.target.value,'targetValue')
+// }}
   render() {
     const options = [
       { value: "Air Inside", label: `Air Inside` },
@@ -100,7 +108,7 @@ export default class InputSelect extends React.Component {
       <CreatableSelect
         onMouseLeave={this.handleInputChange}
         styles={customStyles}
-        isClearable
+        // isClearable
         // defaultValue={options[2]}
         onChange={this.handleChange}
         onInputChange={this.handleInputChange}

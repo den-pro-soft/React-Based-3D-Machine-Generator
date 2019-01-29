@@ -1,5 +1,5 @@
 import React from "react";
-import "./Address.scss";
+import "./address.scss";
 import Button from "@material-ui/core/Button";
 import Checkbox from "@material-ui/core/Checkbox";
 
@@ -13,7 +13,6 @@ export default class Adress extends React.Component {
       provinceOther: false,
       valueTopCountries: "Canada"
     };
-    // this.handleChecked = this.handleChecked.bind(this);
   }
 
   handleChecked = event => {

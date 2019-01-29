@@ -1,11 +1,8 @@
 import React from "react";
 import "./tools-panel.scss";
 import ReactTooltip from "react-tooltip";
-// import Creatable from "react-select/lib/Creatable";
-// import CreatableSelect from "react-select/lib/Creatable";
 import InputSelect from "./InputSelect";
 
-// const ToolsPanel = context => {
 export default class ToolsPanel extends React.Component {
   render() {
     // const data = [
@@ -40,12 +37,10 @@ export default class ToolsPanel extends React.Component {
           className="tooltipBackgroundTheme"
         /> */}
         <form>
-          {/* <div> */}
             <button className="btn-LineType">
               <a href="#">
                 <img
                   width="18px"
-                  // src="images/question.png"
                   src="images/LineType.png"
                   data-tip='<span>Line type.</br>Specifies whether the selected line a shape,bend,</br>thread,relation,comment,etc.Select "Auto" in most cases</br>
                 when creating the part shape.
@@ -86,10 +81,14 @@ export default class ToolsPanel extends React.Component {
                 />
               </a>
             </button>
-            {/*   <input
+              {/* <input
             list="browsers"
-            onClick={this.toogleDatalist}
-            onMouseEnter={this.toogleDatalist}
+            name="browser"style={{width:'120px'}}
+              onChange={e=>{
+                e.preventDefault();
+                   let val = parseInt(e.target.value);
+                       app.setElementsHeight(val?val:0.075);
+              }}
             name="browser"
             style={{ width: "120px" }}
             autoComplete="on"
@@ -103,9 +102,9 @@ export default class ToolsPanel extends React.Component {
               ))}
               <option value="Other" />
             </select>
-          </datalist> */}
+          </datalist>  */}
 
-            <InputSelect className="CreatableSelect" />
+            <InputSelect className="CreatableSelect"  />
             <button className="btn-Question">
               <a
                 href="https://www.emachineshop.com/help-2d-drawing/#numeric-values"
