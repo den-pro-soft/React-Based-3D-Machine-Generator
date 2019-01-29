@@ -8,12 +8,34 @@ export default class Adress extends React.Component {
     super(props);
     this.state = {
       isChecked: false,
-      statesUSA: false,
-      statesCanada: true,
+      statesUSA: true,
+      statesCanada: false,
       provinceOther: false,
-      valueTopCountries: "Canada"
+      provinceOther2: false,
+
+      value:"U.S.A."
     };
   }
+  handleChange = event => {
+    this.setState({value: event.target.value});
+    if(event.target.value!=='U.S.A.'&& event.target.value!=='Canada'){
+      this.setState({
+        // statesUSA: false,
+        // statesCanada: false,
+        provinceOther: true}); 
+    }
+    console.log(event.target.value,'this.state,value-country')
+  }
+  handleChangeIsChecked = event => {
+    this.setState({value: event.target.value});
+    if(event.target.value!=='U.S.A.'&& event.target.value!=='Canada'){
+      this.setState({
+       
+        provinceOther2: true}); 
+    }
+    console.log(event.target.value,'this.state,value-country')
+  }
+
 
   handleChecked = event => {
     window.setTimeout(() => {
@@ -214,12 +236,14 @@ export default class Adress extends React.Component {
                 <div className="Input">
                   <input type="text" />
                 </div>
-                {this.state.provinceOther && <input type="text" />}
-                {this.state.statesUSA && (
+                {this.state.provinceOther &&   
+                <div className="Input">
+                  <input type="text" />
+                </div>}
+                {this.state.value==='U.S.A.' && (
                   <div className="Input">
                     <select>
                       {statesUSA.map((item, i) => (
-                        // <option value={this.setState({valueTopCountries:item})} key={i}>
                         <option value={item} key={i}>
                           {item}
                         </option>
@@ -227,7 +251,7 @@ export default class Adress extends React.Component {
                     </select>
                   </div>
                 )}
-                {this.state.statesCanada && (
+                {this.state.value==='Canada' && (
                   <div className="Input">
                     <select>
                       {statesCanada.map((item, i) => (
@@ -242,7 +266,7 @@ export default class Adress extends React.Component {
                   <input type="text" />
                 </div>
                 <div className="Input">
-                  <select>
+                  <select /*value={this.state.value}*/ onChange={this.handleChange}>
                     {countries.map((item, i) => (
                       <option value={item} key={i}>
                         {item}
@@ -297,8 +321,11 @@ export default class Adress extends React.Component {
                   <div className="Input">
                     <input type="text" />
                   </div>
-                  {this.state.provinceOther && <input type="text" />}
-                  {this.state.statesUSA && (
+                  {this.state.provinceOther2 &&   
+                <div className="Input">
+                  <input type="text" />
+                </div>}
+                  {this.state.value==='U.S.A.' && (
                     <div className="Input">
                       <select>
                         {statesUSA.map((item, i) => (
@@ -309,7 +336,7 @@ export default class Adress extends React.Component {
                       </select>
                     </div>
                   )}
-                  {this.state.statesCanada && (
+                  {this.state.value==='Canada' && (
                     <div className="Input">
                       <select>
                         {statesCanada.map((item, i) => (
@@ -324,7 +351,7 @@ export default class Adress extends React.Component {
                     <input type="text" />
                   </div>
                   <div className="Input">
-                    <select>
+                    <select onChange = {this.handleChangeIsChecked}>
                       {countries.map((item, i) => (
                         <option value={item} key={i}>
                           {item}

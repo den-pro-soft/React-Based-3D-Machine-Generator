@@ -58,7 +58,7 @@ export default class ToolsPanel extends React.Component {
               <option value="LazerMark">Comments to Machinist</option>
               <option value="LazerMark">LazerMark</option>
             </select>
-            <button className="btn-Diameter">
+            {/* <button className="btn-Diameter">
               <a href="#">
                 <img
                   width="18px"
@@ -69,7 +69,31 @@ export default class ToolsPanel extends React.Component {
                 </span>"
                 />
               </a>
+            </button> */}
+               <button className="btn-Diameter">
+              <a href="#">
+                <img
+                  width="18px"
+                  src="images/Width.png"
+                  data-place="bottom"
+                  data-tip="<span>Horizontal size</span>"
+                />
+              </a>
             </button>
+            <input type="text"  data-place="bottom" data-tip="<span>Horizontal size<br/>Horizontal size of imaginary rectangle enclosing the line.To<br/>
+            change, enter a value and press the Enter key. </span>"/>
+            <button className="btn-Diameter">
+              <a href="#">
+                <img
+                  width="18px"
+                  src="images/Height.png"
+                  data-place="bottom"
+                  data-tip="<span>Vertical size</span>"
+                />
+              </a>
+            </button>
+            <input type="text"  data-place="bottom" data-tip="<span>Vertical size<br/>Vertical size of imaginary rectangle enclosing the line.To<br/>
+            change, enter a value and press the Enter key. </span>"/>
             <button className="btn-Z tooltip-Z">
               <a href="#">
                 <img
