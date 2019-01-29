@@ -66,13 +66,13 @@ export default class PointerTool extends Tool{
         if(this.transformer){
             if(this.transformer.mouseDown(point)) {
                 this.transformer = null;
-                app.selectElements = [];
+                app.clearSelectElements();
                 this.selectRect = new RectElementController(point, point);
             }
         }else{
             if(true) { //todo: if !Ctrl
                 this.transformer = null;
-                app.selectElements = [];
+                app.clearSelectElements();
             }
             this.selectRect = new RectElementController(point, point);
         }
@@ -105,9 +105,10 @@ export default class PointerTool extends Tool{
         }
 
         if(false) { //todo: if Ctrl
-            app.selectElements = [...app.selectElements, ...newSelectElements];
+            app.addSelectElements(newSelectElements);
         }else{
-            app.selectElements = newSelectElements;
+            app.clearSelectElements(); 
+            app.addSelectElements(newSelectElements);
         }
 
         if(newSelectElements.length>0) {

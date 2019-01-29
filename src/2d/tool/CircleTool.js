@@ -13,6 +13,7 @@ export default class CircleTool extends Tool{
         this._circle = null;
 
         this.cursor.src = 'images/Circle.png';
+        this.step = 0;
     }
 
     mouseMove(point){
@@ -26,21 +27,28 @@ export default class CircleTool extends Tool{
     }
 
     mouseClick(point){
-        this._circle=null;
+        if(this.step==2) {
+            this._circle = null;
+        }
     }
 
     mouseDown(point){
         if(!this._circle){
             this._circle = new Arc(point, 0);
             this._circle._renderer.drawAsNew();
+            this.step = 1;
+        }else{
+            this.step=2;
         }
     }
 
     mouseUp(point){
-        if(!point.compare(this._circle.center)){
-            this._circle.radius=new Line(this._circle.center, point).length();;
-            this.document.addElement(this._circle);
-            this._circle=null;
+        if(this._circle){
+            if(this.step ==2) {
+                this._circle.radius=new Line(this._circle.center, point).length();;
+                this.document.addElement(this._circle);
+                this._circle=null;
+            }
         }
     }
 

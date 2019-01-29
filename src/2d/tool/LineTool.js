@@ -13,6 +13,7 @@ export default class LineTool extends Tool{
         this._line = null;
 
         this.cursor.src = 'images/Line.png';
+        this.step = 0;
     }
 
     mouseMove(point){
@@ -26,23 +27,29 @@ export default class LineTool extends Tool{
     }
 
     mouseClick(point){
-        this._line=null;
+        if(this.step==2) {
+            this._line = null;
+        }
     }
 
     mouseDown(point){
         if(!this._line){
             this._line = new Line(point, point);
             this._line._renderer.drawAsNew();
+            this.step = 1;
+        }else{
+            this.step=2;
         }
     }
 
     mouseUp(point){
-        if(!point.compare(this._line.p1)){
-            this._line.p2=point;
-            app.executeCommand(new AddElementCommand(this._document, this._line));
-
-            this._line._renderer.new=false;
-            this._line=null;
+        if(this._line){
+            if(this.step ==2) {
+                this._line.p2 = point;
+                app.executeCommand(new AddElementCommand(this._document, this._line));
+                this._line._renderer.new = false;
+                this._line = null;
+            }
         }
     }
 
