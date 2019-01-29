@@ -207,9 +207,8 @@ export default class ResizeTransformer extends Transformer{
         super.addElements(elements);
         if(!this.resizeRect){
             this.resizeRect = new ResizeRect(this._elements);
-        }else{
-            this.resizeRect.elements = this._elements;
         }
+        this.resizeRect.elements = this._elements;
     }
 
     /**

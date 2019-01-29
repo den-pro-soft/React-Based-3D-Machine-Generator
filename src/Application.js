@@ -74,6 +74,11 @@ class Application{
         }
 
         if(this._board){
+            if(command.name == 'AddElementCommand'){
+                this.clearSelectElements();
+                this._board.setTool('Pointer');
+                this._board.tool.selectElement(command._element);
+            }
             this._board.renderDocument();
         }
     }

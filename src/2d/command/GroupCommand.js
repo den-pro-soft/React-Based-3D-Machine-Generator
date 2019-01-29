@@ -14,6 +14,8 @@ export default class GroupCommand extends Command{
         super(document);
 
         this._elements=elements;
+
+        this.name= 'GroupCommand';
     }
 
     /**

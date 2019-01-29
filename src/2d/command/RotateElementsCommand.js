@@ -19,6 +19,7 @@ export default class RotateElementsCommand extends Command{
 
         this.angle=angle;
 
+        this.name= 'RotateElementsCommand';
     }
 
     /**

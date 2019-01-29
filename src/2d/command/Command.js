@@ -26,6 +26,8 @@ export default class Command{
         this._document = document;
 
         this._snapshot = null;
+
+        this.name= 'Command';
     }
 
     /**

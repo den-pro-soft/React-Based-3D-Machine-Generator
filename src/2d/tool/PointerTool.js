@@ -33,6 +33,12 @@ export default class PointerTool extends Tool{
         }
     }
 
+    selectElement(element){
+        this.transformer = new ResizeTransformer(this._document);
+        this.transformer.addElements([element]);
+        app.addSelectElement(element);
+    }
+
     mouseMove(point){
         if(this.selectRect){
                 this.selectRect.p2=point;

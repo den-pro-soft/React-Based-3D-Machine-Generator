@@ -14,6 +14,8 @@ export default class UngroupCommand extends Command{
         super(document);
 
         this._elements=elements;
+
+        this.name= 'UngroupCommand';
     }
 
     /**

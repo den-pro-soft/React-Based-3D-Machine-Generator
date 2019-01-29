@@ -14,6 +14,8 @@ export default class AddElementCommand extends Command{
         super(document);
 
         this._element = element;
+
+        this.name= 'AddElementCommand';
     }
 
     /**

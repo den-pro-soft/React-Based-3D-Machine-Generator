@@ -13,6 +13,8 @@ export default class DeleteElementCommand extends Command{
         super(document);
 
         this._elements=elements;
+
+        this.name= 'DeleteElementCommand';
     }
 
     /**

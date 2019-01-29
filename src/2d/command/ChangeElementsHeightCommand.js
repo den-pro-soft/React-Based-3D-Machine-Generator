@@ -16,6 +16,8 @@ export default class ChangeElementsHeightCommand extends Command{
         this._elements=elements;
 
         this._height = height;
+
+        this.name= 'ChangeElementsHeightCommand';
     }
 
     /**

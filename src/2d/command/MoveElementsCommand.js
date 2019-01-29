@@ -19,6 +19,8 @@ export default class MoveElementsCommand extends Command{
         this.x=x;
 
         this.y=y;
+
+        this.name= 'MoveElementsCommand';
     }
 
     /**
