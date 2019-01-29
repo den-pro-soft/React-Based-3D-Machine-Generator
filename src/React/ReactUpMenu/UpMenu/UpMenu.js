@@ -24,59 +24,64 @@ let show3D = function(){
   }
 }
 
+export default class UpMenu extends React.Component {
+  constructor(props){
+    super(props);
+    
+  }
 
-const UpMenu = context => {
-  return (
-    <div className="UpMenu">
-      <div className="Drop">
-        <DropDownMenu />
-      </div>
-      <div className="Buttons">
-        <div className="btn-group-two">
-          <button onClick={() => app.group()}>
-            <img width="25px" src="images/Group.png" />
-          </button>
-          <button onClick={() => app.ungroup()}>
-            <img width="25px" src="images/Ungroup.png" />
-          </button>
+  render(){
+    return (
+        <div className="UpMenu">
+          <div className="Drop">
+            <DropDownMenu />
+          </div>
+          <div className="Buttons">
+            <div className="btn-group-two">
+              <button onClick={() => app.group()}>
+                <img width="25px" src="images/Group.png" />
+              </button>
+              <button onClick={() => app.ungroup()}>
+                <img width="25px" src="images/Ungroup.png" />
+              </button>
+            </div>
+            <div className="btn-group-three">
+              <button>
+                <img width="25px" src="images/ZoomToFitScreen.png" />
+              </button>
+              <button>
+                <img width="25px" src="images/ZoomToActualSize.png" />
+              </button>
+              <button>
+                <img width="25px" src="images/Zoom.png" />
+              </button>
+            </div>
+            <div className="btn-group-other">
+              <button onClick={() => app.deleteSelected()}>
+                <img width="24px" src="images/Delete.png" />
+              </button>
+              <button>
+                <img width="24px" src="images/Preferences.png" />
+              </button>
+              <button>
+                <img width="24px" src="images/ToggleInch.png" />
+              </button>
+              <button>
+                <img width="24px" src="images/LineType.png" />
+              </button>
+              <button>
+                <img width="24px" src="images/Intersect.png" />
+              </button>
+              <button onClick={() => show3D()}>
+                <img width="24px" src="images/3DPreview.png" />
+              </button>
+              <button>
+                <img width="18px" src="images/check2.png" />
+              </button>
+            </div>
+          </div>
         </div>
-        <div className="btn-group-three">
-          <button>
-            <img width="25px" src="images/ZoomToFitScreen.png" />
-          </button>
-          <button>
-            <img width="25px" src="images/ZoomToActualSize.png" />
-          </button>
-          <button>
-            <img width="25px" src="images/Zoom.png" />
-          </button>
-        </div>
-        <div className="btn-group-other">
-          <button onClick={() => app.deleteSelected()}>
-            <img width="24px" src="images/Delete.png" />
-          </button>
-          <button>
-            <img width="24px" src="images/Preferences.png" />
-          </button>
-          <button>
-            <img width="24px" src="images/ToggleInch.png" />
-          </button>
-          <button>
-            <img width="24px" src="images/LineType.png" />
-          </button>
-          <button>
-            <img width="24px" src="images/Intersect.png" />
-          </button>
-          <button onClick={() => show3D()}>
-            <img width="24px" src="images/3DPreview.png" />
-          </button>
-          <button>
-            <img width="18px" src="images/check2.png" />
-          </button>
-        </div>
-      </div>
-    </div>
-  );
-};
+    );
+  }
+}
 
-export default UpMenu;

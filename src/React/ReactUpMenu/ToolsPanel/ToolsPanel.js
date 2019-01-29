@@ -4,33 +4,33 @@ import ReactTooltip from "react-tooltip";
 import InputSelect from "./InputSelect";
 
 export default class ToolsPanel extends React.Component {
+  constructor(props){
+    super(props);
 
+    this.state = {
+      show:false
+
+    };
+
+    app.addHandler('selectElement', (element)=>{
+      this.setState({show:true})
+    });
+    app.addHandler('clearSelectElements', ()=>{this.setState({show:false})});
+  }
 
   render() {
-    // const data = [
-    //   "0.002",
-    //   "0.005",
-    //   "0.010",
-    //   "0.020",
-    //   "0.031",
-    //   "0.045",
-    //   "0.062",
-    //   "0.093",
-    //   "0.125",
-    //   "0.187",
-    //   "0.250",
-    //   "0.375",
-    //   "0.500",
-    //   "0.750",
-    //   "1.000",
-    //   "1.250",
-    //   "1.500",
-    //   "2.000",
-    //   "2.500",
-    //   "3.000"
-    //   // "Other"
-    // ];
+    if(this.state.show) {
+      return this.getPanelHtml();
+    }else{
+      return (
+          <div className="ToolsPanel">
+          </div>
+      )
+    }
+  }
 
+
+  getPanelHtml(){
     return (
       <div className="ToolsPanel">
         {/* <ReactTooltip
