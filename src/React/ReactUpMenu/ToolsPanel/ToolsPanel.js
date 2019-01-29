@@ -139,19 +139,19 @@ export default class ToolsPanel extends React.Component {
               >
                 <img
                   width="18px"
-                  // src="images/question.png"
                   src="images/Help.png"
+                  data-place="bottom"
+
                   data-tip="<span>Shows how to use numeric values.</span>"
                 />
               </a>
             </button>
-          {/* </div>
-          <div> */}
+        
             <button className="btn-Copy">
               <a href="#">
                 <img
                   width="18px"
-                  src="images/copy.png"
+                  src="images/Copy.png"
                   // data-tip="<span>Z-button</span>"
                 />
               </a>
