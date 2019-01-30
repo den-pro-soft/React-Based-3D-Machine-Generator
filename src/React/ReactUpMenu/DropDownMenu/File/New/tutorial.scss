@@ -1,0 +1,15 @@
+.Tutorial{
+    .Title{
+        text-align: center;
+        font-weight: bold;
+        border-bottom: 1px solid #000;
+    }
+    .Parameters{
+        display: flex;
+        justify-content: space-between;
+    }
+}
+.root{
+    margin:0 0;
+    border:1ps solid red;
+}

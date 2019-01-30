@@ -158,6 +158,7 @@ Summary.defaultProps = {
 const WrappedSummary = withStyles(styles)(Summary);
 
 const data = [
+  ["File name","Untitled"],
   ["Customer", ""],
   ["Customer email", ""],
   ["Order type", "Standard order"],
@@ -196,34 +197,17 @@ function ReactVirtualizedTable() {
           {
             width: 300,
             flexGrow: 1.0,
-            label: "File name",
+            // label: "File name",
             dataKey: "filename"
           },
           {
             width: 300,
             textAlign: "left",
-            label: "Untitled",
+            // label: "Untitled",
             dataKey: "untitled"
             // numeric: true,
           }
-          // {
-          //   width: 120,
-          //   label: 'Fat (g)',
-          //   dataKey: 'fat',
-          //   numeric: true,
-          // },
-          // {
-          //   width: 120,
-          //   label: 'Carbs (g)',
-          //   dataKey: 'carbs',
-          //   numeric: true,
-          // },
-          // {
-          //   width: 120,
-          //   label: 'Protein (g)',
-          //   dataKey: 'protein',
-          //   numeric: true,
-          // },
+       
         ]}
       />
     </Paper>

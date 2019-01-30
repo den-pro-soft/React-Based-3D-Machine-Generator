@@ -1,6 +1,6 @@
 import React from "react";
 import "./dropdown-menu.scss";
-import File from "./File";
+import File from "./File/File";
 import Edit from "./Edit";
 
 import Line from "./Line";

@@ -15,6 +15,7 @@ import {
   NavLink
 } from "react-router-dom";
 const Settings = (context, props) => {
+  // console.log(props,'settings-props-history')
   return (
     <div
       className="Settings"
@@ -31,7 +32,6 @@ const Settings = (context, props) => {
             >
               Address
             </NavLink>
-            {/* <Adress onClick={this.props.history.push('/index.html?#/adress')}/> */}
           </li>
           <li>
             <NavLink
@@ -65,7 +65,6 @@ const Settings = (context, props) => {
       <div className="Content">
       <Switch>
           <Route path="/" exact render={() => <Address />} />
-          {/* <IndexRoute path="/" component={Address} /> */}
           <Route path="/payment" component={Payment} />
           <Route path="/order-options" component={OrderOptions} />
           <Route path="/summary" component={Summary} />

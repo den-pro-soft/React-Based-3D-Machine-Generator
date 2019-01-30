@@ -86,8 +86,13 @@ export default class Help extends React.Component {
       }
     );
   };
+
+  // ------------open link Video Tutorial----------
+openWindow =()=>{
+  window.open('https://www.emachineshop.com/video-tutorials/')
+}
   render() {
-    const { open } = this.state;
+    // const { open } = this.state;
     return (
       <div className="Help">
         <div
@@ -128,7 +133,7 @@ export default class Help extends React.Component {
                   Contents
                 </a>
               </li>
-              <li>
+              <li  onClick={this.openWindow}>
                 <a
                   href="https://www.emachineshop.com/video-tutorials/"
                   target="_blank"
