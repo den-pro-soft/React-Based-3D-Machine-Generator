@@ -24,6 +24,7 @@ export default class Board {
 
         this.tool = new PointerTool(this._document);
 
+        this._canvas=canvas;
         this._context = canvas.getContext('2d');
 
         this._width = 500;

@@ -63,6 +63,11 @@ export default class PointerTool extends Tool{
     mouseDbClick(point){
         if(!this.transformer) {
             this._selectMode = !this._selectMode;
+            if(!this._selectMode){
+                app.board._canvas.style.cursor = "-webkit-grab";
+            }else{
+                app.board._canvas.style.cursor = "default";
+            }
         }
     }
 
