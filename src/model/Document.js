@@ -76,7 +76,7 @@ export default class Document{
     }
 
     /**
-     * @param {Array.<GraphicElement>|GraphicElement} elements
+     * @param {Array.<GraphicElement>|GraphicElement|null} elements - if null return extrenum for all elements
      * @returns {{max:{x:number, y:number}, min:{x:number, y:number}}}
      */
     getExtrenum(elements){
@@ -109,7 +109,7 @@ export default class Document{
             if(elements instanceof GraphicElement){
                 return elements.getExtrenum();
             }else{
-                throw new Exception('Excepted object of GraphicElement class', elements);
+                return this.getExtrenum(this._elements);
             }
         }
     }

@@ -22,7 +22,7 @@ export default class Board {
         this._pixelPerOne=50;
         this._document = new Document();
 
-        this.tool = new LineTool(this._document);
+        this.tool = new PointerTool(this._document);
 
         this._context = canvas.getContext('2d');
 
@@ -65,11 +65,9 @@ export default class Board {
         this._height = height;
         this._initCenterPosition.x=width/2;
         this._initCenterPosition.y=height/2;
+        this.renderDocument();
     }
 
-    /**
-     * @param {string|undefined} color
-     */
     clear(color) {
         this.style('fillStyle', color?color:'#ffffff');
         this._drawRect({x: 0, y: 0}, {x: this._width, y: this._height}, true);
@@ -84,11 +82,92 @@ export default class Board {
         this._drawRulers();
     }
 
+    setTool(name){
+        switch(name){
+            case 'Line':
+                this.tool = new LineTool(this._document);
+                break;
+            case 'Rectangle':
+                this.tool = new RectTool(this._document);
+                break;
+            case 'Circle':
+                this.tool = new CircleTool(this._document);
+                break;
+            case 'Spline':
+                this.tool = new SplineTool(this._document);
+                break;
+            default:
+                this.tool = new PointerTool(this._document);
+        }
+    }
+
+    style(property, value){
+        switch(property){
+            case 'dash':
+                this._context.setLineDash(value);
+                break;
+            default:
+                this._context[property]=value;
+        }
+
+    }
+    
+    /**
+     * @param {Point} point
+     * @return {{x: number, y: number}}
+     * @private
+     */
+    _convertToLocalCoordinateSystem(point){
+        let multiplier = this._pixelPerOne*this._scale;
+        return {x:point.x*multiplier+this._initCenterPosition.x+this._bias.x
+            , y:-point.y*multiplier+this._initCenterPosition.y+this._bias.y};
+    }
+
+    /**
+     * @param {{x: number, y: number}} point
+     * @return {Point}
+     * @private
+     */
+    _convertToGlobalCoordinateSystem(point){
+        let divider = this._pixelPerOne*this._scale;
+        return new Point((point.x-this._initCenterPosition.x-this._bias.x)/divider
+            ,-(point.y-this._initCenterPosition.y-this._bias.y)/divider,0);
+    }
+    
+    zoomToFitScreen(){
+        let ext = this._document.getExtrenum();
+        let width = ext.max.x-ext.min.x;
+        let height = ext.max.y-ext.min.y;
+
+        let O = this._convertToGlobalCoordinateSystem({x:0,y:0});
+        let wh = this._convertToGlobalCoordinateSystem({x:this._width,y:this._height});
+
+        let localWidth = wh.x-O.x;
+        let localHeight = O.y-wh.y;
+
+        let zoom = Math.min(localWidth/width,localHeight/height);
+
+        console.log(this._scale*zoom);
+        this._setScale((this._scale*zoom)/2);
+
+
+        let leftUpPoint = this._convertToLocalCoordinateSystem(new Point(ext.min.x, ext.max.y));
+        let rightDownPoint = this._convertToLocalCoordinateSystem(new Point(ext.max.x, ext.min.y));
+        console.log(leftUpPoint);
+        console.log(rightDownPoint);
+        this._bias.x-=leftUpPoint.x-this._width/2+(rightDownPoint.x-leftUpPoint.x)/2+50;
+        this._bias.y-=leftUpPoint.y-this._height/2+(rightDownPoint.y-leftUpPoint.y)/2+50;
+
+        this.renderDocument();
+    }
+    
+    //<editor-fold desc="events handlers">
+
     mouseMove(e) {
         this._document.resetRendererConfig();
         if (!this.tool.mouseMove(this._convertToGlobalCoordinateSystem({x:e.offsetX, y:e.offsetY}))) {
             if (this._mouseDown) {
-                this.setBias(this._bias.x - (this._mouseDown.offsetX - e.offsetX)
+                this._setBias(this._bias.x - (this._mouseDown.offsetX - e.offsetX)
                             ,this._bias.y - (this._mouseDown.offsetY - e.offsetY));
                 this._mouseDown = e;
             }
@@ -120,9 +199,9 @@ export default class Board {
         this._document.resetRendererConfig();
         let dScale = e.deltaY / 500;
         let was = this._convertToGlobalCoordinateSystem({x:e.offsetX, y:e.offsetY});
-        if(this.setScale(this._scale*(1+dScale))) {
+        if(this._setScale(this._scale*(1+dScale))) {
             let now = this._convertToGlobalCoordinateSystem({x:e.offsetX, y:e.offsetY});
-            this.setBias(this._bias.x+((now.x-was.x)*this._pixelPerOne*this._scale)
+            this._setBias(this._bias.x+((now.x-was.x)*this._pixelPerOne*this._scale)
                         ,this._bias.y-((now.y-was.y)*this._pixelPerOne*this._scale));
         }
 
@@ -134,36 +213,107 @@ export default class Board {
         this.tool.mouseDbClick(this._convertToGlobalCoordinateSystem({x: e.offsetX, y: e.offsetY}));
     }
 
+    //</editor-fold>
+
+    //<editor-fold desc="methods for drawing simple elements">
+    
     /**
-     *
-     * @param {String} name
+     * @param {Point} p1
+     * @param {Point} p2
+     * @param {string} color
+     * @param {int} width
+     * @param {Array.<number>} dash
      */
-     setTool(name){
-        switch(name){
-            case 'Line':
-                this.tool = new LineTool(this._document);
-                break;
-            case 'Rectangle':
-                this.tool = new RectTool(this._document);
-                break;
-            case 'Circle':
-                this.tool = new CircleTool(this._document);
-                break;
-            case 'Spline':
-                this.tool = new SplineTool(this._document);
-                break;
-            default:
-                this.tool = new PointerTool(this._document);
+    drawLine(p1,p2){
+        this._drawLine(this._convertToLocalCoordinateSystem(p1), this._convertToLocalCoordinateSystem(p2));
+    }
+
+    /**
+     * @param {Point} center
+     * @param {number} radius - in global coordinate system
+     * @param {boolean} fill
+     */
+    drawArc(center, radius, fill){
+        this._drawArc(this._convertToLocalCoordinateSystem(center),radius*this._pixelPerOne*this._scale,fill);
+    }
+
+    /**
+     * @param {Array.<Point>} points
+     */
+    drawPolyLine(points){
+        let localPoints = [];
+        for(let p of points){
+            localPoints.push(this._convertToLocalCoordinateSystem(p));
+        }
+        this._drawPolyLine(localPoints);
+    }
+
+    /**
+     * @param {Array.<{x: number, y: number}>}points
+     * @private
+     */
+    _drawPolyLine(points){
+        this._context.beginPath();
+        this._context.moveTo(parseInt(points[0].x), parseInt(points[0].y));
+        for(let i=1; i<points.length; i++) {
+            this._context.lineTo(points[i].x, points[i].y);
+        }
+        this._context.stroke();
+    }
+
+    /**
+     * @param {{x: number, y: number}} center
+     * @param {number} radius - in pixel
+     * @param {boolean} fill
+     */
+    _drawArc(center, radius, fill){
+        this._context.beginPath();
+        this._context.arc(center.x, center.y, radius, 0, 2* Math.PI);
+
+        if(fill){
+            this._context.fill();
+        }else {
+            this._context.stroke();
         }
     }
 
-    setBias(x,y){
+    _drawLine(p1, p2) {
+        this._context.beginPath();
+        this._context.moveTo(parseInt(p1.x), parseInt(p1.y));
+        this._context.lineTo(parseInt(p2.x), parseInt(p2.y));
+        this._context.stroke();
+    }
+
+    /**
+     * @param {{x:number,y:number}} p1
+     * @param {{x:number,y:number}} p2
+     * @param {boolean} fill
+     * @private
+     */
+    _drawRect(p1, p2, fill) {
+        this._context.beginPath();
+        this._context.moveTo(p1.x, p1.y);
+        this._context.lineTo(p2.x, p1.y);
+        this._context.lineTo(p2.x, p2.y);
+        this._context.lineTo(p1.x, p2.y);
+        if (fill) {
+            this._context.fill();
+        } else {
+            this._context.stroke();
+        }
+    }
+
+    //</editor-fold>
+    
+    //<editor-fold desc="private methods">
+
+    _setBias(x,y){
         this._bias.x=x;
         this._bias.y=y;
 
     }
 
-    setScale(scale){
+    _setScale(scale){
         if(scale>1E4 || scale <1E-4){
             return false;
         }
@@ -282,124 +432,7 @@ export default class Board {
         this._drawRect({x: 0, y: 0}, {x: rulerWidth+5, y: rulerWidth+5}, true);
     }
 
-
-    style(property, value){
-        switch(property){
-            case 'dash':
-                this._context.setLineDash(value);
-                break;
-            default:
-                this._context[property]=value;
-        }
-
-    }
-    /**
-     * @param {Point} p1
-     * @param {Point} p2
-     * @param {string} color
-     * @param {int} width
-     * @param {Array.<number>} dash
-     */
-    drawLine(p1,p2){
-        this._drawLine(this._convertToLocalCoordinateSystem(p1), this._convertToLocalCoordinateSystem(p2));
-    }
-
-    /**
-     * @param {Point} center
-     * @param {number} radius - in global coordinate system
-     * @param {boolean} fill
-     */
-    drawArc(center, radius, fill){
-        this._drawArc(this._convertToLocalCoordinateSystem(center),radius*this._pixelPerOne*this._scale,fill);
-    }
-
-    /**
-     * @param {Array.<Point>} points
-     */
-    drawPolyLine(points){
-        let localPoints = [];
-        for(let p of points){
-            localPoints.push(this._convertToLocalCoordinateSystem(p));
-        }
-        this._drawPolyLine(localPoints);
-    }
-
-    /**
-     * @param {Array.<{x: number, y: number}>}points
-     * @private
-     */
-    _drawPolyLine(points){
-        this._context.beginPath();
-        this._context.moveTo(parseInt(points[0].x), parseInt(points[0].y));
-        for(let i=1; i<points.length; i++) {
-            this._context.lineTo(points[i].x, points[i].y);
-        }
-        this._context.stroke();
-    }
-
-    /**
-     * @param {{x: number, y: number}} center
-     * @param {number} radius - in pixel
-     * @param {boolean} fill
-     */
-    _drawArc(center, radius, fill){
-        this._context.beginPath();
-        this._context.arc(center.x, center.y, radius, 0, 2* Math.PI);
-
-        if(fill){
-            this._context.fill();
-        }else {
-            this._context.stroke();
-        }
-    }
-
-    _drawLine(p1, p2) {
-        this._context.beginPath();
-        this._context.moveTo(parseInt(p1.x), parseInt(p1.y));
-        this._context.lineTo(parseInt(p2.x), parseInt(p2.y));
-        this._context.stroke();
-    }
-
-    /**
-     * @param {{x:number,y:number}} p1
-     * @param {{x:number,y:number}} p2
-     * @param {boolean} fill
-     * @private
-     */
-    _drawRect(p1, p2, fill) {
-        this._context.beginPath();
-        this._context.moveTo(p1.x, p1.y);
-        this._context.lineTo(p2.x, p1.y);
-        this._context.lineTo(p2.x, p2.y);
-        this._context.lineTo(p1.x, p2.y);
-        if (fill) {
-            this._context.fill();
-        } else {
-            this._context.stroke();
-        }
-    }
-
-    /**
-     * @param {Point} point
-     * @return {{x: number, y: number}}
-     * @private
-     */
-    _convertToLocalCoordinateSystem(point){
-        let multiplier = this._pixelPerOne*this._scale;
-        return {x:point.x*multiplier+this._initCenterPosition.x+this._bias.x
-              , y:-point.y*multiplier+this._initCenterPosition.y+this._bias.y};
-    }
-
-    /**
-     * @param {{x: number, y: number}} point
-     * @return {Point}
-     * @private
-     */
-    _convertToGlobalCoordinateSystem(point){
-        let divider = this._pixelPerOne*this._scale;
-        return new Point((point.x-this._initCenterPosition.x-this._bias.x)/divider
-                        ,-(point.y-this._initCenterPosition.y-this._bias.y)/divider,0);
-    }
+    //</editor-fold>
 }
 
 // global.Board2 = Board;
