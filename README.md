@@ -10,3 +10,6 @@ Before run the command execute <code>npm install</code> for installing all depen
 
 Class diagram
 ![](./doc/img/classDiagramm.png)
+
+#####Data structure
+Structure of data file [*.emsx](./doc/example.emsx) is in the  [file](./doc/format.dtd)
