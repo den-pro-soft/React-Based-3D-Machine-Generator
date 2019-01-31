@@ -8,6 +8,7 @@ import GraphicElement from './GraphicElement';
 
 export default class Document{
     constructor(){
+        /** @var {Array.<GraphicElement>}*/
         this._elements = [];
     }
 
@@ -112,6 +113,17 @@ export default class Document{
                 return this.getExtrenum(this._elements);
             }
         }
+    }
+
+    /**
+     * @return {Array.<GraphicElement>}
+     */
+    getListSimpleElements(){
+        let res = [];
+        for(let el of this._elements){
+            res.push(...el.toSimpleElements());
+        }
+        return res;
     }
 
     resetRendererConfig(){

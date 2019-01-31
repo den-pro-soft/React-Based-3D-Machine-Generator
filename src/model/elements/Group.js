@@ -65,4 +65,26 @@ export default class Group extends GraphicElement{
         return res;
     }
 
+    toPolyLines(){
+        let res = [];
+        for(let element of this.elements){
+            let polyLines = element.toPolyLines();
+            for(let polyLine of polyLines){
+                res.push(polyLine);
+            }
+        }
+        return res;
+    }
+
+    toSimpleElements(){
+        let res = [];
+        for(let el of this.elements){
+            if(el.typeName == 'Group'){
+                res.push(...el.toSimpleElements());
+            }else{
+                res.push(el);
+            }
+        }
+        return res;
+    }
 }

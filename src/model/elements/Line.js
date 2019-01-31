@@ -5,7 +5,7 @@ import Exception from './../../Exception';
 import GraphicElement from './../GraphicElement';
 import LineRenderer from './../../2d/renderer/LineRenderer';
 import Point from "../Point";
-import Martix from '../math/Matrix';
+import PolyLine from '../math/PolyLine';
 import Trigonometric from './../math/Trigonometric'
 
 export default class Line extends GraphicElement{
@@ -33,6 +33,13 @@ export default class Line extends GraphicElement{
     }
     get p2(){
         return this._p2;
+    }
+
+    /**
+     * return {number}
+     */
+    get k(){
+        return (this.p2.x-this.p1.x)/(this.p2.y-this.p1.y);
     }
 
     /**
@@ -128,5 +135,48 @@ export default class Line extends GraphicElement{
         let line = new Line(this._p1.copy(), this._p2.copy());
         line.height=this.height;
         return line;
+    }
+
+    toPolyLines(){
+        return [new PolyLine(this._points)];
+    }
+
+    /**
+     * @param {Line} line
+     * @return {Point|null}
+     */
+    getCrossPoint(line){
+        let x1 = this.p1.x;
+        let y1 = this.p1.y;
+        let x2 = this.p2.x;
+        let y2 = this.p2.y;
+        let x3 = line.p1.x;
+        let y3 = line.p1.y;
+        let x4 = line.p2.x;
+        let y4 = line.p2.y;
+
+        if(this.k == line.k){
+            return null;
+        }
+
+        let a1 = y1 - y2;
+        let b1 = x2 - x1;
+        let a2 = y3 - y4;
+        let b2 = x4 - x3;
+
+        let d = a1 * b2 - a2 * b1;
+        if( d != 0 ){
+            let c1 = y2 * x1 - x2 * y1;
+
+            let c2 = y4 * x3 - x4 * y3;
+            let x = ((b1 * c2 - b2 * c1) / d).toFixed(4);
+            let y = ((a2 * c1 - a1 * c2) / d).toFixed(4);
+            if((((x<=x1 && x>=x2) || (x>=x1 && x<=x2)) && ((x<=x3 && x>=x4) || (x>=x3 && x<=x4)))) {
+                return new Point(x, y, 0);
+            }else{
+                return null;
+            }
+        }
+        return null;
     }
 }
