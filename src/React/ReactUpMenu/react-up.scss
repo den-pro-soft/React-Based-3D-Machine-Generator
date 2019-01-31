@@ -14,7 +14,7 @@
      
       .Panel {
         display:flex;
-        justify-content: flex-start;
+        // justify-content: flex-start;
    
         button {
        
@@ -40,9 +40,5 @@
 
   }
  
-  .RightButtons {
-    display: inline-flex;
-    justify-content: space-between;
-    margin-right:5px;
-  }
+ 
 }
