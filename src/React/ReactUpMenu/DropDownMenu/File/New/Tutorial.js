@@ -106,6 +106,8 @@ export default class Tutorial extends React.Component {
             </RadioGroup>
           </FormControl>
         </div>
+        <p className="Parameters">Preview:</p>
+
         <div className="EMSXFile">
           {this.state.value === "emsx1" && (
             <>

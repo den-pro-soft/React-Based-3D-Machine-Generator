@@ -95,8 +95,8 @@ export default class ToolsPanel extends React.Component {
             </button>
             <input type="text"  data-place="bottom" data-tip="<span>Vertical size<br/>Vertical size of imaginary rectangle enclosing the line.To<br/>
             change, enter a value and press the Enter key. </span>"/>
-            </div>
-           <div className="Center-Tools">
+            {/* </div>
+           <div className="Center-Tools"> */}
             <button className="btn-Z tooltip-Z">
               <a href="#">
                 <img
