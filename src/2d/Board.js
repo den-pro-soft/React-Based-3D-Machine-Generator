@@ -4,17 +4,24 @@
 
 import LineTool from './tool/LineTool';
 import PointerTool from './tool/PointerTool';
+import ZoomTool from './tool/ZoomTool';
 import RectTool from './tool/RectTool';
 import SplineTool from './tool/SplineTool';
 import CircleTool from './tool/CircleTool';
 import Document from '../model/Document';
 import Point from '../model/Point';
+import Observable from './../Observable';
 
-export default class Board {
+/**
+ * Event names:
+ * 1. mouseMove - data is {Point} current mouse position (in virtual coordinate system)
+ */
+export default class Board extends Observable{
     /**
      * @param {HTMLCanvasElement} canvas
      */
     constructor(canvas) {
+        super();
         this._scale = 0.2;
         this._bias = {x: 0, y: 0}; // pixel
         this._initCenterPosition = {x: 0, y: 0}; //pixel
@@ -97,6 +104,9 @@ export default class Board {
             case 'Spline':
                 this.tool = new SplineTool(this._document);
                 break;
+            case 'Zoom':
+                this.tool = new ZoomTool(this._document);
+                break;
             default:
                 this.tool = new PointerTool(this._document);
         }
@@ -161,12 +171,28 @@ export default class Board {
 
         this.renderDocument();
     }
-    
+
+    /**
+     * @param {{x: number, y: number}} point
+     * @param {number} dZoom -  0..1..*
+     * @private
+     */
+    _zoomAroundPoint(dZoom, point){
+        let was = this._convertToGlobalCoordinateSystem(point);
+        if(this._setScale(this._scale*dZoom)) {
+            let now = this._convertToGlobalCoordinateSystem(point);
+            this._setBias(this._bias.x+((now.x-was.x)*this._pixelPerOne*this._scale)
+                ,this._bias.y-((now.y-was.y)*this._pixelPerOne*this._scale));
+        }
+        this.renderDocument();
+    }
+
     //<editor-fold desc="events handlers">
 
     mouseMove(e) {
         this._document.resetRendererConfig();
-        if (!this.tool.mouseMove(this._convertToGlobalCoordinateSystem({x:e.offsetX, y:e.offsetY}))) {
+        let globalPoint = this._convertToGlobalCoordinateSystem({x:e.offsetX, y:e.offsetY});
+        if (!this.tool.mouseMove(globalPoint, e)) {
             if (this._mouseDown) {
                 this._setBias(this._bias.x - (this._mouseDown.offsetX - e.offsetX)
                             ,this._bias.y - (this._mouseDown.offsetY - e.offsetY));
@@ -175,43 +201,37 @@ export default class Board {
         }
         this._mousePosition={x:e.offsetX, y:e.offsetY};
         this.renderDocument();
+        this._notifyHandlers('mouseMove',globalPoint);
     }
 
     mouseUp(e) {
         this._document.resetRendererConfig();
-        this.tool.mouseUp(this._convertToGlobalCoordinateSystem({x: e.offsetX, y: e.offsetY}));
+        this.tool.mouseUp(this._convertToGlobalCoordinateSystem({x: e.offsetX, y: e.offsetY}), e);
         this._mouseDown = null;
         this.renderDocument();
     }
 
     mouseDown(e) {
         this._document.resetRendererConfig();
-        this.tool.mouseDown(this._convertToGlobalCoordinateSystem({x: e.offsetX, y: e.offsetY}));
+        this.tool.mouseDown(this._convertToGlobalCoordinateSystem({x: e.offsetX, y: e.offsetY}), e);
         this._mouseDown = e;
         this.renderDocument();
     }
 
     mouseClick(e) {
         this._document.resetRendererConfig();
-        this.tool.mouseClick(this._convertToGlobalCoordinateSystem({x:e.offsetX, y:e.offsetY}));
+        this.tool.mouseClick(this._convertToGlobalCoordinateSystem({x:e.offsetX, y:e.offsetY}), e);
     }
 
     _mouseWheel(e) {
         this._document.resetRendererConfig();
         let dScale = e.deltaY / 500;
-        let was = this._convertToGlobalCoordinateSystem({x:e.offsetX, y:e.offsetY});
-        if(this._setScale(this._scale*(1+dScale))) {
-            let now = this._convertToGlobalCoordinateSystem({x:e.offsetX, y:e.offsetY});
-            this._setBias(this._bias.x+((now.x-was.x)*this._pixelPerOne*this._scale)
-                        ,this._bias.y-((now.y-was.y)*this._pixelPerOne*this._scale));
-        }
-
-        this.renderDocument();
+        this._zoomAroundPoint(1+dScale,{x:e.offsetX, y:e.offsetY});
     }
 
     _mouseDbClick(e) {
         this._document.resetRendererConfig();
-        this.tool.mouseDbClick(this._convertToGlobalCoordinateSystem({x: e.offsetX, y: e.offsetY}));
+        this.tool.mouseDbClick(this._convertToGlobalCoordinateSystem({x: e.offsetX, y: e.offsetY}), e);
     }
 
     //</editor-fold>
