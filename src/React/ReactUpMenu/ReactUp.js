@@ -4,8 +4,8 @@ import ReactTooltip from "react-tooltip";
 
 import UpMenu from "./UpMenu/UpMenu";
 import ToolsPanel from './ToolsPanel/ToolsPanel'
-import Material from "./RightButtons/Material";
-import SelectFinish from "./RightButtons/SelectFinish";
+// import Material from "./RightButtons/Material";
+// import SelectFinish from "./RightButtons/SelectFinish";
 
 const ReactUp = context => {
   return (
@@ -40,10 +40,10 @@ const ReactUp = context => {
           </div>
         </div>
       </div>
-      <div className="RightButtons">
+      {/* <div className="RightButtons">
         <Material />
         <SelectFinish />
-      </div>
+      </div> */}
     </div>
   );
 };

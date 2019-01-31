@@ -1,15 +1,12 @@
 import React from "react";
 import "./material.scss";
-// import {
- 
-//   Link
-// } from "react-router-dom";
-import Link from '@material-ui/core/Link';
+
 export default class Material extends React.Component {
   constructor(props, context) {
     super(props, context);
     this.state = {
       displayMenu: false,
+      value:'Material'
     };
   }
 
@@ -25,6 +22,30 @@ export default class Material extends React.Component {
       document.removeEventListener("click", this.hideDropdownMenu);
     });
   }
+  handleClick1 = () => {
+    this.setState({ value: 'Aluminum 6061' });
+  
+  };
+  handleClick2 = () => {
+    this.setState({ value: 'Aluminum 5052' });
+  
+  };
+  handleClick3 = () => {
+    this.setState({ value: 'Plain Steel' });
+  
+  };
+  handleClick4 = () => {
+    this.setState({ value: 'Brass' });
+  
+  };
+  handleClick5 = () => {
+    this.setState({ value: 'Copper' });
+  
+  };
+  handleClick6 = () => {
+    this.setState({ value: 'Stainless' });
+  
+  };
   openWindow=()=>{
     window.open('https://www.emachineshop.com/')
   }
@@ -39,26 +60,27 @@ export default class Material extends React.Component {
           //  onMouseEnter={this.showDropdownMenu}
           // onMouseLeave={this.hideDropdownMenu}
           >
-     Material
+     {/* Material */}
+     {this.state.value}
           {this.state.displayMenu ? (
             <ul>
-              <li onClick={this.clickSubModal}>
+              <li value="Aluminum 6061" onClick={this.handleClick1}>
                 <a href="#">Aluminum 6061</a>
               </li>
-              <li>
+              <li value="Aluminum 5052" onClick={this.handleClick2}>
                 <a href="#">Aluminum 5052</a>
               </li>
               
-              <li>
+              <li value="Plain Steel" onClick={this.handleClick3}>
                 <a href="#">Plain Steel</a>
               </li>
-              <li>
+              <li value="Brass" onClick={this.handleClick4}>
                 <a href="#">Brass</a>
               </li>
-              <li>
+              <li value="Copper" onClick={this.handleClick5}>
                 <a href="#">Copper</a>
               </li>
-              <li>
+              <li value="Stainless" onClick={this.handleClick6}>
                 <a href="#">Stainless</a>
               </li>
               <li onClick={this.openWindow}>

@@ -1,13 +1,10 @@
 import React from "react";
 import "./job.scss";
 import Settings from "./Settings/Settigs";
-import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
-import Link from "@material-ui/core/Link";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
-import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 // import classNames from 'classnames';
 // import { withStyles } from '@material-ui/core/styles';
@@ -18,9 +15,6 @@ export default class Job extends React.Component {
       displayMenu: false,
       openSubModal: false
     };
-
-    // this.showDropdownMenu = this.showDropdownMenu.bind(this);
-    // this.hideDropdownMenu = this.hideDropdownMenu.bind(this);
    
   }
 
@@ -49,14 +43,11 @@ export default class Job extends React.Component {
   };
 
   closeSubModal = () => {
-    // this.setState({
-    //   openSubModal: false
-    // });
+ 
     this.setState(
       prevState => ({ openSubModal: prevState.openSubModal }),
       () => {
         this.setState({ openSubModal: !this.state.openSubModal });
-        console.log(this.state.openSubModal, "Close");
       }
     );
   };

@@ -39,6 +39,7 @@ export default class ToolsPanel extends React.Component {
           className="tooltipBackgroundTheme"
         /> */}
         <form>
+          <div className="Left-Tools">
             <button className="btn-LineType">
               <a href="#">
                 <img
@@ -70,7 +71,7 @@ export default class ToolsPanel extends React.Component {
                 />
               </a>
             </button> */}
-               <button className="btn-Diameter">
+               <button className="btn-Horizontal">
               <a href="#">
                 <img
                   width="18px"
@@ -82,7 +83,7 @@ export default class ToolsPanel extends React.Component {
             </button>
             <input type="text"  data-place="bottom" data-tip="<span>Horizontal size<br/>Horizontal size of imaginary rectangle enclosing the line.To<br/>
             change, enter a value and press the Enter key. </span>"/>
-            <button className="btn-Diameter">
+            <button className="btn-Vertical">
               <a href="#">
                 <img
                   width="18px"
@@ -94,6 +95,8 @@ export default class ToolsPanel extends React.Component {
             </button>
             <input type="text"  data-place="bottom" data-tip="<span>Vertical size<br/>Vertical size of imaginary rectangle enclosing the line.To<br/>
             change, enter a value and press the Enter key. </span>"/>
+            </div>
+           <div className="Center-Tools">
             <button className="btn-Z tooltip-Z">
               <a href="#">
                 <img
@@ -146,7 +149,8 @@ export default class ToolsPanel extends React.Component {
                 />
               </a>
             </button>
-        
+            </div>
+        <div className="Right-Tools">
             <button className="btn-Copy">
               <a href="#">
                 <img
@@ -212,7 +216,7 @@ export default class ToolsPanel extends React.Component {
               </a>
             </button>
             <input type="text" className="InputRotate" onChange={(e) =>{this.rotateStep = e.target.value;}}/>
-          {/* </div> */}
+          </div>
         </form>
       </div>
     );

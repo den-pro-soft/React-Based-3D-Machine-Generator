@@ -8,8 +8,8 @@ module.exports = {
     menu: "./src/menu.js",
     popup: "./src/popup.js",
     Helper: "./src/Helper.js",
-    Board:"./src/2d/Board.js",
-    Application:"./src/Application.js",
+    Board: "./src/2d/Board.js",
+    Application: "./src/Application.js",
     //React enry point
     index: "./src/index.js"
   },
@@ -57,13 +57,14 @@ module.exports = {
           "css-loader", // translates CSS into CommonJS
           "sass-loader" // compiles Sass to CSS, using Node Sass by default
         ]
-      }
+      },
+      // { test: /\.xml$/, use: { loader: "xml-loader" } }
+
     ]
   },
   plugins: [
     new HtmlWebpackPlugin({
       template: "./index.html"
     })
-  ],
-
+  ]
 };

@@ -13,29 +13,36 @@ export default class Adress extends React.Component {
       provinceOther: false,
       provinceOther2: false,
 
-      value:"U.S.A."
+      value: "U.S.A."
     };
   }
   handleChange = event => {
-    this.setState({value: event.target.value});
-    if(event.target.value!=='U.S.A.'&& event.target.value!=='Canada'){
+    this.setState({ value: event.target.value });
+    if (event.target.value !== "U.S.A." && event.target.value !== "Canada") {
       this.setState({
-        // statesUSA: false,
-        // statesCanada: false,
-        provinceOther: true}); 
+        provinceOther: true
+      });
+    } else {
+      this.setState({
+        provinceOther: false
+      });
     }
-    console.log(event.target.value,'this.state,value-country')
-  }
+    console.log(event.target.value, "this.state,value-country");
+  };
+  
   handleChangeIsChecked = event => {
-    this.setState({value: event.target.value});
-    if(event.target.value!=='U.S.A.'&& event.target.value!=='Canada'){
+    this.setState({ value: event.target.value });
+    if (event.target.value !== "U.S.A." && event.target.value !== "Canada") {
       this.setState({
-       
-        provinceOther2: true}); 
+        provinceOther2: true
+      });
+    } else {
+      this.setState({
+        provinceOther2: false
+      });
     }
-    console.log(event.target.value,'this.state,value-country')
-  }
-
+    console.log(event.target.value, "this.state,value-country");
+  };
 
   handleChecked = event => {
     window.setTimeout(() => {
@@ -169,7 +176,7 @@ export default class Adress extends React.Component {
                 </div>
               </div>
               <div className="InputGroup">
-              <div className="Input">
+                <div className="Input">
                   <input type="text" />
                 </div>
                 <div className="Input">
@@ -194,7 +201,7 @@ export default class Adress extends React.Component {
                 </div>
               </div>
               <div className="InputGroup">
-              <div className="Input">
+                <div className="Input">
                   <input type="text" />
                 </div>
                 <div className="Input">
@@ -236,11 +243,12 @@ export default class Adress extends React.Component {
                 <div className="Input">
                   <input type="text" />
                 </div>
-                {this.state.provinceOther &&   
-                <div className="Input">
-                  <input type="text" />
-                </div>}
-                {this.state.value==='U.S.A.' && (
+                {this.state.provinceOther && (
+                  <div className="Input">
+                    <input type="text" />
+                  </div>
+                )}
+                {this.state.value === "U.S.A." && (
                   <div className="Input">
                     <select>
                       {statesUSA.map((item, i) => (
@@ -251,7 +259,7 @@ export default class Adress extends React.Component {
                     </select>
                   </div>
                 )}
-                {this.state.value==='Canada' && (
+                {this.state.value === "Canada" && (
                   <div className="Input">
                     <select>
                       {statesCanada.map((item, i) => (
@@ -266,7 +274,9 @@ export default class Adress extends React.Component {
                   <input type="text" />
                 </div>
                 <div className="Input">
-                  <select /*value={this.state.value}*/ onChange={this.handleChange}>
+                  <select
+                    /*value={this.state.value}*/ onChange={this.handleChange}
+                  >
                     {countries.map((item, i) => (
                       <option value={item} key={i}>
                         {item}
@@ -278,18 +288,16 @@ export default class Adress extends React.Component {
             </div>
           </fieldset>
           <div style={{ padding: "10px" }}>
-         
-                  <label>
-                    <Checkbox
-                     checked={this.state.isChecked}
-                     onChange={this.handleChecked}
-                     
-                      color="primary"
-                    />
-            Billing address (enter only if different from shipping address)
-                  </label>
-                </div>
-           
+            <label>
+              <Checkbox
+                checked={this.state.isChecked}
+                onChange={this.handleChecked}
+                color="primary"
+              />
+              Billing address (enter only if different from shipping address)
+            </label>
+          </div>
+
           {this.state.isChecked && (
             <fieldset className="Fieldset">
               <div className="InputLabel-Block InputBlock-Hide">
@@ -321,11 +329,12 @@ export default class Adress extends React.Component {
                   <div className="Input">
                     <input type="text" />
                   </div>
-                  {this.state.provinceOther2 &&   
-                <div className="Input">
-                  <input type="text" />
-                </div>}
-                  {this.state.value==='U.S.A.' && (
+                  {this.state.provinceOther2 && (
+                    <div className="Input">
+                      <input type="text" />
+                    </div>
+                  )}
+                  {this.state.value === "U.S.A." && (
                     <div className="Input">
                       <select>
                         {statesUSA.map((item, i) => (
@@ -336,7 +345,7 @@ export default class Adress extends React.Component {
                       </select>
                     </div>
                   )}
-                  {this.state.value==='Canada' && (
+                  {this.state.value === "Canada" && (
                     <div className="Input">
                       <select>
                         {statesCanada.map((item, i) => (
@@ -351,7 +360,7 @@ export default class Adress extends React.Component {
                     <input type="text" />
                   </div>
                   <div className="Input">
-                    <select onChange = {this.handleChangeIsChecked}>
+                    <select onChange={this.handleChangeIsChecked}>
                       {countries.map((item, i) => (
                         <option value={item} key={i}>
                           {item}
@@ -368,7 +377,9 @@ export default class Adress extends React.Component {
                 </div>
               </div>
               <div className="CopyBlock">
-                <div>Must match the billing address on file for credit card</div>
+                <div>
+                  Must match the billing address on file for credit card
+                </div>
                 <Button
                   size="small"
                   style={{ backgroundColor: "#fff", color: "orangered" }}
