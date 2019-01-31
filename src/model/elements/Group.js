@@ -75,4 +75,16 @@ export default class Group extends GraphicElement{
         }
         return res;
     }
+
+    toSimpleElements(){
+        let res = [];
+        for(let el of this.elements){
+            if(el.typeName == 'Group'){
+                res.push(...el.toSimpleElements());
+            }else{
+                res.push(el);
+            }
+        }
+        return res;
+    }
 }

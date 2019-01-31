@@ -150,4 +150,8 @@ export default class GraphicElement{
     compare(element){
         return this.id==element.id;
     }
+
+    toSimpleElements(){
+        return [this];
+    }
 }

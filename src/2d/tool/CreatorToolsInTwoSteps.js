@@ -21,7 +21,6 @@ export default class CreatorToolsInTwoSteps extends CreatorTool{
         super.mouseMove(point);
         if(this._element){
             this.setPosition2(point);
-            this._selectNear_elements(point);
             return true;
         }
         return false;
@@ -39,6 +38,10 @@ export default class CreatorToolsInTwoSteps extends CreatorTool{
             this.graphicElement._renderer.drawAsNew();
             this.step = 1;
         }else{
+            // if(e.button!=2){ //left
+            //     this._element = null;
+            //     this.step=0;
+            // }
             this.step=2;
         }
     }
@@ -59,14 +62,6 @@ export default class CreatorToolsInTwoSteps extends CreatorTool{
             this.graphicElement.render();
         }
         super.render();
-    }
-
-    _selectNear_elements(point){
-        let scale = container.board._scale; //todo: container
-        let _elements = this.document.getNearElements(point, (scale>1?0.2:0.05)/scale);
-        for(let element of _elements){
-            element._renderer.setFocus(true);
-        }
     }
 
     setPosition2(point){

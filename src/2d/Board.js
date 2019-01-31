@@ -9,6 +9,7 @@ import EraserTool from './tool/EraserTool';
 import RectTool from './tool/RectTool';
 import SplineTool from './tool/SplineTool';
 import CircleTool from './tool/CircleTool';
+import MagnificationToolDecorator from './tool/MagnificationToolDecorator';
 import Document from '../model/Document';
 import Point from '../model/Point';
 import Observable from './../Observable';
@@ -37,6 +38,8 @@ export default class Board extends Observable{
 
         this._width = 500;
         this._height = 500;
+
+        this.magnificationMode = false;
 
         this._mouseDown = null;
         this._mousePosition = {x: 0, y: 0};
@@ -113,6 +116,9 @@ export default class Board extends Observable{
                 break;
             default:
                 this.tool = new PointerTool(this._document);
+        }
+        if(this.magnificationMode){
+            this.tool = new MagnificationToolDecorator(this._document, this.tool);
         }
     }
 
