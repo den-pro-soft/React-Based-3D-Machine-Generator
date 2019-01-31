@@ -70,7 +70,7 @@ export default class LeftMenu extends React.Component {
             data-tip="<span>Freehand.<br>Draws a freehand sketch. To draw click and hold mouse button while moving the mouse.<br>Use the Node edit mode to modify.</span>"
           />
         </button>
-        <button onClick={() => app.board.setTool("Pointer")}>
+        <button onClick={() => app.board.setTool("Eraser")}>
           <img
             width="25px"
             src="images/Eraser.png"

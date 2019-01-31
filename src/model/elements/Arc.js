@@ -26,31 +26,13 @@ export default class Arc extends GraphicElement{
     get center(){
         return this._center;
     }
-
-    set center(point){
-        this._center = point;
-        this._points[0]=point;
-    }
-
-    get center(){
-        return this._center;
-    }
-
+    
     /**
      * @returns {{max:{x:number, y:number}, min:{x:number, y:number}}}
      */
     getExtrenum(){
         let points = this._getExtrenumPoints();
         return Point.getExtrenum(points);
-    }
-
-    /**
-     * @param {number} x
-     * @param {number} y
-     */
-    move(x,y){
-        let moveMatrix = this.createMoveMatrix(x,y);
-        this._center.changeByMatrix(moveMatrix);
     }
 
 

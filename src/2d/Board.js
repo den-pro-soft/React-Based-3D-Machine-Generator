@@ -5,6 +5,7 @@
 import LineTool from './tool/LineTool';
 import PointerTool from './tool/PointerTool';
 import ZoomTool from './tool/ZoomTool';
+import EraserTool from './tool/EraserTool';
 import RectTool from './tool/RectTool';
 import SplineTool from './tool/SplineTool';
 import CircleTool from './tool/CircleTool';
@@ -106,6 +107,9 @@ export default class Board extends Observable{
                 break;
             case 'Zoom':
                 this.tool = new ZoomTool(this._document);
+                break;
+            case 'Eraser':
+                this.tool = new EraserTool(this._document);
                 break;
             default:
                 this.tool = new PointerTool(this._document);
