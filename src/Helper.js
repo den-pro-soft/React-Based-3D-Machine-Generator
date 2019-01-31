@@ -10,8 +10,9 @@ class WindowHelper{
     addHandler(eventName, handler){
         if(!this.handlers[eventName]){
             this.handlers[eventName]=[];
-            window[eventName]=(e)=>{
-                this._notifyHandlers(eventName,e)}
+            window.addEventListener(eventName, (e)=>{
+                this._notifyHandlers(eventName,e);
+            });
         }
         this.handlers[eventName].push(handler);
     }

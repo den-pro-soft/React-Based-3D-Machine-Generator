@@ -124,7 +124,7 @@ class DialogPopup extends Popup{
         this.close.onmouseout = ()=>{this.close.style.color = "#fff";};
 
         this.title = element('div',this.header).fontStyle(14, "Ubuntu", "#fff", false).position(10,5);
-        Helper.Window.addHandler('onresize',()=> {
+        Helper.Window.addHandler('resize',()=> {
             this.popupContainer.size(innerWidth,innerHeight);
             this.moveToCenter()
         });

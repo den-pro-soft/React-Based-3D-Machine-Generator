@@ -12,6 +12,8 @@ import DeleteElementCommand from './2d/command/DeleteElementCommand';
 import ChangeElementsHeightCommand from './2d/command/ChangeElementsHeightCommand';
 import MoveElementsCommand from './2d/command/MoveElementsCommand';
 import RotateElementsCommand from './2d/command/RotateElementsCommand';
+import config from './Config';
+
 
 /**
  * The main application class is a facade for board
@@ -37,6 +39,8 @@ class Application{
             selectElement: [],
             clearSelectElements: []
         }
+
+        this.config = config;
     }
 
     set board(board){
@@ -48,13 +52,28 @@ class Application{
         return this._board;
     }
 
+    /**
+     * The method need for interface reflection flow
+     * Pointer tool use the method
+     * @param {Array.<GraphicElement>} elements
+     */
     addSelectElements(elements){
         for(let element of elements){
             this.addSelectElement(element);
         }
     }
 
+    /**
+     * The method need for interface reflection flow
+     * Pointer tool use the method
+     * @param {GraphicElement} element
+     */
     addSelectElement(element){
+        for(let el of this.selectElements){
+            if(el.compare(element)){
+                return;
+            }
+        }
         this.selectElements.push(element);
         this._notifyHandlers('selectElement',element);
     }
@@ -124,6 +143,7 @@ class Application{
             this.board.setTool('Pointer');
         }
         this.executeCommand(new DeleteElementCommand(this.currentDocument, this.selectElements));
+        this.clearSelectElements();
     }
 
     setElementsHeight(height){
@@ -146,6 +166,17 @@ class Application{
         this.executeCommand(new RotateElementsCommand(app.currentDocument, app.selectElements, angle));
     }
 
+    selectAll(){
+        this.clearSelectElements();
+        for(let el of this.currentDocument._elements){
+            this.addSelectElement(el);
+            this._board.tool.selectElement(el);
+        }
+        if(this._board){
+            this._board.renderDocument();
+        }
+    }
+
     addHandler(eventName, handler){
         this._handlers[eventName].push(handler);
     }
@@ -160,3 +191,39 @@ class Application{
 }
 
 window.app = new Application();
+
+Helper.Window.addHandler('keydown',(e)=>{
+    console.log(e.keyCode);
+    switch(e.keyCode){
+        case 46: //delete
+            app.deleteSelected();
+            break;
+        case 65: //Aa
+            if(e.ctrlKey){
+                app.selectAll();
+                e.preventDefault();
+            }
+            break;
+        case 90: //Zz
+            if(e.ctrlKey){
+                if(e.shiftKey){
+                    app.redo();
+                }else {
+                    app.undo();
+                }
+            }
+            break;
+        case 37: //left
+            app.moveSelected(-config.moveStep,0);
+            break;
+        case 38: //up
+            app.moveSelected(0,config.moveStep);
+            break;
+        case 39: //right
+            app.moveSelected(config.moveStep,0);
+            break;
+        case 40: //down
+            app.moveSelected(0,-config.moveStep);
+            break;
+    }
+});
