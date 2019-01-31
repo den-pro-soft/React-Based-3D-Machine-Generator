@@ -20,8 +20,7 @@ export default class DeleteElementCommand extends Command{
     /**
      * @inheritDoc
      */
-    execute(){
-        super.execute();
+    executeCommand(){
         for(let el of this._elements) {
             this._document.removeElement(el);
         }

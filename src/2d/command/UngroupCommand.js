@@ -21,8 +21,7 @@ export default class UngroupCommand extends Command{
     /**
      * @inheritDoc
      */
-    execute(){
-        super.execute();
+    executeCommand(){
         for(let el of this._elements) {
             if(el.typeName == 'Group') {
                 for(let element of el.elements) {

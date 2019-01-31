@@ -62,6 +62,8 @@ export default class Point{
     }
 
     copy(){
-        return new Point(this.x, this.y, this.z);
+        let p = new Point(this.x, this.y, this.z);
+        p.id=this.id;
+        return p;
     }
 }

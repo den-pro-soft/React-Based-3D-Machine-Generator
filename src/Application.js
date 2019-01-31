@@ -117,8 +117,8 @@ class Application{
     redo(){
         if(this.commandHistory.hasRedo()){
             let command = this.commandHistory.getRedo();
+            command.redo();
             this.commandHistory.push(command);
-            command.execute();
         }
         if(this._board){
             this._board.renderDocument();
@@ -165,7 +165,7 @@ class Application{
      * @param {number} y
      */
     moveSelected(x,y){
-        this.executeCommand(new MoveElementsCommand(app.currentDocument, app.selectElements, x,y));
+        this.executeCommand(new MoveElementsCommand(app.currentDocument, app.selectElements.slice(), x,y));
     }
 
     /**

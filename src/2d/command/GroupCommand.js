@@ -21,8 +21,7 @@ export default class GroupCommand extends Command{
     /**
      * @inheritDoc
      */
-    execute(){
-        super.execute();
+    executeCommand(){
         let group = new Group();
         for(let el of this._elements) {
             group.addElement(el);
