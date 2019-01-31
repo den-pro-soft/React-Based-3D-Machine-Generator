@@ -28,8 +28,8 @@ export default class UngroupCommand extends Command{
                 for(let element of el.elements) {
                     this._document.addElement(element);
                 }
+                this._document.removeElement(el);
             }
-            this._document.removeElement(el);
         }
         return true;
     }
