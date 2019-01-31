@@ -35,15 +35,7 @@ export default class Document{
         //     throw new Exception("To document can be remove only elements which instances GraphicElement class.",element);
         // }
     }
-
-    /**
-     * Call render methods for all elements
-     */
-    render(){
-        for(let element of this._elements){
-            element.render();
-        }
-    }
+    
 
     /**
      * @param {Point} point

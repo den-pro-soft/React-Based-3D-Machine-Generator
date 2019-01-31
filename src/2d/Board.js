@@ -88,7 +88,14 @@ export default class Board extends Observable{
     renderDocument() {
         this.clear('#ffffff');
         this.tool.render();
-        this._document.render();
+        m: for(let element of this.document._elements){
+            for(let el of app.selectElements){
+                if(el.compare(element)){
+                    continue m;
+                }
+            }
+            element.render();
+        }
 
 
         this._drawRulers();

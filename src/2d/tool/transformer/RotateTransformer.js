@@ -17,7 +17,7 @@ export default class RotateTransformer extends Transformer{
 
         this._downPosition = null;
         this.grad=0;
-
+        this.Dgrad=0;
         this._createGroup();
         this._calculateRadius();
     }
@@ -48,6 +48,8 @@ export default class RotateTransformer extends Transformer{
      */
     mouseUp(point){
         this._downPosition = null;
+        app.rotateSelected(this.Dgrad);
+        this.Dgrad=0;
         return super.mouseUp(point);
     }
 
@@ -72,6 +74,7 @@ export default class RotateTransformer extends Transformer{
             var angleDelta = angle1 - angle2;
 
             this.grad+=angleDelta;
+            this.Dgrad+=angleDelta;
             this.group.rotate(center,angleDelta);
             this._downPosition= point;
         }
@@ -80,17 +83,18 @@ export default class RotateTransformer extends Transformer{
     }
 
     render(){
+        super.render();
         if(this.group) {
+
             let center = this.group.getCenter();
-
             let centerPoint = this.board._convertToLocalCoordinateSystem(center);
-            let localRadius = this._localRadius();
 
+            let localRadius = this._localRadius();
             this.board.style('strokeStyle', '#000000');
             this.board.style('lineWidth', 1);   //todo: use theme
             this.board.style('dash', [4, 4]);
-            this.board._drawArc(centerPoint, localRadius);
 
+            this.board._drawArc(centerPoint, localRadius);
             let grad45 = Trigonometric.gradToRad(45 + this.grad);
             this.board.style('fillStyle', '#000000');
             this.board.style('lineWidth', 1);   //todo: use theme
@@ -107,12 +111,12 @@ export default class RotateTransformer extends Transformer{
                 x: centerPoint.x - localRadius * Math.cos(grad45),
                 y: centerPoint.y - localRadius * Math.sin(grad45)
             }, 4, true);
+
+
             this.board._drawArc({
                 x: centerPoint.x + localRadius * Math.cos(grad45),
                 y: centerPoint.y + localRadius * Math.sin(grad45)
             }, 4, true);
-
-
             this.board._drawArc(centerPoint, 8, true);
             this.board.style('fillStyle', '#ffffff');
             this.board._drawArc(centerPoint, 6, true);

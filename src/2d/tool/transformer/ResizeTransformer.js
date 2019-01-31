@@ -201,6 +201,9 @@ export default class ResizeTransformer extends Transformer{
         this._downPosition = null;
 
         this.activeControllPoint = null;
+
+        this.dx = 0;
+        this.dy = 0;
     }
 
     addElements(elements){
@@ -238,6 +241,11 @@ export default class ResizeTransformer extends Transformer{
         this._downPosition = null;
         if(this.resizeRect) {
             this.activeControllPoint=null;
+            if(this.dx!=0 || this.dy!=0){
+                app.moveSelected(this.dx, this.dy);
+                this.dx = 0;
+                this.dy = 0;
+            }
             return super.mouseUp(point) && this.resizeRect.contain(point);
         }else{
             return super.mouseUp(point);
@@ -254,6 +262,8 @@ export default class ResizeTransformer extends Transformer{
                 if (this.resizeRect.isControlPoint(this._downPosition) || this.activeControllPoint) {
                     this.resizeRect.resizeElements(this.activeControllPoint, dx,dy);
                 } else {
+                    this.dx+=dx;
+                    this.dy+=dy;
                     for (let element of this._elements) {
                         element.move(dx, dy);
                         this.resizeRect.move(dx,dy);
@@ -268,6 +278,7 @@ export default class ResizeTransformer extends Transformer{
     }
 
     render(){
+        super.render();
         if(this.resizeRect){
             this.resizeRect.render();
         }
