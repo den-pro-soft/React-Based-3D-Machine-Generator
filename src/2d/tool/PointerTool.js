@@ -34,7 +34,10 @@ export default class PointerTool extends Tool{
     }
 
     selectElement(element){
-        this.transformer = new ResizeTransformer(this._document);
+        if(!this.transformer) { 
+            this.transformer = new ResizeTransformer(this._document);
+        }
+        //todo: check is resize transformer
         this.transformer.addElements([element]);
         app.addSelectElement(element);
     }

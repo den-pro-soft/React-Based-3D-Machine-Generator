@@ -99,7 +99,7 @@
         var PORT_1 = create_board()
           .setPosition(0, 0)
           .setSize(innerWidth, innerHeight);
-        Helper.Window.addHandler("onresize", function() {
+        Helper.Window.addHandler("resize", function() {
           PORT_1.setSize(innerWidth, innerHeight);
         });
       };
