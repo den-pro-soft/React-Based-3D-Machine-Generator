@@ -6,16 +6,16 @@ export default class LeftMenu extends React.Component {
   constructor(props){
     super(props)
     this.state={
-      background:'transparent'
+      background:'transparent',
+      bgColorSnapToLines:'#f0f0f0d9',
+      
     }
   }
+  handleClickSnapToLines =()=>{
+    this.setState({bgColorSnapToLines:(this.state.bgColorSnapToLines==='#f0f0f0d9')?'#fff':'#f0f0f0d9'})
+  }
   render(){
-    // backgroundColor() {
-    //   console.log('back')
-    //   setState({
-    //    background: 'white'
-    //   }) 
-    //  }
+ 
     return (
    
       <div className="LeftMenu">
@@ -25,9 +25,7 @@ export default class LeftMenu extends React.Component {
            className="leftTooltipBackgroundTheme"
            /> */}
         <button onClick={() => app.board.setTool("Pointer")}
-      // style={{background: this.state.background}}
-      // onClick={()=>this.backgroundColor()}
-        >
+            >
           <img
             width="25px"
             src="images/Select.png"
@@ -105,7 +103,7 @@ export default class LeftMenu extends React.Component {
             data-tip="<span>Ruler<br>Measures a distance in the workspace. Left-click on the start and end points to be measured.</span>"
           />
         </button>
-        <button onClick={() => app.board.setTool("Pointer")}>
+        <button onClick={this.handleClickSnapToLines} style={{backgroundColor:this.state.bgColorSnapToLines}}/*onClick={() => app.board.setTool("Pointer")}*/>
           <img
             width="25px"
             src="images/SnapToLines.png"

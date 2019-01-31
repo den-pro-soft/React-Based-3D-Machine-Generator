@@ -94,7 +94,7 @@ export default class Job extends React.Component {
           aria-describedby="alert-dialog-description"
         >
           <DialogTitle
-            style={{ /*height: "30px",*/ color: "black", textAlign: "left" }}
+            style={{ color: "black", textAlign: "left" }}
             id="alert-dialog-title"
           >
             <img
@@ -106,7 +106,6 @@ export default class Job extends React.Component {
           </DialogTitle>
 
           <DialogContent
-            // classes={{ root: 'styleDialog', container: 'container' }}
 
             style={{ width: "950px",height:'425px', backgroundColor: "#f0ecec" }}
           >
@@ -116,7 +115,7 @@ export default class Job extends React.Component {
           <DialogActions>
             <Button
               onClick={this.closeSubModal}
-              style={{ backgroundColor: "#f0ecec", color: "orangered" }}
+              style={{ backgroundColor: "#f0ecec"}}
               color="primary"
               autoFocus
             >
@@ -124,7 +123,7 @@ export default class Job extends React.Component {
             </Button>
             <Button
               onClick={this.closeSubModal}
-              style={{ backgroundColor: "#f0ecec", color: "orangered" }}
+              style={{ backgroundColor: "#f0ecec" }}
               color="primary"
               autoFocus
             >
@@ -132,7 +131,7 @@ export default class Job extends React.Component {
             </Button>
             <Button
               onClick={this.closeSubModal}
-              style={{ backgroundColor: "#f0ecec", color: "orangered" }}
+              style={{ backgroundColor: "#f0ecec" }}
               color="primary"
               autoFocus
             >

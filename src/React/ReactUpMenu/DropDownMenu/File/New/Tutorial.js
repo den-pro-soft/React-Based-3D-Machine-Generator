@@ -29,15 +29,17 @@ export default class Tutorial extends React.Component {
           see how they are drawn.
         </p>
         <div className="Parameters">
-          <p>Parameters:</p>{" "}
+          <p className="ParamTitle">Parameters:</p>{" "}
           <Button
           onClick={this.resetButton}
             style={{
+              marginTop:'10px',
               backgroundColor: "#dddada",
-              color: "orangered",
-              boxShadow: "2px 2px 1px #000"
+              boxShadow: "2px 2px 1px #000",
+              height:'30px'
             }}
             color="primary"
+            size="small"
             autoFocus
           >
             Reset
@@ -51,9 +53,11 @@ export default class Tutorial extends React.Component {
             >
               <FormControlLabel
                 classes={{ root: "root" }}
+                // style={{border:'1px solid red',paddinTop:'0px!important'}}
                 value="emsx1"
                 control={
                   <Radio
+                  classes={{ root: "root" }}
                     color="primary"
                     // color="default"
                     // style={{margin:"0px"}}
@@ -62,6 +66,7 @@ export default class Tutorial extends React.Component {
                 label="Quick start - Learn eMachineShop in minute with this quick easy tutorial"
               />
               <FormControlLabel
+               classes={{ root: "root" }}
                 value="emsx2"
                 control={
                   <Radio
@@ -74,6 +79,7 @@ export default class Tutorial extends React.Component {
                 label="Flat shape cut from sheet material - this is the lowest cost type of part"
               />
               <FormControlLabel
+               classes={{ root: "root" }}
                 value="emsx3"
                 control={
                   <Radio
@@ -84,6 +90,7 @@ export default class Tutorial extends React.Component {
                 label="Sheet metal with bends - this economical type of part allows for more variety by bending sheet metal"
               />
               <FormControlLabel
+               classes={{ root: "root" }}
                 value="emsx4"
                 control={
                   <Radio
@@ -94,6 +101,7 @@ export default class Tutorial extends React.Component {
                 label="Typical machined part - shows how Z values create 3D shapes"
               />
               <FormControlLabel
+               classes={{ root: "root" }}
                 value="emsx5"
                 control={
                   <Radio

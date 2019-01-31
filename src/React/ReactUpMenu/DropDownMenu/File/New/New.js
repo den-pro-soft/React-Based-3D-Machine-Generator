@@ -18,7 +18,7 @@ const New = (context, props) => {
   return (
     <div>
       <p>
-        To create your own disign select 'Blank Disign'. Or select one of the
+        To create your own design select 'Blank Design'. Or select one of the
         listed wizards and enter the desired parameters.
       </p>
 
@@ -29,16 +29,16 @@ const New = (context, props) => {
               <NavLink
                 className="BlankDisign"
                 exact
-                activeStyle={{ color: "orangered" }}
+                activeStyle={{ color: "blue" }}
                 to="/"
               >
-                Blank Disign
+                Blank Design
               </NavLink>
             </li>
             <li>
               <NavLink
                 className="Tutorial"
-                activeStyle={{ color: "orangered" }}
+                activeStyle={{ color: "blue" }}
                 to="/tutorial"
               >
                 Tutorial Shapes
@@ -47,7 +47,7 @@ const New = (context, props) => {
             <li>
               <NavLink
                 className="FrontPanel"
-                activeStyle={{ color: "orangered" }}
+                activeStyle={{ color: "blue" }}
                 to="/front-panel"
               >
                 Front panel/name plate/sign
@@ -56,7 +56,7 @@ const New = (context, props) => {
             <li>
               <NavLink
                 className="BoltPlate"
-                activeStyle={{ color: "orangered" }}
+                activeStyle={{ color: "blue" }}
                 to="/bolt-plate"
               >
                 Bolt plate
