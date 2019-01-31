@@ -39,7 +39,7 @@ export default class Board extends Observable{
         this._width = 500;
         this._height = 500;
 
-        this.magnificationMode = false;
+        this._magnificationMode = false;
 
         this._mouseDown = null;
         this._mousePosition = {x: 0, y: 0};
@@ -70,6 +70,15 @@ export default class Board extends Observable{
 
     get document(){
         return this._document;
+    }
+
+    set magnificationMode(val){
+        this._magnificationMode=val;
+        if(this._magnificationMode){
+            this.tool = new MagnificationToolDecorator(this._document, this.tool);
+        }else{
+            this.tool= this.tool._tool;
+        }
     }
 
     setSize(width, height) {
@@ -124,7 +133,7 @@ export default class Board extends Observable{
             default:
                 this.tool = new PointerTool(this._document);
         }
-        if(this.magnificationMode){
+        if(this._magnificationMode){
             this.tool = new MagnificationToolDecorator(this._document, this.tool);
         }
     }

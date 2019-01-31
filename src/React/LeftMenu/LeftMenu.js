@@ -12,6 +12,7 @@ export default class LeftMenu extends React.Component {
     }
   }
   handleClickSnapToLines =()=>{
+      app.board.magnificationMode=this.state.bgColorSnapToLines==='#f0f0f0d9';
     this.setState({bgColorSnapToLines:(this.state.bgColorSnapToLines==='#f0f0f0d9')?'#fff':'#f0f0f0d9'})
   }
   render(){
