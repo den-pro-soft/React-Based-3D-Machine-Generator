@@ -2,63 +2,36 @@
  * Created by dev on 11.01.19.
  */
 
-import Tool from './Tool'
+import CreatorToolsInTwoSteps from './CreatorToolsInTwoSteps';
 import RectElementController from './RectElementControler'
-import AddElementCommand from './../../2d/command/AddElementCommand';
 
-export default class RectTool extends Tool{
+export default class RectTool extends CreatorToolsInTwoSteps{
     constructor(document){
         super(document);
-        
-        this._rect = null;
 
         this.cursor.src = 'images/Rectangle.png';
-        this.step = 0;
     }
 
-    mouseMove(point){
-        super.mouseMove(point);
-        if(this._rect){
-            this._rect.p2=point;
-            return true;
-        }
-    }
-
-    mouseDbClick(point){
-    }
-
-    mouseClick(point){
-        if(this.step==2) {
-            this._rect = null;
-        }
-    }
-
-    mouseDown(point){
-        if(!this._rect){
-            this._rect = new RectElementController(point, point);
-            this._rect.toElement()._renderer.drawAsNew();
-            this.step = 1;
+    get graphicElement(){
+        if(this._element) {
+            return this._element.toElement();
         }else{
-            this.step=2;
+            return null;
         }
     }
 
-    mouseUp(point){
-        if(this._rect){
-            if(this.step ==2) {
-                this._rect.p2=point;
-                let element = this._rect.toElement();
-                element._renderer.resetConfig();
-                app.executeCommand(new AddElementCommand(this._document, element));
-                this._rect = null;
-            }
-        }
+    /**
+     * @return {RectElementController}
+     */
+    get rect(){
+        return this._element;
     }
 
-    render(){
-        if(this._rect) {
-            this._rect.toElement().render();
-        }
-        super.render();
+    setPosition2(point){
+        this.rect.p2=point;
+    }
+
+    createElement(point){
+        return new RectElementController(point, point);
     }
 }
