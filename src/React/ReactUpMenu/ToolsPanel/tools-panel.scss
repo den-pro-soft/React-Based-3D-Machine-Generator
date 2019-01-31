@@ -1,13 +1,13 @@
 .ToolsPanel {
   display: flex;
   // flex-direction: row;
-  width:100vw;
+  // width:100vw;
   // justify-content: space-between;
   form {
     display: flex;
     // flex-direction: row;
   justify-content: space-between;
-  width:100vw;
+  width:99vw;
 
     .Left-Tools{
       display: flex;
@@ -33,7 +33,7 @@
   .Right-Tools{
     display: flex;
     flex-direction: row;
-  margin-right:20px;
+  margin-right:5px;
     input {
       width: 80px;
     }
