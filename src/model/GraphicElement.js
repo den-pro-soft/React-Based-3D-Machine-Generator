@@ -4,11 +4,10 @@
 import Matrix from "../model/math/Matrix";
 import Point from "./Point";
 
-let id = 0;
 
 export default class GraphicElement{
     constructor(){
-        this.id=id++;
+        this.id=app.elementIdGenerator.generateId();
 
         this.height = 10;
 

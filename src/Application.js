@@ -14,6 +14,7 @@ import MoveElementsCommand from './2d/command/MoveElementsCommand';
 import RotateElementsCommand from './2d/command/RotateElementsCommand';
 import config from './Config';
 
+let idGenerator = 1;
 
 /**
  * The main application class is a facade for board
@@ -41,6 +42,12 @@ class Application{
         }
 
         this.config = config;
+
+        this.elementIdGenerator = {
+            generateId:function(){
+                return idGenerator++;
+            }
+        }
     }
 
     set board(board){
@@ -71,6 +78,8 @@ class Application{
     addSelectElement(element){
         for(let el of this.selectElements){
             if(el.compare(element)){
+                console.log("compare");
+                console.log(element);
                 return;
             }
         }
@@ -168,6 +177,7 @@ class Application{
 
     selectAll(){
         this.clearSelectElements();
+        this.board.setTool('Pointer');
         for(let el of this.currentDocument._elements){
             this.addSelectElement(el);
             this._board.tool.selectElement(el);
