@@ -89,7 +89,7 @@ export default class Tutorial extends React.Component {
                 }
                 label="Sheet metal with bends - this economical type of part allows for more variety by bending sheet metal"
               />
-              <FormControlLabel
+              {/* <FormControlLabel
                classes={{ root: "root" }}
                 value="emsx4"
                 control={
@@ -110,11 +110,11 @@ export default class Tutorial extends React.Component {
                   />
                 }
                 label="Revolve - shows how to design a part with concentric round features like a chess pawn"
-              />
+              /> */}
             </RadioGroup>
           </FormControl>
         </div>
-        <p className="Parameters">Preview:</p>
+        {/* <p className="Parameters">Preview:</p>
 
         <div className="EMSXFile">
           {this.state.value === "emsx1" && (
@@ -127,7 +127,7 @@ export default class Tutorial extends React.Component {
           {this.state.value === "emsx3" && <>emsx3</>}
           {this.state.value === "emsx4" && <>emsx4</>}
           {this.state.value === "emsx5" && <>emsx5</>}
-        </div>
+        </div> */}
       </div>
     );
   }

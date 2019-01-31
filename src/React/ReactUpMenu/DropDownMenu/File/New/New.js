@@ -3,7 +3,6 @@ import "./new.scss";
 import BlankDisign from "./BlankDisign";
 import Tutorial from "./Tutorial";
 import FrontPanel from "./FrontPanel";
-import BoltPlate from "./BoltPlate";
 
 import { withRouter } from "react-router-dom";
 import {
@@ -14,6 +13,9 @@ import {
   Link,
   NavLink
 } from "react-router-dom";
+// componentWillMount(){
+
+// }
 const New = (context, props) => {
   return (
     <div>
@@ -53,15 +55,7 @@ const New = (context, props) => {
                 Front panel/name plate/sign
               </NavLink>
             </li>
-            <li>
-              <NavLink
-                className="BoltPlate"
-                activeStyle={{ color: "blue" }}
-                to="/bolt-plate"
-              >
-                Bolt plate
-              </NavLink>
-            </li>
+           
           </ul>
         </div>
         <div className="Content">
@@ -69,7 +63,6 @@ const New = (context, props) => {
             <Route path="/" exact render={() => <BlankDisign />} />
             <Route path="/tutorial" component={Tutorial} />
             <Route path="/front-panel" component={FrontPanel} />
-            <Route path="/bolt-plate" component={BoltPlate} />
           </Switch>
         </div>
       </div>

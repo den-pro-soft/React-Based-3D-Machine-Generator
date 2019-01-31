@@ -12,7 +12,7 @@ export default class FrontPanel extends React.Component {
     };
   }
   handleInputLenght = event => {
-    event.preventDefault();
+    // event.preventDefault();
     // if(event.charCode !== 13){
 
     this.setState({ lengthValue: event.target.value  });
@@ -30,12 +30,14 @@ export default class FrontPanel extends React.Component {
     );
   };
   handleClickInputLenght = event => {
-    event.preventDefault();
     if(event.charCode === 13){
 
         this.setState({
           lengthValue: event.target.value + `${String.fromCharCode(34)}`
         });
+    // event.preventDefault();
+
+        // event.stopPropagation();
     }
     console.log(
       event.charCode,
@@ -67,10 +69,10 @@ export default class FrontPanel extends React.Component {
   render() {
     return (
       <div className="FrontPanel">
-        <p className="Title">
+        {/* <p className="Title">
           A polygon where each side has the same lenght, and all interior angles
           are equal and less then 180 degrees.
-        </p>
+        </p> */}
         <div className="Parameters">
           <p className="ParamTitle">Parameters:</p>{" "}
           <Button
@@ -88,20 +90,7 @@ export default class FrontPanel extends React.Component {
             Reset
           </Button>
         </div>
-        {/* <div className="Parameters">
-          <p className="ParamTitle">Parameters:</p>
-          <Button
-            onClick={this.resetButton}
-            style={{
-              backgroundColor: "#dddada",
-              boxShadow: "2px 2px 1px #000"
-            }}
-            color="primary"
-            autoFocus
-          >
-            Reset
-          </Button>
-        </div> */}
+     
 
         <table>
           <thead>
@@ -123,14 +112,13 @@ export default class FrontPanel extends React.Component {
                 //   onKeyPress={this.handleClickInputLenght}
 
                   onChange={this.handleInputLenght}
-                //   onKeyPress={this.handleInputLenght}
+                  onKeyPress={this.handleInputLenght}
 
                 />
               </td>
             </tr>
             <tr>
               <td>Width</td>
-              {/* <td className="Value">2000</td> */}
               <td>
                 <input
                   type="text"
@@ -157,7 +145,7 @@ export default class FrontPanel extends React.Component {
             </tr>
           </tbody>
         </table>
-        <p className="Parameters">Preview:</p>
+        {/* <p className="Parameters">Preview:</p> */}
       </div>
     );
   }
