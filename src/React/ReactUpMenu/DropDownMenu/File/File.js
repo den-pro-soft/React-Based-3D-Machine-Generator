@@ -82,9 +82,9 @@ openWindow =()=>{
               <a href="#">Import</a>
             </li>
 
-            <li>
+            {/* <li>
               <a href="#">Export</a>
-            </li>
+            </li> */}
             <li>
               <a href="#">Exit</a>
             </li>
@@ -99,7 +99,7 @@ openWindow =()=>{
           aria-describedby="alert-dialog-description"
         >
           <DialogTitle
-            style={{ /*height: "30px",*/ color: "black", textAlign: "left" }}
+            style={{ color: "black", textAlign: "left" }}
             id="alert-dialog-title"
           >
             <img
@@ -107,11 +107,10 @@ openWindow =()=>{
               src="images/icon.jpg"
               // data-tip="<span>Shows how to use numeric values.</span>"
             />
-            <span>New Disign</span>
+            <span>New Design</span>
           </DialogTitle>
 
           <DialogContent
-            // classes={{ root: 'styleDialog', container: 'container' }}
 
             style={{ width: "950px",height:'425px', backgroundColor: "#f0ecec" }}
           >
@@ -121,10 +120,8 @@ openWindow =()=>{
           <DialogActions>
             <Button
               onClick={this.closeNewModal}
-              // style={{ backgroundColor: "#f0ecec", color: "orangered" }}
               style={{
                 backgroundColor: "#dddada",
-                color: "orangered",
                 boxShadow: "2px 2px 1px #000"
               }}
               color="primary"
@@ -136,10 +133,8 @@ openWindow =()=>{
               onClick={this.closeNewModal}
               style={{
                 backgroundColor: "#dddada",
-                color: "orangered",
                 boxShadow: "2px 2px 1px #000"
               }}
-              // style={{ backgroundColor: "#f0ecec", color: "orangered" }}
               color="primary"
               autoFocus
             >
@@ -149,10 +144,8 @@ openWindow =()=>{
               onClick={this.openWindow}
               style={{
                 backgroundColor: "#dddada",
-                color: "orangered",
                 boxShadow: "2px 2px 1px #000"
               }}
-              // style={{ backgroundColor: "#f0ecec", color: "orangered" }}
               color="primary"
               autoFocus
               // https://www.emachineshop.com/help-wizards/''

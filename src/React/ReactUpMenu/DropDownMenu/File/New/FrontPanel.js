@@ -12,29 +12,33 @@ export default class FrontPanel extends React.Component {
     };
   }
   handleInputLenght = event => {
-    event.preventDefault();
+    // event.preventDefault();
+    // if(event.charCode !== 13){
 
     this.setState({ lengthValue: event.target.value  });
-    // if(event.charCode == '13'){
+    // }else
+    if(event.charCode === 13){
 
-    //     this.setState({
-    //       lengthValue: this.state.lengthValue + `${String.fromCharCode(34)}`
-    //     });
-    // }
+        this.setState({
+          lengthValue: event.target.value + `${String.fromCharCode(34)}`
+        });
+    }
     console.log(
-      this.state.lengthValue,
-      event.target.value,
-      "this.state.lengthValue"
+    //   this.state.lengthValue,
+      event.target,
+      "event.target.lengthValue"
     );
   };
   handleClickInputLenght = event => {
-    event.preventDefault();
-if(event.charCode == '13'){
+    if(event.charCode === 13){
 
-    this.setState({
-      lengthValue: this.state.lengthValue + `${String.fromCharCode(34)}`
-    });
-}
+        this.setState({
+          lengthValue: event.target.value + `${String.fromCharCode(34)}`
+        });
+    // event.preventDefault();
+
+        // event.stopPropagation();
+    }
     console.log(
       event.charCode,
       event.target.value,
@@ -65,27 +69,28 @@ if(event.charCode == '13'){
   render() {
     return (
       <div className="FrontPanel">
-        <p className="Title">
+        {/* <p className="Title">
           A polygon where each side has the same lenght, and all interior angles
           are equal and less then 180 degrees.
-        </p>
-        {/* <p className="Parameters">Parameters:</p> */}
-
+        </p> */}
         <div className="Parameters">
-          <p>Parameters:</p>
+          <p className="ParamTitle">Parameters:</p>{" "}
           <Button
-            onClick={this.resetButton}
+          onClick={this.resetButton}
             style={{
+              marginTop:'10px',
               backgroundColor: "#dddada",
-              color: "orangered",
-              boxShadow: "2px 2px 1px #000"
+              boxShadow: "2px 2px 1px #000",
+              height:'30px'
             }}
             color="primary"
+            size="small"
             autoFocus
           >
             Reset
           </Button>
         </div>
+     
 
         <table>
           <thead>
@@ -102,23 +107,23 @@ if(event.charCode == '13'){
                   type="text"
                   className="Input"
                   value={
-                    this.state.lengthValue /*`${String.fromCharCode(34)}`*/
+                    this.state.lengthValue
                   }
-                  onChange={this.handleInputLenght}
-                //   onKeyUp={this.handleInputLenght}
+                //   onKeyPress={this.handleClickInputLenght}
 
-                  onKeyUp={this.handleClickInputLenght}
+                  onChange={this.handleInputLenght}
+                  onKeyPress={this.handleInputLenght}
+
                 />
               </td>
             </tr>
             <tr>
               <td>Width</td>
-              {/* <td className="Value">2000</td> */}
               <td>
                 <input
                   type="text"
                   className="Input"
-                  value={this.state.width /*`${String.fromCharCode(34)}`*/}
+                  value={this.state.width}
                   onChange={this.handleInputWidth}
                 //   onKeyPress={this.handleClickInputLenght}
 
@@ -127,12 +132,11 @@ if(event.charCode == '13'){
             </tr>
             <tr>
               <td>Mounting Hole Diameter</td>
-              {/* <td className="Value">0.150{String.fromCharCode(34)}</td> */}
               <td>
                 <input
                   type="text"
                   className="Input"
-                  value={this.state.diameter /*`${String.fromCharCode(34)}`*/}
+                  value={this.state.diameter}
                   onChange={this.handleInputDiameter}
                 //   onKeyPress={this.handleClickInputLenght}
 
@@ -141,7 +145,7 @@ if(event.charCode == '13'){
             </tr>
           </tbody>
         </table>
-        <p className="Parameters">Preview:</p>
+        {/* <p className="Parameters">Preview:</p> */}
       </div>
     );
   }

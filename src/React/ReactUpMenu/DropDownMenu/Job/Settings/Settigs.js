@@ -8,18 +8,15 @@ import { withRouter } from "react-router-dom";
 import {
   BrowserRouter as Router,
   Route,
-  IndexRoute,
   Redirect,
   Switch,
   Link,
   NavLink
 } from "react-router-dom";
 const Settings = (context, props) => {
-  // console.log(props,'settings-props-history')
   return (
     <div
       className="Settings"
-      // style={{ display: "flex", justifyContent: "flex-start" }}
     >
       <div className="Menu">
         <ul>
@@ -27,7 +24,7 @@ const Settings = (context, props) => {
             <NavLink
               className="Address"
               exact
-              activeStyle={{ color: "orangered" }}
+              activeStyle={{ color: "blue" }}
               to="/"
             >
               Address
@@ -36,7 +33,7 @@ const Settings = (context, props) => {
           <li>
             <NavLink
               className="Payment"
-              activeStyle={{ color: "orangered" }}
+              activeStyle={{ color: "blue" }}
               to="/payment"
             >
               Payment
@@ -45,7 +42,7 @@ const Settings = (context, props) => {
           <li>
             <NavLink
               className="OrderOption"
-              activeStyle={{ color: "orangered" }}
+              activeStyle={{ color: "blue" }}
               to="/order-options"
             >
               Order Options
@@ -54,7 +51,7 @@ const Settings = (context, props) => {
           <li>
             <NavLink
               className="Summary"
-              activeStyle={{ color: "orangered" }}
+              activeStyle={{ color: "blue" }}
               to="/summary"
             >
               Summary
