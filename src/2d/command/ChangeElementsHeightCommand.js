@@ -23,8 +23,7 @@ export default class ChangeElementsHeightCommand extends Command{
     /**
      * @inheritDoc
      */
-    execute(){
-        super.execute();
+    executeCommand(){
         for(let el of this._elements) {
             el.height=this._height;
         }

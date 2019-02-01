@@ -23,7 +23,7 @@ export default class SplineRenderer extends Render{
 
         this.board.style('lineWidth', 1);
 
-        this.board.drawPolyLine(this.element.polyLinePoints);
+        this.board.drawPolyLine(this.element.toPolyLines()[0].points);
         this.board.style('strokeStyle', '#ff0000');
         this.board.drawArc(this.element.startPoint, 0.02, true);
         this.board.drawArc(this.element.controlPoint1, 0.02, true);

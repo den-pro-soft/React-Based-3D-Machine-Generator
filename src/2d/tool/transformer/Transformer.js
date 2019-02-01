@@ -25,7 +25,7 @@ export default class Transformer{
      */
     addElements(elements){
         for(let element of elements) {
-            this._elements.push(element);
+            this._elements.push(element.copy());
         }
     }
 
@@ -66,6 +66,9 @@ export default class Transformer{
     }
 
     render(){
-
+        for(let el of this._elements){
+            el._renderer.setFocus(true);
+            el.render();
+        }
     }
 }

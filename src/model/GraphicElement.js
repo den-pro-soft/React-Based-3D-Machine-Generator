@@ -2,14 +2,12 @@
  * Created by dev on 04.01.19.
  */
 import Matrix from "../model/math/Matrix";
-import Trigonometric from "../model/math/Trigonometric";
 import Point from "./Point";
 
-let id = 0;
 
 export default class GraphicElement{
     constructor(){
-        this.id=id++;
+        this.id=app.elementIdGenerator.generateId();
 
         this.height = 10;
 
@@ -42,7 +40,7 @@ export default class GraphicElement{
      * @param {number} y
      */
     move(x,y){
-        let moveMatrix = this.createMoveMatrix(x,y);
+        let moveMatrix = Matrix.createMoveMatrix(x,y);
         for(let point of this._points){
             point.changeByMatrix(moveMatrix);
         }
@@ -56,6 +54,16 @@ export default class GraphicElement{
      */
     isNear(point, eps){
         throw new Exception('The method doesn\'n have implementation.');
+    }
+
+    /**
+     * The method using for cross calculation.
+     *
+     * The method calculation of cross can hav error. The error depends on the level of discretization.
+     * @return {Array.<PolyLine>} - array for group element
+     */
+    toPolyLines(){
+        throw new Exception('The method doesn\'t have implementation.');
     }
 
 
@@ -108,11 +116,11 @@ export default class GraphicElement{
             dy = (wY+y)/wY-1;
         }
 
-        let resizeMatrix = this.createResizeMatrix(dx,dy); //todo: move the method to Matrix class, and change it to static
+        let resizeMatrix = Matrix.createResizeMatrix(dx,dy); //todo: move the method to Matrix class, and change it to static
 
 
-        let moveMatrix = this.createMoveMatrix(-tempP.x, -tempP.y);
-        let removeMatrix = this.createMoveMatrix(tempP.x, tempP.y);
+        let moveMatrix = Matrix.createMoveMatrix(-tempP.x, -tempP.y);
+        let removeMatrix = Matrix.createMoveMatrix(tempP.x, tempP.y);
 
         for(let point of this._points){
             point.changeByMatrix(moveMatrix);
@@ -122,10 +130,10 @@ export default class GraphicElement{
     }
 
     rotate(center,grad){
-        let rotateMatrix = this.createRotateMatrix(grad); //todo: move the method to Matrix class, and change it to static
+        let rotateMatrix = Matrix.createRotateMatrix(grad); //todo: move the method to Matrix class, and change it to static
 
-        let moveMatrix = this.createMoveMatrix(-center.x, -center.y);
-        let removeMatrix = this.createMoveMatrix(center.x, center.y);
+        let moveMatrix = Matrix.createMoveMatrix(-center.x, -center.y);
+        let removeMatrix = Matrix.createMoveMatrix(center.x, center.y);
 
         for(let point of this._points){
             point.changeByMatrix(moveMatrix);
@@ -134,45 +142,15 @@ export default class GraphicElement{
         }
     }
 
-
-    /**
-     * @param {Point} center
-     * @param {number} grad -  -360...360
-     */
-    createRotateMatrix(grad){
-        grad = Trigonometric.gradToRad(grad);
-        return new Matrix([
-            [Math.cos(grad),-Math.sin(grad),0,0],
-            [Math.sin(grad),Math.cos(grad),0,0],
-            [0,0,1,0],
-            [0,0,0,1]]);
-    }
-
-    /**
-     * @param {number} x
-     * @param {number} y
-     * @return {Matrix}
-     * @protected
-     */
-    createMoveMatrix(x,y){
-        return new Matrix([[1,0,0,0],[0,1,0,0],[0,0,1,0],[x,y,0,1]]);
-    }
-
-    /**
-     * @param {number} x
-     * @param {number} y
-     * @return {Matrix}
-     * @protected
-     */
-    createResizeMatrix(x,y){
-        return new Matrix([[1+x,0,0,0],[0,1+y,0,0],[0,0,1,0],[0,0,0,1]])
-    }
-
     copy(){
         throw new Exception('The method doesn\'n have implementation.');
     }
 
     compare(element){
         return this.id==element.id;
+    }
+
+    toSimpleElements(){
+        return [this];
     }
 }

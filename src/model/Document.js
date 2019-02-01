@@ -8,6 +8,7 @@ import GraphicElement from './GraphicElement';
 
 export default class Document{
     constructor(){
+        /** @var {Array.<GraphicElement>}*/
         this._elements = [];
     }
 
@@ -34,15 +35,7 @@ export default class Document{
         //     throw new Exception("To document can be remove only elements which instances GraphicElement class.",element);
         // }
     }
-
-    /**
-     * Call render methods for all elements
-     */
-    render(){
-        for(let element of this._elements){
-            element.render();
-        }
-    }
+    
 
     /**
      * @param {Point} point
@@ -76,7 +69,7 @@ export default class Document{
     }
 
     /**
-     * @param {Array.<GraphicElement>|GraphicElement} elements
+     * @param {Array.<GraphicElement>|GraphicElement|null} elements - if null return extrenum for all elements
      * @returns {{max:{x:number, y:number}, min:{x:number, y:number}}}
      */
     getExtrenum(elements){
@@ -109,9 +102,20 @@ export default class Document{
             if(elements instanceof GraphicElement){
                 return elements.getExtrenum();
             }else{
-                throw new Exception('Excepted object of GraphicElement class', elements);
+                return this.getExtrenum(this._elements);
             }
         }
+    }
+
+    /**
+     * @return {Array.<GraphicElement>}
+     */
+    getListSimpleElements(){
+        let res = [];
+        for(let el of this._elements){
+            res.push(...el.toSimpleElements());
+        }
+        return res;
     }
 
     resetRendererConfig(){

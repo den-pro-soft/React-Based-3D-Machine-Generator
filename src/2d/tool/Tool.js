@@ -27,43 +27,52 @@ export default class Tool{
 
     /**
      * @param {Point} point
+     * @param {MouseEvent} e
      * @return {boolean} false if not changing any GraphicElement
      */
-    mouseMove(point){
+    mouseMove(point, e){
         this.mousePosition=point;
         return false;
     }
 
     /**
      * @param {Point} point
+     * @param {MouseEvent} e
      * @return {boolean} false if not changing any GraphicElement
      */
-    mouseDbClick(point){
+    mouseDbClick(point, e){
         throw new Exception("The method doesn't have implementation");
     }
 
     /**
      * @param {Point} point
+     * @param {MouseEvent} e
      * @return {boolean} false if not changing any GraphicElement
      */
-    mouseClick(point){
+    mouseClick(point, e){
         throw new Exception("The method doesn't have implementation");
     }
 
     /**
      * @param {Point} point
+     * @param {MouseEvent} e
      * @return {boolean} false if not changing anyGraphicElement GraphicElement
      */
-    mouseDown(point){
+    mouseDown(point, e){
         throw new Exception("The method doesn't have implementation");
     }
 
     /**
      * @param {Point} point
+     * @param {MouseEvent} e
      * @return {boolean} false if not changing any GraphicElement
      */
-    mouseUp(point){
+    mouseUp(point, e){
         throw new Exception("The method doesn't have implementation");
+    }
+
+    selectElement(element){
+        throw new Exception("The selectElement method doesn't have implementation");
     }
 
     /**

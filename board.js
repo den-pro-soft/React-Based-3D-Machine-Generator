@@ -2016,17 +2016,17 @@ function create_board(){
 
 							//########################################## Mouse double click ###########################################			
 							canvas.addEventListener('dblclick', function(e){
-									console.log(edit_mode);
-								if (edit_mode == 'Select'){
-									canvas.style.cursor = "-webkit-grab";
-									edit_mode = 'move_scene';
-									return
-								}
-								if (edit_mode == 'move_scene' || edit_mode == 'Zoom'){
-									canvas.style.cursor = "default";
-									edit_mode = 'Select';
-									return
-								}
+									// console.log(edit_mode);
+								// if (edit_mode == 'Select'){
+								// 	canvas.style.cursor = "-webkit-grab";
+								// 	edit_mode = 'move_scene';
+								// 	return
+								// }
+								// if (edit_mode == 'move_scene' || edit_mode == 'Zoom'){
+								// 	canvas.style.cursor = "default";
+								// 	edit_mode = 'Select';
+								// 	return
+								// }
 							});
 
 

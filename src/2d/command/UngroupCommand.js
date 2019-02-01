@@ -21,15 +21,14 @@ export default class UngroupCommand extends Command{
     /**
      * @inheritDoc
      */
-    execute(){
-        super.execute();
+    executeCommand(){
         for(let el of this._elements) {
             if(el.typeName == 'Group') {
                 for(let element of el.elements) {
                     this._document.addElement(element);
                 }
+                this._document.removeElement(el);
             }
-            this._document.removeElement(el);
         }
         return true;
     }

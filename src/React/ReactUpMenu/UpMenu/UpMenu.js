@@ -53,13 +53,13 @@ export default class UpMenu extends React.Component {
             </button>
           </div>
           <div className="btn-group-three">
-            <button>
+            <button onClick={()=>app.board.zoomToFitScreen()}>
               <img width="25px" src="images/ZoomToFitScreen.png" />
             </button>
             <button>
               <img width="25px" src="images/ZoomToActualSize.png" />
             </button>
-            <button>
+            <button onClick={()=>app.board.setTool('Zoom')}>
               <img width="25px" src="images/Zoom.png" />
             </button>
           </div>

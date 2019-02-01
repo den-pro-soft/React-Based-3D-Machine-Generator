@@ -26,8 +26,7 @@ export default class MoveElementsCommand extends Command{
     /**
      * @inheritDoc
      */
-    execute(){
-        super.execute();
+    executeCommand(){
         for(let el of this._elements) {
             el.move(this.x, this.y);
         }

@@ -6,6 +6,7 @@ import GraphicElement from '../GraphicElement';
 import Point from '../Point';
 import Line from './Line';
 import ArcRenderer from './../../2d/renderer/ArcRenderer';
+import PolyLine from './../math/PolyLine';
 
 export default class Arc extends GraphicElement{
     constructor(center, radius){
@@ -26,31 +27,13 @@ export default class Arc extends GraphicElement{
     get center(){
         return this._center;
     }
-
-    set center(point){
-        this._center = point;
-        this._points[0]=point;
-    }
-
-    get center(){
-        return this._center;
-    }
-
+    
     /**
      * @returns {{max:{x:number, y:number}, min:{x:number, y:number}}}
      */
     getExtrenum(){
         let points = this._getExtrenumPoints();
         return Point.getExtrenum(points);
-    }
-
-    /**
-     * @param {number} x
-     * @param {number} y
-     */
-    move(x,y){
-        let moveMatrix = this.createMoveMatrix(x,y);
-        this._center.changeByMatrix(moveMatrix);
     }
 
 
@@ -96,6 +79,22 @@ export default class Arc extends GraphicElement{
     copy(){
         let arc = new Arc(this.center.copy(), this.radius);
         arc.height=this.height;
+        arc.id=this.id;
         return arc;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    toPolyLines(){
+        let res = new PolyLine();
+
+        var start = 0;
+        var end = 2 * Math.PI;
+
+        for (var a = start; a <= end; a += Math.PI / 100){
+            res.addPoint(new Point(this._center.x+this.radius*Math.cos(a), this._center.y+this.radius*Math.sin(a)));
+        }
+        return [res];
     }
 }

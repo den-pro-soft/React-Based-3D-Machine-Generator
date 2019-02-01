@@ -21,8 +21,7 @@ export default class AddElementCommand extends Command{
     /**
      * @inheritDoc
      */
-    execute(){
-        super.execute();
+    executeCommand(){
         this._document.addElement(this._element);
         return true;
     }

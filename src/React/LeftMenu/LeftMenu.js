@@ -12,6 +12,7 @@ export default class LeftMenu extends React.Component {
     }
   }
   handleClickSnapToLines =()=>{
+      app.board.magnificationMode=this.state.bgColorSnapToLines==='#f0f0f0d9';
     this.setState({bgColorSnapToLines:(this.state.bgColorSnapToLines==='#f0f0f0d9')?'#fff':'#f0f0f0d9'})
   }
   render(){
@@ -68,7 +69,7 @@ export default class LeftMenu extends React.Component {
             data-tip="<span>Freehand.<br>Draws a freehand sketch. To draw click and hold mouse button while moving the mouse.<br>Use the Node edit mode to modify.</span>"
           />
         </button>
-        <button onClick={() => app.board.setTool("Pointer")}>
+        <button onClick={() => app.board.setTool("Eraser")}>
           <img
             width="25px"
             src="images/Eraser.png"

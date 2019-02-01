@@ -6,6 +6,7 @@ import GraphicElement from './../GraphicElement';
 import Point from './../Point';
 import SplineRenderer from './../../2d/renderer/SplineRenderer';
 import Line from './Line';
+import PolyLine from './../math/PolyLine';
 
 export default class Spline extends GraphicElement{
     constructor(startPoint, endPoint){
@@ -48,20 +49,20 @@ export default class Spline extends GraphicElement{
     }
 
     /**
-     * @return {Array.<Point>}
+     * @return {PolyLine}
      */
-    get polyLinePoints(){
+    toPolyLines(){
+        let res = new PolyLine();
         let l1 = new Line(this.startPoint, this.controlPoint1);
         let l2 = new Line(this.controlPoint1, this.controlPoint2);
         let l3 = new Line(this.controlPoint2, this.endPoint);
 
         let x=l1.p1.x;
         let y=l1.p1.y;
-        let discret = 200;
-        let polyLine = [];
+        let discret = 200; //todo: maybe it must dependent from size for accuracy
 
         for(let t=1; t<=discret; t++){
-            polyLine.push(new Point(x,y));
+            res.addPoint(new Point(x,y));
             let p1 = l1.getPointOffset(t/discret);
             let p2 = l2.getPointOffset(t/discret);
 
@@ -74,7 +75,7 @@ export default class Spline extends GraphicElement{
             x = pt.x;
             y = pt.y;
         }
-        return polyLine;
+        return [res];
     }
 
 
@@ -82,19 +83,9 @@ export default class Spline extends GraphicElement{
      * @returns {{max:{x:number, y:number}, min:{x:number, y:number}}}
      */
     getExtrenum(){
-        return Point.getExtrenum(this.polyLinePoints);
+        return Point.getExtrenum(this.toPolyLines()[0].points);
     }
 
-    /**
-     * @param {number} x
-     * @param {number} y
-     */
-    move(x,y){
-        let moveMatrix = this.createMoveMatrix(x,y);
-        for(let p of this._points){
-            p.changeByMatrix(moveMatrix);
-        }
-    }
 
     /**
      * @param {Point} point
@@ -102,7 +93,7 @@ export default class Spline extends GraphicElement{
      * @return {boolean}
      */
     isNear(point, eps){
-        let points = this.polyLinePoints;
+        let points = this.toPolyLines()[0].points;
 
         let res = false;
         for(let i=1; i<points.length; i++){
@@ -131,7 +122,7 @@ export default class Spline extends GraphicElement{
      * @return {boolean} - true if current elements into figure.
      */
     isIntoFigure(figure){
-        let points = this.polyLinePoints;
+        let points = this.toPolyLines()[0].points;
 
         let res = true;
         for(let i=1; i<points.length; i++){
@@ -146,6 +137,7 @@ export default class Spline extends GraphicElement{
         res.controlPoint1 = this._points[2].copy();
         res.controlPoint2 = this._points[3].copy();
         res.hight=this.height;
+        res.id=this.id;
         return res;
     }
 }

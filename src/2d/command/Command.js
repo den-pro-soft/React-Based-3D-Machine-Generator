@@ -6,14 +6,11 @@ import Exception from '../../Exception';
 // import Document from '../../model/Document';
 
 
-let id = 0;
-
-
 /**
  * Command is an abstract class. The class need for document modification.
  * If you need to modify a current document, you need use one of command instance or create new implementation a command.
  *
- * Command need for makeing snapshot current document and delegate modification to document object.
+ * Command need for making snapshot current document and delegate modification to document object.
  */
 export default class Command{
     constructor(document){
@@ -21,38 +18,44 @@ export default class Command{
         //     throw new Exception("Document is required parameter");
         // }
 
-        this.id=id++;
+        this.id=app.elementIdGenerator.generateId();
         /** @var {Document} */
         this._document = document;
 
-        this._snapshot = null;
+        this._snapshotBefore = null;
+        this._snapshotAfter = null;
 
         this.name= 'Command';
     }
 
     /**
      * The method create snapshot on current document and execute command.
-     * The method should be extensions in children classes
      *
      * @return {boolean} true if the command must be save in commandHistory
      */
     execute(){
-        if(this._snapshot){
-            throw new Exception("The command was execute.");
-        }
-        this._snapshot = this._document.getSnapshot();
-        return false;
+        this._snapshotBefore = this._document.getSnapshot();
+        let res = this.executeCommand();
+        this._snapshotAfter = this._document.getSnapshot();
+        return res;
+    }
+
+    /**
+     * The method should be extensions in children classes
+     */
+    executeCommand(){
+        throw new Exception('The method dosn\'t have implementation');
     }
 
     /**
      * The method need for revert current command from snapshot
      */
     undo(){
-        if(!this._snapshot){
-            throw new Exception("The command wasn't execute.");
-        }
-        this._document.load(this._snapshot);
-        this._snapshot = null;
+        this._document.load(this._snapshotBefore);
+    }
+
+    redo(){
+        this._document.load(this._snapshotAfter);
     }
 
     compare(command){

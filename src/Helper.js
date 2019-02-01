@@ -1,28 +1,14 @@
-class WindowHelper{
-    constructor(){
-        this.handlers = [];
-    }
+import Observable from './Observable';
 
-    /**
-     * @param {string} eventName
-     * @param handler
-     */
+class WindowHelper extends Observable{
+
     addHandler(eventName, handler){
         if(!this.handlers[eventName]){
-            this.handlers[eventName]=[];
             window.addEventListener(eventName, (e)=>{
                 this._notifyHandlers(eventName,e);
             });
         }
-        this.handlers[eventName].push(handler);
-    }
-
-    _notifyHandlers(eventName,data){
-        if(this.handlers[eventName]){
-            for(let handler of this.handlers[eventName]){
-                handler(data);
-            }
-        }
+        super.addHandler(eventName,handler);
     }
 }
 
