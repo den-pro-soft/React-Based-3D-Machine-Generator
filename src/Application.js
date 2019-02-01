@@ -12,6 +12,17 @@ import DeleteElementCommand from './2d/command/DeleteElementCommand';
 import ChangeElementsHeightCommand from './2d/command/ChangeElementsHeightCommand';
 import MoveElementsCommand from './2d/command/MoveElementsCommand';
 import RotateElementsCommand from './2d/command/RotateElementsCommand';
+
+import PointerTool from './2d/tool/PointerTool';
+import ZoomTool from './2d/tool/ZoomTool';
+import EraserTool from './2d/tool/EraserTool';
+import RectTool from './2d/tool/RectTool';
+import SplineTool from './2d/tool/SplineTool';
+import CircleTool from './2d/tool/CircleTool';
+import MagnificationToolDecorator from './2d/tool/MagnificationToolDecorator';
+import LineTool from './2d/tool/LineTool';
+import CreatorTool from './2d/tool/CreatorTool';
+
 import config from './Config';
 
 let idGenerator = 1;
@@ -52,11 +63,21 @@ class Application{
 
     set board(board){
         this._board = board;
+        board.setTool(new PointerTool(this.currentDocument));
         board.document=this.currentDocument;
     }
     
     get board(){
         return this._board;
+    }
+
+    set magnificationMode(val){
+        this._magnificationMode=val;
+        if(this._magnificationMode){
+            this.tool = new MagnificationToolDecorator(this._document, this.tool);
+        }else{
+            this.tool= this.tool._tool;
+        }
     }
 
     /**
@@ -104,7 +125,7 @@ class Application{
         if(this._board){
             if(command.name == 'AddElementCommand'){
                 this.clearSelectElements();
-                this._board.setTool('Pointer');
+                this._changeTool('Pointer');
                 this._board.tool.selectElement(command._element);
             }
             this._board.renderDocument();
@@ -149,7 +170,7 @@ class Application{
 
     deleteSelected(){
         if(this.board){
-            this.board.setTool('Pointer');
+            this._changeTool('Pointer');
         }
         this.executeCommand(new DeleteElementCommand(this.currentDocument, this.selectElements));
         this.clearSelectElements();
@@ -166,6 +187,46 @@ class Application{
      */
     moveSelected(x,y){
         this.executeCommand(new MoveElementsCommand(app.currentDocument, app.selectElements.slice(), x,y));
+        this._board.tool.setSelectElements(app.selectElements);
+        this._board.renderDocument();
+    }
+
+    setTool(name){
+        if(!this._board){
+            return;
+        }
+        this.clearSelectElements();
+        this._changeTool(name);
+    }
+
+    _changeTool(name){
+        let tool;
+        switch(name){
+            case 'Line':
+                tool = new LineTool(this.currentDocument);
+                break;
+            case 'Rectangle':
+                tool = new RectTool(this.currentDocument);
+                break;
+            case 'Circle':
+                tool = new CircleTool(this.currentDocument);
+                break;
+            case 'Spline':
+                tool = new SplineTool(this.currentDocument);
+                break;
+            case 'Zoom':
+                tool = new ZoomTool(this.currentDocument);
+                break;
+            case 'Eraser':
+                tool = new EraserTool(this.currentDocument);
+                break;
+            default:
+                tool = new PointerTool(this.currentDocument);
+        }
+        if(this._magnificationMode && tool instanceof CreatorTool){
+            tool = new MagnificationToolDecorator(this.currentDocument, tool);
+        }
+        this._board.setTool(tool);
     }
 
     /**
@@ -177,7 +238,7 @@ class Application{
 
     selectAll(){
         this.clearSelectElements();
-        this.board.setTool('Pointer');
+        this.setTool('Pointer');
         for(let el of this.currentDocument._elements){
             this.addSelectElement(el);
             this._board.tool.selectElement(el);
@@ -186,6 +247,7 @@ class Application{
             this._board.renderDocument();
         }
     }
+
 
     addHandler(eventName, handler){
         this._handlers[eventName].push(handler);

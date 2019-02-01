@@ -28,17 +28,9 @@ export default class Transformer{
             this._elements.push(element.copy());
         }
     }
-
-    /**
-     * @param {Element} element
-     */
-    removeElement(element){
-        for(let i=0; i<this._elements.length; i++){
-            if(this._elements[i].compare(element)){
-                this._elements.splice(i,1);
-                return ;
-            }
-        }
+    
+    removeElemens(){
+        this._elements=[];
     }
 
     /**

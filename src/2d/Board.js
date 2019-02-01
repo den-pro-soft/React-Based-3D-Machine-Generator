@@ -2,14 +2,7 @@
  * Created by dev on 09.01.19.
  */
 
-import LineTool from './tool/LineTool';
-import PointerTool from './tool/PointerTool';
-import ZoomTool from './tool/ZoomTool';
-import EraserTool from './tool/EraserTool';
-import RectTool from './tool/RectTool';
-import SplineTool from './tool/SplineTool';
-import CircleTool from './tool/CircleTool';
-import MagnificationToolDecorator from './tool/MagnificationToolDecorator';
+
 import Document from '../model/Document';
 import Point from '../model/Point';
 import Observable from './../Observable';
@@ -31,7 +24,7 @@ export default class Board extends Observable{
         this._pixelPerOne=50;
         this._document = new Document();
 
-        this.tool = new PointerTool(this._document);
+        this.tool;
 
         this._canvas=canvas;
         this._context = canvas.getContext('2d');
@@ -72,15 +65,6 @@ export default class Board extends Observable{
         return this._document;
     }
 
-    set magnificationMode(val){
-        this._magnificationMode=val;
-        if(this._magnificationMode){
-            this.tool = new MagnificationToolDecorator(this._document, this.tool);
-        }else{
-            this.tool= this.tool._tool;
-        }
-    }
-
     setSize(width, height) {
         this._width = width;
         this._height = height;
@@ -96,7 +80,9 @@ export default class Board extends Observable{
 
     renderDocument() {
         this.clear('#ffffff');
-        this.tool.render();
+        if(this.tool) {
+            this.tool.render();
+        }
         m: for(let element of this.document._elements){
             for(let el of app.selectElements){
                 if(el.compare(element)){
@@ -110,32 +96,11 @@ export default class Board extends Observable{
         this._drawRulers();
     }
 
-    setTool(name){
-        switch(name){
-            case 'Line':
-                this.tool = new LineTool(this._document);
-                break;
-            case 'Rectangle':
-                this.tool = new RectTool(this._document);
-                break;
-            case 'Circle':
-                this.tool = new CircleTool(this._document);
-                break;
-            case 'Spline':
-                this.tool = new SplineTool(this._document);
-                break;
-            case 'Zoom':
-                this.tool = new ZoomTool(this._document);
-                break;
-            case 'Eraser':
-                this.tool = new EraserTool(this._document);
-                break;
-            default:
-                this.tool = new PointerTool(this._document);
-        }
-        if(this._magnificationMode){
-            this.tool = new MagnificationToolDecorator(this._document, this.tool);
-        }
+    /**
+     * @param {Tool} tool
+     */
+    setTool(tool){
+        this.tool=tool;
     }
 
     style(property, value){

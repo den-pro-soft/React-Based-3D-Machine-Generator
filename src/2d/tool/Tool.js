@@ -75,6 +75,10 @@ export default class Tool{
         throw new Exception("The selectElement method doesn't have implementation");
     }
 
+    setSelectElements(elements){
+        throw new Exception("The setSelectElements method doesn't have implementation");
+    }
+
     /**
      *
      */

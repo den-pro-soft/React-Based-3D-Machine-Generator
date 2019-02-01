@@ -13,6 +13,7 @@ export default class MagnificationToolDecorator extends CreatorTool{
     constructor(document, creatorTool){
         super(document);
         this._tool = creatorTool;
+        this.magnitPoint = null;
     }
 
     set document(doc){
@@ -61,6 +62,14 @@ export default class MagnificationToolDecorator extends CreatorTool{
     }
 
     render(){
+        if(this.magnitPoint){
+            let p = app.board._convertToLocalCoordinateSystem(this.magnitPoint);
+            let d = 4;
+            let p1 = {x:p.x-d,y:p.y-d};
+            let p2 = {x:p.x+d,y:p.y+d};
+            app.board.style('fillStyle','#000000');
+            app.board._drawRect(p1,p2,true);
+        }
         return this._tool.render();
     }
 
@@ -69,8 +78,13 @@ export default class MagnificationToolDecorator extends CreatorTool{
     }
 
 
+    setSelectElements(elements){
+        return this._tool.setSelectElements(elements);
+    }
+
     magnificPoint(point){
         let nearPoint = this._getNearPoint(point);
+        this.magnitPoint=nearPoint;
         if(nearPoint && point.distanceTo(nearPoint)<this.Eps*3){
             point = nearPoint.copy();
         }
