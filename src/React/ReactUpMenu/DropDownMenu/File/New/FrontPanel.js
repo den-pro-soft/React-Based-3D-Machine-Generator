@@ -29,36 +29,50 @@ export default class FrontPanel extends React.Component {
       "event.target.lengthValue"
     );
   };
-  handleClickInputLenght = event => {
-    if(event.charCode === 13){
+  // handleClickInputLenght = event => {
+  //   if(event.charCode === 13){
 
-        this.setState({
-          lengthValue: event.target.value + `${String.fromCharCode(34)}`
-        });
-    // event.preventDefault();
+  //       this.setState({
+  //         lengthValue: event.target.value + `${String.fromCharCode(34)}`
+  //       });
+  //   // event.preventDefault();
 
-        // event.stopPropagation();
-    }
-    console.log(
-      event.charCode,
-      event.target.value,
-      "charCode===13"
-    );
-  };
+  //       // event.stopPropagation();
+  //   }
+  //   console.log(
+  //     event.charCode,
+  //     event.target.value,
+  //     "charCode===13"
+  //   );
+  // };
 
   handleInputWidth = event => {
-    event.preventDefault();
+    // event.preventDefault();
 
     this.setState({ width: event.target.value });
+    if(event.charCode === 13){
+
+      this.setState({
+        width: event.target.value + `${String.fromCharCode(34)}`
+      });
+  }
     console.log(this.state.width, "this.state.width");
   };
 
   handleInputDiameter = event => {
-    event.preventDefault();
+    
+    // event.preventDefault();
 
     this.setState({ diameter: event.target.value });
+    if(event.charCode === 13){
+
+      this.setState({
+        diameter: event.target.value + `${String.fromCharCode(34)}`
+      });
     console.log(this.state.diameter, "this.state.diameter");
   };
+}
+  // ------------------Rest Button------------
   resetButton = () => {
     this.setState({
       lengthValue: `6,000${String.fromCharCode(34)}`,
@@ -125,6 +139,9 @@ export default class FrontPanel extends React.Component {
                   className="Input"
                   value={this.state.width}
                   onChange={this.handleInputWidth}
+                  onKeyPress={this.handleInputWidth}
+
+
                 //   onKeyPress={this.handleClickInputLenght}
 
                 />
@@ -138,6 +155,8 @@ export default class FrontPanel extends React.Component {
                   className="Input"
                   value={this.state.diameter}
                   onChange={this.handleInputDiameter}
+                  onKeyPress={this.handleInputDiameter}
+
                 //   onKeyPress={this.handleClickInputLenght}
 
                 />
@@ -149,4 +168,5 @@ export default class FrontPanel extends React.Component {
       </div>
     );
   }
-}
+  }
+

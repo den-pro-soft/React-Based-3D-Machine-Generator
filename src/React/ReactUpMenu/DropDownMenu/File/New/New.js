@@ -3,7 +3,10 @@ import "./new.scss";
 import BlankDisign from "./BlankDisign";
 import Tutorial from "./Tutorial";
 import FrontPanel from "./FrontPanel";
-
+// import {browserHistory} from 'react-router';
+// browserHistory.listen(location => {
+//   browserHistory.push('/super/url');
+// });
 import { withRouter } from "react-router-dom";
 import {
   BrowserRouter as Router,
@@ -11,12 +14,22 @@ import {
   Redirect,
   Switch,
   Link,
-  NavLink
+  NavLink,
+  // browserHistory
 } from "react-router-dom";
-// componentWillMount(){
 
-// }
-const New = (context, props) => {
+export default class New extends React.Component {
+  constructor(props,context){
+    super(props,context)
+    console.log(this.context,'this.context-New')
+
+  }
+  componentDidMount(){
+    console.log(this.props,'this.props-New')
+// this.props.history.push('/')
+
+}
+  render(){
   return (
     <div>
       <p>
@@ -69,5 +82,5 @@ const New = (context, props) => {
     </div>
   );
 };
-
-export default withRouter(New);
+}
+// export default withRouter(New);
