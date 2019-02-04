@@ -71,4 +71,12 @@ export default class Matrix {
     static createResizeMatrix(x,y){
         return new Matrix([[1+x,0,0,0],[0,1+y,0,0],[0,0,1,0],[0,0,0,1]])
     }
+    
+    static createMirrorMatrix(axis){
+        if(axis==Trigonometric.axisX){
+            return new Matrix([[-1,0,0,0],[0,1,0,0],[0,0,1,0],[0,0,0,1]]);
+        }else{
+            return new Matrix([[1,0,0,0],[0,-1,0,0],[0,0,1,0],[0,0,0,1]]);
+        }
+    }
 }

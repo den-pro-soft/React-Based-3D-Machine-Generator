@@ -13,6 +13,9 @@ export default class GroupRenderer extends Render{
         for(let element of this.element.elements){
             element.render();
         }
+        let center = this.element.getCenter();
+        this.board.style('fillStyle', '#ff0000');
+        this.board.drawArc(center, 0.2, true);
     }
 
     drawAsNew(){

@@ -12,6 +12,7 @@ import DeleteElementCommand from './2d/command/DeleteElementCommand';
 import ChangeElementsHeightCommand from './2d/command/ChangeElementsHeightCommand';
 import MoveElementsCommand from './2d/command/MoveElementsCommand';
 import RotateElementsCommand from './2d/command/RotateElementsCommand';
+import MirrorElementsCommand from './2d/command/MirrorElementsCommand';
 
 import PointerTool from './2d/tool/PointerTool';
 import ZoomTool from './2d/tool/ZoomTool';
@@ -238,6 +239,17 @@ class Application{
      */
     rotateSelected(angle){
         this.executeCommand(new RotateElementsCommand(app.currentDocument, app.selectElements, angle));
+        this._board.tool.setSelectElements(app.selectElements);
+        this._board.renderDocument();
+    }
+
+    /**
+     * @param {axisX|axisY} axis
+     */
+    mirrorSelected(axis){
+        this.executeCommand(new MirrorElementsCommand(this.currentDocument, this.selectElements, axis));
+        this._board.tool.setSelectElements(app.selectElements);
+        this._board.renderDocument();
     }
 
     selectAll(){

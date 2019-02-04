@@ -6,6 +6,8 @@ import Point from "./Point";
 
 
 export default class GraphicElement{
+    
+
     constructor(){
         this.id=app.elementIdGenerator.generateId();
 
@@ -138,6 +140,21 @@ export default class GraphicElement{
         for(let point of this._points){
             point.changeByMatrix(moveMatrix);
             point.changeByMatrix(rotateMatrix);
+            point.changeByMatrix(removeMatrix);
+        }
+    }
+
+    mirror(axis){
+        let center = this.getCenter();
+
+        let mirrorMatrix = Matrix.createMirrorMatrix(axis); //todo: move the method to Matrix class, and change it to static
+
+        let moveMatrix = Matrix.createMoveMatrix(-center.x, -center.y);
+        let removeMatrix = Matrix.createMoveMatrix(center.x, center.y);
+
+        for(let point of this._points){
+            point.changeByMatrix(moveMatrix);
+            point.changeByMatrix(mirrorMatrix);
             point.changeByMatrix(removeMatrix);
         }
     }
