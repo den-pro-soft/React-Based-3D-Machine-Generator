@@ -3,139 +3,39 @@ export default class FileLoader {
     console.log(file, "file");
   }
 
-  static save(file) {
-    // const { _elements } = file;
+  static save(currentDocument) {
 
-    const SimpleElements = file.getListSimpleElements();
+    const SimpleElements = currentDocument.getListSimpleElements();
 
-    console.log(file, SimpleElements, "file,SimpleElement");
-    FileLoader.convertInXML(SimpleElements);
+    console.log(currentDocument, SimpleElements, "file,SimpleElement");
+    this.convertInXML(SimpleElements);
   }
+
   static convertInXML(elements) {
-    //   variable for 'Line'
-    let LineID;
-    let p1ID;
-    let x1;
-    let y1;
-    let p2ID;
-    let x2;
-    let y2;
-    let lineElements = [];
-
-    // variable for 'Arc'
-    let ArcID;
-    let radius;
-    let centerID;
-    let centerX;
-    let centerY;
-    let centerZ;
-    let arcElements = [];
-
-       // variable for 'Circle'
-    //    let CircleID;
-    //    let circleRadius;
-    //    let circleCenterID;
-    //    let circleX;
-    //    let circleY;
-    //    let circleZ;
-    //    let circleElements = [];
-
-    // variable for 'Spline'
-    let SplineID;
-
-    let pointID1;
-    let pointX1;
-    let pointY1;
-
-    let pointID2;
-    let pointX2;
-    let pointY2;
-
-    let pointID3;
-    let pointX3;
-    let pointY3;
-
-    let pointID4;
-    let pointX4;
-    let pointY4;
-    let splineElements = [];
-
-    elements.map(el => {
+    const Figures = elements.map(el => {
       //   console.log(el, "el-map");
       if (el.typeName === "Line") {
-        lineElements.push({
-          LineID: el.id,
-          p1ID: el._p1.id,
-          x1: el._p1.x,
-          y1: el._p1.y,
-          p2ID: el._p2.id,
-          x2: el._p2.x,
-          y2: el._p2.y
-        });
+        return `<Straight P1="${el._p1.x},${el._p1.y}" P2="${el._p2.x},${
+          el._p2.y
+        }"/>`;
       }
       if (el.typeName === "Arc") {
-        arcElements.push({
-          ArcID: el.id,
-          radius: el.radius,
-          centerID: el._center.id,
-          centerX: el._center.x,
-          centerY: el._center.y,
-          centerZ: el._center.z
-        });
+        return `<Arc Center="${el._center.x},${el._center.y}" Radius="${
+          el.radius
+        }" StartAngle="180" IncAngle="90"/>`;
       }
-    //   if (el.typeName === "Circle") {
-    //     circleElements.push({
-    //         CircleID: el.id,
-    //         circleRadius: el.radius,
-    //         circleCenterID: el._center.id,
-    //         circleX: el._center.x,
-    //         circleY: el._center.y,
-    //         circleZ: el._center.z
-    //     });
-    //   }
+      if (el.typeName === "Circle") {
+        return `<Circle Center="${el._center.x},${el._center.y}" Radius="${
+          el.radius
+        }"/>`;
+      }
       if (el.typeName === "Spline") {
-        splineElements.push({
-          SplineID: el.id,
-
-          pointID1: el._points[0].id,
-          pointX1: el._points[0].x,
-          pointY1: el._points[0].y,
-
-          pointID2: el._points[1].id,
-          pointX2: el._points[1].x,
-          pointY2: el._points[1].y,
-
-          pointID3: el._points[2].id,
-          pointX3: el._points[2].x,
-          pointY3: el._points[2].y,
-
-          pointID4: el._points[3].id,
-          pointX4: el._points[3].x,
-          pointY4: el._points[3].y
-        });
+        return `<Spline P1="${el._points[0].x},${el._points[0].y}" P2="${
+          el._points[2].x
+        },${el._points[2].y}" P3="${el._points[3].x},${el._points[3].x}" P4="${
+          el._points[1].x
+        },${el._points[1].y}"/> `;
       }
-    });
-
-    let Straight = lineElements.map(el => {
-      return `<Straight P1="${el.x1},${el.y1}" P2="${el.x2},${el.y2}"/>`;
-    });
-    // console.log(Straight, "Straight ");
-    let Arc = arcElements.map(el => {
-      return `<Arc Center="${el.centerX},${el.centerY}" Radius="${
-        el.radius
-      }" StartAngle="180" IncAngle="90"/>`;
-    });
-    let Circle = arcElements.map(el => {
-        return `<Circle Center="${el.centerX},${el.centerY}" Radius="${el.radius}"/>`;
-      });
-    // let Circle = circleElements.map(el => {
-    //       return `<Circle Center="${el.circleX},${el.circleY}" Radius="${el.circleRadius}" />`
-    //   });
-    // console.log(Arc, "Arc");
-    let Spline = splineElements.map(el => {
-      return `<Spline P1="${el.pointX1},${el.pointY1}" P2="${el.pointX3},${el.pointY3}" P3="${el.pointX4},${el.pointY4}" P4="${el.pointX2},${
-        el.pointY2
-      }"/> `;
     });
 
     const header =
@@ -144,15 +44,9 @@ export default class FileLoader {
       '<View Type="Top">\n';
     const Contour =
       "<Region>\n" +
-      "<Machine/>\n"+
+      "<Machine/>\n" +
       "<Contour>\n" +
-      Straight.join("\n") +
-      "\n" +
-      Arc.join("\n") +
-      "\n" +
-      Circle.join("\n") +
-      "\n" +
-      Spline.join("\n") +
+      Figures.join("\n") +
       "\n" +
       "</Contour>\n" +
       "</Region>\n";
@@ -165,7 +59,6 @@ export default class FileLoader {
 
     return xml;
   }
-//   xml = "";
 }
 // <?xml version="1.0"?>
 // <eMachineShop3DObjects VersionId="1.1">
