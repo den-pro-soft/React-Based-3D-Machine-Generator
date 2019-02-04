@@ -21,6 +21,7 @@ import SplineTool from './2d/tool/SplineTool';
 import CircleTool from './2d/tool/CircleTool';
 import MagnificationToolDecorator from './2d/tool/MagnificationToolDecorator';
 import LineTool from './2d/tool/LineTool';
+import FreehandTool from './2d/tool/FreehandTool';
 import CreatorTool from './2d/tool/CreatorTool';
 
 import config from './Config';
@@ -219,6 +220,9 @@ class Application{
                 break;
             case 'Eraser':
                 tool = new EraserTool(this.currentDocument);
+                break;
+            case 'Freehand':
+                tool = new FreehandTool(this.currentDocument);
                 break;
             default:
                 tool = new PointerTool(this.currentDocument);

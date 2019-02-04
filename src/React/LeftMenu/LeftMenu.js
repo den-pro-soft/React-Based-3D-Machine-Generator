@@ -62,7 +62,7 @@ export default class LeftMenu extends React.Component {
             data-tip="<span>Circle.<br>Draws a circle. In workarea, click to specify center of the circle.<br>Click again to specify circle.</span>"
           />
         </button>
-        <button onClick={() => app.setTool("Pointer")}>
+        <button onClick={() => app.setTool("Freehand")}>
           <img
             width="25px"
             src="images/Freehand.png"

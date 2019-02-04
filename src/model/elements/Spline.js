@@ -61,7 +61,7 @@ export default class Spline extends GraphicElement{
         let y=l1.p1.y;
         let discret = 200; //todo: maybe it must dependent from size for accuracy
 
-        for(let t=1; t<=discret; t++){
+        for(let t=1; t<=discret+1; t++){
             res.addPoint(new Point(x,y));
             let p1 = l1.getPointOffset(t/discret);
             let p2 = l2.getPointOffset(t/discret);

@@ -3,6 +3,7 @@
  */
 
 import Tool from './Tool';
+import AddElementCommand from './../../2d/command/AddElementCommand';
 
 export default class CreatorTool extends Tool{
     constructor(document){
@@ -10,4 +11,10 @@ export default class CreatorTool extends Tool{
 
     }
 
+    addElementToDocument(element){
+        app.executeCommand(new AddElementCommand(this._document, element));
+    }
+
+    
+    
 }
