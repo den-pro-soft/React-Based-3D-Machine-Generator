@@ -1,5 +1,6 @@
 import React from "react";
 import "./file.scss";
+// import FileLoader from '../../../../file/FileLoader'
 import New from './New/New.js';
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
@@ -14,18 +15,16 @@ export default class File extends React.Component {
       openNewModal: false
     };
 
-    this.showDropdownMenu = this.showDropdownMenu.bind(this);
-    this.hideDropdownMenu = this.hideDropdownMenu.bind(this);
   }
 
-  showDropdownMenu(event) {
+  showDropdownMenu = (event) => {
     event.preventDefault();
     this.setState({ displayMenu: true }, () => {
       document.addEventListener("click", this.hideDropdownMenu);
     });
   }
 
-  hideDropdownMenu() {
+  hideDropdownMenu = () => {
     this.setState({ displayMenu: false }, () => {
       document.removeEventListener("click", this.hideDropdownMenu);
     });
@@ -70,9 +69,10 @@ openWindow =()=>{
             <li>
               <a href="#">Open</a>
             </li>
-            <li>
-              <a href="#" target="_blank" rel="noreferrer noopener">
-                Save
+            <li onClick={()=> app.saveAs(app.currentDocument)}>
+              <a href="#">
+              Save
+                {/* <Save/> */}
               </a>
             </li>
             <li>

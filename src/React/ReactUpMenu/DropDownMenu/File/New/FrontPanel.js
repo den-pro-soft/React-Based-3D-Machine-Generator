@@ -123,7 +123,7 @@ export default class FrontPanel extends React.Component {
                   value={
                     this.state.lengthValue
                   }
-                //   onKeyPress={this.handleClickInputLenght}
+                  onKeyPress={this.handleClickInputLenght}
 
                   onChange={this.handleInputLenght}
                   onKeyPress={this.handleInputLenght}

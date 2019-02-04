@@ -14,6 +14,8 @@ import MoveElementsCommand from './2d/command/MoveElementsCommand';
 import RotateElementsCommand from './2d/command/RotateElementsCommand';
 import config from './Config';
 
+import FileLoader from './file/FileLoader';
+
 let idGenerator = 1;
 
 /**
@@ -187,6 +189,10 @@ class Application{
         }
     }
 
+    saveAs(file){
+        FileLoader.save(file);
+    }
+
     addHandler(eventName, handler){
         this._handlers[eventName].push(handler);
     }
@@ -211,7 +217,13 @@ Helper.Window.addHandler('keydown',(e)=>{
         case 65: //Aa
             if(e.ctrlKey){
                 app.selectAll();
-                e.preventDefault();
+                // e.preventDefault();
+            }
+        case 83: //functiion save() ctrl+s
+
+            if(e.ctrlKey){
+                app.saveAs(app.currentDocument);
+                // e.preventDefault();
             }
             break;
         case 90: //Zz
