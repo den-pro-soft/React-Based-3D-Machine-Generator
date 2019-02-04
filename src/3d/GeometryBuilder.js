@@ -343,9 +343,16 @@ class PolygonMeshBuilder{
     _createPolygonsByGroup(group){
         let polygon = new Polygon();
         for(let element of group.elements){
-            if(element.typeName = 'Line') {
+            if(element.typeName == 'Line') {
                 let points = element._points;
 
+                for (let i = 1; i < points.length; i++) {
+                    polygon.addEdge(new Line(new Vertex3(points[i - 1].x, points[i - 1].y),
+                        new Vertex3(points[i].x, points[i].y)));
+                }
+            }
+            if(element.typeName == 'Spline') {
+                let points = element.toPolyLines()[0].points;
                 for (let i = 1; i < points.length; i++) {
                     polygon.addEdge(new Line(new Vertex3(points[i - 1].x, points[i - 1].y),
                         new Vertex3(points[i].x, points[i].y)));
