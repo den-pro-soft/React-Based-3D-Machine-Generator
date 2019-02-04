@@ -8,7 +8,8 @@ export default class ToolsPanel extends React.Component {
     super(props);
 
     this.state = {
-      show:false
+      show:false,
+      bgColorCopy:'#f0f0f0d9'
 
     };
 
@@ -17,6 +18,10 @@ export default class ToolsPanel extends React.Component {
     });
     app.addHandler('clearSelectElements', ()=>{this.setState({show:false})});
   }
+  handleClickCopy =()=>{
+    // app.board.magnificationMode=this.state.bgColorSnapToLines==='#f0f0f0d9';
+  this.setState({bgColorCopy:(this.state.bgColorCopy==='#f0f0f0d9')?'#fff':'#f0f0f0d9'})
+}
 
   render() {
     if(this.state.show) {
@@ -151,7 +156,7 @@ export default class ToolsPanel extends React.Component {
             </button>
             </div>
         <div className="Right-Tools">
-            <button className="btn-Copy">
+            <button className="btn-Copy" onClick={this.handleClickCopy} style={{backgroundColor:this.state.bgColorCopy}}>
               <a href="#">
                 <img
                   width="18px"
