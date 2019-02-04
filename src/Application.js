@@ -190,7 +190,7 @@ class Application{
     }
 
     saveAs(file){
-        FileLoader.save(file);
+        FileLoader.save(this.currentDocument);
     }
 
     addHandler(eventName, handler){

@@ -31,6 +31,15 @@ export default class FileLoader {
     let centerZ;
     let arcElements = [];
 
+       // variable for 'Circle'
+    //    let CircleID;
+    //    let circleRadius;
+    //    let circleCenterID;
+    //    let circleX;
+    //    let circleY;
+    //    let circleZ;
+    //    let circleElements = [];
+
     // variable for 'Spline'
     let SplineID;
 
@@ -74,6 +83,16 @@ export default class FileLoader {
           centerZ: el._center.z
         });
       }
+    //   if (el.typeName === "Circle") {
+    //     circleElements.push({
+    //         CircleID: el.id,
+    //         circleRadius: el.radius,
+    //         circleCenterID: el._center.id,
+    //         circleX: el._center.x,
+    //         circleY: el._center.y,
+    //         circleZ: el._center.z
+    //     });
+    //   }
       if (el.typeName === "Spline") {
         splineElements.push({
           SplineID: el.id,
@@ -106,11 +125,17 @@ export default class FileLoader {
         el.radius
       }" StartAngle="180" IncAngle="90"/>`;
     });
+    let Circle = arcElements.map(el => {
+        return `<Circle Center="${el.centerX},${el.centerY}" Radius="${el.radius}"/>`;
+      });
+    // let Circle = circleElements.map(el => {
+    //       return `<Circle Center="${el.circleX},${el.circleY}" Radius="${el.circleRadius}" />`
+    //   });
     // console.log(Arc, "Arc");
     let Spline = splineElements.map(el => {
-      return `<Spline P1="${el.pointX1},${el.pointY1}" P2="${el.pointX2},${
+      return `<Spline P1="${el.pointX1},${el.pointY1}" P2="${el.pointX3},${el.pointY3}" P3="${el.pointX4},${el.pointY4}" P4="${el.pointX2},${
         el.pointY2
-      }" P3="${el.pointX3},${el.pointY3}" P4="${el.pointX4},${el.pointY4}"/> `;
+      }"/> `;
     });
 
     const header =
@@ -125,6 +150,8 @@ export default class FileLoader {
       "\n" +
       Arc.join("\n") +
       "\n" +
+      Circle.join("\n") +
+      "\n" +
       Spline.join("\n") +
       "\n" +
       "</Contour>\n" +
@@ -138,7 +165,7 @@ export default class FileLoader {
 
     return xml;
   }
-  xml = "";
+//   xml = "";
 }
 // <?xml version="1.0"?>
 // <eMachineShop3DObjects VersionId="1.1">
