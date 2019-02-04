@@ -69,7 +69,7 @@ openWindow =()=>{
             <li>
               <a href="#">Open</a>
             </li>
-            <li onClick={()=> app.saveAs(app.currentDocument)}>
+            <li onClick={()=> app.saveAs('xml')}>
               <a href="#">
               Save
                 {/* <Save/> */}

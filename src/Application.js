@@ -190,6 +190,7 @@ class Application{
     }
 
     saveAs(file){
+        console.log(file,'file-format');
         FileLoader.save(this.currentDocument);
     }
 
