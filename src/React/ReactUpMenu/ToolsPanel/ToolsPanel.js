@@ -10,26 +10,41 @@ export default class ToolsPanel extends React.Component {
     this.state = {
       show: false,
       bgColorCopy: "#f0f0f0d9",
-      line:false
+      line: false,
+      arc: false,
+      group:false
     };
-    // console.log(app.selectElements,'app.selectElements')
-
+  }
+  // ---------------React Life Cycle-----------------
+  componentWillMount(){
     app.addHandler("selectElement", element => {
       this.setState({ show: true });
+
+      app.selectElements.map(el => {
+        if (el.typeName === "Line") {
+          this.setState({ line: true, arc:false,group:false });
+        }
+        if (el.typeName === "Arc") {
+          this.setState({ line: false, arc:true,group:false });
+        }
+        if (el.typeName === "Group") {
+          this.setState({ line: false, arc:false,group:true });
+        }
+        if (el.typeName === "Spline") {
+          this.setState({ line: false, arc:false,group:false });
+        }
+      });
+      if(app.selectElements.length>1){
+          this.setState({ line: false, arc:false,group:true });
+
+      }
     });
+
     app.addHandler("clearSelectElements", () => {
       this.setState({ show: false });
     });
 
-    app.addHandler("selectElement", element => {
-      app.selectElements.map(el=>{console.log(el,'el in map')
-      if(el.typeName==="Line"){
-        this.setState({line:true})
-      }
-    })
-    });
   }
- 
 
   handleClickCopy = () => {
     this.setState({
@@ -86,7 +101,10 @@ export default class ToolsPanel extends React.Component {
         />
         <form>
           <div className="Left-Tools">
-            <button className="btn-LineType" onClick={this.handlySelectElements}>
+            <button
+              className="btn-LineType"
+              onClick={this.handlySelectElements}
+            >
               <a href="#">
                 <img
                   width="18px"
@@ -106,90 +124,108 @@ export default class ToolsPanel extends React.Component {
               <option value="LazerMark">Comments to Machinist</option>
               <option value="LazerMark">LazerMark</option>
             </select>
-            {/* <button className="btn-Diameter">
-              <a href="#">
-                <img
-                  width="18px"
-                  src="images/Diameter18.png"
-                  data-place="bottom"
-                  data-tip="<span>Diameter.</br>Distance fully across the circle. To change, enter a value and</br>
-                 press the Enter key.
-                </span>"
-                />
-              </a>
-            </button> */}
-            {/* field and buttons for 'Line' */}
-         {this.state.line&&(<><button className="btn-Length">
-
-         {/* {this.state.line&&(<><button className="btn-Length"> */}
-              <a href="#">
-                <img
-                  width="18px"
-                  src="images/Line.png"
+      
+            {/*-----------------------------------field and buttons for 'Line'-------------------------- */}
+            {this.state.line === true && (
+              <>
+                <button className="btn-Length">
+                  {/* {this.state.line&&(<><button className="btn-Length"> */}
+                  <a href="#">
+                    <img
+                      width="18px"
+                      src="images/Line.png"
+                      data-place="bottom"
+                      data-tip="<span>Length<br/>Distance from the beginning of the line to the end.To change<br/>
+                  enter a value and press the Enter key</span>"
+                    />
+                  </a>
+                </button>
+                <input
+                  type="text"
                   data-place="bottom"
                   data-tip="<span>Length<br/>Distance from the beginning of the line to the end.To change<br/>
                   enter a value and press the Enter key</span>"
                 />
-              </a>
-            </button>
-            <input
-              type="text"
-              data-place="bottom"
-              data-tip="<span>Length<br/>Distance from the beginning of the line to the end.To change<br/>
-                  enter a value and press the Enter key</span>"
-            />
-            <button className="btn-LineAngle">
-              <a href="#">
-                <img
-                  width="18px"
-                  src="images/Line.png"
+                <button className="btn-LineAngle">
+                  <a href="#">
+                    <img
+                      width="18px"
+                      src="images/Line.png"
+                      data-place="bottom"
+                      data-tip="<span>Line angle<br/>Angle of the point with respect to the start point.To change,<br/>
+             enter a value and press the Enter key. </span>"
+                    />
+                  </a>
+                </button>
+                <input
+                  type="text"
                   data-place="bottom"
                   data-tip="<span>Line angle<br/>Angle of the point with respect to the start point.To change,<br/>
              enter a value and press the Enter key. </span>"
-            />
-              </a>
-            </button>
-            <input
-              type="text"
-              data-place="bottom"
-              data-tip="<span>Line angle<br/>Angle of the point with respect to the start point.To change,<br/>
-             enter a value and press the Enter key. </span>" /></>)}
-            {/* ------------------------------------------------------- */}
-            {app.selectElements==="Group"&&(<>  <button className="btn-Horizontal">
-              <a href="#">
-                <img
-                  width="18px"
-                  src="images/Width.png"
-                  data-place="bottom"
-                  data-tip="<span>Horizontal size</span>"
                 />
-              </a>
-            </button>
-            <input
-              type="text"
-              data-place="bottom"
-              data-tip="<span>Horizontal size<br/>Horizontal size of imaginary rectangle enclosing the line.To<br/>
-            change, enter a value and press the Enter key. </span>"
-            />
-            <button className="btn-Vertical">
-              <a href="#">
-                <img
-                  width="18px"
-                  src="images/Height.png"
+              </>
+            )}
+            {/* -------------------------------for Arc------------------------ */}
+            {this.state.arc === true && (<>
+              <button className="btn-Diameter">
+                <a href="#">
+                  <img
+                    width="18px"
+                    src="images/Diameter18.png"
+                    data-place="bottom"
+                    data-tip="<span>Diameter.</br>Distance fully across the circle. To change, enter a value and</br>
+                 press the Enter key.
+                </span>"
+                  />
+                </a>
+              </button>
+               <input
+               type="text"
+               data-place="bottom"
+               data-tip="<span>Diameter.</br>Distance fully across the circle. To change, enter a value and</br>
+               press the Enter key.
+              </span>"
+                /></>
+            )}
+            {/* ---------------for Group------------------------------------------------------------- */}
+            {this.state.group===true && (
+              <>
+                <button className="btn-Horizontal">
+                  <a href="#">
+                    <img
+                      width="18px"
+                      src="images/Width.png"
+                      data-place="bottom"
+                      data-tip="<span>Horizontal size</span>"
+                    />
+                  </a>
+                </button>
+                <input
+                  type="text"
                   data-place="bottom"
-                  data-tip="<span>Vertical size</span>"
-                />
-              </a>
-            </button>
-            <input
-              type="text"
-              data-place="bottom"
-              data-tip="<span>Vertical size<br/>Vertical size of imaginary rectangle enclosing the line.To<br/>
+                  data-tip="<span>Horizontal size<br/>Horizontal size of imaginary rectangle enclosing the line.To<br/>
             change, enter a value and press the Enter key. </span>"
-            /></>)}
-            {/* </div>
-           <div className="Center-Tools"> */}
-            <button className="btn-Z tooltip-Z">
+                />
+                <button className="btn-Vertical">
+                  <a href="#">
+                    <img
+                      width="18px"
+                      src="images/Height.png"
+                      data-place="bottom"
+                      data-tip="<span>Vertical size</span>"
+                    />
+                  </a>
+                </button>
+                <input
+                  type="text"
+                  data-place="bottom"
+                  data-tip="<span>Vertical size<br/>Vertical size of imaginary rectangle enclosing the line.To<br/>
+            change, enter a value and press the Enter key. </span>"
+                />
+              </>
+            )}
+      
+           <button className="btn-Z tooltip-Z">
               <a href="#">
                 <img
                   width="18px"
@@ -202,6 +238,8 @@ export default class ToolsPanel extends React.Component {
                 />
               </a>
             </button>
+            <InputSelect className="CreatableSelect" />
+
             {/* <input
             list="browsers"
             name="browser"style={{width:'120px'}}
@@ -225,7 +263,6 @@ export default class ToolsPanel extends React.Component {
             </select>
           </datalist>  */}
 
-            <InputSelect className="CreatableSelect" />
             <button className="btn-Question">
               <a
                 href="https://www.emachineshop.com/help-2d-drawing/#numeric-values"
