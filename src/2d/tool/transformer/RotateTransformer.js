@@ -19,7 +19,8 @@ export default class RotateTransformer extends Transformer{
         this.grad=0;
         this.Dgrad=0;
         this._createGroup();
-        this._calculateRadius();
+        this.center=null;
+        // this._calculateRadius();
     }
 
     /**
@@ -34,7 +35,7 @@ export default class RotateTransformer extends Transformer{
             if(r> new Line(this.group.getCenter(),point).length()){
                 this._downPosition = point;
                 this._createGroup();
-                this._calculateRadius();
+                // this._calculateRadius();
             }else{
                 return true;
             }
@@ -48,6 +49,7 @@ export default class RotateTransformer extends Transformer{
      */
     mouseUp(point){
         this._downPosition = null;
+        this.center=null;
         app.rotateSelected(this.Dgrad);
         this.Dgrad=0;
         return super.mouseUp(point);
@@ -84,9 +86,9 @@ export default class RotateTransformer extends Transformer{
 
     render(){
         super.render();
-        if(this.group) {
+        if(this.group && this.center) {
 
-            let center = this.group.getCenter();
+            let center = this.center;
             let centerPoint = this.board._convertToLocalCoordinateSystem(center);
 
             let localRadius = this._localRadius();
@@ -140,6 +142,7 @@ export default class RotateTransformer extends Transformer{
 
     _calculateRadius(){
         let center = this.group.getCenter();
+        this.center=center;
         this.radius = 0;
         for(let p of this.group._points){
             let temp = new Line(center, p).length();
