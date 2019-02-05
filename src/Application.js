@@ -293,16 +293,15 @@ Helper.Window.addHandler('keydown',(e)=>{
             app.deleteSelected();
             break;
         case 65: //Aa
-            if(e.ctrlKey){
+            if(e.ctrlKey && e.target==document.body){
                 app.selectAll();
-                 e.preventDefault();
+                e.preventDefault();
             }
             break;
-        case 83: //functiion save() ctrl+s
-
+        case 83: //Ss
             if(e.ctrlKey){
                 app.saveAs('xml');
-                // e.preventDefault();
+                e.preventDefault();
             }
             break;
         case 90: //Zz
