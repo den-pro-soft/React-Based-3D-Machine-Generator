@@ -165,7 +165,7 @@ export default class ToolsPanel extends React.Component {
                 />
               </a>
             </button>
-            <button className="btn-Up" onClick={()=>{app.moveSelected(0,app.config.moveStep);}}>
+            <button className="btn-Up" onClick={()=>{(this.state.bgColorCopy==='#f0f0f0d9')&&app.moveSelected(0,app.config.moveStep);}}>
               <a href="#">
                 <img
                   width="18px"
@@ -174,7 +174,7 @@ export default class ToolsPanel extends React.Component {
                 />
               </a>
             </button>
-            <button className="btn-Down" onClick={()=>{app.moveSelected(0,-app.config.moveStep);}}>
+            <button className="btn-Down" onClick={()=>{(this.state.bgColorCopy==='#f0f0f0d9')&&app.moveSelected(0,-app.config.moveStep);}}>
               <a href="#">
                 <img
                   width="18px"
@@ -183,7 +183,7 @@ export default class ToolsPanel extends React.Component {
                 />
               </a>
             </button>
-            <button className="btn-Left" onClick={()=>{app.moveSelected(-app.config.moveStep,0);}}>
+            <button className="btn-Left" onClick={()=>{(this.state.bgColorCopy==='#f0f0f0d9')&&app.moveSelected(-app.config.moveStep,0);}}>
               <a href="#">
                 <img
                   width="18px"
@@ -192,7 +192,7 @@ export default class ToolsPanel extends React.Component {
                 />
               </a>
             </button>
-            <button className="btn-Right" onClick={()=>{app.moveSelected(app.config.moveStep,0);}}>
+            <button className="btn-Right" onClick={()=>{(this.state.bgColorCopy==='#f0f0f0d9')&&app.moveSelected(app.config.moveStep,0);}}>
               <a href="#">
                 <img
                   width="18px"
