@@ -12,38 +12,46 @@ export default class ToolsPanel extends React.Component {
       bgColorCopy: "#f0f0f0d9",
       line: false,
       arc: false,
-      group:false
+      group: false
     };
   }
   // ---------------React Life Cycle-----------------
-  componentWillMount(){
+  componentWillMount() {
     app.addHandler("selectElement", element => {
       this.setState({ show: true });
 
       app.selectElements.map(el => {
         if (el.typeName === "Line") {
-          this.setState({ line: true, arc:false,group:false });
+          this.setState({ line: true, arc: false, group: false });
         }
         if (el.typeName === "Arc") {
-          this.setState({ line: false, arc:true,group:false });
+          this.setState({ line: false, arc: true, group: false });
         }
+
         if (el.typeName === "Group") {
-          this.setState({ line: false, arc:false,group:true });
+          this.setState({ line: false, arc: false, group: true });
         }
         if (el.typeName === "Spline") {
-          this.setState({ line: false, arc:false,group:false });
+          this.setState({ line: false, arc: false, group: false });
+        }
+        if (app.selectElements.length > 1 && el.typeName === "Arc") {
+          console.log(app.selectElements.length, el, "only Arcs");
+          this.setState({ line: false, arc: true, group: true });
+        }
+         else if (app.selectElements.length > 1 ) {
+          this.setState({ line: false, arc: false, group: true });
         }
       });
-      if(app.selectElements.length>1){
-          this.setState({ line: false, arc:false,group:true });
+    
+      // if(app.selectElements.length>1){
+      //     this.setState({ line: false, arc:false, group:true });
 
-      }
+      // }
     });
 
     app.addHandler("clearSelectElements", () => {
       this.setState({ show: false });
     });
-
   }
 
   handleClickCopy = () => {
@@ -124,7 +132,7 @@ export default class ToolsPanel extends React.Component {
               <option value="LazerMark">Comments to Machinist</option>
               <option value="LazerMark">LazerMark</option>
             </select>
-      
+
             {/*-----------------------------------field and buttons for 'Line'-------------------------- */}
             {this.state.line === true && (
               <>
@@ -166,29 +174,31 @@ export default class ToolsPanel extends React.Component {
               </>
             )}
             {/* -------------------------------for Arc------------------------ */}
-            {this.state.arc === true && (<>
-              <button className="btn-Diameter">
-                <a href="#">
-                  <img
-                    width="18px"
-                    src="images/Diameter18.png"
-                    data-place="bottom"
-                    data-tip="<span>Diameter.</br>Distance fully across the circle. To change, enter a value and</br>
+            {this.state.arc === true && (
+              <>
+                <button className="btn-Diameter">
+                  <a href="#">
+                    <img
+                      width="18px"
+                      src="images/Diameter18.png"
+                      data-place="bottom"
+                      data-tip="<span>Diameter.</br>Distance fully across the circle. To change, enter a value and</br>
                  press the Enter key.
                 </span>"
-                  />
-                </a>
-              </button>
-               <input
-               type="text"
-               data-place="bottom"
-               data-tip="<span>Diameter.</br>Distance fully across the circle. To change, enter a value and</br>
+                    />
+                  </a>
+                </button>
+                <input
+                  type="text"
+                  data-place="bottom"
+                  data-tip="<span>Diameter.</br>Distance fully across the circle. To change, enter a value and</br>
                press the Enter key.
               </span>"
-                /></>
+                />
+              </>
             )}
             {/* ---------------for Group------------------------------------------------------------- */}
-            {this.state.group===true && (
+            {this.state.group === true && (
               <>
                 <button className="btn-Horizontal">
                   <a href="#">
@@ -224,8 +234,8 @@ export default class ToolsPanel extends React.Component {
                 />
               </>
             )}
-      
-           <button className="btn-Z tooltip-Z">
+
+            <button className="btn-Z tooltip-Z">
               <a href="#">
                 <img
                   width="18px"
