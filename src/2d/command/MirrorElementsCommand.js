@@ -1,25 +1,24 @@
 /**
- * Created by dev on 28.01.19.
+ * Created by dev on 04.02.19.
  */
-
 
 import Command from './Command';
 import Group from './../../model/elements/Group'
 
-export default class RotateElementsCommand extends Command{
+export default class MirrorElementsCommand extends Command{
     /**
      * @param {Document} document
      * @param {Array.<Element>} elements
-     * @param {number} angle
+     * @param {string} axis - the const from Trigonometric class
      */
-    constructor(document, elements, angle){
+    constructor(document, elements, axis){
         super(document);
 
         this._elements=elements;
 
-        this.angle=angle;
+        this.axis=axis;
 
-        this.name= 'RotateElementsCommand';
+        this.name= 'MirrorElementsCommand';
     }
 
     /**
@@ -30,8 +29,7 @@ export default class RotateElementsCommand extends Command{
         for(let el of this._elements) {
             group.addElement(el);
         }
-        let center = group.getCenter();
-        group.rotate(center, this.angle);
+        group.mirror(this.axis);
         return true;
     }
 }

@@ -1,12 +1,11 @@
 /**
- * Created by dev on 28.01.19.
+ * Created by dev on 01.02.19.
  */
-
 
 import Command from './Command';
 import Group from './../../model/elements/Group'
 
-export default class RotateElementsCommand extends Command{
+export default class ResizeElementsCommand extends Command{
     /**
      * @param {Document} document
      * @param {Array.<Element>} elements
@@ -31,7 +30,9 @@ export default class RotateElementsCommand extends Command{
             group.addElement(el);
         }
         let center = group.getCenter();
-        group.rotate(center, this.angle);
+        for(let el of this._elements) {
+            el.rotate(center, this.angle);
+        }
         return true;
     }
 }

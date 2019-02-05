@@ -59,7 +59,7 @@ export default class UpMenu extends React.Component {
             <button>
               <img width="25px" src="images/ZoomToActualSize.png" />
             </button>
-            <button onClick={()=>app.board.setTool('Zoom')}>
+            <button onClick={()=>app.setTool('Zoom')}>
               <img width="25px" src="images/Zoom.png" />
             </button>
           </div>

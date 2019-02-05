@@ -3,7 +3,6 @@
  */
 
 import CreatorTool from './CreatorTool';
-import AddElementCommand from './../../2d/command/AddElementCommand';
 
 export default class CreatorToolsInTwoSteps extends CreatorTool{
     constructor(document){
@@ -38,10 +37,10 @@ export default class CreatorToolsInTwoSteps extends CreatorTool{
             this.graphicElement._renderer.drawAsNew();
             this.step = 1;
         }else{
-            // if(e.button!=2){ //left
-            //     this._element = null;
-            //     this.step=0;
-            // }
+            if(e.button==2){ //Right
+                this._element = null;
+                this.step=0;
+            }
             this.step=2;
         }
     }
@@ -50,7 +49,7 @@ export default class CreatorToolsInTwoSteps extends CreatorTool{
         if(this._element){
             if(this.step ==2) {
                 this.setPosition2(point);
-                app.executeCommand(new AddElementCommand(this._document, this.graphicElement));
+                this.addElementToDocument(this.graphicElement);
                 this.graphicElement._renderer.resetConfig();
                 this._element = null;
             }

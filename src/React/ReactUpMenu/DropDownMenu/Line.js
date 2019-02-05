@@ -102,10 +102,10 @@ export default class Line extends React.Component {
                 </a>
                 {this.state.displaySubMenu ? (
                   <ul className="SubMirror">
-                    <li>
+                    <li onClick={() => app.mirrorSelected("axisY")}>"
                       <a href="#">Horizontally</a>
                     </li>
-                    <li>
+                    <li onClick={() => app.mirrorSelected("axisX")}>
                       <a href="#">Vertically</a>
                     </li>
                   </ul>
@@ -121,22 +121,22 @@ export default class Line extends React.Component {
                 </a>
                 {this.state.displaySubNudge ? (
                   <ul className="SubNudge">
-                    <li>
+                    <li onClick={()=>{app.moveSelected(0,app.config.moveStep);}}>
                       <a href="#">
                      Up  Up Arrow
                       </a>
                     </li>
-                    <li>
+                    <li onClick={()=>{app.moveSelected(0,-app.config.moveStep);}}>
                       <a href="#">
                       Down Down Arrow
                       </a>
                     </li>
-                    <li>
+                    <li onClick={()=>{app.moveSelected(-app.config.moveStep,0);}}>
                       <a href="#">
                       Left Left Arrow
                       </a>
                     </li>
-                    <li>
+                    <li onClick={()=>{app.moveSelected(app.config.moveStep,0);}}>
                       <a href="#">
                       Right Right Arrow
                       </a>

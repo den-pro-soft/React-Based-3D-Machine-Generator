@@ -5,6 +5,7 @@
 import GraphicElement from '../GraphicElement';
 import GroupRenderer from './../../2d/renderer/GroupRenderer';
 import Exception from "../../Exception";
+import Point from './../Point';
 
 export default class Group extends GraphicElement{
     constructor(){
@@ -87,5 +88,10 @@ export default class Group extends GraphicElement{
             }
         }
         return res;
+    }
+
+    getCenter(){
+        let ext = this.getExtrenum();
+        return new Point(ext.min.x+(ext.max.x-ext.min.x)/2, ext.min.y+(ext.max.y-ext.min.y)/2);
     }
 }

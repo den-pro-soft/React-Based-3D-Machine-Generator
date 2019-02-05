@@ -12,7 +12,7 @@ export default class LeftMenu extends React.Component {
     }
   }
   handleClickSnapToLines =()=>{
-      app.board.magnificationMode=this.state.bgColorSnapToLines==='#f0f0f0d9';
+      app.magnificationMode=this.state.bgColorSnapToLines==='#f0f0f0d9';
     this.setState({bgColorSnapToLines:(this.state.bgColorSnapToLines==='#f0f0f0d9')?'#fff':'#f0f0f0d9'})
   }
   render(){
@@ -25,7 +25,7 @@ export default class LeftMenu extends React.Component {
            data-place="right"
            className="leftTooltipBackgroundTheme"
            /> */}
-        <button onClick={() => app.board.setTool("Pointer")}
+        <button onClick={() => app.setTool("Pointer")}
             >
           <img
             width="25px"
@@ -34,70 +34,70 @@ export default class LeftMenu extends React.Component {
             data-html={true}
           />
         </button>
-        <button onClick={() => app.board.setTool("Line")}>
+        <button onClick={() => app.setTool("Line")}>
           <img
             width="25px"
             src="images/Line.png"
             data-tip="<span>Line<br>Draws a straight line. Click again at end point. Hold the CTRL key while drawing<br>for a precise 0, 15, 30 or 45 deg angle. Press spacebar to restart line mode.</span>"
           />
         </button>
-        <button onClick={() => app.board.setTool("Spline")}>
+        <button onClick={() => app.setTool("Spline")}>
           <img
             width="25px"
             src="images/Spline.png"
             data-tip="<span>Spline<br>Draws a special style of curve. In workarea? click to specify start point of the curve.<br>Click again at end poin. Drag the control points to define the desired curve.</span>"
           />
         </button>
-        <button onClick={() => app.board.setTool("Rectangle")}>
+        <button onClick={() => app.setTool("Rectangle")}>
           <img
             width="25px"
             src="images/Rectangle.png"
             data-tip="<span>Rectangle<br>Draws a rectangle. In workarea, click to specify first corner of the rectangle.<br>Click again at opposite corner.</span>"
           />
         </button>
-        <button onClick={() => app.board.setTool("Circle")}>
+        <button onClick={() => app.setTool("Circle")}>
           <img
             width="25px"
             src="images/Circle.png"
             data-tip="<span>Circle.<br>Draws a circle. In workarea, click to specify center of the circle.<br>Click again to specify circle.</span>"
           />
         </button>
-        <button onClick={() => app.board.setTool("Pointer")}>
+        <button onClick={() => app.setTool("Freehand")}>
           <img
             width="25px"
             src="images/Freehand.png"
             data-tip="<span>Freehand.<br>Draws a freehand sketch. To draw click and hold mouse button while moving the mouse.<br>Use the Node edit mode to modify.</span>"
           />
         </button>
-        <button onClick={() => app.board.setTool("Eraser")}>
+        <button onClick={() => app.setTool("Eraser")}>
           <img
             width="25px"
             src="images/Eraser.png"
             data-tip="<span>Eraser.<br>You nttd this essential tool to create most shapes. First draw overlapping circles,<br>rectangles and straight lines; then click this Eraser tool and click on the appropriate line<br>segments to erase up to where it crosses another line.<br>For example, try creating a «D» shape by drawing a vertical line through a circle<br>and then erasing the appropriate line segments.<br>Or try drawing a thick «+» shape by first drawing overlapping vertical and horisontal<br>rectangles and then erasing the internal segments.</span>"
           />
         </button>
-        <button onClick={() => app.board.setTool("Pointer")}>
+        <button onClick={() => app.setTool("Pointer")}>
           <img
             width="25px"
             src="images/Corner.png"
             data-tip="<span>Corner<br>Rounds or chamfers sharp 2D corners when two or more lines are selected.<br>To create arcs separately? enable the arc button in preferences or intercect a circle.</span>"
           />
         </button>
-        <button onClick={() => app.board.setTool("Pointer")}>
+        <button onClick={() => app.setTool("Pointer")}>
           <img
             width="25px"
             src="images/Text.png"
             data-tip="<span>Text<br>Adds text to design for making comments or machining letters.<br>In workarea, click to specify starting point. Type the text and press Enter.<br>To machine the text choose Line | Machine | Auto and set Z value on the numeric bar.</span>"
           />
         </button>
-        <button onClick={() => app.board.setTool("Pointer")}>
+        <button onClick={() => app.setTool("Pointer")}>
           <img
             width="25px"
             src="images/LineEdit.png"
             data-tip="<span>Line Edit<br>Allows to move line endpoints or full line segments while staying attached.<br>In workarea click on the line. Drag the line or its endpoint to the desired location.</span>"
           />
         </button>
-        <button onClick={() => app.board.setTool("Pointer")}>
+        <button onClick={() => app.setTool("Pointer")}>
           <img
             width="25px"
             src="images/Ruler.png"
@@ -111,7 +111,7 @@ export default class LeftMenu extends React.Component {
             data-tip="<span>Snap to lines<br>Places new or moved lines to meet key points on existing lines.<br>It is generally recommended to keep this pushed in.</span>"
           />
         </button>
-        <button onClick={() => app.board.setTool("Pointer")}>
+        <button>
           <img
             width="25px"
             src="images/Help.png"
