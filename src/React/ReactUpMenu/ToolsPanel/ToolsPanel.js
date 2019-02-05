@@ -59,12 +59,12 @@ export default class ToolsPanel extends React.Component {
   };
   rotateLeft = () => {
     if (this.state.bgColorCopy === "#f0f0f0d9") {
-      app.rotateSelected(-this.rotateStep);
+      app.rotateSelected(-app.config.rotateStep);
     }
   };
   rotateRight = () => {
     if (this.state.bgColorCopy === "#f0f0f0d9") {
-      app.rotateSelected(this.rotateStep);
+      app.rotateSelected(app.config.rotateStep);
     }
   };
 
