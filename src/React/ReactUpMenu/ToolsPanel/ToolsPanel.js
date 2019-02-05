@@ -4,52 +4,94 @@ import ReactTooltip from "react-tooltip";
 import InputSelect from "./InputSelect";
 
 export default class ToolsPanel extends React.Component {
-  constructor(props){
+  constructor(props) {
     super(props);
 
     this.state = {
-      show:false,
-      bgColorCopy:'#f0f0f0d9'
-
+      show: false,
+      bgColorCopy: "#f0f0f0d9",
+      line:false
     };
+    // console.log(app.selectElements,'app.selectElements')
 
-    app.addHandler('selectElement', (element)=>{
-      this.setState({show:true})
+    app.addHandler("selectElement", element => {
+      this.setState({ show: true });
     });
-    app.addHandler('clearSelectElements', ()=>{this.setState({show:false})});
+    app.addHandler("clearSelectElements", () => {
+      this.setState({ show: false });
+    });
+
+    app.addHandler("selectElement", element => {
+      app.selectElements.map(el=>{console.log(el,'el in map')
+      if(el.typeName==="Line"){
+        this.setState({line:true})
+      }
+    })
+    });
   }
-  handleClickCopy =()=>{
-    // app.board.magnificationMode=this.state.bgColorSnapToLines==='#f0f0f0d9';
-  this.setState({bgColorCopy:(this.state.bgColorCopy==='#f0f0f0d9')?'#fff':'#f0f0f0d9'})
-}
+ 
+
+  handleClickCopy = () => {
+    this.setState({
+      bgColorCopy: this.state.bgColorCopy === "#f0f0f0d9" ? "#fff" : "#f0f0f0d9"
+    });
+  };
+
+  moveUp = () => {
+    if (this.state.bgColorCopy === "#f0f0f0d9") {
+      app.moveSelected(0, app.config.moveStep);
+    }
+  };
+  moveDown = () => {
+    if (this.state.bgColorCopy === "#f0f0f0d9") {
+      app.moveSelected(0, -app.config.moveStep);
+    }
+  };
+  moveLeft = () => {
+    if (this.state.bgColorCopy === "#f0f0f0d9") {
+      app.moveSelected(-app.config.moveStep, 0);
+    }
+  };
+  moveRight = () => {
+    if (this.state.bgColorCopy === "#f0f0f0d9") {
+      app.moveSelected(app.config.moveStep, 0);
+    }
+  };
+  rotateLeft = () => {
+    if (this.state.bgColorCopy === "#f0f0f0d9") {
+      app.rotateSelected(-this.rotateStep);
+    }
+  };
+  rotateRight = () => {
+    if (this.state.bgColorCopy === "#f0f0f0d9") {
+      app.rotateSelected(this.rotateStep);
+    }
+  };
 
   render() {
-    if(this.state.show) {
+    if (this.state.show) {
       return this.getPanelHtml();
-    }else{
-      return (
-          <div className="ToolsPanel">
-          </div>
-      )
+    } else {
+      return <div className="ToolsPanel" />;
     }
   }
 
-
-  getPanelHtml(){
+  getPanelHtml() {
     return (
       <div className="ToolsPanel">
-        {/* <ReactTooltip
+        <ReactTooltip
           html={true}
-          data-place="right"
+          // data-place="right"
           className="tooltipBackgroundTheme"
-        /> */}
+        />
         <form>
           <div className="Left-Tools">
-            <button className="btn-LineType">
+            <button className="btn-LineType" onClick={this.handlySelectElements}>
               <a href="#">
                 <img
                   width="18px"
                   src="images/LineType.png"
+                  data-place="bottom"
                   data-tip='<span>Line type.</br>Specifies whether the selected line a shape,bend,</br>thread,relation,comment,etc.Select "Auto" in most cases</br>
                 when creating the part shape.
                 </span>'
@@ -76,7 +118,44 @@ export default class ToolsPanel extends React.Component {
                 />
               </a>
             </button> */}
-               <button className="btn-Horizontal">
+            {/* field and buttons for 'Line' */}
+         {this.state.line&&(<><button className="btn-Length">
+
+         {/* {this.state.line&&(<><button className="btn-Length"> */}
+              <a href="#">
+                <img
+                  width="18px"
+                  src="images/Line.png"
+                  data-place="bottom"
+                  data-tip="<span>Length<br/>Distance from the beginning of the line to the end.To change<br/>
+                  enter a value and press the Enter key</span>"
+                />
+              </a>
+            </button>
+            <input
+              type="text"
+              data-place="bottom"
+              data-tip="<span>Length<br/>Distance from the beginning of the line to the end.To change<br/>
+                  enter a value and press the Enter key</span>"
+            />
+            <button className="btn-LineAngle">
+              <a href="#">
+                <img
+                  width="18px"
+                  src="images/Line.png"
+                  data-place="bottom"
+                  data-tip="<span>Line angle<br/>Angle of the point with respect to the start point.To change,<br/>
+             enter a value and press the Enter key. </span>"
+            />
+              </a>
+            </button>
+            <input
+              type="text"
+              data-place="bottom"
+              data-tip="<span>Line angle<br/>Angle of the point with respect to the start point.To change,<br/>
+             enter a value and press the Enter key. </span>" /></>)}
+            {/* ------------------------------------------------------- */}
+            {app.selectElements==="Group"&&(<>  <button className="btn-Horizontal">
               <a href="#">
                 <img
                   width="18px"
@@ -86,8 +165,12 @@ export default class ToolsPanel extends React.Component {
                 />
               </a>
             </button>
-            <input type="text"  data-place="bottom" data-tip="<span>Horizontal size<br/>Horizontal size of imaginary rectangle enclosing the line.To<br/>
-            change, enter a value and press the Enter key. </span>"/>
+            <input
+              type="text"
+              data-place="bottom"
+              data-tip="<span>Horizontal size<br/>Horizontal size of imaginary rectangle enclosing the line.To<br/>
+            change, enter a value and press the Enter key. </span>"
+            />
             <button className="btn-Vertical">
               <a href="#">
                 <img
@@ -98,8 +181,12 @@ export default class ToolsPanel extends React.Component {
                 />
               </a>
             </button>
-            <input type="text"  data-place="bottom" data-tip="<span>Vertical size<br/>Vertical size of imaginary rectangle enclosing the line.To<br/>
-            change, enter a value and press the Enter key. </span>"/>
+            <input
+              type="text"
+              data-place="bottom"
+              data-tip="<span>Vertical size<br/>Vertical size of imaginary rectangle enclosing the line.To<br/>
+            change, enter a value and press the Enter key. </span>"
+            /></>)}
             {/* </div>
            <div className="Center-Tools"> */}
             <button className="btn-Z tooltip-Z">
@@ -115,7 +202,7 @@ export default class ToolsPanel extends React.Component {
                 />
               </a>
             </button>
-              {/* <input
+            {/* <input
             list="browsers"
             name="browser"style={{width:'120px'}}
               onChange={e=>{
@@ -138,7 +225,7 @@ export default class ToolsPanel extends React.Component {
             </select>
           </datalist>  */}
 
-            <InputSelect className="CreatableSelect"  />
+            <InputSelect className="CreatableSelect" />
             <button className="btn-Question">
               <a
                 href="https://www.emachineshop.com/help-2d-drawing/#numeric-values"
@@ -149,14 +236,17 @@ export default class ToolsPanel extends React.Component {
                   width="18px"
                   src="images/Help.png"
                   data-place="bottom"
-
                   data-tip="<span>Shows how to use numeric values.</span>"
                 />
               </a>
             </button>
-            </div>
-        <div className="Right-Tools">
-            <button className="btn-Copy" onClick={this.handleClickCopy} style={{backgroundColor:this.state.bgColorCopy}}>
+          </div>
+          <div className="Right-Tools">
+            <button
+              className="btn-Copy"
+              onClick={this.handleClickCopy}
+              style={{ backgroundColor: this.state.bgColorCopy }}
+            >
               <a href="#">
                 <img
                   width="18px"
@@ -165,7 +255,7 @@ export default class ToolsPanel extends React.Component {
                 />
               </a>
             </button>
-            <button className="btn-Up" onClick={()=>{(this.state.bgColorCopy==='#f0f0f0d9')&&app.moveSelected(0,app.config.moveStep);}}>
+            <button className="btn-Up" onClick={this.moveUp}>
               <a href="#">
                 <img
                   width="18px"
@@ -174,7 +264,7 @@ export default class ToolsPanel extends React.Component {
                 />
               </a>
             </button>
-            <button className="btn-Down" onClick={()=>{(this.state.bgColorCopy==='#f0f0f0d9')&&app.moveSelected(0,-app.config.moveStep);}}>
+            <button className="btn-Down" onClick={this.moveDown}>
               <a href="#">
                 <img
                   width="18px"
@@ -183,7 +273,7 @@ export default class ToolsPanel extends React.Component {
                 />
               </a>
             </button>
-            <button className="btn-Left" onClick={()=>{(this.state.bgColorCopy==='#f0f0f0d9')&&app.moveSelected(-app.config.moveStep,0);}}>
+            <button className="btn-Left" onClick={this.moveLeft}>
               <a href="#">
                 <img
                   width="18px"
@@ -192,7 +282,7 @@ export default class ToolsPanel extends React.Component {
                 />
               </a>
             </button>
-            <button className="btn-Right" onClick={()=>{(this.state.bgColorCopy==='#f0f0f0d9')&&app.moveSelected(app.config.moveStep,0);}}>
+            <button className="btn-Right" onClick={this.moveRight}>
               <a href="#">
                 <img
                   width="18px"
@@ -201,8 +291,14 @@ export default class ToolsPanel extends React.Component {
                 />
               </a>
             </button>
-            <input type="text" defaultValue={app.config.moveStep} onChange={(e) =>{app.config.moveStep=e.target.value;}}/>
-            <button className="btn-Right" onClick={()=>{(this.state.bgColorCopy==='#f0f0f0d9')&&app.rotateSelected(-this.rotateStep);}}>
+            <input
+              type="text"
+              defaultValue={app.config.moveStep}
+              onChange={e => {
+                app.config.moveStep = e.target.value;
+              }}
+            />
+            <button className="btn-Right" onClick={this.rotateLeft}>
               <a href="#">
                 <img
                   width="18px"
@@ -211,7 +307,7 @@ export default class ToolsPanel extends React.Component {
                 />
               </a>
             </button>
-            <button className="btn-Right" onClick={()=>{(this.state.bgColorCopy==='#f0f0f0d9')&&app.rotateSelected(this.rotateStep);}}>
+            <button className="btn-Right" onClick={this.rotateRight}>
               <a href="#">
                 <img
                   width="18px"
@@ -220,7 +316,17 @@ export default class ToolsPanel extends React.Component {
                 />
               </a>
             </button>
-            <input type="text" className="InputRotate" onChange={(e) =>{this.rotateStep = e.target.value;}}/>
+            <input
+              type="text"
+              className="InputRotate"
+              defaultValue={app.config.rotateStep}
+              onChange={e => {
+                app.config.rotateStep = e.target.value;
+              }}
+              // onChange={e => {
+              //   this.rotateStep = e.target.value;
+              // }}
+            />
           </div>
         </form>
       </div>
@@ -229,5 +335,5 @@ export default class ToolsPanel extends React.Component {
 }
 
 ToolsPanel.protoTypes = {
-  rotateStep:10 //todo: move it to config file like as moveStep
+  rotateStep: 10 //todo: move it to config file like as moveStep
 };

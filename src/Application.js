@@ -295,12 +295,13 @@ Helper.Window.addHandler('keydown',(e)=>{
         case 65: //Aa
             if(e.ctrlKey){
                 app.selectAll();
-                // e.preventDefault();
+                 e.preventDefault();
             }
+            break;
         case 83: //functiion save() ctrl+s
 
             if(e.ctrlKey){
-                app.saveAs(app.currentDocument);
+                app.saveAs('xml');
                 // e.preventDefault();
             }
             break;
