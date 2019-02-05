@@ -202,7 +202,7 @@ export default class ToolsPanel extends React.Component {
               </a>
             </button>
             <input type="text" defaultValue={app.config.moveStep} onChange={(e) =>{app.config.moveStep=e.target.value;}}/>
-            <button className="btn-Right" onClick={()=>{app.rotateSelected(-this.rotateStep);}}>
+            <button className="btn-Right" onClick={()=>{(this.state.bgColorCopy==='#f0f0f0d9')&&app.rotateSelected(-this.rotateStep);}}>
               <a href="#">
                 <img
                   width="18px"
@@ -211,7 +211,7 @@ export default class ToolsPanel extends React.Component {
                 />
               </a>
             </button>
-            <button className="btn-Right" onClick={()=>{app.rotateSelected(this.rotateStep);}}>
+            <button className="btn-Right" onClick={()=>{(this.state.bgColorCopy==='#f0f0f0d9')&&app.rotateSelected(this.rotateStep);}}>
               <a href="#">
                 <img
                   width="18px"
