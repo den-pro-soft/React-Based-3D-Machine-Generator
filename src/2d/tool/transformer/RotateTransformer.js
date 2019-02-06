@@ -32,9 +32,9 @@ export default class RotateTransformer extends Transformer{
             let scale = container.board._scale; //todo: container
             let r = (scale * this.board._pixelPerOne * this.radius + 10+4)/(container.board._pixelPerOne*scale);
 
-            if(r> new Line(this.group.getCenter(),point).length()){
+            if(r> new Line(this.center,point).length()){ //into transformer
                 this._downPosition = point;
-                this._createGroup();
+                // this._createGroup();
                 // this._calculateRadius();
             }else{
                 return true;
@@ -49,7 +49,6 @@ export default class RotateTransformer extends Transformer{
      */
     mouseUp(point){
         this._downPosition = null;
-        this.center=null;
         app.rotateSelected(this.Dgrad);
         this.Dgrad=0;
         return super.mouseUp(point);
@@ -62,7 +61,7 @@ export default class RotateTransformer extends Transformer{
     mouseMove(point){
         if(this._downPosition) {
 
-            let center = this.group.getCenter();
+            let center = this.center;
 
             var delt_x1 = this._downPosition.x  - center.x ;
             var delt_y1 = center.y  - this._downPosition.y ;
@@ -86,10 +85,8 @@ export default class RotateTransformer extends Transformer{
 
     render(){
         super.render();
-        if(this.group && this.center) {
-
-            let center = this.center;
-            let centerPoint = this.board._convertToLocalCoordinateSystem(center);
+        if(this.group) {
+            let centerPoint = this.board._convertToLocalCoordinateSystem(this.center);
 
             let localRadius = this._localRadius();
             this.board.style('strokeStyle', '#000000');
@@ -141,11 +138,10 @@ export default class RotateTransformer extends Transformer{
     }
 
     _calculateRadius(){
-        let center = this.group.getCenter();
-        this.center=center;
+        this.center = this.group.getCenter();
         this.radius = 0;
         for(let p of this.group._points){
-            let temp = new Line(center, p).length();
+            let temp = new Line(this.center, p).length();
             if(temp>this.radius){
                 this.radius = temp;
             }

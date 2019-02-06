@@ -28,6 +28,7 @@ import CreatorTool from './2d/tool/CreatorTool';
 import config from './Config';
 
 import FileLoader from './file/FileLoader';
+import Observable from './Observable';
 
 let idGenerator = 1;
 
@@ -38,8 +39,10 @@ let idGenerator = 1;
  * 2. clearSelectElements - the event will call when clear select elements
  *
  */
-class Application{
+class Application extends Observable{
     constructor(){
+        super();
+
         /** @param {Document} */
         this.currentDocument = new Document();
 
@@ -51,11 +54,6 @@ class Application{
 
         this.selectElements = [];
 
-        this._handlers = {
-            selectElement: [],
-            clearSelectElements: []
-        }
-
         this.config = config;
 
         this.elementIdGenerator = {
@@ -63,11 +61,13 @@ class Application{
                 return idGenerator++;
             }
         }
+        
+        this._lastTool=null;
     }
 
     set board(board){
         this._board = board;
-        board.setTool(new PointerTool(this.currentDocument));
+        board.setTool(this._getToolInstance('Pointer'));
         board.document=this.currentDocument;
     }
     
@@ -77,10 +77,9 @@ class Application{
 
     set magnificationMode(val){
         this._magnificationMode=val;
-        if(this._magnificationMode){
-            this.tool = new MagnificationToolDecorator(this._document, this.tool);
-        }else{
-            this.tool= this.tool._tool;
+        let tool=this.board.tool;
+        if(!val && tool instanceof MagnificationToolDecorator){
+            this._changeTool(tool._tool);
         }
     }
 
@@ -103,13 +102,23 @@ class Application{
     addSelectElement(element){
         for(let el of this.selectElements){
             if(el.compare(element)){
-                console.log("compare");
-                console.log(element);
                 return;
             }
         }
         this.selectElements.push(element);
         this._notifyHandlers('selectElement',element);
+    }
+
+    selectAll(){
+        this.clearSelectElements();
+        this.setTool('Pointer');
+        for(let el of this.currentDocument._elements){
+            this.addSelectElement(el);
+            this._board.tool.selectElement(el);
+        }
+        if(this._board){
+            this._board.renderDocument();
+        }
     }
 
     clearSelectElements(){
@@ -129,7 +138,7 @@ class Application{
         if(this._board){
             if(command.name == 'AddElementCommand'){
                 this.clearSelectElements();
-                this._changeTool('Pointer');
+                this._changeTool(this._getToolInstance('Pointer'));
                 this._board.tool.selectElement(command._element);
             }
             this._board.renderDocument();
@@ -164,46 +173,37 @@ class Application{
         }
     }
     
-    group(){
-        this.executeCommand(new GroupCommand(app.currentDocument, app.selectElements));
-    }
-
-    ungroup(){
-        this.executeCommand(new UngroupCommand(app.currentDocument, app.selectElements));
-    }
-
-    deleteSelected(){
-        if(this.board){
-            this._changeTool('Pointer');
-        }
-        this.executeCommand(new DeleteElementCommand(this.currentDocument, this.selectElements));
-        this.clearSelectElements();
-    }
-
-    setElementsHeight(height){
-        this.executeCommand(new ChangeElementsHeightCommand(app.currentDocument, app.selectElements, height));
-    }
-
-    /**
-     * 
-     * @param {number} x
-     * @param {number} y
-     */
-    moveSelected(x,y){
-        this.executeCommand(new MoveElementsCommand(app.currentDocument, app.selectElements.slice(), x,y));
-        this._board.tool.setSelectElements(app.selectElements);
-        this._board.renderDocument();
-    }
-
     setTool(name){
         if(!this._board){
             return;
         }
         this.clearSelectElements();
-        this._changeTool(name);
+        let tool = this._getToolInstance(name);
+        this._changeTool(tool);
     }
 
-    _changeTool(name){
+    useLastTool(){
+        if(this.board.tool instanceof PointerTool) {
+            this.clearSelectElements();
+            this._lastTool.mousePosition = this.board.tool.mousePosition;
+            this._changeTool(this._lastTool);
+        }else{
+            this._changeTool(this._getToolInstance('Pointer'));
+        }
+        this.board.renderDocument();
+    }
+
+    _changeTool(tool){
+        if(!(tool instanceof PointerTool)){
+            this._lastTool=tool;
+        }
+        if(this._magnificationMode && tool instanceof CreatorTool){
+            tool = new MagnificationToolDecorator(this.currentDocument, tool);
+        }
+        this.board.setTool(tool);
+    }
+
+    _getToolInstance(name){
         let tool;
         switch(name){
             case 'Line':
@@ -230,10 +230,22 @@ class Application{
             default:
                 tool = new PointerTool(this.currentDocument);
         }
-        if(this._magnificationMode && tool instanceof CreatorTool){
-            tool = new MagnificationToolDecorator(this.currentDocument, tool);
-        }
-        this._board.setTool(tool);
+        return tool;
+    }
+
+    saveAs(file){
+        console.log(file,'file-format');
+        FileLoader.save(this.currentDocument);
+    }
+
+    //<editor-fold desc="decorate methods">
+
+    group(){
+        this.executeCommand(new GroupCommand(app.currentDocument, app.selectElements));
+    }
+
+    ungroup(){
+        this.executeCommand(new UngroupCommand(app.currentDocument, app.selectElements));
     }
 
     /**
@@ -241,6 +253,29 @@ class Application{
      */
     rotateSelected(angle){
         this.executeCommand(new RotateElementsCommand(app.currentDocument, app.selectElements, angle));
+        // this._board.tool.setSelectElements(app.selectElements);
+        // this._board.renderDocument();
+    }
+
+    deleteSelected(){
+        if(this.board){
+            this._changeTool(this._getToolInstance('Pointer'));
+        }
+        this.executeCommand(new DeleteElementCommand(this.currentDocument, this.selectElements));
+        this.clearSelectElements();
+    }
+
+    setElementsHeight(height){
+        this.executeCommand(new ChangeElementsHeightCommand(app.currentDocument, app.selectElements, height));
+    }
+
+    /**
+     *
+     * @param {number} x
+     * @param {number} y
+     */
+    moveSelected(x,y){
+        this.executeCommand(new MoveElementsCommand(app.currentDocument, app.selectElements.slice(), x,y));
         this._board.tool.setSelectElements(app.selectElements);
         this._board.renderDocument();
     }
@@ -254,34 +289,8 @@ class Application{
         this._board.renderDocument();
     }
 
-    selectAll(){
-        this.clearSelectElements();
-        this.setTool('Pointer');
-        for(let el of this.currentDocument._elements){
-            this.addSelectElement(el);
-            this._board.tool.selectElement(el);
-        }
-        if(this._board){
-            this._board.renderDocument();
-        }
-    }
 
-    saveAs(file){
-        console.log(file,'file-format');
-        FileLoader.save(this.currentDocument);
-    }
-
-    addHandler(eventName, handler){
-        this._handlers[eventName].push(handler);
-    }
-
-    _notifyHandlers(eventName, data){
-        if(this._handlers[eventName]) {
-            for (let handler of this._handlers[eventName]) {
-                handler(data);
-            }
-        }
-    }
+    //</editor-fold>
 }
 
 window.app = new Application();
@@ -324,6 +333,11 @@ Helper.Window.addHandler('keydown',(e)=>{
             break;
         case 40: //down
             app.moveSelected(0,-config.moveStep);
+            break;
+        case 32:
+            if(e.target==document.body){
+                app.useLastTool();
+            }
             break;
     }
 });

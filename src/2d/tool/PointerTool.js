@@ -48,8 +48,6 @@ export default class PointerTool extends Tool{
         }else{
             this.transformer.removeElemens();
         }
-        
-        //todo: check is resize transformer
         this.transformer.addElements(elements);
         app.addSelectElements(elements);
     }
@@ -109,7 +107,8 @@ export default class PointerTool extends Tool{
         this._mouseDown=null;
 
         if(this.transformer){
-            if(this.transformer.mouseUp(point)){ //click
+            let res = this.transformer.mouseUp(point);
+            if(res){ //click
                 if(this.transformer instanceof ResizeTransformer) {
                     this.transformer = new RotateTransformer(this._document);
                 }else{
