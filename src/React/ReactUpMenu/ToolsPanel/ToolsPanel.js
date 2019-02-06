@@ -165,6 +165,6 @@ export default class ToolsPanel extends React.Component {
   }
 }
 
-ToolsPanel.protoTypes = {
-  rotateStep: 10 //todo: move it to config file like as moveStep
-};
+// ToolsPanel.protoTypes = {
+//   rotateStep: 10 //todo: move it to config file like as moveStep
+// };

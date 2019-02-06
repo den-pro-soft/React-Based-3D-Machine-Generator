@@ -102,10 +102,10 @@ export default class Line extends React.Component {
                 </a>
                 {this.state.displaySubMenu ? (
                   <ul className="SubMirror">
-                    <li onClick={() => app.mirrorSelected("axisY")}>"
+                    <li onClick={() => app.mirrorSelected("axisX")}>"
                       <a href="#">Horizontally</a>
                     </li>
-                    <li onClick={() => app.mirrorSelected("axisX")}>
+                    <li onClick={() => app.mirrorSelected("axisY")}>
                       <a href="#">Vertically</a>
                     </li>
                   </ul>
