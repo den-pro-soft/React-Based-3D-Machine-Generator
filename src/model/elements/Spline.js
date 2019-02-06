@@ -102,19 +102,6 @@ export default class Spline extends GraphicElement{
         return res;
     }
 
-    getCenter(){
-        let res = new Point(0,0);
-        for(let p of this._points){
-            res.x+=p.x;
-            res.y+=p.y;
-            res.y+=p.y;
-        }
-        res.x/=this._points.length;
-        res.y/=this._points.length;
-        res.y/=this._points.length;
-        return res;
-    }
-
     /**
      * @deprecated The method can have an error if the figure is a concave element
      *

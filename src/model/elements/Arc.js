@@ -27,7 +27,16 @@ export default class Arc extends GraphicElement{
     get center(){
         return this._center;
     }
-    
+
+    getMagnificationPoints(){
+        return [this.center,
+            new Point(this._center.x+this.radius, this._center.y),
+            new Point(this._center.x, this._center.y+this.radius),
+            new Point(this._center.x-this.radius, this._center.y),
+            new Point(this._center.x, this._center.y-this.radius)
+        ];
+    }
+
     /**
      * @returns {{max:{x:number, y:number}, min:{x:number, y:number}}}
      */

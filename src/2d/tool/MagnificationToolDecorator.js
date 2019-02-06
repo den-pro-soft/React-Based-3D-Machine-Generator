@@ -96,9 +96,7 @@ export default class MagnificationToolDecorator extends CreatorTool{
      * @private
      */
     _getNearPoint(point){
-        let elements = app.currentDocument.getListSimpleElements();
-        let polyLines = elements.reduce((res,el)=>[...res,...el.toPolyLines()],[]);
-        let points = polyLines.reduce((res,el)=>[...res,...el.points],[]);
+        let points = app.currentDocument._elements.reduce((res,el)=>[...res,...el.getMagnificationPoints()],[]);
         if(points.length>0) {
             let min = points[0];
             let mind = point.distanceTo(min);

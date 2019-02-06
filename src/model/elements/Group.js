@@ -25,7 +25,19 @@ export default class Group extends GraphicElement{
     }
 
     set _points(points){}
-    
+
+    /**
+     * @inheritDoc
+     */
+    getMagnificationPoints(){
+        let res = [];
+        for(let el of this.elements){
+            res.push(...el.getMagnificationPoints());
+        }
+        res.push(this.getCenter());
+        return res;
+    }
+
     /**
      * @param {Element} element
      * @throws Exception if element isn't object of Element class

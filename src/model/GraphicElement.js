@@ -31,6 +31,14 @@ export default class GraphicElement{
     }
 
     /**
+     * the method need for magnification mode
+     * @return {Array.<Point>}
+     */
+    getMagnificationPoints(){
+        return [...this._points,this.getCenter()];
+    }
+
+    /**
      * @returns {{max:{x:number, y:number}, min:{x:number, y:number}}}
      */
     getExtrenum(){
