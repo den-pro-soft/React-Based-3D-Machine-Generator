@@ -80,7 +80,7 @@ export default class ToolsPanel extends React.Component {
           <div className="Left-Tools">
             <button
               className="btn-LineType"
-              onClick={this.handlySelectElements}
+              // onClick={this.handlySelectElements}
             >
               <a href="#">
                 <img
