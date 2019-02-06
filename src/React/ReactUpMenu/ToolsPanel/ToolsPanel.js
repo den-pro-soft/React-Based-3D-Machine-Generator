@@ -4,6 +4,8 @@ import ReactTooltip from "react-tooltip";
 import GroupType from "./GroupType";
 import LineType from "./LineType";
 import ArcType from "./ArcType";
+import CircleType from "./CircleType";
+
 import MoveButtons from "./MoveButtons";
 
 import InputSelect from "./InputSelect";
@@ -16,6 +18,7 @@ export default class ToolsPanel extends React.Component {
       show: false,
       line: false,
       arc: false,
+      circle:false,
       group: false
     };
   }
@@ -77,7 +80,7 @@ export default class ToolsPanel extends React.Component {
           <div className="Left-Tools">
             <button
               className="btn-LineType"
-              onClick={this.handlySelectElements}
+              // onClick={this.handlySelectElements}
             >
               <a href="#">
                 <img
@@ -101,6 +104,7 @@ export default class ToolsPanel extends React.Component {
 
             {this.state.line === true && <LineType />}
             {this.state.arc === true && <ArcType />}
+            {this.state.circle === true && <CircleType />}
             {this.state.group === true && <GroupType />}
 
             <button className="btn-Z tooltip-Z">
@@ -165,6 +169,6 @@ export default class ToolsPanel extends React.Component {
   }
 }
 
-ToolsPanel.protoTypes = {
-  rotateStep: 10 //todo: move it to config file like as moveStep
-};
+// ToolsPanel.protoTypes = {
+//   rotateStep: 10 //todo: move it to config file like as moveStep
+// };

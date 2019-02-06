@@ -10,27 +10,21 @@ export default class Line extends React.Component {
       displaySubNudge: false
     };
 
-    this.showDropdownMenu = this.showDropdownMenu.bind(this);
-    this.hideDropdownMenu = this.hideDropdownMenu.bind(this);
-    this.showSubMenu = this.showSubMenu.bind(this);
-    this.hideSubMenu = this.hideSubMenu.bind(this);
-    this.showSubNudge = this.showSubNudge.bind(this);
-    this.hideSubNudge = this.hideSubNudge.bind(this);
   }
 
-  showDropdownMenu(event) {
+  showDropdownMenu = (event) => {
     event.preventDefault();
     this.setState({ displayMenu: true }, () => {
       document.addEventListener("click", this.hideDropdownMenu);
     });
   }
 
-  hideDropdownMenu() {
+  hideDropdownMenu = () => {
     this.setState({ displayMenu: false }, () => {
       document.removeEventListener("click", this.hideDropdownMenu);
     });
   }
-  showSubMenu(event) {
+  showSubMenu = (event) => {
     console.log(event);
     event.preventDefault();
     this.setState({ displaySubMenu: true }, () => {
@@ -38,13 +32,13 @@ export default class Line extends React.Component {
     });
   }
 
-  hideSubMenu() {
+  hideSubMenu = () => {
     this.setState({ displaySubMenu: false }, () => {
       document.removeEventListener("click", this.hideSubMenu);
     });
   }
 
-  showSubNudge(event) {
+  showSubNudge = (event) => {
     console.log(event);
     event.preventDefault();
     this.setState({ displaySubNudge: true }, () => {
@@ -52,7 +46,7 @@ export default class Line extends React.Component {
     });
   }
 
-  hideSubNudge() {
+  hideSubNudge = () => {
     this.setState({ displaySubNudge: false }, () => {
       document.removeEventListener("click", this.hideSubNudge);
     });

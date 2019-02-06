@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment } from "react";
 // import "./tools-panel.scss";
 import ReactTooltip from "react-tooltip";
 
@@ -7,26 +7,26 @@ export default class MoveButtons extends React.Component {
     super(props);
 
     this.state = {
-      bgColorCopy: "#f0f0f0d9",
+      bgColorCopy: "#f0f0f0d9"
     };
   }
   handleClickCopy = () => {
     this.setState({
       bgColorCopy: this.state.bgColorCopy === "#f0f0f0d9" ? "#fff" : "#f0f0f0d9"
     });
-  }
+  };
 
   moveUp = () => {
     if (this.state.bgColorCopy === "#f0f0f0d9") {
       app.moveSelected(0, app.config.moveStep);
     }
-  }
+  };
 
   moveDown = () => {
     if (this.state.bgColorCopy === "#f0f0f0d9") {
       app.moveSelected(0, -app.config.moveStep);
     }
-  }
+  };
 
   moveLeft = () => {
     if (this.state.bgColorCopy === "#f0f0f0d9") {
@@ -37,28 +37,25 @@ export default class MoveButtons extends React.Component {
     if (this.state.bgColorCopy === "#f0f0f0d9") {
       app.moveSelected(app.config.moveStep, 0);
     }
-  }
+  };
 
   rotateLeft = () => {
     if (this.state.bgColorCopy === "#f0f0f0d9") {
-      app.rotateSelected(-app.config.rotateStep,0);
+      app.rotateSelected(-app.config.rotateStep, 0);
     }
-  }
+  };
 
   rotateRight = () => {
     if (this.state.bgColorCopy === "#f0f0f0d9") {
-      app.rotateSelected(app.config.rotateStep,0);
+      app.rotateSelected(app.config.rotateStep, 0);
     }
-  }
+  };
 
-  render(){
-      return(
-          <> 
-           <ReactTooltip
-          html={true}
-          className="tooltipBackgroundTheme"
-        />
-          <button
+  render() {
+    return (
+      <Fragment>
+        <ReactTooltip html={true} className="tooltipBackgroundTheme" />
+        <button
           className="btn-Copy"
           onClick={this.handleClickCopy}
           style={{ backgroundColor: this.state.bgColorCopy }}
@@ -67,7 +64,12 @@ export default class MoveButtons extends React.Component {
             <img
               width="18px"
               src="images/Copy.png"
-              // data-tip="<span>Z-button</span>"
+              data-place="bottom"
+              data-tip="<span>Repeat (Ctrl+ D)<br/>When this button is pressed in, the nudge arrow buttons and the<br/>
+              nudge rotation buttons will create copies of the selected shape.<br/>
+              For example, to create 3 copies to the right of an existing shape,<br/>
+              select the shape, press in this Repeat button and press the right<br/>
+              arrow button or key 3 times. </span>"
             />
           </a>
         </button>
@@ -140,6 +142,7 @@ export default class MoveButtons extends React.Component {
             app.config.rotateStep = e.target.value;
           }}
         />
-</>      )
+      </Fragment>
+    );
   }
 }
