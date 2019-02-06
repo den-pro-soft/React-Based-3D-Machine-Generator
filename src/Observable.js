@@ -18,6 +18,21 @@ export default class Observable{
         this.handlers[eventName].push(handler);
     }
 
+    /**
+     * @param handler
+     * @return {boolean} false if handler not found
+     */
+    removeHandler(handler){
+        for(let i=0; i<this.handlers.length; i++) {
+            for (let j=0; j<this.handlers[i].length; i++) {
+                if(handler==this.handlers[i][j]){
+                    this.handlers[i].splice(j,1);
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
     _notifyHandlers(eventName,data){
         if(this.handlers[eventName]){
             for(let handler of this.handlers[eventName]){
