@@ -81,6 +81,9 @@ class Application extends Observable{
         if(!val && tool instanceof MagnificationToolDecorator){
             this._changeTool(tool._tool);
         }
+        if(val){
+            this._changeTool(tool);
+        }
     }
 
     /**
@@ -194,7 +197,7 @@ class Application extends Observable{
     }
 
     _changeTool(tool){
-        if(!(tool instanceof PointerTool)){
+        if(!(tool instanceof PointerTool) && !(tool instanceof MagnificationToolDecorator)){
             this._lastTool=tool;
         }
         if(this._magnificationMode && tool instanceof CreatorTool){
