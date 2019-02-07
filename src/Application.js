@@ -17,6 +17,7 @@ import MirrorElementsCommand from './2d/command/MirrorElementsCommand';
 
 import PointerTool from './2d/tool/PointerTool';
 import ZoomTool from './2d/tool/ZoomTool';
+import RulerTool from './2d/tool/RulerTool';
 import EraserTool from './2d/tool/EraserTool';
 import RectTool from './2d/tool/RectTool';
 import SplineTool from './2d/tool/SplineTool';
@@ -230,6 +231,9 @@ class Application extends Observable{
                 break;
             case 'Freehand':
                 tool = new FreehandTool(this.currentDocument);
+                break;
+            case 'Ruler':
+                tool = new RulerTool(this.currentDocument);
                 break;
             default:
                 tool = new PointerTool(this.currentDocument);

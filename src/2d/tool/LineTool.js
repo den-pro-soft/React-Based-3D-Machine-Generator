@@ -23,6 +23,10 @@ export default class LineTool extends CreatorToolsInTwoSteps{
         this.line.p2=point;
     }
 
+    /**
+     * @param point
+     * @return {Line}
+     */
     createElement(point){
         return new Line(point, point);
     }

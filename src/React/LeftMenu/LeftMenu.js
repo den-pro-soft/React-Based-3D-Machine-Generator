@@ -142,7 +142,7 @@ export default class LeftMenu extends React.Component {
         <button >
         <a href="#">         
           <img
-          onClick={() => app.setTool("Pointer")}
+          onClick={() => app.setTool("Ruler")}
             width="25px"
             src="images/Ruler.png"
             data-tip="<span>Ruler<br>Measures a distance in the workspace. Left-click on the start and end points to be measured.</span>"
