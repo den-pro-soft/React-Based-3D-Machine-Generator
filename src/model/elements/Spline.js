@@ -125,6 +125,7 @@ export default class Spline extends GraphicElement{
         res.controlPoint2 = this._points[3].copy();
         res.hight=this.height;
         res.id=this.id;
+        res.lineType = this.lineType.copy();
         return res;
     }
 }

@@ -6,6 +6,7 @@
 import Document from '../model/Document';
 import Point from '../model/Point';
 import Observable from './../Observable';
+import Trigonometric from './../model/math/Trigonometric';
 
 /**
  * Event names:
@@ -258,6 +259,37 @@ export default class Board extends Observable{
             localPoints.push(this._convertToLocalCoordinateSystem(p));
         }
         this._drawPolyLine(localPoints);
+    }
+
+    /**
+     * @param {Point} position
+     * @param {string} text
+     * @param {number} angle - in degrees.
+     * @param {boolean} fill
+     */
+    drawText(position,text, angle, fill){
+        this._drawText(this._convertToLocalCoordinateSystem(position), text, angle, fill);
+    }
+
+    /**
+     * @param {{x: number, y: number}} position
+     * @param {string} text
+     * @param {number} angle - in degrees.
+     * @param {boolean} fill
+     */
+    _drawText(position,text, angle, fill){
+        let radianAngle = Trigonometric.gradToRad(angle);
+
+        this._context.save();
+        this._context.translate(position.x, position.y);
+        this._context.rotate(-radianAngle);
+
+        if(fill) {
+            this._context.fillText(text, 0, 0);
+        }else {
+            this._context.strokeText(text, 0, 0);
+        }
+        this._context.restore();
     }
 
     /**

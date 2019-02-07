@@ -9,6 +9,7 @@ import Document from './model/Document';
 import GroupCommand from './2d/command/GroupCommand';
 import UngroupCommand from './2d/command/UngroupCommand';
 import DeleteElementCommand from './2d/command/DeleteElementCommand';
+import ChangeLineTypeCommand from './2d/command/ChangeLineTypeCommand';
 import ChangeElementsHeightCommand from './2d/command/ChangeElementsHeightCommand';
 import MoveElementsCommand from './2d/command/MoveElementsCommand';
 import RotateElementsCommand from './2d/command/RotateElementsCommand';
@@ -292,6 +293,12 @@ class Application extends Observable{
         this._board.renderDocument();
     }
 
+    /**
+     * @param {LineType} lineType
+     */
+    setElementsLineType(lineType){
+        this.executeCommand(new ChangeLineTypeCommand(app.currentDocument, app.selectElements, lineType));
+    }
 
     //</editor-fold>
 }

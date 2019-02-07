@@ -2,7 +2,6 @@
  * Created by dev on 09.01.19.
  */
 
-import Board from '../Board'
 
 /**
  *
@@ -12,6 +11,8 @@ export default class Render{
      * @param {Element} element
      */
     constructor(element){
+
+        /** @var {GraphicElement} */
         this.element = element;
 
         /** @var {Board} */

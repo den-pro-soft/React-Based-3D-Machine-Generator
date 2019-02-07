@@ -89,6 +89,7 @@ export default class Arc extends GraphicElement{
         let arc = new Arc(this.center.copy(), this.radius);
         arc.height=this.height;
         arc.id=this.id;
+        arc.lineType = this.lineType.copy();
         return arc;
     }
 

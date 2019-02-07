@@ -76,6 +76,7 @@ export default class Group extends GraphicElement{
         }
         res.height=this.height;
         res.id=this.id;
+        res.lineType = this.lineType.copy();
         return res;
     }
 

@@ -3,7 +3,7 @@
  */
 import Matrix from "../model/math/Matrix";
 import Point from "./Point";
-
+import LineType from './line_types/LineType';
 
 export default class GraphicElement{
     
@@ -19,7 +19,14 @@ export default class GraphicElement{
         /** @var {Render} */
         this._renderer = null; //todo: transfer the creation of a new sample from GraphicElement classes to a IOC container
 
+        /** @var {LineType} */
+        this.lineType=app.config.lineType;
+        
         this.typeName= "Element"; //todo: understand  instanceof and remove this shit
+    }
+
+    setLineType(lineType){
+        this.lineType = lineType;
     }
 
     render(){

@@ -8,6 +8,9 @@ import Point from "../Point";
 import PolyLine from '../math/PolyLine';
 import Trigonometric from './../math/Trigonometric'
 
+/**
+ * @inheritDoc
+ */
 export default class Line extends GraphicElement{
     constructor(p1, p2){
         super();
@@ -36,10 +39,27 @@ export default class Line extends GraphicElement{
     }
 
     /**
-     * return {number}
+     * @return {number} - the A coefficient in [  Ax+By+C=0  ]
+     * @constructor
+     */
+    get A(){
+        return this.p2.x-this.p1.x;
+    }
+
+    /**
+     * @return {number} - the B coefficient in [  Ax+By+C=0  ]
+     * @constructor
+     */
+    get B(){
+        return this.p2.y-this.p1.y;
+    }
+
+    /**
+     * @return {number} - the angle coefficient in  [  y=k*x+b  ]
+     * @constructor
      */
     get k(){
-        return (this.p2.x-this.p1.x)/(this.p2.y-this.p1.y);
+        return (this.B|0)/(this.A|0);
     }
 
     /**
@@ -49,7 +69,7 @@ export default class Line extends GraphicElement{
         let p1= this._p1;
         let p2= this._p2;
         let z = Math.pow(p1.z-p2.z,2);
-        return Math.sqrt(Math.pow(p1.x-p2.x,2)+Math.pow(p1.y-p2.y,2)+z);
+        return Math.sqrt(Math.pow(this.A,2)+Math.pow(this.B,2)+z);
     }
 
     /**
@@ -105,15 +125,7 @@ export default class Line extends GraphicElement{
         if(!line instanceof Line){
             throw new Exception('Parameter must be Line type!');
         }
-
-        let m1 = this._p2.x - this._p1.x;
-        let n1 = this._p2.y - this._p1.y;
-        let m2 = line._p2.x - line._p1.x;
-        let n2 = line._p2.y - line._p1.y;
-
-        let cos = (m1*m2+n1*n2)/(this.length()*line.length());
-        
-
+        let cos = (this.A*line.A+this.B*line.B)/(this.length()*line.length());
         return Trigonometric.radToGrad(Math.acos(cos));
     }
 
@@ -128,13 +140,14 @@ export default class Line extends GraphicElement{
      * @return {Point}
      */
     getPointOffset(offset){
-        return new Point(this._p1.x +(this._p2.x-this._p1.x)*offset, this._p1.y +(this._p2.y-this._p1.y)*offset);
+        return new Point(this._p1.x + this.A*offset, this._p1.y + this.B*offset);
     }
 
     copy(){
         let line = new Line(this._p1.copy(), this._p2.copy());
         line.height=this.height;
         line.id=this.id;
+        line.lineType = this.lineType.copy();
         return line;
     }
 
@@ -155,10 +168,6 @@ export default class Line extends GraphicElement{
         let y3 = line.p1.y;
         let x4 = line.p2.x;
         let y4 = line.p2.y;
-
-        if(this.k == line.k){
-            return null;
-        }
 
         let a1 = y1 - y2;
         let b1 = x2 - x1;
