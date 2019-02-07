@@ -17,22 +17,17 @@ export default class LineType extends React.PureComponent {
 
   componentWillMount() {
     app.addHandler("selectElement", element => {
-      app.selectElements.map(el => {
-        if (el.typeName === "Line") {
-
-          let lengthLine =
-            el.length().toFixed(3) + `${String.fromCharCode(34)}`;
+      if(app.selectElements.length==1){
+        if (element.typeName === "Line") {
+          let lengthLine = element.length().toFixed(3) + `${String.fromCharCode(34)}`;
           this.setState({ value: lengthLine });
-          console.log(this.state.value, "valueLine");
-
         }
-      });
+      }
     });
   }
 
   handleChangeInputLength = event => {
-    console.log(event);
-   
+
   };
 
   render() {

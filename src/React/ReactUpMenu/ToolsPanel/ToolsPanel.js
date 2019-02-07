@@ -26,35 +26,24 @@ export default class ToolsPanel extends React.PureComponent {
   }
   // ---------------React Life Cycle-----------------
   componentWillMount() {
-    app.addHandler("selectElement", element => {
-      this.setState({ show: true });
-      let arc = app.selectElements.every(el => {
-        return el.typeName === "Arc";
-      });
-      if (arc === true && app.selectElements.length > 1) {
-        this.setState({ line: false, arc: true, group: true });
-      } else {
-        app.selectElements.forEach(el => {
-          if (app.selectElements.length === 1) {
-            if (el.typeName === "Line") {
-              // this.lengthLine =
-              // el.length().toFixed(3) + `${String.fromCharCode(34)}`;
-              this.setState({ line: true, arc: false, group: false });
-            }
-            if (el.typeName === "Group") {
-              this.setState({ line: false, arc: false, group: true });
-            }
-            if (el.typeName === "Spline") {
-              this.setState({ line: false, arc: false, group: false });
-            }
-            if (el.typeName === "Arc") {
-              this.setState({ line: false, arc: true, group: false });
-            }
+      app.addHandler("selectElement", element => {
+          this.setState({ show: true });
+          let arc = app.selectElements.every(el => el.typeName === "Arc");
+          if (arc === true && app.selectElements.length > 1) {
+              this.setState({ line: false, arc: true, group: true });
           } else {
-            this.setState({ line: false, arc: false, group: true });
+              if (app.selectElements.length === 1) {
+                  let el = app.selectElements[0];
+                  switch(el.typeName){
+                      case "Line":     this.setState({ line: true,  arc: false, group: false });  break;
+                      case "Group":    this.setState({ line: false, arc: false, group: true  });  break;
+                      case "Spline":   this.setState({ line: false, arc: false, group: false });  break;
+                      case "Arc":      this.setState({ line: false, arc: true,  group: false });  break;
+                  }
+              }else {
+                  this.setState({ line: false, arc: false, group: true });
+              }
           }
-        });
-      }
     });
 
     app.addHandler("clearSelectElements", () => {
