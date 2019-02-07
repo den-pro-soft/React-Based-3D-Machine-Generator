@@ -52,9 +52,6 @@ export default class ToolsPanel extends React.PureComponent {
           this.setState({ line: false, arc: true, group: true });
         } 
         else if(app.selectElements.length > 1) {
-          app.selectElements.length=0;
-          console.log(app.selectElements, "group-true");
-
           this.setState({ line: false, arc: false, group: true });
         }
       });
