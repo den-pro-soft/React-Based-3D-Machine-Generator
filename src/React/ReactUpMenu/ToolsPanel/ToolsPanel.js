@@ -28,33 +28,33 @@ export default class ToolsPanel extends React.PureComponent {
   componentWillMount() {
     app.addHandler("selectElement", element => {
       this.setState({ show: true });
-
-      app.selectElements.map(el => {
-        // if (app.selectElements.length === 1) {
-          if (el.typeName === "Line") {
-            // app.selectElements.length=0;
-            // this.lengthLine =
-            // el.length().toFixed(3) + `${String.fromCharCode(34)}`;
-            this.setState({ line: true, arc: false, group: false });
-          }
-          if (el.typeName === "Arc") {
-            this.setState({ line: false, arc: true, group: false });
-          }
-
-          if (el.typeName === "Group") {
+      let arc = app.selectElements.every(el => {
+        return el.typeName === "Arc";
+      });
+      if (arc === true && app.selectElements.length > 1) {
+        this.setState({ line: false, arc: true, group: true });
+      } else {
+        app.selectElements.forEach(el => {
+          if (app.selectElements.length === 1) {
+            if (el.typeName === "Line") {
+              // this.lengthLine =
+              // el.length().toFixed(3) + `${String.fromCharCode(34)}`;
+              this.setState({ line: true, arc: false, group: false });
+            }
+            if (el.typeName === "Group") {
+              this.setState({ line: false, arc: false, group: true });
+            }
+            if (el.typeName === "Spline") {
+              this.setState({ line: false, arc: false, group: false });
+            }
+            if (el.typeName === "Arc") {
+              this.setState({ line: false, arc: true, group: false });
+            }
+          } else {
             this.setState({ line: false, arc: false, group: true });
           }
-          if (el.typeName === "Spline") {
-            this.setState({ line: false, arc: false, group: false });
-          }
-        // } 
-        if (app.selectElements.length > 1 && el.typeName === "Arc") {
-          this.setState({ line: false, arc: true, group: true });
-        } 
-        else if(app.selectElements.length > 1) {
-          this.setState({ line: false, arc: false, group: true });
-        }
-      });
+        });
+      }
     });
 
     app.addHandler("clearSelectElements", () => {
@@ -189,7 +189,3 @@ export default class ToolsPanel extends React.PureComponent {
     );
   }
 }
-
-// ToolsPanel.protoTypes = {
-//   rotateStep: 10 //todo: move it to config file like as moveStep
-// };
