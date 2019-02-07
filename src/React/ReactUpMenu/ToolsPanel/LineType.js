@@ -1,26 +1,40 @@
 import React from "react";
 import ReactTooltip from "react-tooltip";
 import { Fragment } from "react";
-import Line from "../../../model/elements/Line";
-export default class LineType extends React.Component {
+// import Line from "../../../model/elements/Line";
+export default class LineType extends React.PureComponent {
   constructor(props) {
     super(props);
-    this.state={
-      value:''
-    }
-  
-    app.addHandler("selectElement", element => {
-    app.selectElements.map(el=>{
-      console.log(el.length(),el, 'length()');
-      let lengthLine = (el.length().toFixed(3))+`${String.fromCharCode(34)}`;
-      this.setState({value: lengthLine})
-    })
+    this.state = {
+      value: ""
+    };
+    // console.log(props, "props-Line");
 
+  }
+//   componentWillMount() {
+//         this.setState({ value: this.props.lengthLine });
+// }
+
+  componentWillMount() {
+    app.addHandler("selectElement", element => {
+      app.selectElements.map(el => {
+        if (el.typeName === "Line") {
+
+          let lengthLine =
+            el.length().toFixed(3) + `${String.fromCharCode(34)}`;
+          this.setState({ value: lengthLine });
+          console.log(this.state.value, "valueLine");
+
+        }
+      });
     });
   }
-  handleChangeInputLength =(event) => {
- console.log(event)
-  }
+
+  handleChangeInputLength = event => {
+    console.log(event);
+   
+  };
+
   render() {
     return (
       <Fragment>
@@ -38,7 +52,7 @@ export default class LineType extends React.Component {
         </button>
         <input
           type="text"
-          // value={()=>app.length()}
+          // value={this.props.lengthLine}
           value={this.state.value}
           onChange={this.handleChangeInputLength}
           data-place="bottom"
@@ -66,4 +80,3 @@ export default class LineType extends React.Component {
     );
   }
 }
-// export default LineType;

@@ -78,7 +78,7 @@ export default class OrderOptions extends React.Component {
           </div>
           {this.state.value === "order1" && (
             <div className="Text">
-              <p>
+              <p style={{textAlign:'left'}}>
                 Use this option normally
                 <br />
                 To process the above selection click OK and then do Order |
@@ -93,7 +93,7 @@ export default class OrderOptions extends React.Component {
 
           {this.state.value === "order2" && (
             <div className="Text">
-              <p>
+              <p style={{textAlign:'left'}}>
                 Use this option to make a change to in order in progress.(Do not
                 use this mode if you received parts already and are changing your
                 disign.) The minimum cost is 25$.The maximum can be substantial
@@ -114,7 +114,7 @@ export default class OrderOptions extends React.Component {
                 Machine IDs: <input type="text" /> (separated by commas)
                 <br />
               </div>
-              <p>
+              <p style={{textAlign:'left'}}>
                 Thees numbers can be found in your prior order confirmation
                 email.
               </p>
@@ -131,7 +131,7 @@ export default class OrderOptions extends React.Component {
 
           {this.state.value === "order3" && (
             <div className="Text">
-              <p>
+              <p style={{textAlign:'left'}}>
                 Use this option if the eMachineShop staff advises you to make a
                 change that corrects payment information. There is no
                 administrative charge for resubmitting an order in this way.
@@ -169,7 +169,7 @@ export default class OrderOptions extends React.Component {
               (renewed on reordering)
             </label>
             <br />
-            <p>
+            <p style={{textAlign:'left'}}>
               (Use this only if the prior job shows "Hard Tooling - Yes" in the
               order confirmation e-mail and no disign changes were made)
             </p>
