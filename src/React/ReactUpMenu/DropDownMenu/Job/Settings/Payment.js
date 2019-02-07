@@ -176,10 +176,10 @@ export default class Payment extends React.Component {
                     Remember my credit card information
                   </label>
                 </div>
-                <p style={{textAlign:'left'}}>
+                {/* <p style={{textAlign:'left'}}>
                   Note: Your payment information will be transmitted safely to
                   eMachineShop using advanced encryption technology.
-                </p>{" "}
+                </p>{" "} */}
               </fieldset>
               <fieldset>
                 <legend>Tax exempt</legend>
@@ -195,10 +195,10 @@ export default class Payment extends React.Component {
                   </label>
                 </div>
                 <p style={{textAlign:'left'}}>
-                  Please email your ST-3 from via the web site customer service
+                  Please email your ST-3 form via the web site customer service
                   page.
                   <br />
-                  Sales tax will be charged if from not received.
+                  Sales tax will be charged if form not received.
                 </p>{" "}
               </fieldset>
             </div>

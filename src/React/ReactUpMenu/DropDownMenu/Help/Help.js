@@ -72,6 +72,7 @@ handleCloseModalSuggestion = () => {
 
   handleClickOpen = event => {
     event.preventDefault();
+    console.log(event.target,'about window')
     this.setState(
       prevState => ({ open: !prevState.open }),
       () => {
@@ -125,7 +126,6 @@ handleCloseModalSuggestion = () => {
               <li
                 onMouseEnter={this.showSubMenu}
                 onMouseLeave={this.hideSubMenu}
-                onClick={this.handleClickOpen}
               >
                 <a href="#">
                   <span>Drawing Tutorials</span>
