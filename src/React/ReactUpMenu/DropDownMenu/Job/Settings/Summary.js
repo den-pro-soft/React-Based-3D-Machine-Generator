@@ -168,7 +168,7 @@ const data = [
   ["Thickness", `0,000${String.fromCharCode(34)}, tolerance: 20,00%`],
   ["Used machines", "Comments to Machinist"],
   ["Finishing", "None"],
-  ["Packing", "Pack parts in bulk"],
+  // ["Packing", "Pack parts in bulk"],
   ["Comments to machinist", "None"]
 ];
 

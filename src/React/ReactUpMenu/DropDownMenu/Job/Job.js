@@ -15,21 +15,20 @@ export default class Job extends React.Component {
       displayMenu: false,
       openSubModal: false
     };
-   
   }
 
-  showDropdownMenu = (event)=> {
+  showDropdownMenu = event => {
     event.preventDefault();
     this.setState({ displayMenu: true }, () => {
       document.addEventListener("click", this.hideDropdownMenu);
     });
-  }
+  };
 
-  hideDropdownMenu = ()=> {
+  hideDropdownMenu = () => {
     this.setState({ displayMenu: false }, () => {
       document.removeEventListener("click", this.hideDropdownMenu);
     });
-  }
+  };
   // --------------methods for SubModal Window-------------------------------------
   clickSubModal = event => {
     event.preventDefault();
@@ -43,7 +42,6 @@ export default class Job extends React.Component {
   };
 
   closeSubModal = () => {
- 
     this.setState(
       prevState => ({ openSubModal: prevState.openSubModal }),
       () => {
@@ -51,8 +49,15 @@ export default class Job extends React.Component {
       }
     );
   };
+
+  // -------------------------------------openLinkHelp---------------------------------------
+  openLinkHelp = () => {
+    window.open(
+      "https://www.emachineshop.com/help-ordering/#address-and-payment"
+    );
+  };
+
   render() {
-   
     return (
       <div className="Job">
         <div
@@ -106,8 +111,11 @@ export default class Job extends React.Component {
           </DialogTitle>
 
           <DialogContent
-
-            style={{ width: "950px",height:'425px', backgroundColor: "#f0ecec" }}
+            style={{
+              width: "950px",
+              height: "425px",
+              backgroundColor: "#f0ecec"
+            }}
           >
             <Settings />
           </DialogContent>
@@ -115,7 +123,7 @@ export default class Job extends React.Component {
           <DialogActions>
             <Button
               onClick={this.closeSubModal}
-              style={{ backgroundColor: "#f0ecec"}}
+              style={{ backgroundColor: "#f0ecec" }}
               color="primary"
               autoFocus
             >
@@ -130,7 +138,7 @@ export default class Job extends React.Component {
               Cancel
             </Button>
             <Button
-              onClick={this.closeSubModal}
+              onClick={this.openLinkHelp}
               style={{ backgroundColor: "#f0ecec" }}
               color="primary"
               autoFocus

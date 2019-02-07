@@ -51,7 +51,9 @@ export default class Adress extends React.Component {
       });
     }, 0);
   };
-
+  openLinkPryvacy = () => {
+    window.open("https://www.emachineshop.com/privacy/");
+  }
   render() {
     const countries = [
       "U.S.A.",
@@ -224,7 +226,7 @@ export default class Adress extends React.Component {
                   <span>*</span>City:
                 </div>
                 <div>
-                  <span>*</span>State of province:
+                  <span>*</span>State or province:
                 </div>
                 <div>
                   <span>*</span>ZIP or postal code:
@@ -307,7 +309,7 @@ export default class Adress extends React.Component {
                   <div>Address Line 1:</div>
                   <div> Address Line 2:</div>
                   <div> City:</div>
-                  <div> State of province:</div>
+                  <div> State or province:</div>
                   <div> ZIP or postal code:</div>
                   <div>Country:</div>
                   <div>Email address:</div>
@@ -391,11 +393,12 @@ export default class Adress extends React.Component {
             </fieldset>
           )}
           <div>
-            <span style={{ color: "red" }}>*</span> - required to place in order
+            <span style={{ color: "red" }}>*</span> - required to place an order  
           </div>
           <div>
             For our privacy policy please visit{" "}
             <a
+            onClick={this.openLinkPryvacy}
               href="https://www.emachineshop.com/privacy/"
               target="_blank"
               rel="noreferrer noopener"
