@@ -36,7 +36,15 @@ export default class Observable{
     _notifyHandlers(eventName,data){
         if(this.handlers[eventName]){
             for(let handler of this.handlers[eventName]){
-                handler(data);
+                try {
+                    handler(data);
+                }catch (e){
+                    console.group();
+                        console.error('The handler threw exception.');
+                        console.log(handler);
+                        console.log(e);
+                    console.groupEnd();
+                }
             }
         }
     }
