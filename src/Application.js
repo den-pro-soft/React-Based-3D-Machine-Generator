@@ -14,6 +14,8 @@ import ChangeElementsHeightCommand from './2d/command/ChangeElementsHeightComman
 import MoveElementsCommand from './2d/command/MoveElementsCommand';
 import RotateElementsCommand from './2d/command/RotateElementsCommand';
 import MirrorElementsCommand from './2d/command/MirrorElementsCommand';
+import CopyMoveCommand from './2d/command/CopyMoveCommand';
+import CopyRotateCommand from './2d/command/CopyRotateCommand';
 
 import PointerTool from './2d/tool/PointerTool';
 import ZoomTool from './2d/tool/ZoomTool';
@@ -304,6 +306,25 @@ class Application extends Observable{
         this.executeCommand(new ChangeLineTypeCommand(app.currentDocument, app.selectElements, lineType));
     }
 
+    /**
+     * @param {number} x
+     * @param {number} y
+     */
+    copyMoveSelected(x,y){
+        this.executeCommand(new CopyMoveCommand(app.currentDocument, app.selectElements.slice(), x,y));
+        this._board.tool.setSelectElements(app.selectElements);
+        this._board.renderDocument();
+    }
+
+    /**
+     * @param angle
+     */
+    copyRotateSelected(angle){
+        this.executeCommand(new CopyRotateCommand(app.currentDocument, app.selectElements.slice(), angle));
+        this._board.tool.setSelectElements(app.selectElements);
+        this._board.renderDocument();
+    }
+    
     //</editor-fold>
 }
 

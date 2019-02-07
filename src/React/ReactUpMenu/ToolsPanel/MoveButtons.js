@@ -16,38 +16,57 @@ export default class MoveButtons extends React.Component {
     });
   };
 
+  /**
+   * @return {boolean}  - true if enable coppy mode
+   */
+  copyMode(){
+    return this.state.bgColorCopy === "#f0f0f0d9";
+  }
+  
   moveUp = () => {
-    if (this.state.bgColorCopy === "#f0f0f0d9") {
+    if (this.copyMode()) {
       app.moveSelected(0, app.config.moveStep);
+    }else{
+      app.copyMoveSelected(0, app.config.moveStep);
     }
   };
 
   moveDown = () => {
-    if (this.state.bgColorCopy === "#f0f0f0d9") {
+    if (this.copyMode()) {
       app.moveSelected(0, -app.config.moveStep);
+    }else{
+        app.copyMoveSelected(0, -app.config.moveStep);
     }
   };
 
   moveLeft = () => {
-    if (this.state.bgColorCopy === "#f0f0f0d9") {
+    if (this.copyMode()) {
       app.moveSelected(-app.config.moveStep, 0);
+    }else{
+        app.copyMoveSelected(-app.config.moveStep, 0);
     }
   };
   moveRight = () => {
-    if (this.state.bgColorCopy === "#f0f0f0d9") {
+    if (this.copyMode()) {
       app.moveSelected(app.config.moveStep, 0);
+    }else{
+        app.copyMoveSelected(app.config.moveStep, 0);
     }
   };
 
   rotateLeft = () => {
-    if (this.state.bgColorCopy === "#f0f0f0d9") {
-      app.rotateSelected(-app.config.rotateStep, 0);
+    if (this.copyMode()) {
+      app.rotateSelected(-app.config.rotateStep);
+    }else{
+        app.copyRotateSelected(-app.config.rotateStep);
     }
   };
 
   rotateRight = () => {
-    if (this.state.bgColorCopy === "#f0f0f0d9") {
-      app.rotateSelected(app.config.rotateStep, 0);
+    if (this.copyMode()) {
+      app.rotateSelected(app.config.rotateStep);
+    }else{
+        app.copyRotateSelected(app.config.rotateStep);
     }
   };
 

@@ -37,6 +37,9 @@ export default class GraphicElement{
         this._renderer.resetConfig();
     }
 
+    generateNewId(){
+        this.id=app.elementIdGenerator.generateId();
+    }
     /**
      * the method need for magnification mode
      * @return {Array.<Point>}
