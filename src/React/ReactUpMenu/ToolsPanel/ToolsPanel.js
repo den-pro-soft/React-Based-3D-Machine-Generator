@@ -10,15 +10,18 @@ import MoveButtons from "./MoveButtons";
 
 import InputSelect from "./InputSelect";
 
-export default class ToolsPanel extends React.Component {
+export default class ToolsPanel extends React.PureComponent {
+  // static defautProps={figures:app.selectElements}
+
   constructor(props) {
     super(props);
+    console.log(props, "props");
 
     this.state = {
       show: false,
       line: false,
       arc: false,
-      circle:false,
+      circle: false,
       group: false
     };
   }
@@ -28,31 +31,34 @@ export default class ToolsPanel extends React.Component {
       this.setState({ show: true });
 
       app.selectElements.map(el => {
-        if (el.typeName === "Line") {
-          this.setState({ line: true, arc: false, group: false });
-        }
-        if (el.typeName === "Arc") {
-          this.setState({ line: false, arc: true, group: false });
-        }
+        // if (app.selectElements.length === 1) {
+          if (el.typeName === "Line") {
+            // app.selectElements.length=0;
+            // this.lengthLine =
+            // el.length().toFixed(3) + `${String.fromCharCode(34)}`;
+            this.setState({ line: true, arc: false, group: false });
+          }
+          if (el.typeName === "Arc") {
+            this.setState({ line: false, arc: true, group: false });
+          }
 
-        if (el.typeName === "Group") {
-          this.setState({ line: false, arc: false, group: true });
-        }
-        if (el.typeName === "Spline") {
-          this.setState({ line: false, arc: false, group: false });
-        }
+          if (el.typeName === "Group") {
+            this.setState({ line: false, arc: false, group: true });
+          }
+          if (el.typeName === "Spline") {
+            this.setState({ line: false, arc: false, group: false });
+          }
+        // } 
         if (app.selectElements.length > 1 && el.typeName === "Arc") {
-          console.log(app.selectElements.length, el, "only Arcs");
           this.setState({ line: false, arc: true, group: true });
-        } else if (app.selectElements.length > 1) {
+        } 
+        else if(app.selectElements.length > 1) {
+          app.selectElements.length=0;
+          console.log(app.selectElements, "group-true");
+
           this.setState({ line: false, arc: false, group: true });
         }
       });
-
-      // if(app.selectElements.length>1){
-      //     this.setState({ line: false, arc:false, group:true });
-
-      // }
     });
 
     app.addHandler("clearSelectElements", () => {
@@ -64,7 +70,24 @@ export default class ToolsPanel extends React.Component {
     if (this.state.show) {
       return this.getPanelHtml();
     } else {
-      return <div className="ToolsPanel" />;
+      return (
+        <div className="ToolsPanel">
+          <button className="btn-Question">
+            <a
+              href="https://www.emachineshop.com/help-2d-drawing/#numeric-values"
+              target="_blank"
+              rel="noreferrer noopener"
+            >
+              <img
+                width="18px"
+                src="images/Help.png"
+                data-place="bottom"
+                data-tip="<span>Shows how to use numeric values.</span>"
+              />
+            </a>
+          </button>
+        </div>
+      );
     }
   }
 
@@ -102,7 +125,9 @@ export default class ToolsPanel extends React.Component {
               <option value="LazerMark">LazerMark</option>
             </select>
 
-            {this.state.line === true && <LineType />}
+            {this.state.line === true && (
+              <LineType /*lengthLine={this.lengthLine}*/ />
+            )}
             {this.state.arc === true && <ArcType />}
             {this.state.circle === true && <CircleType />}
             {this.state.group === true && <GroupType />}
