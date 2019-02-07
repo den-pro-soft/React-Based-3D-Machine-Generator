@@ -138,7 +138,7 @@ export default class Payment extends React.Component {
                     </div>
                   </div>
                 </div>
-                <p>Expiration date:</p>
+                <p style={{textAlign:'left'}}>Expiration date:</p>
                 <div className="InputLabel-Block InputBlock-Hide">
                   <div className="Label">
                     <div> Month:</div>
@@ -176,7 +176,7 @@ export default class Payment extends React.Component {
                     Remember my credit card information
                   </label>
                 </div>
-                <p>
+                <p style={{textAlign:'left'}}>
                   Note: Your payment information will be transmitted safely to
                   eMachineShop using advanced encryption technology.
                 </p>{" "}
@@ -184,7 +184,6 @@ export default class Payment extends React.Component {
               <fieldset>
                 <legend>Tax exempt</legend>
                 <div
-                // style={{ padding: "10px" }}
                 >
                   <label>
                     <Checkbox
@@ -195,7 +194,7 @@ export default class Payment extends React.Component {
                     NJ customer exempt from sales tax
                   </label>
                 </div>
-                <p>
+                <p style={{textAlign:'left'}}>
                   Please email your ST-3 from via the web site customer service
                   page.
                   <br />
@@ -212,7 +211,7 @@ export default class Payment extends React.Component {
                     Check number: <input type="text" />
                   </label>
                 </div>
-                <p>
+                <p style={{textAlign:'left'}}>
                   So that order processing can begin please mail your check
                   promptly.
                   <br />
@@ -247,7 +246,7 @@ export default class Payment extends React.Component {
                     NJ customer exempt from sales tax
                   </label>
                 </div>
-                <p>
+                <p style={{textAlign:'left'}}>
                   Please email your ST-3 from via the web site customer service
                   page.
                   <br />
@@ -259,7 +258,7 @@ export default class Payment extends React.Component {
           {this.state.value === "payment3" && (
             // <fieldset className="Fieldset">
             <div className="Payment3">
-              <p>
+              <p style={{textAlign:'left'}}>
                 If you organization requires a purchasing agent to approve an
                 order,use this mode to upload your disign to eMachineShop in
                 preparation for a purchasing agent in your company, at their

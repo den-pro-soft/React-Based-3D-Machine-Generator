@@ -78,7 +78,10 @@ export default class MoveButtons extends React.Component {
             <img
               width="18px"
               src="images/Up.png"
-              // data-tip="<span>Z-button</span>"
+              data-place="bottom"
+              data-tip="<span>Nudge selected line up.(Also see tip for nudge edit box.)<br/> Hold
+              the Alt key for faster nudging. The state of Repeat button<br/>
+              determines if lines are duplicated or simply moved.</span>"
             />
           </a>
         </button>
@@ -87,7 +90,10 @@ export default class MoveButtons extends React.Component {
             <img
               width="18px"
               src="images/Down.png"
-              // data-tip="<span>Z-button</span>"
+              data-place="bottom"
+              data-tip="<span>Nudge selected line down.(Also see tip for nudge edit box.)<br/> Hold
+              the Alt key for faster nudging. The state of Repeat button<br/>
+              determines if lines are duplicated or simply moved.</span>"
             />
           </a>
         </button>
@@ -96,7 +102,10 @@ export default class MoveButtons extends React.Component {
             <img
               width="18px"
               src="images/Left.png"
-              // data-tip="<span>Z-button</span>"
+              data-place="bottom"
+              data-tip="<span>Nudge selected line left.(Also see tip for nudge edit box.)<br/> Hold
+              the Alt key for faster nudging. The state of Repeat button<br/>
+              determines if lines are duplicated or simply moved.</span>"
             />
           </a>
         </button>
@@ -105,7 +114,10 @@ export default class MoveButtons extends React.Component {
             <img
               width="18px"
               src="images/Right.png"
-              // data-tip="<span>Z-button</span>"
+              data-place="bottom"
+              data-tip="<span>Nudge selected line right.(Also see tip for nudge edit box.)<br/> Hold
+              the Alt key for faster nudging. The state of Repeat button<br/>
+              determines if lines are duplicated or simply moved.</span>"
             />
           </a>
         </button>
@@ -115,22 +127,33 @@ export default class MoveButtons extends React.Component {
           onChange={e => {
             app.config.moveStep = e.target.value;
           }}
+          data-place="bottom"
+          data-tip="<span>Nudge step.<br/>The distance an object will move when an arrow button or key<br/>
+              is pressed.It is generally recommended to move an item by first<br/>
+              dragging the item to a snap point on an existing line and then<br/>
+              nudging without the mouse.</span>"
         />
-        <button className="btn-Right" onClick={this.rotateLeft}>
+        <button className="btn-LeftRotate" onClick={this.rotateLeft}>
           <a href="#">
             <img
               width="18px"
               src="images/Unclock.png"
-              // data-tip="<span>Z-button</span>"
+              data-place="bottom"
+              data-tip="<span>Rotate selected line<br/> left(couterclockwise).The state of the<br/>
+              Repeat button determines if lines<br/> are duplicated or simply
+              rotated. </span>"
             />
           </a>
         </button>
-        <button className="btn-Right" onClick={this.rotateRight}>
+        <button className="btn-RightRotate" onClick={this.rotateRight}>
           <a href="#">
             <img
               width="18px"
               src="images/Clock.png"
-              // data-tip="<span>Z-button</span>"
+              data-place="bottom"
+              data-tip="<span>Rotate selected line<br/> right(clockwise).The state of the<br/>
+              Repeat button determines if lines<br/> are duplicated or simply
+              rotated. </span>"
             />
           </a>
         </button>
@@ -141,6 +164,12 @@ export default class MoveButtons extends React.Component {
           onChange={e => {
             app.config.rotateStep = e.target.value;
           }}
+          data-place="bottom"
+          data-tip="<span>Rotation step angle.<br/> The angle a selected line will rotate<br/> when you press the L or R<br/>
+          keyboard keys.You can set the center<br/> of rotation
+          by dragging the center icon.Hold<br/> Ctrl key
+          during rotation via mouse to rotate<br/>
+          in multiples of this angle. </span>"
         />
       </Fragment>
     );
