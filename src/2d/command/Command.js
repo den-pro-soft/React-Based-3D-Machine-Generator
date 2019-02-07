@@ -42,6 +42,8 @@ export default class Command{
 
     /**
      * The method should be extensions in children classes
+     * @return {boolean} true if the command must be save in commandHistory
+     * @protected
      */
     executeCommand(){
         throw new Exception('The method dosn\'t have implementation');
@@ -61,4 +63,36 @@ export default class Command{
     compare(command){
         return this.id==command.id;
     }
+
+    /**
+     * The method need use with @see {@link isReplacedElements} method.
+     * @return {Array.<GraphicElement>|null} - new elements or null
+     */
+    getElements(){
+        if(this.isReplacedElements()){
+            return this.getReplaceElements();
+        }else{
+            return null;
+        }
+    }
+
+
+    /**
+     * The method need for operation witch replacing or adding any elements.
+     * For example command copy, the command creates new element so the method will return true.
+     * @return {boolean} - return true if the command replacing or adding any elements
+     */
+    isReplacedElements(){
+        return false;
+    }
+    
+    /**
+     * The realisation of the  @see {@link isReplacedElements} method.
+     * @return {Array.<GraphicElement>|null} - new elements or null
+     * @protected
+     */
+    getReplaceElements(){
+        throw new Exception('The method dosn\'t have implementation');
+    }
+
 }

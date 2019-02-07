@@ -3,19 +3,17 @@
  */
 
 
-import Command from './Command';
+import ElementModificationCommand from './ElementModificationCommand';
 import Group from './../../model/elements/Group'
 
-export default class RotateElementsCommand extends Command{
+export default class RotateElementsCommand extends ElementModificationCommand{
     /**
      * @param {Document} document
      * @param {Array.<Element>} elements
      * @param {number} angle
      */
     constructor(document, elements, angle){
-        super(document);
-
-        this._elements=elements;
+        super(document, elements);
 
         this.angle=angle;
 
@@ -27,7 +25,7 @@ export default class RotateElementsCommand extends Command{
      */
     executeCommand(){
         let group = new Group();
-        for(let el of this._elements) {
+        for(let el of this.elements) {
             group.addElement(el);
         }
         let center = group.getCenter();

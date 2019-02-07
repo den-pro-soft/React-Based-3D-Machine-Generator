@@ -2,19 +2,17 @@
  * Created by dev on 07.02.19.
  */
 
-import Command from './Command';
+import ElementModificationCommand from './ElementModificationCommand';
 
 
-export default class ChangeLineTypeCommand extends Command{
+export default class ChangeLineTypeCommand extends ElementModificationCommand{
     /**
      * @param {Document} document
      * @param {Array.<Element>} elements
      * @param {LineType} lineType
      */
     constructor(document, elements, lineType){
-        super(document);
-
-        this._elements=elements;
+        super(document, elements);
 
         this.lineType=lineType;
 
@@ -25,7 +23,7 @@ export default class ChangeLineTypeCommand extends Command{
      * @inheritDoc
      */
     executeCommand(){
-        for(let el of this._elements) {
+        for(let el of this.elements) {
             el.setLineType(this.lineType);
         }
         return true;

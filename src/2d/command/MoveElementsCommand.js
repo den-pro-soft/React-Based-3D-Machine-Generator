@@ -2,9 +2,12 @@
  * Created by dev on 28.01.19.
  */
 
-import Command from './Command';
+import ElementModificationCommand from './ElementModificationCommand';
 
-export default class MoveElementsCommand extends Command{
+/**
+ * @inheritDoc
+ */
+export default class MoveElementsCommand extends ElementModificationCommand{
     /**
      * @param {Document} document
      * @param {Array.<Element>} elements
@@ -12,9 +15,7 @@ export default class MoveElementsCommand extends Command{
      * @param {number} y
      */
     constructor(document, elements, x, y){
-        super(document);
-
-        this._elements=elements;
+        super(document, elements);
 
         this.x=x;
 
@@ -27,7 +28,7 @@ export default class MoveElementsCommand extends Command{
      * @inheritDoc
      */
     executeCommand(){
-        for(let el of this._elements) {
+        for(let el of this.elements) {
             el.move(this.x, this.y);
         }
         return true;
