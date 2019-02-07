@@ -1,5 +1,6 @@
 import React from "react";
 import "./help.scss";
+import Suggestion from "./Suggestion";
 import DialogMaterialUi from "./DialogMaterialUI";
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
@@ -15,42 +16,59 @@ export default class Help extends React.Component {
       displayMenu: false,
       displaySubMenu: false,
       open: false,
-      openSubModal: false
+      openSubModal: false,
+      openSuggestionModal: false
     };
-
-    this.showDropdownMenu = this.showDropdownMenu.bind(this);
-    this.hideDropdownMenu = this.hideDropdownMenu.bind(this);
-    this.showSubMenu = this.showSubMenu.bind(this);
-    this.hideSubMenu = this.hideSubMenu.bind(this);
   }
 
-  showDropdownMenu(event) {
-    // event.preventDefault();
+  showDropdownMenu = event => {
+    event.preventDefault();
     this.setState({ displayMenu: true }, () => {
       document.addEventListener("click", this.hideDropdownMenu);
     });
-  }
+  };
 
-  hideDropdownMenu() {
+  hideDropdownMenu = () => {
     this.setState({ displayMenu: false }, () => {
       document.removeEventListener("click", this.hideDropdownMenu);
     });
-  }
+  };
 
-  showSubMenu(event) {
-    // event.preventDefault();
+  showSubMenu = event => {
+    event.preventDefault();
     this.setState({ displaySubMenu: true }, () => {
       document.addEventListener("click", this.hideSubMenu);
     });
-  }
+  };
 
-  hideSubMenu() {
+  hideSubMenu = () => {
     this.setState({ displaySubMenu: false }, () => {
       document.removeEventListener("click", this.hideSubMenu);
     });
-  }
+  };
+  // --------------open window Suggestion---------------------
+  handleOpenSuggestion = event => {
+    // event.preventDefault();
+    this.setState(
+      prevState => ({ openSuggestionModal: !prevState.openSuggestionModal }),
+      () => {
+        this.setState({ openSuggestionModal: this.state.openSuggestionModal });
+      }
+    );
+  };
+handleCloseModalSuggestion = () => {
+        this.setState(
+          prevState => ({ openSuggestionModal: prevState.openSuggestionModal }),
+          () => {
+            this.setState({ openSuggestionModal: !this.state.openSuggestionModal });
+          }
+        );
+      };
+      openGuideSuggestionWindow = () => {
+        window.open("https://www.emachineshop.com/help/");
+      };
 
-  // -----Dialog MOdal-----
+  // -----Dialog MOdal About-----
 
   handleClickOpen = event => {
     event.preventDefault();
@@ -88,9 +106,9 @@ export default class Help extends React.Component {
   };
 
   // ------------open link Video Tutorial----------
-openWindow =()=>{
-  window.open('https://www.emachineshop.com/video-tutorials/')
-}
+  openWindow = () => {
+    window.open("https://www.emachineshop.com/video-tutorials/");
+  };
   render() {
     // const { open } = this.state;
     return (
@@ -133,7 +151,7 @@ openWindow =()=>{
                   Contents
                 </a>
               </li>
-              <li  onClick={this.openWindow}>
+              <li onClick={this.openWindow}>
                 <a
                   href="https://www.emachineshop.com/video-tutorials/"
                   target="_blank"
@@ -148,30 +166,89 @@ openWindow =()=>{
               <li>
                 <a href="#">Tech Support</a>
               </li>
-
+              <li onClick={this.handleOpenSuggestion}>
+                <a href="#">Suggestion</a>
+              </li>
               <li onClick={this.handleClickOpen}>
                 <a href="#">About</a>
               </li>
             </ul>
           ) : null}
         </div>
+        {/* --------------Suggestion window------------------------------------------ */}
         <Dialog
-          // style={{
-          //   backgroundColor: "transparent",
-          //   width: "400px",
-          //   height: "750px",
-          //   margin: "0 auto"
-          // }}
-          open={this.state.open}
+          maxWidth={false}
+          open={this.state.openSuggestionModal}
+          onClose={this.handleCloseModal}
           aria-labelledby="alert-dialog-title"
           aria-describedby="alert-dialog-description"
         >
           <DialogTitle
-            // style={{ height: "10px", color: "black", textAlign: "center" }}
+            style={{ color: "black", textAlign: "left" }}
             id="alert-dialog-title"
           >
-            About eMashine shop
+            <img
+              width="25px"
+              src="images/icon.jpg"
+              // data-tip="<span>Shows how to use numeric values.</span>"
+            />
+            <span>Suggestion</span>
           </DialogTitle>
+
+          <DialogContent
+            style={{
+              textAlign: "left" ,
+              width: "750px",
+              height: "425px",
+              backgroundColor: "#f0ecec"
+            }}
+          >
+            <Suggestion />
+          </DialogContent>
+
+          <DialogActions>
+            <Button
+              onClick={this.handleCloseModalSuggestion}
+              style={{
+                backgroundColor: "#dddada",
+                boxShadow: "2px 2px 1px #000"
+              }}
+              color="primary"
+              autoFocus
+            >
+              Confirm
+            </Button>
+            <Button
+              onClick={this.handleCloseModalSuggestion}
+              style={{
+                backgroundColor: "#dddada",
+                boxShadow: "2px 2px 1px #000"
+              }}
+              color="primary"
+              autoFocus
+            >
+              Cancel
+            </Button>
+            <Button
+              onClick={this.openGuideSuggestionWindow}
+              style={{
+                backgroundColor: "#dddada",
+                boxShadow: "2px 2px 1px #000"
+              }}
+              color="primary"
+              autoFocus
+            >
+              CAD Guide
+            </Button>
+          </DialogActions>
+        </Dialog>
+        {/* -------------------------About window-------------------------------------------- */}
+        <Dialog
+          open={this.state.open}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          <DialogTitle id="alert-dialog-title">About eMashine shop</DialogTitle>
           <DialogContent
             className="Content"
             style={{ background: "#f0ecec", padding: 10 }}
@@ -184,11 +261,7 @@ openWindow =()=>{
                 className="ContentHeader"
                 style={{ display: "flex", alignItems: "flex-start" }}
               >
-                <img
-                  width="45px"
-                  src="images/icon.jpg"
-                  // data-tip="<span>Shows how to use numeric values.</span>"
-                />
+                <img width="45px" src="images/icon.jpg" />
                 <DialogContentText
                   style={{ textAlign: "center", color: "black" }}
                 >

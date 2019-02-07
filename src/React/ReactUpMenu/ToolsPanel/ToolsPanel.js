@@ -15,7 +15,6 @@ export default class ToolsPanel extends React.PureComponent {
 
   constructor(props) {
     super(props);
-    console.log(props, "props");
 
     this.state = {
       show: false,

@@ -1,0 +1,30 @@
+.Suggestion {
+  padding: 10px;
+  p {
+    text-align: left;
+    margin: 10px 10px;
+  }
+  form {
+  
+    .Email {
+      margin: 10px 10px;
+      .InputEmail {
+        width: 705px;
+      }
+    }
+    .SelectBlock {
+      margin: 10px 10px;
+      .Select {
+        margin-left: 10px;
+      }
+      .InputInSelect {
+        margin-left: 20px;
+        width: 457px;
+        // width:80%;
+      }
+    }
+    .Textarea {
+      margin: 10px 10px;
+    }
+  }
+}
