@@ -183,12 +183,12 @@ export default class MoveButtons extends React.Component {
           onChange={e => {
             app.config.rotateStep = e.target.value;
           }}
-          data-place="bottom"
-          data-tip="<span>Rotation step angle.<br/> The angle a selected line will rotate<br/> when you press the L or R<br/>
-          keyboard keys.You can set the center<br/> of rotation
-          by dragging the center icon.Hold<br/> Ctrl key
-          during rotation via mouse to rotate<br/>
-          in multiples of this angle. </span>"
+          // data-place="bottom"
+          // data-tip="<span>Rotation step angle.<br/> The angle a selected line will rotate<br/> when you press the L or R<br/>
+          // keyboard keys.You can set the center<br/> of rotation
+          // by dragging the center icon.Hold<br/> Ctrl key
+          // during rotation via mouse to rotate<br/>
+          // in multiples of this angle. </span>"
         />
       </Fragment>
     );

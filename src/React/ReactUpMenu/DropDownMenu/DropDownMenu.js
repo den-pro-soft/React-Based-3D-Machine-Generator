@@ -1,7 +1,7 @@
 import React from "react";
 import "./dropdown-menu.scss";
 import File from "./File/File";
-import Edit from "./Edit";
+import Edit from "./Edit/Edit";
 
 import Line from "./Line";
 import Job from "./Job/Job";
