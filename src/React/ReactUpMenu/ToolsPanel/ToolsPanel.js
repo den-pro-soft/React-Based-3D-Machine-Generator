@@ -15,17 +15,19 @@ export default class ToolsPanel extends React.PureComponent {
 
   constructor(props) {
     super(props);
-
+console.log(props,'toolsPanel')
     this.state = {
       show: false,
       line: false,
       arc: false,
       circle: false,
-      group: false
+      group: false,
+      demensions:''
     };
   }
   // ---------------React Life Cycle-----------------
   componentWillMount() {
+    this.setState({demensions:this.props.demensions})
       app.addHandler("selectElement", element => {
           this.setState({ show: true });
           let arc = app.selectElements.every(el => el.typeName === "Arc");
@@ -111,7 +113,7 @@ export default class ToolsPanel extends React.PureComponent {
             </select>
 
             {this.state.line === true && (
-              <LineType /*lengthLine={this.lengthLine}*/ />
+              <LineType demensions={this.props.demensions} />
             )}
             {this.state.arc === true && <ArcType />}
             {this.state.circle === true && <CircleType />}

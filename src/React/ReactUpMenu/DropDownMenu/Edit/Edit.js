@@ -4,7 +4,6 @@ import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
-// import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Preferences from "./Preferences";
 
@@ -29,7 +28,7 @@ export default class Edit extends React.Component {
       document.removeEventListener("click", this.hideDropdownMenu);
     });
   };
-  // --------------open window Suggestion---------------------
+  // --------------open window Preferences---------------------
   handleOpenPreferences = event => {
     // event.preventDefault();
     this.setState(

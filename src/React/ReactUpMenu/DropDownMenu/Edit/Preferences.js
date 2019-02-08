@@ -8,14 +8,23 @@ export default class Preferences extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      value: "Inches"
+      value: 'Inches'
     };
+    console.log(props,'props-preferens')
   }
-
+// willDidMount(){
+//     this.setState((prevState) =>{console.log(prevState,'prevState-DidMount'); 
+//      ({ value:  prevState.value})}
+//         // ()=>this.setState({value:this.state.value})
+//         );
+// }
   handleRadioChange = event => {
-    event.preventDefault();
-
+ 
     this.setState({ value: event.target.value });
+//     this.setState((prevState) =>{console.log(prevState,'prevState'); 
+// ({ value:  prevState.value})},
+//     ()=>this.setState({value:this.state.value})
+//     );
     console.log(this.state.value, "this.state.value");
   };
 
@@ -32,9 +41,12 @@ export default class Preferences extends React.Component {
                 <RadioGroup
                   value={this.state.value}
                   onChange={this.handleRadioChange}
+                //   onClick={() => { this.props.updateDataDementions(this.state.value)}}
+
                 >
                   <FormControlLabel
                     value="Inches"
+                    onClick={() => { this.props.updateDataDementions(this.state.value==='Inches'?'Millimeters':'Inches')}}
                     control={
                       <Radio
                         color="primary"
@@ -46,6 +58,9 @@ export default class Preferences extends React.Component {
                   />
                   <FormControlLabel
                     value="Millimeters"
+                    onClick={() => { this.props.updateDataDementions(this.state.value==='Millimeters'?'Inches':'Millimeters')}}
+
+                    // onClick={() => { this.props.updateDataDementions(this.state.value)}}
                     control={
                       <Radio
                         classes={{ root: "root" }}

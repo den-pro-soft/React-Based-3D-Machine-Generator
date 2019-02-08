@@ -13,10 +13,8 @@ export default class FrontPanel extends React.Component {
   }
   handleInputLenght = event => {
     // event.preventDefault();
-    // if(event.charCode !== 13){
 
     this.setState({ lengthValue: event.target.value  });
-    // }else
     if(event.charCode === 13){
 
         this.setState({
@@ -29,22 +27,7 @@ export default class FrontPanel extends React.Component {
       "event.target.lengthValue"
     );
   };
-  // handleClickInputLenght = event => {
-  //   if(event.charCode === 13){
 
-  //       this.setState({
-  //         lengthValue: event.target.value + `${String.fromCharCode(34)}`
-  //       });
-  //   // event.preventDefault();
-
-  //       // event.stopPropagation();
-  //   }
-  //   console.log(
-  //     event.charCode,
-  //     event.target.value,
-  //     "charCode===13"
-  //   );
-  // };
 
   handleInputWidth = event => {
     // event.preventDefault();
@@ -123,7 +106,6 @@ export default class FrontPanel extends React.Component {
                   value={
                     this.state.lengthValue
                   }
-                  onKeyPress={this.handleClickInputLenght}
 
                   onChange={this.handleInputLenght}
                   onKeyPress={this.handleInputLenght}
@@ -141,9 +123,6 @@ export default class FrontPanel extends React.Component {
                   onChange={this.handleInputWidth}
                   onKeyPress={this.handleInputWidth}
 
-
-                //   onKeyPress={this.handleClickInputLenght}
-
                 />
               </td>
             </tr>
@@ -157,7 +136,6 @@ export default class FrontPanel extends React.Component {
                   onChange={this.handleInputDiameter}
                   onKeyPress={this.handleInputDiameter}
 
-                //   onKeyPress={this.handleClickInputLenght}
 
                 />
               </td>

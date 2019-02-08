@@ -7,8 +7,14 @@ export default class MoveButtons extends React.Component {
     super(props);
 
     this.state = {
-      bgColorCopy: "#f0f0f0d9"
+      bgColorCopy: "#f0f0f0d9",
+      rotateStep: app.config.rotateStep + "deg"
     };
+  }
+  componentDidMount(){
+    this.setState({
+      rotateStep: app.config.rotateStep + "deg"      
+    })
   }
   handleClickCopy = () => {
     this.setState({
@@ -19,14 +25,14 @@ export default class MoveButtons extends React.Component {
   /**
    * @return {boolean}  - true if enable coppy mode
    */
-  copyMode(){
+  copyMode() {
     return this.state.bgColorCopy === "#f0f0f0d9";
   }
-  
+
   moveUp = () => {
     if (this.copyMode()) {
       app.moveSelected(0, app.config.moveStep);
-    }else{
+    } else {
       app.copyMoveSelected(0, app.config.moveStep);
     }
   };
@@ -34,42 +40,58 @@ export default class MoveButtons extends React.Component {
   moveDown = () => {
     if (this.copyMode()) {
       app.moveSelected(0, -app.config.moveStep);
-    }else{
-        app.copyMoveSelected(0, -app.config.moveStep);
+    } else {
+      app.copyMoveSelected(0, -app.config.moveStep);
     }
   };
 
   moveLeft = () => {
     if (this.copyMode()) {
       app.moveSelected(-app.config.moveStep, 0);
-    }else{
-        app.copyMoveSelected(-app.config.moveStep, 0);
+    } else {
+      app.copyMoveSelected(-app.config.moveStep, 0);
     }
   };
   moveRight = () => {
     if (this.copyMode()) {
       app.moveSelected(app.config.moveStep, 0);
-    }else{
-        app.copyMoveSelected(app.config.moveStep, 0);
+    } else {
+      app.copyMoveSelected(app.config.moveStep, 0);
     }
   };
 
   rotateLeft = () => {
     if (this.copyMode()) {
       app.rotateSelected(-app.config.rotateStep);
-    }else{
-        app.copyRotateSelected(-app.config.rotateStep);
+    } else {
+      app.copyRotateSelected(-app.config.rotateStep);
     }
   };
 
   rotateRight = () => {
     if (this.copyMode()) {
       app.rotateSelected(app.config.rotateStep);
-    }else{
-        app.copyRotateSelected(app.config.rotateStep);
+    } else {
+      app.copyRotateSelected(app.config.rotateStep);
     }
   };
 
+  handlyChangeInputRotate = event => {
+    app.config.rotateStep = event.target.value ;
+
+      this.setState({ rotateStep: app.config.rotateStep });
+
+    if (event.charCode === 13) {
+      
+      this.setState({
+        rotateStep: app.config.rotateStep + 'deg'
+      });
+    }
+    if(event.charCode ===46){
+      event.preventDefault();
+      event.stopPropagation();
+    }
+  };
   render() {
     return (
       <Fragment>
@@ -179,10 +201,15 @@ export default class MoveButtons extends React.Component {
         <input
           type="text"
           className="InputRotate"
-          defaultValue={app.config.rotateStep}
-          onChange={e => {
-            app.config.rotateStep = e.target.value;
-          }}
+          // defaultValue={app.config.rotateStep+'deg'}
+          // defaultValue={this.state.rotateStep}
+          value={this.state.rotateStep}
+          // onChange={e => {
+          //   app.config.rotateStep = e.target.value+'deg';
+          // }}
+          onChange={this.handlyChangeInputRotate}
+          onKeyPress={this.handlyChangeInputRotate}
+
           // data-place="bottom"
           // data-tip="<span>Rotation step angle.<br/> The angle a selected line will rotate<br/> when you press the L or R<br/>
           // keyboard keys.You can set the center<br/> of rotation
