@@ -14,8 +14,8 @@ import ChangeElementsHeightCommand from './2d/command/ChangeElementsHeightComman
 import MoveElementsCommand from './2d/command/MoveElementsCommand';
 import RotateElementsCommand from './2d/command/RotateElementsCommand';
 import MirrorElementsCommand from './2d/command/MirrorElementsCommand';
-import CopyMoveCommand from './2d/command/CopyMoveCommand';
-import CopyRotateCommand from './2d/command/CopyRotateCommand';
+import CopyDecorator from './2d/command/CopyDecorator';
+import ElementModificationCommand from './2d/command/ElementModificationCommand';
 
 import PointerTool from './2d/tool/PointerTool';
 import ZoomTool from './2d/tool/ZoomTool';
@@ -129,6 +129,7 @@ class Application extends Observable{
     }
 
     clearSelectElements(){
+        this.selectElements.map(e=>e._renderer.setFocus(false));
         this.selectElements.splice(0,this.selectElements.length);
         this._notifyHandlers('clearSelectElements');
     }
@@ -147,6 +148,16 @@ class Application extends Observable{
                 this.clearSelectElements();
                 this._changeTool(this._getToolInstance('Pointer'));
                 this._board.tool.selectElement(command._element);
+            }
+            if(command instanceof ElementModificationCommand){
+                if(command.isReplacedElements()) {
+                    this.clearSelectElements();
+                    let elements = command.getElements();
+                    this.addSelectElements(elements);
+                    this._board.tool.setSelectElements(elements);
+                }else{
+                    this._board.tool.setSelectElements(this.selectElements);
+                }
             }
             this._board.renderDocument();
         }
@@ -263,8 +274,6 @@ class Application extends Observable{
      */
     rotateSelected(angle){
         this.executeCommand(new RotateElementsCommand(app.currentDocument, app.selectElements, angle));
-        // this._board.tool.setSelectElements(app.selectElements);
-        // this._board.renderDocument();
     }
 
     deleteSelected(){
@@ -286,8 +295,6 @@ class Application extends Observable{
      */
     moveSelected(x,y){
         this.executeCommand(new MoveElementsCommand(app.currentDocument, app.selectElements.slice(), x,y));
-        this._board.tool.setSelectElements(app.selectElements);
-        this._board.renderDocument();
     }
 
     /**
@@ -295,8 +302,6 @@ class Application extends Observable{
      */
     mirrorSelected(axis){
         this.executeCommand(new MirrorElementsCommand(this.currentDocument, this.selectElements, axis));
-        this._board.tool.setSelectElements(app.selectElements);
-        this._board.renderDocument();
     }
 
     /**
@@ -311,24 +316,30 @@ class Application extends Observable{
      * @param {number} y
      */
     copyMoveSelected(x,y){
-        this.executeCommand(new CopyMoveCommand(app.currentDocument, app.selectElements.slice(), x,y));
-        this._board.tool.setSelectElements(app.selectElements);
-        this._board.renderDocument();
+        this.pasteElements(this.selectElements, x, y);
     }
 
     /**
      * @param angle
      */
     copyRotateSelected(angle){
-        this.executeCommand(new CopyRotateCommand(app.currentDocument, app.selectElements.slice(), angle));
-        this._board.tool.setSelectElements(app.selectElements);
-        this._board.renderDocument();
+        let rotateCommand = new RotateElementsCommand(app.currentDocument, [], angle);
+        let command = new CopyDecorator(app.currentDocument, app.selectElements.slice(), rotateCommand);
+        this.executeCommand(command);
+    }
+
+    pasteElements(elements, x, y){
+        let moveCommand = new MoveElementsCommand(app.currentDocument, [], x, y);
+        let command = new CopyDecorator(app.currentDocument, elements, moveCommand);
+        this.executeCommand(command);
     }
     
     //</editor-fold>
 }
 
 window.app = new Application();
+
+let buffer = null;
 
 Helper.Window.addHandler('keydown',(e)=>{
     console.log(e.keyCode);
@@ -354,6 +365,21 @@ Helper.Window.addHandler('keydown',(e)=>{
                     app.redo();
                 }else {
                     app.undo();
+                }
+            }
+            break;
+        case 86: //Vv
+            if(e.ctrlKey){
+                if(buffer){
+                    app.pasteElements(buffer, app.config.moveStep, 0);
+                }
+            }
+            break;
+        case 67: //Cc
+            if(e.ctrlKey){
+                buffer = [];
+                for(let el of app.selectElements){
+                    buffer.push(el.copy());
                 }
             }
             break;

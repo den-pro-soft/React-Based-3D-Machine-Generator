@@ -2,34 +2,48 @@
  * Created by dev on 18.01.19.
  */
 
-import Command from './Command';
+import ElementModificationCommand from './ElementModificationCommand';
 import Group from './../../model/elements/Group';
 
-export default class UngroupCommand extends Command{
+export default class UngroupCommand extends ElementModificationCommand{
     /**
      * @param {Document} document
      * @param {Array.<Element>} elements
      */
     constructor(document, elements){
-        super(document);
-
-        this._elements=elements;
+        super(document, elements);
 
         this.name= 'UngroupCommand';
+
+        this.newElements = [];
     }
 
     /**
      * @inheritDoc
      */
     executeCommand(){
-        for(let el of this._elements) {
+        for(let el of this.elements) {
             if(el.typeName == 'Group') {
                 for(let element of el.elements) {
+                    this.newElements.push(element);
                     this._document.addElement(element);
                 }
                 this._document.removeElement(el);
             }
         }
         return true;
+    }
+
+    isReplacedElements(){
+        return true;
+    }
+
+    /**
+     * The realisation of the  @see {@link isReplacedElements} method.
+     * @return {Array.<GraphicElement>|null} - new elements or null
+     * @protected
+     */
+    getReplaceElements(){
+        return this.newElements;
     }
 }

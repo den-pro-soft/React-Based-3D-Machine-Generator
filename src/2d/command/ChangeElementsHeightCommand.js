@@ -2,18 +2,16 @@
  * Created by dev on 18.01.19.
  */
 
-import Command from './Command';
+import ElementModificationCommand from './ElementModificationCommand';
 
-export default class ChangeElementsHeightCommand extends Command{
+export default class ChangeElementsHeightCommand extends ElementModificationCommand{
     /**
      * @param {Document} document
      * @param {Array.<Element>} elements
      * @param {number} height
      */
     constructor(document, elements, height){
-        super(document);
-
-        this._elements=elements;
+        super(document, elements);
 
         this._height = height;
 
@@ -24,7 +22,7 @@ export default class ChangeElementsHeightCommand extends Command{
      * @inheritDoc
      */
     executeCommand(){
-        for(let el of this._elements) {
+        for(let el of this.elements) {
             el.height=this._height;
         }
         return true;
