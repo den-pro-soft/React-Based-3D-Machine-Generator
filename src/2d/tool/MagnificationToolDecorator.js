@@ -119,6 +119,9 @@ export default class MagnificationToolDecorator extends CreatorTool{
         }
     }
 
+    /**
+     * @return {number}
+     */
     get Eps(){
         let scale = container.board._scale; //todo: container
         return (scale>1?0.2:0.05)/scale;

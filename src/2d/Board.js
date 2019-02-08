@@ -233,9 +233,6 @@ export default class Board extends Observable{
     /**
      * @param {Point} p1
      * @param {Point} p2
-     * @param {string} color
-     * @param {int} width
-     * @param {Array.<number>} dash
      */
     drawLine(p1,p2){
         this._drawLine(this._convertToLocalCoordinateSystem(p1), this._convertToLocalCoordinateSystem(p2));

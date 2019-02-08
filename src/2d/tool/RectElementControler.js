@@ -46,7 +46,7 @@ export default class RectElementController extends Rect{
     }
 
     /**
-     * @param {Point} p1
+     * @param {Point} p2
      */
     set p2(p2){
         this.l1.p2.x=p2.x;

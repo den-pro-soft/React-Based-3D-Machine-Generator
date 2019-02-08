@@ -28,6 +28,7 @@ import MagnificationToolDecorator from './2d/tool/MagnificationToolDecorator';
 import LineTool from './2d/tool/LineTool';
 import FreehandTool from './2d/tool/FreehandTool';
 import CreatorTool from './2d/tool/CreatorTool';
+import TextTool from './2d/tool/TextTool';
 
 import config from './Config';
 
@@ -130,6 +131,9 @@ class Application extends Observable{
 
     clearSelectElements(){
         this.selectElements.map(e=>e._renderer.setFocus(false));
+        if(this.selectElements.length==1 && this.selectElements[0].typeName == 'Text' && this.selectElements[0].text == ""){
+            this.undo();
+        }
         this.selectElements.splice(0,this.selectElements.length);
         this._notifyHandlers('clearSelectElements');
     }
@@ -247,6 +251,9 @@ class Application extends Observable{
                 break;
             case 'Ruler':
                 tool = new RulerTool(this.currentDocument);
+                break;
+            case 'Text':
+                tool = new TextTool(this.currentDocument);
                 break;
             default:
                 tool = new PointerTool(this.currentDocument);

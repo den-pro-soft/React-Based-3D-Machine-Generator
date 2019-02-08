@@ -103,6 +103,12 @@ export default class Group extends GraphicElement{
         return res;
     }
 
+    rotate(center,grad){
+        for(let el of this.elements){
+            el.rotate(center, grad);
+        }
+    }
+
     getCenter(){
         let ext = this.getExtrenum();
         return new Point(ext.min.x+(ext.max.x-ext.min.x)/2, ext.min.y+(ext.max.y-ext.min.y)/2);

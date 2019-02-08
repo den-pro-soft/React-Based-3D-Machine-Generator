@@ -122,7 +122,7 @@ export default class LeftMenu extends React.Component {
         <button>
           <a href="#">
             <img
-              onClick={() => app.setTool("Pointer")}
+              onClick={() => app.setTool("Text")}
               width="25px"
               src="images/Text.png"
               data-tip="<span>Text<br>Adds text to design for making comments or machining letters.<br>In workarea, click to specify starting point. Type the text and press Enter.<br>To machine the text choose Line | Machine | Auto and set Z value on the numeric bar.</span>"
