@@ -23,7 +23,6 @@ console.log(props,'toolsPanel')
       arc: false,
       circle: false,
       group: false,
-      // text:true,
       text:false,
 
       demensions:'',
@@ -43,10 +42,11 @@ console.log(props,'toolsPanel')
                   let el = app.selectElements[0];
                   switch(el.typeName){
                     // щоб подивитись поля Text - Line в false!!!!а this.state.text=true в конструкторі
-                      case "Line":     this.setState({ line: true,  arc: false, group: false });  break;
-                      case "Group":    this.setState({ line: false, arc: false, group: true  });  break;
-                      case "Spline":   this.setState({ line: false, arc: false, group: false });  break;
-                      case "Arc":      this.setState({ line: false, arc: true,  group: false });  break;
+                      case "Line":     this.setState({ line: true,  arc: false, group: false, text: false });  break;
+                      case "Group":    this.setState({ line: false, arc: false, group: true,  text: false });  break;
+                      case "Spline":   this.setState({ line: false, arc: false, group: false, text: false });  break;
+                      case "Arc":      this.setState({ line: false, arc: true,  group: false, text: false });  break;
+                      case "Text":     this.setState({ line: false, arc: false, group: false, text:true });  break;
                   }
               }else {
                   this.setState({ line: false, arc: false, group: true });
