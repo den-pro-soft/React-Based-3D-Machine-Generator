@@ -12,6 +12,7 @@ import UngroupCommand from './2d/command/UngroupCommand';
 import DeleteElementCommand from './2d/command/DeleteElementCommand';
 import ChangeLineTypeCommand from './2d/command/ChangeLineTypeCommand';
 import ChangeElementsHeightCommand from './2d/command/ChangeElementsHeightCommand';
+import ChangeTextCommand from './2d/command/ChangeTextCommand';
 import MoveElementsCommand from './2d/command/MoveElementsCommand';
 import RotateElementsCommand from './2d/command/RotateElementsCommand';
 import MirrorElementsCommand from './2d/command/MirrorElementsCommand';
@@ -30,6 +31,8 @@ import LineTool from './2d/tool/LineTool';
 import FreehandTool from './2d/tool/FreehandTool';
 import CreatorTool from './2d/tool/CreatorTool';
 import TextTool from './2d/tool/TextTool';
+
+import Text from './model/elements/Text'
 
 import config from './Config';
 
@@ -342,7 +345,23 @@ class Application extends Observable{
         let command = new CopyDecorator(app.currentDocument, elements, moveCommand);
         this.executeCommand(command);
     }
-    
+
+    /**
+     *
+     * @param {string} text
+     * @throws {Exception} -if selected a few elements or if currently selected element isn't text element
+     */
+    setTextForSelectedElement(text){
+        if(this.selectElements.length!=1){
+            throw new Exception('For use the function must be selected only one Text element!');
+        }
+        let element = this.selectElements[0];
+        if(!element instanceof Text){
+            throw new Exception('For use the function must be selected Text element!');
+        }
+        this.executeCommand(new ChangeTextCommand(app.currentDocument, this.selectElements, text));
+    }
+
     //</editor-fold>
 }
 
