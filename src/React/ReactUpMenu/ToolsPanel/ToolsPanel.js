@@ -8,9 +8,14 @@ import CircleType from "./CircleType";
 import TextType from "./TextType";
 
 import MoveButtons from "./MoveButtons";
+import RotateButtons from "./RotateButtons";
 
 import InputSelect from "./InputSelect";
-
+import Button from "@material-ui/core/Button";
+import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogTitle from "@material-ui/core/DialogTitle";
 export default class ToolsPanel extends React.PureComponent {
   // static defautProps={figures:app.selectElements}
 
@@ -26,7 +31,8 @@ console.log(props,'toolsPanel')
       text:false,
 
       demensions:'',
-      value:'Auto'
+      value:'Auto',
+      openBendModal:false
     };
   }
   // ---------------React Life Cycle-----------------
@@ -57,11 +63,47 @@ console.log(props,'toolsPanel')
     app.addHandler("clearSelectElements", () => {
       this.setState({ show: false });
     });
+  
   }
   handleChangeSelect =(event)=> {
+    if(event.target.value==="Bend" &&this.state.line===false&&this.state.group===true){
+      this.setState({openBendModal:true})
+    }
     console.log(event.target.value,'select')
     this.setState({value: event.target.value});
+
   }
+    // --------------open window Bend---------------------
+    // handleOpenBend = event => {
+    //   // event.preventDefault();
+    //   this.setState(
+    //     prevState => ({ openBendModal: !prevState.openBendModal }),
+    //     () => {
+    //       this.setState({
+    //         openBendModal: this.state.openBendModal
+    //       });
+    //     }
+    //   );
+  // };
+  handleCloseModalBend = () => {
+    this.setState(
+      prevState => ({ openBendModal: prevState.openBendModal }),
+      () => {
+        if (this.state.text === true) {
+          this.setState({
+            value: "Machinist",
+            openBendModal: !this.state.openBendModal
+          });
+        } else {
+          this.setState({
+            value: "Auto",
+            openBendModal: !this.state.openBendModal
+          });
+        }
+      }
+    );
+  };
+
   render() {
     if (this.state.show) {
       return this.getPanelHtml();
@@ -127,19 +169,7 @@ console.log(props,'toolsPanel')
             {this.state.group === true && <GroupType />}
             {this.state.text === true && <TextType value={this.state.value}/>}
 
-            {/* <button className="btn-Z tooltip-Z">
-              <a href="#">
-                <img
-                  width="18px"
-                  src="images/Z.png"
-                  data-place="bottom"
-                  data-tip="<span>To make a 3D shape, make a 2D drawling and then set this value</br>
-                 to the distance material will extend perpendicular to the screen.</br>The value specifies the perpendicular
-                 distance for the material<br> inside the associated line, relative to the material
-                  </span>"
-                />
-              </a>
-            </button> */}
+        
         {this.state.value==="Auto"&&<InputSelect className="CreatableSelect" />}
 
             {/* <input
@@ -181,9 +211,71 @@ console.log(props,'toolsPanel')
             </button>
           </div>
           <div className="Right-Tools">
-            <MoveButtons />
+            <MoveButtons demensions={this.props.demensions}/>
+            <RotateButtons/>
           </div>
         </form>
+        <Dialog
+          maxWidth={false}
+          open={this.state.openBendModal}
+          onChange={this.handleChangeSelect}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          <DialogTitle
+            style={{ color: "black", textAlign: "left" }}
+            id="alert-dialog-title"
+          >
+            <span>Information</span>
+          </DialogTitle>
+
+          <DialogContent
+            style={{
+              textAlign: "left",
+              width: "400px",
+              height: "55px",
+              backgroundColor: "#f0ecec"
+            }}
+          >
+             {/* <img
+              width="25px"
+              src="images/Info.png"
+              // data-tip="<span>Shows how to use numeric values.</span>"
+            /> */}
+          <p style={{marginTop:'15px'}}>  <img
+              width="25px"
+              src="images/Info.png"
+              // data-tip="<span>Shows how to use numeric values.</span>"
+            /><span style={{marginLeft:'10px'}}>Use only straight segments for Bend lines</span></p>
+          </DialogContent>
+
+          <DialogActions>
+            <Button
+              onClick={this.handleCloseModalBend}
+              style={{
+                backgroundColor: "#dddada",
+                boxShadow: "2px 2px 1px #000",
+                margin:'0 auto'
+              }}
+              color="primary"
+              autoFocus
+            >
+              OK
+            </Button>
+            {/* <Button
+              onClick={this.handleCloseModalPreferences}
+              style={{
+                backgroundColor: "#dddada",
+                boxShadow: "2px 2px 1px #000"
+              }}
+              color="primary"
+              autoFocus
+            >
+              Cancel
+            </Button> */}
+        
+          </DialogActions>
+        </Dialog>
       </div>
     );
   }

@@ -77,9 +77,6 @@ export default class Line extends React.Component {
               </a>
             </li>
             <li>
-              <a href="#">Divide</a>
-            </li>
-            <li>
               <a href="#">Corner</a>
             </li>
 

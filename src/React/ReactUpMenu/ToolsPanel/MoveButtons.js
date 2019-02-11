@@ -5,19 +5,22 @@ import ReactTooltip from "react-tooltip";
 export default class MoveButtons extends React.Component {
   constructor(props) {
     super(props);
-    // app.config.rotateStep=app.config.rotateStep + " deg"
+    console.log(this.props, "MoveButtons");
     this.state = {
+      // demensions:this.props.demensions,
       bgColorCopy: "#f0f0f0d9",
-      // rotateStep: app.config.rotateStep
-      rotateStep: app.config.rotateStep + " deg"
-
+      moveStep: ''/*app.config.moveStep + '"'/*`${String.fromCharCode(34)}`*/,
+     
     };
   }
-  // componentDidMount(){
-  //   this.setState({
-  //     rotateStep: app.config.rotateStep + "deg"
-  //   })
-  // }
+  componentDidMount(){
+    if(this.props.demensions==='Inches'){
+      this.setState({moveStep: app.config.moveStep  + `${String.fromCharCode(34)}`})
+    } else {
+      this.setState({moveStep: (app.config.moveStep*25.4).toFixed(3) + 'mm'})
+
+    }
+  }
   handleClickCopy = () => {
     this.setState({
       bgColorCopy: this.state.bgColorCopy === "#f0f0f0d9" ? "#fff" : "#f0f0f0d9"
@@ -62,45 +65,26 @@ export default class MoveButtons extends React.Component {
     }
   };
 
-  rotateLeft = () => {
-    if (this.copyMode()) {
-      app.rotateSelected(-app.config.rotateStep);
-    } else {
-      app.copyRotateSelected(-app.config.rotateStep);
-    }
-  };
 
-  rotateRight = () => {
-    if (this.copyMode()) {
-      app.rotateSelected(app.config.rotateStep);
-    } else {
-      app.copyRotateSelected(app.config.rotateStep);
-    }
-  };
+  handlyChangeInputMove = event => {
+    console.log(event.target.value, "target-move");
+    app.config.moveStep = event.target.value;
+    // let demensions = "";
+    let move = app.config.moveStep;
 
-  handlyChangeInputRotate = event => {
-    console.log(event.target.value, "target-rotate");
-    app.config.rotateStep = event.target.value;
-    let deg = " deg";
-      let rotate = app.config.rotateStep;
-  
-        this.setState({
-        // rotateStep: rotate.replace(/[^0-9.]/g, "") 
-        rotateStep: app.config.rotateStep
-      });
+    this.setState({
+      // rotateStep: rotate.replace(/[^0-9.]/g, "")
+      rotateStep: app.config.moveStep
+    });
 
     if (event.charCode === 13) {
-      // let deg = " deg";
-      // let rotate = app.config.rotateStep;
-     
       this.setState({
-        rotateStep: rotate.replace(/[^0-9.]/g, "") + deg
+        moveStep: move.replace(/[^0-9.]/g, "") + demensions
       });
     }
-    if (event.charCode === 46) {
-      event.stopPropagation();
-    }
   };
+
+
   render() {
     return (
       <Fragment>
@@ -173,60 +157,20 @@ export default class MoveButtons extends React.Component {
         </button>
         <input
           type="text"
-          defaultValue={app.config.moveStep}
-          onChange={e => {
-            app.config.moveStep = e.target.value;
-          }}
+          // defaultValue={app.config.moveStep}
+          // onChange={e => {
+          //   app.config.moveStep = e.target.value;
+          // }}
+          value={this.state.moveStep}
+          onChange={this.handlyChangeInputMove}
+          onKeyPress={this.handlyChangeInputMove}
           data-place="bottom"
           data-tip="<span>Nudge step.<br/>The distance an object will move when an arrow button or key<br/>
               is pressed.It is generally recommended to move an item by first<br/>
               dragging the item to a snap point on an existing line and then<br/>
               nudging without the mouse.</span>"
         />
-        <button className="btn-LeftRotate" onClick={this.rotateLeft}>
-          <a href="#">
-            <img
-              width="18px"
-              src="images/Unclock.png"
-              data-place="bottom"
-              data-tip="<span>Rotate selected line<br/> left(couterclockwise).The state of the<br/>
-              Repeat button determines if lines<br/> are duplicated or simply
-              rotated. </span>"
-            />
-          </a>
-        </button>
-        <button className="btn-RightRotate" onClick={this.rotateRight}>
-          <a href="#">
-            <img
-              width="18px"
-              src="images/Clock.png"
-              data-place="bottom"
-              data-tip="<span>Rotate selected line<br/> right(clockwise).The state of the<br/>
-              Repeat button determines if lines<br/> are duplicated or simply
-              rotated. </span>"
-            />
-          </a>
-        </button>
-        <input
-          type="text"
-          className="InputRotate"
-          // defaultValue={app.config.rotateStep+'deg'}
-          // defaultValue={this.state.rotateStep}
-          value={this.state.rotateStep}
-          // onChange={e => {
-          //   app.config.rotateStep = e.target.value+'deg';
-          // }}
-          onChange={this.handlyChangeInputRotate}
-          onKeyPress={this.handlyChangeInputRotate}
-          onFocus={this.handlyChangeInputRotate}
-
-          // data-place="bottom"
-          // data-tip="<span>Rotation step angle.<br/> The angle a selected line will rotate<br/> when you press the L or R<br/>
-          // keyboard keys.You can set the center<br/> of rotation
-          // by dragging the center icon.Hold<br/> Ctrl key
-          // during rotation via mouse to rotate<br/>
-          // in multiples of this angle. </span>"
-        />
+      
       </Fragment>
     );
   }
