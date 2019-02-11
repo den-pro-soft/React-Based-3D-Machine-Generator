@@ -239,12 +239,23 @@ export default class Board extends Observable{
     }
 
     /**
+     * counterclockwise angle
      * @param {Point} center
      * @param {number} radius - in global coordinate system
+     * @param {number} startAngle - in degrees
+     * @param {number} endAngle - in degrees
      * @param {boolean} fill
      */
-    drawArc(center, radius, fill){
-        this._drawArc(this._convertToLocalCoordinateSystem(center),radius*this._pixelPerOne*this._scale,fill);
+    drawArc(center, radius, startAngle, endAngle, fill){
+        let start = 0;
+        let end = 2*Math.PI;
+        if(startAngle!=0 || endAngle!=0){
+            start = Trigonometric.gradToRad(startAngle);
+            end = Trigonometric.gradToRad(endAngle);
+        }
+        center = this._convertToLocalCoordinateSystem(center);
+        radius = radius*this._pixelPerOne*this._scale;
+        this._drawArc(center,radius, start, end, fill);
     }
 
     /**
@@ -303,13 +314,16 @@ export default class Board extends Observable{
     }
 
     /**
+     * counterclockwise angle
      * @param {{x: number, y: number}} center
      * @param {number} radius - in pixel
+     * @param {number} startAngle - in radians  * 0 is by Ox axis
+     * @param {number} endAngle - in radians
      * @param {boolean} fill
      */
-    _drawArc(center, radius, fill){
+    _drawArc(center, radius, startAngle, endAngle, fill){
         this._context.beginPath();
-        this._context.arc(center.x, center.y, radius, 0, 2* Math.PI);
+        this._context.arc(center.x, center.y, radius, -endAngle, -startAngle);
 
         if(fill){
             this._context.fill();

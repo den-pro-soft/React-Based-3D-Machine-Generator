@@ -93,7 +93,7 @@ export default class RotateTransformer extends Transformer{
             this.board.style('lineWidth', 1);   //todo: use theme
             this.board.style('dash', [4, 4]);
 
-            this.board._drawArc(centerPoint, localRadius);
+            this.board._drawArc(centerPoint, localRadius, 0, 2*Math.PI);
             let grad45 = Trigonometric.gradToRad(45 + this.grad);
             this.board.style('fillStyle', '#000000');
             this.board.style('lineWidth', 1);   //todo: use theme
@@ -101,26 +101,26 @@ export default class RotateTransformer extends Transformer{
             this.board._drawArc({
                 x: centerPoint.x + localRadius * Math.sin(grad45),
                 y: centerPoint.y - localRadius * Math.cos(grad45)
-            }, 4, true);
+            }, 4, 0, 2*Math.PI, true);
             this.board._drawArc({
                 x: centerPoint.x - localRadius * Math.sin(grad45),
                 y: centerPoint.y + localRadius * Math.cos(grad45)
-            }, 4, true);
+            }, 4, 0, 2*Math.PI, true);
             this.board._drawArc({
                 x: centerPoint.x - localRadius * Math.cos(grad45),
                 y: centerPoint.y - localRadius * Math.sin(grad45)
-            }, 4, true);
+            }, 4, 0, 2*Math.PI, true);
 
 
             this.board._drawArc({
                 x: centerPoint.x + localRadius * Math.cos(grad45),
                 y: centerPoint.y + localRadius * Math.sin(grad45)
-            }, 4, true);
-            this.board._drawArc(centerPoint, 8, true);
+            }, 4, 0, 2*Math.PI, true);
+            this.board._drawArc(centerPoint, 8, 0, 2*Math.PI, true);
             this.board.style('fillStyle', '#ffffff');
-            this.board._drawArc(centerPoint, 6, true);
+            this.board._drawArc(centerPoint, 6, 0, 2*Math.PI, true);
             this.board.style('fillStyle', '#000000');
-            this.board._drawArc(centerPoint, 2, true);
+            this.board._drawArc(centerPoint, 2, 0, 2*Math.PI, true);
         }
     }
 

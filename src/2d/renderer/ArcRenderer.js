@@ -35,6 +35,6 @@ export default class ArcRenderer extends Render{
         
         /** @var {Arc} */
         let e = this.element;
-        this.board.drawArc(e.center, e.radius);
+        this.board.drawArc(e.center, e.radius, e.startAngle, e.endAngle);
     }
 }

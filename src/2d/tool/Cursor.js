@@ -28,9 +28,9 @@ export default class Cursor{
             this.board.style('strokeStyle', '#ff641a');
             this.board.style('lineWidth', 2);   //todo: use theme
             this.board.style('dash', []);
-            this.board._drawArc(p, 5);
+            this.board._drawArc(p, 5, 0, 2*Math.PI);
             this.board.style('strokeStyle', '#ffffff');
-            this.board._drawArc(p, 3);
+            this.board._drawArc(p, 3, 0, 2*Math.PI);
 
             if(this.imageLoad){
                 this.board._context.drawImage(this.image,p.x+10,p.y+10,25,25);
