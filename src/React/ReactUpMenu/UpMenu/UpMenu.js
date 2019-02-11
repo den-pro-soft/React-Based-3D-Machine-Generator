@@ -47,7 +47,7 @@ export default class UpMenu extends React.Component {
     };
     console.log(props,'propsUpMenu')
   }
-  updateDataDementions = (value) => {
+  updateDataDemensions = (value) => {
     this.props.updateData(value)
     console.log(value,'demensions')
     // this.setState({ demensions: value })
@@ -81,7 +81,7 @@ export default class UpMenu extends React.Component {
     return (
       <div className="UpMenu">
         <div className="Drop">
-          <DropDownMenu />
+          <DropDownMenu updateDataDemensions={this.updateDataDemensions} demensions={this.props.demensions} />
         </div>
         <div className="Buttons">
           <div className="LeftButtonGroup">
@@ -178,7 +178,7 @@ export default class UpMenu extends React.Component {
               backgroundColor: "#f0ecec"
             }}
           >
-            <Preferences updateDataDementions={this.updateDataDementions}/>
+            <Preferences updateDataDemensions={this.updateDataDemensions} demensions={this.props.demensions}/>
           </DialogContent>
 
           <DialogActions>

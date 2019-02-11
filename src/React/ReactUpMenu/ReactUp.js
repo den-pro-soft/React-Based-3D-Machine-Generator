@@ -4,6 +4,8 @@ import ReactTooltip from "react-tooltip";
 
 import UpMenu from "./UpMenu/UpMenu";
 import ToolsPanel from "./ToolsPanel/ToolsPanel";
+import { createContext } from "react";
+const PreferenceContext = React.createContext();
 
 export default class ReactUp extends React.Component {
   constructor(props){
@@ -17,14 +19,19 @@ export default class ReactUp extends React.Component {
       console.log(value,'demensions-React-Up');
       this.setState({ demensions: value })
     
-      console.log(this.state.demensions,'demensions-state-React-Up');
+      // console.log(this.state.demensions,'demensions-state-React-Up');
 
    }
   render() {
     return (
       <div className="Up-And-RightMenu">
         <div className="TopMenu">
-          <UpMenu updateData={this.updateData}/>
+        {/* <PreferenceContext.Provider updateData={this.updateData} demensions={this.state.demensions}>
+         <UpMenu/>
+         </PreferenceContext.Provider> */}
+
+          <UpMenu updateData={this.updateData} demensions={this.state.demensions}/>
+
           <div className="InputFieldMenu">
             <div className="Panel">
               <ReactTooltip

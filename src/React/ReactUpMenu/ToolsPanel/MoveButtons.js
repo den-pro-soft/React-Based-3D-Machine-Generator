@@ -5,17 +5,19 @@ import ReactTooltip from "react-tooltip";
 export default class MoveButtons extends React.Component {
   constructor(props) {
     super(props);
-
+    // app.config.rotateStep=app.config.rotateStep + " deg"
     this.state = {
       bgColorCopy: "#f0f0f0d9",
-      rotateStep: app.config.rotateStep + "deg"
+      // rotateStep: app.config.rotateStep
+      rotateStep: app.config.rotateStep + " deg"
+
     };
   }
-  componentDidMount(){
-    this.setState({
-      rotateStep: app.config.rotateStep + "deg"      
-    })
-  }
+  // componentDidMount(){
+  //   this.setState({
+  //     rotateStep: app.config.rotateStep + "deg"
+  //   })
+  // }
   handleClickCopy = () => {
     this.setState({
       bgColorCopy: this.state.bgColorCopy === "#f0f0f0d9" ? "#fff" : "#f0f0f0d9"
@@ -77,18 +79,25 @@ export default class MoveButtons extends React.Component {
   };
 
   handlyChangeInputRotate = event => {
-    app.config.rotateStep = event.target.value ;
-
-      this.setState({ rotateStep: app.config.rotateStep });
+    console.log(event.target.value, "target-rotate");
+    app.config.rotateStep = event.target.value;
+    let deg = " deg";
+      let rotate = app.config.rotateStep;
+  
+        this.setState({
+        // rotateStep: rotate.replace(/[^0-9.]/g, "") 
+        rotateStep: app.config.rotateStep
+      });
 
     if (event.charCode === 13) {
-      
+      // let deg = " deg";
+      // let rotate = app.config.rotateStep;
+     
       this.setState({
-        rotateStep: app.config.rotateStep + 'deg'
+        rotateStep: rotate.replace(/[^0-9.]/g, "") + deg
       });
     }
-    if(event.charCode ===46){
-      event.preventDefault();
+    if (event.charCode === 46) {
       event.stopPropagation();
     }
   };
@@ -209,6 +218,7 @@ export default class MoveButtons extends React.Component {
           // }}
           onChange={this.handlyChangeInputRotate}
           onKeyPress={this.handlyChangeInputRotate}
+          onFocus={this.handlyChangeInputRotate}
 
           // data-place="bottom"
           // data-tip="<span>Rotation step angle.<br/> The angle a selected line will rotate<br/> when you press the L or R<br/>
