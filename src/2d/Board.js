@@ -249,7 +249,7 @@ export default class Board extends Observable{
     drawArc(center, radius, startAngle, endAngle, fill){
         let start = 0;
         let end = 2*Math.PI;
-        if(startAngle!=0 || endAngle!=0){
+        if((startAngle!=0 || endAngle!=0) && startAngle!=endAngle){
             start = Trigonometric.gradToRad(startAngle);
             end = Trigonometric.gradToRad(endAngle);
         }

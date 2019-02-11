@@ -17,7 +17,7 @@ export default class Arc extends GraphicElement{
     constructor(center, radius){
         super();
         this._center=center;
-        this._points[0]=center;
+        // this._points[0]=center;
         this.radius=radius;
         this.startAngle=0;
         this.endAngle=0;
@@ -29,27 +29,38 @@ export default class Arc extends GraphicElement{
 
     set center(point){
         this._center = point;
-        this._points[0]=point;
+        // this._points[0]=point;
     }
 
     get center(){
         return this._center;
     }
 
+    get _points(){
+        let points =  this.toPolyLines()[0].points;
+        points.push(this.center);
+        return points;
+    }
 
-    rotate(center,grad){
+    set _points(points){
+
+    }
+
+    rotate(center,grad) {
         let rotateMatrix = Matrix.createRotateMatrix(grad);
 
         let moveMatrix = Matrix.createMoveMatrix(-center.x, -center.y);
         let removeMatrix = Matrix.createMoveMatrix(center.x, center.y);
 
-        this._center.changeByMatrix(moveMatrix);
-        this._center.changeByMatrix(rotateMatrix);
-        this._center.changeByMatrix(removeMatrix);
-
-
-        this.startAngle-=grad;
-        this.endAngle-=grad;
+        if (!this._center.compare(center)) {
+            this._center.changeByMatrix(moveMatrix);
+            this._center.changeByMatrix(rotateMatrix);
+            this._center.changeByMatrix(removeMatrix);
+        }
+        if (this.startAngle != this.endAngle) {
+            this.startAngle -= grad;
+            this.endAngle -= grad;
+        }
     }
 
     getMagnificationPoints(){
