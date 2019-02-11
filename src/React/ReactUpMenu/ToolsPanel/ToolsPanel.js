@@ -5,6 +5,7 @@ import GroupType from "./GroupType";
 import LineType from "./LineType";
 import ArcType from "./ArcType";
 import CircleType from "./CircleType";
+import TextType from "./TextType";
 
 import MoveButtons from "./MoveButtons";
 
@@ -22,7 +23,11 @@ console.log(props,'toolsPanel')
       arc: false,
       circle: false,
       group: false,
-      demensions:''
+      // text:true,
+      text:false,
+
+      demensions:'',
+      value:'Auto'
     };
   }
   // ---------------React Life Cycle-----------------
@@ -37,6 +42,7 @@ console.log(props,'toolsPanel')
               if (app.selectElements.length === 1) {
                   let el = app.selectElements[0];
                   switch(el.typeName){
+                    // щоб подивитись поля Text - Line в false!!!!а this.state.text=true в конструкторі
                       case "Line":     this.setState({ line: true,  arc: false, group: false });  break;
                       case "Group":    this.setState({ line: false, arc: false, group: true  });  break;
                       case "Spline":   this.setState({ line: false, arc: false, group: false });  break;
@@ -52,7 +58,10 @@ console.log(props,'toolsPanel')
       this.setState({ show: false });
     });
   }
-
+  handleChangeSelect =(event)=> {
+    console.log(event.target.value,'select')
+    this.setState({value: event.target.value});
+  }
   render() {
     if (this.state.show) {
       return this.getPanelHtml();
@@ -83,14 +92,12 @@ console.log(props,'toolsPanel')
       <div className="ToolsPanel">
         <ReactTooltip
           html={true}
-          // data-place="right"
           className="tooltipBackgroundTheme"
         />
         <form>
           <div className="Left-Tools">
             <button
               className="btn-LineType"
-              // onClick={this.handlySelectElements}
             >
               <a href="#">
                 <img
@@ -103,12 +110,12 @@ console.log(props,'toolsPanel')
                 />
               </a>
             </button>
-            <select className="select-1">
+            <select className="SelectMode" value={this.state.value} onChange={this.handleChangeSelect}>
               <option value="Auto">Auto</option>
               <option value="Bend">Bend</option>
-              <option value="mercedes">Thread&amp;Tap</option>
-              <option value="LazerMark">Comments to Self</option>
-              <option value="LazerMark">Comments to Machinist</option>
+              <option value="Tap">Thread&amp;Tap</option>
+              <option value="Self">Comments to Self</option>
+              <option value="Machinist">Comments to Machinist</option>
               <option value="LazerMark">LazerMark</option>
             </select>
 
@@ -118,8 +125,9 @@ console.log(props,'toolsPanel')
             {this.state.arc === true && <ArcType />}
             {this.state.circle === true && <CircleType />}
             {this.state.group === true && <GroupType />}
+            {this.state.text === true && <TextType value={this.state.value}/>}
 
-            <button className="btn-Z tooltip-Z">
+            {/* <button className="btn-Z tooltip-Z">
               <a href="#">
                 <img
                   width="18px"
@@ -131,8 +139,8 @@ console.log(props,'toolsPanel')
                   </span>"
                 />
               </a>
-            </button>
-            <InputSelect className="CreatableSelect" />
+            </button> */}
+        {this.state.value==="Auto"&&<InputSelect className="CreatableSelect" />}
 
             {/* <input
             list="browsers"

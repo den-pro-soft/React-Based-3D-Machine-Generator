@@ -1,5 +1,6 @@
 import React from "react";
 import CreatableSelect from "react-select/lib/Creatable";
+import ReactTooltip from "react-tooltip";
 import { Fragment } from "react";
 
 export default class InputSelect extends React.Component {
@@ -10,9 +11,6 @@ export default class InputSelect extends React.Component {
       selectedOption: null,
       displayInputSelect: true
     };
-
-    // this.handleChange = this.handleChange.bind(this);
-    // this.handleInputChange = this.handleInputChange.bind(this);
   }
 
   //data processing from input-select - Z
@@ -37,29 +35,29 @@ export default class InputSelect extends React.Component {
   // }}
   render() {
     const options = [
-      { value: "Air Inside", label: `Air Inside` },
-      { value: "Resolve", label: `Resolve` },
-      { value: "0.002", label: `0.002${String.fromCharCode(34)}` },
-      { value: "0.005", label: `0.005${String.fromCharCode(34)}` },
-      { value: "0.010", label: `0.010${String.fromCharCode(34)}` },
-      { value: "0.031", label: `0.020${String.fromCharCode(34)}` },
-      { value: "0.010", label: `0.031${String.fromCharCode(34)}` },
-      { value: "0.045", label: `0.045${String.fromCharCode(34)}` },
-      { value: "0.062", label: `0.062${String.fromCharCode(34)}` },
-      { value: "0.093", label: `0.093${String.fromCharCode(34)}` },
-      { value: "0.125", label: `0.125${String.fromCharCode(34)}` },
-      { value: "0.187", label: `0.187${String.fromCharCode(34)}` },
-      { value: "0.250", label: `0.250${String.fromCharCode(34)}` },
-      { value: "0.375", label: `0.375${String.fromCharCode(34)}` },
-      { value: "0.500", label: `0.500${String.fromCharCode(34)}` },
-      { value: "0.750", label: `0.750${String.fromCharCode(34)}` },
-      { value: "1,000", label: `1,000${String.fromCharCode(34)}` },
-      { value: "1,250", label: `1,250${String.fromCharCode(34)}` },
-      { value: "1,500", label: `1,500${String.fromCharCode(34)}` },
-      { value: "2,000", label: `2,000${String.fromCharCode(34)}` },
-      { value: "2,500", label: `2,500${String.fromCharCode(34)}` },
-      { value: "3,000", label: `3,000${String.fromCharCode(34)}` },
-      { value: "Other", label: `Other` }
+      { value: "_eMachineShop 2D", label: `_eMachineShop 2D` },
+      { value: "_eMachineShop 3D", label: "_eMachineShop 3D" },
+      { value: "Algerian", label: `Algerian` },
+      { value: "Arial", label: "Arial" },
+      { value: "Arial Black", label: "Arial Black" },
+      { value: "Arial Bold", label: "Arial Bold" },
+      { value: "Arial Bold Italic", label: "Arial Bold Italic" },
+      { value: "Arial Italic", label: "Arial Italic" },
+      { value: "Arial Narrow", label: "Arial Narrow" },
+      { value: "Arial Narrow Bold", label: "Arial Narrow Bold" },
+      { value: "Arial Narrow Bold Italic", label: "Arial Narrow Bold Italic" },
+      { value: "Arial Italic", label: "Arial Italic" },
+      { value: "Bahnschrift", label: "Bahnschrift" },
+      { value: "Baskerville Old Face", label: "Baskerville Old Face" },
+      { value: "Bauhaus 93", label: "Bauhaus 93" }
+      //   { value: "0.750", label: `0.750${String.fromCharCode(34)}` },
+      //   { value: "1,000", label: `1,000${String.fromCharCode(34)}` },
+      //   { value: "1,250", label: `1,250${String.fromCharCode(34)}` },
+      //   { value: "1,500", label: `1,500${String.fromCharCode(34)}` },
+      //   { value: "2,000", label: `2,000${String.fromCharCode(34)}` },
+      //   { value: "2,500", label: `2,500${String.fromCharCode(34)}` },
+      //   { value: "3,000", label: `3,000${String.fromCharCode(34)}` },
+      //   { value: "Other", label: `Other` }
     ];
 
     //Warning!!! CustomStyles for React-Select module - https://react-select.com/props#statemanager-props
@@ -79,7 +77,7 @@ export default class InputSelect extends React.Component {
         display: "flex",
         padding: 0,
         height: 22,
-        width: 120,
+        width: 160,
         backgroundColor: "#fff",
         border: "1px solid #808080"
       }),
@@ -107,19 +105,24 @@ export default class InputSelect extends React.Component {
 
     return (
       <Fragment>
-        <button className="btn-Z tooltip-Z">
+        <ReactTooltip html={true} className="tooltipBackgroundTheme" />
+        <button className="btn-Font">
           <a href="#">
             <img
               width="18px"
-              src="images/Z.png"
+              src="images/Text.png"
               data-place="bottom"
-              data-tip="<span>To make a 3D shape, make a 2D drawling and then set this value</br>
-         to the distance material will extend perpendicular to the screen.</br>The value specifies the perpendicular
-         distance for the material<br> inside the associated line, relative to the material
-          </span>"
+              data-tip="<span>Font<br/>Name of font used to draw text.To change,<br/>
+ select a new value. </span>"
             />
           </a>
         </button>
+        {/* <span
+          stile={{ margin: 0, padding: 0 }}
+          data-place="bottom"
+          data-tip="<span>Font<br/>Name of font used to draw text.To change,<br/>
+select a new value. </span>"
+        > */}
         <CreatableSelect
           onMouseLeave={this.handleInputChange}
           styles={customStyles}
@@ -128,8 +131,9 @@ export default class InputSelect extends React.Component {
           onChange={this.handleChange}
           onInputChange={this.handleInputChange}
           options={options}
-          placeholder=""
+          // placeholder=''
         />
+        {/* </span> */}
       </Fragment>
     );
   }

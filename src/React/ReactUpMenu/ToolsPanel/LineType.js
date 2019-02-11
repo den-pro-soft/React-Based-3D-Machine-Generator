@@ -1,8 +1,7 @@
 import React from "react";
 import ReactTooltip from "react-tooltip";
 import { Fragment } from "react";
-// import Line from "../../../model/elements/Line";
-export default class LineType extends React.PureComponent {
+export default class LineType extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -11,9 +10,6 @@ export default class LineType extends React.PureComponent {
     console.log(props, "props-LineType");
 
   }
-//   componentWillMount() {
-//         this.setState({ value: this.props.lengthLine });
-// }
 
   componentWillMount() {
     app.addHandler("selectElement", element => {
