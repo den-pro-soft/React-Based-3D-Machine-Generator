@@ -2,6 +2,7 @@
  * Created by dev on 17.01.19.
  */
 
+import Buffer from './Buffer';
 import Board from './2d/Board';
 import Command from './2d/command/Command';
 import CommandHistory from './CommandHistory';
@@ -65,8 +66,9 @@ class Application extends Observable{
             generateId:function(){
                 return idGenerator++;
             }
-        }
-        
+        };
+
+        this.buffer = new Buffer(this);
         this._lastTool=null;
     }
 
@@ -346,8 +348,6 @@ class Application extends Observable{
 
 window.app = new Application();
 
-let buffer = null;
-
 Helper.Window.addHandler('keydown',(e)=>{
     console.log(e.keyCode);
     switch(e.keyCode){
@@ -377,17 +377,17 @@ Helper.Window.addHandler('keydown',(e)=>{
             break;
         case 86: //Vv
             if(e.ctrlKey){
-                if(buffer){
-                    app.pasteElements(buffer, app.config.moveStep, 0);
-                }
+                app.buffer.paste();
             }
             break;
         case 67: //Cc
             if(e.ctrlKey){
-                buffer = [];
-                for(let el of app.selectElements){
-                    buffer.push(el.copy());
-                }
+                app.buffer.copy();
+            }
+            break;
+        case 88: //Xx
+            if(e.ctrlKey){
+                app.buffer.cut();
             }
             break;
         case 37: //left

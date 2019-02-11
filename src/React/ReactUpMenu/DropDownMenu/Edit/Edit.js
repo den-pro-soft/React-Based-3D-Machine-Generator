@@ -78,20 +78,20 @@ export default class Edit extends React.Component {
               <li onClick={() => app.redo()}>
                 <a href="#">Redo</a>
               </li>
-              <li>
+              <li onClick={() => app.buffer.cut()}>
                 <a href="#">Cut</a>
               </li>
-              <li>
+              <li onClick={() => app.buffer.copy()}>
                 <a href="#">Copy</a>
               </li>
-              <li>
+              <li onClick={() => app.buffer.paste()}>
                 <a href="#">Paste</a>
               </li>
 
               <li onClick={() => app.deleteSelected()}>
                 <a href="#">Delete</a>
               </li>
-              <li>
+              <li onClick={() => app.selectAll()}>
                 <a href="#">Select All</a>
               </li>
               <li onClick={this.handleOpenPreferences}>
