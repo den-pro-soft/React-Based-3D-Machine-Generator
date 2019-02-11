@@ -21,8 +21,24 @@ export default class Render{
         this.focus = false;
     }
 
+    
     drawElement(){
-        throw new Exception("The method doesn't have implementation");
+        let props = this.element.lineType.getLineStyle();
+        for(let prop in props){
+            this.board.style(prop, props[prop]);
+        }
+
+        if(this.new){
+            this.board.style('dash', [4, 4]);
+            this.board.style('strokeStyle', '#555555');
+            this.board.style('fillStyle', '#555555');
+        }
+        if(this.focus){
+            this.board.style('strokeStyle', '#ff641a');
+            this.board.style('fillStyle', '#ff641a');
+        }
+        
+        this.render();
     }
 
     drawAsNew(){
@@ -36,5 +52,12 @@ export default class Render{
     resetConfig(){
         this.focus=false;
         this.new=false;
+    }
+
+    /**
+     * @protected
+     */
+    render(){
+        throw new Exception("The method doesn't have implementation");
     }
 }

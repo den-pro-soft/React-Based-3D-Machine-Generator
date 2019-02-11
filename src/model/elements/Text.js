@@ -10,6 +10,7 @@ import Rect from './../Rect';
 import Matrix from './../math/Matrix';
 import Trigonometric from './../math/Trigonometric';
 import PolyLine from './../math/PolyLine';
+import CommentToSelf from './../line_types/CommentToSelf';
 
 /**
  * @inheritDoc
@@ -23,6 +24,9 @@ export default class Text extends GraphicElement{
         this._renderer = new TextRenderer(this);
         this.fontSize = 2;
         this.typeName = 'Text';
+
+        /** @var {LineType} */
+        this.lineType=new CommentToSelf();
     }
 
 
@@ -36,7 +40,6 @@ export default class Text extends GraphicElement{
     }
 
     rotate(center,grad){
-        console.log(grad);
         let rotateMatrix = Matrix.createRotateMatrix(grad);
 
         let moveMatrix = Matrix.createMoveMatrix(-center.x, -center.y);

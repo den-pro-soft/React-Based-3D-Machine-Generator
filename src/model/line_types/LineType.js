@@ -11,4 +11,16 @@ export default class LineType{
     copy(){
         throw new Exception('The method doesn\'n have implementation.');
     }
+
+    /**
+     * The method is used to draw a line when rendering a render. As properties are used the name of styles for canvas.
+     * @return {Array.<{propName:value}>}
+     */
+    getLineStyle(){
+        let res = [];
+        res['lineWidth']=1;
+        res['dash']=[];
+        res['strokeStyle']='#222222';
+        return res;
+    }
 }

@@ -20,7 +20,7 @@ export default class GraphicElement{
         this._renderer = null; //todo: transfer the creation of a new sample from GraphicElement classes to a IOC container
 
         /** @var {LineType} */
-        this.lineType=app.config.lineType;
+        this.lineType=app.config.lineType.copy();
         
         this.typeName= "Element"; //todo: understand  instanceof and remove this shit
     }
