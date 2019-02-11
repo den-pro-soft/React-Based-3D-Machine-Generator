@@ -13,6 +13,8 @@ let rotateStep = 15;
 
 let lineType = new AutoLineType();
 
+let fontSize = 3;
+
 export default class Config{
     static get moveStep(){return moveStep};
     static set moveStep(value){moveStep=value};
@@ -28,5 +30,7 @@ export default class Config{
             new CommentToSelfLineType()
         ];
     }
+
+    static get fontSize(){return fontSize};
 }
 

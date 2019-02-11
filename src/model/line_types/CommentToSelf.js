@@ -20,8 +20,8 @@ export default class CommentToSelf extends LineType{
      */
     getLineStyle(){
         let res = super.getLineStyle();
-        res['strokeStyle']='#0000ff';
-        res['fillStyle']='#2222aa';
+        res['strokeStyle']='#3f62f3';
+        res['fillStyle']='#3f62f3';
         return res;
     }
 }

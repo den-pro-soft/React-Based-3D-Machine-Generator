@@ -22,7 +22,7 @@ export default class Text extends GraphicElement{
         this.angle = 0; //degrees
         this.text = text;
         this._renderer = new TextRenderer(this);
-        this.fontSize = 2;
+        this.fontSize = app.config.fontSize;
         this.typeName = 'Text';
 
         /** @var {LineType} */
