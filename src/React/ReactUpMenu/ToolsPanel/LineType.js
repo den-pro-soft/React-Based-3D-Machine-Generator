@@ -1,26 +1,28 @@
 import React from "react";
 import ReactTooltip from "react-tooltip";
 import { Fragment } from "react";
-// import Line from "../../../model/elements/Line";
-export default class LineType extends React.PureComponent {
+export default class LineType extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       value: ""
     };
-    // console.log(props, "props-Line");
+    console.log(props, "props-LineType");
 
   }
-//   componentWillMount() {
-//         this.setState({ value: this.props.lengthLine });
-// }
 
   componentWillMount() {
     app.addHandler("selectElement", element => {
       if(app.selectElements.length==1){
         if (element.typeName === "Line") {
+          if(this.props.demensions==='Inches'){
           let lengthLine = element.length().toFixed(3) + `${String.fromCharCode(34)}`;
           this.setState({ value: lengthLine });
+          } else {
+            let lengthLine = ((element.length())*25.4).toFixed(3) + `mm`;
+          this.setState({ value: lengthLine });
+
+          }
         }
       }
     });

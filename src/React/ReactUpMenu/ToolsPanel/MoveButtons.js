@@ -5,11 +5,19 @@ import ReactTooltip from "react-tooltip";
 export default class MoveButtons extends React.Component {
   constructor(props) {
     super(props);
-
+    // app.config.rotateStep=app.config.rotateStep + " deg"
     this.state = {
-      bgColorCopy: "#f0f0f0d9"
+      bgColorCopy: "#f0f0f0d9",
+      // rotateStep: app.config.rotateStep
+      rotateStep: app.config.rotateStep + " deg"
+
     };
   }
+  // componentDidMount(){
+  //   this.setState({
+  //     rotateStep: app.config.rotateStep + "deg"
+  //   })
+  // }
   handleClickCopy = () => {
     this.setState({
       bgColorCopy: this.state.bgColorCopy === "#f0f0f0d9" ? "#fff" : "#f0f0f0d9"
@@ -19,14 +27,14 @@ export default class MoveButtons extends React.Component {
   /**
    * @return {boolean}  - true if enable coppy mode
    */
-  copyMode(){
+  copyMode() {
     return this.state.bgColorCopy === "#f0f0f0d9";
   }
-  
+
   moveUp = () => {
     if (this.copyMode()) {
       app.moveSelected(0, app.config.moveStep);
-    }else{
+    } else {
       app.copyMoveSelected(0, app.config.moveStep);
     }
   };
@@ -34,42 +42,65 @@ export default class MoveButtons extends React.Component {
   moveDown = () => {
     if (this.copyMode()) {
       app.moveSelected(0, -app.config.moveStep);
-    }else{
-        app.copyMoveSelected(0, -app.config.moveStep);
+    } else {
+      app.copyMoveSelected(0, -app.config.moveStep);
     }
   };
 
   moveLeft = () => {
     if (this.copyMode()) {
       app.moveSelected(-app.config.moveStep, 0);
-    }else{
-        app.copyMoveSelected(-app.config.moveStep, 0);
+    } else {
+      app.copyMoveSelected(-app.config.moveStep, 0);
     }
   };
   moveRight = () => {
     if (this.copyMode()) {
       app.moveSelected(app.config.moveStep, 0);
-    }else{
-        app.copyMoveSelected(app.config.moveStep, 0);
+    } else {
+      app.copyMoveSelected(app.config.moveStep, 0);
     }
   };
 
   rotateLeft = () => {
     if (this.copyMode()) {
       app.rotateSelected(-app.config.rotateStep);
-    }else{
-        app.copyRotateSelected(-app.config.rotateStep);
+    } else {
+      app.copyRotateSelected(-app.config.rotateStep);
     }
   };
 
   rotateRight = () => {
     if (this.copyMode()) {
       app.rotateSelected(app.config.rotateStep);
-    }else{
-        app.copyRotateSelected(app.config.rotateStep);
+    } else {
+      app.copyRotateSelected(app.config.rotateStep);
     }
   };
 
+  handlyChangeInputRotate = event => {
+    console.log(event.target.value, "target-rotate");
+    app.config.rotateStep = event.target.value;
+    let deg = " deg";
+      let rotate = app.config.rotateStep;
+  
+        this.setState({
+        // rotateStep: rotate.replace(/[^0-9.]/g, "") 
+        rotateStep: app.config.rotateStep
+      });
+
+    if (event.charCode === 13) {
+      // let deg = " deg";
+      // let rotate = app.config.rotateStep;
+     
+      this.setState({
+        rotateStep: rotate.replace(/[^0-9.]/g, "") + deg
+      });
+    }
+    if (event.charCode === 46) {
+      event.stopPropagation();
+    }
+  };
   render() {
     return (
       <Fragment>
@@ -179,16 +210,22 @@ export default class MoveButtons extends React.Component {
         <input
           type="text"
           className="InputRotate"
-          defaultValue={app.config.rotateStep}
-          onChange={e => {
-            app.config.rotateStep = e.target.value;
-          }}
-          data-place="bottom"
-          data-tip="<span>Rotation step angle.<br/> The angle a selected line will rotate<br/> when you press the L or R<br/>
-          keyboard keys.You can set the center<br/> of rotation
-          by dragging the center icon.Hold<br/> Ctrl key
-          during rotation via mouse to rotate<br/>
-          in multiples of this angle. </span>"
+          // defaultValue={app.config.rotateStep+'deg'}
+          // defaultValue={this.state.rotateStep}
+          value={this.state.rotateStep}
+          // onChange={e => {
+          //   app.config.rotateStep = e.target.value+'deg';
+          // }}
+          onChange={this.handlyChangeInputRotate}
+          onKeyPress={this.handlyChangeInputRotate}
+          onFocus={this.handlyChangeInputRotate}
+
+          // data-place="bottom"
+          // data-tip="<span>Rotation step angle.<br/> The angle a selected line will rotate<br/> when you press the L or R<br/>
+          // keyboard keys.You can set the center<br/> of rotation
+          // by dragging the center icon.Hold<br/> Ctrl key
+          // during rotation via mouse to rotate<br/>
+          // in multiples of this angle. </span>"
         />
       </Fragment>
     );
