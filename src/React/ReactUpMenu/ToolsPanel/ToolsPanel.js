@@ -66,7 +66,7 @@ console.log(props,'toolsPanel')
   
   }
   handleChangeSelect =(event)=> {
-    if(event.target.value==="Bend" &&this.state.line===false&&this.state.group===true){
+    if(event.target.value==="Bend" &&this.state.line===false/*&&this.state.group===true*/){
       this.setState({openBendModal:true})
     }
     console.log(event.target.value,'select')
