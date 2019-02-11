@@ -63,8 +63,6 @@ export default class TextType extends React.Component {
           enter a value and press the Enter key. </span>"
           value={this.state.text}
           onChange={this.handlyChangeTextInput}
-          onKeyPress={this.handlyChangeTextInput}
-          onFocus={this.handlyChangeTextInput}
 
           ref={(input) => { this.textInput = input; }}
         />
