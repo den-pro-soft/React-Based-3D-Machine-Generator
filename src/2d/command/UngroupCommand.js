@@ -15,6 +15,7 @@ export default class UngroupCommand extends ElementModificationCommand{
 
         this.name= 'UngroupCommand';
 
+        this.sawUngroup = false;
         this.newElements = [];
     }
 
@@ -28,14 +29,15 @@ export default class UngroupCommand extends ElementModificationCommand{
                     this.newElements.push(element);
                     this._document.addElement(element);
                 }
+                this.sawUngroup=true;
                 this._document.removeElement(el);
             }
         }
-        return true;
+        return this.sawUngroup;
     }
 
     isReplacedElements(){
-        return true;
+        return this.sawUngroup;
     }
 
     /**
