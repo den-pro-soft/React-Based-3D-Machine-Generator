@@ -4,7 +4,7 @@
 
 import CreatorToolsInTwoSteps from './CreatorToolsInTwoSteps';
 import Spline from './../../model/elements/Spline';
-import Line from './../../model/elements/Line';
+import LineElement from './../../model/elements/Line';
 
 export default class SplineTool extends CreatorToolsInTwoSteps{
     constructor(document){
@@ -22,7 +22,7 @@ export default class SplineTool extends CreatorToolsInTwoSteps{
 
     setPosition2(point){
         this.spline.endPoint=point;
-        let line = new Line(this.spline.startPoint.copy(),  point.copy());
+        let line = new LineElement(this.spline.startPoint.copy(),  point.copy()); //todo: need use math line
         let center = line.getCenter();
         line.rotate(center,65);
         this.spline.controlPoint1 = line.p1;

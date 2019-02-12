@@ -4,7 +4,7 @@
 
 import GraphicElement from '../GraphicElement';
 import Point from '../Point';
-import Line from './Line';
+import Line from './../math/Line';
 import ArcRenderer from './../../2d/renderer/ArcRenderer';
 import PolyLine from './../math/PolyLine';
 import Trigonometric from './../math/Trigonometric';

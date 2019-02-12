@@ -3,7 +3,7 @@
  */
 import CreatorToolsInTwoSteps from './CreatorToolsInTwoSteps';
 import Arc from './../../model/elements/Arc'
-import Line from './../../model/elements/Line'
+import Line from './../../model/math/Line'
 
 export default class CircleTool extends CreatorToolsInTwoSteps{
     constructor(document){

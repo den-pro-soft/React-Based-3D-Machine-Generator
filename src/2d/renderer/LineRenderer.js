@@ -34,7 +34,7 @@ export default class LineRenderer extends Render{
 
         let center = vector.getCenter();
         vector.rotate(center,90);
-        vector.move(-vector.B/2,vector.A/2);
+        vector.move(-vector._line.B/2,vector._line.A/2);
 
         let circle = new Arc(this.element.p2.copy(), 1);
         let crossPoints = vector.toPolyLines()[0].getCrossPoints(circle.toPolyLines()[0]);
@@ -43,30 +43,30 @@ export default class LineRenderer extends Render{
             vector.p1 = crossPoints[0];
             vector.p2 = crossPoints[1];
             this.board.drawLine(vector.p1, vector.p2);
-            vector.move(-this.element.A,-this.element.B);
+            vector.move(-this.element._line.A,-this.element._line.B);
             this.board.drawLine(vector.p1, vector.p2);
             vector.rotate(vector.getCenter(), 65);
-            if(this.element.A>0) {
+            if(this.element._line.A>0) {
                 vector.p2 = vector.getCenter();
             }else{
                 vector.p1 = vector.getCenter();
             }
             this.board.drawLine(vector.p1, vector.p2);
-            if(this.element.A>0) {
+            if(this.element._line.A>0) {
                 vector.rotate(vector.p2, 50);
             }else{
                 vector.rotate(vector.p1, 50);
             }
             this.board.drawLine(vector.p1, vector.p2);
 
-            vector.move(this.element.A,this.element.B);
-            if(this.element.A>0) {
+            vector.move(this.element._line.A,this.element._line.B);
+            if(this.element._line.A>0) {
                 vector.rotate(vector.p2, 180);
             }else{
                 vector.rotate(vector.p1, 180);
             }
             this.board.drawLine(vector.p1, vector.p2);
-            if(this.element.A>0) {
+            if(this.element._line.A>0) {
                 vector.rotate(vector.p2, -50);
             }else{
                 vector.rotate(vector.p1, -50);
@@ -74,7 +74,7 @@ export default class LineRenderer extends Render{
             this.board.drawLine(vector.p1, vector.p2);
 
         }
-        let grad = Trigonometric.radToGrad(Math.atan(this.element.k));
+        let grad = Trigonometric.radToGrad(Math.atan(this.element._line.k));
         let height = 2 * this.board._pixelPerOne*this.board._scale;
         this.board.style('font',height + 'px Arial');
         this.board.style('textAlign','center');

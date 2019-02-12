@@ -4,7 +4,7 @@
 
 import Transformer from './Transformer';
 import Point from './../../../model/Point';
-import Line from './../../../model/elements/Line';
+import Line from './../../../model/math/Line';
 import Group from './../../../model/elements/Group';
 import Trigonometric from './../../../model/math/Trigonometric';
 
