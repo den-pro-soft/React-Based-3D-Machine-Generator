@@ -4,7 +4,7 @@
 import LineElement from '../../model/elements/LineElement';
 import Point from '../../model/Point';
 import Group from '../../model/elements/Group';
-import Rect from '../../model/Rect';
+import Rect from '../../model/math/Rect';
 
 export default class RectElementController extends Rect{
     /**

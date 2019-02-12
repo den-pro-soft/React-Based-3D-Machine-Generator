@@ -6,7 +6,7 @@ import Transformer from './Transformer';
 import RectElementController from './../RectElementControler';
 import Point from './../../../model/Point';
 import Group from './../../../model/elements/Group';
-import Rect from "./../../../model/Rect";
+import Rect from "../../../model/math/Rect";
 
 class ControlPoint{
     constructor(x,y,name){

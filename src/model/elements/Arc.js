@@ -5,6 +5,7 @@
 import GraphicElement from '../GraphicElement';
 import Point from '../Point';
 import Line from './../math/Line';
+import Vector from './../math/Vector';
 import ArcRenderer from './../../2d/renderer/ArcRenderer';
 import PolyLine from './../math/PolyLine';
 import Trigonometric from './../math/Trigonometric';
@@ -144,11 +145,55 @@ export default class Arc extends GraphicElement{
         }else{
             end=2 * Math.PI;
         }
-
-        for (var a = start; a <= end; a += Math.PI / 100){
-            let p = new Point(this._center.x+this.radius*Math.cos(a), this._center.y+this.radius*Math.sin(a));
+        var a = start;
+        if(this.startAngle>this.endAngle){
+            for (; a<=(2*Math.PI); a += Math.PI / 100) {
+                let p = new Point(this._center.x + this.radius * Math.cos(a), this._center.y + this.radius * Math.sin(a));
+                res.addPoint(p);
+            }
+            a=0;
+        }
+        for (; a <= end; a += Math.PI / 100) {
+            let p = new Point(this._center.x + this.radius * Math.cos(a), this._center.y + this.radius * Math.sin(a));
             res.addPoint(p);
         }
+
         return [res];
+    }
+
+    /**
+     * The method return list of elements which was made by intersection current element
+     * @param {Array.<Point>} points  - the points must be in current element
+     * @return {Array.<GraphicElement>}
+     */
+    intersectByPoints(points){
+        if(points.length<2){
+            throw new Exception('Circle can be intersecting only by two points (for v1)');
+        }
+        let startPoint = points[0];
+        points.splice(0,1);
+
+        points = points.sort((a, b)=>{
+            let angle1 = new Line(this.center,startPoint).toVector().getAngle(new Line(this.center,a).toVector());
+            let angle2 = new Line(this.center,startPoint).toVector().getAngle(new Line(this.center,b).toVector());
+            return angle2-angle1;
+        });
+        points.push(startPoint);
+        let baseVector = new Vector(1,0,0);
+
+        let res = [];
+        let temp = this.copy();
+        for(let i=0; i<points.length; i++){
+            temp = this.copy();
+            temp.startAngle = baseVector.getAngle(new Line(this.center,points[i]).toVector());
+            temp.endAngle = baseVector.getAngle(new Line(this.center,startPoint).toVector());
+            console.log(temp.startAngle, 'start');
+            console.log(temp.endAngle, 'end');
+            temp.generateNewId();
+            res.push(temp);
+            startPoint=points[i];
+        }
+        // temp.eAngleAngle = baseVector.getAngle(new Line(this.center,endPoint).toVector());
+        return res;
     }
 }

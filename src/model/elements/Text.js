@@ -6,7 +6,7 @@ import GraphicElement  from './../GraphicElement';
 import TextRenderer from './../../2d/renderer/TextRenderer'
 import Point from './../Point';
 
-import Rect from './../Rect';
+import Rect from '../math/Rect';
 import Matrix from './../math/Matrix';
 import Trigonometric from './../math/Trigonometric';
 import PolyLine from './../math/PolyLine';

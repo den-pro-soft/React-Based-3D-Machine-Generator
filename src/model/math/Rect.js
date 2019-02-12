@@ -2,7 +2,7 @@
  * Created by dev on 11.01.19.
  */
 
-import Point from './Point';
+import Point from '../Point';
 import ClosedFigure from './ClosedFigure';
 
 /**
@@ -24,7 +24,6 @@ export default class Rect extends ClosedFigure{
             || this._contain(new Point(this._p2.x, this._p1.y), new Point(this._p1.x, this._p2.y), point)
             || this._contain(new Point(this._p1.x, this._p2.y), new Point(this._p2.x, this._p1.y), point);
     }
-s
     getSquare(){
         let topRight = new Point(this._p2.x, this._p1.y);
         return this._p1.distanceTo(topRight) * this._p2.distanceTo(topRight);

@@ -5,6 +5,7 @@
 import Trigonometric from './Trigonometric'
 import Point from "./../Point";
 import Exception from './../../Exception';
+import Vector from './Vector';
 
 export default class Line{
     constructor(p1, p2){
@@ -111,6 +112,10 @@ export default class Line{
 
     isNear(point, eps){
         return this.distanceTo(point)<eps;
+    }
+    
+    toVector(){
+        return new Vector(this.A, this.B, 0);
     }
     
     /**
