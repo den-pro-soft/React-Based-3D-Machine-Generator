@@ -13,4 +13,15 @@ export default class CommentToSelf extends LineType{
     copy(){
         return new CommentToSelf();
     }
+
+    /**
+     * @inheritDoc
+     * @return {Array.<{propName: value}>}
+     */
+    getLineStyle(){
+        let res = super.getLineStyle();
+        res['strokeStyle']='#3f62f3';
+        res['fillStyle']='#3f62f3';
+        return res;
+    }
 }

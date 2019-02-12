@@ -13,6 +13,7 @@ import DeleteElementCommand from './2d/command/DeleteElementCommand';
 import ChangeLineTypeCommand from './2d/command/ChangeLineTypeCommand';
 import ChangeElementsHeightCommand from './2d/command/ChangeElementsHeightCommand';
 import ChangeTextCommand from './2d/command/ChangeTextCommand';
+import ChangeFontSizeCommand from './2d/command/ChangeFontSizeCommand';
 import MoveElementsCommand from './2d/command/MoveElementsCommand';
 import RotateElementsCommand from './2d/command/RotateElementsCommand';
 import MirrorElementsCommand from './2d/command/MirrorElementsCommand';
@@ -346,12 +347,8 @@ class Application extends Observable{
         this.executeCommand(command);
     }
 
-    /**
-     *
-     * @param {string} text
-     * @throws {Exception} -if selected a few elements or if currently selected element isn't text element
-     */
-    setTextForSelectedElement(text){
+
+    _canChangeText(){
         if(this.selectElements.length!=1){
             throw new Exception('For use the function must be selected only one Text element!');
         }
@@ -359,7 +356,26 @@ class Application extends Observable{
         if(!element instanceof Text){
             throw new Exception('For use the function must be selected Text element!');
         }
-        this.executeCommand(new ChangeTextCommand(app.currentDocument, this.selectElements, text));
+        return true;
+    }
+    /**
+     * @param {string} text
+     * @throws {Exception} -if selected a few elements or if currently selected element isn't text element
+     */
+    setTextForSelectedElement(text){
+        if(this._canChangeText()) {
+            this.executeCommand(new ChangeTextCommand(app.currentDocument, this.selectElements, text));
+        }
+    }
+
+    /**
+     * @param {number} fontSize
+     * @throws {Exception} -if selected a few elements or if currently selected element isn't text element
+     */
+    setFontSizeForSelectedElement(fontSize){
+        if(this._canChangeText()) {
+            this.executeCommand(new ChangeFontSizeCommand(app.currentDocument, this.selectElements, fontSize));
+        }
     }
 
     //</editor-fold>

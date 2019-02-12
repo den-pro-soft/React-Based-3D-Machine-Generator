@@ -9,7 +9,7 @@ export default class GroupRenderer extends Render{
         super(element);
     }
 
-    drawElement(){
+    render(){
         for(let element of this.element.elements){
             element.render();
         }

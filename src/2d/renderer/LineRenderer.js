@@ -20,19 +20,7 @@ export default class LineRenderer extends Render{
         super(element);
     }
 
-    drawElement(){
-        if(this.new){
-            this.board.style('dash', [4, 4]);
-            this.board.style('strokeStyle', '#555555');
-        }else{
-            this.board.style('dash', []);
-            this.board.style('strokeStyle', '#222222');
-        }
-
-        if(this.focus){
-            this.board.style('strokeStyle', '#ff641a');
-        }
-        this.board.style('lineWidth', 1);
+    render(){
         this.board.drawLine(this.element.p1, this.element.p2);
 
         if(this.element.lineType instanceof CommentToSelf) {
@@ -89,10 +77,8 @@ export default class LineRenderer extends Render{
         let grad = Trigonometric.radToGrad(Math.atan(this.element.k));
         let height = 2 * this.board._pixelPerOne*this.board._scale;
         this.board.style('font',height + 'px Arial');
-        this.board.style('fillStyle','black');
         this.board.style('textAlign','center');
         this.board.style('textBaseline','bottom');
-        this.board.style('lineWidth',1);
 
         this.board.drawText(this.element.getCenter(),this.element.length().toFixed(3)+" mm", grad, false);
     }
