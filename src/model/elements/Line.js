@@ -156,6 +156,21 @@ export default class Line extends GraphicElement{
     }
 
     /**
+     * @inheritDoc
+     */
+    intersectByPoints(points){
+        points.push(this._p1.copy());
+        points.push(this._p2.copy());
+        let res = [];
+        points = points.sort((a, b)=>this._p1.distanceTo(a)<=this._p1.distanceTo(b)?-1:1);
+
+        for(let i=1; i<points.length; i++){
+            res.push(new Line(points[i-1].copy(), points[i].copy()));
+        }
+        return res;
+    }
+
+    /**
      * @param {Line} line
      * @return {Point|null}
      */
@@ -179,8 +194,8 @@ export default class Line extends GraphicElement{
             let c1 = y2 * x1 - x2 * y1;
 
             let c2 = y4 * x3 - x4 * y3;
-            let x = ((b1 * c2 - b2 * c1) / d).toFixed(4);
-            let y = ((a2 * c1 - a1 * c2) / d).toFixed(4);
+            let x = (b1 * c2 - b2 * c1) / d;
+            let y = (a2 * c1 - a1 * c2) / d;
             if((((x<=x1 && x>=x2) || (x>=x1 && x<=x2)) && ((x<=x3 && x>=x4) || (x>=x3 && x<=x4)))) {
                 return new Point(x, y, 0);
             }else{

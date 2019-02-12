@@ -177,6 +177,15 @@ export default class GraphicElement{
         }
     }
 
+    /**
+     * The method return list of elements which was made by intersection current element
+     * @param {Array.<Point>} points  - the points must be in current element
+     * @return {Array.<GraphicElement>}
+     */
+    intersectByPoints(points){
+        throw new Exception('The method doesn\'n have implementation.');
+    }
+
     copy(){
         throw new Exception('The method doesn\'n have implementation.');
     }

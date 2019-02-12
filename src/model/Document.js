@@ -111,11 +111,7 @@ export default class Document{
      * @return {Array.<GraphicElement>}
      */
     getListSimpleElements(){
-        let res = [];
-        for(let el of this._elements){
-            res.push(...el.toSimpleElements());
-        }
-        return res;
+        return Document.toSimpleListElements(this._elements);
     }
 
     resetRendererConfig(){
@@ -134,5 +130,13 @@ export default class Document{
 
     load(snapshot){
         this._elements = snapshot._elements;
+    }
+
+    static toSimpleListElements(elements){
+        let res = [];
+        for(let el of elements){
+            res.push(...el.toSimpleElements());
+        }
+        return res;
     }
 }

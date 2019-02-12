@@ -12,6 +12,7 @@ import UngroupCommand from './2d/command/UngroupCommand';
 import DeleteElementCommand from './2d/command/DeleteElementCommand';
 import ChangeLineTypeCommand from './2d/command/ChangeLineTypeCommand';
 import ChangeElementsHeightCommand from './2d/command/ChangeElementsHeightCommand';
+import IntersectElementsCommand from './2d/command/IntersectElementsCommand';
 import ChangeTextCommand from './2d/command/ChangeTextCommand';
 import ChangeFontSizeCommand from './2d/command/ChangeFontSizeCommand';
 import MoveElementsCommand from './2d/command/MoveElementsCommand';
@@ -378,6 +379,10 @@ class Application extends Observable{
         }
     }
 
+    intersectSelectedElements(){
+        this.executeCommand(new IntersectElementsCommand(this.currentDocument, this.selectElements));
+    }
+
     //</editor-fold>
 }
 
@@ -392,6 +397,12 @@ Helper.Window.addHandler('keydown',(e)=>{
         case 65: //Aa
             if(e.ctrlKey && e.target==document.body){
                 app.selectAll();
+                e.preventDefault();
+            }
+            break;
+        case 73: //Ii
+            if(e.ctrlKey && e.target==document.body){
+                app.intersectSelectedElements();
                 e.preventDefault();
             }
             break;

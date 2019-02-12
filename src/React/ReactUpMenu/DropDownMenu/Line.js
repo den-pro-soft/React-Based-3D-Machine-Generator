@@ -71,7 +71,7 @@ export default class Line extends React.Component {
             <li onClick={() => app.ungroup()}>
               <a href="#">Ungroup</a>
             </li>
-            <li>
+            <li onClick={() => app.intersectSelectedElements()}>
               <a href="#" target="_blank" rel="noreferrer noopener">
                 Intersect
               </a>
