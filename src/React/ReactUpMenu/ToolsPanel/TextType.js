@@ -7,14 +7,27 @@ export default class TextType extends React.Component {
   constructor(props) {
     super(props);
     //todo: app.selectElements[0].text -   need take from properties
-    this.state = {text:app.selectElements[0].text};
+    this.state = {
+      text:app.selectElements[0].text,
+      textSize:app.config.textSize
+    };
   }
 
   handlyChangeTextInput = e =>{
       this.setState({
         text: e.target.value
       });
-    app.setTextForSelectedElement(e.target.value);
+      app.setTextForSelectedElement(e.target.value);
+  };
+
+  handlyChangeTextSizeInput = e =>{
+      if(event.charCode === 13) {
+          app.setFontSizeForSelectedElement(e.target.value);
+      }else{
+          this.setState({
+            textSize: e.target.value
+          });
+      }
   };
 
   componentDidMount(){
@@ -43,6 +56,10 @@ export default class TextType extends React.Component {
           data-place="bottom"
           data-tip="<span>Font Size<br/>Height of the text.To change,<br/>
       enter a value and press the Enter key</span>"
+
+        value={this.state.textSize}
+        onChange={this.handlyChangeTextSizeInput}
+        onKeyPress={this.handlyChangeTextSizeInput}
         />
         <button className="btn-Text">
           <a href="#">
