@@ -28,6 +28,12 @@ export default class Group extends GraphicElement{
 
     set _points(points){}
 
+    setLineType(lineType){
+        for(let el of this.elements){
+            el.setLineType(lineType);
+        }
+    }
+
     /**
      * @inheritDoc
      */

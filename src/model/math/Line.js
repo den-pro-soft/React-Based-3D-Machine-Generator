@@ -33,7 +33,10 @@ export default class Line{
      * @constructor
      */
     get k(){
-        return (this.B|0)/(this.A|0);
+        if(this.A==0 || this.B==0){
+            return 0;
+        }
+        return this.B/this.A;
     }
 
     /**

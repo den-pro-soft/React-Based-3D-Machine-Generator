@@ -38,8 +38,8 @@ export default class LineRenderer extends Render{
 
         let circle = new Arc(this.element.p2.copy(), 1);
         let crossPoints = vector.toPolyLines()[0].getCrossPoints(circle.toPolyLines()[0]);
-
-        if(crossPoints.length!=0){
+        //todo: fix horizontal and vertical line
+        if(crossPoints.length==2){
             vector.p1 = crossPoints[0];
             vector.p2 = crossPoints[1];
             this.board.drawLine(vector.p1, vector.p2);
