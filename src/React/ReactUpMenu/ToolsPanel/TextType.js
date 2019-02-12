@@ -21,9 +21,13 @@ export default class TextType extends React.Component {
   };
 
   handlyChangeTextSizeInput = e =>{
+    // this.setState({
+    //   textSize: e.target.value
+    // });
       if(event.charCode === 13) {
           app.setFontSizeForSelectedElement(e.target.value);
-      }else{
+      }
+      else{
           this.setState({
             textSize: e.target.value
           });
@@ -32,6 +36,12 @@ export default class TextType extends React.Component {
 
   componentDidMount(){
     this.textInput.focus();
+    // document.getElementById('text').focus();
+
+  // console.log(app.board, app,'app.board')
+
+  //   app.board.addHandler('mouseMove', e => {console.log(e,'mouseMove')});
+
   }
   
   render() {
@@ -51,15 +61,13 @@ export default class TextType extends React.Component {
         </button>
         <input
           type="text"
-          //   value={this.state.value}
-          //   onChange={this.handleChangeInputLength}
+          value={this.state.textSize}
+          onChange={this.handlyChangeTextSizeInput}
+          onKeyPress={this.handlyChangeTextSizeInput}
+
           data-place="bottom"
           data-tip="<span>Font Size<br/>Height of the text.To change,<br/>
-      enter a value and press the Enter key</span>"
-
-        value={this.state.textSize}
-        onChange={this.handlyChangeTextSizeInput}
-        onKeyPress={this.handlyChangeTextSizeInput}
+      enter a value and press the Enter key</span>"     
         />
         <button className="btn-Text">
           <a href="#">
@@ -73,6 +81,7 @@ export default class TextType extends React.Component {
           </a>
         </button>
         <input
+          id="text"
           style={{ width: "200px" }}
           type="text"
           data-place="bottom"
