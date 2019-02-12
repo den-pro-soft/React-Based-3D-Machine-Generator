@@ -1,5 +1,4 @@
 import React, { Fragment } from "react";
-// import "./tools-panel.scss";
 import ReactTooltip from "react-tooltip";
 
 export default class MoveButtons extends React.Component {
@@ -7,18 +6,18 @@ export default class MoveButtons extends React.Component {
     super(props);
     console.log(this.props, "MoveButtons");
     this.state = {
-      // demensions:this.props.demensions,
       bgColorCopy: "#f0f0f0d9",
-      moveStep: ''/*app.config.moveStep + '"'/*`${String.fromCharCode(34)}`*/,
+      moveStep:app.config.moveStep +' "',
+      rotateStep: app.config.rotateStep + " deg"
      
     };
   }
   componentDidMount(){
     if(this.props.demensions==='Inches'){
-      this.setState({moveStep: app.config.moveStep  + `${String.fromCharCode(34)}`})
+      this.setState({moveStep: app.config.moveStep  + ' "'})
     } else {
-      this.setState({moveStep: (app.config.moveStep*25.4).toFixed(3) + 'mm'})
-
+      this.setState({moveStep: (app.config.moveStep*25.4).toFixed(3) + ' mm'})
+      // `${String.fromCharCode(34)}`
     }
   }
   handleClickCopy = () => {
@@ -69,21 +68,72 @@ export default class MoveButtons extends React.Component {
   handlyChangeInputMove = event => {
     console.log(event.target.value, "target-move");
     app.config.moveStep = event.target.value;
-    // let demensions = "";
     let move = app.config.moveStep;
-
+    // let inches = (app.config.moveStep/25.4).toFixed(3);
     this.setState({
-      // rotateStep: rotate.replace(/[^0-9.]/g, "")
-      rotateStep: app.config.moveStep
+      moveStep: app.config.moveStep
     });
+    // if (this.props.demensions === 'Inches') {
+    //   this.setState({
+    //     moveStep: inches.replace(/[^0-9.]/g, "") + ' "'
+    //   });
+    // } else if(this.props.demensions === 'Millimeters'){
+    //   this.setState({
+    //     moveStep: move.replace(/[^0-9.]/g, "") + ' mm'
+    //   });
+    // }
 
     if (event.charCode === 13) {
-      this.setState({
-        moveStep: move.replace(/[^0-9.]/g, "") + demensions
-      });
+      if (this.props.demensions === 'Inches') {
+        this.setState({
+          moveStep: move.replace(/[^0-9.]/g, "") + ' "'
+        });
+      } else if(this.props.demensions === 'Millimeters'){
+        this.setState({
+          moveStep: move.replace(/[^0-9.]/g, "") + ' mm'
+        });
+      }
+
     }
   };
+// -------------------------------------Rotate-------------------------------------------------------
+rotateLeft = () => {
+  if (this.copyMode()) {
+    app.rotateSelected(-app.config.rotateStep);
+  } else {
+    app.copyRotateSelected(-app.config.rotateStep);
+  }
+};
 
+rotateRight = () => {
+  if (this.copyMode()) {
+    app.rotateSelected(app.config.rotateStep);
+
+  } else {
+    app.copyRotateSelected(app.config.rotateStep);
+
+  }
+};
+
+handlyChangeInputRotate = event => {
+  console.log(event.target.value, "target-rotate");
+  app.config.rotateStep = event.target.value;
+  let deg = " deg";
+  let rotate = app.config.rotateStep;
+
+  this.setState({
+    rotateStep: app.config.rotateStep
+  });
+
+  if (event.charCode === 13) {
+    this.setState({
+      rotateStep: rotate.replace(/[^0-9.]/g, "") + deg
+    });
+  }
+  // if (event.charCode === 46) {
+  //   event.stopPropagation();
+  // }
+};
 
   render() {
     return (
@@ -157,7 +207,7 @@ export default class MoveButtons extends React.Component {
         </button>
         <input
           type="text"
-          // defaultValue={app.config.moveStep}
+          // defaultValue={this.state.moveStep}
           // onChange={e => {
           //   app.config.moveStep = e.target.value;
           // }}
@@ -169,6 +219,49 @@ export default class MoveButtons extends React.Component {
               is pressed.It is generally recommended to move an item by first<br/>
               dragging the item to a snap point on an existing line and then<br/>
               nudging without the mouse.</span>"
+        />
+            {/* <RotateButtons /> */}
+            <button className="btn-LeftRotate" onClick={this.rotateLeft}>
+          <a href="#">
+            <img
+              width="18px"
+              src="images/Unclock.png"
+              data-place="bottom"
+              data-tip="<span>Rotate selected line<br/> left(couterclockwise).The state of the<br/>
+              Repeat button determines if lines<br/> are duplicated or simply
+              rotated. </span>"
+            />
+          </a>
+        </button>
+        <button className="btn-RightRotate" onClick={this.rotateRight}>
+          <a href="#">
+            <img
+              width="18px"
+              src="images/Clock.png"
+              data-place="bottom"
+              data-tip="<span>Rotate selected line<br/> right(clockwise).The state of the<br/>
+              Repeat button determines if lines<br/> are duplicated or simply
+              rotated. </span>"
+            />
+          </a>
+        </button>
+        <input
+          type="text"
+          className="InputRotate"
+          // defaultValue={this.state.rotateStep}
+          value={this.state.rotateStep}
+          // onChange={e => {
+          //   app.config.rotateStep = e.target.value+'deg';
+          // }}
+          onChange={this.handlyChangeInputRotate}
+          onKeyPress={this.handlyChangeInputRotate}
+
+          // data-place="bottom"
+          // data-tip="<span>Rotation step angle.<br/> The angle a selected line will rotate<br/> when you press the L or R<br/>
+          // keyboard keys.You can set the center<br/> of rotation
+          // by dragging the center icon.Hold<br/> Ctrl key
+          // during rotation via mouse to rotate<br/>
+          // in multiples of this angle. </span>"
         />
       
       </Fragment>
