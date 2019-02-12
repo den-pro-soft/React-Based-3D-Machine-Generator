@@ -6,10 +6,21 @@ import TextSelect from "./TextSelect";
 export default class TextType extends React.Component {
   constructor(props) {
     super(props);
-
-    console.log(props, "props-TextType");
+    //todo: app.selectElements[0].text -   need take from properties
+    this.state = {text:app.selectElements[0].text};
   }
 
+  handlyChangeTextInput = e =>{
+      this.setState({
+        text: e.target.value
+      });
+    app.setTextForSelectedElement(e.target.value);
+  };
+
+  componentDidMount(){
+    this.textInput.focus();
+  }
+  
   render() {
     return (
       <Fragment>
@@ -50,6 +61,12 @@ export default class TextType extends React.Component {
           data-place="bottom"
           data-tip="<span>Text<br/>Body of message.To change,<br/>
           enter a value and press the Enter key. </span>"
+          value={this.state.text}
+          onChange={this.handlyChangeTextInput}
+          onKeyPress={this.handlyChangeTextInput}
+          onFocus={this.handlyChangeTextInput}
+
+          ref={(input) => { this.textInput = input; }}
         />
 
         {this.props.value === "Auto" && <TextSelect />}

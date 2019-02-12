@@ -9,6 +9,7 @@ import Point from './../Point';
 import Rect from './../Rect';
 import Matrix from './../math/Matrix';
 import Trigonometric from './../math/Trigonometric';
+import PolyLine from './../math/PolyLine';
 
 /**
  * @inheritDoc
@@ -98,6 +99,8 @@ export default class Text extends GraphicElement{
 
     toPolyLines(){
         //todo: need use font module
+
+        let res = new PolyLine(this._points);
         return [];
     }
 }

@@ -19,7 +19,9 @@ export default class Group extends GraphicElement{
     get _points(){
         let res = [];
         for(let element of this.elements){
-            res = [...res, ...element._points];
+            for(let polyline of element.toPolyLines()){
+                res.push(...polyline.points);
+            }
         }
         return res;
     }
@@ -109,8 +111,8 @@ export default class Group extends GraphicElement{
         }
     }
 
-    getCenter(){
-        let ext = this.getExtrenum();
-        return new Point(ext.min.x+(ext.max.x-ext.min.x)/2, ext.min.y+(ext.max.y-ext.min.y)/2);
-    }
+    // getCenter(){
+    //     let ext = this.getExtrenum();
+    //     return new Point(ext.min.x+(ext.max.x-ext.min.x)/2, ext.min.y+(ext.max.y-ext.min.y)/2);
+    // }
 }
