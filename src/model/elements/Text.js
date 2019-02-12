@@ -82,11 +82,6 @@ export default class Text extends GraphicElement{
         return new Rect(new Point(ext.min.x, ext.max.y), new Point(ext.max.x, ext.min.y)).contain(point);
     }
 
-    getCenter(){
-        let ext = this.getExtrenum();
-        return new Point(ext.min.x+(ext.max.x-ext.min.x)/2,ext.min.y+(ext.max.y-ext.min.y)/2);
-    }
-    
 
     copy(){
         let res = new Text(this.position.copy(), this.text);
@@ -104,7 +99,7 @@ export default class Text extends GraphicElement{
         //todo: need use font module
 
         let res = new PolyLine(this._points);
-        return [];
+        return [res];
     }
 }
 
