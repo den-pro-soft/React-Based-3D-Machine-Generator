@@ -8,7 +8,6 @@ import CircleType from "./CircleType";
 import TextType from "./TextType";
 
 import MoveButtons from "./MoveButtons";
-import RotateButtons from "./RotateButtons";
 
 import InputSelect from "./InputSelect";
 import Button from "@material-ui/core/Button";
@@ -17,7 +16,6 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 export default class ToolsPanel extends React.PureComponent {
-  // static defautProps={figures:app.selectElements}
 
   constructor(props) {
     super(props);
@@ -132,15 +130,10 @@ console.log(props,'toolsPanel')
   getPanelHtml() {
     return (
       <div className="ToolsPanel">
-        <ReactTooltip
-          html={true}
-          className="tooltipBackgroundTheme"
-        />
+        <ReactTooltip html={true} className="tooltipBackgroundTheme" />
         <form>
           <div className="Left-Tools">
-            <button
-              className="btn-LineType"
-            >
+            <button className="btn-LineType">
               <a href="#">
                 <img
                   width="18px"
@@ -152,7 +145,11 @@ console.log(props,'toolsPanel')
                 />
               </a>
             </button>
-            <select className="SelectMode" value={this.state.value} onChange={this.handleChangeSelect}>
+            <select
+              className="SelectMode"
+              value={this.state.value}
+              onChange={this.handleChangeSelect}
+            >
               <option value="Auto">Auto</option>
               <option value="Bend">Bend</option>
               <option value="Tap">Thread&amp;Tap</option>
@@ -167,10 +164,13 @@ console.log(props,'toolsPanel')
             {this.state.arc === true && <ArcType />}
             {this.state.circle === true && <CircleType />}
             {this.state.group === true && <GroupType />}
-            {this.state.text === true && <TextType value={this.state.value}/>}
+            {this.state.text === true && (
+              <TextType value={this.state.value} />
+            )}
 
-        
-        {this.state.value==="Auto"&&<InputSelect className="CreatableSelect" />}
+            {this.state.value === "Auto" && (
+              <InputSelect className="CreatableSelect" />
+            )}
 
             {/* <input
             list="browsers"
@@ -211,8 +211,7 @@ console.log(props,'toolsPanel')
             </button>
           </div>
           <div className="Right-Tools">
-            <MoveButtons demensions={this.props.demensions}/>
-            <RotateButtons/>
+            <MoveButtons demensions={this.props.demensions} />
           </div>
         </form>
         <Dialog
@@ -222,34 +221,72 @@ console.log(props,'toolsPanel')
           aria-labelledby="alert-dialog-title"
           aria-describedby="alert-dialog-description"
         >
-          <DialogTitle
-            style={{ color: "black", textAlign: "left" }}
+          {/* <DialogTitle
+            style={{ color: "black", textAlign: "left",height:'30px' }}
             id="alert-dialog-title"
           >
             <span>Information</span>
-          </DialogTitle>
+          </DialogTitle> */}
 
           <DialogContent
             style={{
+              paddingBottom:'0px',
               textAlign: "left",
               width: "400px",
-              height: "55px",
-              backgroundColor: "#f0ecec"
+              height: "120px",
+              // backgroundColor: "#f0ecec"
+              backgroundColor: "#fff"
+
             }}
           >
-             {/* <img
-              width="25px"
-              src="images/Info.png"
+           <div style={{display:'flex',justifyContent:"space-between"}}>
+            <span>Information</span>
+            {/* <i class="material-icons">
+              cancel_presentation
+            </i> */}
+              <Button
+                onClick={this.handleCloseModalBend}
+                style={{
+                  backgroundColor: "#fff",
+                  padding:'0px',
+                 
+                }}
+                color="primary"
+                autoFocus
+              >
+                <i class="material-icons">
+                  cancel_presentation
+            </i>
+              </Button>
+            </div> 
+            <p style={{ marginTop: "15px" }}>
+              <img
+                width="25px"
+                src="images/Info.png"
               // data-tip="<span>Shows how to use numeric values.</span>"
-            /> */}
-          <p style={{marginTop:'15px'}}>  <img
-              width="25px"
-              src="images/Info.png"
-              // data-tip="<span>Shows how to use numeric values.</span>"
-            /><span style={{marginLeft:'10px'}}>Use only straight segments for Bend lines</span></p>
+              />
+              <span style={{ marginLeft: "10px" }}>
+                Use only straight segments for Bend lines
+              </span>
+            </p>
+            <div style={{marginTop: "10px",marginBottom:'0px',paddingBottom:'0px',textAlign:'center'}}>
+              <Button
+                onClick={this.handleCloseModalBend}
+                style={{
+                  backgroundColor: "#dddada",
+                  boxShadow: "2px 2px 1px #000",
+                  // height:'30px',
+                  margin: "0 auto"
+                }}
+                color="primary"
+                autoFocus
+              >
+                OK
+              </Button>
+            </div>
           </DialogContent>
 
-          <DialogActions>
+          {/* <DialogActions>
             <Button
               onClick={this.handleCloseModalBend}
               style={{
@@ -262,21 +299,11 @@ console.log(props,'toolsPanel')
             >
               OK
             </Button>
-            {/* <Button
-              onClick={this.handleCloseModalPreferences}
-              style={{
-                backgroundColor: "#dddada",
-                boxShadow: "2px 2px 1px #000"
-              }}
-              color="primary"
-              autoFocus
-            >
-              Cancel
-            </Button> */}
         
-          </DialogActions>
+        
+          </DialogActions> */}
         </Dialog>
-      </div>
+        </div>
     );
   }
 }
