@@ -2,7 +2,7 @@
  * Created by dev on 09.01.19.
  */
 
-import Line from '../../model/elements/Line';
+import LineElement from '../../model/elements/LineElement';
 import Arc from '../../model/elements/Arc';
 import Render from './Render';
 import Trigonometric from './../../model/math/Trigonometric';
@@ -11,11 +11,11 @@ import CommentToSelf from './../../model/line_types/CommentToSelf'
 
 export default class LineRenderer extends Render{
     /**
-     * @param {Line} element
+     * @param {LineElement} element
      */
     constructor(element){
-        if(!element instanceof Line){
-            throw new Exception('The renderer can render only Line objects');
+        if(!element instanceof LineElement){
+            throw new Exception('The renderer can render only LineElement objects');
         }
         super(element);
     }

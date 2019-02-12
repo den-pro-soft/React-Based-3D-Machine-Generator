@@ -3,7 +3,7 @@
  */
 
 import CreatorToolsInTwoSteps from './CreatorToolsInTwoSteps';
-import LineElement from '../../model/elements/Line';
+import LineElement from '../../model/elements/LineElement';
 
 export default class LineTool extends CreatorToolsInTwoSteps{
     constructor(document){

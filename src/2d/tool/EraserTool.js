@@ -4,7 +4,7 @@
 
 import Tool from './Tool';
 import Group from './../../model/elements/Group';
-import LineElement from './../../model/elements/Line';
+import LineElement from '../../model/elements/LineElement';
 
 export default class EraserTool extends Tool{
     constructor(document){
