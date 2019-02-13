@@ -26,7 +26,6 @@ export default class ZoomTool extends Tool{
 
     mouseUp(point, e){
         let zoom = 1;
-        console.log(e.button);
         if(e.button == 0) { //left
             zoom+=0.1;
         }else{

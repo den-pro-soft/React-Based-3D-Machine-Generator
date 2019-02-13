@@ -2,7 +2,7 @@
  * Created by dev on 29.01.19.
  */
 
-import Line from './../elements/Line';
+import Line from './../math/Line';
 
 export default class PolyLine{
     constructor(points=[]){

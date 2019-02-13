@@ -1,41 +1,16 @@
 /**
- * Created by dev on 04.01.19.
+ * Created by dev on 12.02.19.
  */
-import Exception from './../../Exception';
-import GraphicElement from './../GraphicElement';
-import LineRenderer from './../../2d/renderer/LineRenderer';
-import Point from "../Point";
-import PolyLine from '../math/PolyLine';
-import Trigonometric from './../math/Trigonometric'
 
-/**
- * @inheritDoc
- */
-export default class Line extends GraphicElement{
+import Trigonometric from './Trigonometric'
+import Point from "./../Point";
+import Exception from './../../Exception';
+import Vector from './Vector';
+
+export default class Line{
     constructor(p1, p2){
-        super();
         this._p1=p1;
         this._p2=p2;
-        this._points=[p1,p2];
-        this._renderer = new LineRenderer(this);
-
-        this.typeName = 'Line';
-    }
-
-    set p1(point){
-        this._points[0]=point;
-        this._p1=point;
-    }
-    get p1(){
-        return this._p1;
-    }
-
-    set p2(point){
-        this._points[1]=point;
-        this._p2=point;
-    }
-    get p2(){
-        return this._p2;
     }
 
     /**
@@ -43,7 +18,7 @@ export default class Line extends GraphicElement{
      * @constructor
      */
     get A(){
-        return this.p2.x-this.p1.x;
+        return this._p2.x-this._p1.x;
     }
 
     /**
@@ -51,7 +26,7 @@ export default class Line extends GraphicElement{
      * @constructor
      */
     get B(){
-        return this.p2.y-this.p1.y;
+        return this._p2.y-this._p1.y;
     }
 
     /**
@@ -59,7 +34,10 @@ export default class Line extends GraphicElement{
      * @constructor
      */
     get k(){
-        return (this.B|0)/(this.A|0);
+        if(this.A==0 || this.B==0){
+            return 0;
+        }
+        return this.B/this.A;
     }
 
     /**
@@ -105,18 +83,7 @@ export default class Line extends GraphicElement{
         var p = (AC + BC + AB) / 2;
         return 2 * Math.sqrt(p * (p - AB) * (p - BC) * (p - AC)) / AB;
     }
-
-    /**
-     * @inheritDoc
-     */
-    isIntoFigure(figure){
-        return figure.contain(this._p1) && figure.contain(this._p2);
-    }
-
-    isNear(point, eps){
-        return this.distanceTo(point)<eps;
-    }
-
+    
     /**
      * @param {Line} line
      * @return {number} - angle between current line and line in parameter
@@ -127,10 +94,6 @@ export default class Line extends GraphicElement{
         }
         let cos = (this.A*line.A+this.B*line.B)/(this.length()*line.length());
         return Trigonometric.radToGrad(Math.acos(cos));
-    }
-
-    getCenter(){
-        return this.getPointOffset(0.5);
     }
 
     /**
@@ -144,30 +107,30 @@ export default class Line extends GraphicElement{
     }
 
     copy(){
-        let line = new Line(this._p1.copy(), this._p2.copy());
-        line.height=this.height;
-        line.id=this.id;
-        line.lineType = this.lineType.copy();
-        return line;
+        return new Line(this._p1.copy(), this._p2.copy());
     }
 
-    toPolyLines(){
-        return [new PolyLine(this._points)];
+    isNear(point, eps){
+        return this.distanceTo(point)<eps;
     }
-
+    
+    toVector(){
+        return new Vector(this.A, this.B, 0);
+    }
+    
     /**
      * @param {Line} line
      * @return {Point|null}
      */
     getCrossPoint(line){
-        let x1 = this.p1.x;
-        let y1 = this.p1.y;
-        let x2 = this.p2.x;
-        let y2 = this.p2.y;
-        let x3 = line.p1.x;
-        let y3 = line.p1.y;
-        let x4 = line.p2.x;
-        let y4 = line.p2.y;
+        let x1 = this._p1.x;
+        let y1 = this._p1.y;
+        let x2 = this._p2.x;
+        let y2 = this._p2.y;
+        let x3 = line._p1.x;
+        let y3 = line._p1.y;
+        let x4 = line._p2.x;
+        let y4 = line._p2.y;
 
         let a1 = y1 - y2;
         let b1 = x2 - x1;
@@ -179,8 +142,8 @@ export default class Line extends GraphicElement{
             let c1 = y2 * x1 - x2 * y1;
 
             let c2 = y4 * x3 - x4 * y3;
-            let x = ((b1 * c2 - b2 * c1) / d).toFixed(4);
-            let y = ((a2 * c1 - a1 * c2) / d).toFixed(4);
+            let x = (b1 * c2 - b2 * c1) / d;
+            let y = (a2 * c1 - a1 * c2) / d;
             if((((x<=x1 && x>=x2) || (x>=x1 && x<=x2)) && ((x<=x3 && x>=x4) || (x>=x3 && x<=x4)))) {
                 return new Point(x, y, 0);
             }else{

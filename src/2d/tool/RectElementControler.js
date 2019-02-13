@@ -1,10 +1,10 @@
 /**
  * Created by dev on 11.01.19.
  */
-import Line from '../../model/elements/Line';
+import LineElement from '../../model/elements/LineElement';
 import Point from '../../model/Point';
 import Group from '../../model/elements/Group';
-import Rect from '../../model/Rect';
+import Rect from '../../model/math/Rect';
 
 export default class RectElementController extends Rect{
     /**
@@ -14,10 +14,10 @@ export default class RectElementController extends Rect{
     constructor(p1,p2){
         super(p1,p2);
         this.group = new Group();
-        this.l1 = new Line(p1.copy(), new Point(p2.x, p1.y));
-        this.l2 = new Line(new Point(p2.x, p1.y), p2.copy());
-        this.l3 = new Line(p2.copy(), new Point(p1.x, p2.y));
-        this.l4 = new Line(new Point(p1.x, p2.y),p1.copy());
+        this.l1 = new LineElement(p1.copy(), new Point(p2.x, p1.y));
+        this.l2 = new LineElement(new Point(p2.x, p1.y), p2.copy());
+        this.l3 = new LineElement(p2.copy(), new Point(p1.x, p2.y));
+        this.l4 = new LineElement(new Point(p1.x, p2.y),p1.copy());
 
         this.group.addElement(this.l1);
         this.group.addElement(this.l2);

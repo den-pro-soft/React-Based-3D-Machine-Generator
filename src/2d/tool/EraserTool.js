@@ -4,7 +4,7 @@
 
 import Tool from './Tool';
 import Group from './../../model/elements/Group';
-import Line from './../../model/elements/Line';
+import LineElement from '../../model/elements/LineElement';
 
 export default class EraserTool extends Tool{
     constructor(document){
@@ -97,7 +97,7 @@ export default class EraserTool extends Tool{
             //удалить точки которые не учавствуют в обрезании
 
             for(let j=0; j<crossPoints.length; j++){
-                let line = new Line(point, crossPoints[j]).toPolyLines()[0];
+                let line = new LineElement(point, crossPoints[j]).toPolyLines()[0]; //todo: use PolyLine
                 let count = 0;
 
                 for(let k=0; k<polylines.length; k++){

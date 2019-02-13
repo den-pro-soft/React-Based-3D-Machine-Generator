@@ -3,7 +3,7 @@
  */
 
 import CreatorToolsInTwoSteps from './CreatorToolsInTwoSteps';
-import Line from '../../model/elements/Line';
+import LineElement from '../../model/elements/LineElement';
 
 export default class LineTool extends CreatorToolsInTwoSteps{
     constructor(document){
@@ -28,6 +28,6 @@ export default class LineTool extends CreatorToolsInTwoSteps{
      * @return {Line}
      */
     createElement(point){
-        return new Line(point, point);
+        return new LineElement(point, point);
     }
 }

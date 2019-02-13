@@ -5,7 +5,7 @@
 import GraphicElement from './../GraphicElement';
 import Point from './../Point';
 import SplineRenderer from './../../2d/renderer/SplineRenderer';
-import Line from './Line';
+import Line from './../math/Line';
 import PolyLine from './../math/PolyLine';
 
 export default class Spline extends GraphicElement{
@@ -57,8 +57,8 @@ export default class Spline extends GraphicElement{
         let l2 = new Line(this.controlPoint1, this.controlPoint2);
         let l3 = new Line(this.controlPoint2, this.endPoint);
 
-        let x=l1.p1.x;
-        let y=l1.p1.y;
+        let x=l1._p1.x;
+        let y=l1._p1.y;
         let discret = 200; //todo: maybe it must dependent from size for accuracy
 
         for(let t=1; t<=discret+1; t++){
@@ -113,7 +113,7 @@ export default class Spline extends GraphicElement{
 
         let res = true;
         for(let i=1; i<points.length; i++){
-            res&=new Line(points[i-1], points[i]).isIntoFigure(figure);
+            res&=figure.contain(points[i-1]) && figure.contain(points[i]);
         }
         return res;
     }
