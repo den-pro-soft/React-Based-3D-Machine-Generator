@@ -41,6 +41,7 @@ export default class IntersectElementsCommand extends ElementModificationCommand
     executeCommand(){
         let intersectElements = Document.toSimpleListElements(this.elements);
 
+        //todo: check for group - ungroup and remove group if the group cross any element
         for(let el of intersectElements){
             let points = this._getIntersectPoints(el);
             let newElements = el.intersectByPoints(points);
@@ -67,8 +68,11 @@ export default class IntersectElementsCommand extends ElementModificationCommand
 
         for(let el of simpleElements){
             if(!el.compare(element)){
-                let polyLine = el.toPolyLines()[0];
-                res.push(...elPolyLine.getCrossPoints(polyLine));
+                let polyLines = el.toPolyLines();
+                for(let polyLine of polyLines) {
+                    let points = elPolyLine.getCrossPoints(polyLine);
+                    res.push(...points);
+                }
             }
         }
         return res;

@@ -40,8 +40,8 @@ export default class PolyLine{
             let l1 = new Line(this.points[i-1], this.points[i]);
             for(let j=1; j<polyLine.points.length; j++){
                 let l2 = new Line(polyLine.points[j-1], polyLine.points[j]);
-                let crossPoint = l1.getCrossPoint(l2)
-                if(crossPoint){
+                let crossPoint = l1.getCrossPoint(l2);
+                if(crossPoint && this.points[i-1].distanceTo(crossPoint)>1E-5 && this.points[i].distanceTo(crossPoint)>1E-5){
                     res.push(crossPoint);
                 }
             }

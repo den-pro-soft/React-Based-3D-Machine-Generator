@@ -144,7 +144,7 @@ export default class Line{
             let c2 = y4 * x3 - x4 * y3;
             let x = (b1 * c2 - b2 * c1) / d;
             let y = (a2 * c1 - a1 * c2) / d;
-            if((((x<=x1 && x>=x2) || (x>=x1 && x<=x2)) && ((x<=x3 && x>=x4) || (x>=x3 && x<=x4)))) {
+            if(this.between(x,x1,x2) && this.between(x,x3,x4) && this.between(y,y1,y2) && this.between(y,y3,y4)) {
                 return new Point(x, y, 0);
             }else{
                 return null;
@@ -152,4 +152,10 @@ export default class Line{
         }
         return null;
     }
+
+    between(value, a, b) {
+        var min = Math.min.apply(Math, [a, b]),
+            max = Math.max.apply(Math, [a, b]);
+        return value+1E-5 > min && value < max+1E-5;
+    };
 }
