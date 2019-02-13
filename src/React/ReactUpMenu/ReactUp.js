@@ -9,18 +9,15 @@ const PreferenceContext = React.createContext();
 
 export default class ReactUp extends React.Component {
   constructor(props){
+
     super(props);
     this.state={
       demensions:'Inches'
     }
   }
-  // const ReactUp = context => {
     updateData = (value) => {
       console.log(value,'demensions-React-Up');
       this.setState({ demensions: value })
-    
-      // console.log(this.state.demensions,'demensions-state-React-Up');
-
    }
   render() {
     return (

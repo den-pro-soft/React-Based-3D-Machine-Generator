@@ -16,10 +16,12 @@
     "classnames": "^2.2.6",
     "react": "^16.7.0",
     "react-dom": "^16.7.0",
+    "react-redux": "^6.0.0",
     "react-router-dom": "^4.3.1",
     "react-select": "^2.3.0",
     "react-tooltip": "^3.9.2",
     "react-virtualized": "^9.21.0",
+    "redux": "^4.0.1",
     "three": "git+https://github.com/mrdoob/three.js.git",
     "three-js-csg": "^72.0.0",
     "three-orbit-controls": "^82.1.0"

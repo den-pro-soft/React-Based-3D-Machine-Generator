@@ -4,14 +4,16 @@ import "./index.scss";
 import LeftMenu from "./React/LeftMenu/LeftMenu";
 import ReactUp from "./React/ReactUpMenu/ReactUp";
 import BottomPanel from "./React/BottomPanel/BottomPanel";
-
 import {
   // BrowserRouter as Router,
-  HashRouter as Router,
-  Route,
-  Redirect,
-  Switch
+  HashRouter as Router
 } from "react-router-dom";
+import { createStore } from "redux";
+import { Provider } from "react-redux";
+import rootReducer from "./Redux/rootReducer";
+
+const store = createStore(rootReducer);
+
 ReactDOM.render(
   <div className="root-LeftMenu">
     <LeftMenu />
@@ -19,27 +21,23 @@ ReactDOM.render(
   document.getElementById("LeftMenu")
 );
 ReactDOM.render(
-  // <Router history={browserHistory}>
-  <Router>
-    <div>
+  <Provider store={store}>
+    <Router>
+      {/* <div> */}
       <ReactUp />
-    </div>
-  </Router>,
+      {/* </div> */}
+    </Router>
+  </Provider>,
   document.getElementById("UpMenu")
 );
-// ReactDOM.render(
-//   <div className="root-BottomPanel">
-//     <BottomPanel />
-//   </div>,
-//   document.getElementById("BottomPanel")
-// );
 
-
-addEventListener('load', function() {
+addEventListener("load", function() {
   ReactDOM.render(
-    <div className="root-BottomPanel">
+    // <div className="root-BottomPanel">
+    <Provider store={store}>
       <BottomPanel />
-    </div>,
+    </Provider>,
+    // </div>
     document.getElementById("BottomPanel")
   );
 });
