@@ -10,14 +10,13 @@ import Help from "./Help/Help";
 export default class DropDownMenu extends React.Component {
   constructor(props) {
     super(props);
-    console.log(props,'dropdownmenu')
+    // console.log(props,'dropdownmenu')
 
   }
   updateDataDemensions = (value) => {
     this.props.updateDataDemensions (value)
-    console.log(value,'demensions')
+    // console.log(value,'demensions')
  }
-// const DropDownMenu = (context,props) => {
   render(){
   return (
     <>

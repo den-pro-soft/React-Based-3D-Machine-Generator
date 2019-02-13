@@ -6,28 +6,25 @@ import FormControl from "@material-ui/core/FormControl";
 import {connect} from 'react-redux';
 
 
-// const PreferenceContext = React.createContext();
 
  class Preferences extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      // value: 'Inches'
       value: this.props.demensions
 
     };
-    console.log(this.state.value, ' state.value-preferens')
   }
 
   handleRadioChange = event => {
  
     this.setState({ value: event.target.value });
 
-    console.log(this.state.value, "this.state.value");
+    // console.log(this.state.value, "this.state.value");
   };
 
   render() {
-console.log('Props-Preferens',this.props)
+// console.log('Props-Preferens',this.props)
 
     return (
       <div className="Preferences">

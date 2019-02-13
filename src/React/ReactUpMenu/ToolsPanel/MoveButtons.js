@@ -4,7 +4,6 @@ import ReactTooltip from "react-tooltip";
 export default class MoveButtons extends React.Component {
   constructor(props) {
     super(props);
-    console.log(this.props, "MoveButtons");
     this.state = {
       bgColorCopy: "#f0f0f0d9",
       moveStep:app.config.moveStep +' "',

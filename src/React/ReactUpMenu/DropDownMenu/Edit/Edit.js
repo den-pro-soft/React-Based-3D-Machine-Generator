@@ -14,13 +14,12 @@ export default class Edit extends React.Component {
       displayMenu: false,
       openPreferencesModal: false
     };
-    console.log(props,'Edit')
 
   }
   // --------for Preference - inches/mm---------------------------------------------------
   updateDataDemensions = (value) => {
     this.props.updateDataDemensions (value)
-    console.log(value,'demensions')
+    // console.log(value,'demensions')
  }
 
   showDropdownMenu = event => {

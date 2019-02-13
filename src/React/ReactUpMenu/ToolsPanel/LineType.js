@@ -7,7 +7,6 @@ export default class LineType extends React.Component {
     this.state = {
       value: ""
     };
-    console.log(props, "props-LineType");
 
   }
 
