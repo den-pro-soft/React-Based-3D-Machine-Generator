@@ -3,28 +3,29 @@ import Radio from "@material-ui/core/Radio";
 import RadioGroup from "@material-ui/core/RadioGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormControl from "@material-ui/core/FormControl";
+import {connect} from 'react-redux';
 
-// const PreferenceContext = React.createContext();
 
-export default class Preferences extends React.Component {
+
+ class Preferences extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      // value: 'Inches'
       value: this.props.demensions
 
     };
-    console.log(props,this.state.value, 'props and state.value-preferens')
   }
 
   handleRadioChange = event => {
  
     this.setState({ value: event.target.value });
 
-    console.log(this.state.value, "this.state.value");
+    // console.log(this.state.value, "this.state.value");
   };
 
   render() {
+// console.log('Props-Preferens',this.props)
+
     return (
       <div className="Preferences">
         <p style={{ textAlign: "left" }}>Measurements</p>
@@ -32,9 +33,7 @@ export default class Preferences extends React.Component {
           <form>
             <fieldset>
               <legend>All dimensions are in</legend>
-{/* <PreferenceContext.Consumer>
-{demensions => <Button {...this.props}val={demensions} />}
-  </PreferenceContext.Consumer> */}
+
               <FormControl>
                 <RadioGroup
                   value={this.state.value}
@@ -45,6 +44,10 @@ export default class Preferences extends React.Component {
                   <FormControlLabel
                     value="Inches"
                     onClick={() => { this.props.updateDataDemensions(this.state.value==='Inches'?'Millimeters':'Inches')}}
+                    // onClick={() => {()=> this.props.updateDataDemensions(5)}}
+                    // onClick={() => {this.props.updateDataDemensions}}
+
+                   
                     control={
                       <Radio
                         color="primary"
@@ -57,8 +60,10 @@ export default class Preferences extends React.Component {
                   <FormControlLabel
                     value="Millimeters"
                     onClick={() => { this.props.updateDataDemensions(this.state.value==='Millimeters'?'Inches':'Millimeters')}}
+                    // onClick={() => {()=>this.props.updateDataDemensions(2)}}
+                    // onClick={() => {this.props.updateDataDemensions}}
 
-                    // onClick={() => { this.props.updateDataDementions(this.state.value)}}
+
                     control={
                       <Radio
                         classes={{ root: "root" }}
@@ -77,3 +82,20 @@ export default class Preferences extends React.Component {
     );
   }
 }
+
+// const mapStateToProps = (state)=>{
+//   console.log(state,'in mapState-Preferens')
+// return {
+//  demensions: state.demensions
+// }
+//    }
+
+//    const mapDispatchToProps = (dispatch)=>{
+// return {
+//   updateDataDemensions: ()=>{dispatch({type:"UPDATE_DEMENSIONS"})}
+
+   // updateDataDemensions: (value)=>{dispatch({type:"UPDATE_DEMENSIONS",payload: value})}
+// }
+//    }
+// export default connect(mapStateToProps, mapDispatchToProps)(Preferences)
+export default Preferences

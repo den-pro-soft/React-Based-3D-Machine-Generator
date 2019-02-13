@@ -75,7 +75,7 @@ openWindow =()=>{
                 {/* <Save/> */}
               </a>
             </li>
-            <li>
+            <li onClick={()=> app.saveAs('png')}>
               <a href="#">Save As</a>
             </li>
             <li>

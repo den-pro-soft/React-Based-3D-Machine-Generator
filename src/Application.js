@@ -38,7 +38,8 @@ import Text from './model/elements/Text'
 
 import config from './Config';
 
-import FileLoader from './file/FileLoader';
+import XmlFileLoader from './file/XmlFileLoader';
+import PngFileLoader from './file/PngFileLoader';
 import Observable from './Observable';
 
 let idGenerator = 1;
@@ -268,9 +269,17 @@ class Application extends Observable{
         return tool;
     }
 
-    saveAs(file){
-        console.log(file,'file-format');
-        FileLoader.save(this.currentDocument);
+    saveAs(fileFormat){
+        /** @var {FileLoader} */
+        let fileLoader;
+        switch (fileFormat){
+            case 'png':
+                fileLoader = new PngFileLoader();
+                break;
+            default:
+                fileLoader = new XmlFileLoader();
+        }
+        fileLoader.save(this.currentDocument);
     }
 
     //<editor-fold desc="decorate methods">

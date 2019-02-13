@@ -1,7 +1,7 @@
 import React from "react";
 import "./bottom-panel.scss";
-
-export default class MouseCoordinates extends React.Component {
+import {connect} from 'react-redux';
+ class MouseCoordinates extends React.Component {
     constructor(props){
       super(props);
       this.state={
@@ -12,22 +12,26 @@ export default class MouseCoordinates extends React.Component {
 componentWillMount(){
 
         app.board.addHandler('mouseMove', e => {
-          // console.log(e,'mouseMove');
         let point = e;
-        let {x} = point;
-        let {y} = point;
       
+      if(this.props.demensions==='Inches') {
         this.setState({
-          mouseX:x+' "',
-          mouseY:y+' "' 
+          mouseX:(point.x).toFixed(3)+' "',
+          mouseY:(point.y).toFixed(3)+' "' 
         })
+      } else {
+        this.setState({
+          mouseX:(point.x*25.4).toFixed(3)+' mm',
+          mouseY:(point.y*25.4).toFixed(3)+' mm'
+        })
+      }
      
-        // console.log(x,y,'mouseMove-Point')
+     
       
         });
 }
     render(){
-
+// console.log('State-Props',this.props)
 
         return(
             <div className="MouseCoordinates">
@@ -37,4 +41,11 @@ componentWillMount(){
             </div>
         )
     }
+
 }
+const mapStateToProps = (state)=>{
+return {
+ demensions: state.demensions
+}
+   }
+export default connect(mapStateToProps)(MouseCoordinates)

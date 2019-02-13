@@ -19,7 +19,6 @@ export default class ToolsPanel extends React.PureComponent {
 
   constructor(props) {
     super(props);
-console.log(props,'toolsPanel')
     this.state = {
       show: false,
       line: false,
@@ -46,7 +45,6 @@ console.log(props,'toolsPanel')
               if (app.selectElements.length === 1) {
                   let el = app.selectElements[0];
                   switch(el.typeName){
-                    // щоб подивитись поля Text - Line в false!!!!а this.state.text=true в конструкторі
                       case "Line":     this.setState({ line: true,  arc: false, group: false, text: false });  break;
                       case "Group":    this.setState({ line: false, arc: false, group: true,  text: false });  break;
                       case "Spline":   this.setState({ line: false, arc: false, group: false, text: false });  break;
@@ -65,25 +63,14 @@ console.log(props,'toolsPanel')
   
   }
   handleChangeSelect =(event)=> {
-    if(event.target.value==="Bend" &&this.state.line===false/*&&this.state.group===true*/){
+    if(event.target.value==="Bend" &&this.state.line===false){
       this.setState({openBendModal:true})
     }
-    console.log(event.target.value,'select')
+    // console.log(event.target.value,'select')
     this.setState({value: event.target.value});
 
   }
-    // --------------open window Bend---------------------
-    // handleOpenBend = event => {
-    //   // event.preventDefault();
-    //   this.setState(
-    //     prevState => ({ openBendModal: !prevState.openBendModal }),
-    //     () => {
-    //       this.setState({
-    //         openBendModal: this.state.openBendModal
-    //       });
-    //     }
-    //   );
-  // };
+
   handleCloseModalBend = () => {
     this.setState(
       prevState => ({ openBendModal: prevState.openBendModal }),

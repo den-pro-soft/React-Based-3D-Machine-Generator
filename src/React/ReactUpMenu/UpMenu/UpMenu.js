@@ -45,12 +45,10 @@ export default class UpMenu extends React.Component {
       demensions:''
 
     };
-    console.log(props,'propsUpMenu')
   }
   updateDataDemensions = (value) => {
     this.props.updateData(value)
-    console.log(value,'demensions')
-    // this.setState({ demensions: value })
+    // console.log(value,'demensions')
  }
   // --------------open window Preferences---------------------
   handleOpenPreferences = event => {

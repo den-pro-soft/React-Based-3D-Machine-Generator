@@ -10,6 +10,8 @@ export default class Document{
     constructor(){
         /** @var {Array.<GraphicElement>}*/
         this._elements = [];
+
+        this.fileName = 'NewDocument';
     }
 
     /**
