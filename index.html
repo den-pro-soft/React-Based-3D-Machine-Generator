@@ -10,7 +10,10 @@
       rel="stylesheet"
     /> -->
     <!-- Material Icons -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+    />
     <!-- Material Fonts Roboto -->
     <!-- <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" /> -->
 
@@ -40,7 +43,7 @@
         /* border-radius: 4px; */
       }
 
-    /*  .button:hover {
+      /*  .button:hover {
         //background: linear-gradient(0deg, rgb(50, 50, 50) 0px, rgb(75, 75, 75) 35px);
       }*/
 
@@ -69,33 +72,39 @@
   </head>
 
   <body style="padding: 0px; margin: 0px; background: rgb(255, 255, 255)">
-  <div id="UpMenu" style="position:absolute;z-index:100"></div>
-	<div id="LeftMenu" style="position: absolute;;z-index:90"></div>
+    <!-- <div> -->
+    <div id="UpMenu" style="position:absolute;z-index:100"></div>
+    <div
+      id="BottomPanel"
+      style="width: 100vw;
+      position: absolute;
+      bottom: 0;
+      z-index: 80;
+      height: 30px;"
+    ></div>
+    <!-- </div> -->
+    <div id="LeftMenu" style="position: absolute;z-index:90"></div>
+    <!-- <div id="BottomPanel" style="position: relative;bottom:0;z-index:90"></div> -->
 
-  <script type="text/javascript" src="functions.1.0.js"></script>
+    <script type="text/javascript" src="functions.1.0.js"></script>
 
-  <script src="dist/Helper.js"></script>
-  <script src="dist/3Dview.js"></script>
+    <script src="dist/Helper.js"></script>
+    <script src="dist/3Dview.js"></script>
 
-  <script type="text/javascript" src="dist/Application.js"></script>
-	<!-- React connection-script -->
-  <script src="dist/index.js"></script>
-
-
-
+    <script type="text/javascript" src="dist/Application.js"></script>
 
     <script type="text/javascript" src="dist/popup.js"></script>
     <!--depended from function.1.0.js-->
     <script type="text/javascript" src="dist/menu.js"></script>
     <!--depended from function.1.0.js-->
     <script type="text/javascript" src="dist/Board.js"></script>
-
     <!-- <script type="text/javascript" src="src/board.js"></script> -->
     <script type="text/javascript" src="board.js"></script>
 
     <!--depended from function.1.0.js-->
     <script>
-      document.body.onload = function() {
+      document.body.onload = 
+      function () {
         var PORT_1 = create_board()
           .setPosition(0, 0)
           .setSize(innerWidth, innerHeight);
@@ -104,6 +113,10 @@
         });
       };
     </script>
-
+  
+ 
+    
+      <!-- React connection-script -->
+      <script src="dist/index.js"></script>
   </body>
 </html>

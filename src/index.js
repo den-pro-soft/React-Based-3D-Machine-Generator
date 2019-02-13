@@ -3,6 +3,8 @@ import ReactDOM from "react-dom";
 import "./index.scss";
 import LeftMenu from "./React/LeftMenu/LeftMenu";
 import ReactUp from "./React/ReactUpMenu/ReactUp";
+import BottomPanel from "./React/BottomPanel/BottomPanel";
+
 import {
   // BrowserRouter as Router,
   HashRouter as Router,
@@ -10,7 +12,6 @@ import {
   Redirect,
   Switch
 } from "react-router-dom";
-// var browserHistory = ReactRouter.browserHistory;
 ReactDOM.render(
   <div className="root-LeftMenu">
     <LeftMenu />
@@ -26,3 +27,19 @@ ReactDOM.render(
   </Router>,
   document.getElementById("UpMenu")
 );
+// ReactDOM.render(
+//   <div className="root-BottomPanel">
+//     <BottomPanel />
+//   </div>,
+//   document.getElementById("BottomPanel")
+// );
+
+
+addEventListener('load', function() {
+  ReactDOM.render(
+    <div className="root-BottomPanel">
+      <BottomPanel />
+    </div>,
+    document.getElementById("BottomPanel")
+  );
+});

@@ -35,6 +35,7 @@ console.log(props,'toolsPanel')
   }
   // ---------------React Life Cycle-----------------
   componentWillMount() {
+
     this.setState({demensions:this.props.demensions})
       app.addHandler("selectElement", element => {
           this.setState({ show: true });
