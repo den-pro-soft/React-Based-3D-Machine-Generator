@@ -10,12 +10,17 @@ export default class XmlFileLoader extends FileLoader{
     }
 
     /**
-     *
-     * @param {Document} document
+     *@inheritDoc
      */
     getBlobData(document){
-        let xml = this.convertInXML(document.getListSimpleElements());
-        return new Blob([xml], {type: "text/plain;charset=utf-8"});
+        return new Promise((resolve, reject)=>{
+            let xml = this.convertInXML(document.getListSimpleElements());
+            if(xml) {
+                resolve(new Blob([xml], {type: "text/plain;charset=utf-8"}));
+            }else{
+                reject('Can\'t convert to Xml!');
+            }
+        });
     }
 
     convertInXML(elements) {

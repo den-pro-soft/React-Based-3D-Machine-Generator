@@ -39,6 +39,7 @@ import Text from './model/elements/Text'
 import config from './Config';
 
 import XmlFileLoader from './file/XmlFileLoader';
+import PngFileLoader from './file/PngFileLoader';
 import Observable from './Observable';
 
 let idGenerator = 1;
@@ -272,11 +273,11 @@ class Application extends Observable{
         /** @var {FileLoader} */
         let fileLoader;
         switch (fileFormat){
-            case 'xml':
-                fileLoader = new XmlFileLoader();
+            case 'png':
+                fileLoader = new PngFileLoader();
                 break;
             default:
-                fileLoader = null;
+                fileLoader = new XmlFileLoader();
         }
         fileLoader.save(this.currentDocument);
     }
