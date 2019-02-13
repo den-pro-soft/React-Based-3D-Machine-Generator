@@ -27,7 +27,6 @@ export default class ToolsPanel extends React.PureComponent {
       group: false,
       text:false,
 
-      demensions:'',
       value:'Auto',
       openBendModal:false
     };
@@ -35,7 +34,7 @@ export default class ToolsPanel extends React.PureComponent {
   // ---------------React Life Cycle-----------------
   componentWillMount() {
 
-    this.setState({demensions:this.props.demensions})
+    // this.setState({demensions:this.props.demensions})
       app.addHandler("selectElement", element => {
           this.setState({ show: true });
           let arc = app.selectElements.every(el => el.typeName === "Arc");
@@ -147,7 +146,7 @@ export default class ToolsPanel extends React.PureComponent {
             </select>
 
             {this.state.line === true && (
-              <LineType demensions={this.props.demensions} />
+              <LineType />
             )}
             {this.state.arc === true && <ArcType />}
             {this.state.circle === true && <CircleType />}
@@ -199,7 +198,7 @@ export default class ToolsPanel extends React.PureComponent {
             </button>
           </div>
           <div className="Right-Tools">
-            <MoveButtons demensions={this.props.demensions} />
+            <MoveButtons />
           </div>
         </form>
         <Dialog
@@ -209,12 +208,6 @@ export default class ToolsPanel extends React.PureComponent {
           aria-labelledby="alert-dialog-title"
           aria-describedby="alert-dialog-description"
         >
-          {/* <DialogTitle
-            style={{ color: "black", textAlign: "left",height:'30px' }}
-            id="alert-dialog-title"
-          >
-            <span>Information</span>
-          </DialogTitle> */}
 
           <DialogContent
             style={{
@@ -222,16 +215,13 @@ export default class ToolsPanel extends React.PureComponent {
               textAlign: "left",
               width: "400px",
               height: "120px",
-              // backgroundColor: "#f0ecec"
               backgroundColor: "#fff"
 
             }}
           >
            <div style={{display:'flex',justifyContent:"space-between"}}>
             <span>Information</span>
-            {/* <i class="material-icons">
-              cancel_presentation
-            </i> */}
+         
               <Button
                 onClick={this.handleCloseModalBend}
                 style={{
@@ -263,7 +253,6 @@ export default class ToolsPanel extends React.PureComponent {
                 style={{
                   backgroundColor: "#dddada",
                   boxShadow: "2px 2px 1px #000",
-                  // height:'30px',
                   margin: "0 auto"
                 }}
                 color="primary"
@@ -274,22 +263,7 @@ export default class ToolsPanel extends React.PureComponent {
             </div>
           </DialogContent>
 
-          {/* <DialogActions>
-            <Button
-              onClick={this.handleCloseModalBend}
-              style={{
-                backgroundColor: "#dddada",
-                boxShadow: "2px 2px 1px #000",
-                margin:'0 auto'
-              }}
-              color="primary"
-              autoFocus
-            >
-              OK
-            </Button>
-        
-        
-          </DialogActions> */}
+      
         </Dialog>
         </div>
     );

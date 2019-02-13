@@ -83,19 +83,17 @@ import {connect} from 'react-redux';
   }
 }
 
-// const mapStateToProps = (state)=>{
-//   console.log(state,'in mapState-Preferens')
-// return {
-//  demensions: state.demensions
-// }
-//    }
+const mapStateToProps = (state)=>{
+  console.log(state,'in mapState-Preferens')
+return {
+ demensions: state.demensions
+}
+   }
 
-//    const mapDispatchToProps = (dispatch)=>{
-// return {
-//   updateDataDemensions: ()=>{dispatch({type:"UPDATE_DEMENSIONS"})}
+   const mapDispatchToProps = (dispatch)=>{
+return {
 
-   // updateDataDemensions: (value)=>{dispatch({type:"UPDATE_DEMENSIONS",payload: value})}
-// }
-//    }
-// export default connect(mapStateToProps, mapDispatchToProps)(Preferences)
-export default Preferences
+   updateDataDemensions: (value)=>{dispatch({type:"UPDATE_DEMENSIONS",payload: value})}
+}
+   }
+export default connect(mapStateToProps, mapDispatchToProps)(Preferences)
