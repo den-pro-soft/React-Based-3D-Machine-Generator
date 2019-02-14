@@ -23,6 +23,7 @@
     "react-tooltip": "^3.9.2",
     "react-virtualized": "^9.21.0",
     "redux": "^4.0.1",
+    "sax": "^1.2.4",
     "three": "git+https://github.com/mrdoob/three.js.git",
     "three-js-csg": "^72.0.0",
     "three-orbit-controls": "^82.1.0"
