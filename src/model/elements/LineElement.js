@@ -78,7 +78,7 @@ export default class LineElement extends GraphicElement{
         points = points.sort((a, b)=>this.p1.distanceTo(a)<=this.p1.distanceTo(b)?-1:1);
 
         for(let i=1; i<points.length; i++){
-            res.push(new Line(points[i-1].copy(), points[i].copy()));
+            res.push(new LineElement(points[i-1].copy(), points[i].copy()));
         }
         return res;
     }

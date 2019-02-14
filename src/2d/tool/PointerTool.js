@@ -89,12 +89,14 @@ export default class PointerTool extends Tool{
         }
         if(this.transformer){
             if(this.transformer.mouseDown(point)) {
-                this.transformer = null;
-                app.clearSelectElements();
+                if(!Helper.Key.ctrlKey) {
+                    this.transformer = null;
+                    app.clearSelectElements();
+                }
                 this.selectRect = new RectElementController(point, point);
             }
         }else{
-            if(true) { //todo: if !Ctrl
+            if(!Helper.Key.ctrlKey) {
                 this.transformer = null;
                 app.clearSelectElements();
             }
@@ -128,8 +130,8 @@ export default class PointerTool extends Tool{
         }else {
             newSelectElements = this._document.getElementsIntoFigure(this.selectRect);
         }
-
-        if(false) { //todo: if Ctrl
+        //todo: check if you click on the selected element, then remove the element from the transformer
+        if(Helper.Key.ctrlKey) {
             app.addSelectElements(newSelectElements);
         }else{
             app.clearSelectElements(); 
