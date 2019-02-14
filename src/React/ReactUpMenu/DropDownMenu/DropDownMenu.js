@@ -7,27 +7,17 @@ import Line from "./Line";
 import Job from "./Job/Job";
 import Help from "./Help/Help";
 
-export default class DropDownMenu extends React.Component {
-  constructor(props) {
-    super(props);
-    // console.log(props,'dropdownmenu')
+const DropDownMenu =props=> {
 
-  }
-  updateDataDemensions = (value) => {
-    this.props.updateDataDemensions (value)
-    // console.log(value,'demensions')
- }
-  render(){
   return (
     <>
       <File />
-      <Edit updateDataDemensions={this.updateDataDemensions} demensions={this.props.demensions}/>
+      <Edit />
       <Line/>
       <Job />
       <Help />
     </>
   );
 }
-}
 
-// export default DropDownMenu;
+export default DropDownMenu;

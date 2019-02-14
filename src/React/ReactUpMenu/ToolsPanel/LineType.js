@@ -1,11 +1,13 @@
 import React from "react";
 import ReactTooltip from "react-tooltip";
 import { Fragment } from "react";
-export default class LineType extends React.Component {
+import {connect} from 'react-redux';
+
+class LineType extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      value: ""
+      value:''
     };
 
   }
@@ -14,12 +16,13 @@ export default class LineType extends React.Component {
     app.addHandler("selectElement", element => {
       if(app.selectElements.length==1){
         if (element.typeName === "Line") {
+         let lengthLine = element.length()
           if(this.props.demensions==='Inches'){
-          let lengthLine = element.length().toFixed(3) + `${String.fromCharCode(34)}`;
-          this.setState({ value: lengthLine });
+          this.setState({ value: lengthLine.toFixed(3) + ' "' });
+
           } else {
-            let lengthLine = ((element.length())*25.4).toFixed(3) + `mm`;
-          this.setState({ value: lengthLine });
+          this.setState({ value: (lengthLine*25.4).toFixed(3) + ' mm'});
+
 
           }
         }
@@ -28,7 +31,23 @@ export default class LineType extends React.Component {
   }
 
   handleChangeInputLength = event => {
+// console.log(event.target.value,'handleChangeInputLength ')
+let length = event.target.value;
+this.setState({
+  value: length
+});
+  if (event.charCode === 13) {
+    if (this.props.demensions === 'Inches') {
+      this.setState({
+        value: length.replace(/[^0-9.]/g, "") + ' "'
+      });
+    } else {
+      this.setState({
+        value: length.replace(/[^0-9.]/g, "") + ' mm'
+      });
+    }
 
+  }
   };
 
   render() {
@@ -48,9 +67,9 @@ export default class LineType extends React.Component {
         </button>
         <input
           type="text"
-          // value={this.props.lengthLine}
-          value={this.state.value}
-          onChange={this.handleChangeInputLength}
+          value = {this.state.value}
+          onChange = {this.handleChangeInputLength}
+          onKeyPress = {this.handleChangeInputLength}
           data-place="bottom"
           data-tip="<span>Length<br/>Distance from the beginning of the line to the end.To change<br/>
       enter a value and press the Enter key</span>"
@@ -76,3 +95,11 @@ export default class LineType extends React.Component {
     );
   }
 }
+const mapStateToProps = (state) => {
+  return {
+    demensions: state.demensions
+  }
+}
+
+
+export default connect(mapStateToProps)(LineType)

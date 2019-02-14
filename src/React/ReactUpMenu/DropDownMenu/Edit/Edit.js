@@ -16,11 +16,6 @@ export default class Edit extends React.Component {
     };
 
   }
-  // --------for Preference - inches/mm---------------------------------------------------
-  updateDataDemensions = (value) => {
-    this.props.updateDataDemensions (value)
-    // console.log(value,'demensions')
- }
 
   showDropdownMenu = event => {
     event.preventDefault();
@@ -102,7 +97,6 @@ export default class Edit extends React.Component {
         <Dialog
           maxWidth={false}
           open={this.state.openPreferencesModal}
-          // onClose={this.handleCloseModal}
           aria-labelledby="alert-dialog-title"
           aria-describedby="alert-dialog-description"
         >
@@ -121,7 +115,7 @@ export default class Edit extends React.Component {
               backgroundColor: "#f0ecec"
             }}
           >
-            <Preferences updateDataDemensions={this.updateDataDemensions} demensions={this.props.demensions}/>
+            <Preferences />
           </DialogContent>
 
           <DialogActions>

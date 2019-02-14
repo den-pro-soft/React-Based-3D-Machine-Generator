@@ -23,9 +23,7 @@ ReactDOM.render(
 ReactDOM.render(
   <Provider store={store}>
     <Router>
-      {/* <div> */}
       <ReactUp />
-      {/* </div> */}
     </Router>
   </Provider>,
   document.getElementById("UpMenu")
@@ -33,11 +31,9 @@ ReactDOM.render(
 
 addEventListener("load", function() {
   ReactDOM.render(
-    // <div className="root-BottomPanel">
     <Provider store={store}>
       <BottomPanel />
     </Provider>,
-    // </div>
     document.getElementById("BottomPanel")
   );
 });

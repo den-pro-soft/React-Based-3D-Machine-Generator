@@ -1,7 +1,8 @@
 import React, { Fragment } from "react";
 import ReactTooltip from "react-tooltip";
+import {connect} from 'react-redux';
 
-export default class MoveButtons extends React.Component {
+class MoveButtons extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -11,7 +12,7 @@ export default class MoveButtons extends React.Component {
      
     };
   }
-  componentDidMount(){
+  componentWillMount(){
     if(this.props.demensions==='Inches'){
       this.setState({moveStep: app.config.moveStep  + ' "'})
     } else {
@@ -65,22 +66,13 @@ export default class MoveButtons extends React.Component {
 
 
   handlyChangeInputMove = event => {
-    console.log(event.target.value, "target-move");
+    // console.log(event.target.value, "target-move");
     app.config.moveStep = event.target.value;
     let move = app.config.moveStep;
-    // let inches = (app.config.moveStep/25.4).toFixed(3);
     this.setState({
-      moveStep: app.config.moveStep
+      moveStep: move.replace(/[^0-9.]/g, "")//app.config.moveStep
     });
-    // if (this.props.demensions === 'Inches') {
-    //   this.setState({
-    //     moveStep: inches.replace(/[^0-9.]/g, "") + ' "'
-    //   });
-    // } else if(this.props.demensions === 'Millimeters'){
-    //   this.setState({
-    //     moveStep: move.replace(/[^0-9.]/g, "") + ' mm'
-    //   });
-    // }
+  
 
     if (event.charCode === 13) {
       if (this.props.demensions === 'Inches') {
@@ -99,6 +91,7 @@ export default class MoveButtons extends React.Component {
 rotateLeft = () => {
   if (this.copyMode()) {
     app.rotateSelected(-app.config.rotateStep);
+
   } else {
     app.copyRotateSelected(-app.config.rotateStep);
   }
@@ -115,7 +108,7 @@ rotateRight = () => {
 };
 
 handlyChangeInputRotate = event => {
-  console.log(event.target.value, "target-rotate");
+  // console.log(event.target.value, "target-rotate");
   app.config.rotateStep = event.target.value;
   let deg = " deg";
   let rotate = app.config.rotateStep;
@@ -267,3 +260,11 @@ handlyChangeInputRotate = event => {
     );
   }
 }
+const mapStateToProps = (state)=>{
+return {
+ demensions: state.demensions
+}
+   }
+
+
+export default connect(mapStateToProps)(MoveButtons)

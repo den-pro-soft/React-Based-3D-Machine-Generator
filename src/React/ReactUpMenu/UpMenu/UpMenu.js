@@ -42,14 +42,9 @@ export default class UpMenu extends React.Component {
     super(props);
     this.state = {
       openPreferencesModal: false,
-      demensions:''
-
     };
   }
-  updateDataDemensions = (value) => {
-    this.props.updateData(value)
-    // console.log(value,'demensions')
- }
+
   // --------------open window Preferences---------------------
   handleOpenPreferences = event => {
     // event.preventDefault();
@@ -79,7 +74,7 @@ export default class UpMenu extends React.Component {
     return (
       <div className="UpMenu">
         <div className="Drop">
-          <DropDownMenu updateDataDemensions={this.updateDataDemensions} demensions={this.props.demensions} />
+          <DropDownMenu />
         </div>
         <div className="Buttons">
           <div className="LeftButtonGroup">
@@ -176,7 +171,7 @@ export default class UpMenu extends React.Component {
               backgroundColor: "#f0ecec"
             }}
           >
-            <Preferences updateDataDemensions={this.updateDataDemensions} demensions={this.props.demensions}/>
+            <Preferences />
           </DialogContent>
 
           <DialogActions>

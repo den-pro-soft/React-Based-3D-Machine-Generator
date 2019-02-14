@@ -26,8 +26,7 @@ export default class ToolsPanel extends React.PureComponent {
       circle: false,
       group: false,
       text:false,
-
-      demensions:'',
+withoutText:true,
       value:'Auto',
       openBendModal:false
     };
@@ -35,13 +34,21 @@ export default class ToolsPanel extends React.PureComponent {
   // ---------------React Life Cycle-----------------
   componentWillMount() {
 
-    this.setState({demensions:this.props.demensions})
+    // this.setState({demensions:this.props.demensions})
       app.addHandler("selectElement", element => {
           this.setState({ show: true });
+          let text = app.selectElements.every(el => el.typeName === "Text");
           let arc = app.selectElements.every(el => el.typeName === "Arc");
+
+          if (text === true && app.selectElements.length > 1) {
+
+            this.setState({ line: false, arc: false, group: true, text:true, withoutText:false });
+             } else
+
           if (arc === true && app.selectElements.length > 1) {
               this.setState({ line: false, arc: true, group: true });
-          } else {
+          } 
+          else{
               if (app.selectElements.length === 1) {
                   let el = app.selectElements[0];
                   switch(el.typeName){
@@ -147,14 +154,15 @@ export default class ToolsPanel extends React.PureComponent {
             </select>
 
             {this.state.line === true && (
-              <LineType demensions={this.props.demensions} />
+              <LineType />
+            )}
+             {this.state.text === true && (
+              <TextType value={this.state.value} withoutText={this.state.withoutText} />
             )}
             {this.state.arc === true && <ArcType />}
             {this.state.circle === true && <CircleType />}
             {this.state.group === true && <GroupType />}
-            {this.state.text === true && (
-              <TextType value={this.state.value} />
-            )}
+           
 
             {this.state.value === "Auto" && (
               <InputSelect className="CreatableSelect" />
@@ -199,7 +207,7 @@ export default class ToolsPanel extends React.PureComponent {
             </button>
           </div>
           <div className="Right-Tools">
-            <MoveButtons demensions={this.props.demensions} />
+            <MoveButtons />
           </div>
         </form>
         <Dialog
@@ -209,12 +217,6 @@ export default class ToolsPanel extends React.PureComponent {
           aria-labelledby="alert-dialog-title"
           aria-describedby="alert-dialog-description"
         >
-          {/* <DialogTitle
-            style={{ color: "black", textAlign: "left",height:'30px' }}
-            id="alert-dialog-title"
-          >
-            <span>Information</span>
-          </DialogTitle> */}
 
           <DialogContent
             style={{
@@ -222,16 +224,13 @@ export default class ToolsPanel extends React.PureComponent {
               textAlign: "left",
               width: "400px",
               height: "120px",
-              // backgroundColor: "#f0ecec"
               backgroundColor: "#fff"
 
             }}
           >
            <div style={{display:'flex',justifyContent:"space-between"}}>
             <span>Information</span>
-            {/* <i class="material-icons">
-              cancel_presentation
-            </i> */}
+         
               <Button
                 onClick={this.handleCloseModalBend}
                 style={{
@@ -263,7 +262,6 @@ export default class ToolsPanel extends React.PureComponent {
                 style={{
                   backgroundColor: "#dddada",
                   boxShadow: "2px 2px 1px #000",
-                  // height:'30px',
                   margin: "0 auto"
                 }}
                 color="primary"
@@ -274,22 +272,7 @@ export default class ToolsPanel extends React.PureComponent {
             </div>
           </DialogContent>
 
-          {/* <DialogActions>
-            <Button
-              onClick={this.handleCloseModalBend}
-              style={{
-                backgroundColor: "#dddada",
-                boxShadow: "2px 2px 1px #000",
-                margin:'0 auto'
-              }}
-              color="primary"
-              autoFocus
-            >
-              OK
-            </Button>
-        
-        
-          </DialogActions> */}
+      
         </Dialog>
         </div>
     );
