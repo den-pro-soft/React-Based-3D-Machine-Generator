@@ -53,6 +53,7 @@ export default class File extends React.Component {
     };
 
     openFile = e =>{
+        //todo: the code have copy in Helper Ctrl+O key handler
         var newInput = document.createElement('input');
         newInput.setAttribute('type','file');
         // newInput.setAttribute('accept',this.accept);
