@@ -66,7 +66,7 @@ class MoveButtons extends React.Component {
 
 
   handlyChangeInputMove = event => {
-    console.log(event.target.value, "target-move");
+    // console.log(event.target.value, "target-move");
     app.config.moveStep = event.target.value;
     let move = app.config.moveStep;
     this.setState({
@@ -107,7 +107,7 @@ rotateRight = () => {
 };
 
 handlyChangeInputRotate = event => {
-  console.log(event.target.value, "target-rotate");
+  // console.log(event.target.value, "target-rotate");
   app.config.rotateStep = event.target.value;
   let deg = " deg";
   let rotate = app.config.rotateStep;
@@ -260,7 +260,6 @@ handlyChangeInputRotate = event => {
   }
 }
 const mapStateToProps = (state)=>{
-  console.log(state,'in mapState-MoveButtons')
 return {
  demensions: state.demensions
 }

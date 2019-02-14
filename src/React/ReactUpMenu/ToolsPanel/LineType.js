@@ -18,8 +18,7 @@ class LineType extends React.Component {
         if (element.typeName === "Line") {
          let lengthLine = element.length()
           if(this.props.demensions==='Inches'){
-          this.setState({ value: lengthLine.toFixed(3).toString() + ' "' });
-          console.log(this.state.value,'value-inch')
+          this.setState({ value: lengthLine.toFixed(3) + ' "' });
 
           } else {
           this.setState({ value: (lengthLine*25.4).toFixed(3) + ' mm'});
@@ -32,7 +31,7 @@ class LineType extends React.Component {
   }
 
   handleChangeInputLength = event => {
-console.log(event.target.value,'handleChangeInputLength ')
+// console.log(event.target.value,'handleChangeInputLength ')
 let length = event.target.value;
 this.setState({
   value: length
@@ -52,7 +51,6 @@ this.setState({
   };
 
   render() {
-    console.log(this.props,'props-LineType')
     return (
       <Fragment>
         <ReactTooltip html={true} className="tooltipBackgroundTheme" />

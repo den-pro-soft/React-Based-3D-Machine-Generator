@@ -26,7 +26,7 @@ export default class ToolsPanel extends React.PureComponent {
       circle: false,
       group: false,
       text:false,
-
+withoutText:true,
       value:'Auto',
       openBendModal:false
     };
@@ -38,6 +38,10 @@ export default class ToolsPanel extends React.PureComponent {
       app.addHandler("selectElement", element => {
           this.setState({ show: true });
           let arc = app.selectElements.every(el => el.typeName === "Arc");
+          let text = app.selectElements.every(el => el.typeName === "Text");
+          if (text === true && app.selectElements.length > 1) {
+            this.setState({ line: false, arc: false, group: true, text:true, withoutText:false });
+        } else 
           if (arc === true && app.selectElements.length > 1) {
               this.setState({ line: false, arc: true, group: true });
           } else {
@@ -148,12 +152,13 @@ export default class ToolsPanel extends React.PureComponent {
             {this.state.line === true && (
               <LineType />
             )}
+             {this.state.text === true && (
+              <TextType value={this.state.value} withoutText={this.state.withoutText} />
+            )}
             {this.state.arc === true && <ArcType />}
             {this.state.circle === true && <CircleType />}
             {this.state.group === true && <GroupType />}
-            {this.state.text === true && (
-              <TextType value={this.state.value} />
-            )}
+           
 
             {this.state.value === "Auto" && (
               <InputSelect className="CreatableSelect" />

@@ -3,7 +3,7 @@ const initialState = {
 };
 
 export default function rootReduser(state = initialState, action) {
-  console.log(state.demensions, action.payload, "action.payload");
+  // console.log(state.demensions, action.payload, "action.payload");
   if (action.type === "UPDATE_DEMENSIONS") {
     return {
       demensions: action.payload
