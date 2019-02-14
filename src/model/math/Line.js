@@ -6,8 +6,13 @@ import Trigonometric from './Trigonometric'
 import Point from "./../Point";
 import Exception from './../../Exception';
 import Vector from './Vector';
+import Matrix from './Matrix';
 
 export default class Line{
+    /**
+     * @param {Point} p1
+     * @param {Point} p2
+     */
     constructor(p1, p2){
         this._p1=p1;
         this._p2=p2;
@@ -60,6 +65,7 @@ export default class Line{
 
     /**
      * http://www.cat-in-web.ru/notebook/rasstoyanie-ot-tochki-do-otrezka/
+     * @return {number} - distance to current segment
      */
     distanceTo(point){
         let p1=this._p1;
@@ -83,7 +89,22 @@ export default class Line{
         var p = (AC + BC + AB) / 2;
         return 2 * Math.sqrt(p * (p - AB) * (p - BC) * (p - AC)) / AB;
     }
-    
+
+    perpendicularPoint(point){
+        let tempLine = new Line(this._p1, point);
+        let l = tempLine.length();
+        let alfa = tempLine.toVector().getAngle(this.toVector())%90;
+        let A = l*Math.cos(Trigonometric.gradToRad(alfa));
+
+        let bettaRad = Math.atan(this.k);
+        let dx = A*Math.cos(bettaRad);
+        let dy = A*Math.sin(bettaRad);
+
+        let res = this._p1.copy();
+        res.changeByMatrix(Matrix.createMoveMatrix(dx,dy));
+        return res;
+    }
+
     /**
      * @param {Line} line
      * @return {number} - angle between current line and line in parameter
@@ -113,11 +134,14 @@ export default class Line{
     isNear(point, eps){
         return this.distanceTo(point)<eps;
     }
-    
+
+    /**
+     * @return {Vector}
+     */
     toVector(){
         return new Vector(this.A, this.B, 0);
     }
-    
+
     /**
      * @param {Line} line
      * @return {Point|null}
