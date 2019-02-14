@@ -1,13 +1,19 @@
 import React from "react";
 import "./line.scss";
-
+import Button from "@material-ui/core/Button";
+import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogTitle from "@material-ui/core/DialogTitle";
+import Corner from "./Corner"
 export default class Line extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       displayMenu: false,
       displaySubMenu: false,
-      displaySubNudge: false
+      displaySubNudge: false,
+      openCornerModal: false
     };
 
   }
@@ -51,6 +57,32 @@ export default class Line extends React.Component {
       document.removeEventListener("click", this.hideSubNudge);
     });
   }
+
+    // --------------open window Corner---------------------
+    handleOpenCorner = event => {
+      // event.preventDefault();
+      this.setState(
+        prevState => ({ openCornerModal: !prevState.openCornerModal }),
+        () => {
+          this.setState({
+            openCornerModal: this.state.openCornerModal
+          });
+        }
+      );
+    };
+    handleCloseCornerModal = () => {
+      this.setState(
+        prevState => ({ openCornerModal: prevState.openCornerModal }),
+        () => {
+          this.setState({
+            openCornerModal: !this.state.openCornerModal
+          });
+        }
+      );
+    };
+    openHelpCorner = () => {
+      window.open("https://www.emachineshop.com/help-2d-drawing/#rounding-corners");
+    };
   render() {
     return (
       <div className="Line">
@@ -76,7 +108,7 @@ export default class Line extends React.Component {
                 Intersect
               </a>
             </li>
-            <li>
+            <li onClick={this.handleOpenCorner}>
               <a href="#">Corner</a>
             </li>
 
@@ -139,7 +171,89 @@ export default class Line extends React.Component {
           ) : null}
         </div>
 
-      
+        <Dialog
+          maxWidth={false}
+          open={this.state.openCornerModal}
+        //   style={{
+        //     backgroundColor: "#f0ecec"
+        // }}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          <DialogTitle
+            style={{ color: "black", textAlign: "left" }}
+            id="alert-dialog-title"
+          >
+            <div style={{display:'flex',justifyContent:"space-between"}}>
+            <span>Corner</span>
+            <Button
+                onClick={this.handleCloseCornerModal}
+                style={{
+                  backgroundColor: "#fff",
+                  padding:'0px',
+                 
+                }}
+                color="primary"
+                autoFocus
+              >
+                <i className="material-icons">
+                  cancel_presentation
+            </i>
+              </Button>
+              </div>
+          </DialogTitle>
+
+          <DialogContent
+            style={{
+              textAlign: "left",
+              width: "550px",
+              height: "375px",
+              backgroundColor: "#f0ecec"
+            }}
+          >
+            <Corner />
+          </DialogContent>
+
+          <DialogActions 
+          // style={{
+          //     backgroundColor: "#f0ecec"
+          // }}
+          >
+            <Button
+              onClick={this.handleCloseCornerModal}
+              style={{
+                backgroundColor: "#dddada",
+                boxShadow: "2px 2px 1px #000"
+              }}
+              color="primary"
+              autoFocus
+            >
+              OK
+            </Button>
+            <Button
+              onClick={this.handleCloseCornerModal}
+              style={{
+                backgroundColor: "#dddada",
+                boxShadow: "2px 2px 1px #000"
+              }}
+              color="primary"
+              autoFocus
+            >
+              Cancel
+            </Button>
+            <Button
+              onClick={this.openHelpCorner}
+              style={{
+                backgroundColor: "#dddada",
+                boxShadow: "2px 2px 1px #000"
+              }}
+              color="primary"
+              autoFocus
+            >
+              Help
+            </Button>
+          </DialogActions>
+        </Dialog>
       </div>
     );
   }

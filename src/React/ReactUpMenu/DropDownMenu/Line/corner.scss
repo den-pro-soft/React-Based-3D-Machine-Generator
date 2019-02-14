@@ -1,0 +1,21 @@
+.Corner{
+    form{
+        padding:10px;
+        p{
+            text-align: left;
+            margin-top: 10px;
+        }
+        .Input{
+            margin-top: 10px;
+            width: 220px;
+
+        }
+        .Label{
+            color:grey;
+        }
+        .TextBlock{
+            width: 190px;
+            border:1px solid #000;
+        }
+    }
+}
