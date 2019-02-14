@@ -37,14 +37,18 @@ withoutText:true,
     // this.setState({demensions:this.props.demensions})
       app.addHandler("selectElement", element => {
           this.setState({ show: true });
-          let arc = app.selectElements.every(el => el.typeName === "Arc");
           let text = app.selectElements.every(el => el.typeName === "Text");
+          let arc = app.selectElements.every(el => el.typeName === "Arc");
+
           if (text === true && app.selectElements.length > 1) {
+
             this.setState({ line: false, arc: false, group: true, text:true, withoutText:false });
-        } else 
+             } else
+
           if (arc === true && app.selectElements.length > 1) {
               this.setState({ line: false, arc: true, group: true });
-          } else {
+          } 
+          else{
               if (app.selectElements.length === 1) {
                   let el = app.selectElements[0];
                   switch(el.typeName){

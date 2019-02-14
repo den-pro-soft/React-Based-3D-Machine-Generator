@@ -14,12 +14,15 @@ class TextType extends React.Component {
     };
     // console.log(app.selectElements[0].text,'elementText')
   }
+  componentDidMount() {
+    {this.props.withoutText&& this.textInput.focus();}
+  }
 
   componentWillMount() {
-    app.addHandler("selectElement", element => {
-    console.log(element,'elementText')
 
-      // if(app.selectElements.length==1){
+    app.addHandler("selectElement", element => {
+    // console.log(element,'elementText')
+
         if (element.typeName === "Text") {
          let textSize = app.selectElements[0].fontSize
           if(this.props.demensions==='Inches'){
@@ -29,10 +32,9 @@ class TextType extends React.Component {
           } else {
           this.setState({ textSize: (textSize*25.4).toFixed(3) + ' mm'});
           }
-          app.setFontSizeForSelectedElement((this.state.textSize).replace(/[^0-9.]/g, ""));
         }
-      // }
     });
+
   }
   handlyChangeTextInput = e =>{
       this.setState({
@@ -49,12 +51,15 @@ class TextType extends React.Component {
           this.setState({
             textSize: textSize.replace(/[^0-9.]/g, "")  + ' "'
           });
+    app.setFontSizeForSelectedElement(textSize.replace(/[^0-9.]/g, ""));
+
         } else {
           this.setState({
             textSize: textSize.replace(/[^0-9.]/g, "")  + ' mm'
           });
+    app.setFontSizeForSelectedElement(textSize.replace(/[^0-9.]/g, ""));
+
         }
-          app.setFontSizeForSelectedElement(textSize.replace(/[^0-9.]/g, ""));
       }
       else{
           this.setState({
@@ -63,15 +68,7 @@ class TextType extends React.Component {
       }
   };
 
-  componentDidMount(){
-    this.textInput.focus();
-    // document.getElementById('text').focus();
-
-  // console.log(app.board, app,'app.board')
-
-  //   app.board.addHandler('mouseMove', e => {console.log(e,'mouseMove')});
-
-  }
+ 
   
   render() {
     return (
