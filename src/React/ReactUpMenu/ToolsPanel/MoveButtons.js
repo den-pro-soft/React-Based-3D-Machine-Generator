@@ -70,7 +70,7 @@ class MoveButtons extends React.Component {
     app.config.moveStep = event.target.value;
     let move = app.config.moveStep;
     this.setState({
-      moveStep: app.config.moveStep
+      moveStep: move.replace(/[^0-9.]/g, "")//app.config.moveStep
     });
   
 
@@ -91,6 +91,7 @@ class MoveButtons extends React.Component {
 rotateLeft = () => {
   if (this.copyMode()) {
     app.rotateSelected(-app.config.rotateStep);
+
   } else {
     app.copyRotateSelected(-app.config.rotateStep);
   }

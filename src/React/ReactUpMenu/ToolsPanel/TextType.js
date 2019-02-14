@@ -10,25 +10,26 @@ class TextType extends React.Component {
     //todo: app.selectElements[0].text -   need take from properties
     this.state = {
       text:app.selectElements[0].text,
-      textSize:app.selectElements[0].fontSize + ' "'//''//app.config.textSize + ' "'
+      textSize:app.selectElements[0].fontSize + ' "'//app.config.textSize 
     };
-    console.log(app.selectElements[0].text,'elementText')
+    // console.log(app.selectElements[0].text,'elementText')
   }
 
   componentWillMount() {
     app.addHandler("selectElement", element => {
+    console.log(element,'elementText')
+
       // if(app.selectElements.length==1){
         if (element.typeName === "Text") {
          let textSize = app.selectElements[0].fontSize
           if(this.props.demensions==='Inches'){
           this.setState({ textSize: textSize + ' "' });
-          // console.log(this.state.value,'value-inch')
-
+          console.log(this.state.textSize,'value-inch');
+          console.log(element,'elementText');
           } else {
           this.setState({ textSize: (textSize*25.4).toFixed(3) + ' mm'});
-
-
           }
+          app.setFontSizeForSelectedElement((this.state.textSize).replace(/[^0-9.]/g, ""));
         }
       // }
     });
@@ -42,26 +43,22 @@ class TextType extends React.Component {
 
   handlyChangeTextSizeInput = e =>{
     let textSize = e.target.value;
-    // this.setState({
-    //   textSize: textSize 
-    // });
-    
   
       if(e.charCode === 13) {
         if(this.props.demensions==='Inches'){
           this.setState({
-            textSize: textSize  + ' "'
+            textSize: textSize.replace(/[^0-9.]/g, "")  + ' "'
           });
         } else {
           this.setState({
-            textSize: (textSize*25.4).toFixed(3)  + ' mm'
+            textSize: textSize.replace(/[^0-9.]/g, "")  + ' mm'
           });
         }
-          app.setFontSizeForSelectedElement(e.target.value);
+          app.setFontSizeForSelectedElement(textSize.replace(/[^0-9.]/g, ""));
       }
       else{
           this.setState({
-            textSize: e.target.value
+            textSize: textSize.replace(/[^0-9.]/g, "")
           });
       }
   };
