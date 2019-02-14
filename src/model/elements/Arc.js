@@ -47,6 +47,16 @@ export default class Arc extends GraphicElement{
 
     }
 
+    /**
+     * @return {number}
+     */
+    get incrementAngle(){
+        if(this.endAngle> this.startAngle)
+            return this.endAngle - this.startAngle;
+        else
+            return this.endAngle+(360-this.startAngle);
+    }
+
     rotate(center,grad) {
         let rotateMatrix = Matrix.createRotateMatrix(grad);
 

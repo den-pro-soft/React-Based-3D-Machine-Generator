@@ -7,7 +7,9 @@ import LineType from './LineType';
 export default class CommentToSelf extends LineType{
     constructor(){
         super();
-        this.name='CommentToSelf';
+        this.name='Comment';
+        this.label = "Comment to Self";
+        this.id=14;
     }
 
     copy(){
