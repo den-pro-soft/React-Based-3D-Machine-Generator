@@ -1,5 +1,5 @@
 const initialState = {
-  demensions: "Inches"
+  demensions: "Millimeters"
 };
 
 export default function rootReduser(state = initialState, action) {

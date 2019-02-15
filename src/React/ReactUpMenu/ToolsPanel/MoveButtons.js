@@ -13,10 +13,10 @@ class MoveButtons extends React.Component {
     };
   }
   componentWillMount(){
-    if(this.props.demensions==='Inches'){
-      this.setState({moveStep: app.config.moveStep  + ' "'})
+    if(this.props.demensions==='Millimeters'){
+      this.setState({moveStep: app.config.moveStep  + ' mm'})
     } else {
-      this.setState({moveStep: (app.config.moveStep*25.4).toFixed(3) + ' mm'})
+      this.setState({moveStep: (app.config.moveStep/25.4).toFixed(3) + ' "'})
       // `${String.fromCharCode(34)}`
     }
   }
@@ -70,18 +70,18 @@ class MoveButtons extends React.Component {
     app.config.moveStep = event.target.value;
     let move = app.config.moveStep;
     this.setState({
-      moveStep: move.replace(/[^0-9.]/g, "")//app.config.moveStep
+      moveStep: move.replace(/[^0-9.]/g, "")
     });
   
 
     if (event.charCode === 13) {
-      if (this.props.demensions === 'Inches') {
-        this.setState({
-          moveStep: move.replace(/[^0-9.]/g, "") + ' "'
-        });
-      } else if(this.props.demensions === 'Millimeters'){
+      if (this.props.demensions === 'Millimeters') {
         this.setState({
           moveStep: move.replace(/[^0-9.]/g, "") + ' mm'
+        });
+      } else {
+        this.setState({
+          moveStep: move.replace(/[^0-9.]/g, "") + ' "'
         });
       }
 

@@ -14,15 +14,15 @@ componentWillMount(){
         app.board.addHandler('mouseMove', e => {
         let point = e;
       
-      if(this.props.demensions==='Inches') {
+      if(this.props.demensions==='Millimeters') {
         this.setState({
-          mouseX:(point.x).toFixed(3)+' "',
-          mouseY:(point.y).toFixed(3)+' "' 
+          mouseX:(point.x).toFixed(3)+' mm',
+          mouseY:(point.y).toFixed(3)+' mm' 
         })
       } else {
         this.setState({
-          mouseX:(point.x*25.4).toFixed(3)+' mm',
-          mouseY:(point.y*25.4).toFixed(3)+' mm'
+          mouseX:(point.x/25.4).toFixed(3)+' "',
+          mouseY:(point.y/25.4).toFixed(3)+' "'
         })
       }
      
