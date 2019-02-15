@@ -35,8 +35,11 @@ withoutText:true,
   componentWillMount() {
       app.addHandler("selectElement", element => {
         console.log(app.config.defaultLineTypes,app.selectElements[0].lineType.label,'default typeLine')
-    this.setState({value: app.selectElements[0].lineType.label})
+    this.setState({value: app.selectElements[0].lineType.label});
+    // app.config.lineType = app.selectElements[0].lineType.name;
+    app.config.lineType = app.selectElements[0].lineType;
 
+console.log(app.config.lineType, 'Handler-lineType')
           this.setState({ show: true });
           let text = app.selectElements.every(el => el.typeName === "Text");
           let arc = app.selectElements.every(el => el.typeName === "Arc");
@@ -74,8 +77,28 @@ withoutText:true,
     if(event.target.value==="Bend" &&this.state.line===false){
       this.setState({openBendModal:true})
     }
- 
+
     this.setState({value: event.target.value});
+
+    app.config.defaultLineTypes.map((item) => {
+      // console.log(item,item.label, this.state.value,'item-typeLine');
+      if(this.state.value===item.label){
+        app.config.lineType = item; 
+      console.log(this.state.value,item, app.config.lineType,'item-config');
+
+      }
+    })
+
+    // this.setState({value: event.target.value});
+    // app.config.defaultLineTypes.map((item) => {
+    //   // console.log(item,item.label, this.state.value,'item-typeLine');
+    //   if(this.state.value===item.label){
+    //     app.config.lineType = item; 
+    //   console.log(/*this.state.value,item,*/ app.config.lineType,'item-config');
+
+    //   }
+    // })
+
 
 }
 
@@ -152,7 +175,7 @@ withoutText:true,
               onChange={this.handleChangeSelect}
             >
              {app.config.defaultLineTypes.map((typLine, i) => (
-                        <option value={typLine.label} key={i}>
+                        <option value={typLine.label} key={i} >
                           {typLine.label}
                         </option>
                       ))}
