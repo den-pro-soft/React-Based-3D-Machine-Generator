@@ -18,7 +18,6 @@ export default class Payment extends React.Component {
   }
 
   handleRadioChange = event => {
-    // event.persist();
     // event.preventDefault();
 
     this.setState({ value: event.target.value });

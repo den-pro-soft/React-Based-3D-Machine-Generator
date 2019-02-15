@@ -77,28 +77,21 @@ console.log(app.config.lineType, 'Handler-lineType')
     if(event.target.value==="Bend" &&this.state.line===false){
       this.setState({openBendModal:true})
     }
+// console.log(event.target.value,'e.target.value');
+  
+    this.setState({value:event.target.value});
 
-    this.setState({value: event.target.value});
 
     app.config.defaultLineTypes.map((item) => {
-      // console.log(item,item.label, this.state.value,'item-typeLine');
-      if(this.state.value===item.label){
+      if(event.target.value===item.label){
         app.config.lineType = item; 
-      console.log(this.state.value,item, app.config.lineType,'item-config');
+        app.setElementsLineType(item);
+      // console.log(this.state.value,'state.value');
+      // console.log(item, 'item');
+      // console.log(app.config.lineType,'app.config.lineType');
 
       }
     })
-
-    // this.setState({value: event.target.value});
-    // app.config.defaultLineTypes.map((item) => {
-    //   // console.log(item,item.label, this.state.value,'item-typeLine');
-    //   if(this.state.value===item.label){
-    //     app.config.lineType = item; 
-    //   console.log(/*this.state.value,item,*/ app.config.lineType,'item-config');
-
-    //   }
-    // })
-
 
 }
 
@@ -148,9 +141,7 @@ console.log(app.config.lineType, 'Handler-lineType')
 
   getPanelHtml() {
  
-    // const typeLine= [
-    // 'Auto','Bend','Thread & Tap','Comments to Self','Comments to Machinist','LazerMark'
-    // ] 
+    
     return (
       <div className="ToolsPanel">
         <ReactTooltip html={true} className="tooltipBackgroundTheme" />
@@ -169,7 +160,6 @@ console.log(app.config.lineType, 'Handler-lineType')
               </a>
             </button>
             <select
-            id="selectMode"
               className="SelectMode"
               value={this.state.value}
               onChange={this.handleChangeSelect}
@@ -179,12 +169,7 @@ console.log(app.config.lineType, 'Handler-lineType')
                           {typLine.label}
                         </option>
                       ))}
-              {/* <option value="Auto">Auto</option>
-              <option value="Bend">Bend</option>
-              <option value="Tap">Thread&amp;Tap</option>
-              <option value="Self">Comments to Self</option>
-              <option value="Machinist">Comments to Machinist</option>
-              <option value="LazerMark">LazerMark</option> */}
+         
             </select>
 
             {this.state.line === true && (
