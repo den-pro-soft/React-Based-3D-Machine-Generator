@@ -8,11 +8,11 @@ let id=0;
  * Created by dev on 04.01.19.
  */
 export default class Point{
-    constructor(x,y,z){
+    constructor(x=0,y=0,z=0){
         this.id=id++;
-        this.x=x?x:0;
-        this.y=y?y:0;
-        this.z=z?z:0;
+        this.x=x;
+        this.y=y;
+        this.z=z;
     }
 
     compare(point){

@@ -38,8 +38,10 @@ import Text from './model/elements/Text'
 
 import config from './Config';
 
+import FormatNotSupportedException from './file/FormatNotSupportedException';
 import XmlFileLoader from './file/XmlFileLoader';
 import PngFileLoader from './file/PngFileLoader';
+
 import Observable from './Observable';
 
 let idGenerator = 1;
@@ -49,6 +51,7 @@ let idGenerator = 1;
  * the class can generate events like as:
  * 1. selectElement - the event will call for every selected element. The event has data the data is a selected element
  * 2. clearSelectElements - the event will call when clear select elements
+ * 3. openNewFile - the event will call when change or init currentDocument. The event has data the data is a new document
  *
  */
 class Application extends Observable{
@@ -56,7 +59,7 @@ class Application extends Observable{
         super();
 
         /** @param {Document} */
-        this.currentDocument = new Document();
+        this._currentDocument = new Document();
 
         /** @param {CommandHistory} */
         this.commandHistory = new CommandHistory();
@@ -78,12 +81,34 @@ class Application extends Observable{
         this._lastTool=null;
     }
 
+    get currentDocument(){
+        return this._currentDocument;
+    }
+
+    set currentDocument(document){
+        this._currentDocument=document;
+        this.commandHistory = new CommandHistory();
+        this.selectElements=[];
+        console.log(this._currentDocument.getExtrenum(), 'cd');
+        this._changeTool(this._getToolInstance('Pointer'));
+        idGenerator = 1;
+        this.board.document=document;
+        this.board.zoomToFitScreen();
+        this._notifyHandlers('openNewFile', document)
+    }
+
+    /**
+     * @param {Board} board
+     */
     set board(board){
         this._board = board;
         board.setTool(this._getToolInstance('Pointer'));
         board.document=this.currentDocument;
     }
-    
+
+    /**
+     * @return {Board}
+     */
     get board(){
         return this._board;
     }
@@ -269,18 +294,58 @@ class Application extends Observable{
         return tool;
     }
 
+    /**
+     * @param {string} fileFormat
+     * @throws {FormatNotSupportedException}
+     */
     saveAs(fileFormat){
         /** @var {FileLoader} */
+        let fileLoader = this._getFileLoaderInstance(fileFormat);
+        
+        fileLoader.save(this.currentDocument);
+    }
+
+    /**
+     * @param {File} file
+     * @throws {FormatNotSupportedException}
+     */
+    open(file){
+        if (!file) {
+            return;
+        }
+
+        let format  = file.name.split('.');
+        format = format[format.length-1];
+
+        /** @var {FileLoader} */
+        let fileLoader = this._getFileLoaderInstance(format);
+
+        fileLoader.load(file).then(data=>{
+            this.currentDocument=data;
+        }); //todo: check exception
+    }
+
+    /**
+     * @param {string} formatName - without point
+     * @return {FileLoader}
+     * @throws FormatNotSupportedException
+     */
+    _getFileLoaderInstance(formatName){
         let fileLoader;
-        switch (fileFormat){
+        switch (formatName){
             case 'png':
                 fileLoader = new PngFileLoader();
                 break;
-            default:
+            case 'xml':
+            case 'emsx':
                 fileLoader = new XmlFileLoader();
+                break;
+            default:
+            throw new FormatNotSupportedException('The format not supported!', formatName);
         }
-        fileLoader.save(this.currentDocument);
+        return fileLoader;
     }
+
 
     //<editor-fold desc="decorate methods">
 

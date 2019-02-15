@@ -6,6 +6,8 @@
 export default class LineType{
     constructor(){
         this.name='Auto';
+        this.label = "Auto";
+        this.id=14;
     }
     
     copy(){

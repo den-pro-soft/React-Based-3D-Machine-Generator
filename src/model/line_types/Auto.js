@@ -7,7 +7,7 @@ import LineType from './LineType';
 export default class Auto extends LineType{
     constructor(){
         super();
-        
+        this.id=41;
     }
 
     copy(){
