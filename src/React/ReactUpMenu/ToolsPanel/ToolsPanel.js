@@ -27,15 +27,16 @@ export default class ToolsPanel extends React.PureComponent {
       group: false,
       text:false,
 withoutText:true,
-      value:'Auto',
+      value:'',
       openBendModal:false
     };
   }
   // ---------------React Life Cycle-----------------
   componentWillMount() {
-
-    // this.setState({demensions:this.props.demensions})
       app.addHandler("selectElement", element => {
+        console.log(app.config.defaultLineTypes,app.selectElements[0].lineType.label,'default typeLine')
+    this.setState({value: app.selectElements[0].lineType.label})
+
           this.setState({ show: true });
           let text = app.selectElements.every(el => el.typeName === "Text");
           let arc = app.selectElements.every(el => el.typeName === "Arc");
@@ -73,10 +74,10 @@ withoutText:true,
     if(event.target.value==="Bend" &&this.state.line===false){
       this.setState({openBendModal:true})
     }
-    // console.log(event.target.value,'select')
+ 
     this.setState({value: event.target.value});
 
-  }
+}
 
   handleCloseModalBend = () => {
     this.setState(
@@ -123,6 +124,10 @@ withoutText:true,
   }
 
   getPanelHtml() {
+ 
+    // const typeLine= [
+    // 'Auto','Bend','Thread & Tap','Comments to Self','Comments to Machinist','LazerMark'
+    // ] 
     return (
       <div className="ToolsPanel">
         <ReactTooltip html={true} className="tooltipBackgroundTheme" />
@@ -141,16 +146,22 @@ withoutText:true,
               </a>
             </button>
             <select
+            id="selectMode"
               className="SelectMode"
               value={this.state.value}
               onChange={this.handleChangeSelect}
             >
-              <option value="Auto">Auto</option>
+             {app.config.defaultLineTypes.map((typLine, i) => (
+                        <option value={typLine.label} key={i}>
+                          {typLine.label}
+                        </option>
+                      ))}
+              {/* <option value="Auto">Auto</option>
               <option value="Bend">Bend</option>
               <option value="Tap">Thread&amp;Tap</option>
               <option value="Self">Comments to Self</option>
               <option value="Machinist">Comments to Machinist</option>
-              <option value="LazerMark">LazerMark</option>
+              <option value="LazerMark">LazerMark</option> */}
             </select>
 
             {this.state.line === true && (
