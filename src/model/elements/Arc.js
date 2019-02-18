@@ -28,6 +28,19 @@ export default class Arc extends GraphicElement{
         this.typeName = 'Arc';
     }
 
+    /**
+     * @inheritDoc
+     * @return {Array.<Point>|null} - null if the circle
+     */
+    get extremePoints(){
+        if(this.incrementAngle>0) {
+            let polyLinePoints = this.toPolyLines()[0].points;
+            return [polyLinePoints[0], polyLinePoints[polyLinePoints.length - 1]];
+        }else{
+            return null;
+        }
+    }
+    
     set center(point){
         this._center = point;
         // this._points[0]=point;
@@ -75,7 +88,10 @@ export default class Arc extends GraphicElement{
     }
 
     getMagnificationPoints(){
-        //todo: change for arc
+        if(this.incrementAngle!=0){
+            //todo: add center of arc point
+            return [this.center,...this.extremePoints];
+        }
         return [this.center,
             new Point(this._center.x+this.radius, this._center.y),
             new Point(this._center.x, this._center.y+this.radius),
@@ -128,6 +144,9 @@ export default class Arc extends GraphicElement{
         return res;
     }
 
+    /**
+     * @return {Arc}
+     */
     copy(){
         let arc = new Arc(this.center.copy(), this.radius);
         arc.height=this.height;

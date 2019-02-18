@@ -25,6 +25,15 @@ export default class GraphicElement{
         this.typeName= "Element"; //todo: understand  instanceof and remove this shit
     }
 
+    /**
+     * @return {Array.<Point>|null} - the points are end points in a contour.
+     * For example: for {@class Arc} the point is the start point of the arc and the end point of the arc
+     * null - if the element doesn't have extreme any points
+     */
+    get extremePoints(){
+        throw new Exception('The method doesn\'t have implementation.');
+    }
+
     setLineType(lineType){
         this.lineType = lineType;
     }
