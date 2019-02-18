@@ -62,7 +62,7 @@ export default class Job extends React.Component {
       <div className="Job">
         <div
           className="btn-Job"
-          // onClick={this.showDropdownMenu}
+          onClick={this.showDropdownMenu}
           onMouseEnter={this.showDropdownMenu}
           onMouseLeave={this.hideDropdownMenu}
         >

@@ -34,12 +34,9 @@ withoutText:true,
   // ---------------React Life Cycle-----------------
   componentWillMount() {
       app.addHandler("selectElement", element => {
-        console.log(app.config.defaultLineTypes,app.selectElements[0].lineType.label,'default typeLine')
     this.setState({value: app.selectElements[0].lineType.label});
-    // app.config.lineType = app.selectElements[0].lineType.name;
     app.config.lineType = app.selectElements[0].lineType;
 
-console.log(app.config.lineType, 'Handler-lineType')
           this.setState({ show: true });
           let text = app.selectElements.every(el => el.typeName === "Text");
           let arc = app.selectElements.every(el => el.typeName === "Arc");
