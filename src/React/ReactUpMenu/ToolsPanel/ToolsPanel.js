@@ -1,6 +1,11 @@
 import React from "react";
 import "./tools-panel.scss";
 import ReactTooltip from "react-tooltip";
+
+import MachineWindow from "./MachineWindow";
+import Machine from "./Machine/Machine"
+
+
 import GroupType from "./GroupType";
 import LineType from "./LineType";
 import ArcType from "./ArcType";
@@ -28,7 +33,8 @@ export default class ToolsPanel extends React.PureComponent {
       text:false,
 withoutText:true,
       value:'',
-      openBendModal:false
+      openBendModal:false,
+      openTapModal:false
     };
   }
   // ---------------React Life Cycle-----------------
@@ -70,6 +76,39 @@ withoutText:true,
     });
   
   }
+  // ----------------------OpenTapModalWindow--------------------------
+  clickOpenTapModal = event => {
+    event.preventDefault();
+    this.setState({
+        openTapModal: true
+    //     prevState => ({ openTapModal:!prevState.openTapModal }),
+    //   () => {
+    //     console.log(this.state.openTapModal, "1-openTapModal");
+
+    //     this.setState({ openTapModal: !this.state.openTapModal });
+    // // });
+
+  });
+  console.log(this.state.openTapModal, "2-openTapModal");
+
+};
+closeTapModal = () => {
+  this.setState({
+    openTapModal: false})
+  // this.props.openTapModal = !this.props.openTapModal;
+  // this.setState(
+  //   prevState => ({ openTapModal: prevState.openTapModal }),
+  //   () => {
+  //     this.setState({ openTapModal: !this.state.openTapModal });
+  //   }
+  // );
+};
+openTapHelp = () => {
+  window.open(
+    "https://www.emachineshop.com/help-line-types/#tap-and-thread"
+  );
+};
+  // ---------------------------handleChangeSelect type Line-------------------------------------------
   handleChangeSelect =(event)=> {
     if(event.target.value==="Bend" &&this.state.line===false){
       this.setState({openBendModal:true})
@@ -112,6 +151,8 @@ withoutText:true,
   };
 
   render() {
+  console.log(this.state.openTapModal, "render-openTapModal");
+
     if (this.state.show) {
       return this.getPanelHtml();
     } else {
@@ -138,15 +179,17 @@ withoutText:true,
 
   getPanelHtml() {
  
+  console.log(this.state.openTapModal, "render-openTapModal");
     
     return (
       <div className="ToolsPanel">
         <ReactTooltip html={true} className="tooltipBackgroundTheme" />
         <form>
           <div className="Left-Tools">
-            <button className="btn-LineType">
+            <button className="btn-LineType" onClick={this.clickOpenTapModal}>
               <a href="#">
                 <img
+                onClick={this.clickOpenTapModal}
                   width="18px"
                   src="images/LineType.png"
                   data-place="bottom"
@@ -219,13 +262,73 @@ withoutText:true,
                   data-place="bottom"
                   data-tip="<span>Shows how to use numeric values.</span>"
                 />
-              </a>
+                </a>
             </button>
           </div>
           <div className="Right-Tools">
             <MoveButtons />
           </div>
         </form>
+        {/* <MachineWindow openTapModal={this.state.openTapModal} /> */}
+         <Dialog
+        // onClick={this.clickOpenTapModal}
+        maxWidth={false}
+        open={this.state.openTapModal}
+        // onClose={this.handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle
+          style={{ color: "black", textAlign: "left" }}
+          id="alert-dialog-title"
+        >
+          <img
+            width="25px"
+            src="images/icon.jpg"
+            // data-tip="<span>Shows how to use numeric values.</span>"
+          />
+          <span>Machine</span>
+        </DialogTitle>
+
+        <DialogContent
+          style={{
+            width: "950px",
+            height: "425px",
+            backgroundColor: "#f0ecec"
+          }}
+        >
+        <Machine/>
+         {/* <h2>Thead& Tap</h2> */}
+        </DialogContent>
+
+        <DialogActions>
+          <Button
+            onClick={this.closeTapModal}
+            style={{ backgroundColor: "#f0ecec" }}
+            color="primary"
+            autoFocus
+          >
+            OK
+          </Button>
+          <Button
+            onClick={this.closeTapModal}
+            style={{ backgroundColor: "#f0ecec" }}
+            color="primary"
+            autoFocus
+          >
+            Cancel
+          </Button>
+          <Button
+            onClick={this.openTapHelp}
+            style={{ backgroundColor: "#f0ecec" }}
+            color="primary"
+            autoFocus
+          >
+            Help
+          </Button>
+        </DialogActions>
+      </Dialog> 
+      {/* --------------------------Information-------------------- */}
         <Dialog
           maxWidth={false}
           open={this.state.openBendModal}

@@ -10,12 +10,13 @@
     }
   }
 }
-@media not screen and (max-width: 768px) {
-
+@media not screen 
+  and (min-width: 1024px)
+  {
   .BottomPanel {
     // .MouseCoordinates {
-        display: none!important;
-    //   visibility: hidden;
+        // display: none!important;
+      visibility: hidden;
     // }
   }
 }

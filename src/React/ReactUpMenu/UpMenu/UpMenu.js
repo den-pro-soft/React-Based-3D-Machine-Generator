@@ -123,11 +123,6 @@ export default class UpMenu extends React.Component {
                   <img width="24px" src="images/ToggleInch.png" />
                 </a>
               </button>
-              <button>
-                <a href="#">
-                  <img width="24px" src="images/LineType.png" />
-                </a>
-              </button>
               <button onClick={() => app.intersectSelectedElements()}>
                 <a href="#">
                   <img width="24px" src="images/Intersect.png" />

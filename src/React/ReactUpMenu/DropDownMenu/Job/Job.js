@@ -91,7 +91,7 @@ export default class Job extends React.Component {
           ) : null}
         </div>
         <Dialog
-          onClick={this.clickSubModal}
+          // onClick={this.clickSubModal}
           maxWidth={false}
           open={this.state.openSubModal}
           onClose={this.handleClose}

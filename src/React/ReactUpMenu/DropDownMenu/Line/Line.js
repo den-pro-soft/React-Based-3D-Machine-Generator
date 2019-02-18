@@ -174,9 +174,7 @@ export default class Line extends React.Component {
         <Dialog
           maxWidth={false}
           open={this.state.openCornerModal}
-        //   style={{
-        //     backgroundColor: "#f0ecec"
-        // }}
+      
           aria-labelledby="alert-dialog-title"
           aria-describedby="alert-dialog-description"
         >
