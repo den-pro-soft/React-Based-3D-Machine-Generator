@@ -7,16 +7,16 @@ import LazerMark from "./LazerMark";
 import CommentsToSelf from "./CommentsToSelf";
 import CommentsToMachinist from "./CommentsToMachinist";
 
-import { withRouter } from "react-router-dom";
+// import { withRouter } from "react-router-dom";
 import {
-//   BrowserRouter as Router,
+  HashRouter as Router,
   Route,
   Redirect,
   Switch,
   Link,
   NavLink
 } from "react-router-dom";
-const Machine = (conrext,props) => {
+const Machine = (context,props) => {
   return (
     <div
       className="Machine"
@@ -28,7 +28,7 @@ const Machine = (conrext,props) => {
               className="Auto"
               exact
               activeStyle={{ color: "blue" }}
-              to="/"
+              to="/auto"
             >
               Auto
             </NavLink>
@@ -36,8 +36,9 @@ const Machine = (conrext,props) => {
           <li>
             <NavLink
               className="Tap"
+              exact
               activeStyle={{ color: "blue" }}
-              to="/tap"
+              to="/auto/tap"
             >
               Thead&Tap
             </NavLink>
@@ -69,7 +70,7 @@ const Machine = (conrext,props) => {
               Comments to Self
             </NavLink>
           </li>
-          {/* <li>
+          <li>
             <NavLink
               className="ToMachinist"
               activeStyle={{ color: "blue" }}
@@ -77,17 +78,19 @@ const Machine = (conrext,props) => {
             >
               Comments to Machinist
             </NavLink>
-          </li> */}
+          </li>
         </ul>
       </div>
       <div className="Content">
       <Switch>
-          <Route path="/" exact render={() => <Auto />} />
-          <Route path="/tap" component={Tap} />
+          {/* <Route path="/" exact render={() => <Auto />} /> */}
+          <Route path="/auto" exact component={Auto} />
+
+          <Route path="/auto/tap" component={Tap} />
           <Route path="/bend" component={Bend} />
           <Route path="/lazer-mark" component={LazerMark} />
           <Route path="/to-self" component={CommentsToSelf} />
-          {/* <Route path="/to-machinist" component={CommentsToMachinist} /> */}
+          <Route path="/to-machinist" component={CommentsToMachinist} />
         </Switch>
 
       </div>
@@ -95,4 +98,6 @@ const Machine = (conrext,props) => {
   );
 };
 
-export default withRouter(Machine);
+export default Machine;
+// export default withRouter(Machine);
+

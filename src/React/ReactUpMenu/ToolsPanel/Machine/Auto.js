@@ -2,7 +2,7 @@ import React from "react";
 // import "./new.scss";
 import { withRouter } from "react-router-dom";
 
-export default class Adress extends React.Component {
+export default class Auto extends React.Component {
     constructor(props) {
       super(props);}
 
@@ -10,7 +10,7 @@ export default class Adress extends React.Component {
         return (
             <div
               className="Auto"
-          >Auto</div>)}  
+          ><h2 style={{color:"green"}}>Auto</h2></div>)}  
       }
 // const Auto =  props => {
 //   return (

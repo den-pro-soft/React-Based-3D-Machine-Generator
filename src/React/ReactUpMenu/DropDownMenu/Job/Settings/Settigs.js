@@ -6,7 +6,7 @@ import OrderOptions from "./OrderOptions";
 import Summary from "./Summary";
 import { withRouter } from "react-router-dom";
 import {
-  BrowserRouter as Router,
+  // BrowserRouter as Router,
   Route,
   Redirect,
   Switch,

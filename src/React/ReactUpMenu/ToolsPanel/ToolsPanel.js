@@ -4,7 +4,7 @@ import ReactTooltip from "react-tooltip";
 
 import MachineWindow from "./MachineWindow";
 import Machine from "./Machine/Machine"
-
+// import Settigs from "../DropDownMenu/Job/Settings/Settigs"
 
 import GroupType from "./GroupType";
 import LineType from "./LineType";
@@ -33,7 +33,7 @@ import {connect} from 'react-redux';
       circle: false,
       group: false,
       text:false,
-withoutText:true,
+      withoutText:true,
       value:'',
       openBendModal:false,
       openTapModal:false
@@ -83,27 +83,13 @@ withoutText:true,
     event.preventDefault();
     this.setState({
         openTapModal: true
-    //     prevState => ({ openTapModal:!prevState.openTapModal }),
-    //   () => {
-    //     console.log(this.state.openTapModal, "1-openTapModal");
-
-    //     this.setState({ openTapModal: !this.state.openTapModal });
-    // // });
-
   });
-  console.log(this.state.openTapModal, "2-openTapModal");
+  // console.log(this.state.openTapModal, "2-openTapModal");
 
 };
 closeTapModal = () => {
   this.setState({
     openTapModal: false})
-  // this.props.openTapModal = !this.props.openTapModal;
-  // this.setState(
-  //   prevState => ({ openTapModal: prevState.openTapModal }),
-  //   () => {
-  //     this.setState({ openTapModal: !this.state.openTapModal });
-  //   }
-  // );
 };
 openTapHelp = () => {
   window.open(
@@ -115,19 +101,11 @@ openTapHelp = () => {
     if(event.target.value==="Bend" &&this.state.line===false){
       this.setState({openBendModal:true})
     }
-// console.log(event.target.value,'e.target.value');
-  
     this.setState({value:event.target.value});
-
-
     app.config.defaultLineTypes.map((item) => {
       if(event.target.value===item.label){
         app.config.lineType = item; 
         app.setElementsLineType(item);
-      // console.log(this.state.value,'state.value');
-      // console.log(item, 'item');
-      // console.log(app.config.lineType,'app.config.lineType');
-
       }
     })
 
@@ -153,7 +131,7 @@ openTapHelp = () => {
   };
 
   render() {
-  console.log(this.state.openTapModal, "render-openTapModal");
+  // console.log(this.state.openTapModal, "render-openTapModal");
 
     if (this.state.show) {
       return this.getPanelHtml();
@@ -181,7 +159,7 @@ openTapHelp = () => {
 
   getPanelHtml() {
  
-  console.log(this.state.openTapModal, "render-openTapModal");
+  // console.log(this.state.openTapModal, "render-openTapModal");
     
     return (
       <div className="ToolsPanel">
@@ -301,6 +279,7 @@ openTapHelp = () => {
             backgroundColor: "#f0ecec"
           }}
         >
+        {/* <Settigs/> */}
         <Machine/>
         </DialogContent>
 

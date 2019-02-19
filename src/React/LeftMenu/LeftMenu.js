@@ -10,6 +10,7 @@ export default class LeftMenu extends React.Component {
       bgColorSnapToLines: "#fff"
 
     };
+   
   }
   componentWillMount(){
     const Snap = localStorage.getItem('bgColorSnapToLines');
@@ -19,16 +20,29 @@ export default class LeftMenu extends React.Component {
       this.setState({bgColorSnapToLines:Snap})
 
     }
+      app.addHandler("selectElement", element => {
+         if(this.state.bgColorSnapToLines === "#fff"){
+      app.magnificationMode = true
+    } else {
+      app.magnificationMode = false
+    }
+
+      })
+  
   }
  
   handleClickSnapToLines = () => {
-    app.magnificationMode = this.state.bgColorSnapToLines === "#f0f0f0d9";
-
+  
     this.setState({
       bgColorSnapToLines:
         this.state.bgColorSnapToLines === "#fff" ? "#f0f0f0d9" : "#fff"
     }, () => {
       localStorage.setItem('bgColorSnapToLines', this.state.bgColorSnapToLines);
+      if(this.state.bgColorSnapToLines === "#fff"){
+        app.magnificationMode = true
+      } else {
+        app.magnificationMode = false
+      }
     });
 
   };
