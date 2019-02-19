@@ -25,12 +25,12 @@ class TextType extends React.Component {
 
         if (element.typeName === "Text") {
          let textSize = app.selectElements[0].fontSize
-          if(this.props.demensions==='Inches'){
-          this.setState({ textSize: textSize + ' "' });
+          if(this.props.demensions==='Millimeters'){
+          this.setState({ textSize: textSize + ' mm' });
           console.log(this.state.textSize,'value-inch');
           console.log(element,'elementText');
           } else {
-          this.setState({ textSize: (textSize*25.4).toFixed(3) + ' mm'});
+          this.setState({ textSize: (textSize/25.4).toFixed(3) + ' "'});
           }
         }
     });
@@ -47,15 +47,15 @@ class TextType extends React.Component {
     let textSize = e.target.value;
   
       if(e.charCode === 13) {
-        if(this.props.demensions==='Inches'){
+        if(this.props.demensions==='Millimeters'){
           this.setState({
-            textSize: textSize.replace(/[^0-9.]/g, "")  + ' "'
+            textSize: textSize.replace(/[^0-9.]/g, "")  + ' mm'
           });
     app.setFontSizeForSelectedElement(textSize.replace(/[^0-9.]/g, ""));
 
         } else {
           this.setState({
-            textSize: textSize.replace(/[^0-9.]/g, "")  + ' mm'
+            textSize: textSize.replace(/[^0-9.]/g, "")  + ' "'
           });
     app.setFontSizeForSelectedElement(textSize.replace(/[^0-9.]/g, ""));
 

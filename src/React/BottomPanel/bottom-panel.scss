@@ -1,12 +1,23 @@
-.BottomPanel{
-    height:30px;
-    display:flex;
-    justify-content: space-between;
-    .MouseCoordinates{
-        margin-right:10px;
-        padding:5px;
-        .MouseX{
-            margin-right:5px;
-        }
+.BottomPanel {
+  height: 30px;
+  display: flex;
+  justify-content: space-between;
+  .MouseCoordinates {
+    margin-right: 10px;
+    padding: 5px;
+    .MouseX {
+      margin-right: 5px;
     }
+  }
+}
+@media not screen  and (min-width: 1024px){
+  .BottomPanel {
+    display: none!important;
+
+    .MouseCoordinates {
+        display: none!important;
+      // visibility: hidden;
+    }
+  }
+ 
 }

@@ -1,6 +1,11 @@
 import React from "react";
 import "./tools-panel.scss";
 import ReactTooltip from "react-tooltip";
+
+import MachineWindow from "./MachineWindow";
+import Machine from "./Machine/Machine"
+// import Settigs from "../DropDownMenu/Job/Settings/Settigs"
+
 import GroupType from "./GroupType";
 import LineType from "./LineType";
 import ArcType from "./ArcType";
@@ -15,7 +20,9 @@ import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
-export default class ToolsPanel extends React.PureComponent {
+import {connect} from 'react-redux';
+
+ export default class ToolsPanel extends React.PureComponent {
 
   constructor(props) {
     super(props);
@@ -26,16 +33,18 @@ export default class ToolsPanel extends React.PureComponent {
       circle: false,
       group: false,
       text:false,
-withoutText:true,
-      value:'Auto',
-      openBendModal:false
+      withoutText:true,
+      value:'',
+      openBendModal:false,
+      openTapModal:false
     };
   }
   // ---------------React Life Cycle-----------------
   componentWillMount() {
-
-    // this.setState({demensions:this.props.demensions})
       app.addHandler("selectElement", element => {
+    this.setState({value: app.selectElements[0].lineType.label});
+    app.config.lineType = app.selectElements[0].lineType;
+
           this.setState({ show: true });
           let text = app.selectElements.every(el => el.typeName === "Text");
           let arc = app.selectElements.every(el => el.typeName === "Arc");
@@ -69,14 +78,38 @@ withoutText:true,
     });
   
   }
+  // ----------------------OpenTapModalWindow--------------------------
+  clickOpenTapModal = event => {
+    event.preventDefault();
+    this.setState({
+        openTapModal: true
+  });
+  // console.log(this.state.openTapModal, "2-openTapModal");
+
+};
+closeTapModal = () => {
+  this.setState({
+    openTapModal: false})
+};
+openTapHelp = () => {
+  window.open(
+    "https://www.emachineshop.com/help-line-types/#tap-and-thread"
+  );
+};
+  // ---------------------------handleChangeSelect type Line-------------------------------------------
   handleChangeSelect =(event)=> {
     if(event.target.value==="Bend" &&this.state.line===false){
       this.setState({openBendModal:true})
     }
-    // console.log(event.target.value,'select')
-    this.setState({value: event.target.value});
+    this.setState({value:event.target.value});
+    app.config.defaultLineTypes.map((item) => {
+      if(event.target.value===item.label){
+        app.config.lineType = item; 
+        app.setElementsLineType(item);
+      }
+    })
 
-  }
+}
 
   handleCloseModalBend = () => {
     this.setState(
@@ -98,6 +131,8 @@ withoutText:true,
   };
 
   render() {
+  // console.log(this.state.openTapModal, "render-openTapModal");
+
     if (this.state.show) {
       return this.getPanelHtml();
     } else {
@@ -123,14 +158,20 @@ withoutText:true,
   }
 
   getPanelHtml() {
+ 
+  // console.log(this.state.openTapModal, "render-openTapModal");
+    
     return (
       <div className="ToolsPanel">
         <ReactTooltip html={true} className="tooltipBackgroundTheme" />
         <form>
           <div className="Left-Tools">
-            <button className="btn-LineType">
+            {/* <button className="btn-LineType" onClick={()=>this.props.updateOpenTapModal(!this.state.openTapModal)}> */}
+            <button className="btn-LineType" onClick={this.clickOpenTapModal}>
+
               <a href="#">
                 <img
+                onClick={this.clickOpenTapModal}
                   width="18px"
                   src="images/LineType.png"
                   data-place="bottom"
@@ -145,12 +186,12 @@ withoutText:true,
               value={this.state.value}
               onChange={this.handleChangeSelect}
             >
-              <option value="Auto">Auto</option>
-              <option value="Bend">Bend</option>
-              <option value="Tap">Thread&amp;Tap</option>
-              <option value="Self">Comments to Self</option>
-              <option value="Machinist">Comments to Machinist</option>
-              <option value="LazerMark">LazerMark</option>
+             {app.config.defaultLineTypes.map((typLine, i) => (
+                        <option value={typLine.label} key={i} >
+                          {typLine.label}
+                        </option>
+                      ))}
+         
             </select>
 
             {this.state.line === true && (
@@ -203,13 +244,73 @@ withoutText:true,
                   data-place="bottom"
                   data-tip="<span>Shows how to use numeric values.</span>"
                 />
-              </a>
+                </a>
             </button>
           </div>
           <div className="Right-Tools">
             <MoveButtons />
           </div>
         </form>
+        {/* <MachineWindow /> */}
+         <Dialog
+        // onClick={this.clickOpenTapModal}
+        maxWidth={false}
+        open={this.state.openTapModal}
+        // onClose={this.handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle
+          style={{ color: "black", textAlign: "left" }}
+          id="alert-dialog-title"
+        >
+          <img
+            width="25px"
+            src="images/icon.jpg"
+            // data-tip="<span>Shows how to use numeric values.</span>"
+          />
+          <span>Machine</span>
+        </DialogTitle>
+
+        <DialogContent
+          style={{
+            width: "950px",
+            height: "425px",
+            backgroundColor: "#f0ecec"
+          }}
+        >
+        {/* <Settigs/> */}
+        <Machine/>
+        </DialogContent>
+
+        <DialogActions>
+          <Button
+            onClick={this.closeTapModal}
+            style={{ backgroundColor: "#f0ecec" }}
+            color="primary"
+            autoFocus
+          >
+            OK
+          </Button>
+          <Button
+            onClick={this.closeTapModal}
+            style={{ backgroundColor: "#f0ecec" }}
+            color="primary"
+            autoFocus
+          >
+            Cancel
+          </Button>
+          <Button
+            onClick={this.openTapHelp}
+            style={{ backgroundColor: "#f0ecec" }}
+            color="primary"
+            autoFocus
+          >
+            Help
+          </Button>
+        </DialogActions>
+      </Dialog> 
+      {/* --------------------------Information-------------------- */}
         <Dialog
           maxWidth={false}
           open={this.state.openBendModal}
@@ -278,3 +379,11 @@ withoutText:true,
     );
   }
 }
+// const mapDispatchToProps = dispatch => {
+//   return {
+//     updateOpenTapModal: openTapModal => {
+//       dispatch({ type: "OPEN_TAP_MODAL", payload: openTapModal });
+//     }
+//   };
+// };
+// export default connect(null,mapDispatchToProps)(ToolsPanel);

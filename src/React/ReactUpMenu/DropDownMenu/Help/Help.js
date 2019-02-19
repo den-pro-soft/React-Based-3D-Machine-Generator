@@ -116,7 +116,7 @@ handleCloseModalSuggestion = () => {
       <div className="Help">
         <div
           className="btn-Help"
-          // onClick={this.showDropdownMenu}
+          onClick={this.showDropdownMenu}
           onMouseEnter={this.showDropdownMenu}
           onMouseLeave={this.hideDropdownMenu}
         >

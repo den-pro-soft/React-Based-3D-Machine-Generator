@@ -17,11 +17,11 @@ class LineType extends React.Component {
       if(app.selectElements.length==1){
         if (element.typeName === "Line") {
          let lengthLine = element.length()
-          if(this.props.demensions==='Inches'){
-          this.setState({ value: lengthLine.toFixed(3) + ' "' });
+          if(this.props.demensions==='Millimeters'){
+          this.setState({ value: lengthLine.toFixed(3) + ' mm' });
 
           } else {
-          this.setState({ value: (lengthLine*25.4).toFixed(3) + ' mm'});
+          this.setState({ value: (lengthLine/25.4).toFixed(3) + ' "'});
 
 
           }
@@ -33,17 +33,17 @@ class LineType extends React.Component {
   handleChangeInputLength = event => {
 // console.log(event.target.value,'handleChangeInputLength ')
 let length = event.target.value;
-this.setState({
-  value: length
-});
+
+this.setState({value: length});
+
   if (event.charCode === 13) {
-    if (this.props.demensions === 'Inches') {
+    if (this.props.demensions === 'Millimeters') {
       this.setState({
-        value: length.replace(/[^0-9.]/g, "") + ' "'
+        value: length.replace(/[^0-9.]/g, "") + ' mm'
       });
     } else {
       this.setState({
-        value: length.replace(/[^0-9.]/g, "") + ' mm'
+        value: length.replace(/[^0-9.]/g, "") + ' "'
       });
     }
 

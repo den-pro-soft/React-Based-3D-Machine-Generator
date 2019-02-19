@@ -7,7 +7,6 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 // import classNames from 'classnames';
-// import { withStyles } from '@material-ui/core/styles';
 export default class Job extends React.Component {
   constructor(props, context) {
     super(props, context);
@@ -62,7 +61,7 @@ export default class Job extends React.Component {
       <div className="Job">
         <div
           className="btn-Job"
-          // onClick={this.showDropdownMenu}
+          onClick={this.showDropdownMenu}
           onMouseEnter={this.showDropdownMenu}
           onMouseLeave={this.hideDropdownMenu}
         >
@@ -91,7 +90,7 @@ export default class Job extends React.Component {
           ) : null}
         </div>
         <Dialog
-          onClick={this.clickSubModal}
+          // onClick={this.clickSubModal}
           maxWidth={false}
           open={this.state.openSubModal}
           onClose={this.handleClose}
