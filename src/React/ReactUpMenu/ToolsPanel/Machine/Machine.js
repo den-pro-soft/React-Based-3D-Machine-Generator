@@ -5,22 +5,21 @@ import Tap from "./Tap";
 import Bend from "./Bend";
 import LazerMark from "./LazerMark";
 import CommentsToSelf from "./CommentsToSelf";
-
 import CommentsToMachinist from "./CommentsToMachinist";
 
 import { withRouter } from "react-router-dom";
 import {
-  BrowserRouter as Router,
+//   BrowserRouter as Router,
   Route,
   Redirect,
   Switch,
   Link,
   NavLink
 } from "react-router-dom";
-const Machine = (props) => {
+const Machine = (conrext,props) => {
   return (
     <div
-      className="Settings"
+      className="Machine"
     >
       <div className="Menu">
         <ul>
@@ -63,22 +62,22 @@ const Machine = (props) => {
           </li>
           <li>
             <NavLink
-              className="LazerMark"
+              className="ToSelf"
               activeStyle={{ color: "blue" }}
               to="/to-self"
             >
               Comments to Self
             </NavLink>
           </li>
-          <li>
+          {/* <li>
             <NavLink
-              className="LazerMark"
+              className="ToMachinist"
               activeStyle={{ color: "blue" }}
               to="/to-machinist"
             >
               Comments to Machinist
             </NavLink>
-          </li>
+          </li> */}
         </ul>
       </div>
       <div className="Content">
@@ -88,7 +87,7 @@ const Machine = (props) => {
           <Route path="/bend" component={Bend} />
           <Route path="/lazer-mark" component={LazerMark} />
           <Route path="/to-self" component={CommentsToSelf} />
-          <Route path="/to-machinist" component={CommentsToMachinist} />
+          {/* <Route path="/to-machinist" component={CommentsToMachinist} /> */}
         </Switch>
 
       </div>

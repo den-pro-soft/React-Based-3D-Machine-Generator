@@ -5,42 +5,63 @@ import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
+import {connect} from 'react-redux';
 
-export default class Job extends React.Component {
+class MachineWindow extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      openTapModal: false
+      openTapModal: this.props.openTapModal
     };
-    console.log(this.props.openTapModal,'props Machine')
+    console.log(this.props.openTapModal,this.state.openTapModal,'props Machine')
   }
-componentWillMount(){
-    this.setState({openTapModal:this.props.openTapModal});
+// componentUpdateMount(){
+//   console.log(this.props.openTapModal,'1-props-WillComp-2 Machine')
 
-}
+//     this.setState({openTapModal:!this.props.openTapModal});
+//     console.log(this.state.openTapModal,'1-state-WillComp-2 Machine')
+
+// }
 
   // --------------methods for SubModal Window-------------------------------------
-//   clickOpenTapModal = event => {
-//     event.preventDefault();
-//     this.setState({
-//         openTapModal: true
-//       //   prevState => ({ open: !prevState.open }),
-//       // () => {
-//       //   this.setState({ open: this.state.open });
-//       //   console.log(this.state.open, "clickOpen-72");
-//     });
-//   };
+  // clickOpenTapModal = event => {
+  //   event.preventDefault();
+  //   this.setState({
+  //       openTapModal: true
+  //     //   prevState => ({ open: !prevState.open }),
+  //     // () => {
+  //     //   this.setState({ open: this.state.open });
+  //     //   console.log(this.state.open, "clickOpen-72");
+  //   });
+  // };
 
   closeTapModal = () => {
-   this.setState({openTapModal:!this.props.openTapModal});
-    console.log(this.props.openTapModal,'this.props.openTapModal')
+    // return !this.props.openTapModal
+  //  this.setState({openTapModal:!this.props.openTapModal});
+    console.log(this.props.openTapModal,this.state.openTapModal,'1-.props-state.closeTapModal')
     // this.setState(
-    //   prevState => ({ openTapModal: prevState.openTapModal }),
+    //   prevState => ({ openTapModal: !prevState.openTapModal }),
     //   () => {
-    //     this.setState({ openTapModal: !this.state.openTapModal });
+    //     this.setState({ openTapModal: this.state.openTapModal });
     //   }
     // );
+   this.setState({openTapModal:!this.props.openTapModal});
+
+  console.log(this.props.openTapModal,this.state.openTapModal,'2-props-state.closeTapModal')
+
   };
+  // shouldComponentUpdate(nextProps, nextState) {
+  //   if (nextProps.openTapModal === this.props.openTapModal) {
+  //     return false;
+  //   }
+  //   return true;
+  // }
+
+  // componentDidUpdate(prevProps, prevState) {
+  //   if (this.props.openTapModal !== prevProps.openTapModal) {
+  //     this.setState({ openTapModal: !this.props.openTapModal });
+  //   }
+  // }
 
   // -------------------------------------openLinkHelp---------------------------------------
   openTapHelp = () => {
@@ -49,11 +70,15 @@ componentWillMount(){
     );
   };
   render(){
+    console.log(this.props.openTapModal,'3-this.props.closeTapModal')
+
       return(
         <Dialog
         // onClick={this.clickSubModal}
         maxWidth={false}
-        open={this.state.openTapModal}
+        open={this.props.openTapModal}
+        // open={this.state.openTapModal}
+
         // onClose={this.handleClose}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
@@ -110,3 +135,9 @@ componentWillMount(){
       )
   }
 }
+const mapStateToProps = (state)=>{
+  return {
+    openTapModal: state.openTapModal
+  }
+     }
+  export default connect(mapStateToProps)(MachineWindow)

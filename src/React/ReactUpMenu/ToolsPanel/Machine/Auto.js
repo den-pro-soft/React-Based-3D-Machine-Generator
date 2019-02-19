@@ -2,10 +2,20 @@ import React from "react";
 // import "./new.scss";
 import { withRouter } from "react-router-dom";
 
-const Auto =  props => {
-  return (
-    <div
-      className="Auto"
-  >Auto</div>)}
+export default class Adress extends React.Component {
+    constructor(props) {
+      super(props);}
 
-  export default withRouter(Auto);
+      render(){
+        return (
+            <div
+              className="Auto"
+          >Auto</div>)}  
+      }
+// const Auto =  props => {
+//   return (
+//     <div
+//       className="Auto"
+//   >Auto</div>)}
+
+//   export default withRouter(Auto);

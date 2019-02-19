@@ -20,7 +20,9 @@ import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
-export default class ToolsPanel extends React.PureComponent {
+import {connect} from 'react-redux';
+
+ export default class ToolsPanel extends React.PureComponent {
 
   constructor(props) {
     super(props);
@@ -186,7 +188,9 @@ openTapHelp = () => {
         <ReactTooltip html={true} className="tooltipBackgroundTheme" />
         <form>
           <div className="Left-Tools">
+            {/* <button className="btn-LineType" onClick={()=>this.props.updateOpenTapModal(!this.state.openTapModal)}> */}
             <button className="btn-LineType" onClick={this.clickOpenTapModal}>
+
               <a href="#">
                 <img
                 onClick={this.clickOpenTapModal}
@@ -269,7 +273,7 @@ openTapHelp = () => {
             <MoveButtons />
           </div>
         </form>
-        {/* <MachineWindow openTapModal={this.state.openTapModal} /> */}
+        {/* <MachineWindow /> */}
          <Dialog
         // onClick={this.clickOpenTapModal}
         maxWidth={false}
@@ -298,7 +302,6 @@ openTapHelp = () => {
           }}
         >
         <Machine/>
-         {/* <h2>Thead& Tap</h2> */}
         </DialogContent>
 
         <DialogActions>
@@ -397,3 +400,11 @@ openTapHelp = () => {
     );
   }
 }
+// const mapDispatchToProps = dispatch => {
+//   return {
+//     updateOpenTapModal: openTapModal => {
+//       dispatch({ type: "OPEN_TAP_MODAL", payload: openTapModal });
+//     }
+//   };
+// };
+// export default connect(null,mapDispatchToProps)(ToolsPanel);

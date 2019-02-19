@@ -1,5 +1,6 @@
 const initialState = {
-  demensions: "Millimeters"
+  demensions: "Millimeters",
+  openTapModal:false
 };
 
 export default function rootReduser(state = initialState, action) {
@@ -8,6 +9,9 @@ export default function rootReduser(state = initialState, action) {
     return {
       demensions: action.payload
     };
+  }
+  if(action.type==="OPEN_TAP_MODAL"){
+    return{openTapModal:action.openTapModal}
   }
   return state;
 }

@@ -1,4 +1,4 @@
-.Settings{
+.Machine{
     padding:20px;
     display:flex;
     justify-content: flex-start;
@@ -10,7 +10,7 @@
             padding: 0; 
             color:orange;
             li{
-                .Auto, .Tap, .Bend,.LazerMark,.CommentsToSelf,.CommentsToMachinist{
+                .Auto, .Tap, .Bend,.LazerMark,.ToSelf,.ToMachinist{
                     font-size: 20px;
                     text-decoration: none;
                     color:#000;

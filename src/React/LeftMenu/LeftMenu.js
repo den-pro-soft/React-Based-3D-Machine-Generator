@@ -7,17 +7,31 @@ export default class LeftMenu extends React.Component {
     super(props);
     this.state = {
       background: "transparent",
-      bgColorSnapToLines: "#f0f0f0d9"
+      bgColorSnapToLines: "#fff"
+
     };
   }
+  componentWillMount(){
+    const Snap = localStorage.getItem('bgColorSnapToLines');
+    if(Snap===null){
+    this.setState({bgColorSnapToLines:this.state.bgColorSnapToLines})
+    } else{
+      this.setState({bgColorSnapToLines:Snap})
+
+    }
+  }
+ 
   handleClickSnapToLines = () => {
     app.magnificationMode = this.state.bgColorSnapToLines === "#f0f0f0d9";
+
     this.setState({
       bgColorSnapToLines:
-        this.state.bgColorSnapToLines === "#f0f0f0d9" ? "#fff" : "#f0f0f0d9"
+        this.state.bgColorSnapToLines === "#fff" ? "#f0f0f0d9" : "#fff"
+    }, () => {
+      localStorage.setItem('bgColorSnapToLines', this.state.bgColorSnapToLines);
     });
-  };
 
+  };
   render() {
     return (
       <div className="LeftMenu">
@@ -41,7 +55,6 @@ export default class LeftMenu extends React.Component {
           <a href="#">
             <img
               onClick={() => {
-                // console.log("Line");
                 app.setTool("Line");
               }}
               width="25px"
@@ -54,7 +67,6 @@ export default class LeftMenu extends React.Component {
           <a href="#">
             <img
               onClick={() => {
-                // console.log("Spline");
                 app.setTool("Spline");
               }}
               width="25px"
@@ -67,7 +79,6 @@ export default class LeftMenu extends React.Component {
           <a href="#">
             <img
               onClick={() => {
-                // console.log("Rectangle");
                 app.setTool("Rectangle");
               }}
               width="25px"
@@ -80,7 +91,6 @@ export default class LeftMenu extends React.Component {
           <a href="#">
             <img
               onClick={() => {
-                // console.log("Circle");
                 app.setTool("Circle");
               }}
               width="25px"
@@ -152,9 +162,7 @@ export default class LeftMenu extends React.Component {
         <button
           onClick={this.handleClickSnapToLines}
           style={{
-            backgroundColor: this.state.bgColorSnapToLines
-          }} /*onClick={() => app.board.setTool("Pointer")}*/
-        >
+            backgroundColor: this.state.bgColorSnapToLines }}>
           <a href="#">
             <img
               width="25px"
