@@ -49,7 +49,7 @@ export default class Spline extends GraphicElement{
     }
 
     /**
-     * @return {PolyLine}
+     * @inheritDoc
      */
     toPolyLines(){
         let res = new PolyLine();
@@ -80,7 +80,7 @@ export default class Spline extends GraphicElement{
 
 
     /**
-     * @returns {{max:{x:number, y:number}, min:{x:number, y:number}}}
+     * @inheritDoc
      */
     getExtrenum(){
         return Point.getExtrenum(this.toPolyLines()[0].points);
@@ -88,9 +88,7 @@ export default class Spline extends GraphicElement{
 
 
     /**
-     * @param {Point} point
-     * @param {float} eps
-     * @return {boolean}
+     * @inheritDoc
      */
     isNear(point, eps){
         let points = this.toPolyLines()[0].points;
@@ -103,10 +101,7 @@ export default class Spline extends GraphicElement{
     }
 
     /**
-     * @deprecated The method can have an error if the figure is a concave element
-     *
-     * @param {ClosedFigure} figure
-     * @return {boolean} - true if current elements into figure.
+     * @inheritDoc
      */
     isIntoFigure(figure){
         let points = this.toPolyLines()[0].points;
@@ -118,7 +113,10 @@ export default class Spline extends GraphicElement{
         return res;
     }
 
-
+    /**
+     * @inheritDoc
+     * @return {Spline}
+     */
     copy(){
         let res = new Spline(this._points[0].copy(),this._points[1].copy());
         res.controlPoint1 = this._points[2].copy();

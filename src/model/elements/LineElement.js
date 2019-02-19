@@ -65,6 +65,9 @@ export default class LineElement extends GraphicElement{
         return figure.contain(this.p1) && figure.contain(this.p2);
     }
 
+    /**
+     * @inheritDoc
+     */
     isNear(point, eps){
         return this._line.isNear(point, eps);
     }
@@ -74,11 +77,15 @@ export default class LineElement extends GraphicElement{
         return this._line.length();
     }
 
+    /**
+     * @inheritDoc
+     */
     getCenter(){
         return this._line.getPointOffset(0.5);
     }
 
     /**
+     * @inheritDoc
      * @return {LineElement}
      */
     copy(){
@@ -89,6 +96,9 @@ export default class LineElement extends GraphicElement{
         return line;
     }
 
+    /**
+     * @inheritDoc
+     */
     toPolyLines(){
         return [new PolyLine(this._points)];
     }

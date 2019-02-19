@@ -10,6 +10,10 @@ export default class Auto extends LineType{
         this.id=41;
     }
 
+    /**
+     * @inheritDoc
+     * @return {Auto}
+     */
     copy(){
         return new Auto();
     }

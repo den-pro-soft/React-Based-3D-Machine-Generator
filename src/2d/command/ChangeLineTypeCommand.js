@@ -24,7 +24,7 @@ export default class ChangeLineTypeCommand extends ElementModificationCommand{
      */
     executeCommand(){
         for(let el of this.elements) {
-            el.setLineType(this.lineType);
+            el.lineType=this.lineType;
         }
         return true;
     }

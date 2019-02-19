@@ -70,6 +70,9 @@ export default class Arc extends GraphicElement{
             return this.endAngle+(360-this.startAngle);
     }
 
+    /**
+     * @inheritDoc
+     */
     rotate(center,grad) {
         let rotateMatrix = Matrix.createRotateMatrix(grad);
 
@@ -87,6 +90,9 @@ export default class Arc extends GraphicElement{
         }
     }
 
+    /**
+     * @inheritDoc
+     */
     getMagnificationPoints(){
         if(this.incrementAngle!=0){
             //todo: add center of arc point
@@ -101,22 +107,22 @@ export default class Arc extends GraphicElement{
     }
 
     /**
-     * @returns {{max:{x:number, y:number}, min:{x:number, y:number}}}
+     * @inheritDoc
      */
     getExtrenum(){
         let points = this.toPolyLines()[0].points;
         return Point.getExtrenum(points);
     }
 
-
+    /**
+     * @inheritDoc
+     */
     getCenter(){
         return this._center;
     }
 
     /**
-     * @param {Point} point
-     * @param {float} eps
-     * @return {boolean}
+     * @inheritDoc
      */
     isNear(point, eps){
         let points = this.toPolyLines()[0].points;
@@ -130,10 +136,7 @@ export default class Arc extends GraphicElement{
 
 
     /**
-     * @deprecated The method can have an error if the figure is a concave element
-     *
-     * @param {ClosedFigure} figure
-     * @return {boolean} - true if current elements into figure.
+     * @inheritDoc
      */
     isIntoFigure(figure){
         let points = this.toPolyLines()[0].points;
@@ -145,6 +148,7 @@ export default class Arc extends GraphicElement{
     }
 
     /**
+     * @inheritDoc
      * @return {Arc}
      */
     copy(){

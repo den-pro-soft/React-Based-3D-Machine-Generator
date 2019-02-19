@@ -1,39 +1,21 @@
-import GraphicElement from "./GraphicElement";
 import Exception from "../Exception";
 import Matrix from "./math/Matrix";
+import Vector from "./math/Vector";
+import Cloneable from './../Cloneable';
 
-
+/**
+ * @type {number} - need for generation unique identifier
+ */
 let id=0;
 /**
  * Created by dev on 04.01.19.
+ *
+ * The class is a mathematical abstraction of Points.
+ *
+ * The class using for mathematical operations.
  */
-export default class Point{
-    constructor(x=0,y=0,z=0){
-        this.id=id++;
-        this.x=x;
-        this.y=y;
-        this.z=z;
-    }
-
-    compare(point){
-        return this.x==point.x && this.y==point.y && this.z==point.z;
-    }
-
-    distanceTo(point){
-        return Math.sqrt(Math.pow(point.x - this.x,2) + Math.pow(point.y - this.y,2)+ Math.pow(point.z - this.z,2));
-    }
-
-    /**
-     * @param {Matrix} matrix
-     */
-    changeByMatrix(matrix){
-        let vector = new Matrix([[this.x, this.y, this.z, 1]]);
-        let res = vector.multiply(matrix).array;
-        this.x=res[0][0];
-        this.y=res[0][1];
-        this.z=res[0][2];
-    }
-
+export default class Point extends Cloneable{
+    
     /**
      * Find and return max and min values by x and y in all points
      * @param {Array.<Point>} points
@@ -61,9 +43,72 @@ export default class Point{
         return extrenum;
     }
 
+
+    /**
+     * @param {number} [x=0]
+     * @param {number} [y=0]
+     * @param {number} [z=0]
+     */
+    constructor(x=0,y=0,z=0){
+        super();
+        /** @var {number} - is unique identifier */
+        this.id=id++;
+
+        /** @var {number} - is position on OX axis */
+        this.x=x;
+
+        /** @var {number} - is position on OY axis */
+        this.y=y;
+
+        /** @var {number} - is position on OZ axis */
+        this.z=z;
+    }
+
+    /**
+     * Compares two points
+     * @param {Point} point
+     * @return {boolean} - true if position of the points are equals
+     */
+    compare(point){
+        return this.x==point.x && this.y==point.y && this.z==point.z;
+    }
+
+    /**
+     * Calculating distance to another point
+     * @param {Point} point
+     * @return {number}
+     */
+    distanceTo(point){
+        return Math.sqrt(Math.pow(point.x - this.x,2) + Math.pow(point.y - this.y,2)+ Math.pow(point.z - this.z,2));
+    }
+
+    /**
+     * The method change position of current point by change matrix
+     * @param {Matrix} matrix - transformation matrix
+     */
+    changeByMatrix(matrix){
+        let vector = new Matrix([[this.x, this.y, this.z, 1]]);
+        let res = vector.multiply(matrix).array;
+        this.x=res[0][0];
+        this.y=res[0][1];
+        this.z=res[0][2];
+    }
+
+    /**
+     * @inheritDoc
+     * @return {Point}
+     */
     copy(){
         let p = new Point(this.x, this.y, this.z);
         p.id=this.id;
         return p;
+    }
+
+    /**
+     * The method transform current point to {Vector}
+     * @return {Vector}
+     */
+    toVector(){
+        return new Vector(this.x, this.y, this.z);
     }
 }

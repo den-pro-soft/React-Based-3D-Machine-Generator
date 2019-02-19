@@ -3,12 +3,22 @@
  */
 import Matrix from "../model/math/Matrix";
 import Point from "./Point";
-import LineType from './line_types/LineType';
+import Cloneable from './../Cloneable';
 
-export default class GraphicElement{
+/**
+ * The class is abstraction of graphic elements.
+ *
+ * An implementation of this class is used to represent the data structure of the document.
+ *
+ * @abstract
+ */
+export default class GraphicElement extends Cloneable{
     
 
     constructor(){
+        super();
+        
+        /** @var {number} - is unique identifier */
         this.id=app.elementIdGenerator.generateId();
 
         this.height = 10;
@@ -20,12 +30,13 @@ export default class GraphicElement{
         this._renderer = null; //todo: transfer the creation of a new sample from GraphicElement classes to a IOC container
 
         /** @var {LineType} */
-        this.lineType=app.config.lineType.copy();
+        this._lineType=app.config.lineType.copy();
         
         this.typeName= "Element"; //todo: understand  instanceof and remove this shit
     }
 
     /**
+     * @abstract
      * @return {Array.<Point>|null} - the points are end points in a contour.
      * For example: for {@class Arc} the point is the start point of the arc and the end point of the arc
      * null - if the element doesn't have extreme any points
@@ -34,10 +45,25 @@ export default class GraphicElement{
         throw new Exception('The method doesn\'t have implementation.');
     }
 
-    setLineType(lineType){
-        this.lineType = lineType;
+    /**
+     * @param {LineType} lineType
+     */
+    set lineType(lineType){
+        console.log(lineType);
+        this._lineType = lineType.copy();
     }
 
+    /**
+     * @return {LineType}
+     */
+    get lineType(){
+        return this._lineType;
+    }
+
+
+    /**
+     * The method render current element on a {@class Board} with using a {@class Render}
+     */
     render(){
         this._renderer.drawElement();
     }
@@ -46,18 +72,24 @@ export default class GraphicElement{
         this._renderer.resetConfig();
     }
 
+    /**
+     * The method regenerate ID for current element.
+     * This may be necessary when we create an item based on a copy.
+     */
     generateNewId(){
         this.id=app.elementIdGenerator.generateId();
     }
+
     /**
-     * the method need for magnification mode
-     * @return {Array.<Point>}
+     * The method need for magnification mode
+     * @return {Array.<Point>} - points that can be magnetised
      */
     getMagnificationPoints(){
         return [...this._points,this.getCenter()];
     }
 
     /**
+     * Find max and min values by x and y for current element
      * @returns {{max:{x:number, y:number}, min:{x:number, y:number}}}
      */
     getExtrenum(){
@@ -65,27 +97,33 @@ export default class GraphicElement{
     }
 
     /**
-     * @param {number} x
-     * @param {number} y
+     * Moves an item by the specified number of units along the x and y axis
+     * @param {number} x - how much to shift by x
+     * @param {number} y - how much to shift by x
      */
     move(x,y){
+        console.log(this, "before change");
         let moveMatrix = Matrix.createMoveMatrix(x,y);
+        console.log(moveMatrix, "after create matrix");
         for(let point of this._points){
             point.changeByMatrix(moveMatrix);
         }
+        console.log(this, "after change");
     }
 
-
     /**
+     * @abstract
+     * Check if the point is near the elements by Eps.
      * @param {Point} point
      * @param {float} eps
-     * @return {boolean}
+     * @return {boolean} - true if the point is near
      */
     isNear(point, eps){
         throw new Exception('The method doesn\'n have implementation.');
     }
 
     /**
+     * @abstract
      * The method using for cross calculation.
      *
      * The method calculation of cross can hav error. The error depends on the level of discretization.
@@ -95,8 +133,8 @@ export default class GraphicElement{
         throw new Exception('The method doesn\'t have implementation.');
     }
 
-
     /**
+     * @abstract
      * @deprecated The method can have an error if the figure is a concave element
      *
      * @param {ClosedFigure} figure
@@ -107,7 +145,8 @@ export default class GraphicElement{
     }
 
     /**
-     * @return {Point}
+     * Calculates the geometric center of the shape.
+     * @return {Point} - center of current element
      */
     getCenter(){
 
@@ -158,8 +197,13 @@ export default class GraphicElement{
         }
     }
 
+    /**
+     * Rotate an element around a given center, a predetermined number of degrees
+     * @param {Point} center - rotation center
+     * @param {number} grad - rotation angle
+     */
     rotate(center,grad){
-        let rotateMatrix = Matrix.createRotateMatrix(grad); //todo: move the method to Matrix class, and change it to static
+        let rotateMatrix = Matrix.createRotateMatrix(grad);
 
         let moveMatrix = Matrix.createMoveMatrix(-center.x, -center.y);
         let removeMatrix = Matrix.createMoveMatrix(center.x, center.y);
@@ -171,10 +215,14 @@ export default class GraphicElement{
         }
     }
 
+    /**
+     * Mirrors the element relative to the selected axis
+     * @param axis - the constant from {@class Trigonometric} class. [axisX|axisY]
+     */
     mirror(axis){
         let center = this.getCenter();
 
-        let mirrorMatrix = Matrix.createMirrorMatrix(axis); //todo: move the method to Matrix class, and change it to static
+        let mirrorMatrix = Matrix.createMirrorMatrix(axis);
 
         let moveMatrix = Matrix.createMoveMatrix(-center.x, -center.y);
         let removeMatrix = Matrix.createMoveMatrix(center.x, center.y);
@@ -187,6 +235,7 @@ export default class GraphicElement{
     }
 
     /**
+     * @abstract
      * The method return list of elements which was made by intersection current element
      * @param {Array.<Point>} points  - the points must be in current element
      * @return {Array.<GraphicElement>}
@@ -195,14 +244,19 @@ export default class GraphicElement{
         throw new Exception('The method doesn\'n have implementation.');
     }
 
-    copy(){
-        throw new Exception('The method doesn\'n have implementation.');
-    }
-
+    /**
+     * Compares two elements
+     * @param {GraphicElement} element
+     * @return {boolean} - true if id's of the elements are equals
+     */
     compare(element){
         return this.id==element.id;
     }
 
+    /**
+     * The method is used to get rid of the data hierarchy.
+     * @return {Array.<GraphicElement>}
+     */
     toSimpleElements(){
         return [this];
     }

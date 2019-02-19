@@ -1,17 +1,14 @@
 /**
  * Created by dev on 06.02.19.
  */
+import Cloneable from './../../Cloneable';
 
-
-export default class LineType{
+export default class LineType extends Cloneable{
     constructor(){
-        this.name='Auto';
+        super();
+        this.name ='Auto';
         this.label = "Auto";
         this.id=14;
-    }
-    
-    copy(){
-        throw new Exception('The method doesn\'n have implementation.');
     }
 
     /**
@@ -23,6 +20,7 @@ export default class LineType{
         res['lineWidth']=1;
         res['dash']=[];
         res['strokeStyle']='#222222';
+        res['fillStyle']='#222222';
         return res;
     }
 }
