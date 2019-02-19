@@ -71,6 +71,32 @@ export default class Matrix {
     }
 
     /**
+     * @param {Matrix|number} addition
+     * @returns {Matrix}
+     */
+    add(addition){
+        let res = [];
+        if(typeof addition == "object"){ //instanceof Matrix
+            for(let i=0; i<this.array.length; i++){
+                res[i]=[];
+                for(let j=0; j<this.array[i].length; j++){
+                    res[i][j]=this.array[i][j]+addition.array[i][j];
+                }
+            }
+        }else{
+            let res = [];
+            for(let i=0; i<this.array.length; i++){
+                res[i]=[];
+                for(let j=0; j<this.array[i].length; j++){
+                    res[i][j]=this.array[i][j]+addition;
+                }
+            }
+        }
+        return new Matrix(res);
+    }
+
+
+    /**
      * @param {Matrix|number} multiplier
      * @returns {Matrix}
      */
@@ -87,6 +113,23 @@ export default class Matrix {
             }
             return new Matrix(res);
         }
+    }
+
+
+    /**
+     * Compare two matrix by elements
+     * @param {Matrix} matrix
+     * @return {boolean} - true if elements of the matrices are equals
+     */
+    compare(matrix){
+        for(let i=0; i<this.array.length; i++){
+            for(let j=0; j<this.array[i].length; j++){
+                if(this.array[i][j]!=matrix.array[i][j]){
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
     _multiplyOnMatrix(matrix){

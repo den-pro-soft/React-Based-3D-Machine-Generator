@@ -2,6 +2,7 @@
  * Created by dev on 12.02.19.
  */
 import Trigonometric from './Trigonometric'
+import Matrix from './Matrix';
 
 export default class Vector{
     constructor(x=0, y=0, z=0){
@@ -41,4 +42,20 @@ export default class Vector{
         return this.x*v.y - this.y*v.x;
     }
 
+
+    /**
+     * Convert the vector to matrix
+     * @return {Matrix}
+     */
+    toMatrixRow(){
+        return new Matrix([[this.x, this.y, this.z]]);
+    }
+
+    /**
+     * Convert the vector to matrix
+     * @return {Matrix}
+     */
+    toMatrixColumn(){
+        return new Matrix([[this.x], [this.y], [this.z]]);
+    }
 }
