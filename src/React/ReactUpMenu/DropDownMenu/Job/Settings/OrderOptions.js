@@ -10,7 +10,7 @@ export default class OrderOptions extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      value: "order1",
+      order: "Standard Order",
       isChecked: false
     };
   }
@@ -18,7 +18,9 @@ export default class OrderOptions extends React.Component {
   handleRadioChange = event => {
     event.preventDefault();
 
-    this.setState({ value: event.target.value });
+    this.setState({ order: event.target.value });
+    this.props.updateOrder(this.state.value)
+
     console.log(this.state.value, "this.state.value");
   };
 
@@ -38,11 +40,11 @@ export default class OrderOptions extends React.Component {
               <RadioGroup
                 // aria-label="Order"
 
-                value={this.state.value}
+                value={this.state.order}
                 onChange={this.handleRadioChange}
               >
                 <FormControlLabel
-                  value="order1"
+                  value="Standard Order"
                   control={
                     <Radio
                       color="primary"
@@ -91,7 +93,7 @@ export default class OrderOptions extends React.Component {
             </div>
           )} */}
 
-          {this.state.value === "order2" && (
+          {this.state.order === "order2" && (
             <div className="Text">
               <p style={{textAlign:'left'}}>
                 Use this option to make a change to in order in progress. (Do not
@@ -129,7 +131,7 @@ export default class OrderOptions extends React.Component {
             </div>
           )}
 
-          {this.state.value === "order3" && (
+          {this.state.order === "order3" && (
             <div className="Text">
               <p style={{textAlign:'left'}}>
                 Use this option if the eMachineShop staff advises you to make a

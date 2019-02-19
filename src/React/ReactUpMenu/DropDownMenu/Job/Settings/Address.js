@@ -12,10 +12,38 @@ export default class Adress extends React.Component {
       statesCanada: false,
       provinceOther: false,
       provinceOther2: false,
-
-      value: "U.S.A."
+      value: "U.S.A.",
+      firstName:'',
+      lastName:'',
+      businessName:'',
+      email:''
     };
   }
+
+  handleFirstNameChange = (e) =>{
+    this.setState({firstName: e.target.value},()=>{
+    this.props.updateFirstName(this.state.firstName)
+    });
+  }
+
+  handleLastNameChange = (e) =>{
+    this.setState({lastName: e.target.value},()=>{
+    this.props.updateLastName(this.state.lastName)
+    });
+  }
+
+  handleBusinessNameChange = (e) =>{
+    this.setState({businessName: e.target.value},()=>{
+    this.props.updateBusinessName(this.state.businessName)
+    });
+  }
+
+  handleEmailChange = (e) =>{
+    this.setState({email: e.target.value},()=>{
+    this.props.updateEmail(this.state.email)
+    });
+  }
+
   handleChange = event => {
     this.setState({ value: event.target.value });
     if (event.target.value !== "U.S.A." && event.target.value !== "Canada") {
@@ -179,13 +207,19 @@ export default class Adress extends React.Component {
               </div>
               <div className="InputGroup">
                 <div className="Input">
-                  <input type="text" />
+                  <input type="text" 
+                   value={this.state.firstName}
+                   onChange={this.handleFirstNameChange} />
                 </div>
                 <div className="Input">
-                  <input type="text" />
+                  <input type="text" 
+                    value={this.state.lastName}
+                    onChange={this.handleLastNameChange} />
                 </div>
                 <div className="Input">
-                  <input type="text" />
+                  <input type="text" 
+                    value={this.state.businessName}
+                    onChange={this.handleBusinessNameChange}/>
                 </div>
               </div>
             </div>
@@ -204,7 +238,9 @@ export default class Adress extends React.Component {
               </div>
               <div className="InputGroup">
                 <div className="Input">
-                  <input type="text" />
+                  <input type="text" 
+                    value={this.state.email}
+                    onChange={this.handleEmailChange}/>
                 </div>
                 <div className="Input">
                   <input type="text" />

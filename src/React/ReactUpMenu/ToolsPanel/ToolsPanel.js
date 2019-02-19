@@ -24,8 +24,8 @@ import {connect} from 'react-redux';
 
  export default class ToolsPanel extends React.PureComponent {
 
-  constructor(props) {
-    super(props);
+  constructor(props,context) {
+    super(props,context);
     this.state = {
       show: false,
       line: false,

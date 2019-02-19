@@ -7,7 +7,7 @@ import LazerMark from "./LazerMark";
 import CommentsToSelf from "./CommentsToSelf";
 import CommentsToMachinist from "./CommentsToMachinist";
 
-// import { withRouter } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 import {
   HashRouter as Router,
   Route,
@@ -38,7 +38,7 @@ const Machine = (context,props) => {
               className="Tap"
               exact
               activeStyle={{ color: "blue" }}
-              to="/auto/tap"
+              to="/tap"
             >
               Thead&Tap
             </NavLink>
@@ -86,7 +86,7 @@ const Machine = (context,props) => {
           {/* <Route path="/" exact render={() => <Auto />} /> */}
           <Route path="/auto" exact component={Auto} />
 
-          <Route path="/auto/tap" component={Tap} />
+          <Route path="/tap" component={Tap} />
           <Route path="/bend" component={Bend} />
           <Route path="/lazer-mark" component={LazerMark} />
           <Route path="/to-self" component={CommentsToSelf} />
@@ -98,6 +98,6 @@ const Machine = (context,props) => {
   );
 };
 
-export default Machine;
-// export default withRouter(Machine);
+// export default Machine;
+export default withRouter(Machine);
 

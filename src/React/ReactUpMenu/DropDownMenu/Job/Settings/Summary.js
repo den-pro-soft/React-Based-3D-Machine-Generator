@@ -32,6 +32,12 @@ const styles = theme => ({
   }
 });
 class Summary extends React.PureComponent {
+  // static defaultProps={firstName:'Jim'}
+  // constructor(props){
+  //   super(props)
+  //   // this.state={firstName:'Jim'}
+  //   console.log(this.props,'props-summary')
+  // }
   getRowClassName = ({ index }) => {
     const { classes, rowClassName, onRowClick } = this.props;
 
@@ -157,36 +163,71 @@ Summary.defaultProps = {
 
 const WrappedSummary = withStyles(styles)(Summary);
 
-const data = [
-  ["File name","Untitled"],
-  ["Customer", ""],
-  ["Customer email", ""],
-  ["Order type", "Standard order"],
-  ["Shipping to", "U.S.A."],
-  ["Quantity", 25],
-  ["Material", "Acetal Black"],
-  ["Thickness", `0,000${String.fromCharCode(34)}, tolerance: 20,00%`],
-  ["Used machines", "Comments to Machinist"],
-  ["Finishing", "None"],
-  // ["Packing", "Pack parts in bulk"],
-  ["Comments to machinist", "None"]
-];
+// const data = [
+//   ["File name","Untitled"],
+//   ["Customer", 'Jim'],
+//   ["Customer email", ""],
+//   ["Order type", "Standard order"],
+//   ["Shipping to", "U.S.A."],
+//   ["Quantity", 25],
+//   ["Material", "Acetal Black"],
+//   ["Thickness", `0,000${String.fromCharCode(34)}, tolerance: 20,00%`],
+//   ["Used machines", "Comments to Machinist"],
+//   ["Finishing", "None"],
+//   // ["Packing", "Pack parts in bulk"],
+//   ["Comments to machinist", "None"]
+// ];
 
-let id = 0;
+// let id = 0;
 
-function createData(filename, untitled) {
-  id += 1;
-  return { id, filename, untitled };
-}
-const rows = [];
+// function createData(filename, untitled) {
+//   id += 1;
+//   return { id, filename, untitled };
+// }
+// const rows = [];
 
-for (let i = 0; i < data.length; i += 1) {
-  const renderData = data[i];
-  rows.push(createData(...renderData));
+// for (let i = 0; i < data.length; i += 1) {
+//   const renderData = data[i];
+//   rows.push(createData(...renderData));
 
-}
+// }
 
-function ReactVirtualizedTable() {
+class ReactVirtualizedTable extends React.PureComponent {
+  constructor(props){
+    super(props)
+    // this.state={firstName:'Jim'}
+    console.log(this.props,'props-summary')
+  }
+// function ReactVirtualizedTable() {
+  render(){
+    const data = [
+      ["File name","Untitled"],
+      ["Customer", this.props.firstName + ' '+ this.props.lastName+','+ this.props.businessName],
+      ["Customer email", this.props.email],
+      ["Order type", this.props.order],
+      ["Shipping to", "U.S.A."],
+      ["Quantity", 25],
+      ["Material", "Acetal Black"],
+      ["Thickness", `0,000${String.fromCharCode(34)}, tolerance: 20,00%`],
+      ["Used machines", "Comments to Machinist"],
+      ["Finishing", "None"],
+      // ["Packing", "Pack parts in bulk"],
+      ["Comments to machinist", "None"]
+    ];
+    
+    let id = 0;
+    
+    function createData(filename, untitled) {
+      id += 1;
+      return { id, filename, untitled };
+    }
+    const rows = [];
+    
+    for (let i = 0; i < data.length; i += 1) {
+      const renderData = data[i];
+      rows.push(createData(...renderData));
+    
+    }
   return (
     <Paper style={{ height: 400, width: "100%" }}>
       <WrappedSummary
@@ -213,5 +254,5 @@ function ReactVirtualizedTable() {
     </Paper>
   );
 }
-
+}
 export default ReactVirtualizedTable;
