@@ -151,7 +151,7 @@ import {connect} from 'react-redux';
             <button className="btn-LineType" /*onClick={(e)=>{console.log(e.target,'window');this.props.updateOpenTapModal(!this.state.openTapModal)}}*/>
               <a href="#">
                 <img
-                onClick={this.clickOpenTapModal}
+                // onClick={this.clickOpenTapModal}
                   width="18px"
                   src="images/LineType.png"
                   data-place="bottom"

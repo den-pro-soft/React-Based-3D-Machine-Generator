@@ -6,6 +6,8 @@ import TableCell from "@material-ui/core/TableCell";
 import TableSortLabel from "@material-ui/core/TableSortLabel";
 import Paper from "@material-ui/core/Paper";
 import { AutoSizer, Column, SortDirection, Table } from "react-virtualized";
+import { connect } from "react-redux";
+
 
 const styles = theme => ({
   table: {
@@ -255,4 +257,20 @@ class ReactVirtualizedTable extends React.PureComponent {
   );
 }
 }
-export default ReactVirtualizedTable;
+// export default ReactVirtualizedTable;
+const mapStateToProps = state => {
+  return {
+    firstName: state.summaryReducer.firstName,
+    // lastName: state.summaryReducer.lastName
+
+  };
+};
+
+// const mapDispatchToProps = dispatch => {
+//   return {
+//     handleFirstNameChange: value => {
+//       dispatch({ type: "FIRST_NAME", payload: value });
+//     }
+//   };
+// };
+export default connect(mapStateToProps)(ReactVirtualizedTable);

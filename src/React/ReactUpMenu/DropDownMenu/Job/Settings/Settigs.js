@@ -4,7 +4,6 @@ import Address from "./Address";
 import Payment from "./Payment";
 import OrderOptions from "./OrderOptions";
 import Summary from "./Summary";
-import { withRouter } from "react-router-dom";
 import {
   // BrowserRouter as Router,
   Route,
@@ -18,16 +17,16 @@ export default class Settings extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      firstName:'',
+      // firstName:'',
       lastName:'',
       businessName:'',
       email:'',
       order:'Standard Order'
     }
     }
-  updateFirstName = (value) => {
-    this.setState({ firstName: value })
- }
+//   updateFirstName = (value) => {
+//     this.setState({ firstName: value })
+//  }
 
  updateLastName = (value) => {
   this.setState({ lastName: value })
@@ -95,16 +94,20 @@ updateOrder =  (value) => {
       <div className="Content">
       <Switch>
           <Route path="/" exact render={() => <Address 
-          updateFirstName={this.updateFirstName} 
+          // updateFirstName={this.updateFirstName} 
           updateLastName={this.updateLastName}
           updateBusinessName={this.updateBusinessName}
           updateEmail={this.updateEmail}
           updateOrder={this.updateOrder}
           />}/>
+          {/* <Route path="/" exact component={Address} /> */}
+
           <Route path="/payment" component={Payment} />
           <Route path="/order-options" component={OrderOptions} />
+          {/* <Route path="/summary" component={Summary} /> */}
+
           <Route path="/summary" render={() => <Summary 
-            firstName={this.state.firstName}
+            // firstName={this.state.firstName}
             lastName={this.state.lastName}
             businessName={this.state.businessName} 
             email={this.state.email} 
@@ -117,4 +120,3 @@ updateOrder =  (value) => {
 }
     }
 
-// export default withRouter(Settings);
