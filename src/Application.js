@@ -22,6 +22,7 @@ import CopyDecorator from './2d/command/CopyDecorator';
 import ElementModificationCommand from './2d/command/ElementModificationCommand';
 import ChangeCirclesRadiusCommand from './2d/command/ChangeCirclesRadiusCommand';
 import ChangeLineLengthCommand from './2d/command/ChangeLineLengthCommand';
+import ChangeLineAngleCommand from './2d/command/ChangeLineAngleCommand';
 
 import PointerTool from './2d/tool/PointerTool';
 import ZoomTool from './2d/tool/ZoomTool';
@@ -460,7 +461,14 @@ export default class Application extends Observable{
         this.executeCommand(new ChangeLineLengthCommand(this.currentDocument, this.selectElements, length));
     }
 
-    
+    /**
+     *
+     * @param {number} angle - new line angle
+     */
+    setLineAngleElement(angle){
+        this.executeCommand(new ChangeLineAngleCommand(this.currentDocument, this.selectElements, angle));
+    }
+
     //</editor-fold>
 }
 
