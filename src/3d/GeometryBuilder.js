@@ -285,7 +285,7 @@ class PolygonMeshBuilder{
      */
     _groupMeshes(addMeshList,intersectMeshList){
         let resultMesh = null;
-        if(addMeshList.length>1) {
+        if(addMeshList.length>0) {
             let res = new ThreeBSP(addMeshList[0]);
             for (var i = 1; i < addMeshList.length; i++) {
                 res =res.union(new ThreeBSP(addMeshList[i]));
