@@ -45,7 +45,7 @@ componentWillMount(){
 }
 const mapStateToProps = (state)=>{
 return {
- demensions: state.demensions
+ demensions: state.preferencesReducer.demensions
 }
    }
 export default connect(mapStateToProps)(MouseCoordinates)
