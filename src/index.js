@@ -6,7 +6,7 @@ import ReactUp from "./React/ReactUpMenu/ReactUp";
 import BottomPanel from "./React/BottomPanel/BottomPanel";
 import {
   // BrowserRouter as Router,
-  HashRouter as Router
+  HashRouter as Router,Switch
 } from "react-router-dom";
 import { createStore } from "redux";
 import { Provider } from "react-redux";

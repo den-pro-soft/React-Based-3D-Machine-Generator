@@ -1,6 +1,7 @@
 import React from "react";
 import "./job.scss";
 import Settings from "./Settings/Settigs";
+// import Machine from "../../ToolsPanel/Machine/Machine";
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
@@ -116,6 +117,7 @@ export default class Job extends React.Component {
               backgroundColor: "#f0ecec"
             }}
           >
+          {/* <Machine/> */}
             <Settings />
           </DialogContent>
 

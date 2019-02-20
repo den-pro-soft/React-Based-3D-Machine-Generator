@@ -97,7 +97,7 @@ this.setState({value: length});
 }
 const mapStateToProps = (state) => {
   return {
-    demensions: state.demensions
+    demensions: state.preferencesReducer.demensions
   }
 }
 

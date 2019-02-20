@@ -74,7 +74,7 @@ class Preferences extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    demensions: state.demensions
+    demensions: state.preferencesReducer.demensions
   };
 };
 

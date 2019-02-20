@@ -2,8 +2,7 @@ import React from "react";
 import "./tools-panel.scss";
 import ReactTooltip from "react-tooltip";
 
-import MachineWindow from "./MachineWindow";
-import Machine from "./Machine/Machine"
+import MachineWindow from "./Machine/MachineWindow";
 // import Settigs from "../DropDownMenu/Job/Settings/Settigs"
 
 import GroupType from "./GroupType";
@@ -22,10 +21,11 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import {connect} from 'react-redux';
 
- export default class ToolsPanel extends React.PureComponent {
+//  export default 
+ class ToolsPanel extends React.PureComponent {
 
-  constructor(props) {
-    super(props);
+  constructor(props,context) {
+    super(props,context);
     this.state = {
       show: false,
       line: false,
@@ -78,24 +78,7 @@ import {connect} from 'react-redux';
     });
   
   }
-  // ----------------------OpenTapModalWindow--------------------------
-  clickOpenTapModal = event => {
-    event.preventDefault();
-    this.setState({
-        openTapModal: true
-  });
-  // console.log(this.state.openTapModal, "2-openTapModal");
 
-};
-closeTapModal = () => {
-  this.setState({
-    openTapModal: false})
-};
-openTapHelp = () => {
-  window.open(
-    "https://www.emachineshop.com/help-line-types/#tap-and-thread"
-  );
-};
   // ---------------------------handleChangeSelect type Line-------------------------------------------
   handleChangeSelect =(event)=> {
     if(event.target.value==="Bend" &&this.state.line===false){
@@ -159,16 +142,15 @@ openTapHelp = () => {
 
   getPanelHtml() {
  
-  // console.log(this.state.openTapModal, "render-openTapModal");
+  console.log(this.props, "render-openTapModal");
     
     return (
       <div className="ToolsPanel">
         <ReactTooltip html={true} className="tooltipBackgroundTheme" />
         <form>
           <div className="Left-Tools">
-            {/* <button className="btn-LineType" onClick={()=>this.props.updateOpenTapModal(!this.state.openTapModal)}> */}
-            <button className="btn-LineType" onClick={this.clickOpenTapModal}>
-
+            <button className="btn-LineType" onClick={()=>this.props.updateOpenTapModal(!this.state.openTapModal)}>
+            {/* <button className="btn-LineType" onClick={this.clickOpenTapModal}> */}
               <a href="#">
                 <img
                 onClick={this.clickOpenTapModal}
@@ -251,65 +233,8 @@ openTapHelp = () => {
             <MoveButtons />
           </div>
         </form>
-        {/* <MachineWindow /> */}
-         <Dialog
-        // onClick={this.clickOpenTapModal}
-        maxWidth={false}
-        open={this.state.openTapModal}
-        // onClose={this.handleClose}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-        <DialogTitle
-          style={{ color: "black", textAlign: "left" }}
-          id="alert-dialog-title"
-        >
-          <img
-            width="25px"
-            src="images/icon.jpg"
-            // data-tip="<span>Shows how to use numeric values.</span>"
-          />
-          <span>Machine</span>
-        </DialogTitle>
-
-        <DialogContent
-          style={{
-            width: "950px",
-            height: "425px",
-            backgroundColor: "#f0ecec"
-          }}
-        >
-        {/* <Settigs/> */}
-        <Machine/>
-        </DialogContent>
-
-        <DialogActions>
-          <Button
-            onClick={this.closeTapModal}
-            style={{ backgroundColor: "#f0ecec" }}
-            color="primary"
-            autoFocus
-          >
-            OK
-          </Button>
-          <Button
-            onClick={this.closeTapModal}
-            style={{ backgroundColor: "#f0ecec" }}
-            color="primary"
-            autoFocus
-          >
-            Cancel
-          </Button>
-          <Button
-            onClick={this.openTapHelp}
-            style={{ backgroundColor: "#f0ecec" }}
-            color="primary"
-            autoFocus
-          >
-            Help
-          </Button>
-        </DialogActions>
-      </Dialog> 
+        <MachineWindow />
+      
       {/* --------------------------Information-------------------- */}
         <Dialog
           maxWidth={false}
@@ -379,11 +304,11 @@ openTapHelp = () => {
     );
   }
 }
-// const mapDispatchToProps = dispatch => {
-//   return {
-//     updateOpenTapModal: openTapModal => {
-//       dispatch({ type: "OPEN_TAP_MODAL", payload: openTapModal });
-//     }
-//   };
-// };
-// export default connect(null,mapDispatchToProps)(ToolsPanel);
+const mapDispatchToProps = dispatch => {
+  return {
+    updateOpenTapModal: openTapModal => {
+      dispatch({ type: "OPEN_TAP_MODAL", payload: openTapModal });
+    }
+  };
+};
+export default connect(null,mapDispatchToProps)(ToolsPanel);
