@@ -2,8 +2,8 @@ import React from "react";
 import "./addres.scss";
 import Button from "@material-ui/core/Button";
 import Checkbox from "@material-ui/core/Checkbox";
-
-export default class Adress extends React.Component {
+import { connect } from "react-redux";
+class Adress extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -13,21 +13,23 @@ export default class Adress extends React.Component {
       provinceOther: false,
       provinceOther2: false,
       value: "U.S.A.",
-      firstName:'',
+      // firstName:'',
       lastName:'',
       businessName:'',
       email:''
     };
   }
 
-  handleFirstNameChange = (e) =>{
-    this.setState({firstName: e.target.value},()=>{
-    this.props.updateFirstName(this.state.firstName)
-    });
-  }
+  // handleFirstNameChange = (e) =>{
+  //   this.setState({firstName: e.target.value},()=>{
+  //   this.props.updateFirstName(this.state.firstName)
+  //   });
+  // }
 
   handleLastNameChange = (e) =>{
+    // this.props.handleLastNameChange(e.target.value)
     this.setState({lastName: e.target.value},()=>{
+      console.log(this.state.lastName,'lastName')
     this.props.updateLastName(this.state.lastName)
     });
   }
@@ -208,18 +210,36 @@ export default class Adress extends React.Component {
               <div className="InputGroup">
                 <div className="Input">
                   <input type="text" 
-                   value={this.state.firstName}
-                   onChange={this.handleFirstNameChange} />
+                   value={this.props.firstName}
+                  //  onChange={this.handleFirstNameChange}
+                  onChange = {(e) => {
+                    this.props.handleFirstNameChange(
+                      e.target.value
+                    );
+                  }} />
                 </div>
                 <div className="Input">
                   <input type="text" 
                     value={this.state.lastName}
-                    onChange={this.handleLastNameChange} />
+                    // value={this.props.lastName}
+                    onChange={this.handleLastNameChange}
+                    // onChange = {(e) => {
+                    //   this.props.handleLastNameChange(
+                    //     e.target.value
+                    //   );
+                    // }} 
+                    />
                 </div>
                 <div className="Input">
                   <input type="text" 
                     value={this.state.businessName}
-                    onChange={this.handleBusinessNameChange}/>
+                    onChange={this.handleBusinessNameChange}
+                    // onChange = {(e) => {
+                    //   this.props.handleBusinessNameChange(
+                    //     e.target.value
+                    //   );
+                    // }}
+                    />
                 </div>
               </div>
             </div>
@@ -447,3 +467,23 @@ export default class Adress extends React.Component {
     );
   }
 }
+const mapStateToProps = state => {
+  return {
+    firstName: state.summaryReducer.firstName
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    handleLastNameChange: value => {
+      dispatch({ type: "LAST_NAME", payload: value });
+    },
+    handleFirstNameChange: value => {
+      dispatch({ type: "FIRST_NAME", payload: value });
+    }
+    // handleLastNameChange: value => {
+    //   dispatch({ type: "LAST_NAME", payload: value });
+    // }
+   } 
+};
+export default connect(mapStateToProps,mapDispatchToProps)(Adress);
