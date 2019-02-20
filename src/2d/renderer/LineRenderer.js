@@ -83,6 +83,13 @@ export default class LineRenderer extends Render{
         this.board.style('textAlign','center');
         this.board.style('textBaseline','bottom');
 
-        this.board.drawText(this.element.getCenter(),this.element.length().toFixed(3)+" mm", grad, false);
+        let dimension = 'mm';
+        let length = this.element.length();
+        if(app.config.dimension == 'Inches'){
+            dimension = "''";
+            length/=25.4;
+        }
+        let text = length.toFixed(3)+" "+dimension;
+        this.board.drawText(this.element.getCenter(),text, grad, false);
     }
 }

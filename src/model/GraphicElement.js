@@ -104,13 +104,10 @@ export default class GraphicElement extends Cloneable{
      * @param {number} y - how much to shift by x
      */
     move(x,y){
-        console.log(this, "before change");
         let moveMatrix = Matrix.createMoveMatrix(x,y);
-        console.log(moveMatrix, "after create matrix");
         for(let point of this._points){
             point.changeByMatrix(moveMatrix);
         }
-        console.log(this, "after change");
     }
 
     /**

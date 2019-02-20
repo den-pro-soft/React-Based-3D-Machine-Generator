@@ -5,47 +5,82 @@
 import AutoLineType from './model/line_types/Auto';
 import CommentToSelfLineType from './model/line_types/CommentToSelf';
 
+import Observable from './Observable';
+
+/**
+ * You should not use this class for data exchange between modules.
+ * The class need only for saving the global config.
+ *
+ * The config will be used for saving and reproducing user context.
+ *
+ * Maybe in perspective it will be Redux storage
+ *
+ * Provides events:
+ * 1. change - when change some property, data is propertyName
+ */
+class Config extends Observable{
+    constructor(){
+        super();
+
+        /** @type {number} */
+        this._moveStep = 10;
+
+        /** @type {number} */
+        this._rotateStep = 15;
+
+        /** @type {string} [Millimeters|Inches]*/
+        this._dimension= 'Millimeters';
+
+        this.lengthLine = '';
+        this.mouseX = 0;
+        this.mouseY = 0;
+
+        /** @type {LineType} - the default line type*/
+        this._lineType = new AutoLineType();
+
+        /** @type {LineType} - the default font size
+         * @deprecated - font size depends on board scale
+         * */
+        this._fontSize = 3;
+    }
+
+    get moveStep(){return this._moveStep};
+    set moveStep(value){
+        this._moveStep=value;
+        this._notifyHandlers('change', 'moveStep');
+    };
+    get rotateStep(){return this._rotateStep};
+    set rotateStep(value){
+        this._rotateStep=value;
+        this._notifyHandlers('change', 'rotateStep');
+    };
+
+    get dimension(){return this._dimension};
+
+    get demensions(){return this._dimension};
+    set demensions(value){
+        this._dimension=value;
+        this._notifyHandlers('change', 'dimension');
+    };
 
 
+    get lineType(){return this._lineType};
+    set lineType(value){
+        this._lineType=value;
+        this._notifyHandlers('change', 'lineType');
+    };
 
-let moveStep = 10;
-let rotateStep = 15;
-
-let demensions;
-let lengthLine = '';
-let mouseX = 0;
-let mouseY = 0;
-
-let lineType = new AutoLineType();
-
-let fontSize = 3;
-
-export default class Config{
-    static get moveStep(){return moveStep};
-    static set moveStep(value){moveStep=value};
-    static get rotateStep(){return rotateStep};
-    static set rotateStep(value){rotateStep=value};
-
-    static get demensions(){return demensions};
-    static set demensions(value){demensions=value};
-
-    static get lengthLine(){return lengthLine};
-    static set lengthLine(value){lengthLine=value};
-    static get mouseX(){return mouseX};
-    static set mouseX(value){mouseX=value};
-    static get mouseY(){return mouseY};
-    static set mouseY(value){mouseY=value};
-
-    static get lineType(){return lineType};
-    static set lineType(value){lineType=value};
-
-    static get defaultLineTypes(){
+    /**
+     * @return {Array.<LineType>} -  default line types (used for the line type dropdown)
+     */
+    get defaultLineTypes(){
         return [
             new AutoLineType(),
             new CommentToSelfLineType()
         ];
     }
 
-    static get fontSize(){return fontSize};
+    get fontSize(){return this._fontSize};
 }
 
+export default new Config();

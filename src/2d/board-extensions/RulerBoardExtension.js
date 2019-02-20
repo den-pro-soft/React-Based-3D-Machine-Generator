@@ -18,6 +18,13 @@ export default class RulerBoardExtension extends BoardExtension{
 
     }
 
+    convertToCurrenDimension(value){
+        if(app.config.dimension == 'Inches'){
+            return value / 25.4;
+        }
+        return value;
+    }
+
     /**
      * @inheritDoc
      */
@@ -62,6 +69,7 @@ export default class RulerBoardExtension extends BoardExtension{
             let localX = convertX(x);
             let l = (x*1E3)%(divider*1E3)==0?10:5;
             if(l==10){
+                x=Math.round((this.convertToCurrenDimension(x))*1E3)/1E3;
                 this.board._context.fillText(x, localX, 6);
             }
             this.board._context.fillRect(localX, rulerWidth-l, 1, l);
@@ -93,10 +101,10 @@ export default class RulerBoardExtension extends BoardExtension{
 
 
         let drawDivisionY = (x)=>{
-            x=Math.round((x)*1E3)/1E3;
             let localX = convertY(-x);
             let l = (x*1E3)%(divider*1E3)==0?10:5;
             if(l==10){
+                x=Math.round((this.convertToCurrenDimension(x))*1E3)/1E3;
                 this.board._context.fillText(x, -localX, 6);
             }
             this.board._context.fillRect(-localX,rulerWidth-l, 1,l);
