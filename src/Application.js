@@ -21,6 +21,7 @@ import MirrorElementsCommand from './2d/command/MirrorElementsCommand';
 import CopyDecorator from './2d/command/CopyDecorator';
 import ElementModificationCommand from './2d/command/ElementModificationCommand';
 import ChangeCirclesRadiusCommand from './2d/command/ChangeCirclesRadiusCommand';
+import ChangeLineLengthCommand from './2d/command/ChangeLineLengthCommand';
 
 import PointerTool from './2d/tool/PointerTool';
 import ZoomTool from './2d/tool/ZoomTool';
@@ -451,6 +452,15 @@ export default class Application extends Observable{
         this.executeCommand(new ChangeCirclesRadiusCommand(this.currentDocument, this.selectElements, radius));
     }
 
+    /**
+     * @param {number} length
+     * @throws {Exception} - if selected not only single line
+     */
+    setLineLengthElement(length){
+        this.executeCommand(new ChangeLineLengthCommand(this.currentDocument, this.selectElements, length));
+    }
+
+    
     //</editor-fold>
 }
 

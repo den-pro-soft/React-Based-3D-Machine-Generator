@@ -19,7 +19,7 @@ export default class ChangeCirclesRadiusCommand extends ElementModificationComma
         super(document, circles);
 
         for(let circle of circles){
-            if(!circle instanceof Arc || circle.incrementAngle!=0){
+            if(!circle instanceof Arc || circle.incrementAngle!=360){
                 throw new Exception('The ChangeCirclesRadiusCommand available only for circles!', circle);
             }
         }
