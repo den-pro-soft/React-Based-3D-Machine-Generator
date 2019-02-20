@@ -142,8 +142,7 @@ import {connect} from 'react-redux';
 
   getPanelHtml() {
  
-  console.log(this.props, "render-openTapModal");
-    
+  // console.log(this.props, "render-openTapModal");  
     return (
       <div className="ToolsPanel">
         <ReactTooltip html={true} className="tooltipBackgroundTheme" />
