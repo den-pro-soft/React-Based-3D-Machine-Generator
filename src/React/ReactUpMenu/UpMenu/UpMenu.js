@@ -9,6 +9,8 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Preferences from "../DropDownMenu/Edit/Preferences";
+import { connect } from "react-redux";
+
 
 import { DraggablePopup } from "./../../../popup";
 var popup3DView = new DraggablePopup()
@@ -37,7 +39,7 @@ let show3D = function() {
   }
 };
 
-export default class UpMenu extends React.Component {
+class UpMenu extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -71,6 +73,7 @@ export default class UpMenu extends React.Component {
     window.open("https://www.emachineshop.com/help-preferences/#measurements");
   };
   render() {
+    // console.log(this.props,'props-UpMenu-redux')
     return (
       <div className="UpMenu">
         <div className="Drop">
@@ -118,7 +121,12 @@ export default class UpMenu extends React.Component {
                   <img width="24px" src="images/Preferences.png" />
                 </a>
               </button>
-              <button>
+              <button
+                   onClick={() => {
+                    this.props.updateDataDemensions(
+                      this.props.demensions === "Millimeters"?"Inches":"Millimeters" 
+                    );
+                  }}>
                 <a href="#">
                   <img width="24px" src="images/ToggleInch.png" />
                 </a>
@@ -209,3 +217,17 @@ export default class UpMenu extends React.Component {
     );
   }
 }
+const mapStateToProps = state => {
+  return {
+    demensions: state.preferencesReducer.demensions
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    updateDataDemensions: value => {
+      dispatch({ type: "UPDATE_DEMENSIONS_UpMenu", payload: value });
+    }
+  };
+};
+export default connect(mapStateToProps,mapDispatchToProps)(UpMenu);

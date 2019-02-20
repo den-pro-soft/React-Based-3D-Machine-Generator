@@ -142,15 +142,13 @@ import {connect} from 'react-redux';
 
   getPanelHtml() {
  
-  console.log(this.props, "render-openTapModal");
-    
+  // console.log(this.props, "render-openTapModal");  
     return (
       <div className="ToolsPanel">
         <ReactTooltip html={true} className="tooltipBackgroundTheme" />
         <form>
           <div className="Left-Tools">
-            <button className="btn-LineType" onClick={()=>this.props.updateOpenTapModal(!this.state.openTapModal)}>
-            {/* <button className="btn-LineType" onClick={this.clickOpenTapModal}> */}
+            <button className="btn-LineType" /*onClick={(e)=>{console.log(e.target,'window');this.props.updateOpenTapModal(!this.state.openTapModal)}}*/>
               <a href="#">
                 <img
                 onClick={this.clickOpenTapModal}

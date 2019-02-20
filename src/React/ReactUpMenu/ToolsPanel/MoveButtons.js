@@ -20,6 +20,16 @@ class MoveButtons extends React.Component {
       // `${String.fromCharCode(34)}`
     }
   }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.demensions !== prevProps.demensions) {
+      if(this.props.demensions==='Millimeters'){
+        this.setState({moveStep: app.config.moveStep  + ' mm'})
+      } else {
+        this.setState({moveStep: (app.config.moveStep/25.4).toFixed(3) + ' "'})
+      }
+    }
+  }
   handleClickCopy = () => {
     this.setState({
       bgColorCopy: this.state.bgColorCopy === "#f0f0f0d9" ? "#fff" : "#f0f0f0d9"

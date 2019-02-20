@@ -1,13 +1,20 @@
 const initialState = {
-    demensions: "Millimeters"
+    demensions: "Millimeters",
   };
   
   export default function preferencesReducer(state = initialState, action){
+    app.config.demensions=state.demensions;
     if (action.type === "UPDATE_DEMENSIONS") {
+      app.config.demensions=action.payload;
       return {
         demensions: action.payload
       };
     }
-
+    if (action.type === "UPDATE_DEMENSIONS_UpMenu") {
+      app.config.demensions=action.payload;
+      return {
+        demensions: action.payload
+      };
+    }
     return state;
   }
