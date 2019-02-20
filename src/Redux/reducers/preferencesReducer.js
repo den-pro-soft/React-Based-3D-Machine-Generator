@@ -4,10 +4,10 @@ const initialState = {
   
   export default function preferencesReducer(state = initialState, action){
     app.config.demensions=state.demensions;
-console.log(app.config.demensions,'initial');
+// console.log(app.config.demensions,'initial');
     if (action.type === "UPDATE_DEMENSIONS") {
       app.config.demensions=action.payload;
-      console.log(app.config.demensions,'after action');
+      // console.log(app.config.demensions,'after action');
 
       return {
         demensions: action.payload

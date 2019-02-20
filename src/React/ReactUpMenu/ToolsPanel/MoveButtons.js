@@ -27,7 +27,6 @@ class MoveButtons extends React.Component {
         this.setState({moveStep: app.config.moveStep  + ' mm'})
       } else {
         this.setState({moveStep: (app.config.moveStep/25.4).toFixed(3) + ' "'})
-        // `${String.fromCharCode(34)}`
       }
     }
   }

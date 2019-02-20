@@ -1,53 +1,71 @@
 import React from "react";
 import ReactTooltip from "react-tooltip";
 import { Fragment } from "react";
-import {connect} from 'react-redux';
+import { connect } from "react-redux";
 
 class LineType extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      value:''
+      value: app.config.lengthLine
     };
-
   }
 
   componentWillMount() {
     app.addHandler("selectElement", element => {
-      if(app.selectElements.length==1){
+      if (app.selectElements.length == 1) {
         if (element.typeName === "Line") {
-         let lengthLine = element.length()
-          if(this.props.demensions==='Millimeters'){
-          this.setState({ value: lengthLine.toFixed(3) + ' mm' });
-
+          let lengthLine = element.length();
+          if (this.props.demensions === "Millimeters") {
+            app.config.lengthLine=lengthLine.toFixed(3) + " mm" 
+            this.setState({ value: app.config.lengthLine });
           } else {
-          this.setState({ value: (lengthLine/25.4).toFixed(3) + ' "'});
-
-
+            app.config.lengthLine=(lengthLine / 25.4).toFixed(3) + ' "' 
+            this.setState({ value: app.config.lengthLine });
           }
         }
       }
     });
   }
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.demensions !== prevProps.demensions) {
 
-  handleChangeInputLength = event => {
-// console.log(event.target.value,'handleChangeInputLength ')
-let length = event.target.value;
+if (prevProps.demensions === "Millimeters") {
+app.config.lengthLine=(this.state.value).replace(/[^0-9.]/g, "");
+} else {
+  app.config.lengthLine=(this.state.value).replace(/[^0-9.]/g, "")*25.4;
+}
+// console.log(this.state.value,'app.length')
 
-this.setState({value: length});
+let lengthLine= app.config.lengthLine;
+// console.log(lengthLine,'app.line');
 
-  if (event.charCode === 13) {
-    if (this.props.demensions === 'Millimeters') {
-      this.setState({
-        value: length.replace(/[^0-9.]/g, "") + ' mm'
-      });
-    } else {
-      this.setState({
-        value: length.replace(/[^0-9.]/g, "") + ' "'
-      });
-    }
+if (this.props.demensions === "Millimeters") {
+  this.setState({ value: lengthLine.toFixed(3) +" mm"});
+} else {
+  this.setState({ value:(lengthLine / 25.4).toFixed(3) + ' "'});
+}
 
   }
+}
+  handleChangeInputLength = event => {
+    console.log(event.target,'handleChangeInputLength ')
+    // let length = event.target.value;
+    app.config.lengthLine = event.target.value
+    let length = app.config.lengthLine;
+    this.setState({ value: length });
+
+    if (event.charCode === 13) {
+      if (this.props.demensions === "Millimeters") {
+        this.setState({
+          value: length.replace(/[^0-9.]/g, "") + " mm"
+        });
+      } else {
+        this.setState({
+          value: length.replace(/[^0-9.]/g, "") + ' "'
+        });
+      }
+    }
   };
 
   render() {
@@ -67,9 +85,9 @@ this.setState({value: length});
         </button>
         <input
           type="text"
-          value = {this.state.value}
-          onChange = {this.handleChangeInputLength}
-          onKeyPress = {this.handleChangeInputLength}
+          value={this.state.value}
+          onChange={this.handleChangeInputLength}
+          onKeyPress={this.handleChangeInputLength}
           data-place="bottom"
           data-tip="<span>Length<br/>Distance from the beginning of the line to the end.To change<br/>
       enter a value and press the Enter key</span>"
@@ -95,11 +113,10 @@ this.setState({value: length});
     );
   }
 }
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
     demensions: state.preferencesReducer.demensions
-  }
-}
+  };
+};
 
-
-export default connect(mapStateToProps)(LineType)
+export default connect(mapStateToProps)(LineType);
