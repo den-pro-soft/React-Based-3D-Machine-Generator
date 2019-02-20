@@ -20,18 +20,40 @@ export default class LineElement extends GraphicElement{
         this.typeName = 'Line'; //todo: change to LineElement
     }
 
+    /**
+     * @inheritDoc
+     * @return {Array.<Point>} -
+     */
+    get extremePoints(){
+        return [this.p1, this.p2];
+    }
+
+    /**
+     * @param {Point} point
+     */
     set p1(point){
         this._points[0]=point;
         this._line._p1=point;
     }
+
+    /**
+     * @return {Point}
+     */
     get p1(){
         return this._line._p1;
     }
 
+    /**
+     * @param {Point} point
+     */
     set p2(point){
         this._points[1]=point;
         this._line._p2=point;
     }
+
+    /**
+     * @return {Point}
+     */
     get p2(){
         return this._line._p2;
     }
@@ -43,6 +65,9 @@ export default class LineElement extends GraphicElement{
         return figure.contain(this.p1) && figure.contain(this.p2);
     }
 
+    /**
+     * @inheritDoc
+     */
     isNear(point, eps){
         return this._line.isNear(point, eps);
     }
@@ -52,10 +77,17 @@ export default class LineElement extends GraphicElement{
         return this._line.length();
     }
 
+    /**
+     * @inheritDoc
+     */
     getCenter(){
         return this._line.getPointOffset(0.5);
     }
 
+    /**
+     * @inheritDoc
+     * @return {LineElement}
+     */
     copy(){
         let line = new LineElement(this.p1.copy(), this.p2.copy());
         line.height=this.height;
@@ -64,6 +96,9 @@ export default class LineElement extends GraphicElement{
         return line;
     }
 
+    /**
+     * @inheritDoc
+     */
     toPolyLines(){
         return [new PolyLine(this._points)];
     }

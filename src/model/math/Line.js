@@ -35,6 +35,14 @@ export default class Line{
     }
 
     /**
+     * @return {number} - the C coefficient in [  Ax+By+C=0  ]
+     * @constructor
+     */
+    get C(){
+        return this.A*this._p1.x + this.B*this._p1.y;
+    }
+
+    /**
      * @return {number} - the angle coefficient in  [  y=k*x+b  ]
      * @constructor
      */
@@ -143,10 +151,11 @@ export default class Line{
     }
 
     /**
+     *
      * @param {Line} line
      * @return {Point|null}
      */
-    getCrossPoint(line){
+    getCrossLinePoint(line){ //todo: rename to getCrossPoint
         let x1 = this._p1.x;
         let y1 = this._p1.y;
         let x2 = this._p2.x;
@@ -162,16 +171,27 @@ export default class Line{
         let b2 = x4 - x3;
 
         let d = a1 * b2 - a2 * b1;
-        if( d != 0 ){
+        if( d != 0 ) {
             let c1 = y2 * x1 - x2 * y1;
 
             let c2 = y4 * x3 - x4 * y3;
             let x = (b1 * c2 - b2 * c1) / d;
             let y = (a2 * c1 - a1 * c2) / d;
-            if(this.between(x,x1,x2) && this.between(x,x3,x4) && this.between(y,y1,y2) && this.between(y,y3,y4)) {
-                return new Point(x, y, 0);
-            }else{
-                return null;
+            return new Point(x, y, 0);
+        }
+        return null;
+    }
+
+    /**
+     * @param {Line} line
+     * @return {Point|null} null if segments limited by points p1, and p2 aren't cross
+     */
+    getCrossPoint(line){ //todo: rename to getCrossSegmentsPoint
+        let point = this.getCrossLinePoint(line);
+        if(point){
+            if( this.between(point.x,this._p1.x, this._p2.x) && this.between(point.x,line._p1.x, line._p2.x) &&
+                this.between(point.y,this._p1.y, this._p2.y) && this.between(point.y,line._p1.y, line._p2.y)) {
+                return point;
             }
         }
         return null;

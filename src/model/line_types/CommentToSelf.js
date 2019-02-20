@@ -12,6 +12,10 @@ export default class CommentToSelf extends LineType{
         this.id=14;
     }
 
+    /**
+     * @inheritDoc
+     * @return {CommentToSelf}
+     */
     copy(){
         return new CommentToSelf();
     }

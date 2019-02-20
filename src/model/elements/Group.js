@@ -28,10 +28,24 @@ export default class Group extends GraphicElement{
 
     set _points(points){}
 
-    setLineType(lineType){
+    /**
+     * @inheritDoc
+     * @param {LineType} lineType
+     */
+    set lineType(lineType){
         for(let el of this.elements){
-            el.setLineType(lineType);
+            el.lineType = lineType;
         }
+        super.lineType = lineType;
+    }
+
+
+    /**
+     * @inheritDoc
+     * @return {LineType}
+     */
+    get lineType(){
+        return super.lineType;
     }
 
     /**
@@ -57,6 +71,9 @@ export default class Group extends GraphicElement{
         this.elements.push(element);
     }
 
+    /**
+     * @inheritDoc
+     */
     isNear(point, eps){
         let res = false;
         for(let element of this.elements){
@@ -77,6 +94,10 @@ export default class Group extends GraphicElement{
         return res;
     }
 
+    /**
+     * @inheritDoc
+     * @return {Group}
+     */
     copy(){
         let res = new Group();
         for(let element of this.elements){
@@ -88,6 +109,9 @@ export default class Group extends GraphicElement{
         return res;
     }
 
+    /**
+     * @inheritDoc
+     */
     toPolyLines(){
         let res = [];
         for(let element of this.elements){
@@ -99,6 +123,10 @@ export default class Group extends GraphicElement{
         return res;
     }
 
+    /**
+     * @inheritDoc
+     * @return {Array.<GraphicElement>}
+     */
     toSimpleElements(){
         let res = [];
         for(let el of this.elements){
@@ -111,6 +139,9 @@ export default class Group extends GraphicElement{
         return res;
     }
 
+    /**
+     * @inheritDoc
+     */
     rotate(center,grad){
         for(let el of this.elements){
             el.rotate(center, grad);

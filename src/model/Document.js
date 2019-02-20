@@ -134,6 +134,10 @@ export default class Document{
         this._elements = snapshot._elements;
     }
 
+    /**
+     * @param elements
+     * @return {Array.<GraphicElement>}
+     */
     static toSimpleListElements(elements){
         let res = [];
         for(let el of elements){

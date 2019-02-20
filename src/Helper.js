@@ -51,6 +51,21 @@ class KeyHelper{
                         e.preventDefault();
                     }
                     break;
+                case 79: //Oo
+                    if(e.ctrlKey){
+                        //todo: the code have copy in File->Open menu handler
+                        var newInput = document.createElement('input');
+                        newInput.setAttribute('type','file');
+                        // newInput.setAttribute('accept',this.accept);
+                        newInput.onchange = function(e){
+                            //todo: check count files
+                            app.open(this.files[0]);
+                            newInput.remove();
+                        };
+                        newInput.click();
+                        e.preventDefault();
+                    }
+                    break;
                 case 90: //Zz
                     if(e.ctrlKey){
                         if(e.shiftKey){

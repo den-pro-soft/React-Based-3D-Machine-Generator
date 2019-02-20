@@ -28,6 +28,19 @@ export default class Arc extends GraphicElement{
         this.typeName = 'Arc';
     }
 
+    /**
+     * @inheritDoc
+     * @return {Array.<Point>|null} - null if the circle
+     */
+    get extremePoints(){
+        if(this.incrementAngle>0) {
+            let polyLinePoints = this.toPolyLines()[0].points;
+            return [polyLinePoints[0], polyLinePoints[polyLinePoints.length - 1]];
+        }else{
+            return null;
+        }
+    }
+    
     set center(point){
         this._center = point;
         // this._points[0]=point;
@@ -57,6 +70,9 @@ export default class Arc extends GraphicElement{
             return this.endAngle+(360-this.startAngle);
     }
 
+    /**
+     * @inheritDoc
+     */
     rotate(center,grad) {
         let rotateMatrix = Matrix.createRotateMatrix(grad);
 
@@ -74,8 +90,14 @@ export default class Arc extends GraphicElement{
         }
     }
 
+    /**
+     * @inheritDoc
+     */
     getMagnificationPoints(){
-        //todo: change for arc
+        if(this.incrementAngle!=0){
+            //todo: add center of arc point
+            return [this.center,...this.extremePoints];
+        }
         return [this.center,
             new Point(this._center.x+this.radius, this._center.y),
             new Point(this._center.x, this._center.y+this.radius),
@@ -85,22 +107,22 @@ export default class Arc extends GraphicElement{
     }
 
     /**
-     * @returns {{max:{x:number, y:number}, min:{x:number, y:number}}}
+     * @inheritDoc
      */
     getExtrenum(){
         let points = this.toPolyLines()[0].points;
         return Point.getExtrenum(points);
     }
 
-
+    /**
+     * @inheritDoc
+     */
     getCenter(){
         return this._center;
     }
 
     /**
-     * @param {Point} point
-     * @param {float} eps
-     * @return {boolean}
+     * @inheritDoc
      */
     isNear(point, eps){
         let points = this.toPolyLines()[0].points;
@@ -114,10 +136,7 @@ export default class Arc extends GraphicElement{
 
 
     /**
-     * @deprecated The method can have an error if the figure is a concave element
-     *
-     * @param {ClosedFigure} figure
-     * @return {boolean} - true if current elements into figure.
+     * @inheritDoc
      */
     isIntoFigure(figure){
         let points = this.toPolyLines()[0].points;
@@ -128,6 +147,10 @@ export default class Arc extends GraphicElement{
         return res;
     }
 
+    /**
+     * @inheritDoc
+     * @return {Arc}
+     */
     copy(){
         let arc = new Arc(this.center.copy(), this.radius);
         arc.height=this.height;

@@ -49,9 +49,21 @@ export default class Spline extends GraphicElement{
     }
 
     /**
-     * @return {PolyLine}
+     * @inheritDoc
      */
     toPolyLines(){
+        // let res = new PolyLine();
+        // let point = this.startPoint.copy();
+        //
+        // for(let t=0; t<=1; t+=1E-2){
+        //     res.addPoint(point);
+        //     point = this.getPointOffset(t);
+        // }
+        // return [res];
+
+
+        
+        
         let res = new PolyLine();
         let l1 = new Line(this.startPoint, this.controlPoint1);
         let l2 = new Line(this.controlPoint1, this.controlPoint2);
@@ -80,7 +92,7 @@ export default class Spline extends GraphicElement{
 
 
     /**
-     * @returns {{max:{x:number, y:number}, min:{x:number, y:number}}}
+     * @inheritDoc
      */
     getExtrenum(){
         return Point.getExtrenum(this.toPolyLines()[0].points);
@@ -88,9 +100,7 @@ export default class Spline extends GraphicElement{
 
 
     /**
-     * @param {Point} point
-     * @param {float} eps
-     * @return {boolean}
+     * @inheritDoc
      */
     isNear(point, eps){
         let points = this.toPolyLines()[0].points;
@@ -103,10 +113,7 @@ export default class Spline extends GraphicElement{
     }
 
     /**
-     * @deprecated The method can have an error if the figure is a concave element
-     *
-     * @param {ClosedFigure} figure
-     * @return {boolean} - true if current elements into figure.
+     * @inheritDoc
      */
     isIntoFigure(figure){
         let points = this.toPolyLines()[0].points;
@@ -118,7 +125,10 @@ export default class Spline extends GraphicElement{
         return res;
     }
 
-
+    /**
+     * @inheritDoc
+     * @return {Spline}
+     */
     copy(){
         let res = new Spline(this._points[0].copy(),this._points[1].copy());
         res.controlPoint1 = this._points[2].copy();
@@ -127,5 +137,21 @@ export default class Spline extends GraphicElement{
         res.id=this.id;
         res.lineType = this.lineType.copy();
         return res;
+    }
+
+    /**
+     * Calculate point by parameter
+     * @see(https://en.wikipedia.org/wiki/B%C3%A9zier_curve)
+     * @param {number} offset - In which part to determine the point. 0 ... 1 where 0 is the beginning of the curve and 1 is the end
+     * @return {Point}
+     */
+    getPointOffset(offset){
+        /** @var {Array.<Matrix>} */
+        let p = this._points.map(p=>p.toVector().toMatrixRow());
+        let res = p[0].multiply(Math.pow(1 - offset, 3))
+                .add(p[2].multiply(3 * offset * Math.pow(1 - offset, 2)))
+                .add(p[3].multiply(3 * Math.pow(offset, 2) * (1 - offset)))
+                .add(p[1].multiply(Math.pow(offset, 3)));
+            return new Point(res[0][0],res[0][1]);
     }
 }

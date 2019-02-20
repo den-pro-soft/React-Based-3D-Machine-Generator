@@ -39,6 +39,9 @@ export default class Text extends GraphicElement{
 
     }
 
+    /**
+     * @inheritDoc
+     */
     rotate(center,grad){
         let rotateMatrix = Matrix.createRotateMatrix(grad);
 
@@ -54,7 +57,7 @@ export default class Text extends GraphicElement{
     }
 
     /**
-     * @returns {{max:{x:number, y:number}, min:{x:number, y:number}}}
+     * @inheritDoc
      */
     getExtrenum(){
         let l = window.Helper.Text.textWidth(this.text,'Arial', this.fontSize);
@@ -77,12 +80,18 @@ export default class Text extends GraphicElement{
         return res;
     }
 
+    /**
+     * @inheritDoc
+     */
     isNear(point, eps){
         let ext = this.getExtrenum();
         return new Rect(new Point(ext.min.x, ext.max.y), new Point(ext.max.x, ext.min.y)).contain(point);
     }
 
-
+    /**
+     * @inheritDoc
+     * @return {Text}
+     */
     copy(){
         let res = new Text(this.position.copy(), this.text);
         res.height=this.height;
@@ -95,6 +104,9 @@ export default class Text extends GraphicElement{
         return res;
     }
 
+    /**
+     * @inheritDoc
+     */
     toPolyLines(){
         //todo: need use font module
 
