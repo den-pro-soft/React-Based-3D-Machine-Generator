@@ -4,6 +4,8 @@
 
 import ElementModificationCommand from './ElementModificationCommand';
 
+import Text from './../../model/elements/Text';
+
 export default class ChangeTextCommand extends ElementModificationCommand{
     /**
      * @param {Document} document
@@ -12,6 +14,13 @@ export default class ChangeTextCommand extends ElementModificationCommand{
      */
     constructor(document, elements, text){
         super(document, elements);
+
+        if(!elements || elements.length!=1){
+            throw new Exception('For use the function must be selected only one Text element!');
+        }
+        if(!elements[0] instanceof Text){
+            throw new Exception('For use the function must be selected Text element!');
+        }
 
         this.text=text;
 

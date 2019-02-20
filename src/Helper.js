@@ -91,18 +91,26 @@ class KeyHelper{
                     }
                     break;
                 case 37: //left
-                    app.moveSelected(-config.moveStep,0);
+                    if(e.target==document.body) {
+                        app.moveSelected(-config.moveStep, 0);
+                    }
                     break;
                 case 38: //up
-                    app.moveSelected(0,config.moveStep);
+                    if(e.target==document.body) {
+                        app.moveSelected(0, config.moveStep);
+                    }
                     break;
                 case 39: //right
-                    app.moveSelected(config.moveStep,0);
+                    if(e.target==document.body) {
+                        app.moveSelected(config.moveStep, 0);
+                    }
                     break;
                 case 40: //down
-                    app.moveSelected(0,-config.moveStep);
+                    if(e.target==document.body) {
+                        app.moveSelected(0, -config.moveStep);
+                    }
                     break;
-                case 32:
+                case 32: //Space
                     if(e.target==document.body){
                         app.useLastTool();
                     }

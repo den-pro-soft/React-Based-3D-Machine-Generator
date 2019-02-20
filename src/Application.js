@@ -20,6 +20,7 @@ import RotateElementsCommand from './2d/command/RotateElementsCommand';
 import MirrorElementsCommand from './2d/command/MirrorElementsCommand';
 import CopyDecorator from './2d/command/CopyDecorator';
 import ElementModificationCommand from './2d/command/ElementModificationCommand';
+import ChangeCirclesRadiusCommand from './2d/command/ChangeCirclesRadiusCommand';
 
 import PointerTool from './2d/tool/PointerTool';
 import ZoomTool from './2d/tool/ZoomTool';
@@ -54,7 +55,7 @@ let idGenerator = 1;
  * 3. openNewFile - the event will call when change or init currentDocument. The event has data the data is a new document
  *
  */
-class Application extends Observable{
+export default class Application extends Observable{
     constructor(){
         super();
 
@@ -421,40 +422,33 @@ class Application extends Observable{
         let command = new CopyDecorator(app.currentDocument, elements, moveCommand);
         this.executeCommand(command);
     }
-
-
-    _canChangeText(){
-        if(this.selectElements.length!=1){
-            throw new Exception('For use the function must be selected only one Text element!');
-        }
-        let element = this.selectElements[0];
-        if(!element instanceof Text){
-            throw new Exception('For use the function must be selected Text element!');
-        }
-        return true;
-    }
+    
     /**
      * @param {string} text
      * @throws {Exception} -if selected a few elements or if currently selected element isn't text element
      */
     setTextForSelectedElement(text){
-        if(this._canChangeText()) {
-            this.executeCommand(new ChangeTextCommand(app.currentDocument, this.selectElements, text));
-        }
+        this.executeCommand(new ChangeTextCommand(app.currentDocument, this.selectElements, text));
     }
 
     /**
      * @param {number} fontSize
-     * @throws {Exception} -if selected a few elements or if currently selected element isn't text element
+     * @throws {Exception} -if selected elements aren't only text element
      */
     setFontSizeForSelectedElement(fontSize){
-        if(this._canChangeText()) {
-            this.executeCommand(new ChangeFontSizeCommand(app.currentDocument, this.selectElements, fontSize));
-        }
+        this.executeCommand(new ChangeFontSizeCommand(app.currentDocument, this.selectElements, fontSize));
     }
 
     intersectSelectedElements(){
         this.executeCommand(new IntersectElementsCommand(this.currentDocument, this.selectElements));
+    }
+
+    /**
+     * @param {number} radius
+     * @throws {Exception} - if selected not only circles
+     */
+    setRadiusForSelectedElements(radius){
+        this.executeCommand(new ChangeCirclesRadiusCommand(this.currentDocument, this.selectElements, radius));
     }
 
     //</editor-fold>

@@ -13,6 +13,16 @@ export default class ChangeFontSizeCommand extends ElementModificationCommand{
     constructor(document, elements, fontSize){
         super(document, elements);
 
+        if(!elements || elements.length<1){
+            throw new Exception('For use the function must be selected at least one Text element!');
+        }
+
+        for(let element of elements) {
+            if (!element instanceof Text) {
+                throw new Exception('For use the function must be selected only Text elements!');
+            }
+        }
+
         this.fontSize=fontSize;
 
         this.name= 'ChangeFontSizeCommand';
@@ -22,7 +32,9 @@ export default class ChangeFontSizeCommand extends ElementModificationCommand{
      * @inheritDoc
      */
     executeCommand(){
-        this.elements[0].fontSize=this.fontSize;
+        for(let element of this.elements) {
+            element.fontSize = this.fontSize;
+        }
         return true;
     }
 }
