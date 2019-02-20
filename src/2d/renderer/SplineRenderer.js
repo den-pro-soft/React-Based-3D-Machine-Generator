@@ -8,7 +8,10 @@ export default class SplineRenderer extends Render{
         super(element);
     }
 
-    render(){
+    /**
+     * @inheritDoc
+     */
+    drawElement(){
         this.board.drawPolyLine(this.element.toPolyLines()[0].points);
         // this.board.style('fillStyle', '#ff0000');
         // this.board.drawArc(this.element.startPoint, 0.2, true);

@@ -10,6 +10,8 @@ import Cloneable from './../Cloneable';
  *
  * An implementation of this class is used to represent the data structure of the document.
  *
+ * The class implemented {@class Cloneable} and {@class Renderable}
+ *
  * @abstract
  */
 export default class GraphicElement extends Cloneable{
@@ -62,10 +64,10 @@ export default class GraphicElement extends Cloneable{
 
 
     /**
-     * The method render current element on a {@class Board} with using a {@class Render}
+     * The method renders some data structure using an instance of the {@class Render} class.
      */
     render(){
-        this._renderer.drawElement();
+        this._renderer.render();
     }
 
     resetRendererConfig(){

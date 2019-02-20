@@ -20,7 +20,10 @@ export default class LineRenderer extends Render{
         super(element);
     }
 
-    render(){
+    /**
+     * @inheritDoc
+     */
+    drawElement(){
         this.board.drawLine(this.element.p1, this.element.p2);
 
         if(this.element.lineType instanceof CommentToSelf) {

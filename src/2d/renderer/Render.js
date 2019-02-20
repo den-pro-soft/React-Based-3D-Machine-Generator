@@ -2,16 +2,17 @@
  * Created by dev on 09.01.19.
  */
 
+import Renderable from './../Renderable';
 
 /**
- *
+ * @inheritDoc
  */
-export default class Render{
+export default class Render extends Renderable{
     /**
      * @param {Element} element
      */
     constructor(element){
-
+        super();
         /** @var {GraphicElement} */
         this.element = element;
 
@@ -21,8 +22,10 @@ export default class Render{
         this.focus = false;
     }
 
-    
-    drawElement(){
+    /**
+     * @inheritDoc
+     */
+    render(){
         let props = this.element.lineType.getLineStyle();
         for(let prop in props){
             this.board.style(prop, props[prop]);
@@ -38,7 +41,7 @@ export default class Render{
             this.board.style('fillStyle', '#ff641a');
         }
         
-        this.render();
+        this.drawElement();
     }
 
     drawAsNew(){
@@ -55,9 +58,10 @@ export default class Render{
     }
 
     /**
+     * Render the {@class GraphicElement} with using an instance of the {@class Board}
      * @protected
      */
-    render(){
+    drawElement(){
         throw new Exception("The method doesn't have implementation");
     }
 }

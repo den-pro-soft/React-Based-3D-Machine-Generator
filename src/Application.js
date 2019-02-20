@@ -3,7 +3,7 @@
  */
 
 import Buffer from './Buffer';
-import Board from './2d/Board';
+import {Board} from './2d/Board';
 import Command from './2d/command/Command';
 import CommandHistory from './CommandHistory';
 import Document from './model/Document';

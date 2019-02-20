@@ -7,12 +7,18 @@ import Document from '../model/Document';
 import Point from '../model/Point';
 import Observable from './../Observable';
 import Trigonometric from './../model/math/Trigonometric';
+import Tool from './tool/Tool';
+
+import RulerBoardExtension from './board-extensions/RulerBoardExtension'
+import MousePointerBoardExtension from './board-extensions/MousePointerBoardExtension'
+import InteractiveBoardExtension from './board-extensions/InteractiveBoardExtension'
 
 /**
- * Event names:
- * 1. mouseMove - data is {Point} current mouse position (in virtual coordinate system)
+ * The class need for drawing simple graphic elements with using abstract coordinate system (not in pixel).
+ * The class is a virtual canvas. The class provides the ability to move and scale the
+ * canvas with using the virtual coordinate system (not in pixels).
  */
-export default class Board extends Observable{
+class Board extends Observable{
     /**
      * @param {HTMLCanvasElement} canvas
      */
@@ -23,87 +29,41 @@ export default class Board extends Observable{
         this._initCenterPosition = {x: 0, y: 0}; //pixel
 
         this._pixelPerOne=50;
-        this._document = new Document();
-
-        this.tool;
 
         this._canvas=canvas;
         this._context = canvas.getContext('2d');
 
         this._width = 500;
         this._height = 500;
-
-        this._magnificationMode = false;
-
-        this._mouseDown = null;
-        this._mousePosition = {x: 0, y: 0};
-        canvas.addEventListener('mousemove', e=>this.mouseMove(e));
-        canvas.addEventListener('mousedown', e=>this.mouseDown(e));
-        canvas.addEventListener('mouseup', e=>this.mouseUp(e));
-        if (canvas.addEventListener) {
-            if ('onwheel' in document) {
-                canvas.addEventListener("wheel", e=>this._mouseWheel(e));
-            } else if ('onmousewheel' in document) {
-                this.canvas.addEventListener("mousewheel", e=>this._mouseWheel(e));
-            } else {
-                this.canvas.addEventListener("MozMousePixelScroll", e=>this._mouseWheel(e));
-            }
-        } else {
-            this.canvas.attachEvent("onmousewheel", e=>this._mouseWheel(e));
-        }
-        canvas.addEventListener('click',  e=>this.mouseClick(e));
-        canvas.addEventListener('dblclick',  e=>this._mouseDbClick(e));
-
-        setTimeout(()=>{this.renderDocument()}, 100);
-    }
-    
-    set document(doc){
-        this._document=doc;
-        this.tool.document=doc;
     }
 
-    get document(){
-        return this._document;
-    }
-
+    /**
+     * Use the method when init and resize the canvas. To display the correct proportions.
+     * @param {number} width - in pixel
+     * @param {number} height - in pixel
+     */
     setSize(width, height) {
         this._width = width;
         this._height = height;
         this._initCenterPosition.x=width/2;
         this._initCenterPosition.y=height/2;
-        this.renderDocument();
     }
 
+    /**
+     * The method of sketching the entire canvas given colors
+     * @param {string} color - clean color
+     */
     clear(color) {
         this.style('fillStyle', color?color:'#ffffff');
         this._drawRect({x: 0, y: 0}, {x: this._width, y: this._height}, true);
     }
 
-    renderDocument() {
-        this.clear('#ffffff');
-        if(this.tool) {
-            this.tool.render();
-        }
-        m: for(let element of this.document._elements){
-            for(let el of app.selectElements){
-                if(el.compare(element)){
-                    continue m;
-                }
-            }
-            element.render();
-        }
-
-
-        this._drawRulers();
-    }
-
     /**
-     * @param {Tool} tool
+     * Method sets styles for drawing elements.
+     * @see(https://www.w3.org/TR/2dcontext/#line-styles) - for example
+     * @param {string} property -  <code>fillStyle</code> - is example
+     * @param {string|number} value - <code>#664334</code> - is example
      */
-    setTool(tool){
-        this.tool=tool;
-    }
-
     style(property, value){
         switch(property){
             case 'dash':
@@ -136,33 +96,6 @@ export default class Board extends Observable{
         return new Point((point.x-this._initCenterPosition.x-this._bias.x)/divider
             ,-(point.y-this._initCenterPosition.y-this._bias.y)/divider,0);
     }
-    
-    zoomToFitScreen(){
-        let ext = this._document.getExtrenum();
-        let width = ext.max.x-ext.min.x;
-        let height = ext.max.y-ext.min.y;
-
-        let O = this._convertToGlobalCoordinateSystem({x:0,y:0});
-        let wh = this._convertToGlobalCoordinateSystem({x:this._width,y:this._height});
-
-        let localWidth = wh.x-O.x;
-        let localHeight = O.y-wh.y;
-
-        let zoom = Math.min(localWidth/width,localHeight/height);
-
-        console.log(this._scale*zoom);
-        this._setScale((this._scale*zoom)/2);
-
-
-        let leftUpPoint = this._convertToLocalCoordinateSystem(new Point(ext.min.x, ext.max.y));
-        let rightDownPoint = this._convertToLocalCoordinateSystem(new Point(ext.max.x, ext.min.y));
-        console.log(leftUpPoint);
-        console.log(rightDownPoint);
-        this._bias.x-=leftUpPoint.x-this._width/2+(rightDownPoint.x-leftUpPoint.x)/2+50;
-        this._bias.y-=leftUpPoint.y-this._height/2+(rightDownPoint.y-leftUpPoint.y)/2+50;
-
-        this.renderDocument();
-    }
 
     /**
      * @param {{x: number, y: number}} point
@@ -178,55 +111,6 @@ export default class Board extends Observable{
         }
         this.renderDocument();
     }
-
-    //<editor-fold desc="events handlers">
-
-    mouseMove(e) {
-        this._document.resetRendererConfig();
-        let globalPoint = this._convertToGlobalCoordinateSystem({x:e.offsetX, y:e.offsetY});
-        if (!this.tool.mouseMove(globalPoint, e)) {
-            if (this._mouseDown) {
-                this._setBias(this._bias.x - (this._mouseDown.offsetX - e.offsetX)
-                            ,this._bias.y - (this._mouseDown.offsetY - e.offsetY));
-                this._mouseDown = e;
-            }
-        }
-        this._mousePosition={x:e.offsetX, y:e.offsetY};
-        this.renderDocument();
-        this._notifyHandlers('mouseMove',globalPoint);
-    }
-
-    mouseUp(e) {
-        this._document.resetRendererConfig();
-        this.tool.mouseUp(this._convertToGlobalCoordinateSystem({x: e.offsetX, y: e.offsetY}), e);
-        this._mouseDown = null;
-        this.renderDocument();
-    }
-
-    mouseDown(e) {
-        this._document.resetRendererConfig();
-        this.tool.mouseDown(this._convertToGlobalCoordinateSystem({x: e.offsetX, y: e.offsetY}), e);
-        this._mouseDown = e;
-        this.renderDocument();
-    }
-
-    mouseClick(e) {
-        this._document.resetRendererConfig();
-        this.tool.mouseClick(this._convertToGlobalCoordinateSystem({x:e.offsetX, y:e.offsetY}), e);
-    }
-
-    _mouseWheel(e) {
-        this._document.resetRendererConfig();
-        let dScale = e.deltaY / 500;
-        this._zoomAroundPoint(1+dScale,{x:e.offsetX, y:e.offsetY});
-    }
-
-    _mouseDbClick(e) {
-        this._document.resetRendererConfig();
-        this.tool.mouseDbClick(this._convertToGlobalCoordinateSystem({x: e.offsetX, y: e.offsetY}), e);
-    }
-
-    //</editor-fold>
 
     //<editor-fold desc="methods for drawing simple elements">
     
@@ -375,120 +259,196 @@ export default class Board extends Observable{
         this._scale=scale;
         return true;
     }
-
-    _drawRulers() {
-        let rulerWidth = 20;
-        let rulerBackgroundColor = '#efefef';
-        let fillColor = '#444444';
-
-        this._context.font = "400 9px Arial";
-        this._context.textBaseline = "middle";
-        this._context.textAlign = "center";
-        this._context.fillStyle = fillColor;
-        this._context.strokeStyle = fillColor;
-
-        this.style('fillStyle',rulerBackgroundColor);
-        this._drawRect({x: rulerWidth, y: 0}, {x: this._width, y: rulerWidth}, true);
-        this.style('fillStyle',fillColor);
-        let convertX =x=>x*this._pixelPerOne*this._scale+this._initCenterPosition.x+this._bias.x;
-
-        let divider=1;
-        // if(this._scale<0.0002)       divider = 7000;
-        // else if(this._scale<0.0005) divider = 5E3;
-        if(this._scale<0.002)  divider = 1E3;
-        else if(this._scale<0.003)  divider = 500;
-        else if(this._scale<0.005)  divider = 200;
-        else if(this._scale<0.01)   divider = 100;
-        else if(this._scale<0.03)   divider = 50;
-        else if(this._scale<0.05)   divider = 25;
-        else if(this._scale<0.2)    divider = 10;
-        else if(this._scale<1)      divider = 5;
-        // else if(this._scale>1000)     divider = 0.002;
-        else if(this._scale>500)     divider = 0.005;
-        else if(this._scale>100)     divider = 0.01;
-        else if(this._scale>15)     divider = 0.05;
-        else if(this._scale>7)     divider = 0.2;
-        else if(this._scale>2)      divider = 0.5;
-
-        let drawDivision = (x)=>{
-            x=Math.round((x)*1E3)/1E3;
-            let localX = convertX(x);
-            let l = (x*1E3)%(divider*1E3)==0?10:5;
-            if(l==10){
-                this._context.fillText(x, localX, 6);
-            }
-            this._context.fillRect(localX, rulerWidth-l, 1, l);
-        };
-
-
-        let delta = 1;
-        if(divider>5){
-            delta = parseInt(divider/5);
-        }else {
-            delta = divider == 5?1:divider;
-        }
-
-        let minX = parseInt(this._convertToGlobalCoordinateSystem({x:0,y:0}).x)-1;
-        let maxX = parseInt(this._convertToGlobalCoordinateSystem({x:this._width+rulerWidth,y:0}).x)+1;
-        if(maxX<=0 || minX>0){
-            for (let x = minX; x < maxX; x+=delta) drawDivision(x);
-        }else{
-            for (let x = 0; x < maxX; x+=delta) drawDivision(x);
-            for (let x = 0; x > minX; x-=delta) drawDivision(x);
-        }
-
-        this.style('fillStyle',rulerBackgroundColor);
-        this._drawRect({x: 0, y: 0}, {x: rulerWidth, y: this._height}, true);
-        this.style('fillStyle',fillColor);
-        this._context.rotate(-Math.PI / 2);
-
-        let convertY =y=>y*this._pixelPerOne*this._scale+this._initCenterPosition.y+this._bias.y;
-
-
-        let drawDivisionY = (x)=>{
-            x=Math.round((x)*1E3)/1E3;
-            let localX = convertY(-x);
-            let l = (x*1E3)%(divider*1E3)==0?10:5;
-            if(l==10){
-                this._context.fillText(x, -localX, 6);
-            }
-            this._context.fillRect(-localX,rulerWidth-l, 1,l);
-        };
-        let maxY = parseInt(this._convertToGlobalCoordinateSystem({x:0,y:rulerWidth}).y)+1;
-        let minY = parseInt(this._convertToGlobalCoordinateSystem({x:0,y:this._height}).y)-1;
-        if(maxY<=0 || minX>0){
-            for (let y = minY; y < maxY; y+=delta) drawDivisionY(y);
-        }else{
-            for (let y = 0; y < maxY; y+=delta) drawDivisionY(y);
-            for (let y = 0; y > minY; y-=delta) drawDivisionY(y);
-        }
-
-        this._context.rotate(Math.PI / 2);
-
-
-
-        this.style('fillStyle','rgba(200, 100, 50, 1.0)');
-        this._context.beginPath();
-        this._context.moveTo(this._mousePosition.x, 20);
-        this._context.lineTo(this._mousePosition.x - 3, 20 - 9);
-        this._context.lineTo(this._mousePosition.x + 3, 20 - 9);
-        this._context.lineTo(this._mousePosition.x, 20);
-        this._context.fill();
-
-
-        this._context.beginPath();
-        this._context.moveTo(20, this._mousePosition.y);
-        this._context.lineTo(20 - 9, this._mousePosition.y - 3);
-        this._context.lineTo(20 - 9, this._mousePosition.y + 3);
-        this._context.lineTo(20,this._mousePosition.y);
-        this._context.fill();
-
-        this.style('fillStyle',rulerBackgroundColor);
-        this._drawRect({x: 0, y: 0}, {x: rulerWidth+5, y: rulerWidth+5}, true);
-    }
-
     //</editor-fold>
 }
 
+
+
+/**
+ * The class is interactive board. It's mean that class can processing mouse events. 
+ * For example: move the board with using mouse. 
+ *
+ * The class have render cycle.
+ *
+ * 1. some event (for example mouse move)
+ * 2. the event redirects the event to {@class Toll}
+ * 3. render the tool and document if those properties was set
+ * 4. render board extensions
+ *  
+ *  
+ *  
+ * Event names:
+ *
+ * 1. mouseMove - data is {Point} current mouse position (in virtual coordinate system)
+ */
+class InteractiveBoard extends Board{
+    /**
+     * @inheritDoc
+     */
+    constructor(canvas){
+        super(canvas);
+
+        this._mouseDown = null;
+
+        /**
+         * It's abstraction with data structure and implementation the {@class Renderable}.
+         * @type {Renderable}
+         * @private
+         */
+        this._document = null;
+
+        /**
+         *
+         * @type {Tool}
+         */
+        this.tool = null;
+
+        /** @type {Array.<BoardExtension>} */
+        this.boardExtensions = [new RulerBoardExtension(this), new MousePointerBoardExtension(this)];
+        
+        setTimeout(()=>{this.renderDocument()}, 100);
+
+
+        canvas.addEventListener('mousemove', e=>this.mouseMove(e));
+        canvas.addEventListener('mousedown', e=>this.mouseDown(e));
+        canvas.addEventListener('mouseup', e=>this.mouseUp(e));
+        if (canvas.addEventListener) {
+            if ('onwheel' in document) {
+                canvas.addEventListener("wheel", e=>this.mouseWheel(e));
+            } else if ('onmousewheel' in document) {
+                this.canvas.addEventListener("mousewheel", e=>this.mouseWheel(e));
+            } else {
+                this.canvas.addEventListener("MozMousePixelScroll", e=>this.mouseWheel(e));
+            }
+        } else {
+            this.canvas.attachEvent("onmousewheel", e=>this.mouseWheel(e));
+        }
+        canvas.addEventListener('click',  e=>this.mouseClick(e));
+        canvas.addEventListener('dblclick',  e=>this.mouseDbClick(e));
+    }
+
+    mouseMove(e) {
+        this._document.resetRendererConfig();
+        let globalPoint = this._convertToGlobalCoordinateSystem({x:e.offsetX, y:e.offsetY});
+        if (!this.tool.mouseMove(globalPoint, e)) {
+            if (this._mouseDown) {
+                this._setBias(this._bias.x - (this._mouseDown.offsetX - e.offsetX)
+                    ,this._bias.y - (this._mouseDown.offsetY - e.offsetY));
+                this._mouseDown = e;
+            }
+        }
+
+        for(let extension of this.boardExtensions){
+            if(extension instanceof InteractiveBoardExtension) {
+                extension.mouseMove({x:e.offsetX, y:e.offsetY});
+            }
+        }
+        
+        this.renderDocument();
+        this._notifyHandlers('mouseMove',globalPoint);
+    }
+
+    mouseUp(e) {
+        this._document.resetRendererConfig();
+        this.tool.mouseUp(this._convertToGlobalCoordinateSystem({x: e.offsetX, y: e.offsetY}), e);
+        this._mouseDown = null;
+        this.renderDocument();
+    }
+
+    mouseDown(e) {
+        this._document.resetRendererConfig();
+        this.tool.mouseDown(this._convertToGlobalCoordinateSystem({x: e.offsetX, y: e.offsetY}), e);
+        this._mouseDown = e;
+        this.renderDocument();
+    }
+
+    mouseClick(e) {
+        this._document.resetRendererConfig();
+        this.tool.mouseClick(this._convertToGlobalCoordinateSystem({x:e.offsetX, y:e.offsetY}), e);
+    }
+
+    mouseWheel(e) {
+        this._document.resetRendererConfig();
+        let dScale = e.deltaY / 500;
+        this._zoomAroundPoint(1+dScale,{x:e.offsetX, y:e.offsetY});
+    }
+
+    mouseDbClick(e) {
+        this._document.resetRendererConfig();
+        this.tool.mouseDbClick(this._convertToGlobalCoordinateSystem({x: e.offsetX, y: e.offsetY}), e);
+    }
+
+    zoomToFitScreen(){
+        let ext = this._document.getExtrenum();
+        let width = ext.max.x-ext.min.x;
+        let height = ext.max.y-ext.min.y;
+
+        let O = this._convertToGlobalCoordinateSystem({x:0,y:0});
+        let wh = this._convertToGlobalCoordinateSystem({x:this._width,y:this._height});
+
+        let localWidth = wh.x-O.x;
+        let localHeight = O.y-wh.y;
+
+        let zoom = Math.min(localWidth/width,localHeight/height);
+
+        console.log(this._scale*zoom);
+        this._setScale((this._scale*zoom)/2);
+
+
+        let leftUpPoint = this._convertToLocalCoordinateSystem(new Point(ext.min.x, ext.max.y));
+        let rightDownPoint = this._convertToLocalCoordinateSystem(new Point(ext.max.x, ext.min.y));
+        console.log(leftUpPoint);
+        console.log(rightDownPoint);
+        this._bias.x-=leftUpPoint.x-this._width/2+(rightDownPoint.x-leftUpPoint.x)/2+50;
+        this._bias.y-=leftUpPoint.y-this._height/2+(rightDownPoint.y-leftUpPoint.y)/2+50;
+
+        this.renderDocument();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    setSize(width, height){
+        super.setSize(width, height);
+        this.renderDocument();
+    }
+
+    /**
+     * @param {Tool} tool
+     */
+    setTool(tool){
+        this.tool=tool;
+    }
+
+    renderDocument() {
+        this.clear('#ffffff');
+        if(this.tool) {
+            this.tool.render();
+        }
+        if(this.document){
+            this.document.render();
+        }
+
+        for(let extension of this.boardExtensions){
+            extension.render();
+        }
+
+    }
+
+    set document(doc){
+        this._document=doc;
+        this.tool.document=doc;
+    }
+
+    get document(){
+        return this._document;
+    }
+}
+
+
+
+
+export {Board, InteractiveBoard};
+
 // global.Board2 = Board;
-window.Board2 = Board;
+window.Board2 = InteractiveBoard;

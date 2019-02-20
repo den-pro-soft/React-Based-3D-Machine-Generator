@@ -9,7 +9,10 @@ export default class GroupRenderer extends Render{
         super(element);
     }
 
-    render(){
+    /**
+     * @inheritDoc
+     */
+    drawElement(){
         for(let element of this.element.elements){
             element.render();
         }

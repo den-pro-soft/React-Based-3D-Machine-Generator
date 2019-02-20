@@ -2,15 +2,19 @@
  * Created by dev on 09.01.19.
  */
 
+import Renderable from './../Renderable';
 import Document from '../../model/Document';
 import Point from '../../model/Point';
 import Cursor from './Cursor';
 
-export default class Tool{
+
+
+export default class Toll extends Renderable{
     /**
      * @param {Document} document
      */
     constructor(document){
+        super();
         this._document = document;
         this.cursor = new Cursor();
 
@@ -80,7 +84,7 @@ export default class Tool{
     }
 
     /**
-     *
+     * @inheritDoc
      */
     render(){
         if(this.cursor) {

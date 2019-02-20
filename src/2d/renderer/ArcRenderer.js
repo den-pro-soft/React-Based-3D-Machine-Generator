@@ -16,7 +16,10 @@ export default class ArcRenderer extends Render{
         super(element);
     }
 
-    render(){
+    /**
+     * @inheritDoc
+     */
+    drawElement(){
         /** @var {Arc} */
         let e = this.element;
         this.board.drawArc(e.center, e.radius, e.startAngle, e.endAngle);

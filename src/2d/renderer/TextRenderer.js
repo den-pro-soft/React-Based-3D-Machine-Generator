@@ -15,7 +15,10 @@ export default class TextRenderer extends Render{
         super(element);
     }
 
-    render(){
+    /**
+     * @inheritDoc
+     */
+    drawElement(){
         let height = this.element.fontSize * this.board._pixelPerOne*this.board._scale;
         this.board.style('font',height + 'px Arial');
         this.board.style('textAlign','start');

@@ -5,9 +5,11 @@
 
 import Exception from '../Exception';
 import GraphicElement from './GraphicElement';
+import Renderable from './../2d/Renderable';
 
-export default class Document{
+export default class Document extends Renderable{
     constructor(){
+        super();
         /** @var {Array.<GraphicElement>}*/
         this._elements = [];
 
@@ -114,6 +116,21 @@ export default class Document{
      */
     getListSimpleElements(){
         return Document.toSimpleListElements(this._elements);
+    }
+
+    /**
+     * @inheritDoc
+     * 
+     */
+    render(){
+        m: for(let element of this._elements){
+            for(let el of app.selectElements){
+                if(el.compare(element)){
+                    continue m;
+                }
+            }
+            element.render();
+        }
     }
 
     resetRendererConfig(){
