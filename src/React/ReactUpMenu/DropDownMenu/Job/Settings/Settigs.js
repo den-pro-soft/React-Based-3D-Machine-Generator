@@ -18,19 +18,19 @@ export default class Settings extends React.Component {
     super(props);
     this.state = {
       // firstName:'',
-      lastName:'',
+      // lastName:'',
       businessName:'',
       email:'',
-      order:'Standard Order'
+      // order:'Standard Order'
     }
     }
 //   updateFirstName = (value) => {
 //     this.setState({ firstName: value })
 //  }
 
- updateLastName = (value) => {
-  this.setState({ lastName: value })
-}
+//  updateLastName = (value) => {
+//   this.setState({ lastName: value })
+// }
 
 updateBusinessName = (value) => {
   console.log(value,'value in Settinsg')
@@ -41,10 +41,10 @@ updateEmail = (value) => {
   console.log(value,'value in Settinsg')
   this.setState({ email: value })
 }
-updateOrder =  (value) => {
-  console.log(value,'value in Settinsg')
-  this.setState({ order: value })
-}
+// updateOrder =  (value) => {
+//   console.log(value,'value in Settinsg')
+//   this.setState({ order: value })
+// }
  render(){
   return (
     <div
@@ -95,10 +95,10 @@ updateOrder =  (value) => {
       <Switch>
           <Route path="/" exact render={() => <Address 
           // updateFirstName={this.updateFirstName} 
-          updateLastName={this.updateLastName}
+          // updateLastName={this.updateLastName}
           updateBusinessName={this.updateBusinessName}
           updateEmail={this.updateEmail}
-          updateOrder={this.updateOrder}
+          // updateOrder={this.updateOrder}
           />}/>
           {/* <Route path="/" exact component={Address} /> */}
 
@@ -108,10 +108,12 @@ updateOrder =  (value) => {
 
           <Route path="/summary" render={() => <Summary 
             // firstName={this.state.firstName}
-            lastName={this.state.lastName}
+            // lastName={this.state.lastName}
             businessName={this.state.businessName} 
             email={this.state.email} 
-            order={this.state.order}/>} />
+            // order={this.state.order}
+            />
+            } />
         </Switch>
 
       </div>

@@ -14,7 +14,7 @@ class Adress extends React.Component {
       provinceOther2: false,
       value: "U.S.A.",
       // firstName:'',
-      lastName:'',
+      // lastName:'',
       businessName:'',
       email:''
     };
@@ -26,13 +26,13 @@ class Adress extends React.Component {
   //   });
   // }
 
-  handleLastNameChange = (e) =>{
-    // this.props.handleLastNameChange(e.target.value)
-    this.setState({lastName: e.target.value},()=>{
-      console.log(this.state.lastName,'lastName')
-    this.props.updateLastName(this.state.lastName)
-    });
-  }
+  // handleLastNameChange = (e) =>{
+  //   // this.props.handleLastNameChange(e.target.value)
+  //   this.setState({lastName: e.target.value},()=>{
+  //     console.log(this.state.lastName,'lastName')
+  //   this.props.updateLastName(this.state.lastName)
+  //   });
+  // }
 
   handleBusinessNameChange = (e) =>{
     this.setState({businessName: e.target.value},()=>{
@@ -85,6 +85,7 @@ class Adress extends React.Component {
     window.open("https://www.emachineshop.com/privacy/");
   }
   render() {
+    console.log(this.props,'props-Adress')
     const countries = [
       "U.S.A.",
       "Canada",
@@ -222,12 +223,12 @@ class Adress extends React.Component {
                   <input type="text" 
                     value={this.state.lastName}
                     // value={this.props.lastName}
-                    onChange={this.handleLastNameChange}
-                    // onChange = {(e) => {
-                    //   this.props.handleLastNameChange(
-                    //     e.target.value
-                    //   );
-                    // }} 
+                    // onChange={this.handleLastNameChange}
+                    onChange = {(e) => {
+                      this.props.handleLastNameChange(
+                        e.target.value===undefined?e.target.value='':e.target.value
+                      );
+                    }} 
                     />
                 </div>
                 <div className="Input">
@@ -469,21 +470,20 @@ class Adress extends React.Component {
 }
 const mapStateToProps = state => {
   return {
-    firstName: state.summaryReducer.firstName
+    firstName: state.summaryReducer.firstName,
+    lastName: state.summaryReducer.lastName
+
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    handleLastNameChange: value => {
-      dispatch({ type: "LAST_NAME", payload: value });
-    },
     handleFirstNameChange: value => {
       dispatch({ type: "FIRST_NAME", payload: value });
+    },
+    handleLastNameChange: value => {
+      dispatch({ type: "LAST_NAME", payload1: value });
     }
-    // handleLastNameChange: value => {
-    //   dispatch({ type: "LAST_NAME", payload: value });
-    // }
    } 
 };
 export default connect(mapStateToProps,mapDispatchToProps)(Adress);

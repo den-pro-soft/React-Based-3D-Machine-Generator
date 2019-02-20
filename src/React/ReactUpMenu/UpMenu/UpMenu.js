@@ -10,6 +10,7 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Preferences from "../DropDownMenu/Edit/Preferences";
 import { connect } from "react-redux";
+import {withRouter}from 'react-router-dom';
 
 
 import { DraggablePopup } from "./../../../popup";
@@ -39,6 +40,7 @@ let show3D = function() {
   }
 };
 
+// export default 
 class UpMenu extends React.Component {
   constructor(props) {
     super(props);
@@ -73,7 +75,6 @@ class UpMenu extends React.Component {
     window.open("https://www.emachineshop.com/help-preferences/#measurements");
   };
   render() {
-    // console.log(this.props,'props-UpMenu-redux')
     return (
       <div className="UpMenu">
         <div className="Drop">
@@ -126,7 +127,8 @@ class UpMenu extends React.Component {
                     this.props.updateDataDemensions(
                       this.props.demensions === "Millimeters"?"Inches":"Millimeters" 
                     );
-                  }}>
+                  }}
+                  >
                 <a href="#">
                   <img width="24px" src="images/ToggleInch.png" />
                 </a>
@@ -230,4 +232,4 @@ const mapDispatchToProps = dispatch => {
     }
   };
 };
-export default connect(mapStateToProps,mapDispatchToProps)(UpMenu);
+export default withRouter(connect(mapStateToProps,mapDispatchToProps)(UpMenu));

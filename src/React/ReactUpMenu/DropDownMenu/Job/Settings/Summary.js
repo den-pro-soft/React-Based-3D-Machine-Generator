@@ -261,7 +261,8 @@ class ReactVirtualizedTable extends React.PureComponent {
 const mapStateToProps = state => {
   return {
     firstName: state.summaryReducer.firstName,
-    // lastName: state.summaryReducer.lastName
+    lastName: state.summaryReducer.lastName,
+    order:state.summaryReducer.order
 
   };
 };

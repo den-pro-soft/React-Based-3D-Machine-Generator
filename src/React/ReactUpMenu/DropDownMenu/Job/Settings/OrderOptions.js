@@ -5,24 +5,25 @@ import RadioGroup from "@material-ui/core/RadioGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormControl from "@material-ui/core/FormControl";
 import Checkbox from "@material-ui/core/Checkbox";
+import { connect } from "react-redux";
 
-export default class OrderOptions extends React.Component {
+class OrderOptions extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      order: "Standard Order",
+      // order: "Standard Order",
       isChecked: false
     };
   }
 
-  handleRadioChange = event => {
-    event.preventDefault();
+  // handleRadioChange = event => {
+  //   event.preventDefault();
 
-    this.setState({ order: event.target.value });
-    this.props.updateOrder(this.state.value)
+  //   this.setState({ order: event.target.value });
+  //   // this.props.updateOrder(this.state.value)
 
-    console.log(this.state.value, "this.state.value");
-  };
+  //   console.log(this.state.value, "this.state.value");
+  // };
 
   handleChecked = event => {
     window.setTimeout(() => {
@@ -32,6 +33,7 @@ export default class OrderOptions extends React.Component {
     }, 0);
   };
   render() {
+    console.log(this.props,'props-Order')
     return (
       <div className="OrderOptions">
         <form>
@@ -40,8 +42,11 @@ export default class OrderOptions extends React.Component {
               <RadioGroup
                 // aria-label="Order"
 
-                value={this.state.order}
-                onChange={this.handleRadioChange}
+                value={this.props.order}
+                // onChange={this.handleRadioChange}
+                onChange={(e)=>{
+                  this.props.updateOrder(e.target.value)
+                }}
               >
                 <FormControlLabel
                   value="Standard Order"
@@ -55,7 +60,7 @@ export default class OrderOptions extends React.Component {
                   label="Standard Order"
                 />
                 <FormControlLabel
-                  value="order2"
+                  value="Change order"
                   control={
                     <Radio
                       classes={{ root: "root" }}
@@ -93,7 +98,7 @@ export default class OrderOptions extends React.Component {
             </div>
           )} */}
 
-          {this.state.order === "order2" && (
+          {this.props.order === "Change order" && (
             <div className="Text">
               <p style={{textAlign:'left'}}>
                 Use this option to make a change to in order in progress. (Do not
@@ -131,7 +136,7 @@ export default class OrderOptions extends React.Component {
             </div>
           )}
 
-          {this.state.order === "order3" && (
+          {this.props.order === "order3" && (
             <div className="Text">
               <p style={{textAlign:'left'}}>
                 Use this option if the eMachineShop staff advises you to make a
@@ -181,3 +186,20 @@ export default class OrderOptions extends React.Component {
     );
   }
 }
+const mapStateToProps = state => {
+  return {
+    // firstName: state.summaryReducer.firstName,
+    // lastName: state.summaryReducer.lastName
+    order:state.summaryReducer.order
+
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    updateOrder: value => {
+      dispatch({ type: "ORDER", payload: value });
+    }
+  };
+};
+export default connect(mapStateToProps,mapDispatchToProps)(OrderOptions);
