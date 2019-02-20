@@ -51,7 +51,6 @@ export default class GraphicElement extends Cloneable{
      * @param {LineType} lineType
      */
     set lineType(lineType){
-        console.log(lineType);
         this._lineType = lineType.copy();
     }
 

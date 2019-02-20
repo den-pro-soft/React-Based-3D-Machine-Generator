@@ -26,7 +26,7 @@ export default class LineRenderer extends Render{
     drawElement(){
         this.board.drawLine(this.element.p1, this.element.p2);
 
-        if(this.element.lineType instanceof CommentToSelf) {
+        if(this.element.lineType instanceof CommentToSelf && this.element.lineType.dimension) {
             this._renderPointers();
         }
     }

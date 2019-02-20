@@ -10,6 +10,8 @@ export default class CommentToSelf extends LineType{
         this.name='Comment';
         this.label = "Comment to Self";
         this.id=14;
+
+        this.dimension = false;
     }
 
     /**
@@ -17,7 +19,9 @@ export default class CommentToSelf extends LineType{
      * @return {CommentToSelf}
      */
     copy(){
-        return new CommentToSelf();
+        let res = new CommentToSelf();
+        res.dimension = this.dimension;
+        return res;
     }
 
     /**

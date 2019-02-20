@@ -13,6 +13,7 @@ export default class RulerTool extends LineTool{
     createElement(point){
         let line = super.createElement(point);
         line.lineType = new CommentToSelf();
+        line.lineType.dimension=true;
         return line;
     }
 }
