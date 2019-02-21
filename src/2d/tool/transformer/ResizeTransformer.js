@@ -7,26 +7,30 @@ import RectElementController from './../RectElementControler';
 import Point from './../../../model/Point';
 import Group from './../../../model/elements/Group';
 import Rect from "../../../model/math/Rect";
+import ChangeElementsSizeCommand from './../../command/ChangeElementsSizeCommand';
 
 class ControlPoint{
-    constructor(x,y,name){
+    constructor(x,y, alignX, alignY){
         this.x=x;
         this.y=y;
-        this.name =name;
+        this.alignX = alignX;
+        this.alignY = alignY;
     }
 }
 
 
 class ResizeRect extends RectElementController{
-    constructor(el){
+    constructor(document, el){
         super(new Point(),new Point());
         this.board = container.board;
 
         this.pointPadding = 4;
         this.rectPadding = 10;
 
-        this.elements = el;
+        this._document = document;
+        this._elements = el;
 
+        // this.command = new ChangeElementsSizeCommand(this._document, el, 0, 0, ChangeElementsSizeCommand.ALIGN_X.canter, ChangeElementsSizeCommand.ALIGN_Y.center);
     }
 
     set elements(el){
@@ -85,7 +89,7 @@ class ResizeRect extends RectElementController{
         this.board._drawLine(p2, {x:p1.x, y:p2.y});
         this.board._drawLine({x:p1.x, y:p2.y}, p1); 
 
-       let controlPoints = this.getControlPoints();
+        let controlPoints = this.getControlPoints();
         for(let p of controlPoints) {
             this._drawControlPoint(p);
         }
@@ -97,6 +101,10 @@ class ResizeRect extends RectElementController{
 
         this._p2.x+=x;
         this._p2.y+=y;
+
+        for(let element of this._elements){
+            element.move(x,y);
+        }
     }
 
     _createControlPointRect(p){
@@ -187,7 +195,6 @@ class ResizeRect extends RectElementController{
 
 
 /**
- * If resize a circle the circle translates to group with four splines (ask user)
  * 3. resize elements
  * 5. move elements on board
  */
@@ -200,7 +207,7 @@ export default class ResizeTransformer extends Transformer{
             
         this._downPosition = null;
 
-        this.activeControllPoint = null;
+        // this.activeControllPoint = null;
 
         this.dx = 0;
         this.dy = 0;
@@ -209,7 +216,7 @@ export default class ResizeTransformer extends Transformer{
     addElements(elements){
         super.addElements(elements);
         if(!this.resizeRect){
-            this.resizeRect = new ResizeRect(this._elements);
+            this.resizeRect = new ResizeRect(this._document, this._elements);
         }
         this.resizeRect.elements = this._elements;
     }
@@ -221,16 +228,13 @@ export default class ResizeTransformer extends Transformer{
     mouseDown(point){
         super.mouseDown();
         this._downPosition = point;
-        if(this.resizeRect){
-            if(this.resizeRect.contain(point)){
-                if (this.resizeRect.isControlPoint(point)){
-                    this.activeControllPoint = this.resizeRect._getControlPointByPoint(point);
-                }
-                return false;
-            }else{
-                return true;
-            }
+        if(this.resizeRect && this.resizeRect.contain(point)){
+            // if (this.resizeRect.isControlPoint(point)){
+            //     this.activeControllPoint = this.resizeRect._getControlPointByPoint(point);
+            // }
+            return false;
         }
+        return true;
     }
 
     /**
@@ -240,16 +244,20 @@ export default class ResizeTransformer extends Transformer{
     mouseUp(point){
         this._downPosition = null;
         if(this.resizeRect) {
-            this.activeControllPoint=null;
             if(this.dx!=0 || this.dy!=0){
-                app.moveSelected(this.dx, this.dy);
+                // if(this.activeControllPoint) {
+                    app.moveSelected(this.dx, this.dy);
+                // }else{
+                //     app.executeCommand(new ChangeElementsSizeCommand(this.board.document, this._elements,
+                //         this.dx, this.dy,this.activeControllPoint.alignX, this.activeControllPoint.alignX));
+                // }
                 this.dx = 0;
                 this.dy = 0;
             }
+            // this.activeControllPoint=null;
             return super.mouseUp(point) && this.resizeRect.contain(point);
-        }else{
-            return super.mouseUp(point);
         }
+        return super.mouseUp(point);
     }
     
     mouseMove(point){
@@ -259,16 +267,13 @@ export default class ResizeTransformer extends Transformer{
                 let dx = point.x - this._downPosition.x;
                 let dy = point.y - this._downPosition.y;
 
-                if (this.resizeRect.isControlPoint(this._downPosition) || this.activeControllPoint) {
-                    this.resizeRect.resizeElements(this.activeControllPoint, dx,dy);
-                } else {
+                // if (this.resizeRect.isControlPoint(this._downPosition) || this.activeControllPoint) {
+                //     this.resizeRect.resizeElements(this.activeControllPoint, dx,dy);
+                // } else {
                     this.dx+=dx;
                     this.dy+=dy;
-                    for (let element of this._elements) {
-                        element.move(dx, dy);
-                        this.resizeRect.move(dx,dy);
-                    }
-                }
+                    this.resizeRect.move(dx,dy);
+                // }
                 this._downPosition = point;
                 return false;
             }

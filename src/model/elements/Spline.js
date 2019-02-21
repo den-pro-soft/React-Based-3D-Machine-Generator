@@ -8,6 +8,8 @@ import SplineRenderer from './../../2d/renderer/SplineRenderer';
 import Line from './../math/Line';
 import PolyLine from './../math/PolyLine';
 
+import Matrix from './../math/Matrix';
+
 export default class Spline extends GraphicElement{
     constructor(startPoint, endPoint){
         super();
@@ -88,6 +90,38 @@ export default class Spline extends GraphicElement{
             y = pt.y;
         }
         return [res];
+    }
+
+    /**
+     * @inheritDoc
+     */
+    resize(x, y, point, extr){
+
+        let wX = Math.abs(extr.max.x-extr.min.x);
+
+        let wY = Math.abs(extr.max.y-extr.min.y);
+
+        let dx = 0;
+        let dy = 0;
+        if(wX!=0){
+            dx = (wX+x)/wX-1;
+        }
+
+        if(wY!=0){
+            dy = (wY+y)/wY-1;
+        }
+
+        let resizeMatrix = Matrix.createResizeMatrix(dx,dy);
+
+
+        let moveMatrix = Matrix.createMoveMatrix(-point.x, -point.y);
+        let removeMatrix = Matrix.createMoveMatrix(point.x, point.y);
+
+        for(let point of this._points){
+            point.changeByMatrix(moveMatrix);
+            point.changeByMatrix(resizeMatrix);
+            point.changeByMatrix(removeMatrix);
+        }
     }
 
 

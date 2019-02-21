@@ -6,6 +6,11 @@ import GraphicElement from '../GraphicElement';
 import GroupRenderer from './../../2d/renderer/GroupRenderer';
 import Exception from "../../Exception";
 import Point from './../Point';
+import Line from './../math/Line';
+import Matrix from './../math/Matrix';
+
+import Spline from './Spline';
+import LineElement from './LineElement';
 
 export default class Group extends GraphicElement{
     constructor(){
@@ -27,6 +32,56 @@ export default class Group extends GraphicElement{
     }
 
     set _points(points){}
+
+    /**
+     * Calculates the geometric center of the shape.
+     *
+     * The center of the group is the center of the line of maximum length obtained from the points of the figure.
+     *
+     * @return {Point} - center of current element
+     */
+    getCenter(){
+        /** @type {Array.<Point>} points */
+        let points = this._points;
+
+        let p1 = points[0];
+        let p2 = points[1];
+        let length = new Line(p1,p2).length();
+        for(let i=0; i<points.length; i++){
+            for(let j=i+1; j<points.length; j++){
+                let temp = new Line(points[i], points[j]).length();
+                if(length<temp){
+                    p1=points[i];
+                    p2=points[j];
+                    length = temp;
+                }
+            }
+        }
+
+        let extr = Point.getExtrenum([p1,p2]);
+        return new Point(extr.min.x+(extr.max.x-extr.min.x)/2, extr.min.y+(extr.max.y-extr.min.y)/2);
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    resize(x, y, point, extrenum){
+        for(let element of this.elements){
+            element.resize(x,y,point, extrenum);
+        }
+    }
+
+    /**
+     * Moves an item by the specified number of units along the x and y axis
+     * @param {number} x - how much to shift by x
+     * @param {number} y - how much to shift by x
+     */
+    move(x,y){
+        for(let el of this.elements){
+            el.move(x,y);
+        }
+    }
 
     /**
      * @inheritDoc
