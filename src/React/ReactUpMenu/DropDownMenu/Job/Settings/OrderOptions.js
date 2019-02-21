@@ -5,26 +5,49 @@ import RadioGroup from "@material-ui/core/RadioGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormControl from "@material-ui/core/FormControl";
 import Checkbox from "@material-ui/core/Checkbox";
-import { connect } from "react-redux";
+// import { connect } from "react-redux";
 
-class OrderOptions extends React.Component {
+export default class OrderOptions extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      // order: "Standard Order",
+      order: "Standard Order",
+      originalOrder:'',
       isChecked: false
     };
   }
+  componentWillMount(){
+    const Order = localStorage.getItem('order');
+    if(Order===null){
+    this.setState({order:this.state.order})
+    } else{
+      this.setState({order:Order})
+    }
+    const OriginalOrder = localStorage.getItem('originalOrder');
+    if(OriginalOrder===null){
+    this.setState({originalOrder:this.state.originalOrder})
+    } else{
+      this.setState({originalOrder:OriginalOrder})
+    }
+  }
+  handleRadioChange = event => {
+    event.preventDefault();
 
-  // handleRadioChange = event => {
-  //   event.preventDefault();
+    this.setState({ order: event.target.value },
+      ()=>{
+    localStorage.setItem('order', this.state.order);
 
-  //   this.setState({ order: event.target.value });
-  //   // this.props.updateOrder(this.state.value)
+    // console.log(this.state.order, "this.state.value");
 
-  //   console.log(this.state.value, "this.state.value");
-  // };
+      });
+  };
 
+  handleOriginalOrderChange = (e) =>{
+    this.setState({originalOrder: e.target.value},()=>{
+    localStorage.setItem('originalOrder', '#'+this.state.originalOrder);
+
+    });
+  }
   handleChecked = event => {
     window.setTimeout(() => {
       this.setState({
@@ -33,7 +56,6 @@ class OrderOptions extends React.Component {
     }, 0);
   };
   render() {
-    console.log(this.props,'props-Order')
     return (
       <div className="OrderOptions">
         <form>
@@ -42,11 +64,11 @@ class OrderOptions extends React.Component {
               <RadioGroup
                 // aria-label="Order"
 
-                value={this.props.order}
-                // onChange={this.handleRadioChange}
-                onChange={(e)=>{
-                  this.props.updateOrder(e.target.value)
-                }}
+                value={this.state.order}
+                onChange={this.handleRadioChange}
+                // onChange={(e)=>{
+                //   this.props.updateOrder(e.target.value)
+                // }}
               >
                 <FormControlLabel
                   value="Standard Order"
@@ -71,7 +93,7 @@ class OrderOptions extends React.Component {
                   label="Change order in progress"
                 />
                 <FormControlLabel
-                  value="order3"
+                  value=" "
                   control={
                     <Radio
                       color="primary"
@@ -98,7 +120,7 @@ class OrderOptions extends React.Component {
             </div>
           )} */}
 
-          {this.props.order === "Change order" && (
+          {this.state.order === "Change order" && (
             <div className="Text">
               <p style={{textAlign:'left'}}>
                 Use this option to make a change to in order in progress. (Do not
@@ -126,7 +148,10 @@ class OrderOptions extends React.Component {
                 email.
               </p> */}
               <div className="InputOrder">
-                Original order #: <input type="text" />
+                Original order #: <input type="text" 
+                   value={this.state.originalOrder}
+                   onChange={this.handleOriginalOrderChange}
+                />
                 <br />
               </div>
               <div className="Textarea">
@@ -136,7 +161,7 @@ class OrderOptions extends React.Component {
             </div>
           )}
 
-          {this.props.order === "order3" && (
+          {this.state.order === " " && (
             <div className="Text">
               <p style={{textAlign:'left'}}>
                 Use this option if the eMachineShop staff advises you to make a
@@ -149,7 +174,10 @@ class OrderOptions extends React.Component {
                 Place Order
               </p>
               <div className="InputOrder">
-                Original order #: <input type="text" />
+                Original order #: <input type="text"
+                  value={this.state.originalOrder}
+                  onChange={this.handleOriginalOrderChange}
+                />
                 <br />
               </div>
             </div>
@@ -186,20 +214,20 @@ class OrderOptions extends React.Component {
     );
   }
 }
-const mapStateToProps = state => {
-  return {
-    // firstName: state.summaryReducer.firstName,
-    // lastName: state.summaryReducer.lastName
-    order:state.summaryReducer.order
+// const mapStateToProps = state => {
+//   return {
+//     // firstName: state.summaryReducer.firstName,
+//     // lastName: state.summaryReducer.lastName
+//     order:state.summaryReducer.order
 
-  };
-};
+//   };
+// };
 
-const mapDispatchToProps = dispatch => {
-  return {
-    updateOrder: value => {
-      dispatch({ type: "ORDER", payload: value });
-    }
-  };
-};
-export default connect(mapStateToProps,mapDispatchToProps)(OrderOptions);
+// const mapDispatchToProps = dispatch => {
+//   return {
+//     updateOrder: value => {
+//       dispatch({ type: "ORDER", payload: value });
+//     }
+//   };
+// };
+// export default connect(mapStateToProps,mapDispatchToProps)(OrderOptions);

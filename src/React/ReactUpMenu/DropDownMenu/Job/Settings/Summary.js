@@ -166,7 +166,10 @@ class ReactVirtualizedTable extends React.PureComponent {
       firstName:'',
       lastName:'',
       businessName:'',
-      email:''
+      email:'',
+      order:"Standard order",
+      originalOrder:'',
+      adressLine1:''
 
     }
   }
@@ -198,14 +201,32 @@ class ReactVirtualizedTable extends React.PureComponent {
     } else{
       this.setState({email:Email })
     }
+    const Order = localStorage.getItem('order');
+    if(Order===null){
+    this.setState({order:this.state.order})
+    } else{
+      this.setState({order:Order})
+    }
+    const OriginalOrder = localStorage.getItem('originalOrder');
+    if(OriginalOrder===null){
+    this.setState({originalOrder:this.state.originalOrder})
+    } else{
+      this.setState({originalOrder:OriginalOrder})
+    }
+    const AdressLine1 = localStorage.getItem('adressLine1');
+    if(AdressLine1 === null){
+    this.setState({adressLine1:this.state.adressLine1})
+    } else{
+      this.setState({adressLine1:AdressLine1 })
+    }
   }
   render(){
     const data = [
       ["File name","Untitled"],
-      ["Customer", this.state.firstName + ' '+ this.state.lastName +','+ this.state.businessName],
+      ["Customer", this.state.firstName + ' '+ this.state.lastName +' ' + this.state.businessName],
       ["Customer email", this.state.email],
-      ["Order type", this.props.order],
-      ["Shipping to", "U.S.A."],
+      ["Order type", this.state.order + ' '+this.state.originalOrder],
+      ["Shipping to",this.state.adressLine1+ "U.S.A."],
       ["Quantity", 25],
       ["Material", "Acetal Black"],
       ["Thickness", `0,000${String.fromCharCode(34)}, tolerance: 20,00%`],

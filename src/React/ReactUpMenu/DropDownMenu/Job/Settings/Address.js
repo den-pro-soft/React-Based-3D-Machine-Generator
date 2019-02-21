@@ -16,12 +16,13 @@ export default class Adress extends React.Component {
       firstName:'',
       lastName:'',
       businessName:'',
-      email:''
+      email:'',
+      adressLine1:''
     };
   }
   componentWillMount(){
     const FirstName = localStorage.getItem('firstName');
-    if(FirstName===null){
+    if(FirstName === null){
     this.setState({firstName:this.state.firstName})
     } else{
       this.setState({firstName:FirstName})
@@ -29,7 +30,7 @@ export default class Adress extends React.Component {
     }
 
     const LastName = localStorage.getItem('lastName');
-    if(LastName===null){
+    if(LastName === null){
     this.setState({lastName:this.state.lastName})
     } else{
       this.setState({lastName:LastName})
@@ -37,7 +38,7 @@ export default class Adress extends React.Component {
     }
 
     const BusinessName = localStorage.getItem('businessName');
-    if(BusinessName===null){
+    if(BusinessName === null){
     this.setState({businessName:this.state.businessName})
     } else{
       this.setState({businessName:BusinessName})
@@ -45,15 +46,22 @@ export default class Adress extends React.Component {
     }
   
     const Email = localStorage.getItem('email');
-    if(Email ===null){
+    if(Email === null){
     this.setState({email:this.state.email})
     } else{
       this.setState({email:Email })
     }
+
+    const AdressLine1 = localStorage.getItem('adressLine1');
+    if(AdressLine1 === null){
+    this.setState({adressLine1:this.state.adressLine1})
+    } else{
+      this.setState({adressLine1:AdressLine1 })
+    }
   }
   handleFirstNameChange = (e) =>{
     this.setState({firstName: e.target.value},()=>{
-    localStorage.setItem('firstName', this.state.firstName);
+    localStorage.setItem('firstName', this.state.firstName+',');
 
     });
   }
@@ -61,7 +69,7 @@ export default class Adress extends React.Component {
   handleLastNameChange = (e) =>{
     this.setState({lastName: e.target.value},()=>{
       console.log(this.state.lastName,'lastName')
-    localStorage.setItem('lastName', this.state.lastName);
+    localStorage.setItem('lastName', this.state.lastName+',');
 
     });
   }
@@ -73,9 +81,18 @@ export default class Adress extends React.Component {
   }
 
   handleEmailChange = (e) =>{
+//     emailValid = (e.target.value).match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i);
+// if(emailValid===true){
     this.setState({email: e.target.value},()=>{
       localStorage.setItem('email', this.state.email);
-      // this.props.updateEmail(this.state.email)
+    });
+  // } else {
+  //   this.setState({email: 'Error'})
+  // }
+  }
+  handleAdressLine1Change = (e) =>{
+    this.setState({adressLine1: e.target.value},()=>{
+    localStorage.setItem('adressLine1', this.state.adressLine1+',');
     });
   }
 
@@ -246,11 +263,6 @@ export default class Adress extends React.Component {
                   <input type="text" 
                    value={this.state.firstName}
                    onChange={this.handleFirstNameChange}
-                  // onChange = {(e) => {
-                  //   this.props.handleFirstNameChange(
-                  //     e.target.value
-                  //   );
-                  // }} 
                   />
                 </div>
                 <div className="Input">
@@ -258,22 +270,12 @@ export default class Adress extends React.Component {
                     value={this.state.lastName}
                     value={this.state.lastName}
                     onChange={this.handleLastNameChange}
-                    // onChange = {(e) => {
-                    //   this.props.handleLastNameChange(
-                    //     e.target.value===undefined?e.target.value='':e.target.value
-                    //   );
-                    // }} 
                     />
                 </div>
                 <div className="Input">
                   <input type="text" 
                     value={this.state.businessName}
                     onChange={this.handleBusinessNameChange}
-                    // onChange = {(e) => {
-                    //   this.props.handleBusinessNameChange(
-                    //     e.target.value
-                    //   );
-                    // }}
                     />
                 </div>
               </div>
@@ -293,7 +295,7 @@ export default class Adress extends React.Component {
               </div>
               <div className="InputGroup">
                 <div className="Input">
-                  <input type="text" 
+                  <input type="email" 
                     value={this.state.email}
                     onChange={this.handleEmailChange}/>
                 </div>
@@ -328,7 +330,10 @@ export default class Adress extends React.Component {
               </div>
               <div className="InputGroup">
                 <div className="Input">
-                  <input type="text" />
+                  <input type="text" 
+                    value={this.state.adressLine1}
+                    onChange={this.handleAdressLine1Change}
+                  />
                 </div>
                 <div className="Input">
                   <input type="text" />
