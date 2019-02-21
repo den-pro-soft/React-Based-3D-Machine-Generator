@@ -6,7 +6,6 @@ import TableCell from "@material-ui/core/TableCell";
 import TableSortLabel from "@material-ui/core/TableSortLabel";
 import Paper from "@material-ui/core/Paper";
 import { AutoSizer, Column, SortDirection, Table } from "react-virtualized";
-import { connect } from "react-redux";
 
 
 const styles = theme => ({
@@ -34,12 +33,7 @@ const styles = theme => ({
   }
 });
 class Summary extends React.PureComponent {
-  // static defaultProps={firstName:'Jim'}
-  // constructor(props){
-  //   super(props)
-  //   // this.state={firstName:'Jim'}
-  //   console.log(this.props,'props-summary')
-  // }
+
   getRowClassName = ({ index }) => {
     const { classes, rowClassName, onRowClick } = this.props;
 
@@ -165,49 +159,74 @@ Summary.defaultProps = {
 
 const WrappedSummary = withStyles(styles)(Summary);
 
-// const data = [
-//   ["File name","Untitled"],
-//   ["Customer", 'Jim'],
-//   ["Customer email", ""],
-//   ["Order type", "Standard order"],
-//   ["Shipping to", "U.S.A."],
-//   ["Quantity", 25],
-//   ["Material", "Acetal Black"],
-//   ["Thickness", `0,000${String.fromCharCode(34)}, tolerance: 20,00%`],
-//   ["Used machines", "Comments to Machinist"],
-//   ["Finishing", "None"],
-//   // ["Packing", "Pack parts in bulk"],
-//   ["Comments to machinist", "None"]
-// ];
-
-// let id = 0;
-
-// function createData(filename, untitled) {
-//   id += 1;
-//   return { id, filename, untitled };
-// }
-// const rows = [];
-
-// for (let i = 0; i < data.length; i += 1) {
-//   const renderData = data[i];
-//   rows.push(createData(...renderData));
-
-// }
-
 class ReactVirtualizedTable extends React.PureComponent {
   constructor(props){
     super(props)
-    // this.state={firstName:'Jim'}
-    console.log(this.props,'props-summary')
+    this.state={
+      firstName:'',
+      lastName:'',
+      businessName:'',
+      email:'',
+      order:"Standard order",
+      originalOrder:'',
+      adressLine1:''
+
+    }
   }
-// function ReactVirtualizedTable() {
+
+  componentWillMount(){
+    const FirstName = localStorage.getItem('firstName');
+    if(FirstName===null){
+    this.setState({firstName:this.state.firstName})
+    } else{
+      this.setState({firstName:FirstName})
+
+    }
+    const LastName = localStorage.getItem('lastName');
+    if(LastName===null){
+    this.setState({lastName:this.state.lastName})
+    } else{
+      this.setState({lastName:LastName})
+    }
+    const BusinessName = localStorage.getItem('businessName');
+    if(BusinessName===null){
+    this.setState({businessName:this.state.businessName})
+    } else{
+      this.setState({businessName:BusinessName})
+    }
+
+    const Email = localStorage.getItem('email');
+    if(Email ===null){
+    this.setState({email:this.state.email})
+    } else{
+      this.setState({email:Email })
+    }
+    const Order = localStorage.getItem('order');
+    if(Order===null){
+    this.setState({order:this.state.order})
+    } else{
+      this.setState({order:Order})
+    }
+    const OriginalOrder = localStorage.getItem('originalOrder');
+    if(OriginalOrder===null){
+    this.setState({originalOrder:this.state.originalOrder})
+    } else{
+      this.setState({originalOrder:OriginalOrder})
+    }
+    const AdressLine1 = localStorage.getItem('adressLine1');
+    if(AdressLine1 === null){
+    this.setState({adressLine1:this.state.adressLine1})
+    } else{
+      this.setState({adressLine1:AdressLine1 })
+    }
+  }
   render(){
     const data = [
       ["File name","Untitled"],
-      ["Customer", this.props.firstName + ' '+ this.props.lastName+','+ this.props.businessName],
-      ["Customer email", this.props.email],
-      ["Order type", this.props.order],
-      ["Shipping to", "U.S.A."],
+      ["Customer", this.state.firstName + ' '+ this.state.lastName +' ' + this.state.businessName],
+      ["Customer email", this.state.email],
+      ["Order type", this.state.order + ' '+this.state.originalOrder],
+      ["Shipping to",this.state.adressLine1+ "U.S.A."],
       ["Quantity", 25],
       ["Material", "Acetal Black"],
       ["Thickness", `0,000${String.fromCharCode(34)}, tolerance: 20,00%`],
@@ -257,20 +276,4 @@ class ReactVirtualizedTable extends React.PureComponent {
   );
 }
 }
-// export default ReactVirtualizedTable;
-const mapStateToProps = state => {
-  return {
-    firstName: state.summaryReducer.firstName,
-    // lastName: state.summaryReducer.lastName
-
-  };
-};
-
-// const mapDispatchToProps = dispatch => {
-//   return {
-//     handleFirstNameChange: value => {
-//       dispatch({ type: "FIRST_NAME", payload: value });
-//     }
-//   };
-// };
-export default connect(mapStateToProps)(ReactVirtualizedTable);
+export default ReactVirtualizedTable;

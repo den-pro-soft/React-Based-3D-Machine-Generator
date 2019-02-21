@@ -3,7 +3,7 @@ import "./addres.scss";
 import Button from "@material-ui/core/Button";
 import Checkbox from "@material-ui/core/Checkbox";
 import { connect } from "react-redux";
-class Adress extends React.Component {
+export default class Adress extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -13,36 +13,86 @@ class Adress extends React.Component {
       provinceOther: false,
       provinceOther2: false,
       value: "U.S.A.",
-      // firstName:'',
+      firstName:'',
       lastName:'',
       businessName:'',
-      email:''
+      email:'',
+      adressLine1:''
     };
   }
+  componentWillMount(){
+    const FirstName = localStorage.getItem('firstName');
+    if(FirstName === null){
+    this.setState({firstName:this.state.firstName})
+    } else{
+      this.setState({firstName:FirstName})
 
-  // handleFirstNameChange = (e) =>{
-  //   this.setState({firstName: e.target.value},()=>{
-  //   this.props.updateFirstName(this.state.firstName)
-  //   });
-  // }
+    }
+
+    const LastName = localStorage.getItem('lastName');
+    if(LastName === null){
+    this.setState({lastName:this.state.lastName})
+    } else{
+      this.setState({lastName:LastName})
+
+    }
+
+    const BusinessName = localStorage.getItem('businessName');
+    if(BusinessName === null){
+    this.setState({businessName:this.state.businessName})
+    } else{
+      this.setState({businessName:BusinessName})
+
+    }
+  
+    const Email = localStorage.getItem('email');
+    if(Email === null){
+    this.setState({email:this.state.email})
+    } else{
+      this.setState({email:Email })
+    }
+
+    const AdressLine1 = localStorage.getItem('adressLine1');
+    if(AdressLine1 === null){
+    this.setState({adressLine1:this.state.adressLine1})
+    } else{
+      this.setState({adressLine1:AdressLine1 })
+    }
+  }
+  handleFirstNameChange = (e) =>{
+    this.setState({firstName: e.target.value},()=>{
+    localStorage.setItem('firstName', this.state.firstName+',');
+
+    });
+  }
 
   handleLastNameChange = (e) =>{
-    // this.props.handleLastNameChange(e.target.value)
     this.setState({lastName: e.target.value},()=>{
       console.log(this.state.lastName,'lastName')
-    this.props.updateLastName(this.state.lastName)
+    localStorage.setItem('lastName', this.state.lastName+',');
+
     });
   }
 
   handleBusinessNameChange = (e) =>{
     this.setState({businessName: e.target.value},()=>{
-    this.props.updateBusinessName(this.state.businessName)
+    localStorage.setItem('businessName', this.state.businessName);
     });
   }
 
   handleEmailChange = (e) =>{
+//     emailValid = (e.target.value).match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i);
+// if(emailValid===true){
     this.setState({email: e.target.value},()=>{
-    this.props.updateEmail(this.state.email)
+      localStorage.setItem('email', this.state.email);
+    });
+  // } else {
+  //   this.setState({email: 'Error'})
+  // }
+  }
+  handleAdressLine1Change = (e) =>{
+    this.setState({adressLine1: e.target.value},()=>{
+    localStorage.setItem('adressLine1', this.state.adressLine1+',');
     });
   }
 
@@ -85,6 +135,7 @@ class Adress extends React.Component {
     window.open("https://www.emachineshop.com/privacy/");
   }
   render() {
+    console.log(this.props,'props-Adress')
     const countries = [
       "U.S.A.",
       "Canada",
@@ -210,35 +261,21 @@ class Adress extends React.Component {
               <div className="InputGroup">
                 <div className="Input">
                   <input type="text" 
-                   value={this.props.firstName}
-                  //  onChange={this.handleFirstNameChange}
-                  onChange = {(e) => {
-                    this.props.handleFirstNameChange(
-                      e.target.value
-                    );
-                  }} />
+                   value={this.state.firstName}
+                   onChange={this.handleFirstNameChange}
+                  />
                 </div>
                 <div className="Input">
                   <input type="text" 
                     value={this.state.lastName}
-                    // value={this.props.lastName}
+                    value={this.state.lastName}
                     onChange={this.handleLastNameChange}
-                    // onChange = {(e) => {
-                    //   this.props.handleLastNameChange(
-                    //     e.target.value
-                    //   );
-                    // }} 
                     />
                 </div>
                 <div className="Input">
                   <input type="text" 
                     value={this.state.businessName}
                     onChange={this.handleBusinessNameChange}
-                    // onChange = {(e) => {
-                    //   this.props.handleBusinessNameChange(
-                    //     e.target.value
-                    //   );
-                    // }}
                     />
                 </div>
               </div>
@@ -258,7 +295,7 @@ class Adress extends React.Component {
               </div>
               <div className="InputGroup">
                 <div className="Input">
-                  <input type="text" 
+                  <input type="email" 
                     value={this.state.email}
                     onChange={this.handleEmailChange}/>
                 </div>
@@ -293,7 +330,10 @@ class Adress extends React.Component {
               </div>
               <div className="InputGroup">
                 <div className="Input">
-                  <input type="text" />
+                  <input type="text" 
+                    value={this.state.adressLine1}
+                    onChange={this.handleAdressLine1Change}
+                  />
                 </div>
                 <div className="Input">
                   <input type="text" />
@@ -467,23 +507,3 @@ class Adress extends React.Component {
     );
   }
 }
-const mapStateToProps = state => {
-  return {
-    firstName: state.summaryReducer.firstName
-  };
-};
-
-const mapDispatchToProps = dispatch => {
-  return {
-    handleLastNameChange: value => {
-      dispatch({ type: "LAST_NAME", payload: value });
-    },
-    handleFirstNameChange: value => {
-      dispatch({ type: "FIRST_NAME", payload: value });
-    }
-    // handleLastNameChange: value => {
-    //   dispatch({ type: "LAST_NAME", payload: value });
-    // }
-   } 
-};
-export default connect(mapStateToProps,mapDispatchToProps)(Adress);
