@@ -12,12 +12,18 @@ export default class Adress extends React.Component {
       statesCanada: false,
       provinceOther: false,
       provinceOther2: false,
-      value: "U.S.A.",
+      // value: "U.S.A.",
       firstName:'',
       lastName:'',
       businessName:'',
       email:'',
-      adressLine1:''
+      adressLine1:'',
+      city:'',
+      stateUSA:'AL',
+      stateCanada:'AB',
+      province:'',
+      country: "U.S.A.",
+      zip:''
     };
   }
   componentWillMount(){
@@ -58,10 +64,61 @@ export default class Adress extends React.Component {
     } else{
       this.setState({adressLine1:AdressLine1 })
     }
+
+    const City = localStorage.getItem('city');
+    if(City === null){
+    this.setState({city:this.state.city})
+    } else{
+      this.setState({city:City })
+    }
+    const StateUSA = localStorage.getItem('stateUSA');
+    if(StateUSA === null){
+    this.setState({stateUSA:this.state.stateUSA})
+    } else{
+      this.setState({stateUSA:StateUSA })
+    }
+    const StateCanada = localStorage.getItem('stateCanada');
+    if(StateCanada === null){
+    this.setState({stateCanada:this.state.stateCanada})
+    } else{
+      this.setState({stateCanada:StateCanada })
+    }
+    const Province = localStorage.getItem('province');
+    if(Province === null){
+    this.setState({province:this.state.province})
+    } else{
+      this.setState({province:Province})
+    }
+    const Country = localStorage.getItem('country');
+    if(Country === null){
+      // localStorage.removeItem('province');
+      this.setState({country:this.state.country})
+    } else{
+      this.setState({country:Country},
+        ()=>{
+          if (this.state.country !== "U.S.A." && this.state.country !== "Canada") {
+            // localStorage.removeItem('province');
+            this.setState({
+              provinceOther: true
+            });
+          } else {
+            this.setState({
+              provinceOther: false
+            });
+          }
+        }
+        )
+    }
+    const ZIP = localStorage.getItem('zip');
+    if(ZIP === null){
+    this.setState({lastName:this.state.zip})
+    } else{
+      this.setState({zip:ZIP})
+    }
   }
   handleFirstNameChange = (e) =>{
     this.setState({firstName: e.target.value},()=>{
-    localStorage.setItem('firstName', this.state.firstName+',');
+    localStorage.setItem('firstName', this.state.firstName);
 
     });
   }
@@ -69,7 +126,7 @@ export default class Adress extends React.Component {
   handleLastNameChange = (e) =>{
     this.setState({lastName: e.target.value},()=>{
       console.log(this.state.lastName,'lastName')
-    localStorage.setItem('lastName', this.state.lastName+',');
+    localStorage.setItem('lastName', this.state.lastName);
 
     });
   }
@@ -86,30 +143,58 @@ export default class Adress extends React.Component {
     this.setState({email: e.target.value},()=>{
       localStorage.setItem('email', this.state.email);
     });
-  // } else {
-  //   this.setState({email: 'Error'})
-  // }
   }
   handleAdressLine1Change = (e) =>{
     this.setState({adressLine1: e.target.value},()=>{
-    localStorage.setItem('adressLine1', this.state.adressLine1+',');
+    localStorage.setItem('adressLine1', this.state.adressLine1);
     });
   }
+  handleCityChange = e =>{
+    this.setState({city: e.target.value},()=>{
+    localStorage.setItem('city', this.state.city);
+    });
+  }
+  handleSelectStateUSA = e =>{
+    this.setState({stateUSA: e.target.value},()=>{
+    localStorage.setItem('stateUSA', this.state.stateUSA);
+      });
+  }
+  handleSelectStateCanada = e =>{
+    this.setState({stateCanada: e.target.value},()=>{
+    localStorage.setItem('stateCanada', this.state.stateCanada);
+      });
+  }
+  handleProvinceInputChange = e =>{
 
-  handleChange = event => {
-    this.setState({ value: event.target.value });
-    if (event.target.value !== "U.S.A." && event.target.value !== "Canada") {
+    this.setState({province: e.target.value},()=>{
+    localStorage.setItem('province', this.state.province);
+      });
+  }
+  handleSelectCountryChange = event => {
+    this.setState({ country: event.target.value },()=>{
+    localStorage.setItem('country', this.state.country);
+
+    if (this.state.country !== "U.S.A." && this.state.country !== "Canada") {
+    localStorage.removeItem('province');
       this.setState({
-        provinceOther: true
+        provinceOther: true,
+        province:''
       });
     } else {
       this.setState({
         provinceOther: false
       });
     }
+    });
+
     console.log(event.target.value, "this.state,value-country");
   };
-  
+
+  handleZIPChange = e => {
+    this.setState({ zip: e.target.value }, () => {
+      localStorage.setItem('zip', this.state.zip);
+    })
+  }
   handleChangeIsChecked = event => {
     this.setState({ value: event.target.value });
     if (event.target.value !== "U.S.A." && event.target.value !== "Canada") {
@@ -135,110 +220,17 @@ export default class Adress extends React.Component {
     window.open("https://www.emachineshop.com/privacy/");
   }
   render() {
-    console.log(this.props,'props-Adress')
     const countries = [
-      "U.S.A.",
-      "Canada",
-      "United Kingdom",
-      "France",
-      "Germany",
-      "Italy",
-      "Ukraine",
-      "Switzerland",
-      "Denmark",
-      "Finland",
-      "Norway",
-      "Sweden",
-      "Switzerland",
-      "Estonia",
-      "Latvia",
-      "Lithuania",
-      "Austria",
-      "Belgium",
-      "Netherlands",
-      "Mexico",
-      "Russia",
-      "Belarus",
-      "Poland",
-      "Czech Republic",
-      "Slovakia",
-      "Hungary",
-      "Romania",
-      "Australia",
-      "Japan",
-      "India",
-      "Israel",
-      "China",
-      "Brazil",
-      "Spain",
-      "Turkey"
+      "U.S.A.", "Canada", "United Kingdom","France","Germany","Italy","Ukraine","Switzerland","Denmark","Finland","Norway","Sweden",
+      "Switzerland","Estonia","Latvia","Lithuania","Austria","Belgium","Netherlands","Mexico","Russia","Belarus","Poland","Czech Republic","Slovakia",
+      "Hungary","Romania","Australia","Japan","India","Israel","China","Brazil","Spain","Turkey"
     ];
     const statesUSA = [
-      "AL",
-      "AK",
-      "AZ",
-      "AR",
-      "CA",
-      "CO",
-      "CT",
-      "DE",
-      "FL",
-      "GA",
-      "HI",
-      "ID",
-      "IL",
-      "IN",
-      "IA",
-      "KS",
-      "KY",
-      "LA",
-      "ME",
-      "MD",
-      "MA",
-      "MI",
-      "MN",
-      "MS",
-      "MO",
-      "MT",
-      "NE",
-      "NV",
-      "NH",
-      "NJ",
-      "NM",
-      "NY",
-      "NC",
-      "ND",
-      "OH",
-      "OK",
-      "OR",
-      "PA",
-      "RI",
-      "SC",
-      "SD",
-      "TN",
-      "TX",
-      "UT",
-      "VT",
-      "VA",
-      "WA",
-      "WV",
-      "WI",
-      "WY"
+      "AL","AK","AZ","AR","CA","CO","CT","DE","FL","GA","HI","ID","IL","IN","IA","KS","KY","LA","ME","MD","MA","MI","MN","MS","MO",
+      "MT","NE","NV","NH","NJ","NM","NY","NC","ND","OH","OK","OR","PA","RI","SC","SD","TN","TX","UT","VT","VA","WA","WV","WI","WY"
     ];
     const statesCanada = [
-      "AB",
-      "BC",
-      "MB",
-      "NB",
-      "NL",
-      "NS",
-      "NT",
-      "NU",
-      "ON",
-      "PE",
-      "QC",
-      "SK",
-      "YT"
+      "AB","BC","MB","NB","NL","NS","NT","NU","ON","PE","QC","SK","YT"
     ];
 
     return (
@@ -267,7 +259,6 @@ export default class Adress extends React.Component {
                 </div>
                 <div className="Input">
                   <input type="text" 
-                    value={this.state.lastName}
                     value={this.state.lastName}
                     onChange={this.handleLastNameChange}
                     />
@@ -339,16 +330,22 @@ export default class Adress extends React.Component {
                   <input type="text" />
                 </div>
                 <div className="Input">
-                  <input type="text" />
+                  <input type="text"
+                   value={this.state.city}
+                   onChange={this.handleCityChange}
+                  />
                 </div>
                 {this.state.provinceOther && (
                   <div className="Input">
-                    <input type="text" />
+                    <input type="text"
+                      value={this.state.province}
+                      onChange={this.handleProvinceInputChange}                   
+                    />
                   </div>
                 )}
-                {this.state.value === "U.S.A." && (
+                {this.state.country === "U.S.A." && (
                   <div className="Input">
-                    <select>
+                    <select value={this.state.stateUSA} onChange={this.handleSelectStateUSA}>
                       {statesUSA.map((item, i) => (
                         <option value={item} key={i}>
                           {item}
@@ -357,9 +354,9 @@ export default class Adress extends React.Component {
                     </select>
                   </div>
                 )}
-                {this.state.value === "Canada" && (
+                {this.state.country === "Canada" && (
                   <div className="Input">
-                    <select>
+                    <select value={this.state.stateCanada} onChange={this.handleSelectStateCanada}>
                       {statesCanada.map((item, i) => (
                         <option value={item} key={i}>
                           {item}
@@ -369,11 +366,13 @@ export default class Adress extends React.Component {
                   </div>
                 )}
                 <div className="Input">
-                  <input type="text" />
+                  <input type="text" 
+                   value={this.state.zip} onChange={this.handleZIPChange}
+                  />
                 </div>
                 <div className="Input">
                   <select
-                    /*value={this.state.value}*/ onChange={this.handleChange}
+                    value={this.state.country} onChange={this.handleSelectCountryChange}
                   >
                     {countries.map((item, i) => (
                       <option value={item} key={i}>

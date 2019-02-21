@@ -169,7 +169,14 @@ class ReactVirtualizedTable extends React.PureComponent {
       email:'',
       order:"Standard order",
       originalOrder:'',
-      adressLine1:''
+      adressLine1:'',
+      city:'',
+      stateUSA:"AL",
+      stateCanada:"AB",
+      province:'',
+      country:'U.S.A.',
+      StateOrProvince:'',
+      zip:''
 
     }
   }
@@ -186,7 +193,7 @@ class ReactVirtualizedTable extends React.PureComponent {
     if(LastName===null){
     this.setState({lastName:this.state.lastName})
     } else{
-      this.setState({lastName:LastName})
+      this.setState({lastName:LastName +', '})
     }
     const BusinessName = localStorage.getItem('businessName');
     if(BusinessName===null){
@@ -217,16 +224,79 @@ class ReactVirtualizedTable extends React.PureComponent {
     if(AdressLine1 === null){
     this.setState({adressLine1:this.state.adressLine1})
     } else{
-      this.setState({adressLine1:AdressLine1 })
+      this.setState({adressLine1:AdressLine1 + ', ' })
+    }
+    const City = localStorage.getItem('city');
+    if(City === null){
+    this.setState({city:this.state.city})
+    } else{
+      this.setState({city:City+', ' })
+    }
+
+    const StateUSA = localStorage.getItem('stateUSA');
+    if(StateUSA === null){
+    this.setState({stateUSA:this.state.stateUSA})
+    } else{
+      this.setState({stateUSA:StateUSA+', ' },
+      ()=>{
+        console.log(this.state.stateUSA,'stateUSA На вході')
+      })
+    }
+    const StateCanada = localStorage.getItem('stateCanada');
+    if(StateCanada === null){
+    this.setState({stateCanada:this.state.stateCanada})
+    } else{
+      this.setState({stateCanada:StateCanada+', ' })
+    }
+    const Province = localStorage.getItem('province');
+    if(Province === null){
+    this.setState({province:this.state.province})
+    } else{
+      this.setState({province:Province+', ' })
+    }
+    const Country = localStorage.getItem('country');
+    if(Country === null){
+    this.setState({country:this.state.country},
+      ()=>{
+          if(this.state.country==='U.S.A.'){
+      this.setState({StateOrProvince: this.state.stateUSA})
+    }else if(this.state.country==='Canada'){
+      this.setState({StateOrProvince: this.state.stateCanada})
+    } else {
+      this.setState({StateOrProvince :this.state.province})
+    }
+      })
+    } else{
+      this.setState({country:Country},
+        ()=>{
+          if(this.state.country==='U.S.A.'){
+      this.setState({StateOrProvince: this.state.stateUSA})
+    }else if(this.state.country==='Canada'){
+      this.setState({StateOrProvince: this.state.stateCanada})
+    } else {
+      this.setState({StateOrProvince :this.state.province})
+
+    }
+      })
+    }
+
+    const ZIP = localStorage.getItem('zip');
+    if(ZIP === null){
+    this.setState({lastName:this.state.zip})
+    } else{
+      this.setState({zip:ZIP+', '})
     }
   }
   render(){
+    console.log(this.state.country,this.state.stateUSA,'country-state-render')
+   
     const data = [
       ["File name","Untitled"],
-      ["Customer", this.state.firstName + ' '+ this.state.lastName +' ' + this.state.businessName],
+      ["Customer", this.state.firstName + ' '+ this.state.lastName + this.state.businessName],
       ["Customer email", this.state.email],
       ["Order type", this.state.order + ' '+this.state.originalOrder],
-      ["Shipping to",this.state.adressLine1+ "U.S.A."],
+      ["Shipping to",this.state.adressLine1+ this.state.city+
+      this.state.StateOrProvince +this.state.zip + this.state.country],
       ["Quantity", 25],
       ["Material", "Acetal Black"],
       ["Thickness", `0,000${String.fromCharCode(34)}, tolerance: 20,00%`],
