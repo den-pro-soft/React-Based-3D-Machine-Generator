@@ -7,6 +7,7 @@ import {Board} from './2d/Board';
 import Command from './2d/command/Command';
 import CommandHistory from './CommandHistory';
 import Document from './model/Document';
+
 import GroupCommand from './2d/command/GroupCommand';
 import UngroupCommand from './2d/command/UngroupCommand';
 import DeleteElementCommand from './2d/command/DeleteElementCommand';
@@ -23,6 +24,7 @@ import ElementModificationCommand from './2d/command/ElementModificationCommand'
 import ChangeCirclesRadiusCommand from './2d/command/ChangeCirclesRadiusCommand';
 import ChangeLineLengthCommand from './2d/command/ChangeLineLengthCommand';
 import ChangeLineAngleCommand from './2d/command/ChangeLineAngleCommand';
+import ChangeElementsSizeCommand from './2d/command/ChangeElementsSizeCommand';
 
 import PointerTool from './2d/tool/PointerTool';
 import ZoomTool from './2d/tool/ZoomTool';
@@ -37,7 +39,8 @@ import FreehandTool from './2d/tool/FreehandTool';
 import CreatorTool from './2d/tool/CreatorTool';
 import TextTool from './2d/tool/TextTool';
 
-import Text from './model/elements/Text'
+import Text from './model/elements/Text';
+import Vector from './model/math/Vector';
 
 import config from './Config';
 
@@ -84,10 +87,16 @@ export default class Application extends Observable{
         this._lastTool=null;
     }
 
+    /**
+     * @return {Document}
+     */
     get currentDocument(){
         return this._currentDocument;
     }
 
+    /**
+     * @param {Document} document
+     */
     set currentDocument(document){
         this._currentDocument=document;
         this.commandHistory = new CommandHistory();
@@ -446,7 +455,7 @@ export default class Application extends Observable{
     }
 
     /**
-     * @param {number} radius
+     * @param {number} radius - new radius of circles is millimeters
      * @throws {Exception} - if selected not only circles
      */
     setRadiusForSelectedElements(radius){
@@ -454,7 +463,7 @@ export default class Application extends Observable{
     }
 
     /**
-     * @param {number} length
+     * @param {number} length - new length of line is millimeters
      * @throws {Exception} - if selected not only single line
      */
     setLineLengthElement(length){
@@ -464,11 +473,33 @@ export default class Application extends Observable{
     /**
      *
      * @param {number} angle - new line angle
+     * @throw {Exception} - if selected not only line elements
      */
     setLineAngleElement(angle){
         this.executeCommand(new ChangeLineAngleCommand(this.currentDocument, this.selectElements, angle));
     }
 
+    /**
+     *
+     * @param {number} width - new width 
+     * @param {number} height - new height
+     */
+    setSelectedElementsSize(width, height){
+        let extrenum = this.currentDocument.getExtrenum(this.selectElements);
+
+        let oldWidth = extrenum.max.x- extrenum.min.x;
+        let oldHeight = extrenum.max.y- extrenum.min.y;
+
+        let vector = new Vector(width-oldWidth, height-oldHeight);
+
+        let command = new ChangeElementsSizeCommand(this.currentDocument, this.selectElements, vector
+                    , ChangeElementsSizeCommand.CONTROL_POINT_X.right, ChangeElementsSizeCommand.CONTROL_POINT_Y.top);
+
+        this.executeCommand(command);
+    }
+
+    
+    
     //</editor-fold>
 }
 

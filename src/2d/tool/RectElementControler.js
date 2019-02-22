@@ -58,6 +58,9 @@ export default class RectElementController extends Rect{
         this._p2=p2.copy();
     }
 
+    /**
+     * @return {Point}
+     */
     get p2(){
         return this._p2;
     }

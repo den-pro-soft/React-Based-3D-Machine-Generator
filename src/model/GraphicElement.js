@@ -161,38 +161,14 @@ export default class GraphicElement extends Cloneable{
     }
 
     /**
-     * @param {number} x
-     * @param {number} y
+     * @param {number} x - 
+     * @param {number} y -
+     * @param {Point} point - point relative to which the object will increase or decrease
+     * @param  {{max:{x:number, y:number}, min:{x:number, y:number}}} extrenum - extrenum of all resize square
+     * @abstract
      */
-    resize(x, y){
-        let tempP = this.getCenter();
-        let extr = this.getExtrenum();
-
-        let wX = Math.abs(extr.max.x-extr.min.x);
-
-        let wY = Math.abs(extr.max.y-extr.min.y);
-
-        let dx = 0;
-        let dy = 0;
-        if(wX!=0){
-            dx = (wX+x)/wX-1;
-        }
-
-        if(wY!=0){
-            dy = (wY+y)/wY-1;
-        }
-
-        let resizeMatrix = Matrix.createResizeMatrix(dx,dy); //todo: move the method to Matrix class, and change it to static
-
-
-        let moveMatrix = Matrix.createMoveMatrix(-tempP.x, -tempP.y);
-        let removeMatrix = Matrix.createMoveMatrix(tempP.x, tempP.y);
-
-        for(let point of this._points){
-            point.changeByMatrix(moveMatrix);
-            point.changeByMatrix(resizeMatrix);
-            point.changeByMatrix(removeMatrix);
-        }
+    resize(x, y, point, extrenum){
+        throw new Exception('The method doesn\'n have implementation.');
     }
 
     /**

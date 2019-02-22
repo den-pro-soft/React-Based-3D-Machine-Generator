@@ -25,6 +25,9 @@ export default class Command{
         this._snapshotBefore = null;
         this._snapshotAfter = null;
 
+        /** @type {boolean} - if the variable equals false the command will not save in the command history.*/
+        this.needSave = true;
+
         this.name= 'Command';
     }
 
@@ -37,7 +40,7 @@ export default class Command{
         this._snapshotBefore = this._document.getSnapshot();
         let res = this.executeCommand();
         this._snapshotAfter = this._document.getSnapshot();
-        return res;
+        return res && this.needSave;
     }
 
     /**
