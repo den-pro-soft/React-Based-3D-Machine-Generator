@@ -117,13 +117,21 @@ export default class Group extends GraphicElement{
 
     /**
      * @param {Element} element
-     * @throws Exception if element isn't object of Element class
      */
     addElement(element){
-        if(!element instanceof Element){
-            throw new Exception("Expected Element object type.", element);
-        }
         this.elements.push(element);
+    }
+
+    /**
+     * @param {Element} element
+     */
+    removeElement(element){
+        for(let i=0; i<this.elements.length; i++){
+            if(this.elements[i].compare(element)){
+                this.elements.splice(i,1);
+                return;
+            }
+        }
     }
 
     /**

@@ -5,6 +5,7 @@
 import ElementModificationCommand from './ElementModificationCommand';
 
 import Group from './../../model/elements/Group';
+import Arc from './../../model/elements/Arc';
 import Point from './../../model/Point';
 /**
  * The resizing command. 
@@ -44,8 +45,10 @@ export default class ChangeElementsSizeCommand extends ElementModificationComman
      *     for get list of value
      * @param {string} controlPointY - this is the control point position, use the ChangeElementsSizeCommand.CONTROL_POINT_Y
      *     for get list of value
+     * @param {boolean} convertCircleToSplines - if is true all Ars will be transformation to list of splines,
+     *     if is false and selected some Arc then will be throw Exception
      */
-    constructor(document, elements, vector , controlPointX, controlPointY){
+    constructor(document, elements, vector , controlPointX, controlPointY, convertCircleToSplines=false){
         super(document, elements);
 
         /** @type {string} */
@@ -57,17 +60,41 @@ export default class ChangeElementsSizeCommand extends ElementModificationComman
         /** @type {Vector} */
         this._vector=vector;
 
+        /** @type {boolean} */
+        this.convertCircleToSplines = convertCircleToSplines;
+
+        this.newElements = [];
+
         this.name= 'ChangeElementsHeightCommand';
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    isReplacedElements(){
+        return true;
     }
 
     /**
      * @inheritDoc
      */
+    getReplaceElements(){
+        return this.newElements;
+    }
+
+
+
+    /**
+     * @inheritDoc
+     */
     executeCommand(){
-        console.log(this._vector);
         let dx = this._vector.x;
         let dy = this._vector.y;
 
+        let elements = this._changeArcsToSplines();
+
+        this.newElements = elements;
 
         if(this.controlPointX == ChangeElementsSizeCommand.CONTROL_POINT_X.left){
             dx = -dx;
@@ -83,7 +110,7 @@ export default class ChangeElementsSizeCommand extends ElementModificationComman
 
         let group = new Group();
 
-        for(let element of this.elements){
+        for(let element of elements){
             group.addElement(element);
         }
 
@@ -103,5 +130,66 @@ export default class ChangeElementsSizeCommand extends ElementModificationComman
 
         
         return true;
+    }
+
+    _changeArcsToSplines(){
+        let res = [];
+
+        let isChanged=false;
+
+        for(let el of this.elements){
+            if(el instanceof Arc){
+                this._document.removeElement(el);
+                let group = new Group();
+                let splines = el.convertToSplines();
+                for(let spline of splines){
+                    group.addElement(spline);
+                }
+                el=group;
+                this._document.addElement(el);
+                isChanged=true;
+            }else if(el instanceof Group){
+                 isChanged|=this._changeArcsToSplinesInGroup(el);
+            }
+            res.push(el);
+        }
+        if(isChanged && !this.convertCircleToSplines){
+            // this.undo();
+            throw new Exception('You cannot perform this operation with the Arc highlighted and the ' +
+                'convertCircleToSplines flag cleared.', this);
+        }
+
+        return res;
+    }
+
+    /**
+     * @param {Group} group
+     * @private
+     */
+    _changeArcsToSplinesInGroup(group){
+
+        //todo: the code has a bug. If use it for group -> group -> element
+        let res = false;
+        for(let el of group.elements){
+            console.log(group,'some text');
+            if(el.typeName == 'Arc'){
+                console.log(group, 'before er');
+                group.removeElement(el);
+                let group = new Group();
+                let splines = el.convertToSplines();
+                for(let spline of splines){
+                    group.addElement(spline);
+                }
+                el=group;
+                group.addElement(el);
+                res=true;
+            }else {
+                if (el.typeName == 'Group') {
+                    console.log("s group");
+                    res|=this._changeArcsToSplinesInGroup(el);
+                }
+            }
+        }
+        return res;
     }
 }
