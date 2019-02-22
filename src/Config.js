@@ -4,6 +4,8 @@
  */
 import AutoLineType from './model/line_types/Auto';
 import CommentToSelfLineType from './model/line_types/CommentToSelf';
+import BendLineType from './model/line_types/Bend';
+import CommentToMachineLineType from './model/line_types/CommentToMachine';
 
 import Observable from './Observable';
 
@@ -76,7 +78,9 @@ class Config extends Observable{
     get defaultLineTypes(){
         return [
             new AutoLineType(),
-            new CommentToSelfLineType()
+            new CommentToSelfLineType(),
+            new BendLineType(),
+            new CommentToMachineLineType()
         ];
     }
 
