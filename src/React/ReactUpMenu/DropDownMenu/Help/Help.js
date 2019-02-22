@@ -8,7 +8,7 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
-
+// import fl from 'doc/Flat2D.emsx';
 export default class Help extends React.Component {
   constructor(props) {
     super(props);
@@ -20,7 +20,15 @@ export default class Help extends React.Component {
       openSuggestionModal: false
     };
   }
+  // componentWillMount(){
+  
+  // }
 
+// outputFlat2D = () => {
+//   var file = new File(["Flat2D"], 'doc/Flat2D.emsx', );
+//   app.open(file);
+
+// }
   showDropdownMenu = event => {
     event.preventDefault();
     this.setState({ displayMenu: true }, () => {
@@ -133,7 +141,7 @@ handleCloseModalSuggestion = () => {
                 </a>
                 {this.state.displaySubMenu ? (
                   <ul className="Submenu">
-                    <li>
+                    <li onClick={this.outputFlat2D}>
                       <a href="#">Flat 2D</a>
                     </li>
                     <li>

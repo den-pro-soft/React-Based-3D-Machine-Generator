@@ -41,9 +41,10 @@ import {connect} from 'react-redux';
   }
   // ---------------React Life Cycle-----------------
   componentWillMount() {
+  
       app.addHandler("selectElement", element => {
-    this.setState({value: app.selectElements[0].lineType.label});
-    app.config.lineType = app.selectElements[0].lineType;
+    this.setState({value: app.selectElements[0]._lineType.label});
+    // app.config.lineType = app.selectElements[0]._lineType;
 
           this.setState({ show: true });
           let text = app.selectElements.every(el => el.typeName === "Text");
@@ -114,7 +115,6 @@ import {connect} from 'react-redux';
   };
 
   render() {
-  // console.log(this.state.openTapModal, "render-openTapModal");
 
     if (this.state.show) {
       return this.getPanelHtml();

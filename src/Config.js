@@ -33,7 +33,10 @@ class Config extends Observable{
         /** @type {string} [Millimeters|Inches]*/
         this._dimension= 'Millimeters';
 
+        //variable for output data in input field - ToolsPanel and mouse coordinates in BottomPanel 
         this.lengthLine = '';
+        this.widthGroup = '';
+        this.heightGroup = '';
         this.mouseX = 0;
         this.mouseY = 0;
 
