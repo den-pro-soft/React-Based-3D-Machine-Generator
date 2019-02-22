@@ -9,6 +9,7 @@ import { connect } from "react-redux";
       width: app.config.widthGroup,
       height: app.config.heightGroup
     };
+    console.log(app.config.widthGroup,'app.width')
   }
   componentWillMount() {
     app.addHandler("selectElement", element => {
@@ -30,6 +31,7 @@ import { connect } from "react-redux";
           this.setState({ width: app.config.widthGroup, height: app.config.heightGroup });
 
         }
+    console.log(app.config.widthGroup,'2-app.width')
         
       }
     });
@@ -46,18 +48,17 @@ app.config.heightGroup =(this.state.height).replace(/[^0-9.]/g, "");
   app.config.heightGroup =(this.state.height).replace(/[^0-9.]/g, "")*25.4;
 
 }
-// console.log(this.state.value,'app.length')
 
 let widthGroup = app.config.widthGroup;
 let heightGroup = app.config.heightGroup;
 
-// console.log(lengthLine,'app.line');
 
 if (this.props.demensions === "Millimeters") {
-  this.setState({ width: widthGroup.toFixed(3) +" mm"});
-  this.setState({ height: heightGroup.toFixed(3) +" mm"});
+  this.setState({ width: widthGroup.toFixed(3) /*+" mm"*/});
+  this.setState({ height: heightGroup.toFixed(3)/* +" mm"*/});
 
-} else {
+}
+ else {
   this.setState({ width:(widthGroup / 25.4).toFixed(3) + ' "'});
   this.setState({ height:(heightGroup / 25.4).toFixed(3) + ' "'});
 }
@@ -85,24 +86,22 @@ if (this.props.demensions === "Millimeters") {
   
   }
   handleChangeInputHeight = event => {
-    // let length = event.target.value;
-    // app.config.lengthLine = event.target.value;
-    // let length = app.config.lengthLine;
-    // app.setLineLengthElement(length);
-
-    // this.setState({ value: length });
+    app.config.heightGroup = event.target.value;
+    let height = app.config.heightGroup;
+    app.setSelectedElementsSize(height);
+    this.setState({ height: height });
   
-    // if (event.charCode === 13) {
-    //   if (this.props.demensions === "Millimeters") {
-    //     this.setState({
-    //       value: length.replace(/[^0-9.]/g, "") + " mm"
-    //     });
-    //   } else {
-    //     this.setState({
-    //       value: length.replace(/[^0-9.]/g, "") + ' "'
-    //     });
-    //   }
-    // }
+    if (event.charCode === 13) {
+      if (this.props.demensions === "Millimeters") {
+        this.setState({
+          height: height.replace(/[^0-9.]/g, "") + " mm"
+        });
+      } else {
+        this.setState({
+          height: height.replace(/[^0-9.]/g, "") + ' "'
+        });
+      }
+    }
   
   }
   render(){
