@@ -49,12 +49,19 @@ if (this.props.demensions === "Millimeters") {
   }
 }
   handleChangeInputLength = event => {
-    console.log(event.target,'handleChangeInputLength ')
-    // let length = event.target.value;
-    app.config.lengthLine = event.target.value
+    app.config.lengthLine = event.target.value;
     let length = app.config.lengthLine;
-    this.setState({ value: length });
+    app.setLineLengthElement(length);
 
+    this.setState({ value: length });
+    // if (event.charCode === 8) {
+    //   event.stopPropagation();
+    //   if (this.props.demensions === "Millimeters") {
+    //     this.setState({
+    //       value: length.replace(/[^0-9.]/g, "")
+    //     });
+    //   } 
+    // }
     if (event.charCode === 13) {
       if (this.props.demensions === "Millimeters") {
         this.setState({
@@ -66,7 +73,14 @@ if (this.props.demensions === "Millimeters") {
         });
       }
     }
-  };
+  
+  }
+//   handleChangeLineAngle= (e) => {
+// let angle = line.incrementAngle;
+//   app.setLineAngleElement(angle)
+
+//   } 
+
 
   render() {
     return (
@@ -105,6 +119,9 @@ if (this.props.demensions === "Millimeters") {
         </button>
         <input
           type="text"
+          value={this.state.angle}
+          onChange={this.handleChangeLineAngle}
+          onKeyPress={this.handleChangeLineAngle}
           data-place="bottom"
           data-tip="<span>Line angle<br/>Angle of the point with respect to the start point.To change,<br/>
  enter a value and press the Enter key. </span>"
