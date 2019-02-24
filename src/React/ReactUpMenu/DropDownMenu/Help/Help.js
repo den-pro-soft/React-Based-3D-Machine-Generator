@@ -20,15 +20,38 @@ export default class Help extends React.Component {
       openSuggestionModal: false
     };
   }
-  // componentWillMount(){
-  
-  // }
+ 
+  outputFlat2D = () => {
+  //   fetch("/doc/Flat2D.emsx").then((res) => { var file = new File([res], "Flat2D.emsx"); 
+  //    app.open(file);
+  //     console.log(file, "Flat2D");
+  // })
+    var request = new XMLHttpRequest();
+    request.open("GET", "/doc/Flat2D.emsx", true);
 
-// outputFlat2D = () => {
-//   var file = new File(["Flat2D"], 'doc/Flat2D.emsx', );
-//   app.open(file);
+    request.onload = function() {
+      // var out = new Blob([request.response]);
+      var file = new File([request.response], "Flat2D.emsx");
+      console.log(file, "Flat2D");
+      app.open(file);
+    };
 
-// }
+    request.send();
+  };
+
+  outputBend2D = () => {
+    var request = new XMLHttpRequest();
+    request.open("GET", "/doc/Bend2D.emsx", true);
+
+    request.onload = function() {
+      // var out = new Blob([request.response]);
+      var file = new File([request.response], "Bend2D.emsx");
+      console.log(file, "Bend2D");
+      app.open(file);
+    };
+
+    request.send();
+  };
   showDropdownMenu = event => {
     event.preventDefault();
     this.setState({ displayMenu: true }, () => {
@@ -64,23 +87,23 @@ export default class Help extends React.Component {
       }
     );
   };
-handleCloseModalSuggestion = () => {
-        this.setState(
-          prevState => ({ openSuggestionModal: prevState.openSuggestionModal }),
-          () => {
-            this.setState({ openSuggestionModal: !this.state.openSuggestionModal });
-          }
-        );
-      };
-      openGuideSuggestionWindow = () => {
-        window.open("https://www.emachineshop.com/help/");
-      };
+  handleCloseModalSuggestion = () => {
+    this.setState(
+      prevState => ({ openSuggestionModal: prevState.openSuggestionModal }),
+      () => {
+        this.setState({ openSuggestionModal: !this.state.openSuggestionModal });
+      }
+    );
+  };
+  openGuideSuggestionWindow = () => {
+    window.open("https://www.emachineshop.com/help/");
+  };
 
   // -----Dialog MOdal About-----
 
   handleClickOpen = event => {
     event.preventDefault();
-    console.log(event.target,'about window')
+    console.log(event.target, "about window");
     this.setState(
       prevState => ({ open: !prevState.open }),
       () => {
@@ -144,7 +167,7 @@ handleCloseModalSuggestion = () => {
                     <li onClick={this.outputFlat2D}>
                       <a href="#">Flat 2D</a>
                     </li>
-                    <li>
+                    <li onClick={this.outputBend2D}>
                       <a href="#">Bend 2D</a>
                     </li>
                   </ul>
@@ -205,7 +228,7 @@ handleCloseModalSuggestion = () => {
 
           <DialogContent
             style={{
-              textAlign: "left" ,
+              textAlign: "left",
               width: "750px",
               height: "425px",
               backgroundColor: "#f0ecec"

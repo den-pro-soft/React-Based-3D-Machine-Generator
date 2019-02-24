@@ -22,7 +22,7 @@ import { connect } from "react-redux";
           // console.log(ext,width,height,'ext')
         // // if (element.typeName === "Group") {
         if (this.props.demensions === "Millimeters") {
-          app.config.widthGroup = width.toFixed(3) + " mm";
+          app.config.widthGroup = width.toFixed(3) /*+ " mm"*/;
           app.config.heightGroup = height.toFixed(3) + " mm"
           this.setState({ width: app.config.widthGroup, height: app.config.heightGroup });
         } else {
@@ -54,8 +54,8 @@ let heightGroup = app.config.heightGroup;
 
 
 if (this.props.demensions === "Millimeters") {
-  this.setState({ width: widthGroup.toFixed(3) /*+" mm"*/});
-  this.setState({ height: heightGroup.toFixed(3)/* +" mm"*/});
+  this.setState({ width: widthGroup.toFixed(3) +" mm"});
+  this.setState({ height: heightGroup.toFixed(3) +" mm"});
 
 }
  else {

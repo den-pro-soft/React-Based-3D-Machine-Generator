@@ -5,7 +5,8 @@
   "private": true,
   "main": "src/3Dview.js",
   "scripts": {
-    "dev": "webpack-dev-server --mode development --hot --open",
+    "dev": "webpack-dev-server --mode development --open",
+    "build": "webpack --mode production",
     "start": "webpack --watch --config webpack.config.js",
     "compile": "webpack --config webpack.config.js",
     "test": "mocha --compilers js:@babel/register ./test/*"
