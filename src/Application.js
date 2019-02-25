@@ -487,7 +487,7 @@ export default class Application extends Observable{
      *  if is false and selected some Arc then will be throw Exception
      * @throw {Exception} - if list of resizing elements contain any Arc and flag convertCircleToSplines is false
      */
-    setSelectedElementsSize(width, height, convertCircleToSplines=false){
+    setSelectedElementsSize(width, height, convertCircleToSplines=true){
         let extrenum = this.currentDocument.getExtrenum(this.selectElements);
 
         let oldWidth = extrenum.max.x- extrenum.min.x;
