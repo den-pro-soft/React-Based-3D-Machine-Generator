@@ -52,24 +52,24 @@ import {connect} from 'react-redux';
 
           if (text === true && app.selectElements.length > 1) {
 
-            this.setState({ line: false, arc: false, group: true, text:true, withoutText:false });
+            this.setState({ line: false, arc: false,circle:false, group: true, text:true, withoutText:false });
              } else
 
           if (arc === true && app.selectElements.length > 1) {
-              this.setState({ line: false, arc: true, group: true });
+              this.setState({ line: false, circle: true, group: true });
           } 
           else{
               if (app.selectElements.length === 1) {
                   let el = app.selectElements[0];
                   switch(el.typeName){
-                      case "Line":     this.setState({ line: true,  arc: false, group: false, text: false });  break;
-                      case "Group":    this.setState({ line: false, arc: false, group: true,  text: false });  break;
-                      case "Spline":   this.setState({ line: false, arc: false, group: false, text: false });  break;
-                      case "Arc":      this.setState({ line: false, arc: true,  group: false, text: false });  break;
-                      case "Text":     this.setState({ line: false, arc: false, group: false, text:true });  break;
+                      case "Line":     this.setState({ line: true,  circle: false, group: false, text: false });  break;
+                      case "Group":    this.setState({ line: false, circle: false, group: true,  text: false });  break;
+                      case "Spline":   this.setState({ line: false, circle: false, group: false, text: false });  break;
+                      case "Arc":      this.setState({ line: false, circle: true,  group: false, text: false });  break;
+                      case "Text":     this.setState({ line: false, circle: false, group: false, text:true });  break;
                   }
               }else {
-                  this.setState({ line: false, arc: false, group: true });
+                  this.setState({ line: false, circle: false, group: true });
               }
           }
     });
