@@ -9,7 +9,7 @@ import { connect } from "react-redux";
     this.state={
     radius:app.config.radius,
     startAngle: '',
-    insideAngle:''
+    insideAngle:'',
   }
   }
   componentWillMount() {
@@ -76,8 +76,11 @@ if (this.props.demensions === "Millimeters") {
   }
 
   handleChangeInputStartAngle = e => {
+  
     let startAngle = (e.target.value).replace(/[^0-9.]/g, "");
+    let insideAngle = (this.state.insideAngle).replace(/[^0-9.]/g, "")
 
+    app.setArcAngles(startAngle, insideAngle);
     this.setState({
       startAngle
     });
@@ -89,7 +92,18 @@ if (this.props.demensions === "Millimeters") {
 }
 
 handleChangeInsideAngle = e => {
+  if(e.target.value === ''){
+    this.setState({insideAngle:1})
+    // e.target.value=0.1;
+  //  } else if(e.target.value!==1){
+  //   this.setState({insideAngle:(e.target.value).substring(1)})
+
+   }
   let insideAngle = (e.target.value).replace(/[^0-9.]/g, "");
+  let startAngle = (this.state.startAngle).replace(/[^0-9.]/g, "");
+ 
+  console.log(startAngle , insideAngle, 'start-inside')
+  app.setArcAngles(startAngle, insideAngle);
 
   this.setState({
     insideAngle

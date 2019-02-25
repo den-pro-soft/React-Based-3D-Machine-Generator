@@ -14,7 +14,6 @@ import { connect } from "react-redux";
       if (app.selectElements.length == 1) {
         if (element.typeName === "Arc") {
          let radius= (app.selectElements[0].radius).toFixed(3);
-         let incrementAngle = app.selectElements[0].incrementAngle;
       if (this.props.demensions === "Millimeters") {
         app.config.diameter = (radius*2).toFixed(3) + " mm" 
         this.setState({ diameter: app.config.diameter });
