@@ -7,7 +7,7 @@ import LineRenderer from './../../2d/renderer/LineRenderer';
 import PolyLine from '../math/PolyLine';
 import Line from './../math/Line';
 import Matrix from './../math/Matrix';
-
+import Vector from './../math/Vector';
 
 /**
  * @inheritDoc
@@ -28,6 +28,10 @@ export default class LineElement extends GraphicElement{
      */
     get extremePoints(){
         return [this.p1, this.p2];
+    }
+
+    get angle(){
+        return new Vector(1,0,0).getAngle(this._line.toVector());
     }
 
     /**

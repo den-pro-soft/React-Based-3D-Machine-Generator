@@ -25,6 +25,7 @@ import ChangeCirclesRadiusCommand from './2d/command/ChangeCirclesRadiusCommand'
 import ChangeLineLengthCommand from './2d/command/ChangeLineLengthCommand';
 import ChangeLineAngleCommand from './2d/command/ChangeLineAngleCommand';
 import ChangeElementsSizeCommand from './2d/command/ChangeElementsSizeCommand';
+import ChangeArcAngleCommand from './2d/command/ChangeArcAngleCommand';
 
 import PointerTool from './2d/tool/PointerTool';
 import ZoomTool from './2d/tool/ZoomTool';
@@ -501,6 +502,14 @@ export default class Application extends Observable{
         this.executeCommand(command);
     }
 
+    /**
+     *
+     * @param {number} startAngle - the new start angle. Can be null if insideAngle isn't null
+     * @param {number} insideAngle - the new inside angle. Can be null if insideAngle isn't null
+     */
+    setArcAngles(startAngle, insideAngle){
+        this.executeCommand(new ChangeArcAngleCommand(this.currentDocument, this.selectElements, insideAngle, startAngle));
+    }
     
     
     //</editor-fold>

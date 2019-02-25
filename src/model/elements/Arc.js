@@ -72,6 +72,22 @@ export default class Arc extends GraphicElement{
     }
 
     /**
+     * @param {number} angle
+     */
+    set incrementAngle(angle){
+        let oldAngle = this.incrementAngle;
+
+        if(oldAngle<angle){
+            this.endAngle = (this.endAngle+(angle-oldAngle))%360;
+        }else{
+            this.endAngle -= oldAngle-angle;
+            if(this.endAngle<0){
+                this.endAngle+=360;
+            }
+        }
+    }
+
+    /**
      * @inheritDoc
      */
     rotate(center,grad) {
