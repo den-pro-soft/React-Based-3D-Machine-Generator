@@ -54,8 +54,8 @@ let heightGroup = app.config.heightGroup;
 
 
 if (this.props.demensions === "Millimeters") {
-  this.setState({ width: widthGroup.toFixed(3) /*+" mm"*/});
-  this.setState({ height: heightGroup.toFixed(3)/* +" mm"*/});
+  this.setState({ width: widthGroup.toFixed(3) +" mm"});
+  this.setState({ height: heightGroup.toFixed(3) +" mm"});
 
 }
  else {
@@ -65,11 +65,12 @@ if (this.props.demensions === "Millimeters") {
 
   }
 }
-  handleChangeInputWidth = event => {
-    app.config.widthGroup = event.target.value;
-    let width = app.config.widthGroup;
-    app.setSelectedElementsSize(width);
-    // app.setFontSizeForSelectedElement(width)
+  handleChangeInputWidth = e => {
+    app.config.widthGroup = e.target.value;
+    console.log(e.target.value,'e.target-width')
+
+    let width = (app.config.widthGroup).replace(/[^0-9.]/g, "");
+    app.setSelectedElementsSize(width,(app.config.heightGroup).replace(/[^0-9.]/g, ""));
     this.setState({ width: width });
   
     if (event.charCode === 13) {
@@ -85,10 +86,18 @@ if (this.props.demensions === "Millimeters") {
     }
   
   }
-  handleChangeInputHeight = event => {
-    app.config.heightGroup = event.target.value;
+  handleChangeInputHeight = e => { 
+    // if(e.target.value===''){
+    //   e.target.value=0
+    // }
+      app.config.heightGroup = (e.target.value).replace(/[^0-9.]/g, "");
+    console.log(e.target.value,'e.target-height')
+
     let height = app.config.heightGroup;
-    app.setSelectedElementsSize(height);
+    let width = app.config.widthGroup;
+
+    app.setSelectedElementsSize(width.replace(/[^0-9.]/g, ""),height);
+
     this.setState({ height: height });
   
     if (event.charCode === 13) {

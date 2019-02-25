@@ -120,21 +120,18 @@ rotateRight = () => {
 handlyChangeInputRotate = event => {
   // console.log(event.target.value, "target-rotate");
   app.config.rotateStep = event.target.value;
-  let deg = " deg";
+  // let deg = " deg";
   let rotate = app.config.rotateStep;
 
   this.setState({
-    rotateStep: app.config.rotateStep
+    rotateStep: rotate.replace(/[^0-9.]/g, "")
   });
 
   if (event.charCode === 13) {
     this.setState({
-      rotateStep: rotate.replace(/[^0-9.]/g, "") + deg
+      rotateStep: rotate.replace(/[^0-9.]/g, "") + " deg"
     });
   }
-  // if (event.charCode === 46) {
-  //   event.stopPropagation();
-  // }
 };
 
   render() {

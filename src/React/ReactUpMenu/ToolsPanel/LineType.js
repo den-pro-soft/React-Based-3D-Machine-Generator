@@ -38,10 +38,8 @@ app.config.lengthLine=(this.state.value).replace(/[^0-9.]/g, "");
 } else {
   app.config.lengthLine=(this.state.value).replace(/[^0-9.]/g, "")*25.4;
 }
-// console.log(this.state.value,'app.length')
 
 let lengthLine= app.config.lengthLine;
-// console.log(lengthLine,'app.line');
 
 if (this.props.demensions === "Millimeters") {
   this.setState({ value: lengthLine.toFixed(3) +" mm"});
@@ -52,19 +50,18 @@ if (this.props.demensions === "Millimeters") {
   }
 }
   handleChangeInputLength = event => {
-    app.config.lengthLine = event.target.value;
+// if (this.props.demensions === "Millimeters") {
+
+    app.config.lengthLine = (event.target.value).replace(/[^0-9.]/g, "");
+// }else{
+//     // if(this.props.demensions === "Inches"){
+//       app.config.lengthLine = (event.target.value/25.4).toFixed(3).replace(/[^0-9.]/g, "");;
+//     }
     let length = app.config.lengthLine;
     app.setLineLengthElement(length);
 
     this.setState({ value: length });
-    // if (event.charCode === 8) {
-    //   event.stopPropagation();
-    //   if (this.props.demensions === "Millimeters") {
-    //     this.setState({
-    //       value: length.replace(/[^0-9.]/g, "")
-    //     });
-    //   } 
-    // }
+    
     if (event.charCode === 13) {
       if (this.props.demensions === "Millimeters") {
         this.setState({
