@@ -10,6 +10,7 @@ import ArcRenderer from './../../2d/renderer/ArcRenderer';
 import PolyLine from './../math/PolyLine';
 import Trigonometric from './../math/Trigonometric';
 import Matrix from './../math/Matrix';
+import Spline from './Spline';
 
 /**
  * startAngle and endAngle are by counterclockwise
@@ -227,6 +228,53 @@ export default class Arc extends GraphicElement{
             startPoint=points[i];
         }
         // temp.eAngleAngle = baseVector.getAngle(new Line(this.center,endPoint).toVector());
+        return res;
+    }
+
+    convertToSplines(){
+        let res = [];
+        if(this.incrementAngle==360){
+            let k = (4*(Math.sqrt(2)-1))/3;
+            let r = k*this.radius;
+            let spline =  new Spline(
+                new Point(this.center.x+this.radius, this.center.y),
+                new Point(this.center.x, this.center.y+this.radius)
+                );
+            spline.controlPoint2=new Point(this.center.x+r, this.center.y+this.radius);
+            spline.controlPoint1=new Point(this.center.x+this.radius, this.center.y+r);
+            res.push(spline);
+
+
+            spline =  new Spline(
+                new Point(this.center.x-this.radius, this.center.y),
+                new Point(this.center.x, this.center.y-this.radius)
+            );
+            spline.controlPoint2=new Point(this.center.x-r, this.center.y-this.radius);
+            spline.controlPoint1=new Point(this.center.x-this.radius, this.center.y-r);
+            res.push(spline);
+
+
+            spline =  new Spline(
+                new Point(this.center.x, this.center.y+this.radius),
+                new Point(this.center.x-this.radius, this.center.y)
+            );
+            spline.controlPoint1=new Point(this.center.x-r, this.center.y+this.radius);
+            spline.controlPoint2=new Point(this.center.x-this.radius, this.center.y+r);
+            res.push(spline);
+
+
+            spline =  new Spline(
+                new Point(this.center.x, this.center.y-this.radius),
+                new Point(this.center.x+this.radius, this.center.y)
+            );
+            spline.controlPoint1=new Point(this.center.x+r, this.center.y-this.radius);
+            spline.controlPoint2=new Point(this.center.x+this.radius, this.center.y-r);
+            res.push(spline);
+
+        }else{
+            throw new Exception("The method doesn't have implementation!");
+        }
+
         return res;
     }
 }

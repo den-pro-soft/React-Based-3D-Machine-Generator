@@ -483,8 +483,11 @@ export default class Application extends Observable{
      *
      * @param {number} width - new width 
      * @param {number} height - new height
+     * @param {boolean} convertCircleToSplines - if is true all Ars will be transformation to list of splines,
+     *  if is false and selected some Arc then will be throw Exception
+     * @throw {Exception} - if list of resizing elements contain any Arc and flag convertCircleToSplines is false
      */
-    setSelectedElementsSize(width, height){
+    setSelectedElementsSize(width, height, convertCircleToSplines=false){
         let extrenum = this.currentDocument.getExtrenum(this.selectElements);
 
         let oldWidth = extrenum.max.x- extrenum.min.x;
@@ -493,7 +496,7 @@ export default class Application extends Observable{
         let vector = new Vector(width-oldWidth, height-oldHeight);
 
         let command = new ChangeElementsSizeCommand(this.currentDocument, this.selectElements, vector
-                    , ChangeElementsSizeCommand.CONTROL_POINT_X.right, ChangeElementsSizeCommand.CONTROL_POINT_Y.top);
+                    , ChangeElementsSizeCommand.CONTROL_POINT_X.right, ChangeElementsSizeCommand.CONTROL_POINT_Y.top, convertCircleToSplines);
 
         this.executeCommand(command);
     }
