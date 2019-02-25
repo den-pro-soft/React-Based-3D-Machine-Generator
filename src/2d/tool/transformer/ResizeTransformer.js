@@ -22,32 +22,32 @@ class ControlPoint{
 
 
 class ResizeRect extends RectElementController{
-    constructor(document, el){
+    constructor(el){
         super(new Point(),new Point());
         this.board = container.board;
 
         this.pointPadding = 4;
         this.rectPadding = 10;
 
-        this._document = document;
         this._elements = [];
-        this.elements = el;
+        this._document = null;
 
+        this.elements = el;
         // this.command = new ChangeElementsSizeCommand(this._document, el, 0, 0, ChangeElementsSizeCommand.ALIGN_X.canter, ChangeElementsSizeCommand.ALIGN_Y.center);
     }
 
     set elements(elements){
-
-        this._elements=[];
+        this._document = new Document();
         for(let el of elements){
-            this._elements.push(el.copy());
+            let newEl = el.copy();
+            this._document.addElement(newEl);
         }
 
         this._resize();
     }
 
     _resize(){
-        let ext = this.board.document.getExtrenum(this._elements);
+        let ext = this._document.getExtrenum();
         this.p1 = new Point(ext.min.x, ext.max.y);
         this.p2 = new Point(ext.max.x, ext.min.y);
     }
@@ -99,7 +99,7 @@ class ResizeRect extends RectElementController{
 
         let controlPoints = this.getControlPoints();
 
-        for(let el of this._elements){
+        for(let el of this._document._elements){
             el._renderer.setFocus(true);
             el.render();
         }
@@ -154,7 +154,7 @@ class ResizeRect extends RectElementController{
     }
 
     contain(point){
-        let extr = this.board.document.getExtrenum(this._elements);
+        let extr = this._document.getExtrenum();
         let p1Local = this.board._convertToLocalCoordinateSystem(new Point(extr.min.x, extr.max.y));
         let p2Local = this.board._convertToLocalCoordinateSystem(new Point(extr.max.x, extr.min.y));
 
@@ -168,14 +168,13 @@ class ResizeRect extends RectElementController{
     }
 
     /**
-     *
      * @param controlPoint
      * @param dx
      * @param dy
      */
     resizeElements(controlPoint, dx, dy){
-        let command = new ChangeElementsSizeCommand(new Document(), this._elements,
-            new Vector(dx, dy),controlPoint.alignX, controlPoint.alignY, false);
+        let command = new ChangeElementsSizeCommand(this._document, this._document._elements,
+            new Vector(dx, dy),controlPoint.alignX, controlPoint.alignY, true);
         command.executeCommand();
     }
 }
@@ -207,7 +206,7 @@ export default class ResizeTransformer extends Transformer{
             this._elements.push(element);
         }
         if(!this.resizeRect){
-            this.resizeRect = new ResizeRect(this._document, this._elements);
+            this.resizeRect = new ResizeRect(this._elements);
         }
         this.resizeRect.elements = this._elements;
     }
