@@ -8,6 +8,8 @@ import Point from './../../../model/Point';
 import Group from './../../../model/elements/Group';
 import Rect from "../../../model/math/Rect";
 import ChangeElementsSizeCommand from './../../command/ChangeElementsSizeCommand';
+import Vector from './../../../model/math/Vector';
+import Document from './../../../model/Document';
 
 class ControlPoint{
     constructor(x,y, alignX, alignY){
@@ -28,13 +30,19 @@ class ResizeRect extends RectElementController{
         this.rectPadding = 10;
 
         this._document = document;
-        this._elements = el;
+        this._elements = [];
+        this.elements = el;
 
         // this.command = new ChangeElementsSizeCommand(this._document, el, 0, 0, ChangeElementsSizeCommand.ALIGN_X.canter, ChangeElementsSizeCommand.ALIGN_Y.center);
     }
 
-    set elements(el){
-        this._elements=el;
+    set elements(elements){
+
+        this._elements=[];
+        for(let el of elements){
+            this._elements.push(el.copy());
+        }
+
         this._resize();
     }
 
@@ -58,18 +66,18 @@ class ResizeRect extends RectElementController{
         let p1Local = this.board._convertToLocalCoordinateSystem(this.p1);
         let p2Local = this.board._convertToLocalCoordinateSystem(this.p2);
 
-        let p1 = new ControlPoint(p1Local.x-this.rectPadding,p1Local.y-this.rectPadding,'left-top');
-        let p2 = new ControlPoint(p2Local.x+this.rectPadding, p2Local.y+this.rectPadding, 'right-bottom');
+        let p1 = new ControlPoint(p1Local.x-this.rectPadding,p1Local.y-this.rectPadding,ChangeElementsSizeCommand.CONTROL_POINT_X.left, ChangeElementsSizeCommand.CONTROL_POINT_Y.top);
+        let p2 = new ControlPoint(p2Local.x+this.rectPadding, p2Local.y+this.rectPadding, ChangeElementsSizeCommand.CONTROL_POINT_X.right, ChangeElementsSizeCommand.CONTROL_POINT_Y.bottom);
 
         let controlPoints = [
             p1,
             p2,
-            new ControlPoint(p2.x, p1.y, 'right-top'),
-            new ControlPoint(p1.x, p2.y, 'left-bottom'),
-            new ControlPoint(p1.x+(p2.x-p1.x)/2 , p1.y, 'center-top'),
-            new ControlPoint(p1.x+(p2.x-p1.x)/2 ,p2.y, 'center-bottom'),
-            new ControlPoint(p1.x ,p1.y+(p2.y-p1.y)/2, 'left-center'),
-            new ControlPoint(p2.x ,p1.y+(p2.y-p1.y)/2, 'right-center')];
+            new ControlPoint(p2.x, p1.y, ChangeElementsSizeCommand.CONTROL_POINT_X.right, ChangeElementsSizeCommand.CONTROL_POINT_Y.top),
+            new ControlPoint(p1.x, p2.y, ChangeElementsSizeCommand.CONTROL_POINT_X.left, ChangeElementsSizeCommand.CONTROL_POINT_Y.bottom),
+            new ControlPoint(p1.x+(p2.x-p1.x)/2 , p1.y, ChangeElementsSizeCommand.CONTROL_POINT_X.canter, ChangeElementsSizeCommand.CONTROL_POINT_Y.top),
+            new ControlPoint(p1.x+(p2.x-p1.x)/2 ,p2.y, ChangeElementsSizeCommand.CONTROL_POINT_X.canter, ChangeElementsSizeCommand.CONTROL_POINT_Y.bottom),
+            new ControlPoint(p1.x ,p1.y+(p2.y-p1.y)/2, ChangeElementsSizeCommand.CONTROL_POINT_X.left, ChangeElementsSizeCommand.CONTROL_POINT_Y.center),
+            new ControlPoint(p2.x ,p1.y+(p2.y-p1.y)/2, ChangeElementsSizeCommand.CONTROL_POINT_X.right, ChangeElementsSizeCommand.CONTROL_POINT_Y.center)];
 
         return controlPoints;
     }
@@ -90,6 +98,11 @@ class ResizeRect extends RectElementController{
         this.board._drawLine({x:p1.x, y:p2.y}, p1); 
 
         let controlPoints = this.getControlPoints();
+
+        for(let el of this._elements){
+            el._renderer.setFocus(true);
+            el.render();
+        }
         for(let p of controlPoints) {
             this._drawControlPoint(p);
         }
@@ -154,40 +167,16 @@ class ResizeRect extends RectElementController{
         return new Rect(p1,p2).contain(checkPoint) || this.isControlPoint(point);
     }
 
+    /**
+     *
+     * @param controlPoint
+     * @param dx
+     * @param dy
+     */
     resizeElements(controlPoint, dx, dy){
-        let pName = controlPoint.name.split('-');
-        let lcr =pName[0];
-        let ucd =pName[1];
-
-        if(lcr == 'left'){
-            dx = -dx;
-        }
-        if(ucd == 'bottom'){
-            dy = -dy;
-        }
-        if(ucd == 'center'){
-            dy=0;
-        }
-        if(lcr == 'center'){
-            dx=0;
-        }
-        let group = new Group();
-
-        for(let element of this._elements){
-            group.addElement(element);
-        }
-
-        group.resize(dx,dy);
-
-        let dxDelta =dx/2;
-        let dyDelta =dy/2;
-        if(lcr == 'left'){
-            dxDelta = -dxDelta;
-        }
-        if(ucd == 'bottom'){
-            dyDelta = -dyDelta;
-        }
-        group.move(dxDelta, dyDelta);
+        let command = new ChangeElementsSizeCommand(new Document(), this._elements,
+            new Vector(dx, dy),controlPoint.alignX, controlPoint.alignY, false);
+        command.executeCommand();
     }
 }
 
@@ -214,7 +203,9 @@ export default class ResizeTransformer extends Transformer{
     }
 
     addElements(elements){
-        super.addElements(elements);
+        for(let element of elements) {
+            this._elements.push(element);
+        }
         if(!this.resizeRect){
             this.resizeRect = new ResizeRect(this._document, this._elements);
         }
@@ -229,9 +220,9 @@ export default class ResizeTransformer extends Transformer{
         super.mouseDown();
         this._downPosition = point;
         if(this.resizeRect && this.resizeRect.contain(point)){
-            // if (this.resizeRect.isControlPoint(point)){
-            //     this.activeControllPoint = this.resizeRect._getControlPointByPoint(point);
-            // }
+            if (this.resizeRect.isControlPoint(point)){
+                this.activeControllPoint = this.resizeRect._getControlPointByPoint(point);
+            }
             return false;
         }
         return true;
@@ -245,16 +236,16 @@ export default class ResizeTransformer extends Transformer{
         this._downPosition = null;
         if(this.resizeRect) {
             if(this.dx!=0 || this.dy!=0){
-                // if(this.activeControllPoint) {
+                if(!this.activeControllPoint) {
                     app.moveSelected(this.dx, this.dy);
-                // }else{
-                //     app.executeCommand(new ChangeElementsSizeCommand(this.board.document, this._elements,
-                //         this.dx, this.dy,this.activeControllPoint.alignX, this.activeControllPoint.alignX));
-                // }
+                }else{
+                    app.executeCommand(new ChangeElementsSizeCommand(this.board.document, this._elements,
+                        new Vector(this.dx, this.dy),this.activeControllPoint.alignX, this.activeControllPoint.alignY));
+                }
                 this.dx = 0;
                 this.dy = 0;
             }
-            // this.activeControllPoint=null;
+            this.activeControllPoint=null;
             return super.mouseUp(point) && this.resizeRect.contain(point);
         }
         return super.mouseUp(point);
@@ -266,14 +257,13 @@ export default class ResizeTransformer extends Transformer{
             if(this.resizeRect.contain(this._downPosition)) {
                 let dx = point.x - this._downPosition.x;
                 let dy = point.y - this._downPosition.y;
-
-                // if (this.resizeRect.isControlPoint(this._downPosition) || this.activeControllPoint) {
-                //     this.resizeRect.resizeElements(this.activeControllPoint, dx,dy);
-                // } else {
-                    this.dx+=dx;
-                    this.dy+=dy;
+                this.dx+=dx;
+                this.dy+=dy;
+                if(!this.activeControllPoint) {
                     this.resizeRect.move(dx,dy);
-                // }
+                }else{
+                    this.resizeRect.resizeElements(this.activeControllPoint, dx,dy);
+                }
                 this._downPosition = point;
                 return false;
             }
@@ -283,7 +273,6 @@ export default class ResizeTransformer extends Transformer{
     }
 
     render(){
-        super.render();
         if(this.resizeRect){
             this.resizeRect.render();
         }
