@@ -9,7 +9,6 @@ import { connect } from "react-redux";
       width: app.config.widthGroup,
       height: app.config.heightGroup
     };
-    console.log(app.config.widthGroup,'app.width')
   }
   componentWillMount() {
     app.addHandler("selectElement", element => {
@@ -17,10 +16,8 @@ import { connect } from "react-redux";
          
       if (app.selectElements.length == 1||app.selectElements.length > 1) {
           let ext = app.currentDocument.getExtrenum(app.selectElements);
-           let width = ext.max.x- ext.min.x;
+          let width = ext.max.x- ext.min.x;
           let height = ext.max.y- ext.min.y;
-          // console.log(ext,width,height,'ext')
-        // // if (element.typeName === "Group") {
         if (this.props.demensions === "Millimeters") {
           app.config.widthGroup = width.toFixed(3) + " mm";
           app.config.heightGroup = height.toFixed(3) + " mm"
@@ -31,8 +28,6 @@ import { connect } from "react-redux";
           this.setState({ width: app.config.widthGroup, height: app.config.heightGroup });
 
         }
-    console.log(app.config.widthGroup,'2-app.width')
-        
       }
     });
   }
@@ -67,7 +62,6 @@ if (this.props.demensions === "Millimeters") {
 }
   handleChangeInputWidth = e => {
     app.config.widthGroup = e.target.value;
-    console.log(e.target.value,'e.target-width')
 
     let width = (app.config.widthGroup).replace(/[^0-9.]/g, "");
     app.setSelectedElementsSize(width,(app.config.heightGroup).replace(/[^0-9.]/g, ""));
@@ -91,7 +85,7 @@ if (this.props.demensions === "Millimeters") {
     //   e.target.value=0
     // }
       app.config.heightGroup = (e.target.value).replace(/[^0-9.]/g, "");
-    console.log(e.target.value,'e.target-height')
+    // console.log(e.target.value,'e.target-height')
 
     let height = app.config.heightGroup;
     let width = app.config.widthGroup;

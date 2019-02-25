@@ -10,7 +10,7 @@ class TextType extends React.Component {
     //todo: app.selectElements[0].text -   need take from properties
     this.state = {
       text:app.selectElements[0].text,
-      textSize:app.selectElements[0].fontSize + ' "'//app.config.textSize 
+      fontSize:app.config.textSize //app.selectElements[0].fontSize
     };
     // console.log(app.selectElements[0].text,'elementText')
   }
@@ -22,20 +22,54 @@ class TextType extends React.Component {
 
     app.addHandler("selectElement", element => {
     // console.log(element,'elementText')
-
-        if (element.typeName === "Text") {
+    if (app.selectElements.length == 1) {
+      if (element.typeName === "Text") {
+      //  let angle= app.selectElements[0].incrementAngle;
+      //  console.log(angle,'angle')
+      //   let lengthLine = element.length();
          let textSize = app.selectElements[0].fontSize
-          if(this.props.demensions==='Millimeters'){
-          this.setState({ textSize: textSize + ' mm' });
-          console.log(this.state.textSize,'value-inch');
-          console.log(element,'elementText');
-          } else {
-          this.setState({ textSize: (textSize/25.4).toFixed(3) + ' "'});
-          }
+
+        if (this.props.demensions === "Millimeters") {
+          app.config.textSize=textSize.toFixed(3) + " mm" 
+          this.setState({ fontSize: app.config.textSize });
+        } else {
+          app.config.textSize=(textSize / 25.4).toFixed(3) + ' "' 
+          this.setState({ fontSize: app.config.textSize });
         }
+      }
+    }
+        // if (element.typeName === "Text") {
+        //  let textSize = app.selectElements[0].fontSize
+        //   if(this.props.demensions==='Millimeters'){
+        //   this.setState({ textSize: textSize + ' mm' });
+        //   console.log(this.state.textSize,'value-inch');
+        //   console.log(element,'elementText');
+        //   } else {
+        //   this.setState({ textSize: (textSize/25.4).toFixed(3) + ' "'});
+        //   }
+        // }
     });
 
   }
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.demensions !== prevProps.demensions) {
+
+if (prevProps.demensions === "Millimeters") {
+app.config.textSize=(this.state.fontSize).replace(/[^0-9.]/g, "");
+} else {
+  app.config.textSize =(this.state.fontSize).replace(/[^0-9.]/g, "")*25.4;
+}
+
+let textSize = app.config.textSize;
+
+if (this.props.demensions === "Millimeters") {
+  this.setState({ fontSize: textSize.toFixed(3) +" mm"});
+} else {
+  this.setState({ fontSize:(textSize / 25.4).toFixed(3) + ' "'});
+}
+
+  }
+}
   handlyChangeTextInput = e =>{
       this.setState({
         text: e.target.value
@@ -49,13 +83,13 @@ class TextType extends React.Component {
       if(e.charCode === 13) {
         if(this.props.demensions==='Millimeters'){
           this.setState({
-            textSize: textSize.replace(/[^0-9.]/g, "")  + ' mm'
+            fontSize: textSize.replace(/[^0-9.]/g, "")  + ' mm'
           });
     app.setFontSizeForSelectedElement(textSize.replace(/[^0-9.]/g, ""));
 
         } else {
           this.setState({
-            textSize: textSize.replace(/[^0-9.]/g, "")  + ' "'
+            fontSize: textSize.replace(/[^0-9.]/g, "")  + ' "'
           });
     app.setFontSizeForSelectedElement(textSize.replace(/[^0-9.]/g, ""));
 
@@ -63,7 +97,7 @@ class TextType extends React.Component {
       }
       else{
           this.setState({
-            textSize: textSize.replace(/[^0-9.]/g, "")
+            fontSize: textSize.replace(/[^0-9.]/g, "")
           });
       }
   };
@@ -87,7 +121,7 @@ class TextType extends React.Component {
         </button>
         <input
           type="text"
-          value={this.state.textSize}
+          value={this.state.fontSize}
           onChange={this.handlyChangeTextSizeInput}
           onKeyPress={this.handlyChangeTextSizeInput}
 

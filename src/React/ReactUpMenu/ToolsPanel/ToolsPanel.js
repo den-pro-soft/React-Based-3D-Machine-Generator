@@ -58,6 +58,15 @@ import {connect} from 'react-redux';
           if (arc === true && app.selectElements.length > 1) {
               this.setState({ line: false, circle: true, group: true });
           } 
+          if(arc=== true && app.selectElements.length === 1){
+            if(app.selectElements[0].incrementAngle===360){
+              // console.log(app.selectElements[0].incrementAngle,'incr');
+              this.setState({ line: false, circle: true, arc:false,  group: false, text: false })
+            } else {
+              this.setState({ line: false, circle: false, arc:true,  group: false, text: false })
+
+            }
+          }
           else{
               if (app.selectElements.length === 1) {
                   let el = app.selectElements[0];
@@ -65,7 +74,7 @@ import {connect} from 'react-redux';
                       case "Line":     this.setState({ line: true,  circle: false, group: false, text: false });  break;
                       case "Group":    this.setState({ line: false, circle: false, group: true,  text: false });  break;
                       case "Spline":   this.setState({ line: false, circle: false, group: false, text: false });  break;
-                      case "Arc":      this.setState({ line: false, circle: true,  group: false, text: false });  break;
+                      // case "Arc":      this.setState({ line: false, circle: true,  group: false, text: false });  break;
                       case "Text":     this.setState({ line: false, circle: false, group: false, text:true });  break;
                   }
               }else {

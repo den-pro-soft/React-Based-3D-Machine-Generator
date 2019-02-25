@@ -38,6 +38,8 @@ class Config extends Observable{
         this.widthGroup = '';
         this.heightGroup = '';
         this.diameter = '';
+        this.radius='';
+        this.textSize = '';
         this.mouseX = 0;
         this.mouseY = 0;
 
