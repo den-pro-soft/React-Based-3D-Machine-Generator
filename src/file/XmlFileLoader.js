@@ -123,8 +123,8 @@ export default class XmlFileLoader extends FileLoader{
         let figures = elements.map(el => {
             return `<Region BaseHeight="0" Z="${el.height}" ThroughHole="">
                         ${this._createMachineByLineType(el.lineType)}
-                        <Contour>
-                            ${this._convertElementToXml(el)}
+                        <Contour>\n
+                            ${this._convertElementToXml(el)} \n
                         </Contour>
                     </Region>`
         });
