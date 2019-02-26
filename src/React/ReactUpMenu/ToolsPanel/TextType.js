@@ -10,9 +10,8 @@ class TextType extends React.Component {
     //todo: app.selectElements[0].text -   need take from properties
     this.state = {
       text:app.selectElements[0].text,
-      fontSize:app.config.textSize //app.selectElements[0].fontSize
+      fontSize:app.config.textSize
     };
-    // console.log(app.selectElements[0].text,'elementText')
   }
   componentDidMount() {
     {this.props.withoutText&& this.textInput.focus();}
@@ -21,13 +20,11 @@ class TextType extends React.Component {
   componentWillMount() {
 
     app.addHandler("selectElement", element => {
-    // console.log(element,'elementText')
     if (app.selectElements.length == 1) {
       if (element.typeName === "Text") {
-      //  let angle= app.selectElements[0].incrementAngle;
-      //  console.log(angle,'angle')
-      //   let lengthLine = element.length();
+     
          let textSize = app.selectElements[0].fontSize
+         console.log(this.props,textSize,'props-text-size')
 
         if (this.props.demensions === "Millimeters") {
           app.config.textSize=textSize.toFixed(3) + " mm" 
@@ -38,16 +35,7 @@ class TextType extends React.Component {
         }
       }
     }
-        // if (element.typeName === "Text") {
-        //  let textSize = app.selectElements[0].fontSize
-        //   if(this.props.demensions==='Millimeters'){
-        //   this.setState({ textSize: textSize + ' mm' });
-        //   console.log(this.state.textSize,'value-inch');
-        //   console.log(element,'elementText');
-        //   } else {
-        //   this.setState({ textSize: (textSize/25.4).toFixed(3) + ' "'});
-        //   }
-        // }
+      
     });
 
   }
@@ -78,27 +66,24 @@ if (this.props.demensions === "Millimeters") {
   };
 
   handlyChangeTextSizeInput = e =>{
-    let textSize = e.target.value;
-  
+    app.config.textSize = (e.target.value).replace(/[^0-9.]/g, "");
+    let textSize = app.config.textSize;
+    this.setState({fontSize:textSize})
+
       if(e.charCode === 13) {
         if(this.props.demensions==='Millimeters'){
           this.setState({
-            fontSize: textSize.replace(/[^0-9.]/g, "")  + ' mm'
+            fontSize: textSize + ' mm'
           });
-    app.setFontSizeForSelectedElement(textSize.replace(/[^0-9.]/g, ""));
+    app.setFontSizeForSelectedElement(textSize);
 
         } else {
           this.setState({
-            fontSize: textSize.replace(/[^0-9.]/g, "")  + ' "'
+            fontSize: textSize + ' "'
           });
-    app.setFontSizeForSelectedElement(textSize.replace(/[^0-9.]/g, ""));
+    app.setFontSizeForSelectedElement(textSize*25.4);
 
         }
-      }
-      else{
-          this.setState({
-            fontSize: textSize.replace(/[^0-9.]/g, "")
-          });
       }
   };
 
@@ -158,11 +143,11 @@ if (this.props.demensions === "Millimeters") {
     );
   }
 }
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
-    demensions: state.demensions
-  }
-}
+    demensions: state.preferencesReducer.demensions
+  };
+};
 
 
 export default connect(mapStateToProps)(TextType)

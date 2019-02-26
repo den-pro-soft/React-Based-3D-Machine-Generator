@@ -57,7 +57,6 @@ if (this.props.demensions === "Millimeters") {
 
   handleChangeInputRadius = e=>{
     let radius = (e.target.value).replace(/[^0-9.]/g, "");
-    app.setRadiusForSelectedElements(radius);
 
     this.setState({
       radius:radius
@@ -65,12 +64,16 @@ if (this.props.demensions === "Millimeters") {
     if (event.charCode === 13) {
       if (this.props.demensions === "Millimeters") {
         this.setState({
-          radius: radius.replace(/[^0-9.]/g, "").toFixed(3) + " mm"
+          radius: radius + " mm"
         });
+    app.setRadiusForSelectedElements(radius);
+
       } else {
         this.setState({
-          radius: radius.replace(/[^0-9.]/g, "").toFixed(3) + ' "'
+          radius: radius + ' "'
         });
+    app.setRadiusForSelectedElements(radius*25.4);
+
       }
     }
   }
@@ -78,8 +81,7 @@ if (this.props.demensions === "Millimeters") {
   handleChangeInputStartAngle = e => {
   
     let startAngle = (e.target.value).replace(/[^0-9.]/g, "");
-    let insideAngle = (this.state.insideAngle).replace(/[^0-9.]/g, "")
-    // app.setArcAngles(startAngle, insideAngle);
+    // let insideAngle = (this.state.insideAngle).replace(/[^0-9.]/g, "")
 
     this.setState({startAngle});
     
@@ -87,28 +89,29 @@ if (this.props.demensions === "Millimeters") {
     this.setState({
       startAngle:startAngle + ' deg'
     })
-    app.setArcAngles(startAngle, insideAngle);
+    // app.setArcAngles(startAngle, insideAngle);
+    app.setArcAngles(startAngle, null);
+    
 
   }
 }
 
-handleChangeInsideAngle = e => {
-  let insideAngle = (e.target.value).replace(/[^0-9.]/g, "");
-  let startAngle = (this.state.startAngle).replace(/[^0-9.]/g, "");
- 
-  console.log(startAngle , insideAngle, 'start-inside')
-  // app.setArcAngles(startAngle, insideAngle);
+   handleChangeInsideAngle = e => {
+     let insideAngle = (e.target.value).replace(/[^0-9.]/g, "");
+    //  let startAngle = (this.state.startAngle).replace(/[^0-9.]/g, "");
 
-  this.setState({
-    insideAngle
-  });
-  if (event.charCode === 13) {
-  this.setState({
-    insideAngle:insideAngle + ' deg'
-  })
-  app.setArcAngles(startAngle, insideAngle);
-}
-}
+     this.setState({ insideAngle });
+
+     if (event.charCode === 13) {
+       this.setState({
+         insideAngle: insideAngle + ' deg'
+       })
+      //  app.setArcAngles(startAngle, insideAngle);
+       app.setArcAngles(null, insideAngle);
+
+
+     }
+   }
   render(){
   return (
     <>

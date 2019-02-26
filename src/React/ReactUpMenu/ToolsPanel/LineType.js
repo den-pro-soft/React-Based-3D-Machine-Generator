@@ -13,6 +13,8 @@ class LineType extends React.Component {
   }
 
   componentWillMount() {
+    // this._isMounted = false;
+
     app.addHandler("selectElement", element => {
 
       if (app.selectElements.length == 1) {
@@ -139,6 +141,10 @@ if (this.props.demensions === "Millimeters") {
       </Fragment>
     );
   }
+
+  // componentWillUnmount() {
+  //   // this._isMounted = false;
+  // }
 }
 const mapStateToProps = state => {
   return {

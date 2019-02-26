@@ -47,7 +47,7 @@ if (this.props.demensions === "Millimeters") {
 
   handleChangeInputDiameter = e=>{
     let diameter = (e.target.value).replace(/[^0-9.]/g, "");
-    app.setRadiusForSelectedElements(diameter/2);
+    // app.setRadiusForSelectedElements(diameter/2);
 
     this.setState({
       diameter:diameter
@@ -55,12 +55,14 @@ if (this.props.demensions === "Millimeters") {
     if (event.charCode === 13) {
       if (this.props.demensions === "Millimeters") {
         this.setState({
-          diameter: diameter.replace(/[^0-9.]/g, "").toFixed(3) + " mm"
+          diameter: diameter + " mm"
         });
+    app.setRadiusForSelectedElements(diameter/2);
       } else {
         this.setState({
-          diameter: diameter.replace(/[^0-9.]/g, "").toFixed(3) + ' "'
+          diameter: diameter + ' "'
         });
+    app.setRadiusForSelectedElements(diameter/2*25.4);
       }
     }
 
