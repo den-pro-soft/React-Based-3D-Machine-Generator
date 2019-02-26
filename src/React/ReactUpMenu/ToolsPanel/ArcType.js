@@ -79,31 +79,25 @@ if (this.props.demensions === "Millimeters") {
   
     let startAngle = (e.target.value).replace(/[^0-9.]/g, "");
     let insideAngle = (this.state.insideAngle).replace(/[^0-9.]/g, "")
+    // app.setArcAngles(startAngle, insideAngle);
 
-    app.setArcAngles(startAngle, insideAngle);
-    this.setState({
-      startAngle
-    });
+    this.setState({startAngle});
+    
     if (event.charCode === 13) {
     this.setState({
       startAngle:startAngle + ' deg'
     })
+    app.setArcAngles(startAngle, insideAngle);
+
   }
 }
 
 handleChangeInsideAngle = e => {
-  if(e.target.value === ''){
-    this.setState({insideAngle:1})
-    // e.target.value=0.1;
-  //  } else if(e.target.value!==1){
-  //   this.setState({insideAngle:(e.target.value).substring(1)})
-
-   }
   let insideAngle = (e.target.value).replace(/[^0-9.]/g, "");
   let startAngle = (this.state.startAngle).replace(/[^0-9.]/g, "");
  
   console.log(startAngle , insideAngle, 'start-inside')
-  app.setArcAngles(startAngle, insideAngle);
+  // app.setArcAngles(startAngle, insideAngle);
 
   this.setState({
     insideAngle
@@ -112,6 +106,7 @@ handleChangeInsideAngle = e => {
   this.setState({
     insideAngle:insideAngle + ' deg'
   })
+  app.setArcAngles(startAngle, insideAngle);
 }
 }
   render(){

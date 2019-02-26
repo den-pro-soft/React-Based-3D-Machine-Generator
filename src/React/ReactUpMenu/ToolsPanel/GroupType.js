@@ -64,7 +64,7 @@ if (this.props.demensions === "Millimeters") {
     app.config.widthGroup = e.target.value;
 
     let width = (app.config.widthGroup).replace(/[^0-9.]/g, "");
-    app.setSelectedElementsSize(width,(app.config.heightGroup).replace(/[^0-9.]/g, ""));
+    // app.setSelectedElementsSize(width,(app.config.heightGroup).replace(/[^0-9.]/g, ""));
     this.setState({ width: width });
   
     if (event.charCode === 13) {
@@ -72,10 +72,12 @@ if (this.props.demensions === "Millimeters") {
         this.setState({
           width: width.replace(/[^0-9.]/g, "") + " mm"
         });
+    app.setSelectedElementsSize(width,(app.config.heightGroup).replace(/[^0-9.]/g, ""));
       } else {
         this.setState({
           width: width.replace(/[^0-9.]/g, "") + ' "'
         });
+    app.setSelectedElementsSize(width,(app.config.heightGroup).replace(/[^0-9.]/g, ""));
       }
     }
   
@@ -90,7 +92,7 @@ if (this.props.demensions === "Millimeters") {
     let height = app.config.heightGroup;
     let width = app.config.widthGroup;
 
-    app.setSelectedElementsSize(width.replace(/[^0-9.]/g, ""),height);
+    // app.setSelectedElementsSize(width.replace(/[^0-9.]/g, ""),height);
 
     this.setState({ height: height });
   
@@ -99,10 +101,14 @@ if (this.props.demensions === "Millimeters") {
         this.setState({
           height: height.replace(/[^0-9.]/g, "") + " mm"
         });
+    app.setSelectedElementsSize(width.replace(/[^0-9.]/g, ""),height);
+
       } else {
         this.setState({
           height: height.replace(/[^0-9.]/g, "") + ' "'
         });
+    app.setSelectedElementsSize(width.replace(/[^0-9.]/g, ""),height);
+
       }
     }
   

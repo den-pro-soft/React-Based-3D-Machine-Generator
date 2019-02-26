@@ -26,7 +26,6 @@ export default class ChangeArcAngleCommand extends ElementModificationCommand{
      * @inheritDoc
      */
     executeCommand(){
-        // if(this.insideAngle && this.startAngle){
             if(!this.insideAngle && !this.startAngle){
             throw new Exception('insideAngle and startAngle can\'t be null at the same time');
         }

@@ -53,23 +53,24 @@ if (this.props.demensions === "Millimeters") {
   }
 }
   handleChangeInputLength = event => {
-
+ 
     app.config.lengthLine = (event.target.value).replace(/[^0-9.]/g, "");
+    this.setState({ value: app.config.lengthLine });
 
     let length = app.config.lengthLine;
-    app.setLineLengthElement(length);
-
-    this.setState({ value: length });
     
     if (event.charCode === 13) {
       if (this.props.demensions === "Millimeters") {
         this.setState({
-          value: length.replace(/[^0-9.]/g, "") + " mm"
+          value: length + " mm"
         });
+    app.setLineLengthElement(length);
       } else {
         this.setState({
-          value: length.replace(/[^0-9.]/g, "") + ' "'
+          value: length+ ' "'
+
         });
+    app.setLineLengthElement(length*25.4);
       }
     }
   
@@ -77,7 +78,6 @@ if (this.props.demensions === "Millimeters") {
 
   handleChangeLineAngle = e => {
     let angle = (e.target.value).replace(/[^0-9.]/g, "");
-    app.setLineAngleElement(angle);
 
     this.setState({
       angle
@@ -86,6 +86,8 @@ if (this.props.demensions === "Millimeters") {
     this.setState({
       angle:angle + ' deg'
     })
+    app.setLineAngleElement(angle);
+
   }
 }
 
