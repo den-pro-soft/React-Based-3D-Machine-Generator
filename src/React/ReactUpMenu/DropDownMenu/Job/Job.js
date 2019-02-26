@@ -6,7 +6,6 @@ import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
-// import classNames from 'classnames';
 export default class Job extends React.Component {
   constructor(props, context) {
     super(props, context);
@@ -90,10 +89,8 @@ export default class Job extends React.Component {
           ) : null}
         </div>
         <Dialog
-          // onClick={this.clickSubModal}
           maxWidth={false}
           open={this.state.openSubModal}
-          onClose={this.handleClose}
           aria-labelledby="alert-dialog-title"
           aria-describedby="alert-dialog-description"
         >
@@ -116,7 +113,7 @@ export default class Job extends React.Component {
               backgroundColor: "#f0ecec"
             }}
           >
-            <Settings />
+            <Settings history={this.props.history}/>
           </DialogContent>
 
           <DialogActions>

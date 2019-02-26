@@ -7,17 +7,24 @@ import Line from "./Line/Line";
 import Job from "./Job/Job";
 import Help from "./Help/Help";
 
-const DropDownMenu =props=> {
-
+// const DropDownMenu =props=> {
+  export default class DropDownMenu extends React.Component{
+    constructor(props){
+      super(props)
+      // console.log(this.props,'props-DropDown')
+    }
+render(){
   return (
     <>
-      <File />
+      <File history={this.props.history}/>
       <Edit />
       <Line/>
-      <Job />
+      <Job history={this.props.history}/>
       <Help />
     </>
   );
 }
+  }
 
-export default DropDownMenu;
+
+// export default DropDownMenu;

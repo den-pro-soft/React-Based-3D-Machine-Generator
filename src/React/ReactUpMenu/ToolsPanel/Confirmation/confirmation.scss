@@ -1,0 +1,22 @@
+.ConfirmContent{
+    background-color: #f0ecec;
+    display: flex;
+    justify-content: space-between;
+    .Info-Icon{
+        padding:15px;
+        padding-right: 20px;
+    }
+    .Text{
+        p{
+            text-align:left;
+            margin-top:10px;
+        }
+
+    }
+}
+
+    .Yes-No-buttons{
+        margin-top: 10px;
+        margin-left:25px;
+        text-align:center;
+    }

@@ -40,13 +40,13 @@ let show3D = function() {
   }
 };
 
-// export default 
 class UpMenu extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       openPreferencesModal: false,
     };
+    // console.log(this.props,'props-UpMenu')
   }
 
   // --------------open window Preferences---------------------
@@ -78,7 +78,7 @@ class UpMenu extends React.Component {
     return (
       <div className="UpMenu">
         <div className="Drop">
-          <DropDownMenu />
+          <DropDownMenu history={this.props.history}/>
         </div>
         <div className="Buttons">
           <div className="LeftButtonGroup">
