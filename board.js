@@ -1,6 +1,4 @@
-var container = {
-	board: null
-};
+var boardn;
 function create_board(){
 
 	var board = element('div').background('rgb(240, 240, 240)').size(1200, 800);
@@ -89,93 +87,93 @@ function create_board(){
 
 
 			//*****************************************************************************************************************
-			//<editor-fold defaultstate="collapsed" desc="create menu">
-			var stateStyle = [
-                {isActive: function (item) { return true;},
-                    style: {
-                        'display':'flex',
-                        'justify-content': 'center',
-                        'align-content': 'center',
-                        'line-height': '30px',
-                        'position': 'unset',
-                        'margin-right':'5px',
-						'fontFamily':'Ubuntu',
-						'color':'#808080'
-                    }
-                },{isActive: function (item) { return item.isFocuse;},
-					style: {
-                        'border-top':'#ff6633 solid 3px',
-						// 'background-color': '#f00',
-						'font-size': '1.2em',
-						'height':'25px',
-                        'color':'#fff'
-					}
-            	},{isActive: function (item) { return !item.isFocuse;},
-					style: {
-            			'border-top':'none',
-						// 'background-color': '#ffffff00',
-                        'font-size': '1em',
-                        'height':'28px',
-                        'color':'#808080'
-					}
-            	},{isActive: function (item) { return !item.isEnable;},
-                    style: {
-                        'font-style': 'italic',
-                        'font-size': '1em',
-                        'cursor': 'no-drop',
-                        'color':'#ababab'
-                    }
-                },{isActive: function (item) { return item.isEnable;},
-                    style: {
-                        'font-style': 'inherit',
-                    }
-                }
-            ];
+			// //<editor-fold defaultstate="collapsed" desc="create menu">
+			// var stateStyle = [
+             //    {isActive: function (item) { return true;},
+             //        style: {
+             //            'display':'flex',
+             //            'justify-content': 'center',
+             //            'align-content': 'center',
+             //            'line-height': '30px',
+             //            'position': 'unset',
+             //            'margin-right':'5px',
+			// 			'fontFamily':'Ubuntu',
+			// 			'color':'#808080'
+             //        }
+             //    },{isActive: function (item) { return item.isFocuse;},
+			// 		style: {
+             //            'border-top':'#ff6633 solid 3px',
+			// 			// 'background-color': '#f00',
+			// 			'font-size': '1.2em',
+			// 			'height':'25px',
+             //            'color':'#fff'
+			// 		}
+            	// },{isActive: function (item) { return !item.isFocuse;},
+			// 		style: {
+            	// 		'border-top':'none',
+			// 			// 'background-color': '#ffffff00',
+             //            'font-size': '1em',
+             //            'height':'28px',
+             //            'color':'#808080'
+			// 		}
+            	// },{isActive: function (item) { return !item.isEnable;},
+             //        style: {
+             //            'font-style': 'italic',
+             //            'font-size': '1em',
+             //            'cursor': 'no-drop',
+             //            'color':'#ababab'
+             //        }
+             //    },{isActive: function (item) { return item.isEnable;},
+             //        style: {
+             //            'font-style': 'inherit',
+             //        }
+             //    }
+            // ];
+            //
+			// var itemSize = {width:170, height:25}
+			// var itemStyle = [
+             //    {isActive: function (item) { return true;}, //The standart stule
+             //        style: {
+             //            'background-color': '#fff',
+             //            'color': '#333',
+             //            'line-height': '25px',
+			// 			'font-family': 'Helvetica'
+             //        }
+             //    },{isActive: function (item) { return item.isFocuse;}, //The hover
+             //        style: {
+             //            'background-color': '#656565',
+             //            'color': '#fff',
+             //        }
+             //    },{isActive: function (item) { return item.isFocuse && item.isEnable;},
+             //        style: {
+             //            'border-left':'#ff6633 solid 3px',
+             //            'border-radius':'0px 4px 4px 0px',
+             //            'width':(itemSize.width-3)+'px'
+             //        }
+             //    },{isActive: function (item) { return !item.isFocuse;},
+             //        style: {
+             //            'background-color': '#fff',
+             //            'border-left':'none',
+             //            'border-radius':'0px',
+             //            'width':itemSize.width+'px'
+             //        }
+             //    },{isActive: function (item) { return item.isEnable;},
+             //        style: {
+             //            'font-style': 'inherit',
+			// 			'cursor': 'pointer',
+             //        }
+             //    }
+             //    ,{isActive: function (item) { return !item.isEnable;},
+             //        style: {
+             //            'font-style': 'italic',
+             //            'background-color': '#ccc',
+             //            'cursor': 'no-drop',
+             //            'color':'gray'
+             //        }
+             //    }
+			// ];
 
-			var itemSize = {width:170, height:25}
-			var itemStyle = [
-                {isActive: function (item) { return true;}, //The standart stule
-                    style: {
-                        'background-color': '#fff',
-                        'color': '#333',
-                        'line-height': '25px',
-						'font-family': 'Helvetica'
-                    }
-                },{isActive: function (item) { return item.isFocuse;}, //The hover
-                    style: {
-                        'background-color': '#656565',
-                        'color': '#fff',
-                    }
-                },{isActive: function (item) { return item.isFocuse && item.isEnable;},
-                    style: {
-                        'border-left':'#ff6633 solid 3px',
-                        'border-radius':'0px 4px 4px 0px',
-                        'width':(itemSize.width-3)+'px'
-                    }
-                },{isActive: function (item) { return !item.isFocuse;},
-                    style: {
-                        'background-color': '#fff',
-                        'border-left':'none',
-                        'border-radius':'0px',
-                        'width':itemSize.width+'px'
-                    }
-                },{isActive: function (item) { return item.isEnable;},
-                    style: {
-                        'font-style': 'inherit',
-						'cursor': 'pointer',
-                    }
-                }
-                ,{isActive: function (item) { return !item.isEnable;},
-                    style: {
-                        'font-style': 'italic',
-                        'background-color': '#ccc',
-                        'cursor': 'no-drop',
-                        'color':'gray'
-                    }
-                }
-			];
-
-			var menu = new MenuBar()
+			// var menu = new MenuBar()
                 // .addMenu(new Menu("File")
 				// 	.addMenuItem(new MenuItem("New"))
 				// 	.addMenuItem(new MenuItem("Open"))
@@ -306,17 +304,17 @@ function create_board(){
 					// .setItemStyle(itemStyle))
 				// ----------/Help com----m----ent -
 
-                .setItemSize(80,28)
-				.setPosition(0,0)
-				.setSize(innerWidth,30)
-                .show()
-				.setItemStyle(stateStyle)
-				.setListStyle({
-                    'display':'flex',
-					'background-color':'#ccc',
-					'padding-left':'10px'
-				});
-			board.appendChild(menu.getHtml());
+             //    .setItemSize(80,28)
+			// 	.setPosition(0,0)
+			// 	.setSize(innerWidth,30)
+             //    .show()
+			// 	.setItemStyle(stateStyle)
+			// 	.setListStyle({
+             //        'display':'flex',
+			// 		'background-color':'#ccc',
+			// 		'padding-left':'10px'
+			// 	});
+			// board.appendChild(menu.getHtml());
 		//</editor-fold>
 
 			// var
@@ -363,7 +361,7 @@ function create_board(){
 			//***************************************************************************
 			board.setSize = function(width, height){
 				board.size(width, height);
-				menu.setSize(width-10);
+				// menu.setSize(width-10);
 				
 					canvas.style.position = 'absolute';
 					canvas.width = width - 60;
@@ -381,7 +379,7 @@ function create_board(){
 					// setBound();
 					// refresh_All();
 					// redraw();
-				container.board.setSize(width, height);
+				boardn.setSize(width, height);
 				return board;
 			}
 
@@ -1011,11 +1009,12 @@ function create_board(){
 
 
 			//######################################### canvas field ###################################################
-			canvas = document.createElement('canvas');
+			boardn  = container.resolve('mainBoard');
+			canvas = boardn.canvas;
 			canvas.style.background = '#fff';
 			board.appendChild(canvas);
-			container.board  = new Board2(canvas);
-			app.board = container.board;
+
+			app.board = boardn;
 			context = canvas.getContext('2d');
 			
 			//**************************************************************************
@@ -4361,6 +4360,6 @@ function create_board(){
 
 
 
-			container.board.renderDocument();
+			boardn.renderDocument();
 			return board;
 	}

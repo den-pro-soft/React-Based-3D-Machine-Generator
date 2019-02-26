@@ -5,11 +5,10 @@ module.exports = {
   mode: "development", // "production" | "development" | "none"  // Chosen mode tells webpack to use its built-in optimizations accordingly.
   entry: {
     "3Dview": "./src/3Dview.js",
-    menu: "./src/menu.js",
     popup: "./src/popup.js",
     Helper: "./src/Helper.js",
-    Board: "./src/2d/Board.js",
     Application: "./src/Application.js",
+    Container: "./src/Container.js",
     //React enry point
     index: "./src/index.js"
   },

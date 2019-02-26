@@ -24,7 +24,7 @@ class ControlPoint{
 class ResizeRect extends RectElementController{
     constructor(el){
         super(new Point(),new Point());
-        this.board = container.board;
+        this.board = container.resolve('mainBoard'); //todo: maybe set from the using place
 
         this.pointPadding = 4;
         this.rectPadding = 10;

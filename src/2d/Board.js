@@ -3,7 +3,8 @@
  */
 
 
-import Document from '../model/Document';
+import {Injectable} from 'container-ioc';
+
 import Point from '../model/Point';
 import Observable from './../Observable';
 import Trigonometric from './../model/math/Trigonometric';
@@ -22,7 +23,7 @@ class Board extends Observable{
     /**
      * @param {HTMLCanvasElement} canvas
      */
-    constructor(canvas) {
+    constructor() {
         super();
         this._scale = 0.2;
         this._bias = {x: 0, y: 0}; // pixel
@@ -30,11 +31,15 @@ class Board extends Observable{
 
         this._pixelPerOne=50;
 
-        this._canvas=canvas;
-        this._context = canvas.getContext('2d');
+        this._canvas= document.createElement('canvas');
+        this._context = this._canvas.getContext('2d');
 
         this._width = 500;
         this._height = 500;
+    }
+
+    get canvas(){
+        return this._canvas;
     }
 
     /**
@@ -281,12 +286,13 @@ class Board extends Observable{
  *
  * 1. mouseMove - data is {Point} current mouse position (in virtual coordinate system)
  */
+@Injectable()
 class InteractiveBoard extends Board{
     /**
      * @inheritDoc
      */
-    constructor(canvas){
-        super(canvas);
+    constructor(){
+        super();
 
         this._mouseDown = null;
 
@@ -309,22 +315,22 @@ class InteractiveBoard extends Board{
         setTimeout(()=>{this.renderDocument()}, 100);
 
 
-        canvas.addEventListener('mousemove', e=>this.mouseMove(e));
-        canvas.addEventListener('mousedown', e=>this.mouseDown(e));
-        canvas.addEventListener('mouseup', e=>this.mouseUp(e));
-        if (canvas.addEventListener) {
+        this._canvas.addEventListener('mousemove', e=>this.mouseMove(e));
+        this._canvas.addEventListener('mousedown', e=>this.mouseDown(e));
+        this._canvas.addEventListener('mouseup', e=>this.mouseUp(e));
+        if (this._canvas.addEventListener) {
             if ('onwheel' in document) {
-                canvas.addEventListener("wheel", e=>this.mouseWheel(e));
+                this._canvas.addEventListener("wheel", e=>this.mouseWheel(e));
             } else if ('onmousewheel' in document) {
-                this.canvas.addEventListener("mousewheel", e=>this.mouseWheel(e));
+                this._canvas.addEventListener("mousewheel", e=>this.mouseWheel(e));
             } else {
-                this.canvas.addEventListener("MozMousePixelScroll", e=>this.mouseWheel(e));
+                this._canvas.addEventListener("MozMousePixelScroll", e=>this.mouseWheel(e));
             }
         } else {
-            this.canvas.attachEvent("onmousewheel", e=>this.mouseWheel(e));
+            this._canvas.attachEvent("onmousewheel", e=>this.mouseWheel(e));
         }
-        canvas.addEventListener('click',  e=>this.mouseClick(e));
-        canvas.addEventListener('dblclick',  e=>this.mouseDbClick(e));
+        this._canvas.addEventListener('click',  e=>this.mouseClick(e));
+        this._canvas.addEventListener('dblclick',  e=>this.mouseDbClick(e));
 
         app.config.addHandler('change', (e)=>{
             if(e=='dimension'){
@@ -451,10 +457,5 @@ class InteractiveBoard extends Board{
     }
 }
 
-
-
-
 export {Board, InteractiveBoard};
 
-// global.Board2 = Board;
-window.Board2 = InteractiveBoard;

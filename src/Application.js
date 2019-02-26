@@ -43,7 +43,6 @@ import TextTool from './2d/tool/TextTool';
 import Text from './model/elements/Text';
 import Vector from './model/math/Vector';
 
-import config from './Config';
 
 import FormatNotSupportedException from './file/FormatNotSupportedException';
 import XmlFileLoader from './file/XmlFileLoader';
@@ -62,7 +61,9 @@ let idGenerator = 1;
  *
  */
 export default class Application extends Observable{
-    constructor(){
+
+
+    constructor(config){
         super();
 
         /** @param {Document} */
@@ -76,7 +77,7 @@ export default class Application extends Observable{
 
         this.selectElements = [];
 
-        this.config = config;
+        this.config = container.resolve('config');
 
         this.elementIdGenerator = {
             generateId:function(){
