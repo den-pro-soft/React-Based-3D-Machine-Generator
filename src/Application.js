@@ -21,7 +21,7 @@ import RotateElementsCommand from './2d/command/RotateElementsCommand';
 import MirrorElementsCommand from './2d/command/MirrorElementsCommand';
 import CopyDecorator from './2d/command/CopyDecorator';
 import ElementModificationCommand from './2d/command/ElementModificationCommand';
-import ChangeCirclesRadiusCommand from './2d/command/ChangeCirclesRadiusCommand';
+import ChangeArcsRadiusCommand from './2d/command/ChangeArcsRadiusCommand';
 import ChangeLineLengthCommand from './2d/command/ChangeLineLengthCommand';
 import ChangeLineAngleCommand from './2d/command/ChangeLineAngleCommand';
 import ChangeElementsSizeCommand from './2d/command/ChangeElementsSizeCommand';
@@ -460,7 +460,7 @@ export default class Application extends Observable{
      * @throws {Exception} - if selected not only circles
      */
     setRadiusForSelectedElements(radius){
-        this.executeCommand(new ChangeCirclesRadiusCommand(this.currentDocument, this.selectElements, radius));
+        this.executeCommand(new ChangeArcsRadiusCommand(this.currentDocument, this.selectElements, radius));
     }
 
     /**

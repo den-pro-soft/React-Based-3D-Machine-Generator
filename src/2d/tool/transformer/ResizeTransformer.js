@@ -115,7 +115,7 @@ class ResizeRect extends RectElementController{
         this._p2.x+=x;
         this._p2.y+=y;
 
-        for(let element of this._elements){
+        for(let element of this._document._elements){
             element.move(x,y);
         }
     }
@@ -238,8 +238,12 @@ export default class ResizeTransformer extends Transformer{
                 if(!this.activeControllPoint) {
                     app.moveSelected(this.dx, this.dy);
                 }else{
-                    app.executeCommand(new ChangeElementsSizeCommand(this.board.document, this._elements,
-                        new Vector(this.dx, this.dy),this.activeControllPoint.alignX, this.activeControllPoint.alignY));
+                    try {
+                        app.executeCommand(new ChangeElementsSizeCommand(this.board.document, this._elements,
+                            new Vector(this.dx, this.dy), this.activeControllPoint.alignX, this.activeControllPoint.alignY));
+                    }catch (e){
+
+                    }
                 }
                 this.dx = 0;
                 this.dy = 0;

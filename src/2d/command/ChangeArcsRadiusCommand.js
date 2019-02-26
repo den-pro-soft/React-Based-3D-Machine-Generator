@@ -9,7 +9,7 @@ import Arc from './../../model/elements/Arc';
 import Exception from './../../Exception';
 
 
-export default class ChangeCirclesRadiusCommand extends ElementModificationCommand{
+export default class ChangeArcsRadiusCommand extends ElementModificationCommand{
     /**
      * @param {Document} document
      * @param {Array.<Arc>} circles
@@ -19,13 +19,13 @@ export default class ChangeCirclesRadiusCommand extends ElementModificationComma
         super(document, circles);
 
         for(let circle of circles){
-            if(!circle instanceof Arc || circle.incrementAngle!=360){
-                throw new Exception('The ChangeCirclesRadiusCommand available only for circles!', circle);
+            if(!circle instanceof Arc){
+                throw new Exception('The ChangeArcsRadiusCommand available only for circles and arcs!', circle);
             }
         }
         this._radius = radius;
 
-        this.name= 'ChangeCirclesRadiusCommand';
+        this.name= 'ChangeArcsRadiusCommand';
     }
 
     /**

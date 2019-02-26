@@ -102,8 +102,20 @@ export default class Arc extends GraphicElement{
             this._center.changeByMatrix(removeMatrix);
         }
         if (this.startAngle != this.endAngle) {
-            this.startAngle -= grad;
-            this.endAngle -= grad;
+            this.startAngle-=grad;
+            if(this.startAngle<0){
+                this.startAngle+=360;
+            }
+            if(this.startAngle>360){
+                this.startAngle%=360;
+            }
+            this.endAngle-=grad;
+            if(this.endAngle<0){
+                this.endAngle+=360;
+            }
+            if(this.endAngle>360){
+                this.endAngle%=360;
+            }
         }
     }
 
