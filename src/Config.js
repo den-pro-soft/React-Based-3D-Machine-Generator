@@ -3,7 +3,7 @@
  *
  */
 
-import { Injectable, Container } from 'container-ioc';
+import { Injectable} from 'container-ioc';
 import AutoLineType from './model/line_types/Auto';
 import CommentToSelfLineType from './model/line_types/CommentToSelf';
 import BendLineType from './model/line_types/Bend';

@@ -332,7 +332,7 @@ class InteractiveBoard extends Board{
         this._canvas.addEventListener('click',  e=>this.mouseClick(e));
         this._canvas.addEventListener('dblclick',  e=>this.mouseDbClick(e));
 
-        app.config.addHandler('change', (e)=>{
+        container.resolve('config').addHandler('change', (e)=>{
             if(e=='dimension'){
                 this.renderDocument();
             }

@@ -9,7 +9,7 @@
     "build": "webpack --mode production",
     "start": "webpack --watch --config webpack.config.js",
     "compile": "webpack --config webpack.config.js",
-    "test": "mocha --compilers js:@babel/register ./test/*"
+    "test": "mocha --compilers js:@babel/register --require ./test/testHelper.js --require ./src/Container.js ./test/*"
   },
   "author": "",
   "license": "ISC",
