@@ -7,15 +7,15 @@ import { connect } from "react-redux";
     super(props);
   this.state={diameter:app.config.diameter}
   }
+
   componentWillMount() {
     app.addHandler("selectElement", element => {
 
       if (app.selectElements.length == 1) {
         if (element.typeName === "Arc") {
          let radius= (app.selectElements[0].radius).toFixed(3);
-        //  console.log(radius,'angle')
       if (this.props.demensions === "Millimeters") {
-        app.config.diameter=radius*2 + " mm" 
+        app.config.diameter = (radius*2).toFixed(3) + " mm" 
         this.setState({ diameter: app.config.diameter });
       } else {
         app.config.diameter=(radius*2 / 25.4).toFixed(3) + ' "' 
@@ -31,13 +31,13 @@ import { connect } from "react-redux";
 if (prevProps.demensions === "Millimeters") {
 app.config.diameter=(this.state.diameter).replace(/[^0-9.]/g, "");
 } else {
-  app.config.lengthLine=(this.state.diameter).replace(/[^0-9.]/g, "")*25.4;
+  app.config.diameter=(this.state.diameter).replace(/[^0-9.]/g, "")*25.4;
 }
 
 let diameter= app.config.diameter;
 
 if (this.props.demensions === "Millimeters") {
-  this.setState({ diameter: diameter +" mm"});
+  this.setState({ diameter: diameter.toFixed(3) +" mm"});
 } else {
   this.setState({ diameter:(diameter / 25.4).toFixed(3) + ' "'});
 }
@@ -46,9 +46,8 @@ if (this.props.demensions === "Millimeters") {
 }
 
   handleChangeInputDiameter = e=>{
-    // console.log(e.target.value,'e.target-diameter')
     let diameter = (e.target.value).replace(/[^0-9.]/g, "");
-    app.setRadiusForSelectedElements(diameter/2);
+    // app.setRadiusForSelectedElements(diameter/2);
 
     this.setState({
       diameter:diameter
@@ -56,12 +55,14 @@ if (this.props.demensions === "Millimeters") {
     if (event.charCode === 13) {
       if (this.props.demensions === "Millimeters") {
         this.setState({
-          diameter: diameter.replace(/[^0-9.]/g, "") + " mm"
+          diameter: diameter + " mm"
         });
+    app.setRadiusForSelectedElements(diameter/2);
       } else {
         this.setState({
-          diameter: diameter.replace(/[^0-9.]/g, "") + ' "'
+          diameter: diameter + ' "'
         });
+    app.setRadiusForSelectedElements(diameter/2*25.4);
       }
     }
 

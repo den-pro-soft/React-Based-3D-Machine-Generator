@@ -9,18 +9,16 @@ import { connect } from "react-redux";
       width: app.config.widthGroup,
       height: app.config.heightGroup
     };
-    console.log(app.config.widthGroup,'app.width')
   }
-  componentWillMount() {
+  componentDidMount() {
     app.addHandler("selectElement", element => {
    
          
       if (app.selectElements.length == 1||app.selectElements.length > 1) {
           let ext = app.currentDocument.getExtrenum(app.selectElements);
-           let width = ext.max.x- ext.min.x;
+          let width = ext.max.x- ext.min.x;
           let height = ext.max.y- ext.min.y;
-          // console.log(ext,width,height,'ext')
-        // // if (element.typeName === "Group") {
+    
         if (this.props.demensions === "Millimeters") {
           app.config.widthGroup = width.toFixed(3) + " mm";
           app.config.heightGroup = height.toFixed(3) + " mm"
@@ -31,8 +29,6 @@ import { connect } from "react-redux";
           this.setState({ width: app.config.widthGroup, height: app.config.heightGroup });
 
         }
-    console.log(app.config.widthGroup,'2-app.width')
-        
       }
     });
   }
@@ -66,49 +62,49 @@ if (this.props.demensions === "Millimeters") {
   }
 }
   handleChangeInputWidth = e => {
-    app.config.widthGroup = e.target.value;
-    console.log(e.target.value,'e.target-width')
 
-    let width = (app.config.widthGroup).replace(/[^0-9.]/g, "");
-    app.setSelectedElementsSize(width,(app.config.heightGroup).replace(/[^0-9.]/g, ""));
+    app.config.widthGroup = (e.target.value).replace(/[^0-9.]/g, "");
+    let width = app.config.widthGroup;
+    let height = app.config.heightGroup;
     this.setState({ width: width });
   
     if (event.charCode === 13) {
       if (this.props.demensions === "Millimeters") {
         this.setState({
-          width: width.replace(/[^0-9.]/g, "") + " mm"
+          width: width + " mm"
         });
+    app.setSelectedElementsSize(width,height.replace(/[^0-9.]/g, ""));
       } else {
         this.setState({
-          width: width.replace(/[^0-9.]/g, "") + ' "'
+          width: width + ' "'
         });
+    app.setSelectedElementsSize(width*25.4,height.replace(/[^0-9.]/g, ""));
       }
     }
   
   }
   handleChangeInputHeight = e => { 
-    // if(e.target.value===''){
-    //   e.target.value=0
-    // }
-      app.config.heightGroup = (e.target.value).replace(/[^0-9.]/g, "");
-    console.log(e.target.value,'e.target-height')
+  
+    app.config.heightGroup = (e.target.value).replace(/[^0-9.]/g, "");
 
     let height = app.config.heightGroup;
     let width = app.config.widthGroup;
-
-    app.setSelectedElementsSize(width.replace(/[^0-9.]/g, ""),height);
 
     this.setState({ height: height });
   
     if (event.charCode === 13) {
       if (this.props.demensions === "Millimeters") {
         this.setState({
-          height: height.replace(/[^0-9.]/g, "") + " mm"
+          height: height + " mm"
         });
+    app.setSelectedElementsSize(width.replace(/[^0-9.]/g, ""),height);
+
       } else {
         this.setState({
-          height: height.replace(/[^0-9.]/g, "") + ' "'
+          height: height + ' "'
         });
+    app.setSelectedElementsSize(width.replace(/[^0-9.]/g, ""),height*25.4);
+
       }
     }
   

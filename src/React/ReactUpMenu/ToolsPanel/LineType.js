@@ -7,17 +7,22 @@ class LineType extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      value: app.config.lengthLine
+      value: app.config.lengthLine,
+      angle:''
     };
   }
 
   componentWillMount() {
+    // this._isMounted = false;
+
     app.addHandler("selectElement", element => {
 
       if (app.selectElements.length == 1) {
         if (element.typeName === "Line") {
-         let angle= app.selectElements[0].incrementAngle;
-         console.log(angle,'angle')
+         let angle= (app.selectElements[0].angle).toFixed(3);
+         this.setState({angle: angle + ' deg'});
+
+        //  console.log(angle,'angle')
           let lengthLine = element.length();
           if (this.props.demensions === "Millimeters") {
             app.config.lengthLine=lengthLine.toFixed(3) + " mm" 
@@ -50,36 +55,43 @@ if (this.props.demensions === "Millimeters") {
   }
 }
   handleChangeInputLength = event => {
-// if (this.props.demensions === "Millimeters") {
-
+ 
     app.config.lengthLine = (event.target.value).replace(/[^0-9.]/g, "");
-// }else{
-//     // if(this.props.demensions === "Inches"){
-//       app.config.lengthLine = (event.target.value/25.4).toFixed(3).replace(/[^0-9.]/g, "");;
-//     }
-    let length = app.config.lengthLine;
-    app.setLineLengthElement(length);
+    this.setState({ value: app.config.lengthLine });
 
-    this.setState({ value: length });
+    let length = app.config.lengthLine;
     
     if (event.charCode === 13) {
       if (this.props.demensions === "Millimeters") {
         this.setState({
-          value: length.replace(/[^0-9.]/g, "") + " mm"
+          value: length + " mm"
         });
+    app.setLineLengthElement(length);
       } else {
         this.setState({
-          value: length.replace(/[^0-9.]/g, "") + ' "'
+          value: length+ ' "'
+
         });
+    app.setLineLengthElement(length*25.4);
       }
     }
   
   }
-//   handleChangeLineAngle= (e) => {
-// let angle = line.incrementAngle;
-//   app.setLineAngleElement(angle)
 
-//   } 
+  handleChangeLineAngle = e => {
+    let angle = (e.target.value).replace(/[^0-9.]/g, "");
+
+    this.setState({
+      angle
+    });
+    if (event.charCode === 13) {
+    this.setState({
+      angle:angle + ' deg'
+    })
+    app.setLineAngleElement(angle);
+
+  }
+}
 
 
   render() {
@@ -129,6 +141,10 @@ if (this.props.demensions === "Millimeters") {
       </Fragment>
     );
   }
+
+  // componentWillUnmount() {
+  //   // this._isMounted = false;
+  // }
 }
 const mapStateToProps = state => {
   return {
