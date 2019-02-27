@@ -20,6 +20,8 @@ export default class Render extends Renderable{
         this.board = container.resolve('mainBoard'); //todo: maybe set in render method
         this.new=false;
         this.focus = false;
+
+        this.renderMagnificationPoint=true;
     }
 
     /**
@@ -42,7 +44,7 @@ export default class Render extends Renderable{
         }
         
         this.drawElement();
-        if(this.focus){
+        if(this.renderMagnificationPoint && this.focus){
             this.drawMagnificationPoints();
         }
     }
@@ -58,6 +60,7 @@ export default class Render extends Renderable{
     resetConfig(){
         this.focus=false;
         this.new=false;
+        this.renderMagnificationPoint=true;
     }
 
     /**

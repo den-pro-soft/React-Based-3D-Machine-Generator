@@ -57,7 +57,7 @@ export default class Spline extends GraphicElement{
         let res = new PolyLine();
         let point = this.startPoint.copy();
 
-        for(let t=0; t<=1; t+=1E-2){
+        for(let t=0; t<=1+1E-2; t+=1E-2){
             res.addPoint(point);
             point = this.getPointOffset(t);
         }

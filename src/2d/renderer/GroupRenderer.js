@@ -7,6 +7,8 @@ import Render from './Render';
 export default class GroupRenderer extends Render{
     constructor(element){
         super(element);
+
+        this.renderMagnificationPoint=false;
     }
 
     /**
@@ -14,6 +16,7 @@ export default class GroupRenderer extends Render{
      */
     drawElement(){
         for(let element of this.element.elements){
+            element._renderer.renderMagnificationPoint=false;
             element.render();
         }
         // let center = this.element.getCenter();
