@@ -85,12 +85,13 @@ if (this.props.demensions === "Millimeters") {
 
     this.setState({startAngle});
     
-    if (event.charCode === 13) {
+    if (e.charCode === 13) {
     this.setState({
       startAngle:startAngle + ' deg'
     })
+    console.log(startAngle,'startAngle')
     // app.setArcAngles(startAngle, insideAngle);
-    app.setArcAngles(startAngle, null);
+    app.setArcAngles(+startAngle, null);
     
 
   }
@@ -102,12 +103,12 @@ if (this.props.demensions === "Millimeters") {
 
      this.setState({ insideAngle });
 
-     if (event.charCode === 13) {
+     if (e.charCode === 13) {
        this.setState({
          insideAngle: insideAngle + ' deg'
        })
       //  app.setArcAngles(startAngle, insideAngle);
-       app.setArcAngles(null, insideAngle);
+       app.setArcAngles(null, +insideAngle);
 
 
      }

@@ -3,7 +3,7 @@ import "./tools-panel.scss";
 import ReactTooltip from "react-tooltip";
 
 import MachineWindow from "./Machine/MachineWindow";
-// import Settigs from "../DropDownMenu/Job/Settings/Settigs"
+import Confirmation from "./Confirmation/Confirmation";
 
 import GroupType from "./GroupType";
 import LineType from "./LineType";
@@ -60,7 +60,8 @@ import {connect} from 'react-redux';
           } 
           if(arc=== true && app.selectElements.length === 1){
             if(app.selectElements[0].incrementAngle===360){
-              this.setState({ line: false, circle: true, arc:false,  group: false, text: false })
+              this.setState({ line: false, circle: true, arc:false,  group: false, text: false });
+            //  this.props.openConfirmModal(!this.props.openConfirm);
             } else {
               this.setState({ line: false, circle: false, arc:true,  group: false, text: false })
 
@@ -77,9 +78,9 @@ import {connect} from 'react-redux';
                       case "Text":     this.setState({ line: false, circle: false, arc:false, group: false, text:true });  break;
                   }
               }else {
-                  this.setState({ line: false, circle: false, group: true });
+                  this.setState({ line: false, circle: false,arc:false, group: true });
               }
-          }
+          }   
     });
 
     app.addHandler("clearSelectElements", () => {
@@ -87,7 +88,15 @@ import {connect} from 'react-redux';
     });
   
   }
-
+   componentDidUpdate(prevProps, prevState) {
+     console.log(prevProps.width,this.props.width,'prev-this')
+     if (this.props.width !== prevProps.width && this.state.group === true) {
+       if (this.props.width !== undefined){
+       app.config.openConfirm = !this.props.openConfirm;
+         this.props.openConfirmModal(!this.props.openConfirm);
+       }
+     }
+   }
   // ---------------------------handleChangeSelect type Line-------------------------------------------
   handleChangeSelect =(event)=> {
     if(event.target.value==="Bend" &&this.state.line===false){
@@ -149,8 +158,7 @@ import {connect} from 'react-redux';
   }
 
   getPanelHtml() {
- 
-  // console.log(this.props, "render-openTapModal");  
+ console.log(this.props,'props-ToolsPanel')
     return (
       <div className="ToolsPanel">
         <ReactTooltip html={true} className="tooltipBackgroundTheme" />
@@ -159,7 +167,6 @@ import {connect} from 'react-redux';
             <button className="btn-LineType" /*onClick={(e)=>{console.log(e.target,'window');this.props.updateOpenTapModal(!this.state.openTapModal)}}*/>
               <a href="#">
                 <img
-                // onClick={this.clickOpenTapModal}
                   width="18px"
                   src="images/LineType.png"
                   data-place="bottom"
@@ -240,7 +247,7 @@ import {connect} from 'react-redux';
           </div>
         </form>
         <MachineWindow />
-      
+        <Confirmation />
       {/* --------------------------Information-------------------- */}
         <Dialog
           maxWidth={false}
@@ -273,7 +280,7 @@ import {connect} from 'react-redux';
                 color="primary"
                 autoFocus
               >
-                <i class="material-icons">
+                <i className = "material-icons">
                   cancel_presentation
             </i>
               </Button>
@@ -310,11 +317,24 @@ import {connect} from 'react-redux';
     );
   }
 }
+const mapStateToProps = (state)=>{
+  return {
+    openConfirm: state.confirmationReducer.openConfirm,
+    width:state.confirmationReducer.width,
+    height:state.confirmationReducer.height,
+
+
+  }
+     }
+
 const mapDispatchToProps = dispatch => {
   return {
     updateOpenTapModal: openTapModal => {
       dispatch({ type: "OPEN_TAP_MODAL", payload: openTapModal });
+    },
+    openConfirmModal: openConfirm => {
+      dispatch({ type: "OPEN_Confirmation", payload: openConfirm });
     }
   };
 };
-export default connect(null,mapDispatchToProps)(ToolsPanel);
+export default connect(mapStateToProps, mapDispatchToProps)(ToolsPanel);

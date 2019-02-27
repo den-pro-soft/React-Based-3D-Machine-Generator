@@ -7,7 +7,7 @@ import CommentToSelf from './CommentToSelf';
 export default class CommentToMachine extends CommentToSelf{
     constructor(){
         super();
-        this.label = "Comment to Machine";
+        this.label = "Comment to Machinist";
     }
 
     /**

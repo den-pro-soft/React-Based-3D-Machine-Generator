@@ -14,7 +14,7 @@ export default class File extends React.Component {
             displayMenu: false,
             openNewModal: false
         };
-
+// console.log(this.props,'props-File')
     }
 
     showDropdownMenu = (event) => {
@@ -124,7 +124,7 @@ export default class File extends React.Component {
 
                         style={{ width: "950px",height:'425px', backgroundColor: "#f0ecec" }}
                     >
-                        <New />
+                        <New history={this.props.history}/>
                     </DialogContent>
 
                     <DialogActions>

@@ -19,16 +19,14 @@ import {
 } from "react-router-dom";
 
 export default class New extends React.Component {
-  constructor(props,context){
-    super(props,context)
-    console.log(this.context,'this.context-New')
+  constructor(props){
+    super(props)
+  }
+  componentDidMount() {
+    console.log(this.props, 'this.props-New')
+    this.props.history.push('/')
 
   }
-  componentDidMount(){
-    console.log(this.props,'this.props-New')
-// this.props.history.push('/')
-
-}
   render(){
   return (
     <div>
