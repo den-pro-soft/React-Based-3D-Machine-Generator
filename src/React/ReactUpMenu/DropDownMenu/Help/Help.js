@@ -99,7 +99,6 @@ export default class Help extends React.Component {
 
   handleClickOpen = event => {
     event.preventDefault();
-    console.log(event.target, "about window");
     this.setState(
       prevState => ({ open: !prevState.open }),
       () => {

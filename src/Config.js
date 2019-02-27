@@ -45,6 +45,8 @@ export default class Config extends Observable{
         this.textSize = '';
         this.mouseX = 0;
         this.mouseY = 0;
+        //state for React-Redux modal window Confirmation
+        this.openConfirm = false
 
         /** @type {LineType} - the default line type*/
         this._lineType = new AutoLineType();

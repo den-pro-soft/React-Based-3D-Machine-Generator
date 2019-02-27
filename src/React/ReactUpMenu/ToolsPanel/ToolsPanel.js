@@ -92,6 +92,7 @@ import {connect} from 'react-redux';
      console.log(prevProps.width,this.props.width,'prev-this')
      if (this.props.width !== prevProps.width && this.state.group === true) {
        if (this.props.width !== undefined){
+       app.config.openConfirm = !this.props.openConfirm;
          this.props.openConfirmModal(!this.props.openConfirm);
        }
      }

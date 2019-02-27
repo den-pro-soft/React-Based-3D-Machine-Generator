@@ -1,10 +1,13 @@
 const initialState = {
-  openConfirm: false,
+  // openConfirm: false,
+  openConfirm: app.config.openConfirm,
+
   width: 0,
   height: 0
 };
 
 export default function confirmationReducer(state = initialState, action) {
+  console.log(state,'confirmReducer')
   switch (action.type) {
     case "OPEN_Confirmation":
       return { openConfirm: action.payload };

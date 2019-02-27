@@ -30,8 +30,10 @@ class Confirmation extends React.Component {
             <span>Confirmation</span>
 
             <Button
-              onClick={() =>
+              onClick={() =>{
+                app.config.openConfirm = !this.props.openConfirm;
                 this.props.closeConfirmModal(!this.props.openConfirm)
+              }
               }
               style={{
                 backgroundColor: "#fff",
@@ -76,8 +78,10 @@ class Confirmation extends React.Component {
 
           <div className="Yes-No-buttons">
             <Button
-              onClick={() =>
+              onClick={() =>{
+                app.config.openConfirm = !this.props.openConfirm;
                 this.props.closeConfirmModal(!this.props.openConfirm)
+              }
               }
               style={{
                 backgroundColor: "#dddada",
@@ -91,8 +95,10 @@ class Confirmation extends React.Component {
               Yes
             </Button>
             <Button
-              onClick={() =>
+              onClick={() =>{
+                app.config.openConfirm = !this.props.openConfirm;
                 this.props.closeConfirmModal(!this.props.openConfirm)
+              }
               }
               style={{
                 backgroundColor: "#dddada",
