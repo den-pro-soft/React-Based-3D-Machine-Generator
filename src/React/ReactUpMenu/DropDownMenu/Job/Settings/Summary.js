@@ -178,7 +178,8 @@ class ReactVirtualizedTable extends React.PureComponent {
       country:'U.S.A.',
       StateOrProvince:'',
       zip:'',
-      material:'Unspecified'
+      material:'Unspecified',
+      finishing:'None'
 
     }
   }
@@ -295,10 +296,18 @@ class ReactVirtualizedTable extends React.PureComponent {
     } else{
       this.setState({material:material})
     }
+    
+    const finishing = localStorage.getItem('finishing');
+    if(finishing  === null){
+    this.setState({finishing :this.state.finishing })
+    } else{
+      this.setState({finishing :finishing })
+    }
 
   }
   render(){
-    console.log(this.state.country,this.state.stateUSA,'country-state-render')
+    const used_machines = localStorage.getItem('lineType');
+    console.log(used_machines,'used_machines')
    
     const data = [
       ["File name","Untitled"],
@@ -310,12 +319,29 @@ class ReactVirtualizedTable extends React.PureComponent {
       ["Quantity", 25],
       ["Material", this.state.material],
       ["Thickness", `0,000${String.fromCharCode(34)}, tolerance: 20,00%`],
-      ["Used machines", "Comments to Machinist"],
-      ["Finishing", "None"],
+      ["Used machines", used_machines],
+      ["Finishing", this.state.finishing],
       // ["Packing", "Pack parts in bulk"],
-      ["Comments to machinist", "None"]
+      ["Comments to machinist", "None"],
+     
     ];
-    
+    const data_auto = [
+      ["File name","Untitled"],
+      ["Customer", this.state.firstName + ' '+ this.state.lastName + this.state.businessName],
+      ["Customer email", this.state.email],
+      ["Order type", this.state.order + ' '+this.state.originalOrder],
+      ["Shipping to",this.state.adressLine1+ this.state.city+
+      this.state.StateOrProvince +this.state.zip + this.state.country],
+      ["Quantity", 25],
+      ["Material", this.state.material],
+      ["Thickness", `0,000${String.fromCharCode(34)}, tolerance: 20,00%`],
+      ["Used machines", used_machines],
+      ["Finishing", this.state.finishing],
+      // ["Packing", "Pack parts in bulk"],
+      ["Comments to machinist", "None"],
+      ['',''],
+      ['Specifications','']
+    ];
     let id = 0;
     
     function createData(filename, untitled) {
@@ -324,11 +350,20 @@ class ReactVirtualizedTable extends React.PureComponent {
     }
     const rows = [];
     
-    for (let i = 0; i < data.length; i += 1) {
-      const renderData = data[i];
-      rows.push(createData(...renderData));
-    
-    }
+   
+    // if (used_machines === 'Auto') {
+    //   for (let i = 0; i < data.length; i += 1) {
+    //     const renderData = data_auto[i];
+    //     rows.push(createData(...renderData));
+    //   }
+    // } else {
+      for (let i = 0; i < data.length; i += 1) {
+        const renderData = data[i];
+        rows.push(createData(...renderData));
+      }
+    // } 
+
+  
   return (
     <Paper style={{ height: 400, width: "100%" }}>
       <WrappedSummary

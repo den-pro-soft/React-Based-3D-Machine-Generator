@@ -38,12 +38,18 @@ import {connect} from 'react-redux';
       openBendModal:false,
       openTapModal:false
     };
+    
+
   }
   // ---------------React Life Cycle-----------------
   componentWillMount() {
   
       app.addHandler("selectElement", element => {
     this.setState({value: app.selectElements[0]._lineType.label});
+    // localStorage.setItem('lineType', app.config.defaultLineTypes[0].label);
+    localStorage.setItem('lineType', app.selectElements[0]._lineType.label);
+
+
     // app.config.lineType = app.selectElements[0]._lineType;
 
           this.setState({ show: true });
@@ -105,8 +111,10 @@ import {connect} from 'react-redux';
     this.setState({value:event.target.value});
     app.config.defaultLineTypes.map((item) => {
       if(event.target.value===item.label){
+        localStorage.setItem('lineType', item.label);
         app.config.lineType = item; 
         app.setElementsLineType(item);
+
       }
     })
 

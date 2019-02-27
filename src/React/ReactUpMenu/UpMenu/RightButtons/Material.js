@@ -77,7 +77,7 @@ componentWillMount(){
     window.open('https://www.emachineshop.com/')
   }
   render(){
-    console.log(this.props,'material-props')
+    // console.log(this.props,'material-props')
   return (
     <div className="Material">
 
