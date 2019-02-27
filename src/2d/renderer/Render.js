@@ -17,7 +17,7 @@ export default class Render extends Renderable{
         this.element = element;
 
         /** @var {Board} */
-        this.board = container.board; //todo: container
+        this.board = container.resolve('mainBoard'); //todo: maybe set in render method
         this.new=false;
         this.focus = false;
     }

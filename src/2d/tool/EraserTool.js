@@ -45,7 +45,7 @@ export default class EraserTool extends Tool{
      * @return {boolean} false if not changing any GraphicElement
      */
     mouseDown(point){
-        let scale = container.board._scale; //todo: container
+        let scale = container.resolve('mainBoard')._scale; //todo: maybe set from the using place
         let eps = (scale>1?0.2:0.05)/scale;
 
 
@@ -160,7 +160,7 @@ export default class EraserTool extends Tool{
     }
 
     _getNearElements(point){
-        let scale = container.board._scale; //todo: container
+        let scale = container.resolve('mainBoard')._scale; //todo: maybe set from the using place
         return this.document.getNearElements(point, (scale>1?0.2:0.05)/scale);
     }
 }

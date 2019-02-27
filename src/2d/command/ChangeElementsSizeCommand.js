@@ -98,13 +98,16 @@ export default class ChangeElementsSizeCommand extends ElementModificationComman
 
         if(this.controlPointX == ChangeElementsSizeCommand.CONTROL_POINT_X.left){
             dx = -dx;
-        } else if(this.controlPointX == ChangeElementsSizeCommand.CONTROL_POINT_X.canter){
-            dx=0;
         }
 
         if(this.controlPointY == ChangeElementsSizeCommand.CONTROL_POINT_Y.bottom){
             dy = -dy;
-        } else if(this.controlPointY == ChangeElementsSizeCommand.CONTROL_POINT_Y.center){
+        }
+
+        if(this.controlPointX == ChangeElementsSizeCommand.CONTROL_POINT_X.canter){
+            dx=0;
+        }
+        if(this.controlPointY == ChangeElementsSizeCommand.CONTROL_POINT_Y.center){
             dy=0;
         }
 
@@ -139,6 +142,10 @@ export default class ChangeElementsSizeCommand extends ElementModificationComman
 
         for(let el of this.elements){
             if(el instanceof Arc){
+                if(!this.convertCircleToSplines){
+                    throw new Exception('You cannot perform this operation with the Arc highlighted and the ' +
+                        'convertCircleToSplines flag cleared.', this);
+                }
                 this._document.removeElement(el);
                 let group = new Group();
                 let splines = el.convertToSplines();
@@ -153,11 +160,6 @@ export default class ChangeElementsSizeCommand extends ElementModificationComman
             }
             res.push(el);
         }
-        if(isChanged && !this.convertCircleToSplines){
-            // this.undo();
-            throw new Exception('You cannot perform this operation with the Arc highlighted and the ' +
-                'convertCircleToSplines flag cleared.', this);
-        }
 
         return res;
     }
@@ -171,8 +173,11 @@ export default class ChangeElementsSizeCommand extends ElementModificationComman
         //todo: the code has a bug. If use it for group -> group -> element
         let res = false;
         for(let el of group.elements){
-            console.log(group,'some text');
             if(el.typeName == 'Arc'){
+                if(!this.convertCircleToSplines){
+                    throw new Exception('You cannot perform this operation with the Arc highlighted and the ' +
+                        'convertCircleToSplines flag cleared.', this);
+                }
                 console.log(group, 'before er');
                 group.removeElement(el);
                 let group = new Group();

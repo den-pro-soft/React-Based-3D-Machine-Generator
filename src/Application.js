@@ -21,7 +21,7 @@ import RotateElementsCommand from './2d/command/RotateElementsCommand';
 import MirrorElementsCommand from './2d/command/MirrorElementsCommand';
 import CopyDecorator from './2d/command/CopyDecorator';
 import ElementModificationCommand from './2d/command/ElementModificationCommand';
-import ChangeCirclesRadiusCommand from './2d/command/ChangeCirclesRadiusCommand';
+import ChangeArcsRadiusCommand from './2d/command/ChangeArcsRadiusCommand';
 import ChangeLineLengthCommand from './2d/command/ChangeLineLengthCommand';
 import ChangeLineAngleCommand from './2d/command/ChangeLineAngleCommand';
 import ChangeElementsSizeCommand from './2d/command/ChangeElementsSizeCommand';
@@ -43,7 +43,6 @@ import TextTool from './2d/tool/TextTool';
 import Text from './model/elements/Text';
 import Vector from './model/math/Vector';
 
-import config from './Config';
 
 import FormatNotSupportedException from './file/FormatNotSupportedException';
 import XmlFileLoader from './file/XmlFileLoader';
@@ -62,7 +61,9 @@ let idGenerator = 1;
  *
  */
 export default class Application extends Observable{
-    constructor(){
+
+
+    constructor(config){
         super();
 
         /** @param {Document} */
@@ -76,7 +77,7 @@ export default class Application extends Observable{
 
         this.selectElements = [];
 
-        this.config = config;
+        this.config = container.resolve('config');
 
         this.elementIdGenerator = {
             generateId:function(){
@@ -460,7 +461,7 @@ export default class Application extends Observable{
      * @throws {Exception} - if selected not only circles
      */
     setRadiusForSelectedElements(radius){
-        this.executeCommand(new ChangeCirclesRadiusCommand(this.currentDocument, this.selectElements, radius));
+        this.executeCommand(new ChangeArcsRadiusCommand(this.currentDocument, this.selectElements, radius));
     }
 
     /**

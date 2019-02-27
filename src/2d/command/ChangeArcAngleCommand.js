@@ -40,7 +40,8 @@ export default class ChangeArcAngleCommand extends ElementModificationCommand{
             for (let el of this.elements) {
                 el.incrementAngle = this.insideAngle;
             }
-        }else{
+        }
+        if(this.startAngle){
             for (let el of this.elements) {
                 let oldInsideAngle = el.incrementAngle;
                 el.startAngle = this.startAngle;

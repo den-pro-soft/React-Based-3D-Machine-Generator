@@ -2,6 +2,8 @@
  * Created by dev on 30.01.19.
  *
  */
+
+import { Injectable} from 'container-ioc';
 import AutoLineType from './model/line_types/Auto';
 import CommentToSelfLineType from './model/line_types/CommentToSelf';
 import BendLineType from './model/line_types/Bend';
@@ -20,7 +22,8 @@ import Observable from './Observable';
  * Provides events:
  * 1. change - when change some property, data is propertyName
  */
-class Config extends Observable{
+@Injectable()
+export default class Config extends Observable{
     constructor(){
         super();
 
@@ -92,5 +95,3 @@ class Config extends Observable{
 
     get fontSize(){return this._fontSize};
 }
-
-export default new Config();

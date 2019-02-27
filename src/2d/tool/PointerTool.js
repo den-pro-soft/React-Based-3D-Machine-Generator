@@ -171,7 +171,7 @@ export default class PointerTool extends Tool{
     }
 
     _getNearElements(point){
-        let scale = container.board._scale; //todo: container
+        let scale = container.resolve('mainBoard')._scale; //todo: maybe set from the using place
         return this._document.getNearElements(point, (scale>1?0.2:0.05)/scale);
     }
     _selectNearElements(point){

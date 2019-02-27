@@ -21,7 +21,7 @@ export default class GraphicElement extends Cloneable{
         super();
         
         /** @var {number} - is unique identifier */
-        this.id=app.elementIdGenerator.generateId();
+        this.id=container.resolve('elementIdGenerator').generateId();
 
         this.height = 10;
 
@@ -32,7 +32,7 @@ export default class GraphicElement extends Cloneable{
         this._renderer = null; //todo: transfer the creation of a new sample from GraphicElement classes to a IOC container
 
         /** @var {LineType} */
-        this._lineType=app.config.lineType.copy();
+        this._lineType=container.resolve('config').lineType.copy();
         
         this.typeName= "Element"; //todo: understand  instanceof and remove this shit
     }

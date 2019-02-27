@@ -21,7 +21,7 @@ export default class Cursor{
      */
     render(position){
         if(!this.board){
-            this.board = container.board; //todo: container
+            this.board = container.resolve('mainBoard'); //todo: maybe set from the using place
         }else {
             let p = this.board._convertToLocalCoordinateSystem(position);
 

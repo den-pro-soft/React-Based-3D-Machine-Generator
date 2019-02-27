@@ -15,7 +15,7 @@ export default class Transformer{
         this.document = document;
         this._elements = [];
 
-        this.board = container.board; //todo: container
+        this.board = container.resolve('mainBoard'); //todo: maybe set from the using place
 
         this._drag = false;
     }

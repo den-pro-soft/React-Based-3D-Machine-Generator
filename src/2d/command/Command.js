@@ -18,7 +18,7 @@ export default class Command{
         //     throw new Exception("Document is required parameter");
         // }
 
-        this.id=app.elementIdGenerator.generateId();
+        this.id=container.resolve('commandIdGenerator').generateId();
         /** @var {Document} */
         this._document = document;
 

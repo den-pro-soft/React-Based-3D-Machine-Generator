@@ -123,22 +123,21 @@ export default class XmlFileLoader extends FileLoader{
         let figures = elements.map(el => {
             return `<Region BaseHeight="0" Z="${el.height}" ThroughHole="">
                         ${this._createMachineByLineType(el.lineType)}
-                        <Contour>${this._convertElementToXml(el)}</Contour>
+                        <Contour>\n
+                            ${this._convertElementToXml(el)} \n
+                        </Contour>
                     </Region>`
         });
-
-        const header =
-          '<?xml version="1.0"?>\n' +
-          '<eMachineShop3DObjects VersionId="1.1">\n' +
-          '<View Type="Top">\n';
-          
+        
         let regions = figures.join("\n") +'\n';
-       
-        const footer =
-          "</View>\n" +
-          '<QuantityOfParts Value="10"/>\n' +
-          "</eMachineShop3DObjects>";
-        return header + regions + footer;
+
+        return `<?xml version="1.0"?>
+            <eMachineShop3DObjects VersionId="1.1">
+                <View Type="Top">
+                    ${regions}
+                </View>
+                <QuantityOfParts Value="10"/>
+            </eMachineShop3DObjects>`;
       }
 
     _convertElementToXml(el){
@@ -149,15 +148,12 @@ export default class XmlFileLoader extends FileLoader{
                 if(el.startAngle==0 && el.endAngle==0) {
                     return `<Circle Center="${el._center.x},${el._center.y}" Radius="${el.radius}"/>`;
                 }else {
-                    return `<Arc Center="${el._center.x},${el._center.y}" Radius="${el.radius}" 
-                             StartAngle="${el.startAngle}" IncAngle="${el.incrementAngle}"/>`;
+                    return `<Arc Center="${el._center.x},${el._center.y}" Radius="${el.radius}" StartAngle="${el.startAngle}" IncAngle="${el.incrementAngle}"/>`;
                 }
             case 'Spline':
-                return `<Spline P1="${el._points[0].x},${el._points[0].y}" P2="${el._points[2].x},${el._points[2].y}" 
-                                P3="${el._points[3].x},${el._points[3].y}" P4="${el._points[1].x},${el._points[1].y}"/>`;
+                return `<Spline P1="${el._points[0].x},${el._points[0].y}" P2="${el._points[2].x},${el._points[2].y}" P3="${el._points[3].x},${el._points[3].y}" P4="${el._points[1].x},${el._points[1].y}"/>`;
             case 'Text':
-                return `<Text Position="${el.position.x},${el.position.y}" Height="${el.fontSize}" 
-                              FontName="" HFlip="0" VFlip="0" Angle="${el.angle}">${el.text}</Text>`;
+                return `<Text Position="${el.position.x},${el.position.y}" Height="${el.fontSize}" FontName="" HFlip="0" VFlip="0" Angle="${el.angle}">${el.text}</Text>`;
         }
     }
 

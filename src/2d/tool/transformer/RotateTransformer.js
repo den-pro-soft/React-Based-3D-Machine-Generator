@@ -29,8 +29,8 @@ export default class RotateTransformer extends Transformer{
      */
     mouseDown(point){
         if(this.group){
-            let scale = container.board._scale; //todo: container
-            let r = (scale * this.board._pixelPerOne * this.radius + 10+4)/(container.board._pixelPerOne*scale);
+            let scale = this.board._scale;
+            let r = (scale * this.board._pixelPerOne * this.radius + 10+4)/(this.board._pixelPerOne*scale);
 
             if(r> new Line(this.center,point).length()){ //into transformer
                 this._downPosition = point;
