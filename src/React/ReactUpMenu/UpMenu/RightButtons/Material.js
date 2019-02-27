@@ -1,15 +1,24 @@
 import React from "react";
 import "./material.scss";
+// import { connect } from "react-redux";
 
-export default class Material extends React.Component {
+
+class Material extends React.Component {
   constructor(props, context) {
     super(props, context);
     this.state = {
       displayMenu: false,
-      value:'Material'
+      material:'Material'
     };
   }
-
+componentWillMount(){
+  const material = localStorage.getItem('material');
+  if(material === null){
+  this.setState({material:this.state.material})
+  } else{
+    this.setState({material:material})
+  }
+}
   showDropdownMenu = (event)=> {
     event.preventDefault();
     this.setState({ displayMenu: true }, () => {
@@ -23,45 +32,59 @@ export default class Material extends React.Component {
     });
   }
   handleClick1 = () => {
-    this.setState({ value: 'Aluminum 6061' });
-  
+  // this.props.updateMaterial('Aluminum 6061')
+  localStorage.setItem('material', 'Aluminum 6061');
+    this.setState({ material: 'Aluminum 6061' });
+
   };
   handleClick2 = () => {
-    this.setState({ value: 'Aluminum 5052' });
+  // this.props.updateMaterial('Aluminum 5052')
+  localStorage.setItem('material', 'Aluminum 5052');
+    this.setState({ material: 'Aluminum 5052' });
+
+
   
   };
   handleClick3 = () => {
-    this.setState({ value: 'Plain Steel' });
+  // this.props.updateMaterial('Plain Steel')
+  localStorage.setItem('material', 'Plain Steel');
+    this.setState({ material: 'Plain Steel' });
+
   
   };
   handleClick4 = () => {
-    this.setState({ value: 'Brass' });
+  // this.props.updateMaterial('Brass')
+  localStorage.setItem('material', 'Brass');
+    this.setState({ material: 'Brass' });
+
   
   };
   handleClick5 = () => {
-    this.setState({ value: 'Copper' });
+  // this.props.updateMaterial('Copper')
+  localStorage.setItem('material', 'Copper');
+    this.setState({ material: 'Copper' });
+
   
   };
   handleClick6 = () => {
-    this.setState({ value: 'Stainless' });
+  // this.props.updateMaterial('Stainless')
+  localStorage.setItem('material', 'Stainless');
+    this.setState({ material: 'Stainless' });
+
   
   };
   openWindow=()=>{
     window.open('https://www.emachineshop.com/')
   }
   render(){
+    console.log(this.props,'material-props')
   return (
     <div className="Material">
 
    
-          <button className="btn-Job"
-          onClick={this.showDropdownMenu}
-
-          //  onMouseEnter={this.showDropdownMenu}
-          // onMouseLeave={this.hideDropdownMenu}
-          >
+          <button className="btn-Job"onClick={this.showDropdownMenu}>
      {/* Material */}
-     {this.state.value}
+     {this.state.material}
           {this.state.displayMenu ? (
             <ul>
               <li value="Aluminum 6061" onClick={this.handleClick1}>
@@ -95,3 +118,19 @@ export default class Material extends React.Component {
   );
 }
 }
+
+// const mapStateToProps = state => {
+//   return {
+//     material: state.materialReducer.material
+//   };
+// };
+
+// const mapDispatchToProps = dispatch => {
+//   return {
+//     updateMaterial: material => {
+//       dispatch({ type: "UPDATE_MATERIAL", payload: material });
+//     }
+//   };
+// };
+// export default connect(mapStateToProps,mapDispatchToProps)(Material);
+export default Material

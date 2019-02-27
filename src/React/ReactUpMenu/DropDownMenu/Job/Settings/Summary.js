@@ -6,6 +6,7 @@ import TableCell from "@material-ui/core/TableCell";
 import TableSortLabel from "@material-ui/core/TableSortLabel";
 import Paper from "@material-ui/core/Paper";
 import { AutoSizer, Column, SortDirection, Table } from "react-virtualized";
+import { connect } from "react-redux";
 
 
 const styles = theme => ({
@@ -176,7 +177,8 @@ class ReactVirtualizedTable extends React.PureComponent {
       province:'',
       country:'U.S.A.',
       StateOrProvince:'',
-      zip:''
+      zip:'',
+      material:'Unspecified'
 
     }
   }
@@ -282,10 +284,18 @@ class ReactVirtualizedTable extends React.PureComponent {
 
     const ZIP = localStorage.getItem('zip');
     if(ZIP === null){
-    this.setState({lastName:this.state.zip})
+    this.setState({zip:this.state.zip})
     } else{
       this.setState({zip:ZIP+', '})
     }
+
+    const material = localStorage.getItem('material');
+    if(material === null){
+    this.setState({material:this.state.material})
+    } else{
+      this.setState({material:material})
+    }
+
   }
   render(){
     console.log(this.state.country,this.state.stateUSA,'country-state-render')
@@ -298,7 +308,7 @@ class ReactVirtualizedTable extends React.PureComponent {
       ["Shipping to",this.state.adressLine1+ this.state.city+
       this.state.StateOrProvince +this.state.zip + this.state.country],
       ["Quantity", 25],
-      ["Material", "Acetal Black"],
+      ["Material", this.state.material],
       ["Thickness", `0,000${String.fromCharCode(34)}, tolerance: 20,00%`],
       ["Used machines", "Comments to Machinist"],
       ["Finishing", "None"],
@@ -346,4 +356,18 @@ class ReactVirtualizedTable extends React.PureComponent {
   );
 }
 }
+// const mapStateToProps = state => {
+//   return {
+//     material: state.materialReducer.material
+//   };
+// };
+
+// // const mapDispatchToProps = dispatch => {
+// //   return {
+// //     updateMaterial: material => {
+// //       dispatch({ type: "UPDATE_MATERIAL", payload: material });
+// //     }
+// //   };
+// // };
+// export default connect(mapStateToProps)(ReactVirtualizedTable);
 export default ReactVirtualizedTable;
