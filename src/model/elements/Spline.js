@@ -54,40 +54,12 @@ export default class Spline extends GraphicElement{
      * @inheritDoc
      */
     toPolyLines(){
-        // let res = new PolyLine();
-        // let point = this.startPoint.copy();
-        //
-        // for(let t=0; t<=1; t+=1E-2){
-        //     res.addPoint(point);
-        //     point = this.getPointOffset(t);
-        // }
-        // return [res];
-
-
-        
-        
         let res = new PolyLine();
-        let l1 = new Line(this.startPoint, this.controlPoint1);
-        let l2 = new Line(this.controlPoint1, this.controlPoint2);
-        let l3 = new Line(this.controlPoint2, this.endPoint);
+        let point = this.startPoint.copy();
 
-        let x=l1._p1.x;
-        let y=l1._p1.y;
-        let discret = 200; //todo: maybe it must dependent from size for accuracy
-
-        for(let t=1; t<=discret+1; t++){
-            res.addPoint(new Point(x,y));
-            let p1 = l1.getPointOffset(t/discret);
-            let p2 = l2.getPointOffset(t/discret);
-
-            let pt1 = new Line(p1,p2).getPointOffset(t/discret);
-            p1 = l2.getPointOffset(t/discret);
-            p2 = l3.getPointOffset(t/discret);
-
-            let pt2 = new Line(p1,p2).getPointOffset(t/discret);
-            let pt = new Line(pt1, pt2).getPointOffset(t/discret);
-            x = pt.x;
-            y = pt.y;
+        for(let t=0; t<=1; t+=1E-2){
+            res.addPoint(point);
+            point = this.getPointOffset(t);
         }
         return [res];
     }
@@ -180,12 +152,34 @@ export default class Spline extends GraphicElement{
      * @return {Point}
      */
     getPointOffset(offset){
-        /** @var {Array.<Matrix>} */
-        let p = this._points.map(p=>p.toVector().toMatrixRow());
-        let res = p[0].multiply(Math.pow(1 - offset, 3))
-                .add(p[2].multiply(3 * offset * Math.pow(1 - offset, 2)))
-                .add(p[3].multiply(3 * Math.pow(offset, 2) * (1 - offset)))
-                .add(p[1].multiply(Math.pow(offset, 3)));
-            return new Point(res[0][0],res[0][1]);
+        let l1 = new Line(this.startPoint, this.controlPoint1);
+        let l2 = new Line(this.controlPoint1, this.controlPoint2);
+        let l3 = new Line(this.controlPoint2, this.endPoint);
+
+        let p1 = l1.getPointOffset(offset);
+        let p2 = l2.getPointOffset(offset);
+
+        let pt1 = new Line(p1,p2).getPointOffset(offset);
+        p1 = l2.getPointOffset(offset);
+        p2 = l3.getPointOffset(offset);
+
+        let pt2 = new Line(p1,p2).getPointOffset(offset);
+        return new Line(pt1, pt2).getPointOffset(offset);
+
+
+        // /** @var {Array.<Matrix>} */
+        // let p = this._points.map(p=>p.toVector().toMatrixRow());
+        // let res = p[0].multiply(Math.pow(1 - offset, 3))
+        //         .add(p[2].multiply(3 * offset * Math.pow(1 - offset, 2)))
+        //         .add(p[3].multiply(3 * Math.pow(offset, 2) * (1 - offset)))
+        //         .add(p[1].multiply(Math.pow(offset, 3)));
+        //     return new Point(res[0][0],res[0][1]);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    getCenter(){
+        return this.getPointOffset(0.5);
     }
 }

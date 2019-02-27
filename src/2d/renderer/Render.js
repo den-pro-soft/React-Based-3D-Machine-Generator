@@ -42,6 +42,9 @@ export default class Render extends Renderable{
         }
         
         this.drawElement();
+        if(this.focus){
+            this.drawMagnificationPoints();
+        }
     }
 
     drawAsNew(){
@@ -63,5 +66,30 @@ export default class Render extends Renderable{
      */
     drawElement(){
         throw new Exception("The method doesn't have implementation");
+    }
+
+    /**
+     * Render the {@class GraphicElement} control points with using an instance of the {@class Board}
+     * @protected
+     */
+    drawMagnificationPoints(){
+        let points = this.element.getMagnificationPoints();
+        for(let p of points){
+            this.drawControlPoint(p);
+        }
+    }
+
+    /**
+     * Draw a control point on a board
+     * @param {Point} point
+     * @protected
+     */
+    drawControlPoint(point){
+        point = this.board._convertToLocalCoordinateSystem(point);
+
+        this.board.style('fillStyle', '#000000');
+        this.board._drawArc(point, 3, 0, 2*Math.PI, true);
+        this.board.style('fillStyle', '#ffffff');
+        this.board._drawArc(point, 2, 0, 2*Math.PI, true);
     }
 }

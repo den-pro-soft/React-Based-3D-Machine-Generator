@@ -12,7 +12,11 @@ export default class ElementModificationCommand extends Command{
     constructor(document, elements){
         super(document);
         this.elements = elements;
-        
+
+        /**
+         * If the variable is true after executing the command will be selected first element from the elements list.
+         * @type {boolean}
+         */
         this.selectOneElement=false;
     }
     

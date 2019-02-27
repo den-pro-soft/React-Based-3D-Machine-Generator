@@ -205,7 +205,7 @@ export default class Application extends Observable{
                     this.clearSelectElements();
                     let elements = command.getElements();
 
-                    if(command.selectOneElement) { //todo:
+                    if(command.selectOneElement) {
                         elements = [elements[0]];
                     }
 
