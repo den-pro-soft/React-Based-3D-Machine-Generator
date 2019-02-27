@@ -7,7 +7,7 @@ import RectElementController from './../RectElementControler';
 import Point from './../../../model/Point';
 import Group from './../../../model/elements/Group';
 import Rect from "../../../model/math/Rect";
-import ChangeElementsSizeCommand from './../../command/ChangeElementsSizeCommand';
+import ResizeElementsCommand from './../../command/ResizeElementsCommand';
 import Vector from './../../../model/math/Vector';
 import Document from './../../../model/Document';
 
@@ -66,18 +66,18 @@ class ResizeRect extends RectElementController{
         let p1Local = this.board._convertToLocalCoordinateSystem(this.p1);
         let p2Local = this.board._convertToLocalCoordinateSystem(this.p2);
 
-        let p1 = new ControlPoint(p1Local.x-this.rectPadding,p1Local.y-this.rectPadding,ChangeElementsSizeCommand.CONTROL_POINT_X.left, ChangeElementsSizeCommand.CONTROL_POINT_Y.top);
-        let p2 = new ControlPoint(p2Local.x+this.rectPadding, p2Local.y+this.rectPadding, ChangeElementsSizeCommand.CONTROL_POINT_X.right, ChangeElementsSizeCommand.CONTROL_POINT_Y.bottom);
+        let p1 = new ControlPoint(p1Local.x-this.rectPadding,p1Local.y-this.rectPadding,ResizeElementsCommand.CONTROL_POINT_X.left, ResizeElementsCommand.CONTROL_POINT_Y.top);
+        let p2 = new ControlPoint(p2Local.x+this.rectPadding, p2Local.y+this.rectPadding, ResizeElementsCommand.CONTROL_POINT_X.right, ResizeElementsCommand.CONTROL_POINT_Y.bottom);
 
         let controlPoints = [
             p1,
             p2,
-            new ControlPoint(p2.x, p1.y, ChangeElementsSizeCommand.CONTROL_POINT_X.right, ChangeElementsSizeCommand.CONTROL_POINT_Y.top),
-            new ControlPoint(p1.x, p2.y, ChangeElementsSizeCommand.CONTROL_POINT_X.left, ChangeElementsSizeCommand.CONTROL_POINT_Y.bottom),
-            new ControlPoint(p1.x+(p2.x-p1.x)/2 , p1.y, ChangeElementsSizeCommand.CONTROL_POINT_X.canter, ChangeElementsSizeCommand.CONTROL_POINT_Y.top),
-            new ControlPoint(p1.x+(p2.x-p1.x)/2 ,p2.y, ChangeElementsSizeCommand.CONTROL_POINT_X.canter, ChangeElementsSizeCommand.CONTROL_POINT_Y.bottom),
-            new ControlPoint(p1.x ,p1.y+(p2.y-p1.y)/2, ChangeElementsSizeCommand.CONTROL_POINT_X.left, ChangeElementsSizeCommand.CONTROL_POINT_Y.center),
-            new ControlPoint(p2.x ,p1.y+(p2.y-p1.y)/2, ChangeElementsSizeCommand.CONTROL_POINT_X.right, ChangeElementsSizeCommand.CONTROL_POINT_Y.center)];
+            new ControlPoint(p2.x, p1.y, ResizeElementsCommand.CONTROL_POINT_X.right, ResizeElementsCommand.CONTROL_POINT_Y.top),
+            new ControlPoint(p1.x, p2.y, ResizeElementsCommand.CONTROL_POINT_X.left, ResizeElementsCommand.CONTROL_POINT_Y.bottom),
+            new ControlPoint(p1.x+(p2.x-p1.x)/2 , p1.y, ResizeElementsCommand.CONTROL_POINT_X.canter, ResizeElementsCommand.CONTROL_POINT_Y.top),
+            new ControlPoint(p1.x+(p2.x-p1.x)/2 ,p2.y, ResizeElementsCommand.CONTROL_POINT_X.canter, ResizeElementsCommand.CONTROL_POINT_Y.bottom),
+            new ControlPoint(p1.x ,p1.y+(p2.y-p1.y)/2, ResizeElementsCommand.CONTROL_POINT_X.left, ResizeElementsCommand.CONTROL_POINT_Y.center),
+            new ControlPoint(p2.x ,p1.y+(p2.y-p1.y)/2, ResizeElementsCommand.CONTROL_POINT_X.right, ResizeElementsCommand.CONTROL_POINT_Y.center)];
 
         return controlPoints;
     }
@@ -173,7 +173,7 @@ class ResizeRect extends RectElementController{
      * @param dy
      */
     resizeElements(controlPoint, dx, dy){
-        let command = new ChangeElementsSizeCommand(this._document, this._document._elements,
+        let command = new ResizeElementsCommand(this._document, this._document._elements,
             new Vector(dx, dy),controlPoint.alignX, controlPoint.alignY, true);
         command.executeCommand();
     }
@@ -239,7 +239,7 @@ export default class ResizeTransformer extends Transformer{
                     app.moveSelected(this.dx, this.dy);
                 }else{
                     try {
-                        app.executeCommand(new ChangeElementsSizeCommand(this.board.document, this._elements,
+                        app.executeCommand(new ResizeElementsCommand(this.board.document, this._elements,
                             new Vector(this.dx, this.dy), this.activeControllPoint.alignX, this.activeControllPoint.alignY));
                     }catch (e){
 
