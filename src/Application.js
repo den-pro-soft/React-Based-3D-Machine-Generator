@@ -24,7 +24,7 @@ import ElementModificationCommand from './2d/command/ElementModificationCommand'
 import ChangeArcsRadiusCommand from './2d/command/ChangeArcsRadiusCommand';
 import ChangeLineLengthCommand from './2d/command/ChangeLineLengthCommand';
 import ChangeLineAngleCommand from './2d/command/ChangeLineAngleCommand';
-import ChangeElementsSizeCommand from './2d/command/ChangeElementsSizeCommand';
+import ResizeElementsCommand from './2d/command/ResizeElementsCommand';
 import ChangeArcAngleCommand from './2d/command/ChangeArcAngleCommand';
 
 import PointerTool from './2d/tool/PointerTool';
@@ -204,6 +204,11 @@ export default class Application extends Observable{
                 if(command.isReplacedElements()) {
                     this.clearSelectElements();
                     let elements = command.getElements();
+
+                    if(command.selectOneElement) { //todo:
+                        elements = [elements[0]];
+                    }
+
                     this.addSelectElements(elements);
                     this._board.tool.setSelectElements(elements);
                 }else{
@@ -497,8 +502,8 @@ export default class Application extends Observable{
 
         let vector = new Vector(width-oldWidth, height-oldHeight);
 
-        let command = new ChangeElementsSizeCommand(this.currentDocument, this.selectElements, vector
-                    , ChangeElementsSizeCommand.CONTROL_POINT_X.right, ChangeElementsSizeCommand.CONTROL_POINT_Y.top, convertCircleToSplines);
+        let command = new ResizeElementsCommand(this.currentDocument, this.selectElements, vector
+                    , ResizeElementsCommand.CONTROL_POINT_X.right, ResizeElementsCommand.CONTROL_POINT_Y.top, convertCircleToSplines);
 
         this.executeCommand(command);
     }

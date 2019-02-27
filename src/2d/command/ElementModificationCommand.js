@@ -12,6 +12,8 @@ export default class ElementModificationCommand extends Command{
     constructor(document, elements){
         super(document);
         this.elements = elements;
+        
+        this.selectOneElement=false;
     }
     
     

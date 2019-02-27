@@ -16,6 +16,8 @@ export default class IntersectElementsCommand extends ElementModificationCommand
         this.name = 'IntersectElementsCommand';
 
         this.newElements = [];
+
+        this.selectOneElement=true;
     }
 
     /**

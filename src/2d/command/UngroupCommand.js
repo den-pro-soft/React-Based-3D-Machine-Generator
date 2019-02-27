@@ -17,6 +17,8 @@ export default class UngroupCommand extends ElementModificationCommand{
 
         this.sawUngroup = false;
         this.newElements = [];
+
+        this.selectOneElement=true;
     }
 
     /**
