@@ -22,17 +22,13 @@ export default class Help extends React.Component {
   }
  
   outputFlat2D = () => {
-  //   fetch("/doc/Flat2D.emsx").then((res) => { var file = new File([res], "Flat2D.emsx"); 
-  //    app.open(file);
-  //     console.log(file, "Flat2D");
-  // })
     var request = new XMLHttpRequest();
     request.open("GET", "/doc/Flat2D.emsx", true);
 
     request.onload = function() {
       // var out = new Blob([request.response]);
       var file = new File([request.response], "Flat2D.emsx");
-      console.log(file, "Flat2D");
+      // console.log(file, "Flat2D");
       app.open(file);
     };
 
@@ -46,7 +42,7 @@ export default class Help extends React.Component {
     request.onload = function() {
       // var out = new Blob([request.response]);
       var file = new File([request.response], "Bend2D.emsx");
-      console.log(file, "Bend2D");
+      // console.log(file, "Bend2D");
       app.open(file);
     };
 
@@ -279,14 +275,14 @@ export default class Help extends React.Component {
           aria-labelledby="alert-dialog-title"
           aria-describedby="alert-dialog-description"
         >
-          <DialogTitle id="alert-dialog-title">About eMashine shop</DialogTitle>
+          <DialogTitle id="alert-dialog-title">About eMachineShop CAD</DialogTitle>
           <DialogContent
             className="Content"
             style={{ background: "#f0ecec", padding: 10 }}
           >
             <div
               id="alert-dialog-description"
-              style={{ height: "320px", width: "280px", color: "black" }}
+              style={{ height: "150px", width: "280px", color: "black" }}
             >
               <div
                 className="ContentHeader"
@@ -294,10 +290,9 @@ export default class Help extends React.Component {
               >
                 <img width="45px" src="images/icon.jpg" />
                 <DialogContentText
-                  style={{ textAlign: "center", color: "black" }}
+                  style={{ textAlign: "center", color: "black", marginLeft:'45px' }}
                 >
-                  {" "}
-                  eMashine Shop&reg;Version 1.931.1.26
+                  Version 0.5
                 </DialogContentText>
               </div>
               <div
@@ -309,14 +304,9 @@ export default class Help extends React.Component {
                 }}
               >
                 <DialogContentText>
-                  {" "}
-                  Compilation Data: 22.11.2018
+                 Released ...
                 </DialogContentText>
-                <DialogContentText> Price file number: 3527</DialogContentText>
-                <DialogContentText>
-                  {" "}
-                  Program folder: C:\ProgramFiles(x86)\eMashineshop
-                </DialogContentText>
+            
               </div>
               <div
                 className="ContentBottom"
@@ -325,47 +315,43 @@ export default class Help extends React.Component {
                 <DialogContentText
                   style={{ margonBottom: "5px", padding: "5px" }}
                 >
-                  {" "}
-                  Copyright&copy; 2003-2018 eMashineshop&reg;
+                  Copyright&copy; 2018-2019
                 </DialogContentText>
-                <DialogContentText style={{ margon: "5px", padding: "5px" }}>
-                  {" "}
-                  CAD version is current
-                </DialogContentText>
-                <DialogContentText style={{ margon: "5px", padding: "5px" }}>
-                  {" "}
-                  Price File is current
-                </DialogContentText>
+           
                 <DialogContentText>
                   <a
                     href="https://www.emachineshop.com/"
                     target="_blank"
                     rel="noreferrer noopener"
                   >
-                    www.emachineshop.com
+                  eMachineShop
                   </a>
                 </DialogContentText>
               </div>
             </div>
-          </DialogContent>
+          <div className="OK-buttons" style={{textAlign:'center'}}>
 
-          <DialogActions>
-            <Button
-              onClick={this.clickSubModal}
-              style={{ backgroundColor: "#f0ecec", color: "orangered" }}
-              color="primary"
-            >
-              Licenses...
-            </Button>
             <Button
               onClick={this.handleClose}
-              style={{ backgroundColor: "#f0ecec", color: "orangered" }}
+              style={{ backgroundColor: "#dddada", boxShadow: "2px 2px 1px #000",margin:'0 auto' }}
               color="primary"
               autoFocus
             >
               OK
             </Button>
-          </DialogActions>
+                {/* 
+             <Button
+              onClick={this.clickSubModal}
+              style={{ backgroundColor: "#f0ecec", color: "orangered" }}
+              color="primary"
+            >
+              Licenses...
+            </Button> 
+         */}
+            </div>
+          </DialogContent>
+
+      
         </Dialog>
         {/* ----------------------------------------------------------------------   */}
         {/* SubModalWindow-License */}
