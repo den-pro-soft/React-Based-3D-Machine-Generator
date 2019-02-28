@@ -13,7 +13,6 @@ class LineType extends React.Component {
   }
 
   componentWillMount() {
-    // this._isMounted = false;
 
     app.addHandler("selectElement", element => {
 
@@ -54,14 +53,14 @@ if (this.props.demensions === "Millimeters") {
 
   }
 }
-  handleChangeInputLength = event => {
+  handleChangeInputLength = e => {
  
-    app.config.lengthLine = (event.target.value).replace(/[^0-9.]/g, "");
+    app.config.lengthLine = (e.target.value).replace(/[^0-9.]/g, "");
     this.setState({ value: app.config.lengthLine });
 
     let length = app.config.lengthLine;
     
-    if (event.charCode === 13) {
+    if (e.charCode === 13) {
       if (this.props.demensions === "Millimeters") {
         this.setState({
           value: length + " mm"
@@ -84,7 +83,7 @@ if (this.props.demensions === "Millimeters") {
     this.setState({
       angle
     });
-    if (event.charCode === 13) {
+    if (e.charCode === 13) {
     this.setState({
       angle:angle + ' deg'
     })
@@ -142,9 +141,6 @@ if (this.props.demensions === "Millimeters") {
     );
   }
 
-  // componentWillUnmount() {
-  //   // this._isMounted = false;
-  // }
 }
 const mapStateToProps = state => {
   return {

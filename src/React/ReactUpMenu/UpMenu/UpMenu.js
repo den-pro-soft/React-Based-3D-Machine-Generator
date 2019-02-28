@@ -47,7 +47,6 @@ class UpMenu extends React.Component {
       openPreferencesModal: false,
     };
     // console.log(this.props,'props-UpMenu')
-   console.log(app.setTool('Line'),'setToolLine')
 
   }
 

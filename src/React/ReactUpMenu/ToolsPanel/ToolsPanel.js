@@ -95,8 +95,11 @@ import {connect} from 'react-redux';
   
   }
    componentDidUpdate(prevProps, prevState) {
-     console.log(prevProps.width,this.props.width,'prev-this')
-     if (this.props.width !== prevProps.width && this.state.group === true) {
+//     let arc = app.selectElements.some(el => el.typeName === "Arc");
+//     let line = app.selectElements.some(el => el.typeName === "Line");
+// console.log(arc,line,'some()')
+    //  console.log(prevProps.width,this.props.width,'prev-this')
+     if (this.props.width !== prevProps.width && this.state.group === true&&app.selectElements[0].typeName!=='Group'/*&&arc===true&&line===true*/) {
        if (this.props.width !== undefined){
        app.config.openConfirm = !this.props.openConfirm;
          this.props.openConfirmModal(!this.props.openConfirm);
