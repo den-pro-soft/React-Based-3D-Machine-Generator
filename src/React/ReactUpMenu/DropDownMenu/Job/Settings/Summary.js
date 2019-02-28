@@ -179,7 +179,8 @@ class ReactVirtualizedTable extends React.PureComponent {
       StateOrProvince:'',
       zip:'',
       material:'Unspecified',
-      finishing:'None'
+      finishing:'None',
+      commentToMachinist:'None'
 
     }
   }
@@ -303,7 +304,16 @@ class ReactVirtualizedTable extends React.PureComponent {
     } else{
       this.setState({finishing :finishing })
     }
+  
+  const {_elements} = app.currentDocument;
+  let text = _elements.filter(el => {return el.typeName === "Text"});
+  if(text.length===0){
+    this.setState({commentToMachinist:this.state.commentToMachinist})
 
+  } else {
+    this.setState({commentToMachinist:text.length})
+
+  }
   }
   render(){
     const used_machines = localStorage.getItem('lineType');
@@ -322,7 +332,7 @@ class ReactVirtualizedTable extends React.PureComponent {
       ["Used machines", used_machines],
       ["Finishing", this.state.finishing],
       // ["Packing", "Pack parts in bulk"],
-      ["Comments to machinist", "None"],
+      ["Comments to machinist", this.state.commentToMachinist ],
      
     ];
     const data_auto = [
@@ -338,7 +348,7 @@ class ReactVirtualizedTable extends React.PureComponent {
       ["Used machines", used_machines],
       ["Finishing", this.state.finishing],
       // ["Packing", "Pack parts in bulk"],
-      ["Comments to machinist", "None"],
+      ["Comments to machinist", this.state.commentToMachinist],
       ['',''],
       ['Specifications','']
     ];

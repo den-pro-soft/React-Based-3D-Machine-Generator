@@ -43,7 +43,7 @@ import {connect} from 'react-redux';
   }
   // ---------------React Life Cycle-----------------
   componentWillMount() {
-  
+  // console.log(modal.modalOpenConfirmation(),'window.modal-variable')
       app.addHandler("selectElement", element => {
     this.setState({value: app.selectElements[0]._lineType.label});
     // localStorage.setItem('lineType', app.config.defaultLineTypes[0].label);
