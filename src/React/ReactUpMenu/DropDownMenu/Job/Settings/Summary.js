@@ -164,6 +164,7 @@ class ReactVirtualizedTable extends React.PureComponent {
   constructor(props){
     super(props)
     this.state={
+      filename: "Untitled",
       firstName:'',
       lastName:'',
       businessName:'',
@@ -186,13 +187,20 @@ class ReactVirtualizedTable extends React.PureComponent {
   }
 
   componentWillMount(){
+    const fileName = app.currentDocument.fileName;
+    if(fileName ===null){
+      this.setState({fileName:this.state.fileName})
+      } else{
+        this.setState({fileName:fileName})
+    }
+
     const FirstName = localStorage.getItem('firstName');
     if(FirstName===null){
     this.setState({firstName:this.state.firstName})
     } else{
       this.setState({firstName:FirstName})
-
     }
+
     const LastName = localStorage.getItem('lastName');
     if(LastName===null){
     this.setState({lastName:this.state.lastName})
@@ -316,11 +324,11 @@ class ReactVirtualizedTable extends React.PureComponent {
   }
   }
   render(){
-    const used_machines = localStorage.getItem('lineType');
-    console.log(used_machines,'used_machines')
+    const used_lineTypes = localStorage.getItem('lineType');
+    // console.log(used_lineTypes,'used_machines')
    
     const data = [
-      ["File name","Untitled"],
+      ["File name",this.state.fileName],
       ["Customer", this.state.firstName + ' '+ this.state.lastName + this.state.businessName],
       ["Customer email", this.state.email],
       ["Order type", this.state.order + ' '+this.state.originalOrder],
@@ -329,14 +337,14 @@ class ReactVirtualizedTable extends React.PureComponent {
       ["Quantity", 25],
       ["Material", this.state.material],
       ["Thickness", `0,000${String.fromCharCode(34)}, tolerance: 20,00%`],
-      ["Used machines", used_machines],
+      ["Used line types", used_lineTypes],
       ["Finishing", this.state.finishing],
       // ["Packing", "Pack parts in bulk"],
       ["Comments to machinist", this.state.commentToMachinist ],
      
     ];
     const data_auto = [
-      ["File name","Untitled"],
+      ["File name",this.state.fileName],
       ["Customer", this.state.firstName + ' '+ this.state.lastName + this.state.businessName],
       ["Customer email", this.state.email],
       ["Order type", this.state.order + ' '+this.state.originalOrder],
@@ -345,7 +353,7 @@ class ReactVirtualizedTable extends React.PureComponent {
       ["Quantity", 25],
       ["Material", this.state.material],
       ["Thickness", `0,000${String.fromCharCode(34)}, tolerance: 20,00%`],
-      ["Used machines", used_machines],
+      ["Used line types", used_lineTypes],
       ["Finishing", this.state.finishing],
       // ["Packing", "Pack parts in bulk"],
       ["Comments to machinist", this.state.commentToMachinist],

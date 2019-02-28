@@ -137,7 +137,6 @@ export default class Help extends React.Component {
     window.open("https://www.emachineshop.com/video-tutorials/");
   };
   render() {
-    // const { open } = this.state;
     return (
       <div className="Help">
         <div
