@@ -15,15 +15,14 @@ import {
   Switch,
   Link,
   NavLink,
-  // browserHistory
 } from "react-router-dom";
 
 export default class New extends React.Component {
   constructor(props){
     super(props)
   }
-  componentDidMount() {
-    console.log(this.props, 'this.props-New')
+  componentWillMount() {
+    // console.log(this.props, 'this.props-New')
     this.props.history.push('/')
 
   }

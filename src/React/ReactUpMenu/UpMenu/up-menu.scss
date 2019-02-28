@@ -2,70 +2,70 @@
   display: flex;
   flex-direction: column;
   // margin-top: 30px;
-// .Drop{
-//   background-color: lightgrey;
-// }
+  .Drop {
+    background-color: lightgrey;
+  }
   .Buttons {
     display: inline-flex;
     justify-content: space-between;
     width: 100vw;
-    .LeftButtonGroup{
-    display: flex;
-    flex-direction: row;
-    .btn-group-two {
+    .LeftButtonGroup {
       display: flex;
-      justify-content: space-between;
-      button {
-        width: 35px;
-        height: 34px;
-        margin-right: 2px;
-        // background-color: rgba(240,240,240,0.85);
-        background-color: transparent;
-  
-        border: none;
-        &:hover {
-          background-color: white;
-          cursor: pointer;
+      flex-direction: row;
+      .btn-group-two {
+        display: flex;
+        justify-content: space-between;
+        button {
+          width: 35px;
+          height: 34px;
+          margin-right: 2px;
+          // background-color: rgba(240,240,240,0.85);
+          background-color: transparent;
+
+          border: none;
+          &:hover {
+            background-color: white;
+            cursor: pointer;
+          }
+        }
+      }
+      .btn-group-three {
+        display: flex;
+        justify-content: space-between;
+        button {
+          width: 34px;
+          height: 34px;
+          margin-right: 2px;
+          background-color: transparent;
+
+          border: none;
+          &:hover {
+            background-color: white;
+            cursor: pointer;
+          }
+        }
+      }
+      .btn-group-other {
+        display: flex;
+        justify-content: space-between;
+        button {
+          width: 35px;
+          height: 34px;
+          margin-left: 5px;
+          background-color: transparent;
+
+          border: none;
+          &:hover {
+            background-color: white;
+            cursor: pointer;
+          }
         }
       }
     }
-    .btn-group-three {
-      display: flex;
+    .RightButtons {
+      display: inline-flex;
       justify-content: space-between;
-      button {
-        width: 34px;
-        height: 34px;
-        margin-right: 2px;
-        background-color: transparent;
-  
-        border: none;
-        &:hover {
-          background-color: white;
-          cursor: pointer;
-        }
-      }
+      margin-right: 12px;
     }
-    .btn-group-other {
-      display: flex;
-      justify-content: space-between;
-      button {
-        width: 35px;
-        height: 34px;
-        margin-left:5px;
-        background-color: transparent;
-  
-        border: none;
-        &:hover {
-          background-color: white;
-          cursor: pointer;
-        }
-      }
-    }
-  }
-     .RightButtons {
-    display: inline-flex;
-    justify-content: space-between;
-    margin-right:12px;
-  }
   }
 }
