@@ -1,5 +1,4 @@
 import React from "react";
-import "./summary.scss";
 import classNames from "classnames";
 import { withStyles } from "@material-ui/core/styles";
 import TableCell from "@material-ui/core/TableCell";

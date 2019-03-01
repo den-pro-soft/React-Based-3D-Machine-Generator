@@ -1,0 +1,61 @@
+.PriceContent {
+  .Quantity,
+  .MachiningGrid,
+  .ShipVia,
+  .Shipping,
+  .Total {
+    display: flex;
+    justify-content: flex-start;
+    padding-top: 10px;
+    .LabelQuantity,
+    .LabelMachining,
+    .LabelShipVia,
+    .LabelShipping,
+    .LabelTotal {
+      color: #000;
+      font-size: bold;
+      width: 100px;
+      text-align: right;
+      margin-right: 10px;
+    }
+    .Grid {
+      width: 80%;
+    }
+    span {
+      margin-left: 10px;
+      font-size: bold;
+    }
+    .LabelTotal {
+      font-size: 20px;
+    }
+    .TotalRightPart {
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+      padding-top: 4px;
+    }
+
+  }
+  .Note{
+      margin-top:20px;
+      padding:5px;
+        border:0.5px solid #000;
+        box-shadow: -0.5px -0.5px 0.5px #000;
+    p{
+        text-align: left;
+    }
+}
+  //   .MachiningGrid{
+  //     display: flex;
+  //     justify-content: flex-start;
+  //     padding-top: 10px;
+  //       .LabelMachining{
+  //         width: 100px;
+  //         text-align: right;
+  //         margin-right: 10px;
+  //       }
+  //       .Grid{
+  //         width:80%;
+  //       }
+  //   }
+}

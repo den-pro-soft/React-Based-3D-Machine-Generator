@@ -1,12 +1,16 @@
 import React from "react";
 import "./job.scss";
-import Settings from "./Settings/Settigs";
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
-export default class Job extends React.Component {
+import Settings from "./Settings/Settigs";
+import Price from "./Price/Price";
+import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
+
+class Job extends React.Component {
   constructor(props, context) {
     super(props, context);
     this.state = {
@@ -70,7 +74,9 @@ export default class Job extends React.Component {
               <li onClick={this.clickSubModal}>
                 <a href="#">Settings</a>
               </li>
-              <li>
+              <li   
+              onClick={() => this.props.openPriceModal(!this.props.openPrice) }
+              >
                 <a href="#">Price/Analyze</a>
               </li>
               <li>
@@ -101,7 +107,6 @@ export default class Job extends React.Component {
             <img
               width="25px"
               src="images/icon.jpg"
-              // data-tip="<span>Shows how to use numeric values.</span>"
             />
             <span>Job settings</span>
           </DialogTitle>
@@ -143,7 +148,21 @@ export default class Job extends React.Component {
             </Button>
           </DialogActions>
         </Dialog>
+        <Price/>
       </div>
     );
   }
 }
+const mapStateToProps = state => {
+  return {
+    openPrice: state.priceReducer.openPrice
+  };
+};
+const mapDispatchToProps = dispatch => {
+  return {
+    openPriceModal: openPrice => {
+      dispatch({ type: "OPEN_PRICE", payload: openPrice });
+    }
+  };
+};
+export default withRouter(connect(mapStateToProps,mapDispatchToProps)(Job));
