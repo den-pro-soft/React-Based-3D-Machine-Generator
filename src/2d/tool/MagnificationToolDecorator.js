@@ -80,10 +80,14 @@ export default class MagnificationToolDecorator extends CreatorTool{
     }
 
 
-    setSelectElements(elements){
+    clearSelectElements(){
+        this._tool.clearSelectElements();
+    }
+
+    selectElement(elements){
         //todo: check if the tool is SelectTool then ok else throw some exception
         
-        return true || this._tool.setSelectElements(elements);
+        return this._tool.selectElement(elements);
     }
 
     magnificPoint(point){

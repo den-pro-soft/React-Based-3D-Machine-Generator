@@ -26,6 +26,8 @@ export default class PointerTool extends DynamicChangeTool{
         this.cursor=null;
 
         this.transformer = null;
+
+        this.addedElement=false;
     }
 
     set document(doc){
@@ -35,29 +37,24 @@ export default class PointerTool extends DynamicChangeTool{
         }
     }
 
-    selectElement(element){
-        if(!this.transformer) { 
-            this.transformer = new ResizeTransformer(this._document);
-        }
-        //todo: check is resize transformer
-        this.transformer.addElements([element]);
-        app.addSelectElement(element);
+    clearSelectElements(){
+        super.clearSelectElements();
+        this.transformer = null;
     }
 
-    setSelectElements(elements){
+    addSelectElements(elements){
+        super.addSelectElements(elements);
         if(!this.transformer) {
             this.transformer = new ResizeTransformer(this._document);
-        }else{
-            this.transformer.removeElemens();
         }
         this.transformer.addElements(elements);
-        app.addSelectElements(elements);
     }
 
     mouseMove(point){
         if(this.selectRect){
-                this.selectRect.p2=point;
-        }else {
+            this.selectRect.p2=point;
+        }
+        else {
             if(!this.transformer || !this.transformer.mouseMove(point)) {
                 if (!this._mouseDown && this._selectMode) {
                     this.selectNearElements(point);
@@ -80,71 +77,74 @@ export default class PointerTool extends DynamicChangeTool{
             }else{
                 app.board._canvas.style.cursor = "default";
             }
+            return true;
         }
+        return false;
     }
 
     mouseClick(point){}
 
-    mouseDown(point){
+    mouseDown(point, e){
+        this.addedElement=false;
         if(!this._selectMode) {
             return;
         }
+
+        let needRect = false;
+
         if(this.transformer){
-            if(this.transformer.mouseDown(point)) {
-                if(!Helper.Key.ctrlKey) {
-                    this.transformer = null;
-                    app.clearSelectElements();
-                }
-                this.selectRect = new RectElementController(point, point);
+            if(this.transformer.mouseDown(point)) { //not on transform area
+                needRect = !super.mouseDown(point,e);
+                this.addedElement=!needRect;
             }
         }else{
-            if(!Helper.Key.ctrlKey) {
-                this.transformer = null;
-                app.clearSelectElements();
+            needRect= !super.mouseDown(point,e);
+            this.addedElement=!needRect;
+        }
+
+        if(needRect){
+            if(!Helper.Key.ctrlKey){
+                this.clearSelectElements();
             }
             this.selectRect = new RectElementController(point, point);
         }
         this._mouseDown=point;
+        return true;
     }
 
-    mouseUp(point){
+    mouseUp(point, e){
+        super.mouseUp(point,e);
         this._mouseDown=null;
 
         if(this.transformer){
             let res = this.transformer.mouseUp(point);
-            if(res){ //click
+            if(res){ //click не менять иструмент елси выбрано новое значеине, потому что инстумент уже установлено
+                //инстумент меняется если был клик на инстументе
                 if(this.transformer instanceof ResizeTransformer) {
                     this.transformer = new RotateTransformer(this._document);
                 }else{
                     this.transformer = new ResizeTransformer(this._document);
                 }
-                this.transformer.addElements(app.selectElements);
+                if(app.selectElements.length>0) {
+                    this.transformer.addElements(app.selectElements);
+                }
+                return true;
+            }else{
+                //fomthing change
             }
         }
 
         if(!this.selectRect) { //if selected mode
             return;
         }
-
+        //
         let newSelectElements = [];
-        if(this.selectRect.getSquare()<1E-3){
-            newSelectElements = this.getNearElements(point);
-        }else {
+        if(this.selectRect.getSquare()>1E-3){
             newSelectElements = this._document.getElementsIntoFigure(this.selectRect);
-        }
-        //todo: check if you click on the selected element, then remove the element from the transformer
-        if(Helper.Key.ctrlKey) {
-            app.addSelectElements(newSelectElements);
-        }else{
-            app.clearSelectElements(); 
-            app.addSelectElements(newSelectElements);
         }
 
         if(newSelectElements.length>0) {
-            if(!this.transformer) {
-                this.transformer = new ResizeTransformer(this._document);
-            }
-            this.transformer.addElements(newSelectElements);
+            this.addSelectElements(newSelectElements);
         }else{
             this.transformer = null;
         }
@@ -152,11 +152,6 @@ export default class PointerTool extends DynamicChangeTool{
     }
 
     render(){
-        this.renderElement();
-        super.render();
-    }
-    
-    renderElement(){
         if(this.selectRect){
             let element = this.selectRect.toElement();
             element._renderer.drawAsNew();
@@ -165,10 +160,6 @@ export default class PointerTool extends DynamicChangeTool{
 
         if(this.transformer) {
             this.transformer.render();
-        }
-        for(let element of app.selectElements){
-            element._renderer.setFocus(true);
-            // element.render();
         }
     }
 

@@ -27,7 +27,7 @@ export default class SelectTool extends Tool{
      * @param {GraphicElement} element
      */
     selectElement(element){
-        this._selectElements.push(element);
+        this.addSelectElements([element]);
     }
 
     /**
@@ -35,9 +35,9 @@ export default class SelectTool extends Tool{
      * @protected
      */
     addSelectElements(elements){
-        if(!Helper.Key.ctrlKey) {
-            this.clearSelectElements();
-        }
+        // if(!Helper.Key.ctrlKey) {
+        //     this.clearSelectElements();
+        // }
         this._selectElements.push(...elements);
         app.addSelectElements(elements);
     }
@@ -58,22 +58,30 @@ export default class SelectTool extends Tool{
     mouseDown(point, e){
         let newSelectElements = this.getNearElements(point);
 
-        let newSelected = [];
-        let newUnselected = [];
+        if(newSelectElements.length!=0) {
+            let newSelected = [];
+            let newUnselected = [];
 
-        m: for(let el of newSelectElements) {
-            for(let element of app.selectElements){
-                if(el.compare(element)){
-                    newUnselected.push(el);
-                    continue m;
+            m: for (let el of newSelectElements) {
+                for (let element of app.selectElements) {
+                    if (el.compare(element)) {
+                        newUnselected.push(el);
+                        continue m;
+                    }
                 }
+                newSelected.push(el);
             }
-            newSelected.push(el);
-        }
 
-        //todo: check if the element is selected remove the element from selected elements list (will not call the addSelectelements method)
-        this.addSelectElements(newSelectElements);
-        return true;
+            //todo: check if the element is selected remove the element from selected elements list (will not call the addSelectelements method)
+            if (newSelected.length > 0) {
+                this.addSelectElements(newSelected);
+                return true;
+            }else{
+                return false;
+            }
+        }else{
+            return false;
+        }
     }
 
     mouseUp(point, e){

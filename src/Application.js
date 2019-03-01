@@ -40,6 +40,7 @@ import FreehandTool from './2d/tool/FreehandTool';
 import CreatorTool from './2d/tool/CreatorTool';
 import TextTool from './2d/tool/TextTool';
 import EditLineTool from './2d/tool/EditLineTool';
+import SelectTool from './2d/tool/SelectTool';
 
 import Text from './model/elements/Text';
 import Vector from './model/math/Vector';
@@ -73,7 +74,7 @@ export default class Application extends Observable{
         /** @param {CommandHistory} */
         this.commandHistory = new CommandHistory();
 
-        /** @param {Board} */
+        /** @param {InteractiveBoard} */
         this._board = null;
 
         /** @type {Array.<GraphicElement>} */
@@ -108,7 +109,7 @@ export default class Application extends Observable{
     }
 
     /**
-     * @param {Board} board
+     * @param {InteractiveBoard} board
      */
     set board(board){
         this._board = board;
@@ -117,7 +118,7 @@ export default class Application extends Observable{
     }
 
     /**
-     * @return {Board}
+     * @return {InteractiveBoard}
      */
     get board(){
         return this._board;
@@ -161,10 +162,8 @@ export default class Application extends Observable{
     }
 
     selectAll(){
-        this.clearSelectElements();
         this.setTool('Pointer');
         for(let el of this.currentDocument._elements){
-            this.addSelectElement(el);
             this._board.tool.selectElement(el);
         }
         if(this._board){
@@ -186,7 +185,6 @@ export default class Application extends Observable{
      */
     executeCommand(command){
         let res = command.execute();
-        console.log(command, res);
         if(res){
             this.commandHistory.push(command);
         }
@@ -195,21 +193,23 @@ export default class Application extends Observable{
             if(command.name == 'AddElementCommand'){
                 this.clearSelectElements();
                 this._changeTool(this._getToolInstance('Pointer'));
-                this._board.tool.selectElement(command._element);
+                this.board.tool.selectElement(command._element);
+                this.addSelectElements([command._element]);
             }
-            if(command instanceof ElementModificationCommand){
-                if(command.isReplacedElements()) {
-                    this.clearSelectElements();
-                    let elements = command.getElements();
 
+            if(command instanceof ElementModificationCommand){
+                let elements = this.selectElements;
+                if(command.isReplacedElements()) {
+                    elements = command.getElements();
                     if(command.selectOneElement) {
                         elements = [elements[0]];
                     }
-
                     this.addSelectElements(elements);
-                    // this._board.tool.setSelectElements(elements);
-                }else{
-                    // this._board.tool.setSelectElements(this.selectElements);
+                }
+
+                this.board.tool.clearSelectElements();
+                for(let el of elements){
+                    this.board.tool.selectElement(el);
                 }
             }
             this._board.renderDocument();

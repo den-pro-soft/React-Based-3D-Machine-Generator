@@ -39,6 +39,8 @@ export default class EditLineTool extends DynamicChangeTool{
             let command = new MoveBasePointsCommand(this.doc, this.selectElementsPair.map(e=>e.copy)
                 , oldPosition, new Vector(this.dx, this.dy));
             command.executeCommand();
+        }else{
+            this.selectNearElements(point);
         }
         return true;
     }
@@ -71,6 +73,8 @@ export default class EditLineTool extends DynamicChangeTool{
             let command = new MoveBasePointsCommand(this._document, this.selectElementsPair.map(e=>e.original)
                 , this.mouseDownPosition, this.editVector);
             app.executeCommand(command);
+            this.edited=false;
+            return true;
         }
         this.edited=false;
         return super.mouseUp(point,e);
