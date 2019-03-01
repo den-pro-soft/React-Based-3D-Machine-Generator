@@ -8,7 +8,35 @@ import RotateTransformer from './transformer/RotateTransformer';
  * The tool can
  * 1. select elements by click and by select rect
  * 2. move canvas
- * Also the class use transformers for moving, resize and rotate elements 
+ * Also the class use transformers for moving, resize and rotate elements
+ *
+ *
+ * Specification for this tool
+ *
+ * the tool must to list of operation like as:
+ * 1. select elements
+ *      for selecting elements need do one of this operation:
+ *      - press mouse (click) on not selected element
+ *      - select square (all not selected elements in the square will be selected)
+ *
+ *      if do the operation without Ctrl key. every operations select new elements without before selected elements
+ *      else new selected elements will be add to list with old selected elements
+ *
+ * 2. move elements
+ *      for moving some elements they must be selected. After selected the elements, need press into the resize rectangle
+ *      and drag it
+ *
+ * 3. resize elements
+ *      for resizing some elements need select the elements, then press on resize handle and drag the handle.
+ *      elements will be resizing in the opposite direction of the handle
+ *
+ * 4. rotate elements
+ *
+ * All selected elements can be move or resize without additional operations. For that all selected elements must
+ * displaying in resize rectangle (the rect with handles for resizing).
+ *
+ *
+ *
  */
 export default class PointerTool extends DynamicChangeTool{
     //todo: remove code for selecting elements by mouse click. That code is on the SelectTool class
