@@ -10,6 +10,7 @@ export default class Cursor{
         this.imageLoad = false;
         this.image = new Image(25, 25);
         this.image.onload = ()=>{this.imageLoad=true;};
+        app.board._canvas.style.cursor = "default";
     }
 
     set src(url){

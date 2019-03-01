@@ -105,6 +105,17 @@ export default class Point extends Cloneable{
     }
 
     /**
+     * @abstract
+     * Check if the point is near current point by Eps.
+     * @param {Point} point
+     * @param {float} eps
+     * @return {boolean} - true if the point is near
+     */
+    isNear(point, eps){
+        return this.x-eps<point.x && this.x+eps>point.x && this.y-eps<point.y && this.y+eps>point.y && this.z-eps<point.z && this.z+eps>point.z;
+    }
+
+    /**
      * The method transform current point to {Vector}
      * @return {Vector}
      */

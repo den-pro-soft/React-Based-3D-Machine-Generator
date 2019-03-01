@@ -1,4 +1,4 @@
-import Tool from './Tool';
+import DynamicChangeTool from './DynamicChangeTool';
 import RectElementController from './RectElementControler';
 import Point from './../../model/Point';
 import ResizeTransformer from "./transformer/ResizeTransformer";
@@ -10,7 +10,9 @@ import RotateTransformer from './transformer/RotateTransformer';
  * 2. move canvas
  * Also the class use transformers for moving, resize and rotate elements 
  */
-export default class PointerTool extends Tool{
+export default class PointerTool extends DynamicChangeTool{
+    //todo: remove code for selecting elements by mouse click. That code is on the SelectTool class
+
     constructor(document){
         super(document);
 
@@ -58,7 +60,7 @@ export default class PointerTool extends Tool{
         }else {
             if(!this.transformer || !this.transformer.mouseMove(point)) {
                 if (!this._mouseDown && this._selectMode) {
-                    this._selectNearElements(point);
+                    this.selectNearElements(point);
                 }
             }
         }
@@ -126,7 +128,7 @@ export default class PointerTool extends Tool{
 
         let newSelectElements = [];
         if(this.selectRect.getSquare()<1E-3){
-            newSelectElements = this._getNearElements(point);
+            newSelectElements = this.getNearElements(point);
         }else {
             newSelectElements = this._document.getElementsIntoFigure(this.selectRect);
         }
@@ -170,13 +172,4 @@ export default class PointerTool extends Tool{
         }
     }
 
-    _getNearElements(point){
-        let scale = container.resolve('mainBoard')._scale; //todo: maybe set from the using place
-        return this._document.getNearElements(point, (scale>1?0.2:0.05)/scale);
-    }
-    _selectNearElements(point){
-        for(let element of this._getNearElements(point)){
-            element._renderer.setFocus(true);
-        }
-    }
 }

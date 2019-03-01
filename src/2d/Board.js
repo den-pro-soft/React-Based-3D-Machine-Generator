@@ -20,9 +20,6 @@ import InteractiveBoardExtension from './board-extensions/InteractiveBoardExtens
  * canvas with using the virtual coordinate system (not in pixels).
  */
 class Board extends Observable{
-    /**
-     * @param {HTMLCanvasElement} canvas
-     */
     constructor() {
         super();
         this._scale = 0.2;

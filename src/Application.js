@@ -39,6 +39,7 @@ import LineTool from './2d/tool/LineTool';
 import FreehandTool from './2d/tool/FreehandTool';
 import CreatorTool from './2d/tool/CreatorTool';
 import TextTool from './2d/tool/TextTool';
+import EditLineTool from './2d/tool/EditLineTool';
 
 import Text from './model/elements/Text';
 import Vector from './model/math/Vector';
@@ -75,15 +76,10 @@ export default class Application extends Observable{
         /** @param {Board} */
         this._board = null;
 
+        /** @type {Array.<GraphicElement>} */
         this.selectElements = [];
 
         this.config = container.resolve('config');
-
-        this.elementIdGenerator = {
-            generateId:function(){
-                return idGenerator++;
-            }
-        };
 
         this.buffer = new Buffer(this);
         this._lastTool=null;
@@ -190,6 +186,7 @@ export default class Application extends Observable{
      */
     executeCommand(command){
         let res = command.execute();
+        console.log(command, res);
         if(res){
             this.commandHistory.push(command);
         }
@@ -210,9 +207,9 @@ export default class Application extends Observable{
                     }
 
                     this.addSelectElements(elements);
-                    this._board.tool.setSelectElements(elements);
+                    // this._board.tool.setSelectElements(elements);
                 }else{
-                    this._board.tool.setSelectElements(this.selectElements);
+                    // this._board.tool.setSelectElements(this.selectElements);
                 }
             }
             this._board.renderDocument();
@@ -306,6 +303,9 @@ export default class Application extends Observable{
                 break;
             case 'Text':
                 tool = new TextTool(this.currentDocument);
+                break;
+            case 'EditLine':
+                tool = new EditLineTool(this.currentDocument);
                 break;
             default:
                 tool = new PointerTool(this.currentDocument);
