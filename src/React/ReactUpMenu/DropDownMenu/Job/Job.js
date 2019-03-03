@@ -60,6 +60,8 @@ class Job extends React.Component {
   };
 
   render() {
+    // console.log(this.props, "props-Job");
+
     return (
       <div className="Job">
         <div
@@ -75,7 +77,10 @@ class Job extends React.Component {
                 <a href="#">Settings</a>
               </li>
               <li   
-              onClick={() => this.props.openPriceModal(!this.props.openPrice) }
+              onClick={() => {
+                this.props.openPriceModal(!this.props.openPrice);
+                // this.props.openOrderModal(this.props.openOrder);             
+              } }
               >
                 <a href="#">Price/Analyze</a>
               </li>
@@ -155,7 +160,9 @@ class Job extends React.Component {
 }
 const mapStateToProps = state => {
   return {
-    openPrice: state.priceReducer.openPrice
+    openPrice: state.priceReducer.openPrice,
+    openOrder: state.priceReducer.openOrder
+
   };
 };
 const mapDispatchToProps = dispatch => {
@@ -163,6 +170,9 @@ const mapDispatchToProps = dispatch => {
     openPriceModal: openPrice => {
       dispatch({ type: "OPEN_PRICE", payload: openPrice });
     }
+    // openOrderModal: openOrder => {
+    //   dispatch({ type: "OPEN_ORDER", payload: openOrder });
+    // }
   };
 };
 export default withRouter(connect(mapStateToProps,mapDispatchToProps)(Job));

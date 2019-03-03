@@ -3,6 +3,8 @@
   .MachiningGrid,
   .ShipVia,
   .Shipping,
+  .Tax,
+  .Checkbox,
   .Total {
     display: flex;
     justify-content: flex-start;
@@ -11,6 +13,8 @@
     .LabelMachining,
     .LabelShipVia,
     .LabelShipping,
+    .LabelTax,
+    .LabelCheckbox,
     .LabelTotal {
       color: #000;
       font-size: bold;
@@ -27,12 +31,18 @@
     }
     .LabelTotal {
       font-size: 20px;
+      margin-top:13.5px;
     }
     .TotalRightPart {
       display: flex;
       justify-content: space-between;
       width: 100%;
-      padding-top: 4px;
+    //   padding-top: 4px;
+    .TotalResult{
+        margin-top:17.5px;
+
+    }  
+
     }
 
   }

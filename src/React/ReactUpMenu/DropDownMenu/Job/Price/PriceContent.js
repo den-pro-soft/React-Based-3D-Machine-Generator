@@ -1,22 +1,35 @@
 import React from "react";
 import "./price-content.scss";
 import Button from "@material-ui/core/Button";
+import Checkbox from "@material-ui/core/Checkbox";
+
 import { connect } from "react-redux";
 import MachiningGrid from "./MachiningGrid";
+import Order from "./Order/Order";
 
 class PriceContent extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      value: "UPS Ground"
+      value: "UPS Ground",
+      isChecked:false,
+    //   openOrder:false
     };
   }
 
   handleChangeSelect = e => {
     this.setState({ value: e.target.value });
   };
+
+  handleChecked = event => {
+    window.setTimeout(() => {
+      this.setState({
+        isChecked: !this.state.isChecked
+      });
+    }, 0);
+  };
   render() {
-    // console.log(this.props, "props-Price");
+    // console.log(this.props, "props-PriceContent")
     const ShvipVia = [
       "UPS Ground",
       "UPS 3 Day Select",
@@ -33,7 +46,7 @@ class PriceContent extends React.Component {
             <input
               type="number"
               id="Quantity"
-              //   min="10"
+                min="1"
               //   max="250"
             />
           </div>
@@ -76,21 +89,53 @@ class PriceContent extends React.Component {
           </div>
         </div>
 
+     {!this.state.isChecked&&(
+                <>
+                    <div className="Tax">
+                        <div className="LabelTax">
+                            <label>Tax</label>
+                        </div>
+                        <div className="TaxValue">
+                            <span>$10</span>
+                        </div>
+                    </div>
+
+                    <div className="Checkbox">
+                        <div className="LabelCheckbox">
+                            <label></label>
+                        </div>
+                        <div className="CheckboxInput">
+                            <label >
+                                <Checkbox
+                                    style={{ paddingLeft: '0px', marginLeft: 0 }}
+                                    checked={this.state.isChecked}
+                                    onChange={this.handleChecked}
+                                    color="primary"
+                                />
+                                NJ customer exempt from sales tax
+                            </label>
+                        </div>
+                    </div>
+                </>)}
+     
+
         <div className="Total">
           <div className="LabelTotal">
             <label>Total</label>
           </div>
           <div className="TotalRightPart">
-            <span>$100</span>
+            <span className="TotalResult">$100</span>
             <Button
+              onClick={() => this.props.openOrderModal(!this.props.openOrder) }
+
               style={{
                 backgroundColor: "#dddada",
                 boxShadow: "2px 2px 1px #000",
-                width: "120px",
+                width: "192px",
                 height: "50px"
               }}
               color="primary"
-              autoFocus
+            //   autoFocus
             >
               Order...
             </Button>
@@ -98,10 +143,11 @@ class PriceContent extends React.Component {
               style={{
                 backgroundColor: "#dddada",
                 boxShadow: "2px 2px 1px #000",
-                height: "35px"
+                height: "35px",
+                marginTop:'7.5px'
               }}
               color="primary"
-              autoFocus
+            //   autoFocus
             >
               Print...
             </Button>
@@ -133,21 +179,23 @@ class PriceContent extends React.Component {
           </p>
         </div>
       </div>
+
     );
   }
 }
-// const mapStateToProps = state => {
-//     return {
-//       openPrice: state.priceReducer.openPrice
-//     };
-//   };
-
-//   const mapDispatchToProps = dispatch => {
-//     return {
-//       closePriceModal: openPrice => {
-//         dispatch({ type: "CLOSE_PRICE", payload: openPrice });
-//       }
-//     };
-//   };
-//   export default connect(mapStateToProps,mapDispatchToProps)(PriceContent);
-export default PriceContent;
+const mapStateToProps = state => {
+    return {
+        openOrder: state.priceReducer.openOrder
+    };
+  };
+const mapDispatchToProps = dispatch => {
+    return {
+      openOrderModal: openOrder => {
+        dispatch({ type: "OPEN_ORDER", payload: openOrder });
+      }
+    };
+  };
+  export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(PriceContent);

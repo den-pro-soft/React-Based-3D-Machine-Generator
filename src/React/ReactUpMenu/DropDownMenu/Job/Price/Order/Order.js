@@ -7,23 +7,19 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import { connect } from "react-redux";
 // import { withRouter } from "react-router-dom";
-import PriceContent from "./PriceContent";
-import Order from "./Order/Order"
-class Price extends React.Component {
+
+class Order extends React.Component {
   constructor(props) {
     super(props);
-  }
 
-  openHelpPrice = () => {
-    window.open("https://www.emachineshop.com/help-ordering/#pricing");
-  };
+}
+
   render() {
-    // console.log(this.props, "props-Price");
-    return (<>
-
+    // console.log(this.props, "props-Order");
+    return (
       <Dialog
         maxWidth={false}
-        open={this.props.openPrice}
+        open={this.props.openOrder}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
@@ -32,13 +28,13 @@ class Price extends React.Component {
           id="alert-dialog-title"
         >
           <div style={{ display: "flex", justifyContent: "space-between" }}>
-            <span>
-              <img width="25px" src="images/icon.jpg" />
-              <span style={{ marginLeft: "5px" }}>Price</span>
-            </span>
+            {/* <span>
+              <img width="25px" src="images/icon.jpg" /> */}
+              <span style={{ marginLeft: "5px" }}>Order</span>
+            {/* </span> */}
             <Button
               onClick={() => {
-                this.props.closePriceModal(!this.props.openPrice);
+                this.props.closeOrderModal(!this.props.openOrder);
               }}
               style={{
                 backgroundColor: "#fff",
@@ -60,9 +56,9 @@ class Price extends React.Component {
             backgroundColor: "#f0ecec"
           }}
         >
-          <PriceContent />
+        <h2>Order</h2>
         </DialogContent>
-        <DialogActions>
+        {/* <DialogActions>
           <Button
             onClick={() => this.props.closePriceModal(!this.props.openPrice)}
             style={{
@@ -75,8 +71,7 @@ class Price extends React.Component {
             OK
           </Button>
           <Button
-            onClick={() => {this.props.closePriceModal(!this.props.openPrice);
-            }}
+            onClick={() => this.props.closePriceModal(!this.props.openPrice)}
             style={{
               backgroundColor: "#dddada",
               boxShadow: "2px 2px 1px #000"
@@ -97,34 +92,22 @@ class Price extends React.Component {
           >
             Help
           </Button>
-        </DialogActions>
+        </DialogActions> */}
       </Dialog>
-      <Order/>
-      </>
     );
   }
 }
 const mapStateToProps = state => {
   return {
-    openPrice: state.priceReducer.openPrice,
-    openOrder: state.priceReducer.openOrder,
-
+    openOrder: state.priceReducer.openOrder
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    closePriceModal: openPrice => {
-      dispatch({ type: "CLOSE_PRICE", payload: openPrice });
-    },
-    openOrderModal: openOrder => {
-      dispatch({ type: "OPEN_ORDER", payload: openOrder });
+    closeOrderModal: openOrder => {
+      dispatch({ type: "CLOSE_ORDER", payload: openOrder });
     }
-
   };
 };
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Price);
-// export default Price
+export default connect(mapStateToProps,mapDispatchToProps)(Order);

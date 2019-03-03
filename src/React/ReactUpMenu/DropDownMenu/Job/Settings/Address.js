@@ -187,7 +187,7 @@ export default class Adress extends React.Component {
     }
     });
 
-    console.log(event.target.value, "this.state,value-country");
+    // console.log(event.target.value, "this.state,value-country");
   };
 
   handleZIPChange = e => {
@@ -206,7 +206,7 @@ export default class Adress extends React.Component {
         provinceOther2: false
       });
     }
-    console.log(event.target.value, "this.state,value-country");
+    // console.log(event.target.value, "this.state,value-country");
   };
 
   handleChecked = event => {
