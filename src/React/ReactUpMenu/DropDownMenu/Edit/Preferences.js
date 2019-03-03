@@ -19,6 +19,7 @@ class Preferences extends React.Component {
   };
 
   render() {
+    console.log(this.props,'props-Preference')
     return (
       <div className="Preferences">
         <p style={{ textAlign: "left" }}>Measurements</p>
