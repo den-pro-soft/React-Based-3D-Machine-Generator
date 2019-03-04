@@ -12,6 +12,8 @@ export default class MagnificationToolDecorator extends CreatorTool{
      */
     constructor(document, creatorTool){
         super(document);
+
+        /** @type {Tool} */
         this._tool = creatorTool;
         this.magnitPoint = null;
     }
@@ -78,8 +80,14 @@ export default class MagnificationToolDecorator extends CreatorTool{
     }
 
 
-    setSelectElements(elements){
-        return this._tool.setSelectElements(elements);
+    clearSelectElements(){
+        this._tool.clearSelectElements();
+    }
+
+    selectElement(elements){
+        //todo: check if the tool is SelectTool then ok else throw some exception
+        
+        return this._tool.selectElement(elements);
     }
 
     magnificPoint(point){
@@ -96,6 +104,17 @@ export default class MagnificationToolDecorator extends CreatorTool{
      * @private
      */
     _getNearPoint(point){
+
+        // let points = app.currentDocument._elements.reduce((res,el)=>{
+        //         for(let selectelement of app.selectElements){
+        //             if(selectelement.compare(el)){
+        //                 return res;
+        //             }
+        //         }
+        //         return [...res,...el.getMagnificationPoints()];
+        //     },[]);
+        
+
         let points = app.currentDocument._elements.reduce((res,el)=>[...res,...el.getMagnificationPoints()],[]);
         if(points.length>0) {
             let min = points[0];

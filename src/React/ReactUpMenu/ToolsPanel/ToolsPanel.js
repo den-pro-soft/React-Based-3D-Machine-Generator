@@ -89,7 +89,6 @@ import {connect} from 'react-redux';
   
   }
    componentDidUpdate(prevProps, prevState) {
-     console.log(prevProps.width,this.props.width,'prev-this')
      if (this.props.width !== prevProps.width && this.state.group === true) {
        if (this.props.width !== undefined){
        app.config.openConfirm = !this.props.openConfirm;
@@ -158,7 +157,6 @@ import {connect} from 'react-redux';
   }
 
   getPanelHtml() {
- console.log(this.props,'props-ToolsPanel')
     return (
       <div className="ToolsPanel">
         <ReactTooltip html={true} className="tooltipBackgroundTheme" />

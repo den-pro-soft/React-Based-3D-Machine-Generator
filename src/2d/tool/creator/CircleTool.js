@@ -2,8 +2,8 @@
  * Created by dev on 14.01.19.
  */
 import CreatorToolsInTwoSteps from './CreatorToolsInTwoSteps';
-import Arc from './../../model/elements/Arc'
-import Line from './../../model/math/Line'
+import Arc from '../../../model/elements/Arc'
+import Line from '../../../model/math/Line'
 
 export default class CircleTool extends CreatorToolsInTwoSteps{
     constructor(document){

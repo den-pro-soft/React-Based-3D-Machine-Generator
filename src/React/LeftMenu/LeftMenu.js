@@ -156,7 +156,7 @@ export default class LeftMenu extends React.Component {
         <button>
           <a href="#">
             <img
-              onClick={() => app.setTool("Pointer")}
+              onClick={() => app.setTool("EditLine")}
               width="25px"
               src="images/LineEdit.png"
               data-tip="<span>Line Edit<br>Allows to move line endpoints or full line segments while staying attached.<br>In workarea click on the line. Drag the line or its endpoint to the desired location.</span>"
