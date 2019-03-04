@@ -4,7 +4,7 @@
 
 import LineTool from './LineTool';
 
-import CommentToSelf from './../../model/line_types/CommentToSelf';
+import CommentToSelf from '../../../model/line_types/CommentToSelf';
 
 export default class RulerTool extends LineTool{
     constructor(document){

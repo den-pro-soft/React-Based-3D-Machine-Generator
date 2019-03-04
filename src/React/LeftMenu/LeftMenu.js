@@ -1,10 +1,8 @@
 import React from "react";
 import ReactTooltip from "react-tooltip";
 import "./left-menu.scss";
-import {withRouter}from 'react-router-dom';
 
-
-class LeftMenu extends React.Component {
+export default class LeftMenu extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -12,6 +10,7 @@ class LeftMenu extends React.Component {
       bgColorSnapToLines: "#fff"
 
     };
+   
   }
   componentWillMount(){
     const Snap = localStorage.getItem('bgColorSnapToLines');
@@ -157,7 +156,7 @@ class LeftMenu extends React.Component {
           </a>
         </button>
         <button 
-              onClick={() => app.setTool("Pointer")}
+              onClick={() => app.setTool("EditLine")}
               >
           <a href="#">
             <img
@@ -203,4 +202,3 @@ class LeftMenu extends React.Component {
     );
   }
 }
-export default  LeftMenu

@@ -3,7 +3,7 @@
  */
 
 import CreatorToolsInTwoSteps from './CreatorToolsInTwoSteps';
-import RectElementController from './RectElementControler'
+import RectElementController from '../RectElementControler'
 
 export default class RectTool extends CreatorToolsInTwoSteps{
     constructor(document){

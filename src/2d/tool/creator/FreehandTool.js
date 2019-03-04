@@ -2,10 +2,10 @@
  * Created by dev on 04.02.19.
  */
 
-import CreatorTool from './CreatorTool';
-import PolyLine from './../../model/math/PolyLine'
-import Group from './../../model/elements/Group';
-import Spline from './../../model/elements/Spline';
+import CreatorTool from '../CreatorTool';
+import PolyLine from '../../../model/math/PolyLine'
+import Group from '../../../model/elements/Group';
+import Spline from '../../../model/elements/Spline';
 
 
 export default class FreehandTool extends CreatorTool{

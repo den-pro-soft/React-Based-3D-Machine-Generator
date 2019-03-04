@@ -2,7 +2,7 @@
  * Created by dev on 31.01.19.
  */
 
-import CreatorTool from './CreatorTool';
+import CreatorTool from '../CreatorTool';
 
 export default class CreatorToolsInTwoSteps extends CreatorTool{
     constructor(document){

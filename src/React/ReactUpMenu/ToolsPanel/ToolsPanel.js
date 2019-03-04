@@ -38,8 +38,6 @@ import {connect} from 'react-redux';
       openBendModal:false,
       openTapModal:false
     };
-    
-
   }
   // ---------------React Life Cycle-----------------
   componentWillMount() {
@@ -169,7 +167,6 @@ import {connect} from 'react-redux';
   }
 
   getPanelHtml() {
- console.log(this.props,'props-ToolsPanel')
     return (
       <div className="ToolsPanel">
         <ReactTooltip html={true} className="tooltipBackgroundTheme" />

@@ -2,8 +2,8 @@
  * Created by dev on 08.02.19.
  */
 
-import CreatorTool from './CreatorTool';
-import Text from '../../model/elements/Text';
+import CreatorTool from '../CreatorTool';
+import Text from '../../../model/elements/Text';
 
 export default class TextTool extends CreatorTool{
     constructor(document){

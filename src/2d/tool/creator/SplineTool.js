@@ -3,8 +3,8 @@
  */
 
 import CreatorToolsInTwoSteps from './CreatorToolsInTwoSteps';
-import Spline from './../../model/elements/Spline';
-import LineElement from '../../model/elements/LineElement';
+import Spline from '../../../model/elements/Spline';
+import LineElement from '../../../model/elements/LineElement';
 
 export default class SplineTool extends CreatorToolsInTwoSteps{
     constructor(document){

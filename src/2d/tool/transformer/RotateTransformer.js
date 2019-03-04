@@ -49,8 +49,10 @@ export default class RotateTransformer extends Transformer{
      */
     mouseUp(point){
         this._downPosition = null;
-        app.rotateSelected(this.Dgrad);
-        this.Dgrad=0;
+        if(this.Dgrad!=0) {
+            app.rotateSelected(this.Dgrad);
+            this.Dgrad = 0;
+        }
         return super.mouseUp(point);
     }
 

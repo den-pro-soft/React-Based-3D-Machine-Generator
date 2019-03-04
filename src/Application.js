@@ -24,21 +24,23 @@ import ElementModificationCommand from './2d/command/ElementModificationCommand'
 import ChangeArcsRadiusCommand from './2d/command/ChangeArcsRadiusCommand';
 import ChangeLineLengthCommand from './2d/command/ChangeLineLengthCommand';
 import ChangeLineAngleCommand from './2d/command/ChangeLineAngleCommand';
-import ChangeElementsSizeCommand from './2d/command/ChangeElementsSizeCommand';
+import ResizeElementsCommand from './2d/command/ResizeElementsCommand';
 import ChangeArcAngleCommand from './2d/command/ChangeArcAngleCommand';
 
 import PointerTool from './2d/tool/PointerTool';
 import ZoomTool from './2d/tool/ZoomTool';
-import RulerTool from './2d/tool/RulerTool';
+import RulerTool from './2d/tool/creator/RulerTool';
 import EraserTool from './2d/tool/EraserTool';
-import RectTool from './2d/tool/RectTool';
-import SplineTool from './2d/tool/SplineTool';
-import CircleTool from './2d/tool/CircleTool';
+import RectTool from './2d/tool/creator/RectTool';
+import SplineTool from './2d/tool/creator/SplineTool';
+import CircleTool from './2d/tool/creator/CircleTool';
 import MagnificationToolDecorator from './2d/tool/MagnificationToolDecorator';
-import LineTool from './2d/tool/LineTool';
-import FreehandTool from './2d/tool/FreehandTool';
+import LineTool from './2d/tool/creator/LineTool';
+import FreehandTool from './2d/tool/creator/FreehandTool';
 import CreatorTool from './2d/tool/CreatorTool';
-import TextTool from './2d/tool/TextTool';
+import TextTool from './2d/tool/creator/TextTool';
+import EditLineTool from './2d/tool/EditLineTool';
+import SelectTool from './2d/tool/SelectTool';
 
 import Text from './model/elements/Text';
 import Vector from './model/math/Vector';
@@ -72,18 +74,13 @@ export default class Application extends Observable{
         /** @param {CommandHistory} */
         this.commandHistory = new CommandHistory();
 
-        /** @param {Board} */
+        /** @param {InteractiveBoard} */
         this._board = null;
 
+        /** @type {Array.<GraphicElement>} */
         this.selectElements = [];
 
         this.config = container.resolve('config');
-
-        this.elementIdGenerator = {
-            generateId:function(){
-                return idGenerator++;
-            }
-        };
 
         this.buffer = new Buffer(this);
         this._lastTool=null;
@@ -112,7 +109,7 @@ export default class Application extends Observable{
     }
 
     /**
-     * @param {Board} board
+     * @param {InteractiveBoard} board
      */
     set board(board){
         this._board = board;
@@ -121,7 +118,7 @@ export default class Application extends Observable{
     }
 
     /**
-     * @return {Board}
+     * @return {InteractiveBoard}
      */
     get board(){
         return this._board;
@@ -165,10 +162,8 @@ export default class Application extends Observable{
     }
 
     selectAll(){
-        this.clearSelectElements();
         this.setTool('Pointer');
         for(let el of this.currentDocument._elements){
-            this.addSelectElement(el);
             this._board.tool.selectElement(el);
         }
         if(this._board){
@@ -181,7 +176,7 @@ export default class Application extends Observable{
         if(this.selectElements.length==1 && this.selectElements[0].typeName == 'Text' && this.selectElements[0].text == ""){
             this.undo();
         }
-        this.selectElements.splice(0,this.selectElements.length);
+        this.selectElements=[];
         this._notifyHandlers('clearSelectElements');
     }
 
@@ -194,20 +189,30 @@ export default class Application extends Observable{
             this.commandHistory.push(command);
         }
 
+        console.log('execute some command');
         if(this._board){
             if(command.name == 'AddElementCommand'){
                 this.clearSelectElements();
                 this._changeTool(this._getToolInstance('Pointer'));
-                this._board.tool.selectElement(command._element);
+                this.board.tool.selectElement(command._element);
+                this.addSelectElements([command._element]);
             }
+
             if(command instanceof ElementModificationCommand){
+                let elements = this.selectElements;
+                console.log(elements,'elements');
+                console.log(command.isReplacedElements(),'replace');
                 if(command.isReplacedElements()) {
-                    this.clearSelectElements();
-                    let elements = command.getElements();
+                    elements = command.getElements();
+                    if(command.selectOneElement) {
+                        elements = [elements[0]];
+                    }
                     this.addSelectElements(elements);
-                    this._board.tool.setSelectElements(elements);
-                }else{
-                    this._board.tool.setSelectElements(this.selectElements);
+                }
+
+                this.board.tool.clearSelectElements();
+                for(let el of elements){
+                    this.board.tool.selectElement(el);
                 }
             }
             this._board.renderDocument();
@@ -301,6 +306,9 @@ export default class Application extends Observable{
                 break;
             case 'Text':
                 tool = new TextTool(this.currentDocument);
+                break;
+            case 'EditLine':
+                tool = new EditLineTool(this.currentDocument);
                 break;
             default:
                 tool = new PointerTool(this.currentDocument);
@@ -497,8 +505,8 @@ export default class Application extends Observable{
 
         let vector = new Vector(width-oldWidth, height-oldHeight);
 
-        let command = new ChangeElementsSizeCommand(this.currentDocument, this.selectElements, vector
-                    , ChangeElementsSizeCommand.CONTROL_POINT_X.right, ChangeElementsSizeCommand.CONTROL_POINT_Y.top, convertCircleToSplines);
+        let command = new ResizeElementsCommand(this.currentDocument, this.selectElements, vector
+                    , ResizeElementsCommand.CONTROL_POINT_X.right, ResizeElementsCommand.CONTROL_POINT_Y.top, convertCircleToSplines);
 
         this.executeCommand(command);
     }

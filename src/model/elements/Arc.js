@@ -21,12 +21,46 @@ export default class Arc extends GraphicElement{
         this._center=center;
         // this._points[0]=center;
         this.radius=radius;
-        this.startAngle=0;
-        this.endAngle=0;
+        this._startAngle=0;
+        this._endAngle=0;
         
         this._renderer = new ArcRenderer(this);
 
         this.typeName = 'Arc';
+    }
+
+    /**
+     * @return {number}
+     */
+    get startAngle(){
+        return this._startAngle;
+    }
+
+    /**
+     * @param {number} angle
+     */
+    set startAngle(angle){
+        if(angle<0){
+            angle+=360;
+        }
+        if(angle>360){
+            angle%=360;
+        }
+        this._startAngle=angle;
+    }
+
+    /**
+     * @return {number}
+     */
+    get endAngle(){
+        return this._endAngle;
+    }
+
+    /**
+     * @param {number} angle
+     */
+    set endAngle(angle){
+        this._endAngle=angle;
     }
 
     /**

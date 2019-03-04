@@ -78,7 +78,7 @@ export default class GraphicElement extends Cloneable{
      * This may be necessary when we create an item based on a copy.
      */
     generateNewId(){
-        this.id=app.elementIdGenerator.generateId();
+        this.id=container.resolve('elementIdGenerator').generateId();
     }
 
     /**
