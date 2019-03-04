@@ -37,7 +37,6 @@ export default class Config extends Observable{
         this._dimension= 'Millimeters';
 
         //variable for output data in input field - ToolsPanel and mouse coordinates in BottomPanel 
-        this.lengthLine = '';
         this.widthGroup = '';
         this.heightGroup = '';
         this.diameter = '';

@@ -1,6 +1,5 @@
 import React from "react";
 import "./material.scss";
-// import { connect } from "react-redux";
 
 class Material extends React.Component {
   constructor(props, context) {
@@ -104,24 +103,10 @@ class Material extends React.Component {
             </li>
           </ul>
         ) : null}
-        {/* </button> */}
       </div>
     );
   }
 }
 
-// const mapStateToProps = state => {
-//   return {
-//     material: state.materialReducer.material
-//   };
-// };
 
-// const mapDispatchToProps = dispatch => {
-//   return {
-//     updateMaterial: material => {
-//       dispatch({ type: "UPDATE_MATERIAL", payload: material });
-//     }
-//   };
-// };
-// export default connect(mapStateToProps,mapDispatchToProps)(Material);
 export default Material;
