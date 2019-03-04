@@ -13,10 +13,19 @@ class PriceContent extends React.Component {
     this.state = {
       value: "UPS Ground",
       isChecked:false,
+      country:'U.S.A.'
     //   openOrder:false
     };
   }
-
+  componentWillMount() {
+    const Country = localStorage.getItem('country');
+    if (Country === null) {
+      this.setState({ country: this.state.country })
+    } else {
+      this.setState({ country: Country })
+    }
+  }
+  
   handleChangeSelect = e => {
     this.setState({ value: e.target.value });
   };
@@ -76,7 +85,7 @@ class PriceContent extends React.Component {
                 </option>
               ))}
             </select>
-            <span>to</span>
+            <span>to</span><a href="#">{this.state.country}</a>
           </div>
         </div>
 

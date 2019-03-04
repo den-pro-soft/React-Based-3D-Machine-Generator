@@ -255,37 +255,37 @@ class ReactVirtualizedTable extends React.PureComponent {
     }
     const StateCanada = localStorage.getItem('stateCanada');
     if(StateCanada === null){
-    this.setState({stateCanada:this.state.stateCanada})
+    this.setState({stateCanada:this.state.stateCanada +', '})
     } else{
       this.setState({stateCanada:StateCanada+', ' })
     }
     const Province = localStorage.getItem('province');
     if(Province === null){
-    this.setState({province:this.state.province})
+    this.setState({province:this.state.province })
     } else{
-      this.setState({province:Province+', ' })
+      this.setState({province:Province })
     }
     const Country = localStorage.getItem('country');
     if(Country === null){
     this.setState({country:this.state.country},
       ()=>{
           if(this.state.country==='U.S.A.'){
-      this.setState({StateOrProvince: this.state.stateUSA})
+      this.setState({StateOrProvince: this.state.stateUSA +', '})
     }else if(this.state.country==='Canada'){
-      this.setState({StateOrProvince: this.state.stateCanada})
+      this.setState({StateOrProvince: this.state.stateCanada +', '})
     } else {
-      this.setState({StateOrProvince :this.state.province})
+      this.setState({StateOrProvince :this.state.province })
     }
       })
     } else{
       this.setState({country:Country},
         ()=>{
           if(this.state.country==='U.S.A.'){
-      this.setState({StateOrProvince: this.state.stateUSA})
+      this.setState({StateOrProvince: this.state.stateUSA +', '})
     }else if(this.state.country==='Canada'){
-      this.setState({StateOrProvince: this.state.stateCanada})
+      this.setState({StateOrProvince: this.state.stateCanada +', '})
     } else {
-      this.setState({StateOrProvince :this.state.province})
+      this.setState({StateOrProvince :this.state.province })
 
     }
       })
