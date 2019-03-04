@@ -202,4 +202,3 @@ export default class LeftMenu extends React.Component {
     );
   }
 }
-export default  LeftMenu
