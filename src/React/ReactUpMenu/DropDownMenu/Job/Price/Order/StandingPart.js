@@ -1,4 +1,5 @@
 import React from "react";
+import "./standing-part.scss";
 
 export default class StandingPart extends React.Component {
   constructor(props) {
@@ -8,7 +9,7 @@ export default class StandingPart extends React.Component {
   render() {
     return (
       <div className="StandingPart">
-        <h2>Shipping Adress</h2>
+        <h3 className="Title">Shipping Address</h3>
       </div>
     );
   }

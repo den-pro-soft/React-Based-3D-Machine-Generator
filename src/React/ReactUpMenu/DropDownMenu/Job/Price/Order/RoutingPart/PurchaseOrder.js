@@ -9,8 +9,8 @@ export default class PurchaseOrder extends React.Component {
   render() {
     return (
       <div className="PurchaseOrder">
-        <p className="Text">If you organization requires a purchasing agent to approve an
-        order,use this mode to upload your disign to eMachineShop in preparation
+        <p className="Text">If your organization requires a purchasing agent to approve an
+        order,use this mode to upload your design to eMachineShop in preparation
         for a purchasing agent in your company, at their discretion, to approve
         and complete the order. Placing an order this way will not commit your
         company in any way and will become an order only upon approval of your
@@ -24,7 +24,7 @@ export default class PurchaseOrder extends React.Component {
         #_____ to eMachineShop.com to manufacture, upon your approval, 25 custom
         brackets at a total cost of $123,45. Please finalize the order by
         calling them at 201-962-7511 with credit card payment details and
-        shipping adress.Thank you.</p>
+        shipping address.Thank you.</p>
       </div>
     );
   }

@@ -98,7 +98,6 @@ class Job extends React.Component {
               <li 
                   //  onClick={() => {
                   //   this.props.openOrderModal(!this.props.openOrder);
-                  //   // this.props.openOrderModal(this.props.openOrder);             
                   // } }
                   >
                 <a href="#">Review Order</a>
@@ -160,8 +159,8 @@ class Job extends React.Component {
             </Button>
           </DialogActions>
         </Dialog>
-        <Price/>
-        <Order history={this.props.history}/>
+        <Price history={this.props.history}/>
+        {/* <Order history={this.props.history}/> */}
       </div>
     );
   }
@@ -178,7 +177,7 @@ const mapDispatchToProps = dispatch => {
     openPriceModal: openPrice => {
       dispatch({ type: "OPEN_PRICE", payload: openPrice });
     },
-    //working function
+    // working function
     // openOrderModal: openOrder => {
     //   dispatch({ type: "OPEN_ORDER", payload: openOrder });
     // }

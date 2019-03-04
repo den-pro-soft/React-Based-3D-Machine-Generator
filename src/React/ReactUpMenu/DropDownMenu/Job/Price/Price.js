@@ -6,7 +6,7 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import { connect } from "react-redux";
-// import { withRouter } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 import PriceContent from "./PriceContent";
 import Order from "./Order/Order"
 class Price extends React.Component {
@@ -99,7 +99,7 @@ class Price extends React.Component {
           </Button>
         </DialogActions>
       </Dialog>
-      <Order/>
+      <Order history={this.props.history}/>
       </>
     );
   }
@@ -123,8 +123,8 @@ const mapDispatchToProps = dispatch => {
 
   };
 };
-export default connect(
+export default withRouter(connect(
   mapStateToProps,
   mapDispatchToProps
-)(Price);
+)(Price));
 // export default Price

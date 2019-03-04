@@ -258,8 +258,8 @@ export default class Payment extends React.Component {
             // <fieldset className="Fieldset">
             <div className="Payment3">
               <p style={{textAlign:'left'}}>
-                If you organization requires a purchasing agent to approve an
-                order,use this mode to upload your disign to eMachineShop in
+                If your organization requires a purchasing agent to approve an
+                order,use this mode to upload your design to eMachineShop in
                 preparation for a purchasing agent in your company, at their
                 discretion, to approve and complete the order. Placing an order
                 this way will not commit your company in any way and will become
@@ -277,7 +277,7 @@ export default class Payment extends React.Component {
                 Message:<br/>
                 I have upload mechanical drawing #_____ to eMachineShop.com to manufacture, upon your approval, 25 custom brackets 
                 at a total cost of $123,45. Please finalize the order by calling them at 201-962-7511 with credit card payment details and 
-                shipping adress.Thank you.
+                shipping address.Thank you.
               </p>
             </div>
             // </fieldset>
