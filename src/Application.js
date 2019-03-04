@@ -29,16 +29,16 @@ import ChangeArcAngleCommand from './2d/command/ChangeArcAngleCommand';
 
 import PointerTool from './2d/tool/PointerTool';
 import ZoomTool from './2d/tool/ZoomTool';
-import RulerTool from './2d/tool/RulerTool';
+import RulerTool from './2d/tool/creator/RulerTool';
 import EraserTool from './2d/tool/EraserTool';
-import RectTool from './2d/tool/RectTool';
-import SplineTool from './2d/tool/SplineTool';
-import CircleTool from './2d/tool/CircleTool';
+import RectTool from './2d/tool/creator/RectTool';
+import SplineTool from './2d/tool/creator/SplineTool';
+import CircleTool from './2d/tool/creator/CircleTool';
 import MagnificationToolDecorator from './2d/tool/MagnificationToolDecorator';
-import LineTool from './2d/tool/LineTool';
-import FreehandTool from './2d/tool/FreehandTool';
+import LineTool from './2d/tool/creator/LineTool';
+import FreehandTool from './2d/tool/creator/FreehandTool';
 import CreatorTool from './2d/tool/CreatorTool';
-import TextTool from './2d/tool/TextTool';
+import TextTool from './2d/tool/creator/TextTool';
 import EditLineTool from './2d/tool/EditLineTool';
 import SelectTool from './2d/tool/SelectTool';
 

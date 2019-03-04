@@ -35,11 +35,7 @@ export default class EditLineTool extends DynamicChangeTool{
         super.mouseMove(point, e);
         this.editVector.x+=this.dx;
         this.editVector.y+=this.dy;
-        if(this.mouseDownPosition && this.edited) {
-            let command = new MoveBasePointsCommand(this.doc, this.selectElementsPair.map(e=>e.copy)
-                , oldPosition, new Vector(this.dx, this.dy));
-            command.executeCommand();
-        }else{
+        if(!this.mouseDownPosition || !this.edited) {
             this.selectNearElements(point);
         }
         return true;
@@ -56,6 +52,9 @@ export default class EditLineTool extends DynamicChangeTool{
         let res = true;
         if(!this._isNearMagnitPoint(point)) {
             res = super.mouseDown(point, e);
+            if(res){
+                this.edited = true;
+            }
         }else{
             this.edited = true;
         }
@@ -103,6 +102,12 @@ export default class EditLineTool extends DynamicChangeTool{
      * @inheritDoc
      */
     render(){
+        for(let el of this.selectElementsPair){
+            el.copy = el.original.copy();
+        }
+
+        new MoveBasePointsCommand(this.doc, this.selectElementsPair.map(e=>e.copy)
+            , this.mouseDownPosition, this.editVector).executeCommand();
         super.render();
     }
 
