@@ -1,12 +1,18 @@
 import React from "react";
 import "./job.scss";
-import Settings from "./Settings/Settigs";
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
-export default class Job extends React.Component {
+import Settings from "./Settings/Settigs";
+import Price from "./Price/Price";
+import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
+//working  import 
+import Order from "./Price/Order/Order"
+
+class Job extends React.Component {
   constructor(props, context) {
     super(props, context);
     this.state = {
@@ -56,6 +62,8 @@ export default class Job extends React.Component {
   };
 
   render() {
+    // console.log(this.props, "props-Job");
+
     return (
       <div className="Job">
         <div
@@ -70,7 +78,12 @@ export default class Job extends React.Component {
               <li onClick={this.clickSubModal}>
                 <a href="#">Settings</a>
               </li>
-              <li>
+              <li   
+              onClick={() => {
+                this.props.openPriceModal(!this.props.openPrice);
+                // this.props.openOrderModal(this.props.openOrder);             
+              } }
+              >
                 <a href="#">Price/Analyze</a>
               </li>
               <li>
@@ -82,7 +95,11 @@ export default class Job extends React.Component {
                   Checklist
                 </a>
               </li>
-              <li>
+              <li 
+                  //  onClick={() => {
+                  //   this.props.openOrderModal(!this.props.openOrder);
+                  // } }
+                  >
                 <a href="#">Review Order</a>
               </li>
             </ul>
@@ -101,7 +118,6 @@ export default class Job extends React.Component {
             <img
               width="25px"
               src="images/icon.jpg"
-              // data-tip="<span>Shows how to use numeric values.</span>"
             />
             <span>Job settings</span>
           </DialogTitle>
@@ -143,7 +159,28 @@ export default class Job extends React.Component {
             </Button>
           </DialogActions>
         </Dialog>
+        <Price history={this.props.history}/>
+        {/* <Order history={this.props.history}/> */}
       </div>
     );
   }
 }
+const mapStateToProps = state => {
+  return {
+    openPrice: state.priceReducer.openPrice,
+    openOrder: state.priceReducer.openOrder
+
+  };
+};
+const mapDispatchToProps = dispatch => {
+  return {
+    openPriceModal: openPrice => {
+      dispatch({ type: "OPEN_PRICE", payload: openPrice });
+    },
+    // working function
+    // openOrderModal: openOrder => {
+    //   dispatch({ type: "OPEN_ORDER", payload: openOrder });
+    // }
+  };
+};
+export default withRouter(connect(mapStateToProps,mapDispatchToProps)(Job));

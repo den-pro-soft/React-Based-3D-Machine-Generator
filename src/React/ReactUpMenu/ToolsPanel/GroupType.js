@@ -23,9 +23,6 @@ import { connect } from "react-redux";
           app.config.widthGroup = width.toFixed(3) + " mm";
           app.config.heightGroup = height.toFixed(3) + " mm"
           this.setState({ width: app.config.widthGroup, height: app.config.heightGroup });
-          // this.props.getWidth(+width.toFixed(3));
-          // this.props.getHeight(height.toFixed(3));
-
 
         } else {
           app.config.widthGroup = (width / 25.4).toFixed(3) + ' "';
@@ -73,7 +70,7 @@ if (this.props.demensions === "Millimeters") {
     console.log(width,height,'width-height')
     this.setState({ width: width });
   
-    if (event.charCode === 13) {
+    if (e.charCode === 13) {
       if (this.props.demensions === "Millimeters") {
         this.setState({
           width: width + " mm"
@@ -101,7 +98,7 @@ this.props.getWidth(+width);
 
     this.setState({ height: height });
   
-    if (event.charCode === 13) {
+    if (e.charCode === 13) {
       if (this.props.demensions === "Millimeters") {
         this.setState({
           height: height + " mm"

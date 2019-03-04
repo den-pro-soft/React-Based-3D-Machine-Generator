@@ -24,7 +24,7 @@ class TextType extends React.Component {
       if (element.typeName === "Text") {
      
          let textSize = app.selectElements[0].fontSize
-         console.log(this.props,textSize,'props-text-size')
+        //  console.log(this.props,textSize,'props-text-size')
 
         if (this.props.demensions === "Millimeters") {
           app.config.textSize=textSize.toFixed(3) + " mm" 

@@ -120,7 +120,6 @@ rotateRight = () => {
 handlyChangeInputRotate = event => {
   // console.log(event.target.value, "target-rotate");
   app.config.rotateStep = event.target.value;
-  // let deg = " deg";
   let rotate = app.config.rotateStep;
 
   this.setState({
@@ -247,11 +246,7 @@ handlyChangeInputRotate = event => {
         <input
           type="text"
           className="InputRotate"
-          // defaultValue={this.state.rotateStep}
           value={this.state.rotateStep}
-          // onChange={e => {
-          //   app.config.rotateStep = e.target.value+'deg';
-          // }}
           onChange={this.handlyChangeInputRotate}
           onKeyPress={this.handlyChangeInputRotate}
 

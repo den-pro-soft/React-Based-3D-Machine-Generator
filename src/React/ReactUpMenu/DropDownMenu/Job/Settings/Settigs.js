@@ -17,10 +17,13 @@ export default class Settings extends React.Component {
     super(props);
  
     }
-    componentDidMount() {
+    // componentDidMount() {
+    //   // console.log(this.props, 'this.props-New')
+    //   this.props.history.push('/') 
+    // }
+    componentWillMount() {
       // console.log(this.props, 'this.props-New')
-      this.props.history.push('/')
-  
+      this.props.history.push('/') 
     }
  render(){
   return (
@@ -35,6 +38,7 @@ export default class Settings extends React.Component {
               exact
               activeStyle={{ color: "blue" }}
               to="/"
+              replace 
             >
               Address
             </NavLink>

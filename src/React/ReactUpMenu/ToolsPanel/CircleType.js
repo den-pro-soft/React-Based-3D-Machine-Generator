@@ -52,7 +52,7 @@ if (this.props.demensions === "Millimeters") {
     this.setState({
       diameter:diameter
     })
-    if (event.charCode === 13) {
+    if (e.charCode === 13) {
       if (this.props.demensions === "Millimeters") {
         this.setState({
           diameter: diameter + " mm"

@@ -14,6 +14,7 @@ import {withRouter}from 'react-router-dom';
 
 
 import { DraggablePopup } from "./../../../popup";
+import { Modal } from "@material-ui/core";
 var popup3DView = new DraggablePopup()
   .setSize(800, 600)
   .setPosition(200, 100)
@@ -47,6 +48,7 @@ class UpMenu extends React.Component {
       openPreferencesModal: false,
     };
     // console.log(this.props,'props-UpMenu')
+
   }
 
   // --------------open window Preferences---------------------
@@ -143,7 +145,9 @@ class UpMenu extends React.Component {
                   <img width="24px" src="images/3DPreview.png" />
                 </a>
               </button>
-              <button>
+              <button 
+              // onClick={()=>{modal.modalOpenConfirmation()}}
+              >
                 <a href="#">
                   <img width="18px" src="images/check2.png" />
                 </a>

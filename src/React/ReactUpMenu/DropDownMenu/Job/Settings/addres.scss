@@ -27,6 +27,8 @@
             }
             select{
               width:173px;
+              // -moz-appearance: none;
+              width: -moz-min-content;
             }
           }
         }

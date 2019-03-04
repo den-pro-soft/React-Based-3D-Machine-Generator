@@ -1,11 +1,11 @@
 import React from "react";
-import "./summary.scss";
 import classNames from "classnames";
 import { withStyles } from "@material-ui/core/styles";
 import TableCell from "@material-ui/core/TableCell";
 import TableSortLabel from "@material-ui/core/TableSortLabel";
 import Paper from "@material-ui/core/Paper";
 import { AutoSizer, Column, SortDirection, Table } from "react-virtualized";
+import { connect } from "react-redux";
 
 
 const styles = theme => ({
@@ -163,6 +163,7 @@ class ReactVirtualizedTable extends React.PureComponent {
   constructor(props){
     super(props)
     this.state={
+      filename: "Untitled",
       firstName:'',
       lastName:'',
       businessName:'',
@@ -176,19 +177,29 @@ class ReactVirtualizedTable extends React.PureComponent {
       province:'',
       country:'U.S.A.',
       StateOrProvince:'',
-      zip:''
+      zip:'',
+      material:'Unspecified',
+      finishing:'None',
+      commentToMachinist:'None'
 
     }
   }
 
   componentWillMount(){
+    const fileName = app.currentDocument.fileName;
+    if(fileName ===null){
+      this.setState({fileName:this.state.fileName})
+      } else{
+        this.setState({fileName:fileName})
+    }
+
     const FirstName = localStorage.getItem('firstName');
     if(FirstName===null){
     this.setState({firstName:this.state.firstName})
     } else{
       this.setState({firstName:FirstName})
-
     }
+
     const LastName = localStorage.getItem('lastName');
     if(LastName===null){
     this.setState({lastName:this.state.lastName})
@@ -244,37 +255,37 @@ class ReactVirtualizedTable extends React.PureComponent {
     }
     const StateCanada = localStorage.getItem('stateCanada');
     if(StateCanada === null){
-    this.setState({stateCanada:this.state.stateCanada})
+    this.setState({stateCanada:this.state.stateCanada +', '})
     } else{
       this.setState({stateCanada:StateCanada+', ' })
     }
     const Province = localStorage.getItem('province');
     if(Province === null){
-    this.setState({province:this.state.province})
+    this.setState({province:this.state.province })
     } else{
-      this.setState({province:Province+', ' })
+      this.setState({province:Province })
     }
     const Country = localStorage.getItem('country');
     if(Country === null){
     this.setState({country:this.state.country},
       ()=>{
           if(this.state.country==='U.S.A.'){
-      this.setState({StateOrProvince: this.state.stateUSA})
+      this.setState({StateOrProvince: this.state.stateUSA +', '})
     }else if(this.state.country==='Canada'){
-      this.setState({StateOrProvince: this.state.stateCanada})
+      this.setState({StateOrProvince: this.state.stateCanada +', '})
     } else {
-      this.setState({StateOrProvince :this.state.province})
+      this.setState({StateOrProvince :this.state.province })
     }
       })
     } else{
       this.setState({country:Country},
         ()=>{
           if(this.state.country==='U.S.A.'){
-      this.setState({StateOrProvince: this.state.stateUSA})
+      this.setState({StateOrProvince: this.state.stateUSA +', '})
     }else if(this.state.country==='Canada'){
-      this.setState({StateOrProvince: this.state.stateCanada})
+      this.setState({StateOrProvince: this.state.stateCanada +', '})
     } else {
-      this.setState({StateOrProvince :this.state.province})
+      this.setState({StateOrProvince :this.state.province })
 
     }
       })
@@ -282,30 +293,72 @@ class ReactVirtualizedTable extends React.PureComponent {
 
     const ZIP = localStorage.getItem('zip');
     if(ZIP === null){
-    this.setState({lastName:this.state.zip})
+    this.setState({zip:this.state.zip})
     } else{
       this.setState({zip:ZIP+', '})
     }
+
+    const material = localStorage.getItem('material');
+    if(material === null){
+    this.setState({material:this.state.material})
+    } else{
+      this.setState({material:material})
+    }
+    
+    const finishing = localStorage.getItem('finishing');
+    if(finishing  === null){
+    this.setState({finishing :this.state.finishing })
+    } else{
+      this.setState({finishing :finishing })
+    }
+  
+  const {_elements} = app.currentDocument;
+  let text = _elements.filter(el => {return el.typeName === "Text"});
+  if(text.length===0){
+    this.setState({commentToMachinist:this.state.commentToMachinist})
+
+  } else {
+    this.setState({commentToMachinist:text.length})
+
+  }
   }
   render(){
-    console.log(this.state.country,this.state.stateUSA,'country-state-render')
+    const used_lineTypes = localStorage.getItem('lineType');
+    // console.log(used_lineTypes,'used_machines')
    
     const data = [
-      ["File name","Untitled"],
+      ["File name",this.state.fileName],
       ["Customer", this.state.firstName + ' '+ this.state.lastName + this.state.businessName],
       ["Customer email", this.state.email],
       ["Order type", this.state.order + ' '+this.state.originalOrder],
       ["Shipping to",this.state.adressLine1+ this.state.city+
       this.state.StateOrProvince +this.state.zip + this.state.country],
       ["Quantity", 25],
-      ["Material", "Acetal Black"],
+      ["Material", this.state.material],
       ["Thickness", `0,000${String.fromCharCode(34)}, tolerance: 20,00%`],
-      ["Used machines", "Comments to Machinist"],
-      ["Finishing", "None"],
+      ["Used line types", used_lineTypes],
+      ["Finishing", this.state.finishing],
       // ["Packing", "Pack parts in bulk"],
-      ["Comments to machinist", "None"]
+      ["Comments to machinist", this.state.commentToMachinist ],
+     
     ];
-    
+    const data_auto = [
+      ["File name",this.state.fileName],
+      ["Customer", this.state.firstName + ' '+ this.state.lastName + this.state.businessName],
+      ["Customer email", this.state.email],
+      ["Order type", this.state.order + ' '+this.state.originalOrder],
+      ["Shipping to",this.state.adressLine1+ this.state.city+
+      this.state.StateOrProvince +this.state.zip + this.state.country],
+      ["Quantity", 25],
+      ["Material", this.state.material],
+      ["Thickness", `0,000${String.fromCharCode(34)}, tolerance: 20,00%`],
+      ["Used line types", used_lineTypes],
+      ["Finishing", this.state.finishing],
+      // ["Packing", "Pack parts in bulk"],
+      ["Comments to machinist", this.state.commentToMachinist],
+      ['',''],
+      ['Specifications','']
+    ];
     let id = 0;
     
     function createData(filename, untitled) {
@@ -314,11 +367,20 @@ class ReactVirtualizedTable extends React.PureComponent {
     }
     const rows = [];
     
-    for (let i = 0; i < data.length; i += 1) {
-      const renderData = data[i];
-      rows.push(createData(...renderData));
-    
-    }
+   
+    // if (used_machines === 'Auto') {
+    //   for (let i = 0; i < data.length; i += 1) {
+    //     const renderData = data_auto[i];
+    //     rows.push(createData(...renderData));
+    //   }
+    // } else {
+      for (let i = 0; i < data.length; i += 1) {
+        const renderData = data[i];
+        rows.push(createData(...renderData));
+      }
+    // } 
+
+  
   return (
     <Paper style={{ height: 400, width: "100%" }}>
       <WrappedSummary
@@ -346,4 +408,18 @@ class ReactVirtualizedTable extends React.PureComponent {
   );
 }
 }
+// const mapStateToProps = state => {
+//   return {
+//     material: state.materialReducer.material
+//   };
+// };
+
+// // const mapDispatchToProps = dispatch => {
+// //   return {
+// //     updateMaterial: material => {
+// //       dispatch({ type: "UPDATE_MATERIAL", payload: material });
+// //     }
+// //   };
+// // };
+// export default connect(mapStateToProps)(ReactVirtualizedTable);
 export default ReactVirtualizedTable;

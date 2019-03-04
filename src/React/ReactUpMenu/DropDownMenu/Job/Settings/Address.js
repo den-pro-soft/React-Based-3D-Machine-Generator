@@ -187,7 +187,7 @@ export default class Adress extends React.Component {
     }
     });
 
-    console.log(event.target.value, "this.state,value-country");
+    // console.log(event.target.value, "this.state,value-country");
   };
 
   handleZIPChange = e => {
@@ -206,7 +206,7 @@ export default class Adress extends React.Component {
         provinceOther2: false
       });
     }
-    console.log(event.target.value, "this.state,value-country");
+    // console.log(event.target.value, "this.state,value-country");
   };
 
   handleChecked = event => {
@@ -345,7 +345,7 @@ export default class Adress extends React.Component {
                 )}
                 {this.state.country === "U.S.A." && (
                   <div className="Input">
-                    <select value={this.state.stateUSA} onChange={this.handleSelectStateUSA}>
+                    <select  width= "173px" value={this.state.stateUSA} onChange={this.handleSelectStateUSA}>
                       {statesUSA.map((item, i) => (
                         <option value={item} key={i}>
                           {item}

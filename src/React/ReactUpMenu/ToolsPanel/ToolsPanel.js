@@ -41,9 +41,13 @@ import {connect} from 'react-redux';
   }
   // ---------------React Life Cycle-----------------
   componentWillMount() {
-  
+  // console.log(modal.modalOpenConfirmation(),'window.modal-variable')
       app.addHandler("selectElement", element => {
     this.setState({value: app.selectElements[0]._lineType.label});
+    // localStorage.setItem('lineType', app.config.defaultLineTypes[0].label);
+    localStorage.setItem('lineType', app.selectElements[0]._lineType.label);
+
+
     // app.config.lineType = app.selectElements[0]._lineType;
 
           this.setState({ show: true });
@@ -89,7 +93,11 @@ import {connect} from 'react-redux';
   
   }
    componentDidUpdate(prevProps, prevState) {
-     if (this.props.width !== prevProps.width && this.state.group === true) {
+//     let arc = app.selectElements.some(el => el.typeName === "Arc");
+//     let line = app.selectElements.some(el => el.typeName === "Line");
+// console.log(arc,line,'some()')
+    //  console.log(prevProps.width,this.props.width,'prev-this')
+     if (this.props.width !== prevProps.width && this.state.group === true&&app.selectElements[0].typeName!=='Group'/*&&arc===true&&line===true*/) {
        if (this.props.width !== undefined){
        app.config.openConfirm = !this.props.openConfirm;
          this.props.openConfirmModal(!this.props.openConfirm);
@@ -104,8 +112,10 @@ import {connect} from 'react-redux';
     this.setState({value:event.target.value});
     app.config.defaultLineTypes.map((item) => {
       if(event.target.value===item.label){
+        localStorage.setItem('lineType', item.label);
         app.config.lineType = item; 
         app.setElementsLineType(item);
+
       }
     })
 
