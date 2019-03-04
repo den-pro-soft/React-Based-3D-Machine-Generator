@@ -39,7 +39,6 @@ import RotateTransformer from './transformer/RotateTransformer';
  *
  */
 export default class PointerTool extends DynamicChangeTool{
-    //todo: remove code for selecting elements by mouse click. That code is on the SelectTool class
 
     constructor(document){
         super(document);
@@ -67,7 +66,9 @@ export default class PointerTool extends DynamicChangeTool{
 
     clearSelectElements(){
         super.clearSelectElements();
-        this.transformer = null;
+        if(this.transformer){
+            this.transformer.removeElemens();
+        }
     }
 
     addSelectElements(elements){
@@ -76,6 +77,14 @@ export default class PointerTool extends DynamicChangeTool{
             this.transformer = new ResizeTransformer(this._document);
         }
         this.transformer.addElements(elements);
+    }
+
+    selectElement(element){
+        super.selectElement(element);
+        if(!this.transformer) {
+            this.transformer = new ResizeTransformer(this._document);
+        }
+        this.transformer.addElements([element]);
     }
 
     mouseMove(point){
@@ -146,8 +155,8 @@ export default class PointerTool extends DynamicChangeTool{
 
         if(this.transformer){
             let res = this.transformer.mouseUp(point);
-            if(res){ //click не менять иструмент елси выбрано новое значеине, потому что инстумент уже установлено
-                //инстумент меняется если был клик на инстументе
+            console.log("res =============: "+ (res && !this.addedElement));
+            if(res && !this.addedElement){
                 if(this.transformer instanceof ResizeTransformer) {
                     this.transformer = new RotateTransformer(this._document);
                 }else{
@@ -163,7 +172,7 @@ export default class PointerTool extends DynamicChangeTool{
         }
 
         if(!this.selectRect) { //if selected mode
-            return;
+            return false;
         }
         //
         let newSelectElements = [];
@@ -174,7 +183,9 @@ export default class PointerTool extends DynamicChangeTool{
         if(newSelectElements.length>0) {
             this.addSelectElements(newSelectElements);
         }else{
-            this.transformer = null;
+            if(!Helper.Key.ctrlKey) {
+                this.transformer = null;
+            }
         }
         this.selectRect = null;
     }

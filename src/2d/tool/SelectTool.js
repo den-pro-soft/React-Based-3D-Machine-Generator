@@ -27,7 +27,8 @@ export default class SelectTool extends Tool{
      * @param {GraphicElement} element
      */
     selectElement(element){
-        this.addSelectElements([element]);
+        this._selectElements.push(element);
+        app.addSelectElements([element]);
     }
 
     /**
@@ -35,9 +36,9 @@ export default class SelectTool extends Tool{
      * @protected
      */
     addSelectElements(elements){
-        // if(!Helper.Key.ctrlKey) {
-        //     this.clearSelectElements();
-        // }
+        if(!Helper.Key.ctrlKey) {
+            this.clearSelectElements();
+        }
         this._selectElements.push(...elements);
         app.addSelectElements(elements);
     }
@@ -55,6 +56,12 @@ export default class SelectTool extends Tool{
         return super.mouseMove(point, e);
     }
 
+    /**
+     *
+     * @param point
+     * @param e
+     * @return {boolean} true if was selected any element
+     */
     mouseDown(point, e){
         let newSelectElements = this.getNearElements(point);
 
@@ -76,12 +83,13 @@ export default class SelectTool extends Tool{
             if (newSelected.length > 0) {
                 this.addSelectElements(newSelected);
                 return true;
-            }else{
-                return false;
             }
         }else{
-            return false;
+            if(!Helper.Key.ctrlKey) {
+                this.clearSelectElements();
+            }
         }
+        return false;
     }
 
     mouseUp(point, e){

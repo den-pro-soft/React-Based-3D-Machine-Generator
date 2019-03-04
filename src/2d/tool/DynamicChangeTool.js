@@ -24,15 +24,15 @@ export default class DynamicChangeTool extends SelectTool{
         this.mouseDownPosition = null;
     }
 
-    // /**
-    //  * The method need for selecting elements without using the tool
-    //  * @param {GraphicElement} element
-    //  * @return {{original:GraphicElement, copy:GraphicElement}}
-    //  */
-    // selectElement(element){
-    //     super.selectElement(element);
-    //     this.selectElementsPair.push({original:element, copy:element.copy()});
-    // }
+    /**
+     * The method need for selecting elements without using the tool
+     * @param {GraphicElement} element
+     * @return {{original:GraphicElement, copy:GraphicElement}}
+     */
+    selectElement(element){
+        super.selectElement(element);
+        this.selectElementsPair.push({original:element, copy:element.copy()});
+    }
 
     /**
      *

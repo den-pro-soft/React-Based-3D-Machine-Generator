@@ -176,7 +176,7 @@ export default class Application extends Observable{
         if(this.selectElements.length==1 && this.selectElements[0].typeName == 'Text' && this.selectElements[0].text == ""){
             this.undo();
         }
-        this.selectElements.splice(0,this.selectElements.length);
+        this.selectElements=[];
         this._notifyHandlers('clearSelectElements');
     }
 
@@ -189,6 +189,7 @@ export default class Application extends Observable{
             this.commandHistory.push(command);
         }
 
+        console.log('execute some command');
         if(this._board){
             if(command.name == 'AddElementCommand'){
                 this.clearSelectElements();
@@ -199,6 +200,8 @@ export default class Application extends Observable{
 
             if(command instanceof ElementModificationCommand){
                 let elements = this.selectElements;
+                console.log(elements,'elements');
+                console.log(command.isReplacedElements(),'replace');
                 if(command.isReplacedElements()) {
                     elements = command.getElements();
                     if(command.selectOneElement) {
