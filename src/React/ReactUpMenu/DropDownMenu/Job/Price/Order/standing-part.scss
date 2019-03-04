@@ -1,6 +1,32 @@
-.StandingPart{
-    h3.Title{
-        text-align:center;
-        background-color:lightgrey;
+.StandingPart {
+  h3.Title {
+    text-align: center;
+    background-color: lightgrey;
+  }
+  .FirstLastName {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px;
+    .First,
+    .Last {
+      display: flex;
+      justify-content: flex-start;
+      width:50%;
+      .LabelFirst,
+      .LabelLast {
+        color: #000;
+        font-size: bold;
+        width: 30%;
+        text-align: right;
+        margin-right: 10px;
+      }
+      .InputText{
+          width:70%;
+          .InputField{
+          width:100%;
+
+          }
+      }
     }
+  }
 }
