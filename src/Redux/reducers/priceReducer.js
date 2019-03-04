@@ -12,6 +12,9 @@ export default function priceReducer(state = initialState, action) {
       return { openPrice: action.payload };
     case "OPEN_ORDER":
       return { openOrder: action.payload, openPrice: !action.payload };
+      //working case
+    // case "OPEN_ORDER":
+    //   return { openOrder: action.payload };
     case "CLOSE_ORDER":
       return { openOrder: action.payload,  openPrice: action.payload};
     default:

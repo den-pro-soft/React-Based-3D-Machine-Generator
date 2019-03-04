@@ -6,7 +6,10 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import { connect } from "react-redux";
-// import { withRouter } from "react-router-dom";
+import { withRouter } from "react-router-dom";
+import RoutingPart from "./RoutingPart/RoutingPart"
+import StandingPart from "./StandingPart"
+
 
 class Order extends React.Component {
   constructor(props) {
@@ -51,12 +54,13 @@ class Order extends React.Component {
           style={{
             paddingBottom: "0px",
             textAlign: "left",
-            width: "800px",
+            width: "700px",
             height: "680px",
             backgroundColor: "#f0ecec"
           }}
         >
-        <h2>Order</h2>
+        <RoutingPart history={this.props.history}/>
+        <StandingPart/>
         </DialogContent>
         {/* <DialogActions>
           <Button
@@ -110,4 +114,4 @@ const mapDispatchToProps = dispatch => {
     }
   };
 };
-export default connect(mapStateToProps,mapDispatchToProps)(Order);
+export default withRouter(connect(mapStateToProps,mapDispatchToProps)(Order));

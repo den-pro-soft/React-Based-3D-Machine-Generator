@@ -9,6 +9,8 @@ import Settings from "./Settings/Settigs";
 import Price from "./Price/Price";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
+//working  import 
+import Order from "./Price/Order/Order"
 
 class Job extends React.Component {
   constructor(props, context) {
@@ -93,7 +95,12 @@ class Job extends React.Component {
                   Checklist
                 </a>
               </li>
-              <li>
+              <li 
+                  //  onClick={() => {
+                  //   this.props.openOrderModal(!this.props.openOrder);
+                  //   // this.props.openOrderModal(this.props.openOrder);             
+                  // } }
+                  >
                 <a href="#">Review Order</a>
               </li>
             </ul>
@@ -154,6 +161,7 @@ class Job extends React.Component {
           </DialogActions>
         </Dialog>
         <Price/>
+        <Order history={this.props.history}/>
       </div>
     );
   }
@@ -169,7 +177,8 @@ const mapDispatchToProps = dispatch => {
   return {
     openPriceModal: openPrice => {
       dispatch({ type: "OPEN_PRICE", payload: openPrice });
-    }
+    },
+    //working function
     // openOrderModal: openOrder => {
     //   dispatch({ type: "OPEN_ORDER", payload: openOrder });
     // }

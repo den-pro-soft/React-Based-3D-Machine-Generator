@@ -43,6 +43,7 @@ export default class New extends React.Component {
                 exact
                 activeStyle={{ color: "blue" }}
                 to="/"
+                replace 
               >
                 Blank Design
               </NavLink>

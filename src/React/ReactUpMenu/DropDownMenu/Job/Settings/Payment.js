@@ -218,7 +218,7 @@ export default class Payment extends React.Component {
                   <br />
                   eMachineShop
                   <br />
-                  Unit6, 31 Industrial Ave.
+                  Unit 6, 31 Industrial Ave.
                   <br />
                   Mahwah, NJ 07430
                   <br />
