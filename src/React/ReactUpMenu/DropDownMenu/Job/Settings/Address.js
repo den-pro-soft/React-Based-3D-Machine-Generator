@@ -187,7 +187,6 @@ export default class Adress extends React.Component {
     }
     });
 
-    // console.log(event.target.value, "this.state,value-country");
   };
 
   handleZIPChange = e => {
@@ -195,6 +194,7 @@ export default class Adress extends React.Component {
       localStorage.setItem('zip', this.state.zip);
     })
   }
+  
   handleChangeIsChecked = event => {
     this.setState({ value: event.target.value });
     if (event.target.value !== "U.S.A." && event.target.value !== "Canada") {
@@ -206,7 +206,6 @@ export default class Adress extends React.Component {
         provinceOther2: false
       });
     }
-    // console.log(event.target.value, "this.state,value-country");
   };
 
   handleChecked = event => {
@@ -345,7 +344,7 @@ export default class Adress extends React.Component {
                 )}
                 {this.state.country === "U.S.A." && (
                   <div className="Input">
-                    <select  width= "173px" value={this.state.stateUSA} onChange={this.handleSelectStateUSA}>
+                    <select  className="InputSelect" value={this.state.stateUSA} onChange={this.handleSelectStateUSA}>
                       {statesUSA.map((item, i) => (
                         <option value={item} key={i}>
                           {item}
@@ -356,7 +355,7 @@ export default class Adress extends React.Component {
                 )}
                 {this.state.country === "Canada" && (
                   <div className="Input">
-                    <select value={this.state.stateCanada} onChange={this.handleSelectStateCanada}>
+                    <select className="InputSelect" value={this.state.stateCanada} onChange={this.handleSelectStateCanada}>
                       {statesCanada.map((item, i) => (
                         <option value={item} key={i}>
                           {item}
@@ -371,7 +370,7 @@ export default class Adress extends React.Component {
                   />
                 </div>
                 <div className="Input">
-                  <select
+                  <select className="InputSelect"
                     value={this.state.country} onChange={this.handleSelectCountryChange}
                   >
                     {countries.map((item, i) => (

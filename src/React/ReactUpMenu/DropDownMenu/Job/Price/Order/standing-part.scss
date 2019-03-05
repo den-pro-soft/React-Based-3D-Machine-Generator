@@ -11,7 +11,7 @@
     .Last {
       display: flex;
       justify-content: flex-start;
-      width:50%;
+      width: 50%;
       .LabelFirst,
       .LabelLast {
         color: #000;
@@ -20,13 +20,77 @@
         text-align: right;
         margin-right: 10px;
       }
-      .InputText{
-          width:70%;
-          .InputField{
-          width:100%;
-
-          }
+      .InputText {
+        width: 70%;
+        .InputField {
+          width: 100%;
+        }
+        .InputSelect {
+          width: 102%;
+        }
       }
     }
+  }
+  .Address {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px;
+    .LabelAddress {
+      color: #000;
+      font-size: bold;
+      width: 16%;
+      text-align: right;
+      label {
+        margin-right: 10px;
+      }
+    }
+    .InputAddress {
+      width: 84%;
+      .InputFieldAddress {
+        width: 100%;
+      }
+    }
+  }
+  .FunctionOfPart {
+    padding: 5px;
+    .InputOfPart {
+      width: 100%;
+      .InputFieldOfPart {
+        width: 100%;
+      }
+    }
+  }
+  .OptionalPurchase{
+    padding: 5px;
+    .InputAndButton{
+      display: flex;
+      justify-content: space-between;
+      .InputFieldOptional{
+        padding-top:5px;
+        input{
+          width:80px;
+        }
+      }
+    }
+  }
+  .BottomContent{
+    display: flex;
+    justify-content: space-between;
+    .Left{
+      width: 20%;
+      p{
+        text-align: left;
+      }
+    }
+    .Right{
+      width: 80%;
+      padding:0;
+
+    }
+  }
+  .ButtonSubmit{
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 10px;
   }
 }
