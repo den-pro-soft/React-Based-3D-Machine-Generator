@@ -1,5 +1,4 @@
 import React from "react";
-// import "./select-finish.scss";
 import "./material.scss";
 
 export default class SelectFinish extends React.Component {
@@ -49,7 +48,6 @@ export default class SelectFinish extends React.Component {
     return (
       <div className="Material">
         <button className="btn-Material" onClick={this.showDropdownMenu}>
-          {/* Select a Finish */}
           {this.state.finishing}
         </button>
 

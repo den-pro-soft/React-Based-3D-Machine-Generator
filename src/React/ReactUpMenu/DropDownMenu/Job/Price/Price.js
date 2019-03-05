@@ -116,7 +116,8 @@ const mapDispatchToProps = dispatch => {
   return {
     closePriceModal: openPrice => {
       dispatch({ type: "CLOSE_PRICE", payload: openPrice });
-    },
+    }
+    ,
     openOrderModal: openOrder => {
       dispatch({ type: "OPEN_ORDER", payload: openOrder });
     }
@@ -127,4 +128,3 @@ export default withRouter(connect(
   mapStateToProps,
   mapDispatchToProps
 )(Price));
-// export default Price
