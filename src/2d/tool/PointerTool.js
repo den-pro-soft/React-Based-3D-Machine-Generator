@@ -133,6 +133,9 @@ export default class PointerTool extends DynamicChangeTool{
             if(this.transformer.mouseDown(point)) { //not on transform area
                 needRect = !super.mouseDown(point,e);
                 this.addedElement=!needRect;
+                if(!Helper.Key.ctrlKey && needRect) {
+                    this.transformer = null;
+                }
             }
         }else{
             needRect= !super.mouseDown(point,e);
@@ -155,7 +158,6 @@ export default class PointerTool extends DynamicChangeTool{
 
         if(this.transformer){
             let res = this.transformer.mouseUp(point);
-            console.log("res =============: "+ (res && !this.addedElement));
             if(res && !this.addedElement){
                 if(this.transformer instanceof ResizeTransformer) {
                     this.transformer = new RotateTransformer(this._document);
