@@ -61,7 +61,7 @@ if (this.props.demensions === "Millimeters") {
     this.setState({
       radius:radius
     })
-    if (event.charCode === 13) {
+    if (e.charCode === 13) {
       if (this.props.demensions === "Millimeters") {
         this.setState({
           radius: radius + " mm"

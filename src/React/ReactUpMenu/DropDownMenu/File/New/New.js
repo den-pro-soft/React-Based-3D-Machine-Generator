@@ -24,7 +24,9 @@ export default class New extends React.Component {
   componentWillMount() {
     // console.log(this.props, 'this.props-New')
     this.props.history.push('/')
-
+  }
+  componentWillUnmount() {
+    this.props.history.push('/') 
   }
   render(){
   return (

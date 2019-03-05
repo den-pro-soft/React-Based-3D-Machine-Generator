@@ -17,8 +17,12 @@ export default class RoutingPart extends React.Component {
     }
 
     componentDidMount() {
-      console.log(this.props, 'this.props-RoutngPart')
+      // console.log(this.props, 'this.props-RoutngPart');
       this.props.history.push('/purchase-order') 
+    }
+    componentWillUnmount() {
+      // console.log(this.props, 'this.props-New')
+      this.props.history.push('/') 
     }
  render(){
   return (

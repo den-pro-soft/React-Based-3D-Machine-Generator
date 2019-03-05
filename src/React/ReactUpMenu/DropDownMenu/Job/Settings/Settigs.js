@@ -25,6 +25,10 @@ export default class Settings extends React.Component {
       // console.log(this.props, 'this.props-New')
       this.props.history.push('/') 
     }
+    componentWillUnmount() {
+      // console.log(this.props, 'this.props-New')
+      this.props.history.push('/') 
+    }
  render(){
   return (
     <div

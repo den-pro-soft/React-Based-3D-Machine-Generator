@@ -17,7 +17,7 @@ class LineType extends React.Component {
       if (app.selectElements.length == 1) {
         if (element.typeName === "Line") {
           let angle = app.selectElements[0].angle.toFixed(3);
-          this.setState({ angle: angle + " deg" });
+          this.setState({ angle: angle  + " deg" });
           //  console.log(angle,'angle')
           let lengthLine = element.length().toFixed(3);
           this.props.updateLengthLine(lengthLine);
@@ -50,7 +50,7 @@ class LineType extends React.Component {
     this.props.updateLengthLine(lengthLine);
 
     if (e.charCode === 13) {
- 
+
       if (this.props.demensions === "Millimeters") {
         this.setState({ value: this.props.lengthLine + " mm" });
         app.setLineLengthElement(this.props.lengthLine);
@@ -87,10 +87,11 @@ class LineType extends React.Component {
       });
       app.setLineAngleElement(angle);
     }
+             
   };
 
   render() {
-    console.log(this.props, "props-LineLength");
+    // console.log(this.props, "props-LineLength");
     return (
       <Fragment>
         <ReactTooltip html={true} className="tooltipBackgroundTheme" />
@@ -133,6 +134,9 @@ class LineType extends React.Component {
           value={this.state.angle}
           onChange={this.handleChangeLineAngle}
           onKeyPress={this.handleChangeLineAngle}
+          ref={input => {
+            this.angleInput = input;
+          }}
           data-place="bottom"
           data-tip="<span>Line angle<br/>Angle of the point with respect to the start point.To change,<br/>
  enter a value and press the Enter key. </span>"
