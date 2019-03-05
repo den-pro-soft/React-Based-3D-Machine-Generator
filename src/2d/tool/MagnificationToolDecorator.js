@@ -2,9 +2,9 @@
  * Created by dev on 31.01.19.
  */
 
-import CreatorTool from './CreatorTool';
+import Tool from './Tool';
 
-export default class MagnificationToolDecorator extends CreatorTool{
+export default class MagnificationToolDecorator extends Tool{
 
     /**
      * @param document
@@ -24,6 +24,20 @@ export default class MagnificationToolDecorator extends CreatorTool{
 
     get document(){
         return this._tool.document;
+    }
+
+    /**
+     * @return {Tool}
+     */
+    get tool(){
+        return this._tool;
+    }
+
+    /**
+     * @param {Tool} tool
+     */
+    set tool(tool){
+        this._tool = tool;
     }
 
     /**
@@ -76,18 +90,13 @@ export default class MagnificationToolDecorator extends CreatorTool{
     }
 
     selectElement(element){
+        //todo: check if the tool is SelectTool then ok else throw some exception
         return this._tool.selectElement(element);
     }
 
 
     clearSelectElements(){
         this._tool.clearSelectElements();
-    }
-
-    selectElement(elements){
-        //todo: check if the tool is SelectTool then ok else throw some exception
-        
-        return this._tool.selectElement(elements);
     }
 
     magnificPoint(point){
@@ -99,23 +108,21 @@ export default class MagnificationToolDecorator extends CreatorTool{
         return point
     }
 
+
+    /**
+     * @return {Array.<Point>} - list points for magnification
+     * @protected
+     */
+    getPointsList(){
+        return app.currentDocument._elements.reduce((res,el)=>[...res,...el.getMagnificationPoints()],[]);
+    }
+
     /**
      * @param {Point} point
      * @private
      */
     _getNearPoint(point){
-
-        // let points = app.currentDocument._elements.reduce((res,el)=>{
-        //         for(let selectelement of app.selectElements){
-        //             if(selectelement.compare(el)){
-        //                 return res;
-        //             }
-        //         }
-        //         return [...res,...el.getMagnificationPoints()];
-        //     },[]);
-        
-
-        let points = app.currentDocument._elements.reduce((res,el)=>[...res,...el.getMagnificationPoints()],[]);
+        let points = this.getPointsList();
         if(points.length>0) {
             let min = points[0];
             let mind = point.distanceTo(min);

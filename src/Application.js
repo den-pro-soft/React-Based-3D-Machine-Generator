@@ -35,6 +35,7 @@ import RectTool from './2d/tool/creator/RectTool';
 import SplineTool from './2d/tool/creator/SplineTool';
 import CircleTool from './2d/tool/creator/CircleTool';
 import MagnificationToolDecorator from './2d/tool/MagnificationToolDecorator';
+import MagnificationEditLineDecorator from './2d/tool/MagnificationEditLineDecorator';
 import LineTool from './2d/tool/creator/LineTool';
 import FreehandTool from './2d/tool/creator/FreehandTool';
 import CreatorTool from './2d/tool/CreatorTool';
@@ -125,10 +126,11 @@ export default class Application extends Observable{
     }
 
     set magnificationMode(val){
+        console.log(val, 'magnificatin mode value');
         this._magnificationMode=val;
         let tool=this.board.tool;
         if(!val && tool instanceof MagnificationToolDecorator){
-            this._changeTool(tool._tool);
+            this._changeTool(tool.tool);
         }
         if(val){
             this._changeTool(tool);
@@ -271,8 +273,12 @@ export default class Application extends Observable{
         if(!(tool instanceof PointerTool) && !(tool instanceof MagnificationToolDecorator)){
             this._lastTool=tool;
         }
-        if(this._magnificationMode && tool instanceof CreatorTool){
-            tool = new MagnificationToolDecorator(this.currentDocument, tool);
+        if(this._magnificationMode && !(tool instanceof MagnificationToolDecorator)){
+            if(tool instanceof CreatorTool){
+                tool = new MagnificationToolDecorator(this.currentDocument, tool);
+            } else if(tool instanceof EditLineTool){
+                tool = new MagnificationEditLineDecorator(this.currentDocument, tool);
+            }
         }
         this.board.setTool(tool);
     }
