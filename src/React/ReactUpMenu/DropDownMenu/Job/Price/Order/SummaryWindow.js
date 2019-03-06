@@ -7,23 +7,19 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
-import PriceContent from "./PriceContent";
-import Order from "./Order/Order"
-class Price extends React.Component {
+import Summary from "../../Settings/Summary";
+
+class SummaryWindow extends React.Component {
   constructor(props) {
     super(props);
   }
 
-  openHelpPrice = () => {
-    window.open("https://www.emachineshop.com/help-ordering/#pricing");
-  };
   render() {
-    // console.log(this.props, "props-Price");
-    return (<>
-
+    // console.log(this.props, "props-SummaryWindow");
+    return (
       <Dialog
         maxWidth={false}
-        open={this.props.openPrice}
+        open={this.props.openSummary}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
@@ -34,11 +30,11 @@ class Price extends React.Component {
           <div style={{ display: "flex", justifyContent: "space-between" }}>
             <span>
               <img width="25px" src="images/icon.jpg" />
-              <span style={{ marginLeft: "5px" }}>Price</span>
+              <span style={{ marginLeft: "5px" }}>Summary</span>
             </span>
             <Button
               onClick={() => {
-                this.props.closePriceModal(!this.props.openPrice);
+                this.props.closeSummaryWindow(!this.props.openSummary);
               }}
               style={{
                 backgroundColor: "#fff",
@@ -55,14 +51,29 @@ class Price extends React.Component {
           style={{
             paddingBottom: "0px",
             textAlign: "left",
-            width: "800px",
-            height: "680px",
+            width: "600px",
+            height: "480px",
             backgroundColor: "#f0ecec"
           }}
         >
-          <PriceContent history={this.props.history}/>
+        <div style={{marginTop:'20px'}}>
+        <Summary />        
+        </div>
+        <div style={{display:'flex',justifyContent:'flex-end',padding:'10px'}}>
+        <Button
+            onClick={() => this.props.closeSummaryWindow(!this.props.openSummary)}
+            style={{
+              backgroundColor: "#dddada",
+              boxShadow: "2px 2px 1px #000",
+            }}
+            color="primary"
+            autoFocus
+          >
+            OK
+          </Button>
+        </div>
         </DialogContent>
-        <DialogActions>
+        {/* <DialogActions>
           <Button
             onClick={() => this.props.closePriceModal(!this.props.openPrice)}
             style={{
@@ -75,8 +86,7 @@ class Price extends React.Component {
             OK
           </Button>
           <Button
-            onClick={() => {this.props.closePriceModal(!this.props.openPrice);
-            }}
+            onClick={() => this.props.closePriceModal(!this.props.openPrice)}
             style={{
               backgroundColor: "#dddada",
               boxShadow: "2px 2px 1px #000"
@@ -97,34 +107,27 @@ class Price extends React.Component {
           >
             Help
           </Button>
-        </DialogActions>
+        </DialogActions> */}
       </Dialog>
-      {/* <Order history={this.props.history}/> */}
-      </>
     );
   }
 }
 const mapStateToProps = state => {
   return {
-    openPrice: state.priceReducer.openPrice
-    // openOrder: state.priceReducer.openOrder,
-
+    openSummary: state.summaryWindowReducer.openSummary
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    closePriceModal: openPrice => {
-      dispatch({ type: "CLOSE_PRICE", payload: openPrice });
+    closeSummaryWindow: openSummary => {
+      dispatch({ type: "CLOSE_SUMMARY_WINDOW", payload: openSummary });
     }
-    // ,
-    // openOrderModal: openOrder => {
-    //   dispatch({ type: "OPEN_ORDER", payload: openOrder });
-    // }
-
   };
 };
-export default withRouter(connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Price));
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(SummaryWindow)
+);

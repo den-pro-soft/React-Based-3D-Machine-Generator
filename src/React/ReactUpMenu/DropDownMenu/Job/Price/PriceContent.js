@@ -14,7 +14,6 @@ class PriceContent extends React.Component {
       value: "UPS Ground",
       isChecked:false,
       country:'U.S.A.'
-    //   openOrder:false
     };
   }
   componentWillMount() {
@@ -98,7 +97,7 @@ class PriceContent extends React.Component {
           </div>
         </div>
 
-     {!this.state.isChecked&&(
+     {/* {!this.state.isChecked&&(
                 <>
                     <div className="Tax">
                         <div className="LabelTax">
@@ -125,7 +124,7 @@ class PriceContent extends React.Component {
                             </label>
                         </div>
                     </div>
-                </>)}
+                </>)} */}
      
 
         <div className="Total">
@@ -144,7 +143,7 @@ class PriceContent extends React.Component {
                 height: "50px"
               }}
               color="primary"
-            //   autoFocus
+              autoFocus
             >
               Order...
             </Button>
@@ -153,10 +152,11 @@ class PriceContent extends React.Component {
                 backgroundColor: "#dddada",
                 boxShadow: "2px 2px 1px #000",
                 height: "35px",
-                marginTop:'7.5px'
+                marginTop:'7.5px',
+                // marginRight:'5px'
               }}
               color="primary"
-            //   autoFocus
+              // autoFocus
             >
               Print...
             </Button>
@@ -187,6 +187,8 @@ class PriceContent extends React.Component {
             .
           </p>
         </div>
+      <Order history={this.props.history}/>
+
       </div>
 
     );
@@ -194,7 +196,7 @@ class PriceContent extends React.Component {
 }
 const mapStateToProps = state => {
     return {
-        openOrder: state.priceReducer.openOrder
+        openOrder: state.orderWindowReducer.openOrder
     };
   };
 const mapDispatchToProps = dispatch => {
