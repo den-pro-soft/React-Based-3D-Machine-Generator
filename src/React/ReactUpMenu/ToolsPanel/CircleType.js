@@ -8,18 +8,17 @@ import { connect } from "react-redux";
   this.state={diameter:app.config.diameter}
   }
 
-  componentWillMount() {
+  componentDidMount() {
     app.addHandler("selectElement", element => {
 
       if (app.selectElements.length == 1) {
         if (element.typeName === "Arc") {
-         let radius= (app.selectElements[0].radius).toFixed(3);
+         let radius = (app.selectElements[0].radius).toFixed(3);
+         this.props.updateDiameter(radius*2);
       if (this.props.demensions === "Millimeters") {
-        app.config.diameter = (radius*2).toFixed(3) + " mm" 
-        this.setState({ diameter: app.config.diameter });
+        this.setState({ diameter: (radius*2).toFixed(3) + " mm"  });
       } else {
-        app.config.diameter=(radius*2 / 25.4).toFixed(3) + ' "' 
-        this.setState({ diameter: app.config.diameter });
+        this.setState({ diameter: (radius*2 / 25.4).toFixed(3) + ' "' });
       }
         }
       }
@@ -28,13 +27,7 @@ import { connect } from "react-redux";
    componentDidUpdate(prevProps, prevState) {
      if (this.props.demensions !== prevProps.demensions) {
 
-       if (prevProps.demensions === "Millimeters") {
-         app.config.diameter = (this.state.diameter).replace(/[^0-9.]/g, "");
-       } else {
-         app.config.diameter = (this.state.diameter).replace(/[^0-9.]/g, "") * 25.4;
-       }
-
-       let diameter = app.config.diameter;
+          let diameter = this.props.diameter;
 
        if (this.props.demensions === "Millimeters") {
          this.setState({ diameter: diameter.toFixed(3) + " mm" });
@@ -57,6 +50,8 @@ import { connect } from "react-redux";
           diameter: diameter.replace(/[^0-9.]/g, "") + " mm"
         });
         let diameter1 = this.state.diameter.replace(/[^0-9.]/g, "")
+        this.props.updateDiameter(diameter1);
+
     app.setRadiusForSelectedElements(diameter1/2);
     this.diameterInput.blur();
       } else {
@@ -64,6 +59,8 @@ import { connect } from "react-redux";
           diameter: diameter.replace(/[^0-9.]/g, "") + ' "'
         });
         let diameter1 = this.state.diameter.replace(/[^0-9.]/g, "")
+        this.props.updateDiameter(diameter1*25.4);
+
     app.setRadiusForSelectedElements(diameter1/2*25.4);
     this.diameterInput.blur();
       }
@@ -107,8 +104,18 @@ import { connect } from "react-redux";
   }
   const mapStateToProps = state => {
     return {
-      demensions: state.preferencesReducer.demensions
+      demensions: state.preferencesReducer.demensions,
+      diameter: state.toolsPanelReducer.diameter
     };
   };
   
-  export default connect(mapStateToProps)(CircleType);
+  const mapDispatchToProps = dispatch => {
+    return {
+      updateDiameter: diameter => {
+        dispatch({ type: "UPDATE_DIAMETER", payload: diameter });
+      }
+    };
+  };
+   export default connect(mapStateToProps,mapDispatchToProps)(CircleType);
+
+  
