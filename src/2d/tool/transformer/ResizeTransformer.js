@@ -37,17 +37,14 @@ class ResizeRect extends RectElementController{
     }
 
     set elements(elements){
-        this._document = new Document();
-        for(let el of elements){
-            let newEl = el.copy();
-            this._document.addElement(newEl);
+        this._elements = elements;
+        if(elements.length>0) {
+            this._resize();
         }
-
-        this._resize();
     }
 
     _resize(){
-        let ext = this._document.getExtrenum();
+        let ext = Document.getExtrenumForElements(this._elements);
         this.p1 = new Point(ext.min.x, ext.max.y);
         this.p2 = new Point(ext.max.x, ext.min.y);
     }
@@ -83,7 +80,6 @@ class ResizeRect extends RectElementController{
     }
 
     render(){
-        this._resize();
         let p1Local = this.board._convertToLocalCoordinateSystem(this.p1);
         let p2Local = this.board._convertToLocalCoordinateSystem(this.p2);
 
@@ -99,25 +95,21 @@ class ResizeRect extends RectElementController{
 
         let controlPoints = this.getControlPoints();
 
-        for(let el of this._document._elements){
-            el._renderer.setFocus(true);
-            el.render();
-        }
         for(let p of controlPoints) {
             this._drawControlPoint(p);
         }
     }
 
     move(x,y){
+        this.p1 = new Point(this.p1.x+x, this.p1.y+y);
+
+        console.log(this.p1, 'before');
         this._p1.x+=x;
-        this._p1.y+=y;
 
-        this._p2.x+=x;
-        this._p2.y+=y;
-
-        for(let element of this._document._elements){
-            element.move(x,y);
-        }
+        console.log(this.p1, 'after');
+        // this.p2.x+=x;
+        //
+        // this.p2.y+=y;
     }
 
     _createControlPointRect(p){
@@ -154,28 +146,24 @@ class ResizeRect extends RectElementController{
     }
 
     contain(point){
-        let extr = this._document.getExtrenum();
-        let p1Local = this.board._convertToLocalCoordinateSystem(new Point(extr.min.x, extr.max.y));
-        let p2Local = this.board._convertToLocalCoordinateSystem(new Point(extr.max.x, extr.min.y));
+        if(this._elements.length>0) {
+            let extr = Document.getExtrenumForElements(this._elements);
+            let p1Local = this.board._convertToLocalCoordinateSystem(new Point(extr.min.x, extr.max.y));
+            let p2Local = this.board._convertToLocalCoordinateSystem(new Point(extr.max.x, extr.min.y));
 
-        let p1 = {x:p1Local.x-this.rectPadding-this.pointPadding, y:p1Local.y-this.rectPadding-this.pointPadding};
-        let p2 = {x:p2Local.x+this.rectPadding+this.pointPadding, y:p2Local.y+this.rectPadding+this.pointPadding};
+            let p1 = {
+                x: p1Local.x - this.rectPadding - this.pointPadding,
+                y: p1Local.y - this.rectPadding - this.pointPadding
+            };
+            let p2 = {
+                x: p2Local.x + this.rectPadding + this.pointPadding,
+                y: p2Local.y + this.rectPadding + this.pointPadding
+            };
 
-        let checkPoint = this.board._convertToLocalCoordinateSystem(point);
-
-
-        return new Rect(p1,p2).contain(checkPoint) || this.isControlPoint(point);
-    }
-
-    /**
-     * @param controlPoint
-     * @param dx
-     * @param dy
-     */
-    resizeElements(controlPoint, dx, dy){
-        let command = new ResizeElementsCommand(this._document, this._document._elements,
-            new Vector(dx, dy),controlPoint.alignX, controlPoint.alignY, true);
-        command.executeCommand();
+            let checkPoint = this.board._convertToLocalCoordinateSystem(point);
+            return new Rect(p1,p2).contain(checkPoint) || this.isControlPoint(point);
+        }
+        return false;
     }
 }
 
@@ -195,16 +183,14 @@ export default class ResizeTransformer extends Transformer{
             
         this._downPosition = null;
 
-        // this.activeControllPoint = null;
+        this.activeControllPoint = null;
 
         this.dx = 0;
         this.dy = 0;
     }
 
     addElements(elements){
-        for(let element of elements) {
-            this._elements.push(element);
-        }
+        this._elements.push(...elements);
         if(!this.resizeRect){
             this.resizeRect = new ResizeRect(this._elements);
         }
@@ -264,8 +250,6 @@ export default class ResizeTransformer extends Transformer{
                 this.dy+=dy;
                 if(!this.activeControllPoint) {
                     this.resizeRect.move(dx,dy);
-                }else{
-                    this.resizeRect.resizeElements(this.activeControllPoint, dx,dy);
                 }
                 this._downPosition = point;
                 return false;
@@ -276,7 +260,28 @@ export default class ResizeTransformer extends Transformer{
     }
 
     render(){
+        let changeElements = this._elements.map(e=>e.copy());
+        if(!this.activeControllPoint){
+            for(let element of changeElements){
+                element.move(this.dx,this.dy);
+            }
+        }else{
+            let command = new ResizeElementsCommand(new Document(), changeElements,
+                new Vector(this.dx, this.dy), this.activeControllPoint.alignX, this.activeControllPoint.alignY, true);
+
+            command.executeCommand();
+
+            if(command.isReplacedElements()) {
+                changeElements = command.getElements();
+            }
+        }
+        for(let element of changeElements){
+            element._renderer.setFocus(true);
+            element.render();
+        }
+
         if(this.resizeRect){
+            this.resizeRect.elements=changeElements;
             this.resizeRect.render();
         }
     }

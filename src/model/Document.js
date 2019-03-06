@@ -8,6 +8,39 @@ import GraphicElement from './GraphicElement';
 import Renderable from './../2d/Renderable';
 
 export default class Document extends Renderable{
+
+    /**
+     * @param {Array.<GraphicElement>} elements
+     * @return {{max: {x: number, y: number}, min: {x: number, y: number}}}
+     */
+    static getExtrenumForElements(elements){
+        if(!elements[0] instanceof GraphicElement){
+            throw new Exception('Array have not GraphicElement object', element);
+        }
+        //todo: copy of the algorithm in @see{model/elements/Group} class
+        let extrenum = elements[0].getExtrenum();
+        for(let i=1; i<elements.length; i++){
+            if(!elements[i] instanceof GraphicElement){
+                throw new Exception('Array have not GraphicElement object', element);
+            }
+            let ext = elements[i].getExtrenum();
+            if(ext.max.x>extrenum.max.x){
+                extrenum.max.x = ext.max.x;
+            }
+            if(ext.min.x<extrenum.min.x){
+                extrenum.min.x = ext.min.x;
+            }
+            if(ext.max.y>extrenum.max.y){
+                extrenum.max.y = ext.max.y;
+            }
+            if(ext.min.y<extrenum.min.y){
+                extrenum.min.y = ext.min.y;
+            }
+        }
+        return extrenum;
+    }
+
+
     constructor(){
         super();
         /** @var {Array.<GraphicElement>}*/
@@ -78,35 +111,12 @@ export default class Document extends Renderable{
      */
     getExtrenum(elements){
         if(elements instanceof Array){
-            if(!elements[0] instanceof GraphicElement){
-                throw new Exception('Array have not GraphicElement object', element);
-            }
-            //todo: copy of the algorithm in @see{model/elements/Group} class
-            let extrenum = elements[0].getExtrenum();
-            for(let i=1; i<elements.length; i++){
-                if(!elements[i] instanceof GraphicElement){
-                    throw new Exception('Array have not GraphicElement object', element);
-                }
-                let ext = elements[i].getExtrenum();
-                if(ext.max.x>extrenum.max.x){
-                    extrenum.max.x = ext.max.x;
-                }
-                if(ext.min.x<extrenum.min.x){
-                    extrenum.min.x = ext.min.x;
-                }
-                if(ext.max.y>extrenum.max.y){
-                    extrenum.max.y = ext.max.y;
-                }
-                if(ext.min.y<extrenum.min.y){
-                    extrenum.min.y = ext.min.y;
-                }
-            }
-            return extrenum;
+            return Document.getExtrenumForElements(elements);
         }else{
             if(elements instanceof GraphicElement){
                 return elements.getExtrenum();
             }else{
-                return this.getExtrenum(this._elements);
+                return Document.getExtrenumForElements(this._elements);
             }
         }
     }
