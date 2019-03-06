@@ -67,6 +67,9 @@ export default class MoveBasePointsCommand extends ElementModificationCommand{
      * @private
      */
     _changeArc(arc, point, matrix){
+        if(arc.incrementAngle==360){
+            return;
+        }
         let startPoint = new Point();
         startPoint.x = arc.center.x + arc.radius * Math.cos(Trigonimetric.gradToRad(arc.startAngle));
         startPoint.y = arc.center.y + arc.radius * Math.sin(Trigonimetric.gradToRad(arc.startAngle));
@@ -79,9 +82,6 @@ export default class MoveBasePointsCommand extends ElementModificationCommand{
             let l2 = new Line(arc.center, newPoint);
 
             let angle = l1.toVector().getAngle(l2.toVector());
-
-            console.log(angle);
-
             arc.startAngle=arc.startAngle+angle;
 
             return;
@@ -90,6 +90,15 @@ export default class MoveBasePointsCommand extends ElementModificationCommand{
         endPoint.x = arc.center.x + arc.radius * Math.cos(Trigonimetric.gradToRad(arc.endAngle));
         endPoint.y = arc.center.y + arc.radius * Math.sin(Trigonimetric.gradToRad(arc.endAngle));
 
+        if(point.isNear(endPoint, this.Eps)){
+            let l1 = new Line(arc.center, endPoint);
+            let l2 = new Line(arc.center, newPoint);
+
+            let angle = l1.toVector().getAngle(l2.toVector());
+            arc.endAngle=arc.endAngle+angle;
+
+            return;
+        }
 
 
     }
