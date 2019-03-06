@@ -25,44 +25,47 @@ import { connect } from "react-redux";
       }
     });
   }
-  componentDidUpdate(prevProps, prevState) {
-    if (this.props.demensions !== prevProps.demensions) {
+   componentDidUpdate(prevProps, prevState) {
+     if (this.props.demensions !== prevProps.demensions) {
 
-if (prevProps.demensions === "Millimeters") {
-app.config.diameter=(this.state.diameter).replace(/[^0-9.]/g, "");
-} else {
-  app.config.diameter=(this.state.diameter).replace(/[^0-9.]/g, "")*25.4;
-}
+       if (prevProps.demensions === "Millimeters") {
+         app.config.diameter = (this.state.diameter).replace(/[^0-9.]/g, "");
+       } else {
+         app.config.diameter = (this.state.diameter).replace(/[^0-9.]/g, "") * 25.4;
+       }
 
-let diameter= app.config.diameter;
+       let diameter = app.config.diameter;
 
-if (this.props.demensions === "Millimeters") {
-  this.setState({ diameter: diameter.toFixed(3) +" mm"});
-} else {
-  this.setState({ diameter:(diameter / 25.4).toFixed(3) + ' "'});
-}
+       if (this.props.demensions === "Millimeters") {
+         this.setState({ diameter: diameter.toFixed(3) + " mm" });
+       } else {
+         this.setState({ diameter: (diameter / 25.4).toFixed(3) + ' "' });
+       }
 
-  }
-}
+     }
+   }
 
   handleChangeInputDiameter = e=>{
-    let diameter = (e.target.value).replace(/[^0-9.]/g, "");
-    // app.setRadiusForSelectedElements(diameter/2);
-
+    let diameter = e.target.value;
+    
     this.setState({
-      diameter:diameter
+      diameter
     })
     if (e.charCode === 13) {
       if (this.props.demensions === "Millimeters") {
         this.setState({
-          diameter: diameter + " mm"
+          diameter: diameter.replace(/[^0-9.]/g, "") + " mm"
         });
-    app.setRadiusForSelectedElements(diameter/2);
+        let diameter1 = this.state.diameter.replace(/[^0-9.]/g, "")
+    app.setRadiusForSelectedElements(diameter1/2);
+    this.diameterInput.blur();
       } else {
         this.setState({
-          diameter: diameter + ' "'
+          diameter: diameter.replace(/[^0-9.]/g, "") + ' "'
         });
-    app.setRadiusForSelectedElements(diameter/2*25.4);
+        let diameter1 = this.state.diameter.replace(/[^0-9.]/g, "")
+    app.setRadiusForSelectedElements(diameter1/2*25.4);
+    this.diameterInput.blur();
       }
     }
 
@@ -91,6 +94,9 @@ if (this.props.demensions === "Millimeters") {
       value={this.state.diameter}
       onChange={this.handleChangeInputDiameter}
       onKeyPress={this.handleChangeInputDiameter}
+      ref={input => {
+        this.diameterInput = input;
+      }}
       data-place="bottom"
       data-tip="<span>Diameter.</br>Distance fully across the circle. To change, enter a value and</br>
    press the Enter key.

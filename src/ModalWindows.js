@@ -1,11 +1,14 @@
-export default class ModalWindows {
+  export default class ModalWindows  {
 constructor(){
     // this.modals = "classModalWindows";
    
 }
-modalOpenConfirmation(){
+ modalOpenConfirmation(){
     let modals2 = "2-classModalWindows";
     return modals2
 }
 }
-window.modal = new ModalWindows()
+// var MYAPP = MYAPP || {};
+window.modal = new ModalWindows();
+// global.modal = ModalWindows;
+console.log(MYAPP.modal,'modalWindow - nonReact')

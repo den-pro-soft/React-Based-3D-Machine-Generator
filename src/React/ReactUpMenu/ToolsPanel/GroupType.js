@@ -18,100 +18,88 @@ import { connect } from "react-redux";
           let ext = app.currentDocument.getExtrenum(app.selectElements);
           let width = ext.max.x- ext.min.x;
           let height = ext.max.y- ext.min.y;
-    
+          app.config.widthGroup = width;
+          app.config.heightGroup = height;
         if (this.props.demensions === "Millimeters") {
-          app.config.widthGroup = width.toFixed(3) + " mm";
-          app.config.heightGroup = height.toFixed(3) + " mm"
-          this.setState({ width: app.config.widthGroup, height: app.config.heightGroup });
+          this.setState({
+            width: (width*1).toFixed(3) + " mm",
+            height: (height*1).toFixed(3) + " mm"
+          });
 
         } else {
-          app.config.widthGroup = (width / 25.4).toFixed(3) + ' "';
-          app.config.heightGroup = (height / 25.4).toFixed(3) + ' "';
-          this.setState({ width: app.config.widthGroup, height: app.config.heightGroup });
-
+          this.setState({
+            width: (width / 25.4).toFixed(3) + ' "',
+            height: (height / 25.4).toFixed(3) + ' "'
+          });
         }
       }
     });
   }
-  componentDidUpdate(prevProps, prevState) {
-    if (this.props.demensions !== prevProps.demensions) {
+   componentDidUpdate(prevProps, prevState) {
+     if (this.props.demensions !== prevProps.demensions) {
 
-if (prevProps.demensions === "Millimeters") {
-app.config.widthGroup = (this.state.width).replace(/[^0-9.]/g, "");
-app.config.heightGroup =(this.state.height).replace(/[^0-9.]/g, "");
-
-} else {
-  app.config.widthGroup =(this.state.width).replace(/[^0-9.]/g, "")*25.4;
-  app.config.heightGroup =(this.state.height).replace(/[^0-9.]/g, "")*25.4;
-
-}
-
-let widthGroup = app.config.widthGroup;
-let heightGroup = app.config.heightGroup;
+       let widthGroup = app.config.widthGroup;
+       let heightGroup = app.config.heightGroup;
 
 
-if (this.props.demensions === "Millimeters") {
-  this.setState({ width: widthGroup.toFixed(3) +" mm"});
-  this.setState({ height: heightGroup.toFixed(3) +" mm"});
+       if (this.props.demensions === "Millimeters") {
+         this.setState({ width: widthGroup.toFixed(3) + " mm" });
+         this.setState({ height: heightGroup.toFixed(3) + " mm" });
 
-}
- else {
-  this.setState({ width:(widthGroup / 25.4).toFixed(3) + ' "'});
-  this.setState({ height:(heightGroup / 25.4).toFixed(3) + ' "'});
-}
+       }
+       else {
+         this.setState({ width: (widthGroup / 25.4).toFixed(3) + ' "' });
+         this.setState({ height: (heightGroup / 25.4).toFixed(3) + ' "' });
+       }
+     }
+   }
 
-  }
-}
-  handleChangeInputWidth = e => {
-
-    app.config.widthGroup = (e.target.value).replace(/[^0-9.]/g, "");
-    let width = app.config.widthGroup;
+  handleChangeInputWidth = e => { 
+    let width = e.target.value;
     let height = app.config.heightGroup;
-    console.log(width,height,'width-height')
-    this.setState({ width: width });
+    this.setState({ width });
   
     if (e.charCode === 13) {
       if (this.props.demensions === "Millimeters") {
         this.setState({
-          width: width + " mm"
+          width: width.replace(/[^0-9.]/g, "")  + " mm"
         });
-    app.setSelectedElementsSize(+width, +height.replace(/[^0-9.]/g, ""));
-this.props.getWidth(+width);
-
+        let width1 = width.replace(/[^0-9.]/g, ""); 
+    app.setSelectedElementsSize(+width1, +height);
+    this.widthInput.blur(); 
       } else {
         this.setState({
-          width: width + ' "'
+          width: width.replace(/[^0-9.]/g, "") + ' "'
         });
-    app.setSelectedElementsSize(+width*25.4, +height.replace(/[^0-9.]/g, ""));
-this.props.getWidth(+width);
-
+        let width1 = width.replace(/[^0-9.]/g, ""); 
+    app.setSelectedElementsSize(+width1*25.4, +height);
+    this.widthInput.blur();
       }
     }
   
   }
   handleChangeInputHeight = e => { 
   
-    app.config.heightGroup = (e.target.value).replace(/[^0-9.]/g, "");
-
-    let height = app.config.heightGroup;
+    let height = e.target.value;
     let width = app.config.widthGroup;
 
-    this.setState({ height: height });
+    this.setState({ height });
   
     if (e.charCode === 13) {
       if (this.props.demensions === "Millimeters") {
         this.setState({
-          height: height + " mm"
+          height: height.replace(/[^0-9.]/g, "") + " mm"
         });
-    app.setSelectedElementsSize(+width.replace(/[^0-9.]/g, ""),+height);
-    this.props.getHeight(+height);
-
+    let height1 = height.replace(/[^0-9.]/g, ""); 
+    app.setSelectedElementsSize(+width, +height1);
+    this.heightInput.blur();
       } else {
         this.setState({
-          height: height + ' "'
+          height: height.replace(/[^0-9.]/g, "") + ' "'
         });
-    app.setSelectedElementsSize(+width.replace(/[^0-9.]/g, ""),+height*25.4);
-    this.props.getHeight(+height);
+    let height1 = height.replace(/[^0-9.]/g, ""); 
+    app.setSelectedElementsSize(+width, +height1*25.4);
+    this.heightInput.blur();
       }
     }
   
@@ -139,6 +127,9 @@ this.props.getWidth(+width);
       value={this.state.width}
       onChange={this.handleChangeInputWidth}
       onKeyPress={this.handleChangeInputWidth}
+      ref={input => {
+        this.widthInput = input;
+      }}
       data-place="bottom"
       data-tip="<span>Horizontal size<br/>Horizontal size of imaginary rectangle enclosing the line.To<br/>
 change, enter a value and press the Enter key. </span>"
@@ -158,6 +149,9 @@ change, enter a value and press the Enter key. </span>"
       value={this.state.height}
       onChange={this.handleChangeInputHeight}
       onKeyPress={this.handleChangeInputHeight}
+      ref={input => {
+        this.heightInput = input;
+      }}
       data-place="bottom"
       data-tip="<span>Vertical size<br/>Vertical size of imaginary rectangle enclosing the line.To<br/>
 change, enter a value and press the Enter key. </span>"
@@ -170,14 +164,14 @@ const mapStateToProps = state => {
   };
 };
 
-const mapDispatchToProps = dispatch => {
-  return {
-    getWidth: width => {
-      dispatch({ type: "GET_WIDTH", payload: width });
-    },
-    getHeight:  height => {
-      dispatch({ type: "GET_HEIGHT", payload: height });
-    },
-  };
-};
-export default connect(mapStateToProps,mapDispatchToProps)(GroupType);
+// const mapDispatchToProps = dispatch => {
+//   return {
+//     getWidth: width => {
+//       dispatch({ type: "GET_WIDTH", payload: width });
+//     },
+//     getHeight:  height => {
+//       dispatch({ type: "GET_HEIGHT", payload: height });
+//     },
+//   };
+// };
+export default connect(mapStateToProps/*,mapDispatchToProps*/)(GroupType);
