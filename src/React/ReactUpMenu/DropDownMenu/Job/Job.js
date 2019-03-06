@@ -167,8 +167,8 @@ class Job extends React.Component {
 }
 const mapStateToProps = state => {
   return {
-    openPrice: state.priceReducer.openPrice,
-    openOrder: state.priceReducer.openOrder
+    openPrice: state.priceReducer.openPrice
+    // openOrder: state.priceReducer.openOrder
 
   };
 };

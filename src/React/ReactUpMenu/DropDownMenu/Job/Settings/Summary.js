@@ -342,23 +342,23 @@ class ReactVirtualizedTable extends React.PureComponent {
       ["Comments to machinist", this.state.commentToMachinist ],
      
     ];
-    const data_auto = [
-      ["File name",this.state.fileName],
-      ["Customer", this.state.firstName + ' '+ this.state.lastName + this.state.businessName],
-      ["Customer email", this.state.email],
-      ["Order type", this.state.order + ' '+this.state.originalOrder],
-      ["Shipping to",this.state.adressLine1+ this.state.city+
-      this.state.StateOrProvince +this.state.zip + this.state.country],
-      ["Quantity", 25],
-      ["Material", this.state.material],
-      ["Thickness", `0,000${String.fromCharCode(34)}, tolerance: 20,00%`],
-      ["Used line types", used_lineTypes],
-      ["Finishing", this.state.finishing],
-      // ["Packing", "Pack parts in bulk"],
-      ["Comments to machinist", this.state.commentToMachinist],
-      ['',''],
-      ['Specifications','']
-    ];
+    // const data_auto = [
+    //   ["File name",this.state.fileName],
+    //   ["Customer", this.state.firstName + ' '+ this.state.lastName + this.state.businessName],
+    //   ["Customer email", this.state.email],
+    //   ["Order type", this.state.order + ' '+this.state.originalOrder],
+    //   ["Shipping to",this.state.adressLine1+ this.state.city+
+    //   this.state.StateOrProvince +this.state.zip + this.state.country],
+    //   ["Quantity", 25],
+    //   ["Material", this.state.material],
+    //   ["Thickness", `0,000${String.fromCharCode(34)}, tolerance: 20,00%`],
+    //   ["Used line types", used_lineTypes],
+    //   ["Finishing", this.state.finishing],
+    //   // ["Packing", "Pack parts in bulk"],
+    //   ["Comments to machinist", this.state.commentToMachinist],
+    //   ['',''],
+    //   ['Specifications','']
+    // ];
     let id = 0;
     
     function createData(filename, untitled) {
