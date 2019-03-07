@@ -74,7 +74,7 @@ class LineType extends React.Component {
 
   handleChangeLineAngle = e => {
     let angle = e.target.value;
-    console.log(angle, "angle-slice");
+    // console.log(angle, "angle-slice");
     // .replace(/[^0-9.]/g, "")
 
     this.setState({
@@ -91,7 +91,7 @@ class LineType extends React.Component {
   };
 
   render() {
-    console.log(this.props, "props-LineLength");
+    // console.log(this.props, "props-LineLength");
     return (
       <Fragment>
         <ReactTooltip html={true} className="tooltipBackgroundTheme" />

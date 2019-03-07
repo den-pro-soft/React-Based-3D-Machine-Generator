@@ -39,8 +39,6 @@ export default class Config extends Observable{
         //variable for output data in input field - ToolsPanel and mouse coordinates in BottomPanel 
         this.widthGroup = '';
         this.heightGroup = '';
-        this.diameter = '';
-        this.radius='';
         this.textSize = '';
     
         //state for React-Redux modal window Confirmation

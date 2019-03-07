@@ -12,12 +12,11 @@ class ArcType extends React.Component {
       insideAngle: ""
     };
   }
+ 
   componentWillMount() {
     app.addHandler("selectElement", element => {
       if (app.selectElements.length == 1) {
         if (element.typeName === "Arc") {
-          let radius = app.selectElements[0].radius;
-            // app.config.radius = radius;
 
           let startAngle = app.selectElements[0].startAngle.toFixed(3);
           let incrementAngle = app.selectElements[0].incrementAngle.toFixed(3);
@@ -25,16 +24,17 @@ class ArcType extends React.Component {
             startAngle: startAngle + " deg",
             insideAngle: incrementAngle + " deg"
           });
+
+          let radius = (app.selectElements[0].radius).toFixed(3);
+          // console.log(radius, (2).toFixed(3),'radius');
+          this.props.updateRadius(radius);
           if (this.props.demensions === "Millimeters") {
-            app.config.radius = (radius*1).toFixed(3) + " mm";
-            this.setState({ radius: app.config.radius });
-            // this.setState({ radius: (radius*1).toFixed(3) + " mm" });
+
+            this.setState({ radius: radius + " mm" });
 
           } else {
-            app.config.radius = (radius / 25.4).toFixed(3) + ' "';
-            this.setState({ radius: app.config.radius});
+            this.setState({ radius: (radius / 25.4).toFixed(3) + ' "' });
 
-            // this.setState({ radius: (radius / 25.4).toFixed(3) + ' "'});
           }
         }
       }
@@ -42,50 +42,46 @@ class ArcType extends React.Component {
   }
   componentDidUpdate(prevProps, prevState) {
     if (this.props.demensions !== prevProps.demensions) {
-      if (prevProps.demensions === "Millimeters") {
-        app.config.radius = this.state.radius.replace(/[^0-9.]/g, "");
-      } else {
-        app.config.radius = this.state.radius.replace(/[^0-9.]/g, "") * 25.4;
-      }
-
-      let radius = app.config.radius;
+  
+      let radius = this.props.radius;
 
       if (this.props.demensions === "Millimeters") {
-        this.setState({ radius: radius.toFixed(3) + " mm" });
+        this.setState({ radius: radius + " mm" });
       } else {
-        this.setState({ radius: (radius/25.4).toFixed(3) + ' "' });
+        this.setState({ radius: (radius / 25.4).toFixed(3) + ' "' });
       }
     }
   }
 
   handleChangeInputRadius = e => {
-    let radius = e.target.value;
+      let radius = e.target.value;
+
     this.setState({ radius });
     if (e.charCode === 13) {
-      // e.preventDefault();
-      if (this.props.demensions === "Millimeters") {
-     
+      if (this.props.demensions === "Millimeters") {  
         this.setState({
           radius: radius.replace(/[^0-9.]/g, "") + " mm"
-
         });
         let radius1 = this.state.radius.replace(/[^0-9.]/g, "");
-        app.setRadiusForSelectedElements(radius1);
+        this.props.updateRadius(+radius1);
+
+        app.setRadiusForSelectedElements(+radius1);
         this.radiusInput.blur();
       } else {
         this.setState({
           radius: radius.replace(/[^0-9.]/g, "") + ' "'
         });
-        let radius1 = this.state.radius.replace(/[^0-9.]/g, "");
 
-        app.setRadiusForSelectedElements(radius1 * 25.4);
+        let radius1 = this.state.radius.replace(/[^0-9.]/g, "");
+        this.props.updateRadius(+radius1*25.4);
+
+        app.setRadiusForSelectedElements(+radius1 * 25.4);
         this.radiusInput.blur();
       }
     }
   };
 
   handleChangeInputStartAngle = e => {
-    // e.preventDefault();
     let startAngle = e.target.value;
 
     this.setState({ startAngle });
@@ -102,9 +98,7 @@ class ArcType extends React.Component {
   };
 
   handleChangeInsideAngle = e => {
-    // e.preventDefault();
     let insideAngle = e.target.value;
-    //  let startAngle = (this.state.startAngle).replace(/[^0-9.]/g, "");
 
     this.setState({ insideAngle });
 
@@ -190,14 +184,23 @@ class ArcType extends React.Component {
           data-tip="<span>Inside angle<br/>Angle between lines from the arc center to the end and start<br/> points.To change,
       enter a value and press the Enter key. </span>"
         />
-      </>
+       </>
     );
   }
 }
+
 const mapStateToProps = state => {
   return {
-    demensions: state.preferencesReducer.demensions
+    demensions: state.preferencesReducer.demensions,
+    radius: state.toolsPanelReducer.radius
   };
 };
 
-export default connect(mapStateToProps)(ArcType);
+const mapDispatchToProps = dispatch => {
+  return {
+    updateRadius: radius => {
+      dispatch({ type: "UPDATE_RADIUS", payload: radius });
+    }
+  };
+};
+ export default connect(mapStateToProps,mapDispatchToProps)(ArcType);
