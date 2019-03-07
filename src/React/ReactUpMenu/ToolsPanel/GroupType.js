@@ -61,7 +61,6 @@ import { connect } from "react-redux";
     this.setState({ width });
   
     if (e.charCode === 13) {
-    // e.preventDefault();
 
       if (this.props.demensions === "Millimeters") {
         this.setState({
@@ -89,7 +88,6 @@ import { connect } from "react-redux";
     this.setState({ height });
   
     if (e.charCode === 13) {
-    // e.preventDefault();
 
       if (this.props.demensions === "Millimeters") {
         this.setState({
