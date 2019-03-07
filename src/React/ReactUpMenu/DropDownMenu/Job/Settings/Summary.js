@@ -178,6 +178,7 @@ class ReactVirtualizedTable extends React.PureComponent {
       country:'U.S.A.',
       StateOrProvince:'',
       zip:'',
+      quantity:100,
       material:'Unspecified',
       finishing:'None',
       commentToMachinist:'None'
@@ -298,6 +299,14 @@ class ReactVirtualizedTable extends React.PureComponent {
       this.setState({zip:ZIP+', '})
     }
 
+    const Quantity = localStorage.getItem('quantity');
+    if (Quantity === null) {
+      this.setState({ quantity: this.state.quantity })
+    }
+     else {
+      this.setState({ quantity: Quantity })
+    }
+
     const material = localStorage.getItem('material');
     if(material === null){
     this.setState({material:this.state.material})
@@ -333,7 +342,7 @@ class ReactVirtualizedTable extends React.PureComponent {
       ["Order type", this.state.order + ' '+this.state.originalOrder],
       ["Shipping to",this.state.adressLine1+ this.state.city+
       this.state.StateOrProvince +this.state.zip + this.state.country],
-      ["Quantity", 25],
+      ["Quantity", this.state.quantity],
       ["Material", this.state.material],
       ["Thickness", `0,000${String.fromCharCode(34)}, tolerance: 20,00%`],
       ["Used line types", used_lineTypes],

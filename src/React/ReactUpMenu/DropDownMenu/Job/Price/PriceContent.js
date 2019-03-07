@@ -13,10 +13,20 @@ class PriceContent extends React.Component {
     this.state = {
       value: "UPS Ground",
       isChecked:false,
-      country:'U.S.A.'
+      country:'U.S.A.',
+      quantity:100
     };
   }
   componentWillMount() {
+    const Quantity = localStorage.getItem('quantity');
+    if (Quantity === null) {
+      localStorage.setItem('quantity',this.state.quantity)
+      this.setState({ quantity: this.state.quantity })
+    }
+     else {
+      this.setState({ quantity: Quantity })
+    }
+
     const Country = localStorage.getItem('country');
     if (Country === null) {
       this.setState({ country: this.state.country })
@@ -25,11 +35,15 @@ class PriceContent extends React.Component {
     }
   }
   
+  handleChangeInputQuantity = e => {
+    this.setState({ quantity: e.target.value });
+    localStorage.setItem('quantity',e.target.value)
+  }
   handleChangeSelect = e => {
     this.setState({ value: e.target.value });
   };
 
-  handleChecked = event => {
+  handleChecked = e => {
     window.setTimeout(() => {
       this.setState({
         isChecked: !this.state.isChecked
@@ -48,12 +62,13 @@ class PriceContent extends React.Component {
       <div className="PriceContent">
         <div className="Quantity">
           <div className="LabelQuantity">
-            <label htmlFor="Quantity">Quantity</label>
+            <label>Quantity</label>
           </div>
           <div className="InputNumber">
             <input
+             value={this.state.quantity}
+             onChange={this.handleChangeInputQuantity}
               type="number"
-              id="Quantity"
                 min="1"
               //   max="250"
             />
