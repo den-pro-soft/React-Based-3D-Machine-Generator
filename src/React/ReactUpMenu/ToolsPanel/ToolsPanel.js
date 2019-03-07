@@ -168,7 +168,6 @@ import {connect} from 'react-redux';
     return (
       <div className="ToolsPanel">
         <ReactTooltip html={true} className="tooltipBackgroundTheme" />
-        <form>
           <div className="Left-Tools">
             <button className="btn-LineType" /*onClick={(e)=>{console.log(e.target,'window');this.props.updateOpenTapModal(!this.state.openTapModal)}}*/>
               <a href="#">
@@ -251,7 +250,6 @@ import {connect} from 'react-redux';
           <div className="Right-Tools">
             <MoveButtons />
           </div>
-        </form>
         <MachineWindow />
         <Confirmation />
       {/* --------------------------Information-------------------- */}
