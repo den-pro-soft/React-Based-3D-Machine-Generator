@@ -53,7 +53,7 @@ class Order extends React.Component {
             style={{
               paddingBottom: "0px",
               textAlign: "left",
-              width: "800px",
+              width: "810px",
               height: "680px",
               backgroundColor: "#f0ecec"
             }}
