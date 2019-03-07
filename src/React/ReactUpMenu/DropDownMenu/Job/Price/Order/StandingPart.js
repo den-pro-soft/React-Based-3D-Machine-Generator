@@ -309,6 +309,7 @@ import SummaryWindow from "./SummaryWindow";
             </div>
           </div>
           <div className="Last">
+          <img width="240px" style={{marginLeft:'120px'}} src="images/ShippingLogos.png" />
           </div>
         </div>
 
