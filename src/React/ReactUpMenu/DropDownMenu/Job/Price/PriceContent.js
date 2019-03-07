@@ -2,7 +2,7 @@ import React from "react";
 import "./price-content.scss";
 import Button from "@material-ui/core/Button";
 import Checkbox from "@material-ui/core/Checkbox";
-
+import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import MachiningGrid from "./MachiningGrid";
 import Order from "./Order/Order";
@@ -221,7 +221,7 @@ const mapDispatchToProps = dispatch => {
       }
     };
   };
-  export default connect(
+  export default withRouter(connect(
     mapStateToProps,
     mapDispatchToProps
-  )(PriceContent);
+  )(PriceContent))
