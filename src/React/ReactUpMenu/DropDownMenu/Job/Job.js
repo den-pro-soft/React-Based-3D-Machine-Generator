@@ -81,7 +81,6 @@ class Job extends React.Component {
               <li   
               onClick={() => {
                 this.props.openPriceModal(!this.props.openPrice);
-                // this.props.openOrderModal(this.props.openOrder);             
               } }
               >
                 <a href="#">Price/Analyze</a>
@@ -96,9 +95,9 @@ class Job extends React.Component {
                 </a>
               </li>
               <li 
-                  //  onClick={() => {
-                  //   this.props.openOrderModal(!this.props.openOrder);
-                  // } }
+                onClick={() => {
+                  this.props.openPriceModal(!this.props.openPrice);
+                } }
                   >
                 <a href="#">Review Order</a>
               </li>

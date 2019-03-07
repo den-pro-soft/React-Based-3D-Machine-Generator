@@ -134,7 +134,7 @@ export default class Line extends React.Component {
                   </ul>
                 ) : null}
               </li>
-              <li
+              {/* <li
                 onMouseEnter={this.showSubNudge}
                 onMouseLeave={this.hideSubNudge}
               >
@@ -166,7 +166,7 @@ export default class Line extends React.Component {
                     </li>
                   </ul>
                 ) : null}
-              </li>
+              </li> */}
             </ul>
           ) : null}
         </div>
