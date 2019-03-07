@@ -54,12 +54,15 @@ import { connect } from "react-redux";
      }
    }
 
-  handleChangeInputWidth = e => { 
+  handleChangeInputWidth = e => {
+
     let width = e.target.value;
     let height = app.config.heightGroup;
     this.setState({ width });
   
     if (e.charCode === 13) {
+    // e.preventDefault();
+
       if (this.props.demensions === "Millimeters") {
         this.setState({
           width: width.replace(/[^0-9.]/g, "")  + " mm"
@@ -79,13 +82,15 @@ import { connect } from "react-redux";
   
   }
   handleChangeInputHeight = e => { 
-  
+
     let height = e.target.value;
     let width = app.config.widthGroup;
 
     this.setState({ height });
   
     if (e.charCode === 13) {
+    // e.preventDefault();
+
       if (this.props.demensions === "Millimeters") {
         this.setState({
           height: height.replace(/[^0-9.]/g, "") + " mm"

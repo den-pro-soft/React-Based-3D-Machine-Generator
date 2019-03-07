@@ -62,6 +62,7 @@ class ArcType extends React.Component {
     let radius = e.target.value;
     this.setState({ radius });
     if (e.charCode === 13) {
+      // e.preventDefault();
       if (this.props.demensions === "Millimeters") {
      
         this.setState({
@@ -84,6 +85,7 @@ class ArcType extends React.Component {
   };
 
   handleChangeInputStartAngle = e => {
+    // e.preventDefault();
     let startAngle = e.target.value;
 
     this.setState({ startAngle });
@@ -100,6 +102,7 @@ class ArcType extends React.Component {
   };
 
   handleChangeInsideAngle = e => {
+    // e.preventDefault();
     let insideAngle = e.target.value;
     //  let startAngle = (this.state.startAngle).replace(/[^0-9.]/g, "");
 

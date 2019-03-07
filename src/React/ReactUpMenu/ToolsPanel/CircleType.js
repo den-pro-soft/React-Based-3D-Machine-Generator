@@ -46,6 +46,8 @@ import { connect } from "react-redux";
    }
 
   handleChangeInputDiameter = e=>{
+    // e.preventDefault();
+
     let diameter = e.target.value;
     
     this.setState({
