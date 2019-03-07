@@ -17,13 +17,10 @@ export default class Settings extends React.Component {
     super(props);
  
     }
-    // componentDidMount() {
-    //   // console.log(this.props, 'this.props-New')
-    //   this.props.history.push('/') 
-    // }
-    componentWillMount() {
+ 
+    componentDidMount() {
       // console.log(this.props, 'this.props-New')
-      this.props.history.push('/') 
+      this.props.history.push('/settings/address') 
     }
     componentWillUnmount() {
       // console.log(this.props, 'this.props-New')
@@ -41,7 +38,7 @@ export default class Settings extends React.Component {
               className="Address"
               exact
               activeStyle={{ color: "blue" }}
-              to="/"
+              to="/settings/address"
               replace 
             >
               Address
@@ -51,7 +48,7 @@ export default class Settings extends React.Component {
             <NavLink
               className="Payment"
               activeStyle={{ color: "blue" }}
-              to="/payment"
+              to="/settings/payment"
             >
               Payment
             </NavLink>
@@ -60,7 +57,7 @@ export default class Settings extends React.Component {
             <NavLink
               className="OrderOption"
               activeStyle={{ color: "blue" }}
-              to="/order-options"
+              to="/settings/order-options"
             >
               Order Options
             </NavLink>
@@ -69,7 +66,7 @@ export default class Settings extends React.Component {
             <NavLink
               className="Summary"
               activeStyle={{ color: "blue" }}
-              to="/summary"
+              to="/settings/summary"
             >
               Summary
             </NavLink>
@@ -79,10 +76,10 @@ export default class Settings extends React.Component {
       <div className="Content">
         <Switch>
 
-          <Route path="/" exact component={Address} />
-          <Route path="/payment" component={Payment} />
-          <Route path="/order-options" component={OrderOptions} />
-          <Route path="/summary" component={Summary} />
+          <Route path="/settings/address" exact component={Address} />
+          <Route path="/settings/payment" component={Payment} />
+          <Route path="/settings/order-options" component={OrderOptions} />
+          <Route path="/settings/summary" component={Summary} />
 
         </Switch>
 

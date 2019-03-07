@@ -18,7 +18,7 @@ export default class RoutingPart extends React.Component {
 
     componentDidMount() {
       // console.log(this.props, 'this.props-RoutngPart');
-      this.props.history.push('/purchase-order') 
+      this.props.history.push('/order/purchase-order') 
     }
     componentWillUnmount() {
       // console.log(this.props, 'this.props-New')
@@ -35,7 +35,7 @@ export default class RoutingPart extends React.Component {
             <NavLink
               className="CreditCard"
               activeStyle={{ color: "blue" }}
-              to="/credit-card"
+              to="/order/credit-card"
             >
               Credit Card
             </NavLink>
@@ -44,7 +44,7 @@ export default class RoutingPart extends React.Component {
             <NavLink
               className="PrepayByCheck"
               activeStyle={{ color: "blue" }}
-              to="/prepay-by-check"
+              to="/order/prepay-by-check"
             >
               Prepay by check
             </NavLink>
@@ -54,7 +54,7 @@ export default class RoutingPart extends React.Component {
               className="PurchaseOrder"
               exact
               activeStyle={{ color: "blue" }}
-              to="/purchase-order"
+              to="/order/purchase-order"
               // replace 
             >
              Purchase Order 
@@ -66,9 +66,9 @@ export default class RoutingPart extends React.Component {
       <div className="Content">
         <Switch>
 
-          <Route path="/credit-card" component={CreditCard} />
-          <Route path="/prepay-by-check" component={PrepayByCheck} />
-          <Route path="/purchase-order" exact component={PurchaseOrder} />
+          <Route path="/order/credit-card" component={CreditCard} />
+          <Route path="/order/prepay-by-check" component={PrepayByCheck} />
+          <Route path="/order/purchase-order" exact component={PurchaseOrder} />
 
         </Switch>
 
