@@ -7,7 +7,7 @@ class LineType extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      lengthLine: this.props.lengthLine,
+      // lengthLine: this.props.lengthLine,
       angle: ""
     };
   }

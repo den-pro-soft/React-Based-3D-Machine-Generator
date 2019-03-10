@@ -7,7 +7,7 @@ class ArcType extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      radius: app.config.radius,
+      radius: this.props.radius,
       startAngle: "",
       insideAngle: ""
     };

@@ -1,7 +1,10 @@
 const initialState = {
   lengthLine: "",
   diameter: "",
-  radius:""
+  radius: "",
+  width: "",
+  height: "",
+  textSize: ""
 };
 
 export default function toolsPanelReducer(state = initialState, action) {
@@ -16,9 +19,22 @@ export default function toolsPanelReducer(state = initialState, action) {
       return {
         diameter: action.payload
       };
-      case "UPDATE_RADIUS":
+    case "UPDATE_RADIUS":
       return {
         radius: action.payload
+      };
+    case "UPDATE_WIDTH":
+      return {
+        widthGroup: action.payload
+      };
+    case "UPDATE_WIDTH_HEIGHT":
+      return {
+        width: action.payload_W,
+        height: action.payload_H
+      };
+    case "UPDATE_TEXT_SIZE":
+      return {
+        textSize: action.payload
       };
 
     default:

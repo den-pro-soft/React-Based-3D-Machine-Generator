@@ -6,8 +6,8 @@ import { connect } from "react-redux";
   constructor(props) {
     super(props);
     this.state = {
-      width: app.config.widthGroup,
-      height: app.config.heightGroup
+      width: this.props.width,
+      height:this.props.height
     };
   }
   componentWillMount() {
@@ -16,14 +16,13 @@ import { connect } from "react-redux";
          
       if (app.selectElements.length == 1||app.selectElements.length > 1) {
           let ext = app.currentDocument.getExtrenum(app.selectElements);
-          let width = ext.max.x- ext.min.x;
-          let height = ext.max.y- ext.min.y;
-          app.config.widthGroup = width;
-          app.config.heightGroup = height;
+          let width = (ext.max.x- ext.min.x).toFixed(3);
+          let height = (ext.max.y- ext.min.y).toFixed(3);
+          this.props.updateWidthAndHeight(width,height);
         if (this.props.demensions === "Millimeters") {
           this.setState({
-            width: (width*1).toFixed(3) + " mm",
-            height: (height*1).toFixed(3) + " mm"
+            width: width + " mm",
+            height: height + " mm"
           });
 
         } else {
@@ -38,18 +37,21 @@ import { connect } from "react-redux";
    componentDidUpdate(prevProps, prevState) {
      if (this.props.demensions !== prevProps.demensions) {
 
-       let widthGroup = app.config.widthGroup;
-       let heightGroup = app.config.heightGroup;
-
+       let width = this.props.width;
+       let height = this.props.height;
 
        if (this.props.demensions === "Millimeters") {
-         this.setState({ width: widthGroup.toFixed(3) + " mm" });
-         this.setState({ height: heightGroup.toFixed(3) + " mm" });
+         this.setState({
+           width: width + " mm",
+           height: height + " mm"
+         });
 
        }
        else {
-         this.setState({ width: (widthGroup / 25.4).toFixed(3) + ' "' });
-         this.setState({ height: (heightGroup / 25.4).toFixed(3) + ' "' });
+         this.setState({
+           width: (width / 25.4).toFixed(3) + ' "',
+           height: (height / 25.4).toFixed(3) + ' "'
+         });
        }
      }
    }
@@ -57,7 +59,7 @@ import { connect } from "react-redux";
   handleChangeInputWidth = e => {
 
     let width = e.target.value;
-    let height = app.config.heightGroup;
+    let height = this.props.height;
     this.setState({ width });
   
     if (e.charCode === 13) {
@@ -67,6 +69,8 @@ import { connect } from "react-redux";
           width: width.replace(/[^0-9.]/g, "")  + " mm"
         });
         let width1 = width.replace(/[^0-9.]/g, ""); 
+
+        this.props.updateWidthAndHeight(+width1,+height);
     app.setSelectedElementsSize(+width1, +height);
     this.widthInput.blur(); 
       } else {
@@ -74,6 +78,7 @@ import { connect } from "react-redux";
           width: width.replace(/[^0-9.]/g, "") + ' "'
         });
         let width1 = width.replace(/[^0-9.]/g, ""); 
+        this.props.updateWidthAndHeight(+width1*25.4,+height);
     app.setSelectedElementsSize(+width1*25.4, +height);
     this.widthInput.blur();
       }
@@ -83,7 +88,7 @@ import { connect } from "react-redux";
   handleChangeInputHeight = e => { 
 
     let height = e.target.value;
-    let width = app.config.widthGroup;
+    let width = this.props.width;
 
     this.setState({ height });
   
@@ -94,6 +99,8 @@ import { connect } from "react-redux";
           height: height.replace(/[^0-9.]/g, "") + " mm"
         });
     let height1 = height.replace(/[^0-9.]/g, ""); 
+    this.props.updateWidthAndHeight(+width,+height1);
+
     app.setSelectedElementsSize(+width, +height1);
     this.heightInput.blur();
       } else {
@@ -101,6 +108,8 @@ import { connect } from "react-redux";
           height: height.replace(/[^0-9.]/g, "") + ' "'
         });
     let height1 = height.replace(/[^0-9.]/g, ""); 
+    this.props.updateWidthAndHeight(+width,+height1*25.4);
+
     app.setSelectedElementsSize(+width, +height1*25.4);
     this.heightInput.blur();
       }
@@ -163,18 +172,17 @@ change, enter a value and press the Enter key. </span>"
 }
 const mapStateToProps = state => {
   return {
-    demensions: state.preferencesReducer.demensions
+    demensions: state.preferencesReducer.demensions,
+    width: state.toolsPanelReducer.width,
+    height: state.toolsPanelReducer.height,
   };
 };
 
-// const mapDispatchToProps = dispatch => {
-//   return {
-//     getWidth: width => {
-//       dispatch({ type: "GET_WIDTH", payload: width });
-//     },
-//     getHeight:  height => {
-//       dispatch({ type: "GET_HEIGHT", payload: height });
-//     },
-//   };
-// };
-export default connect(mapStateToProps/*,mapDispatchToProps*/)(GroupType);
+const mapDispatchToProps = dispatch => {
+  return {
+    updateWidthAndHeight: (width,height) => {
+      dispatch({ type: "UPDATE_WIDTH_HEIGHT", payload_W:width, payload_H:height });
+    }
+  };
+};
+export default connect(mapStateToProps,mapDispatchToProps)(GroupType);

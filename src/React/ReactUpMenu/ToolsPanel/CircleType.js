@@ -5,58 +5,13 @@ import { connect } from "react-redux";
  class CircleType extends React.Component {
   constructor(props) {
     super(props);
-  this.state={diameter:app.config.diameter}
+  this.state={
+    diameter:this.props.diameter}
   }
 
-// componentDidUpdate(prevProps, prevState) {
-//  if (this.props.demensions !== prevProps.demensions) {
 
-//    if (prevProps.demensions === "Millimeters") {
-//      app.config.diameter = (this.state.diameter).replace(/[^0-9.]/g, "");
-//    } else {
-//      app.config.diameter = (this.state.diameter).replace(/[^0-9.]/g, "") * 25.4;
-//    }
 
-//    let diameter = app.config.diameter;
-
-//    if (this.props.demensions === "Millimeters") {
-//      this.setState({ diameter: diameter.toFixed(3) + " mm" });
-//    } else {
-//      this.setState({ diameter: (diameter / 25.4).toFixed(3) + ' "' });
-//    }
-
-//  }
-// }
-
-// handleChangeInputDiameter = e=>{
-// // e.preventDefault();
-
-// let diameter = e.target.value;
-
-// this.setState({
-//   diameter
-// })
-// if (e.charCode === 13) {
-//   if (this.props.demensions === "Millimeters") {
-//     this.setState({
-//       diameter: diameter.replace(/[^0-9.]/g, "") + " mm"
-//     });
-//     let diameter1 = this.state.diameter.replace(/[^0-9.]/g, "")
-// app.setRadiusForSelectedElements(diameter1/2);
-// this.diameterInput.blur();
-//   } else {
-//     this.setState({
-//       diameter: diameter.replace(/[^0-9.]/g, "") + ' "'
-//     });
-//     let diameter1 = this.state.diameter.replace(/[^0-9.]/g, "")
-// app.setRadiusForSelectedElements(diameter1/2*25.4);
-// this.diameterInput.blur();
-//   }
-// }
-
-// }
-
-  componentDidMount() {
+  componentWillMount() {
     app.addHandler("selectElement", element => {
 
       if (app.selectElements.length == 1) {
@@ -73,14 +28,7 @@ import { connect } from "react-redux";
     });
   }
  
-    //      let radius= (app.selectElements[0].radius).toFixed(3);
-    //   if (this.props.demensions === "Millimeters") {
-    //     app.config.diameter = (radius*2).toFixed(3) + " mm" 
-    //     this.setState({ diameter: app.config.diameter });
-    //   } else {
-    //     app.config.diameter=(radius*2 / 25.4).toFixed(3) + ' "' 
-    //     this.setState({ diameter: app.config.diameter });
-    //   }
+
    componentDidUpdate(prevProps, prevState) {
      if (this.props.demensions !== prevProps.demensions) {
 
@@ -96,7 +44,6 @@ import { connect } from "react-redux";
    }
 
   handleChangeInputDiameter = e=>{
-    // e.preventDefault();
 
     let diameter = e.target.value;
     
