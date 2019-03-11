@@ -72,7 +72,7 @@ export default class File extends React.Component {
         var newInput = document.createElement('input');
         newInput.setAttribute('type','file');
         // newInput.setAttribute('accept',this.accept);
-        newInput.setAttribute('accept','.emsx');
+        newInput.setAttribute('accept','.dfx');
 
         newInput.onchange = function(){
             //todo: check count files

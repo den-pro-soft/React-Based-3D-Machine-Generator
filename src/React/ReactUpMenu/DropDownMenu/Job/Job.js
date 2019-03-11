@@ -99,7 +99,7 @@ class Job extends React.Component {
                   this.props.openPriceModal(!this.props.openPrice);
                 } }
                   >
-                <a href="#">Review Order</a>
+                <a href="#">Review & Place Order...</a>
               </li>
             </ul>
           ) : null}
