@@ -144,13 +144,14 @@ class LineType extends React.Component {
       </Fragment>
     );
   }
+
 }
 const mapStateToProps = state => {
   return {
     demensions: state.preferencesReducer.demensions,
     lengthLine: state.toolsPanelReducer.lengthLine
   };
-};
+}
 
 const mapDispatchToProps = dispatch => {
   return {
@@ -158,7 +159,7 @@ const mapDispatchToProps = dispatch => {
       dispatch({ type: "UPDATE_LENGTH_LINE", payload: lengthLine });
     }
   };
-};
+}
 export default connect(
   mapStateToProps,
   mapDispatchToProps

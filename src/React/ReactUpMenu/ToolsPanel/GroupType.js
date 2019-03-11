@@ -169,7 +169,10 @@ change, enter a value and press the Enter key. </span>"
 change, enter a value and press the Enter key. </span>"
     />
   </>)}
-}
+
+
+ }
+
 const mapStateToProps = state => {
   return {
     demensions: state.preferencesReducer.demensions,

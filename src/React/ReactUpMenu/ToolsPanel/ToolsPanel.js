@@ -91,15 +91,12 @@ import {connect} from 'react-redux';
   
   }
    componentDidUpdate(prevProps, prevState) {
-//     let arc = app.selectElements.some(el => el.typeName === "Arc");
-//     let line = app.selectElements.some(el => el.typeName === "Line");
-// console.log(arc,line,'some()')
-    //  console.log(prevProps.width,this.props.width,'prev-this')
+console.log(this.props.width,prevProps.width ,'this.props.width')
      if (this.props.width !== prevProps.width && this.state.group === true&&app.selectElements[0].typeName!=='Group'/*&&arc===true&&line===true*/) {
-       if (this.props.width !== undefined){
+      //  if (this.props.width !== undefined){
        app.config.openConfirm = !this.props.openConfirm;
          this.props.openConfirmModal(!this.props.openConfirm);
-       }
+      //  }
      }
    }
   // ---------------------------handleChangeSelect type Line-------------------------------------------
@@ -327,9 +324,10 @@ import {connect} from 'react-redux';
 const mapStateToProps = (state)=>{
   return {
     openConfirm: state.confirmationReducer.openConfirm,
-    width:state.confirmationReducer.width,
-    height:state.confirmationReducer.height,
-
+    // widthConfirm:state.confirmationReducer.widthConfirm,
+    // heightConfirm:state.confirmationReducer.heightConfirm,
+    width: state.toolsPanelReducer.width,
+    height: state.toolsPanelReducer.height,
 
   }
      }
