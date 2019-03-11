@@ -164,7 +164,7 @@ describe('Intersect', function() {
                     assert.equal(points[0].y.toFixed(8), (5 * Math.sin(Math.PI / 4)).toFixed(8));
                 });
             });
-            
+
             it(`after intersect the  Line(Point(-10, -10), Point(10, 10)) with the Arc(Point(0,0), 5) startAngle 0 and increment is 90 degrees 
                     document must contain 2 lines and 1 arc`, function () {
                 let line = new LineElement(new Point(-10, -10), new Point(10, 10));
@@ -203,6 +203,71 @@ describe('Intersect', function() {
                 command.execute();
 
                 assert.equal(doc._elements.length, 3);
+            });
+        });
+        describe('Arc', function(){
+            describe('_intersectPointsArcArc',function() {
+                it('Arc(Point(6,2),5) & Arc(Point(-3,2),5) intersection in the points Point(1.5, 4.1794), Point(1.5, -0.1794)', function () {
+                    let circle1 = new Arc(new Point(6, 2), 5);
+                    let circle2 = new Arc(new Point(-3,2), 5);
+
+                    let points = IntersectElementsCommand._intersectPointsArcArc(circle1, circle2);
+
+                    assert.equal(points.length, 2);
+
+                    assert.equal(points[0].x.toFixed(4),(1.5).toFixed(4));
+                    assert.equal(points[0].y.toFixed(4),(4.1794).toFixed(4));
+
+                    assert.equal(points[1].x.toFixed(4),(1.5).toFixed(4));
+                    assert.equal(points[1].y.toFixed(4),(-0.1794).toFixed(4));
+
+                });
+                it('Arc(Point(6,6),5) & Arc(Point(-3,5),5) intersection in the points Point(1.7343, 8.6083), Point(1.2657, 7.6083)', function () {
+                    let circle1 = new Arc(new Point(6, 6), 5);
+                    let circle2 = new Arc(new Point(-3,5), 5);
+
+                    let points = IntersectElementsCommand._intersectPointsArcArc(circle2, circle1);
+
+                    assert.equal(points.length, 2);
+
+                    assert.equal(points[1].x.toFixed(4),(1.7343).toFixed(4));
+                    assert.equal(points[1].y.toFixed(4),(3.3917).toFixed(4));
+
+                    assert.equal(points[0].x.toFixed(4),(1.2657).toFixed(4));
+                    assert.equal(points[0].y.toFixed(4),(7.6083).toFixed(4));
+
+                });
+                it('Arc(Point(0,0),5) & Arc(Point(5, 5),5) intersection in the points Point(0, 5), Point(5, 0)', function () {
+                    let circle1 = new Arc(new Point(0, 0), 5);
+                    let circle2 = new Arc(new Point(5, 5), 5);
+
+                    let points = IntersectElementsCommand._intersectPointsArcArc(circle2, circle1);
+                    assert.equal(points.length, 2);
+
+                    assert.equal(points[0].x.toFixed(4),(0).toFixed(4));
+                    assert.equal(points[0].y.toFixed(4),(5).toFixed(4));
+
+                    assert.equal(points[1].x.toFixed(4),(5).toFixed(4));
+                    assert.equal(points[1].y.toFixed(4),(0).toFixed(4));
+
+                });
+            });
+
+            it('after intersection 3 Circles document must contain 12 elements', function () {
+                let circle1 = new Arc(new Point(0, 0), 5);
+                let circle2 = new Arc(new Point(0, 5), 5);
+                let circle3 = new Arc(new Point(5, 5), 5);
+
+                let doc = new Document();
+                doc.addElement(circle1);
+                doc.addElement(circle2);
+                doc.addElement(circle3);
+
+                let command = new IntersectElementsCommand(doc, [circle1,circle2, circle3]);
+                command.execute();
+
+                assert.equal(doc._elements.length, 12);
+
             });
         })
     });
