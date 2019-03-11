@@ -1,46 +1,36 @@
 .ToolsPanel {
   display: flex;
-  // flex-direction: row;
-  // width:100vw;
-  // justify-content: space-between;
-  form {
-    display: flex;
-    // flex-direction: row;
   justify-content: space-between;
-  width:99vw;
+  width: 99vw;
 
-    .Left-Tools{
-      display: flex;
-    flex-direction: row;
-      .SelectMode {
-        display: block;
-        margin-left: 2px;
-      }
-      input{
-        width: 80px;
-      }
-    }
-    .Center-Tools{
-      display: flex;
-    flex-direction: row;
-   
-      .select {
-        display: block;
-        margin-left: 2px;
-      }
-    }
-  
-  .Right-Tools{
+  .Left-Tools {
     display: flex;
     flex-direction: row;
-  margin-right:5px;
-
+    .SelectMode {
+      display: block;
+      margin-left: 2px;
+    }
     input {
       width: 80px;
     }
   }
+  .Center-Tools {
+    display: flex;
+    flex-direction: row;
 
+    .select {
+      display: block;
+      margin-left: 2px;
+    }
+  }
 
+  .Right-Tools {
+    display: flex;
+    flex-direction: row;
+    margin-right: 5px;
 
+    input {
+      width: 80px;
+    }
   }
 }

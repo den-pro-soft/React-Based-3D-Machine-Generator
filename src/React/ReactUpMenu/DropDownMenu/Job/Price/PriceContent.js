@@ -2,7 +2,7 @@ import React from "react";
 import "./price-content.scss";
 import Button from "@material-ui/core/Button";
 import Checkbox from "@material-ui/core/Checkbox";
-
+import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import MachiningGrid from "./MachiningGrid";
 import Order from "./Order/Order";
@@ -13,11 +13,20 @@ class PriceContent extends React.Component {
     this.state = {
       value: "UPS Ground",
       isChecked:false,
-      country:'U.S.A.'
-    //   openOrder:false
+      country:'U.S.A.',
+      quantity:100
     };
   }
   componentWillMount() {
+    const Quantity = localStorage.getItem('quantity');
+    if (Quantity === null) {
+      localStorage.setItem('quantity',this.state.quantity)
+      this.setState({ quantity: this.state.quantity })
+    }
+     else {
+      this.setState({ quantity: Quantity })
+    }
+
     const Country = localStorage.getItem('country');
     if (Country === null) {
       this.setState({ country: this.state.country })
@@ -26,11 +35,15 @@ class PriceContent extends React.Component {
     }
   }
   
+  handleChangeInputQuantity = e => {
+    this.setState({ quantity: e.target.value });
+    localStorage.setItem('quantity',e.target.value)
+  }
   handleChangeSelect = e => {
     this.setState({ value: e.target.value });
   };
 
-  handleChecked = event => {
+  handleChecked = e => {
     window.setTimeout(() => {
       this.setState({
         isChecked: !this.state.isChecked
@@ -49,12 +62,13 @@ class PriceContent extends React.Component {
       <div className="PriceContent">
         <div className="Quantity">
           <div className="LabelQuantity">
-            <label htmlFor="Quantity">Quantity</label>
+            <label>Quantity</label>
           </div>
           <div className="InputNumber">
             <input
+             value={this.state.quantity}
+             onChange={this.handleChangeInputQuantity}
               type="number"
-              id="Quantity"
                 min="1"
               //   max="250"
             />
@@ -98,7 +112,7 @@ class PriceContent extends React.Component {
           </div>
         </div>
 
-     {!this.state.isChecked&&(
+     {/* {!this.state.isChecked&&(
                 <>
                     <div className="Tax">
                         <div className="LabelTax">
@@ -125,7 +139,7 @@ class PriceContent extends React.Component {
                             </label>
                         </div>
                     </div>
-                </>)}
+                </>)} */}
      
 
         <div className="Total">
@@ -144,7 +158,7 @@ class PriceContent extends React.Component {
                 height: "50px"
               }}
               color="primary"
-            //   autoFocus
+              autoFocus
             >
               Order...
             </Button>
@@ -153,10 +167,11 @@ class PriceContent extends React.Component {
                 backgroundColor: "#dddada",
                 boxShadow: "2px 2px 1px #000",
                 height: "35px",
-                marginTop:'7.5px'
+                marginTop:'7.5px',
+                // marginRight:'5px'
               }}
               color="primary"
-            //   autoFocus
+              // autoFocus
             >
               Print...
             </Button>
@@ -187,6 +202,8 @@ class PriceContent extends React.Component {
             .
           </p>
         </div>
+      <Order history={this.props.history}/>
+
       </div>
 
     );
@@ -194,7 +211,7 @@ class PriceContent extends React.Component {
 }
 const mapStateToProps = state => {
     return {
-        openOrder: state.priceReducer.openOrder
+        openOrder: state.orderWindowReducer.openOrder
     };
   };
 const mapDispatchToProps = dispatch => {
@@ -204,7 +221,7 @@ const mapDispatchToProps = dispatch => {
       }
     };
   };
-  export default connect(
+  export default withRouter(connect(
     mapStateToProps,
     mapDispatchToProps
-  )(PriceContent);
+  )(PriceContent))

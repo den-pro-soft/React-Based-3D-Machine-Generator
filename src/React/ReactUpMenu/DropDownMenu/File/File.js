@@ -57,6 +57,23 @@ export default class File extends React.Component {
         var newInput = document.createElement('input');
         newInput.setAttribute('type','file');
         // newInput.setAttribute('accept',this.accept);
+        newInput.setAttribute('accept','.emsx');
+
+        newInput.onchange = function(){
+            //todo: check count files
+            app.open(this.files[0]);
+            newInput.remove();
+        };
+        newInput.click();
+    };
+
+    importFile = e =>{
+         //todo: the code have copy in Helper Ctrl+O key handler
+        var newInput = document.createElement('input');
+        newInput.setAttribute('type','file');
+        // newInput.setAttribute('accept',this.accept);
+        newInput.setAttribute('accept','.dfx');
+
         newInput.onchange = function(){
             //todo: check count files
             app.open(this.files[0]);
@@ -92,7 +109,7 @@ export default class File extends React.Component {
                             <li onClick={()=> app.saveAs('png')}>
                                 <a href="#">Save As</a>
                             </li>
-                            <li>
+                            <li onClick={this.importFile}>
                                 <a href="#">Import</a>
                             </li>
                             <li>

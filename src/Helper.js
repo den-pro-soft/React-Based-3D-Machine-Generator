@@ -32,7 +32,9 @@ class KeyHelper{
             console.log(e.keyCode);
             switch(e.keyCode){
                 case 46: //delete
+                if(e.target==document.body) {
                     app.deleteSelected();
+                }
                     break;
                 case 65: //Aa
                     if(e.ctrlKey && e.target==document.body){

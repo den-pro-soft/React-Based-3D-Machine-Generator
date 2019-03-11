@@ -35,14 +35,7 @@ export default class Config extends Observable{
 
         /** @type {string} [Millimeters|Inches]*/
         this._dimension= 'Millimeters';
-
-        //variable for output data in input field - ToolsPanel and mouse coordinates in BottomPanel 
-        this.widthGroup = '';
-        this.heightGroup = '';
-        this.diameter = '';
-        this.radius='';
-        this.textSize = '';
-    
+   
         //state for React-Redux modal window Confirmation
         this.openConfirm = false
 

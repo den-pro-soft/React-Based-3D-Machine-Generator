@@ -5,64 +5,70 @@ import { connect } from "react-redux";
  class CircleType extends React.Component {
   constructor(props) {
     super(props);
-  this.state={diameter:app.config.diameter}
+  this.state={
+    diameter:this.props.diameter}
   }
+
+
 
   componentWillMount() {
     app.addHandler("selectElement", element => {
 
       if (app.selectElements.length == 1) {
         if (element.typeName === "Arc") {
-         let radius= (app.selectElements[0].radius).toFixed(3);
+         let radius = (app.selectElements[0].radius).toFixed(3);
+         this.props.updateDiameter(radius*2);
       if (this.props.demensions === "Millimeters") {
-        app.config.diameter = (radius*2).toFixed(3) + " mm" 
-        this.setState({ diameter: app.config.diameter });
+        this.setState({ diameter: (radius*2).toFixed(3) + " mm"  });
       } else {
-        app.config.diameter=(radius*2 / 25.4).toFixed(3) + ' "' 
-        this.setState({ diameter: app.config.diameter });
+        this.setState({ diameter: (radius*2 / 25.4).toFixed(3) + ' "' });
       }
         }
       }
     });
   }
-  componentDidUpdate(prevProps, prevState) {
-    if (this.props.demensions !== prevProps.demensions) {
+ 
 
-if (prevProps.demensions === "Millimeters") {
-app.config.diameter=(this.state.diameter).replace(/[^0-9.]/g, "");
-} else {
-  app.config.diameter=(this.state.diameter).replace(/[^0-9.]/g, "")*25.4;
-}
+   componentDidUpdate(prevProps, prevState) {
+     if (this.props.demensions !== prevProps.demensions) {
 
-let diameter= app.config.diameter;
+          let diameter = this.props.diameter;
 
-if (this.props.demensions === "Millimeters") {
-  this.setState({ diameter: diameter.toFixed(3) +" mm"});
-} else {
-  this.setState({ diameter:(diameter / 25.4).toFixed(3) + ' "'});
-}
+       if (this.props.demensions === "Millimeters") {
+         this.setState({ diameter: diameter.toFixed(3) + " mm" });
+       } else {
+         this.setState({ diameter: (diameter / 25.4).toFixed(3) + ' "' });
+       }
 
-  }
-}
+     }
+   }
 
   handleChangeInputDiameter = e=>{
-    let diameter = (e.target.value).replace(/[^0-9.]/g, "");
-    // app.setRadiusForSelectedElements(diameter/2);
 
+    let diameter = e.target.value;
+    
     this.setState({
-      diameter:diameter
+      diameter
     })
     if (e.charCode === 13) {
       if (this.props.demensions === "Millimeters") {
         this.setState({
-          diameter: diameter + " mm"
+          diameter: diameter.replace(/[^0-9.]/g, "") + " mm"
         });
-    app.setRadiusForSelectedElements(diameter/2);
+        let diameter1 = this.state.diameter.replace(/[^0-9.]/g, "")
+        this.props.updateDiameter(diameter1);
+
+    app.setRadiusForSelectedElements(diameter1/2);
+    this.diameterInput.blur();
       } else {
         this.setState({
-          diameter: diameter + ' "'
+          diameter: diameter.replace(/[^0-9.]/g, "") + ' "'
         });
-    app.setRadiusForSelectedElements(diameter/2*25.4);
+        let diameter1 = this.state.diameter.replace(/[^0-9.]/g, "")
+        this.props.updateDiameter(diameter1*25.4);
+
+    app.setRadiusForSelectedElements(diameter1/2*25.4);
+    this.diameterInput.blur();
       }
     }
 
@@ -91,6 +97,9 @@ if (this.props.demensions === "Millimeters") {
       value={this.state.diameter}
       onChange={this.handleChangeInputDiameter}
       onKeyPress={this.handleChangeInputDiameter}
+      ref={input => {
+        this.diameterInput = input;
+      }}
       data-place="bottom"
       data-tip="<span>Diameter.</br>Distance fully across the circle. To change, enter a value and</br>
    press the Enter key.
@@ -101,8 +110,18 @@ if (this.props.demensions === "Millimeters") {
   }
   const mapStateToProps = state => {
     return {
-      demensions: state.preferencesReducer.demensions
+      demensions: state.preferencesReducer.demensions,
+      diameter: state.toolsPanelReducer.diameter
     };
   };
   
-  export default connect(mapStateToProps)(CircleType);
+  const mapDispatchToProps = dispatch => {
+    return {
+      updateDiameter: diameter => {
+        dispatch({ type: "UPDATE_DIAMETER", payload: diameter });
+      }
+    };
+  };
+   export default connect(mapStateToProps,mapDispatchToProps)(CircleType);
+
+  

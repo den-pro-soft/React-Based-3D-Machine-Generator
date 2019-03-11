@@ -7,7 +7,7 @@ class LineType extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      value: this.props.lengthLine,
+      // lengthLine: this.props.lengthLine,
       angle: ""
     };
   }
@@ -21,10 +21,13 @@ class LineType extends React.Component {
           //  console.log(angle,'angle')
           let lengthLine = element.length().toFixed(3);
           this.props.updateLengthLine(lengthLine);
+
           if (this.props.demensions === "Millimeters") {
-            this.setState({ value: lengthLine + " mm" });
+            this.setState({ lengthLine: lengthLine + " mm" });
           } else {
-            this.setState({ value: (lengthLine / 25.4).toFixed(3) + ' "' });
+            this.setState({
+              lengthLine: (lengthLine / 25.4).toFixed(3) + ' "'
+            });
           }
         }
       }
@@ -32,65 +35,63 @@ class LineType extends React.Component {
   }
   componentDidUpdate(prevProps, prevState) {
     if (this.props.demensions !== prevProps.demensions) {
+      let lengthLine = this.props.lengthLine;
       if (this.props.demensions === "Millimeters") {
-        this.setState({ value: this.props.lengthLine + " mm" });
+        this.setState({ lengthLine: lengthLine  + " mm" });
       } else {
-        this.setState({
-          value: (this.props.lengthLine / 25.4).toFixed(3) + ' "'
-        });
+        this.setState({ lengthLine: (lengthLine / 25.4).toFixed(3) + ' "' });
       }
     }
   }
 
   handleChangeInputLength = e => {
-    let lengthLine = e.target.value.replace(/[^0-9.]/g, "");
-    let inches_simbol = e.target.value.slice(-1);
+    let lengthLine = e.target.value;
 
-    this.setState({ value: lengthLine });
-    this.props.updateLengthLine(lengthLine);
+    this.setState({ lengthLine });
 
     if (e.charCode === 13) {
- 
       if (this.props.demensions === "Millimeters") {
-        this.setState({ value: this.props.lengthLine + " mm" });
-        app.setLineLengthElement(this.props.lengthLine);
-      } else {
-
-        if (inches_simbol === '"') {
-          this.setState({
-            value: this.props.lengthLine + ' "'
-          });
-          app.setLineLengthElement(this.props.lengthLine);
-          this.textInput.blur();
-        } else {
-
         this.setState({
-          value: this.props.lengthLine + ' "'
+          lengthLine: lengthLine.replace(/[^0-9.]/g, "") + " mm"
         });
-        app.setLineLengthElement((this.props.lengthLine * 25.4).toFixed(3));
+        let lengthLine1 = this.state.lengthLine.replace(/[^0-9.]/g, "");
+        this.props.updateLengthLine(lengthLine1);
+        app.setLineLengthElement(lengthLine1);
         this.textInput.blur();
-      }
+      } else {
+        this.setState({
+          lengthLine: lengthLine.replace(/[^0-9.]/g, "") + ' "'
+        });
+        let lengthLine1 = this.state.lengthLine.replace(/[^0-9.]/g, "");
+        // console.log(lengthLine1,'leghtInch')
+        this.props.updateLengthLine(lengthLine1 * 25.4);
+        this.textInput.blur();
 
+        app.setLineLengthElement(lengthLine1 * 25.4);
       }
     }
   };
 
   handleChangeLineAngle = e => {
-    let angle = e.target.value.replace(/[^0-9.]/g, "");
+    let angle = e.target.value;
+    // console.log(angle, "angle-slice");
+    // .replace(/[^0-9.]/g, "")
 
     this.setState({
       angle
     });
     if (e.charCode === 13) {
       this.setState({
-        angle: angle + " deg"
+        angle: angle.replace(/[^0-9.]/g, "") + " deg"
       });
-      app.setLineAngleElement(angle);
+      let angle1 = this.state.angle.replace(/[^0-9.]/g, "");
+      app.setLineAngleElement(angle1);
+      this.angleInput.blur();
     }
   };
 
   render() {
-    console.log(this.props, "props-LineLength");
+    // console.log(this.props, "props-LineLength");
     return (
       <Fragment>
         <ReactTooltip html={true} className="tooltipBackgroundTheme" />
@@ -107,7 +108,7 @@ class LineType extends React.Component {
         </button>
         <input
           type="text"
-          value={this.state.value}
+          value={this.state.lengthLine}
           onChange={this.handleChangeInputLength}
           onKeyPress={this.handleChangeInputLength}
           ref={input => {
@@ -133,6 +134,9 @@ class LineType extends React.Component {
           value={this.state.angle}
           onChange={this.handleChangeLineAngle}
           onKeyPress={this.handleChangeLineAngle}
+          ref={input => {
+            this.angleInput = input;
+          }}
           data-place="bottom"
           data-tip="<span>Line angle<br/>Angle of the point with respect to the start point.To change,<br/>
  enter a value and press the Enter key. </span>"

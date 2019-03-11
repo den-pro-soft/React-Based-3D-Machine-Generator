@@ -23,8 +23,10 @@ export default class New extends React.Component {
   }
   componentWillMount() {
     // console.log(this.props, 'this.props-New')
-    this.props.history.push('/')
-
+    this.props.history.push('/new/blank-design')
+  }
+  componentWillUnmount() {
+    this.props.history.push('/') 
   }
   render(){
   return (
@@ -42,7 +44,7 @@ export default class New extends React.Component {
                 className="BlankDisign"
                 exact
                 activeStyle={{ color: "blue" }}
-                to="/"
+                to="/new/blank-design"
                 replace 
               >
                 Blank Design
@@ -52,7 +54,7 @@ export default class New extends React.Component {
               <NavLink
                 className="Tutorial"
                 activeStyle={{ color: "blue" }}
-                to="/tutorial"
+                to="/new/tutorial"
               >
                 Tutorial Shapes
               </NavLink>
@@ -61,7 +63,7 @@ export default class New extends React.Component {
               <NavLink
                 className="FrontPanel"
                 activeStyle={{ color: "blue" }}
-                to="/front-panel"
+                to="/new/front-panel"
               >
                 Front panel/name plate/sign
               </NavLink>
@@ -71,9 +73,9 @@ export default class New extends React.Component {
         </div>
         <div className="Content">
           <Switch>
-            <Route path="/" exact render={() => <BlankDisign />} />
-            <Route path="/tutorial" component={Tutorial} />
-            <Route path="/front-panel" component={FrontPanel} />
+            <Route path="/new/blank-design" exact render={() => <BlankDisign />} />
+            <Route path="/new/tutorial" component={Tutorial} />
+            <Route path="/new/front-panel" component={FrontPanel} />
           </Switch>
         </div>
       </div>

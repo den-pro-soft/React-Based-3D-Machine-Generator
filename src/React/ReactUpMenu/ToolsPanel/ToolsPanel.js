@@ -41,14 +41,12 @@ import {connect} from 'react-redux';
   }
   // ---------------React Life Cycle-----------------
   componentWillMount() {
-  // console.log(modal.modalOpenConfirmation(),'window.modal-variable')
+    // let mdl=MYAPP.modal.modalOpenConfirmation()
+  // console.log(MYAPP.modal.modalOpenConfirmation(),'window.modal-variable');
+
       app.addHandler("selectElement", element => {
     this.setState({value: app.selectElements[0]._lineType.label});
-    // localStorage.setItem('lineType', app.config.defaultLineTypes[0].label);
     localStorage.setItem('lineType', app.selectElements[0]._lineType.label);
-
-
-    // app.config.lineType = app.selectElements[0]._lineType;
 
           this.setState({ show: true });
           let text = app.selectElements.every(el => el.typeName === "Text");
@@ -170,7 +168,6 @@ import {connect} from 'react-redux';
     return (
       <div className="ToolsPanel">
         <ReactTooltip html={true} className="tooltipBackgroundTheme" />
-        <form>
           <div className="Left-Tools">
             <button className="btn-LineType" /*onClick={(e)=>{console.log(e.target,'window');this.props.updateOpenTapModal(!this.state.openTapModal)}}*/>
               <a href="#">
@@ -253,7 +250,6 @@ import {connect} from 'react-redux';
           <div className="Right-Tools">
             <MoveButtons />
           </div>
-        </form>
         <MachineWindow />
         <Confirmation />
       {/* --------------------------Information-------------------- */}
@@ -269,10 +265,10 @@ import {connect} from 'react-redux';
             style={{
               paddingBottom:'0px',
               textAlign: "left",
-              width: "400px",
-              height: "120px",
-              backgroundColor: "#fff"
-
+              width: "500px",
+              height: "130px",
+              // backgroundColor: "#fff"
+              backgroundColor:'#f0ecec'
             }}
           >
            <div style={{display:'flex',justifyContent:"space-between"}}>
@@ -281,7 +277,8 @@ import {connect} from 'react-redux';
               <Button
                 onClick={this.handleCloseModalBend}
                 style={{
-                  backgroundColor: "#fff",
+                  // backgroundColor: "#fff",
+                  backgroundColor:'#f0ecec',
                   padding:'0px',
                  
                 }}
@@ -293,23 +290,26 @@ import {connect} from 'react-redux';
             </i>
               </Button>
             </div> 
-            <p style={{ marginTop: "15px" }}>
+            {/* <div style={{backgroundColor:'#f0ecec'}}> */}
+            <div style={{ margin: "15px 15px",textAlign:'left' }}>
               <img
                 width="25px"
                 src="images/Info.png"
               // data-tip="<span>Shows how to use numeric values.</span>"
               />
-              <span style={{ marginLeft: "10px" }}>
+              <span style={{ position:'relative', bottom:'15px',marginLeft: "30px" }}>
                 Use only straight segments for Bend lines
               </span>
-            </p>
+            </div>
             <div style={{marginTop: "10px",marginBottom:'0px',paddingBottom:'0px',textAlign:'center'}}>
               <Button
                 onClick={this.handleCloseModalBend}
                 style={{
                   backgroundColor: "#dddada",
                   boxShadow: "2px 2px 1px #000",
-                  margin: "0 auto"
+                  margin: "0 auto",
+                  padding:'2px 2px',
+                  // height:'35px'
                 }}
                 color="primary"
                 autoFocus
@@ -317,9 +317,8 @@ import {connect} from 'react-redux';
                 OK
               </Button>
             </div>
-          </DialogContent>
-
-      
+            {/* </div> */}
+          </DialogContent>      
         </Dialog>
         </div>
     );

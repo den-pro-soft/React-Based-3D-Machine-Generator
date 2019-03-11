@@ -2,9 +2,12 @@ import React from "react";
 import "./standing-part.scss";
 import Checkbox from "@material-ui/core/Checkbox";
 import Button from "@material-ui/core/Button";
+import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
+import SummaryWindow from "./SummaryWindow";
 
 
-export default class StandingPart extends React.Component {
+ class StandingPart extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -146,6 +149,7 @@ export default class StandingPart extends React.Component {
   }
 
   render() {
+    // console.log(this.props,'Standing-props')
     const countries = [
       "U.S.A.", "Canada", "United Kingdom","France","Germany","Italy","Ukraine","Switzerland","Denmark","Finland","Norway","Sweden",
       "Switzerland","Estonia","Latvia","Lithuania","Austria","Belgium","Netherlands","Mexico","Russia","Belarus","Poland","Czech Republic","Slovakia",
@@ -160,6 +164,7 @@ export default class StandingPart extends React.Component {
     ];
 
     return (
+      
       <div className="StandingPart">
         <h3 className="Title">Shipping Address</h3>
         <div className="FirstLastName">
@@ -304,6 +309,7 @@ export default class StandingPart extends React.Component {
             </div>
           </div>
           <div className="Last">
+          <img width="260px" style={{marginLeft:'160px'}} src="images/ShippingLogos2.png" />
           </div>
         </div>
 
@@ -454,7 +460,7 @@ export default class StandingPart extends React.Component {
             <input type="text" />
           </div>
             <Button
-              // onClick={() => this.props.openOrderModal(!this.props.openOrder) }
+              onClick={() => this.props.updateSummaryWindow(!this.props.openSummary) }
 
               style={{
                 backgroundColor: "#dddada",
@@ -536,7 +542,23 @@ export default class StandingPart extends React.Component {
               Submit
             </Button>
           </div>
+          <SummaryWindow/>
       </div>
+
     );
   }
 }
+const mapStateToProps = state => {
+  return {
+    openSummary: state.summaryWindowReducer.openSummary
+  };
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    updateSummaryWindow: openSummary => {
+      dispatch({ type: "OPEN_SUMMARY_WINDOW", payload: openSummary });
+    }
+  };
+};
+export default withRouter(connect(mapStateToProps,mapDispatchToProps)(StandingPart));
