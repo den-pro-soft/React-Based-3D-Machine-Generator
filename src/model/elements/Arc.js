@@ -201,7 +201,25 @@ export default class Arc extends GraphicElement{
      * @inheritDoc
      */
     isBelongsToTheElement(point){
-        return true;
+        let l = Math.pow(point.x-this.center.x,2)+Math.pow(point.y-this.center.y,2);
+        let r = Math.pow(this.radius, 2);
+        let inTheCircle = l-1e-8<r && l+1E-8>r;
+
+        let inTheArc = false;
+        if(this.incrementAngle!=360) {
+            let line = new Line(this.center, point);
+            let angle = new Vector(1).getAngle(line.toVector());
+            if (this.endAngle > this.startAngle) {
+                inTheArc = angle >= this.startAngle && angle <= this.endAngle;
+            } else {
+                if (angle > this.startAngle || angle < this.endAngle) {
+                    inTheArc = true;
+                }
+            }
+        }else{
+            inTheArc=true;
+        }
+        return inTheCircle && inTheArc;
     }
     
     /**
@@ -283,9 +301,33 @@ export default class Arc extends GraphicElement{
      * @return {Array.<GraphicElement>}
      */
     intersectByPoints(points){
-        if(points.length<2){
-            throw new Exception('Circle can be intersecting only by two points (for v1)', points);
+        if(this.incrementAngle!=360){
+            let baseVector = new Vector(Math.cos(Trigonometric.gradToRad(this.startAngle)), Math.sin(Trigonometric.gradToRad(this.startAngle)));
+            points = points.sort((a, b)=>{
+                let angle1 = baseVector.getAngle(new Line(this.center,a).toVector());
+                let angle2 = baseVector.getAngle(new Line(this.center,b).toVector());
+                return angle1-angle2;
+            });
+            let res = [];
+            let tempAngle = this.startAngle;
+
+            for(let i=0; i<points.length; i++){
+                let temp = this.copy();
+                temp.startAngle = tempAngle;
+                temp.endAngle = new Vector(1).getAngle(new Line(this.center,points[i]).toVector());
+                temp.generateNewId();
+                res.push(temp);
+                tempAngle=temp.endAngle;
+            }
+            let temp = this.copy();
+            temp.startAngle = tempAngle;
+            temp.endAngle = this.endAngle;
+            temp.generateNewId();
+            res.push(temp);
+            return res;
         }
+
+
         let startPoint = points[0];
         points.splice(0,1);
 
@@ -303,13 +345,10 @@ export default class Arc extends GraphicElement{
             temp = this.copy();
             temp.startAngle = baseVector.getAngle(new Line(this.center,points[i]).toVector());
             temp.endAngle = baseVector.getAngle(new Line(this.center,startPoint).toVector());
-            console.log(temp.startAngle, 'start');
-            console.log(temp.endAngle, 'end');
             temp.generateNewId();
             res.push(temp);
             startPoint=points[i];
         }
-        // temp.eAngleAngle = baseVector.getAngle(new Line(this.center,endPoint).toVector());
         return res;
     }
 

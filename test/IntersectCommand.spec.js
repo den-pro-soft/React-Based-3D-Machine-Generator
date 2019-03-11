@@ -149,7 +149,62 @@ describe('Intersect', function() {
 
             });
         });
+
+        describe('intersect with Arc', function() {
+            describe('_intersectPointsLineArc', function () {
+                it(`intersect Line(Point(-10, -10), Point(10, 10)) with the Arc(Point(0,0), 5) startAngle 0 and increment is 90 degrees is one points`, function () {
+                    let line = new LineElement(new Point(-10, -10), new Point(10, 10));
+                    let arc = new Arc(new Point(), 5);
+                    arc.startAngle = 0;
+                    arc.incrementAngle = 90;
+                    let points = IntersectElementsCommand._intersectPointsLineArc(line, arc);
+
+                    assert.equal(points.length, 1);
+                    assert.equal(points[0].x.toFixed(8), (5 * Math.cos(Math.PI / 4)).toFixed(8));
+                    assert.equal(points[0].y.toFixed(8), (5 * Math.sin(Math.PI / 4)).toFixed(8));
+                });
+            });
+            
+            it(`after intersect the  Line(Point(-10, -10), Point(10, 10)) with the Arc(Point(0,0), 5) startAngle 0 and increment is 90 degrees 
+                    document must contain 2 lines and 1 arc`, function () {
+                let line = new LineElement(new Point(-10, -10), new Point(10, 10));
+                let arc = new Arc(new Point(), 5);
+                arc.startAngle = 0;
+                arc.incrementAngle = 90;
+
+                let doc = new Document();
+                doc.addElement(line);
+                doc.addElement(arc);
+
+                let command = new IntersectElementsCommand(doc, [line]);
+                command.execute();
+
+                assert.equal(doc._elements.length, 3);
+            });
+
+        });
         
+    });
+
+    describe('Arc',function(){
+        describe('Line',function(){
+            it(`after intersect the  Line(Point(-10, -10), Point(10, 10)) with the Arc(Point(0,0), 5) startAngle 0 and increment is 90 degrees 
+                    document must contain 1 line and 2 arcs`, function () {
+                let line = new LineElement(new Point(-10, -10), new Point(10, 10));
+                let arc = new Arc(new Point(), 5);
+                arc.startAngle = 0;
+                arc.incrementAngle = 90;
+
+                let doc = new Document();
+                doc.addElement(line);
+                doc.addElement(arc);
+
+                let command = new IntersectElementsCommand(doc, [arc]);
+                command.execute();
+
+                assert.equal(doc._elements.length, 3);
+            });
+        })
     });
 
     it(`after intersect the Line(Point(-10, -10), Point(10, 10)) and the Rect(Point(-10, 5), Point(10,-5)) 
