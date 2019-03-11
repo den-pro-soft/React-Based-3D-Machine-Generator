@@ -3,7 +3,7 @@
  */
 
 import CreatorToolsInTwoSteps from './CreatorToolsInTwoSteps';
-import RectElementController from '../RectElementControler'
+import RectElement from '../../../model/elements/RectElement'
 
 export default class RectTool extends CreatorToolsInTwoSteps{
     constructor(document){
@@ -21,7 +21,7 @@ export default class RectTool extends CreatorToolsInTwoSteps{
     }
 
     /**
-     * @return {RectElementController}
+     * @return {RectElement}
      */
     get rect(){
         return this._element;
@@ -32,6 +32,6 @@ export default class RectTool extends CreatorToolsInTwoSteps{
     }
 
     createElement(point){
-        return new RectElementController(point, point);
+        return new RectElement(point, point);
     }
 }

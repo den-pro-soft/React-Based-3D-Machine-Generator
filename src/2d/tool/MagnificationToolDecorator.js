@@ -3,6 +3,7 @@
  */
 
 import Tool from './Tool';
+import Point from './../../model/Point';
 
 export default class MagnificationToolDecorator extends Tool{
 
@@ -100,6 +101,10 @@ export default class MagnificationToolDecorator extends Tool{
     }
 
     magnificPoint(point){
+        if(Helper.Key.ctrlKey && Helper.Key.shiftKey){
+            return new Point(Math.round(point.x), Math.round(point.y));
+        }
+
         let nearPoint = this._getNearPoint(point);
         this.magnitPoint=nearPoint;
         if(nearPoint && point.distanceTo(nearPoint)<this.Eps*3){

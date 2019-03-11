@@ -73,6 +73,19 @@ export default class LineElement extends GraphicElement{
 
     /**
      * @inheritDoc
+     * @param {Point} point
+     * @return {boolean}
+     */
+    isBelongsToTheElement(point){
+        if(this._line.k==0 && this._line.b==0){
+            return this._line.between(point.y,this.p1.y, this.p2.y);
+        }
+        return point.y==this._line.k*point.x+this._line.b
+            && this._line.between(point.x,this.p1.x, this.p2.x) && this._line.between(point.y,this.p1.y, this.p2.y);
+    }
+    
+    /**
+     * @inheritDoc
      */
     isNear(point, eps){
         return this._line.isNear(point, eps);
@@ -151,7 +164,9 @@ export default class LineElement extends GraphicElement{
         points = points.sort((a, b)=>this.p1.distanceTo(a)<=this.p1.distanceTo(b)?-1:1);
 
         for(let i=1; i<points.length; i++){
-            res.push(new LineElement(points[i-1].copy(), points[i].copy()));
+            if(!points[i-1].compare(points[i])) {
+                res.push(new LineElement(points[i - 1].copy(), points[i].copy()));
+            }
         }
         return res;
     }

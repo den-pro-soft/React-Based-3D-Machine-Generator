@@ -70,7 +70,7 @@ export default class Point extends Cloneable{
      * @return {boolean} - true if position of the points are equals
      */
     compare(point){
-        return this.x==point.x && this.y==point.y && this.z==point.z;
+        return this.isNear(point, 1E-9);
     }
 
     /**

@@ -75,8 +75,15 @@ export default class Arc extends GraphicElement{
      */
     get extremePoints(){
         if(this.incrementAngle>0) {
-            let polyLinePoints = this.toPolyLines()[0].points;
-            return [polyLinePoints[0], polyLinePoints[polyLinePoints.length - 1]];
+            return [
+                new Point(
+                    this.center.x+this.radius*Math.cos(Trigonometric.gradToRad(this.startAngle)),
+                    this.center.y+this.radius*Math.sin(Trigonometric.gradToRad(this.startAngle))
+                ),
+                new Point(
+                    this.center.x+this.radius*Math.cos(Trigonometric.gradToRad(this.endAngle)),
+                    this.center.y+this.radius*Math.sin(Trigonometric.gradToRad(this.endAngle))
+                )];
         }else{
             return null;
         }
@@ -163,7 +170,7 @@ export default class Arc extends GraphicElement{
      * @inheritDoc
      */
     getMagnificationPoints(){
-        if(this.incrementAngle!=0){
+        if(this.incrementAngle!=360){
             //todo: add center of arc point
             return [this.center,...this.extremePoints];
         }
@@ -190,6 +197,13 @@ export default class Arc extends GraphicElement{
         return this._center;
     }
 
+    /**
+     * @inheritDoc
+     */
+    isBelongsToTheElement(point){
+        return true;
+    }
+    
     /**
      * @inheritDoc
      */
@@ -270,7 +284,7 @@ export default class Arc extends GraphicElement{
      */
     intersectByPoints(points){
         if(points.length<2){
-            throw new Exception('Circle can be intersecting only by two points (for v1)');
+            throw new Exception('Circle can be intersecting only by two points (for v1)', points);
         }
         let startPoint = points[0];
         points.splice(0,1);

@@ -1,0 +1,169 @@
+/**
+ * Created by dev on 06.03.19.
+ */
+
+var assert = require('assert');
+
+import IntersectElementsCommand from './../src/2d/command/IntersectElementsCommand';
+
+import Document from './../src/model/Document';
+import LineElement from './../src/model/elements/LineElement';
+import Arc from './../src/model/elements/Arc';
+import Point from './../src/model/Point';
+
+import RectElement from './../src/model/elements/RectElement';
+
+
+describe('Intersect', function() {
+    describe('Line', function() {
+        describe('intersect with Line', function() {
+            /**
+             * the result must be -  Line(Point(-10, -10), Point(10, 10))  Line(Point(-10, 10), Point(0, 0))  Line(Point(0, 0), Point(10, -10))
+             */
+            it(`after intersect the Line(Point(-10, -10), Point(10, 10)) with the Line(Point(-10, 10), Point(10,-10)) 
+                    document must contain 3 lines`, function () {
+                let line1  = new LineElement(new Point(-10,-10), new Point(10,10));
+                let line2  = new LineElement(new Point(-10,10), new Point(10,-10));
+
+                let doc = new Document();
+                doc.addElement(line1);
+                doc.addElement(line2);
+
+                let command = new IntersectElementsCommand(doc, [line2]);
+                command.execute();
+
+                assert.equal(doc._elements.length, 3);
+            });
+        });
+
+        describe('intersect with Group of lines', function() {
+            it(`after intersect the Line(Point(-10, -10), Point(10, 10)) with the Rect(Point(-10, 5), Point(10,-5)) 
+                    document must contain 4 elements`, function () {
+                let line1  = new LineElement(new Point(-10,-10), new Point(10,10));
+                let rect  = new RectElement(new Point(-10,5), new Point(10,-5));
+
+                let doc = new Document();
+                doc.addElement(line1);
+                doc.addElement(rect.toElement());
+
+                let command = new IntersectElementsCommand(doc, [line1]);
+                command.execute();
+
+                assert.equal(doc._elements.length, 4);
+            });
+        });
+
+        describe('intersect with Circle', function() {
+            describe('_intersectPointsLineArc', function () {
+                it(`intersect Line(Point(-10, -10), Point(10, 10)) with the Arc(Point(0,0), 5) is two points`, function () {
+                    let line  = new LineElement(new Point(-10,-10), new Point(10,10));
+                    let circle = new Arc(new Point(), 5);
+
+                    let points = IntersectElementsCommand._intersectPointsLineArc(line, circle);
+
+                    assert.equal(points.length, 2);
+
+                    assert.equal(points[0].x.toFixed(8),(5*Math.cos(Math.PI/4)).toFixed(8));
+                    assert.equal(points[0].y.toFixed(8),(5*Math.sin(Math.PI/4)).toFixed(8));
+
+                    assert.equal(points[1].x.toFixed(8),(-5*Math.cos(Math.PI/4)).toFixed(8));
+                    assert.equal(points[1].y.toFixed(8),(-5*Math.sin(Math.PI/4)).toFixed(8));
+                });
+
+                it(`intersect Line(Point(0, -10), Point(0, 10)) with the Arc(Point(0,0), 3) is two points`, function () {
+                    let line  = new LineElement(new Point(0,-10), new Point(0,10));
+                    let circle = new Arc(new Point(), 3);
+
+                    let points = IntersectElementsCommand._intersectPointsLineArc(line, circle);
+
+                    assert.equal(points.length, 2);
+
+                    assert.equal(points[0].x.toFixed(8),0);
+                    assert.equal(points[0].y.toFixed(8),3);
+
+                    assert.equal(points[1].x.toFixed(8),0);
+                    assert.equal(points[1].y.toFixed(8),-3);
+                });
+
+                it(`intersect Line(Point(-10, 0), Point(10, 0)) with the Arc(Point(0,0), 3) is two points`, function () {
+                    let line  = new LineElement(new Point(-10,0), new Point(10,0));
+                    let circle = new Arc(new Point(), 3);
+
+                    let points = IntersectElementsCommand._intersectPointsLineArc(line, circle);
+
+                    assert.equal(points.length, 2);
+
+                    assert.equal(points[0].x.toFixed(8),3);
+                    assert.equal(points[0].y.toFixed(8),0);
+
+                    assert.equal(points[1].x.toFixed(8),-3);
+                    assert.equal(points[1].y.toFixed(8),0);
+                });
+
+                it(`intersect Line(Point(5, 5), Point(-5, -5)) witch moved on the radius with the Arc(Point(0,0), 5) is one points`, function () {
+                    let line  = new LineElement(new Point(5,5), new Point(-5,-5));
+                    line.move(3*Math.cos(Math.PI*0.75), 3*Math.sin(Math.PI*0.75));
+
+                    let circle = new Arc(new Point(), 3);
+
+                    let points = IntersectElementsCommand._intersectPointsLineArc(line, circle);
+                    assert.equal(points.length, 1);
+                    assert.equal(points[0].x.toFixed(8),(3*Math.cos(Math.PI*0.75)).toFixed(8));
+                    assert.equal(points[0].y.toFixed(8),(3*Math.sin(Math.PI*0.75)).toFixed(8));
+
+                });
+
+                it(`intersect Line(Point(6, 1), Point(4, 7)) witch the Arc(Point(5,4), sqrt(10)) is two points`, function () {
+                    let line  = new LineElement(new Point(6,1), new Point(4,7));
+                    let circle = new Arc(new Point(5,4), Math.sqrt(10));
+
+                    let points = IntersectElementsCommand._intersectPointsLineArc(line, circle);
+                    assert.equal(points.length, 2);
+                    assert.equal(points[0].x.toFixed(8),6);
+                    assert.equal(points[0].y.toFixed(8),1);
+
+                    assert.equal(points[1].x.toFixed(8),4);
+                    assert.equal(points[1].y.toFixed(8),7);
+
+                });
+
+                it(`intersect Line(Point(5, -5), Point(5, 5)) with the Arc(Point(0,0), 3) is 0 points`, function () {
+
+                    let line  = new LineElement(new Point(5,-5), new Point(5,5));
+                    let circle = new Arc(new Point(), 3);
+
+                    let points = IntersectElementsCommand._intersectPointsLineArc(line, circle);
+
+                    assert.equal(points.length, 0);
+                });
+
+                it(`intersect Line(Point(5, -5), Point(6, 5)) with the Arc(Point(0,0), 3) is 0 points`, function () {
+
+                    let line  = new LineElement(new Point(5,-5), new Point(6,5));
+                    let circle = new Arc(new Point(), 3);
+
+                    let points = IntersectElementsCommand._intersectPointsLineArc(line, circle);
+
+                    assert.equal(points.length, 0);
+                });
+
+            });
+        });
+        
+    });
+
+    it(`after intersect the Line(Point(-10, -10), Point(10, 10)) and the Rect(Point(-10, 5), Point(10,-5)) 
+                    document must contain 9 elements`, function () {
+        let line1  = new LineElement(new Point(-10,-10), new Point(10,10));
+        let rect  = new RectElement(new Point(-10,5), new Point(10,-5)).toElement();
+
+        let doc = new Document();
+        doc.addElement(line1);
+        doc.addElement(rect);
+
+        let command = new IntersectElementsCommand(doc, [line1, rect]);
+        command.execute();
+
+        assert.equal(doc._elements.length, 9);
+    });
+});
