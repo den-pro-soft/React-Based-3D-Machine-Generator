@@ -6,6 +6,7 @@
 var assert = require('assert');
 
 import Arc from './../src/model/elements/Arc';
+import Trigonometric from './../src/model/math/Trigonometric';
 import Point from './../src/model/Point';
 
 import ChangeArcAngleCommand from './../src/2d/command/ChangeArcAngleCommand';
@@ -26,4 +27,14 @@ describe('Arc', function() {
 
     });
 
+    describe('isBelongsToTheElement', function(){
+        it('Point(0,5) is belong to the Circle(new Point(0,0), 5)', function () {
+            let circle  = new Arc(new Point(), 5);
+            assert(circle.isBelongsToTheElement(new Point(0,5)));
+        });
+        it('Point(0,5) is belong to the Circle(new Point(0,0), 5)', function () {
+            let circle  = new Arc(new Point(), 5);
+            assert(circle.isBelongsToTheElement(new Point(Math.cos(Math.PI/4)*5,Math.sin(Math.PI/4)*5)));
+        });
+    });
 });

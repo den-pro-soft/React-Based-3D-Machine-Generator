@@ -26,8 +26,8 @@ export default class ChangeArcAngleCommand extends ElementModificationCommand{
      * @inheritDoc
      */
     executeCommand(){
-            if(!this.insideAngle && !this.startAngle){
-            throw new Exception('insideAngle and startAngle can\'t be null at the same time');
+        if(this.insideAngle==null && this.startAngle==null){
+            throw new Exception('insideAngle and startAngle can\'t be null at the same time', this);
         }
 
         for(let el of this.elements){
@@ -36,12 +36,12 @@ export default class ChangeArcAngleCommand extends ElementModificationCommand{
             }
         }
 
-        if(this.insideAngle) {
+        if(this.insideAngle!=null) {
             for (let el of this.elements) {
                 el.incrementAngle = this.insideAngle;
             }
         }
-        if(this.startAngle){
+        if(this.startAngle!=null){
             for (let el of this.elements) {
                 let oldInsideAngle = el.incrementAngle;
                 el.startAngle = this.startAngle;

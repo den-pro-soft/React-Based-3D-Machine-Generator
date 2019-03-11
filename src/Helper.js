@@ -26,6 +26,7 @@ class TextHelper{
 class KeyHelper{
     constructor(){
         this.ctrlKey = false;
+        this.shiftKey=false;
 
         window.addEventListener('keydown',(e)=>{
             console.log(e.keyCode);
@@ -118,6 +119,9 @@ class KeyHelper{
                 case 17: //Ctrl
                     this.ctrlKey=true;
                     break;
+                case 16: //Shift
+                    this.shiftKey=true;
+                    break;
             }
         });
 
@@ -125,6 +129,9 @@ class KeyHelper{
             switch(e.keyCode) {
                 case 17: //Ctrl
                     this.ctrlKey=false;
+                    break;
+                case 16: //Shift
+                    this.shiftKey=false;
                     break;
             }
 

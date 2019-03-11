@@ -3,7 +3,7 @@
  */
 
 import Transformer from './Transformer';
-import RectElementController from './../RectElementControler';
+import RectElement from '../../../model/elements/RectElement';
 import Point from './../../../model/Point';
 import Group from './../../../model/elements/Group';
 import Rect from "../../../model/math/Rect";
@@ -21,7 +21,7 @@ class ControlPoint{
 }
 
 
-class ResizeRect extends RectElementController{
+class ResizeRect extends RectElement{
     constructor(el){
         super(new Point(),new Point());
         this.board = container.resolve('mainBoard'); //todo: maybe set from the using place

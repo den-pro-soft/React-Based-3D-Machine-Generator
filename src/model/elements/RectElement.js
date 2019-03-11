@@ -1,12 +1,12 @@
 /**
  * Created by dev on 11.01.19.
  */
-import LineElement from '../../model/elements/LineElement';
-import Point from '../../model/Point';
-import Group from '../../model/elements/Group';
-import Rect from '../../model/math/Rect';
+import LineElement from './LineElement';
+import Point from '../Point';
+import Group from './Group';
+import Rect from '../math/Rect';
 
-export default class RectElementController extends Rect{
+export default class RectElement extends Rect{
     /**
      * @param {Point} p1
      * @param {Point} p2
