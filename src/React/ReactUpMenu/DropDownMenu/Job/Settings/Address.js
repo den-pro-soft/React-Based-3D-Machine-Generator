@@ -12,7 +12,6 @@ export default class Adress extends React.Component {
       statesCanada: false,
       provinceOther: false,
       provinceOther2: false,
-      // value: "U.S.A.",
       firstName:'',
       lastName:'',
       businessName:'',
@@ -39,8 +38,10 @@ export default class Adress extends React.Component {
     if(LastName === null){
     this.setState({lastName:this.state.lastName})
     } else{
-      this.setState({lastName:LastName})
-
+      this.setState({lastName:LastName},()=>{this.setState({lastName:LastName})
+        // console.log(this.state.lastName,'3-lastName-handle')
+      })
+    // console.log(this.state.lastName,LastName,'3-this.state.lastName')
     }
 
     const BusinessName = localStorage.getItem('businessName');
@@ -125,7 +126,7 @@ export default class Adress extends React.Component {
 
   handleLastNameChange = (e) =>{
     this.setState({lastName: e.target.value},()=>{
-      console.log(this.state.lastName,'lastName')
+      console.log(this.state.lastName,'lastName-handle')
     localStorage.setItem('lastName', this.state.lastName);
 
     });
@@ -246,7 +247,7 @@ export default class Adress extends React.Component {
                   <span>*</span>Last Name:{" "}
                 </div>
                 <div>
-                  <span style={{ color: "transparent" }}>*</span>Business Email:
+                  <span style={{ color: "transparent" }}>*</span>Business Name:
                 </div>
               </div>
               <div className="InputGroup">
@@ -259,6 +260,7 @@ export default class Adress extends React.Component {
                 <div className="Input">
                   <input type="text" 
                     value={this.state.lastName}
+                  //  value={this.state.firstName}
                     onChange={this.handleLastNameChange}
                     />
                 </div>

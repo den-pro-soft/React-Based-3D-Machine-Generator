@@ -417,18 +417,5 @@ class ReactVirtualizedTable extends React.PureComponent {
   );
 }
 }
-// const mapStateToProps = state => {
-//   return {
-//     material: state.materialReducer.material
-//   };
-// };
 
-// // const mapDispatchToProps = dispatch => {
-// //   return {
-// //     updateMaterial: material => {
-// //       dispatch({ type: "UPDATE_MATERIAL", payload: material });
-// //     }
-// //   };
-// // };
-// export default connect(mapStateToProps)(ReactVirtualizedTable);
 export default ReactVirtualizedTable;
