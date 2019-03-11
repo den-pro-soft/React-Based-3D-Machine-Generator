@@ -110,6 +110,14 @@ export default class GraphicElement extends Cloneable{
     }
 
     /**
+     * @param {Point} point
+     * @return {boolean} - return true if the point is belong to the figure
+     */
+    isBelongsToTheElement(point){
+        return false;
+    }
+
+    /**
      * @abstract
      * Check if the point is near the elements by Eps.
      * @param {Point} point

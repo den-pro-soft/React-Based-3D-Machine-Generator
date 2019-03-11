@@ -1,5 +1,5 @@
 import DynamicChangeTool from './DynamicChangeTool';
-import RectElementController from './RectElementControler';
+import RectElement from '../../model/elements/RectElement';
 import Point from './../../model/Point';
 import ResizeTransformer from "./transformer/ResizeTransformer";
 import RotateTransformer from './transformer/RotateTransformer';
@@ -45,7 +45,7 @@ export default class PointerTool extends DynamicChangeTool{
 
         this._mouseDown = false;
 
-        /** @var {RectElementController} */
+        /** @var {RectElement} */
         this.selectRect = null;
         
         this._selectMode = true;
@@ -146,7 +146,7 @@ export default class PointerTool extends DynamicChangeTool{
             if(!Helper.Key.ctrlKey){
                 this.clearSelectElements();
             }
-            this.selectRect = new RectElementController(point, point);
+            this.selectRect = new RectElement(point, point);
         }
         this._mouseDown=point;
         return true;
