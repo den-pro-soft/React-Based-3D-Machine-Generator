@@ -186,39 +186,38 @@ export default class Application extends Observable{
      * @param {Command} command
      */
     executeCommand(command){
-        let res = command.execute();
-        if(res){
-            this.commandHistory.push(command);
-        }
-
-        console.log('execute some command');
-        if(this._board){
-            if(command.name == 'AddElementCommand'){
-                this.clearSelectElements();
-                this._changeTool(this._getToolInstance('Pointer'));
-                this.board.tool.selectElement(command._element);
-                this.addSelectElements([command._element]);
+        command.execute().then((res)=>{
+            if(res){
+                this.commandHistory.push(command);
             }
+            if(this._board){
+                if(command.name == 'AddElementCommand'){
+                    this.clearSelectElements();
+                    this._changeTool(this._getToolInstance('Pointer'));
+                    this.board.tool.selectElement(command._element);
+                    this.addSelectElements([command._element]);
+                }
 
-            if(command instanceof ElementModificationCommand){
-                let elements = this.selectElements;
-                console.log(elements,'elements');
-                console.log(command.isReplacedElements(),'replace');
-                if(command.isReplacedElements()) {
-                    elements = command.getElements();
-                    if(command.selectOneElement) {
-                        elements = [elements[0]];
+                if(command instanceof ElementModificationCommand){
+                    let elements = this.selectElements;
+                    console.log(elements,'elements');
+                    console.log(command.isReplacedElements(),'replace');
+                    if(command.isReplacedElements()) {
+                        elements = command.getElements();
+                        if(command.selectOneElement) {
+                            elements = [elements[0]];
+                        }
+                        this.addSelectElements(elements);
                     }
-                    this.addSelectElements(elements);
-                }
 
-                this.board.tool.clearSelectElements();
-                for(let el of elements){
-                    this.board.tool.selectElement(el);
+                    this.board.tool.clearSelectElements();
+                    for(let el of elements){
+                        this.board.tool.selectElement(el);
+                    }
                 }
+                this._board.renderDocument();
             }
-            this._board.renderDocument();
-        }
+        });
     }
 
     /**
