@@ -52,7 +52,7 @@ class Confirmation extends React.Component {
             <Button
               onClick={() =>{
                 // modal.openConfirm = !this.props.openConfirm;
-                this.props.closeConfirmModal(!this.props.openConfirm)
+                this.props.openConfirmModal(!this.props.openConfirm)
               }
               }
               style={{
@@ -98,13 +98,10 @@ class Confirmation extends React.Component {
 
           <div className="Yes-No-buttons">
             <Button
-              // onClick={() =>{
-              //   app.config.openConfirm = !this.props.openConfirm;
-              //   this.props.closeConfirmModal(!this.props.openConfirm)
-              // }
-              // }
               onClick={
-                ()=>modal.handleYesButton()
+                ()=>{
+                  // this.props.openConfirmModal(!this.props.openConfirm);
+                  modal.handleButton1()}
               }
               style={{
                 backgroundColor: "#dddada",
@@ -118,13 +115,11 @@ class Confirmation extends React.Component {
               Yes
             </Button>
             <Button
-              // onClick={() =>{
-              //   app.config.openConfirm = !this.props.openConfirm;
-              //   this.props.closeConfirmModal(!this.props.openConfirm)
-              // }
-              // }
               onClick={
-               ()=>modal.handleNoButton()
+               ()=>{
+                  // this.props.openConfirmModal(!this.props.openConfirm);
+                  modal.handleButton2()
+               }
               }
               style={{
                 backgroundColor: "#dddada",
@@ -142,6 +137,7 @@ class Confirmation extends React.Component {
     );
   }
 }
+
 const mapStateToProps = state => {
   return {
     openConfirm: state.confirmationReducer.openConfirm
@@ -151,12 +147,13 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     openConfirmModal: openConfirm => {
-      dispatch({ type: "OPEN_Confirmation", payload: openConfirm });
+      dispatch({ type: "OPEN_CONFIRM", payload: openConfirm });
     },
   
-    closeConfirmModal: openConfirm => {
-      dispatch({ type: "CLOSE_Confirmation", payload: openConfirm });
-    }
+    // closeConfirmModal: openConfirm => {
+    //   dispatch({ type: "CLOSE_Confirmation", payload: openConfirm });
+    // }
   };
-};
+}
+
 export default connect(mapStateToProps,mapDispatchToProps)(Confirmation);

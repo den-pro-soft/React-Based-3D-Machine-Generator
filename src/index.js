@@ -13,7 +13,7 @@ import { createStore } from "redux";
 import { Provider } from "react-redux";
 import rootReducer from "./Redux/rootReducer";
 
-const store = createStore(rootReducer);
+window.store = createStore(rootReducer);
 
 ReactDOM.render(
   <div className="root-LeftMenu">

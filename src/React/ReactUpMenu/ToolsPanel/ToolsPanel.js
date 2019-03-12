@@ -289,12 +289,10 @@ import {connect} from 'react-redux';
             </i>
               </Button>
             </div> 
-            {/* <div style={{backgroundColor:'#f0ecec'}}> */}
             <div style={{ margin: "15px 15px",textAlign:'left' }}>
               <img
                 width="25px"
                 src="images/Info.png"
-              // data-tip="<span>Shows how to use numeric values.</span>"
               />
               <span style={{ position:'relative', bottom:'15px',marginLeft: "30px" }}>
                 Use only straight segments for Bend lines
@@ -308,7 +306,6 @@ import {connect} from 'react-redux';
                   boxShadow: "2px 2px 1px #000",
                   margin: "0 auto",
                   padding:'2px 2px',
-                  // height:'35px'
                 }}
                 color="primary"
                 autoFocus
@@ -316,7 +313,6 @@ import {connect} from 'react-redux';
                 OK
               </Button>
             </div>
-            {/* </div> */}
           </DialogContent>      
         </Dialog>
         {/* <Confirmation /> */}
@@ -339,9 +335,9 @@ const mapDispatchToProps = dispatch => {
     updateOpenTapModal: openTapModal => {
       dispatch({ type: "OPEN_TAP_MODAL", payload: openTapModal });
     },
-    openConfirmModal: openConfirm => {
-      dispatch({ type: "OPEN_Confirmation", payload: openConfirm });
-    }
+    // openConfirmModal: openConfirm => {
+    //   dispatch({ type: "OPEN_CONFIRM", payload: openConfirm });
+    // }
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(ToolsPanel);

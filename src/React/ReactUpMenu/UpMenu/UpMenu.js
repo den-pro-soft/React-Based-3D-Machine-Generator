@@ -146,10 +146,10 @@ class UpMenu extends React.Component {
                 </a>
               </button>
               <button 
-              onClick={()=>{
-                const openConfirm = modal.modalOpenConfirmation();
-                this.props.openConfirmModal(openConfirm)
-              }}
+              // onClick={()=>{
+              //   // modal.modalOpenConfirmation();
+              //   this.props.openConfirmModal(true)
+              // }}
               >
                 <a href="#">
                   <img width="18px" src="images/check2.png" />
@@ -241,9 +241,9 @@ const mapDispatchToProps = dispatch => {
     updateDataDemensions: value => {
       dispatch({ type: "UPDATE_DEMENSIONS_UpMenu", payload: value });
     },
-    openConfirmModal: openConfirm => {
-      dispatch({ type: "OPEN_Confirmation", payload: openConfirm });
-    }
+    // openConfirmModal: openConfirm => {
+    //   dispatch({ type: "OPEN_CONFIRM", payload: openConfirm });
+    // }
   };
 };
 export default withRouter(connect(mapStateToProps,mapDispatchToProps)(UpMenu));
