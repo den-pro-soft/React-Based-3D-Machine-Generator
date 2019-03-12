@@ -6,8 +6,9 @@ import { Injectable, Container, LifeTime } from 'container-ioc';
 
 
 import Config from './Config';
-import {InteractiveBoard} from './2d/Board'
+import {InteractiveBoard} from './2d/Board';
 import IdGenerator from './model/IdGenerator';
+import ModalWindows from './ModalWindows';
 
 
 /**
@@ -18,11 +19,15 @@ container.register([
     { token: 'config', useClass: Config },
     { token: 'mainBoard', useClass: InteractiveBoard },
     { token: 'elementIdGenerator', useClass: IdGenerator },
-    { token: 'commandIdGenerator', useClass: IdGenerator }
+    { token: 'commandIdGenerator', useClass: IdGenerator },
+    { token: 'modalWindows', useClass: ModalWindows }
+
 ]);
 
 
 export default container;
 global.container = container;
+global.modal = container.resolve('modalWindows');
+
 
 

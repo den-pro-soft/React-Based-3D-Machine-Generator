@@ -9,7 +9,9 @@ import { connect } from "react-redux";
     super(props);
 
     this.state = {
-      selectedOption: null,
+      // selectedOption: null,
+      selectedOption: 'Air Inside',
+
       displayInputSelect: true
     };
   }
@@ -17,6 +19,11 @@ import { connect } from "react-redux";
   //data processing from input-select - Z
   handleChange = selectedOption => {
     this.setState({ selectedOption, displayInputSelect: false });
+    if(this.props.demensions==='Millimeters'){
+      localStorage.setItem('z-value',selectedOption.value + ' mm')
+    } else {
+    localStorage.setItem('z-value',selectedOption.value + ' "')
+    }
     console.log(`Option selected:`, selectedOption.value);
     let val = parseInt(selectedOption.value);
     app.setElementsHeight(val ? val : 0.075);
@@ -25,6 +32,7 @@ import { connect } from "react-redux";
   handleInputChange = (inputValue, actionMeta) => {
     // setState({displayInputSelect:false});
     console.group("Input Changed");
+    // localStorage.setItem('z-value',inputValue);
     console.log(inputValue);
     console.log(`action: ${actionMeta.action}`);
     console.groupEnd();
@@ -64,8 +72,8 @@ import { connect } from "react-redux";
     const options = [
       { value: "Air Inside", label: `Air Inside` },
       { value: "Revolve", label: `Revolve` },
-      { value: "0.05", label: `0.05 mm` },
-      { value: "0.08", label: `0.08 mm` },
+      { value: "0.05", label: '0.05 mm' },
+      { value: "0.08", label: '0.08 mm' },
       { value: "0.13", label: `0.13 mm` },
       { value: "0.25", label: `0.25 mm` },
       { value: "0.51", label: `0.51 mm` },
@@ -145,26 +153,31 @@ import { connect } from "react-redux";
             />
           </a>
         </button>
-       {this.props.demensions==="Millimeters" &&  <CreatableSelect
+       {this.props.demensions==="Millimeters" && 
+        <CreatableSelect
           onMouseLeave={this.handleInputChange}
           styles={customStyles}
           // isClearable
-          // defaultValue={options[2]}
+          // defaultValue={this.state.selectedOption}
+          defaultValue={options[0]}
+
+          // value = {this.state.selectedOption}
           onChange={this.handleChange}
           onInputChange={this.handleInputChange}
           options={options}
           placeholder=""
-        />}
-        {this.props.demensions==="Inches" &&  <CreatableSelect
+        />
+         } 
+       {this.props.demensions==="Inches" &&  <CreatableSelect
           onMouseLeave={this.handleInputChange}
           styles={customStyles}
           // isClearable
-          // defaultValue={options[2]}
+          defaultValue={options[0]}
           onChange={this.handleChange}
           onInputChange={this.handleInputChange}
           options={options_inch}
           placeholder=""
-        />}
+        />} 
       </Fragment>
     );
   }

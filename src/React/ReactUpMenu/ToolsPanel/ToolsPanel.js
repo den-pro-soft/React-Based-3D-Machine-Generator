@@ -36,15 +36,27 @@ import {connect} from 'react-redux';
       withoutText:true,
       value:'',
       openBendModal:false,
-      openTapModal:false
+      openTapModal:false,
+      // openConfirm:false
     };
   }
   // ---------------React Life Cycle-----------------
   componentWillMount() {
-    // let mdl=MYAPP.modal.modalOpenConfirmation()
-  // console.log(MYAPP.modal.modalOpenConfirmation(),'window.modal-variable');
+    // window.addEventListener("load", () => {
+      // setTimeout(
+      //   ()=>{
+        //  const openConfirm = modal.modalOpenConfirmation()
+          // this.props.openConfirmModal(openConfirm);
+          // this.props.openConfirmModal(!this.props.openConfirm);
 
+          
+          console.log(this.props,'openConfirm ')
+      //   },3000
+      // )
+    // });
+ 
       app.addHandler("selectElement", element => {
+  
     this.setState({value: app.selectElements[0]._lineType.label});
     localStorage.setItem('lineType', app.selectElements[0]._lineType.label);
 
@@ -63,10 +75,8 @@ import {connect} from 'react-redux';
           if(arc=== true && app.selectElements.length === 1){
             if(app.selectElements[0].incrementAngle===360){
               this.setState({ line: false, circle: true, arc:false,  group: false, text: false });
-            //  this.props.openConfirmModal(!this.props.openConfirm);
             } else {
               this.setState({ line: false, circle: false, arc:true,  group: false, text: false })
-
             }
           }
           else{
@@ -90,15 +100,7 @@ import {connect} from 'react-redux';
     });
   
   }
-   componentDidUpdate(prevProps, prevState) {
-console.log(this.props.width,prevProps.width ,'this.props.width')
-     if (this.props.width !== prevProps.width && this.state.group === true&&app.selectElements[0].typeName!=='Group'/*&&arc===true&&line===true*/) {
-      //  if (this.props.width !== undefined){
-       app.config.openConfirm = !this.props.openConfirm;
-         this.props.openConfirmModal(!this.props.openConfirm);
-      //  }
-     }
-   }
+
   // ---------------------------handleChangeSelect type Line-------------------------------------------
   handleChangeSelect =(event)=> {
     if(event.target.value==="Bend" &&this.state.line===false){
@@ -248,7 +250,7 @@ console.log(this.props.width,prevProps.width ,'this.props.width')
             <MoveButtons />
           </div>
         <MachineWindow />
-        <Confirmation />
+        {/* <Confirmation /> */}
       {/* --------------------------Information-------------------- */}
         <Dialog
           maxWidth={false}
@@ -317,6 +319,8 @@ console.log(this.props.width,prevProps.width ,'this.props.width')
             {/* </div> */}
           </DialogContent>      
         </Dialog>
+        {/* <Confirmation /> */}
+
         </div>
     );
   }
@@ -324,10 +328,8 @@ console.log(this.props.width,prevProps.width ,'this.props.width')
 const mapStateToProps = (state)=>{
   return {
     openConfirm: state.confirmationReducer.openConfirm,
-    // widthConfirm:state.confirmationReducer.widthConfirm,
-    // heightConfirm:state.confirmationReducer.heightConfirm,
-    width: state.toolsPanelReducer.width,
-    height: state.toolsPanelReducer.height,
+    // width: state.toolsPanelReducer.width,
+    // height: state.toolsPanelReducer.height,
 
   }
      }
