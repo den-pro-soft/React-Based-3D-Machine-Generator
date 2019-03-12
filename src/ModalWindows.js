@@ -4,8 +4,7 @@ constructor(){
    
 }
  modalOpenConfirmation(){
-    let modals2 = "2-classModalWindows";
-    return modals2
+    app.congig.openConfirm=true
 }
 }
 // var MYAPP = MYAPP || {};

@@ -8,43 +8,44 @@ export default class LeftMenu extends React.Component {
     this.state = {
       background: "transparent",
       bgColorSnapToLines: "#fff"
-
     };
-   
   }
-  componentWillMount(){
-    const Snap = localStorage.getItem('bgColorSnapToLines');
-    if(Snap===null){
-    this.setState({bgColorSnapToLines:this.state.bgColorSnapToLines})
-    } else{
-      this.setState({bgColorSnapToLines:Snap})
-
-    }
-      app.addHandler("selectElement", element => {
-         if(this.state.bgColorSnapToLines === "#fff"){
-      app.magnificationMode = true
-    } else {
-      app.magnificationMode = false
-    }
-
-      })
-  
-  }
- 
-  handleClickSnapToLines = () => {
-  
-    this.setState({
-      bgColorSnapToLines:
-        this.state.bgColorSnapToLines === "#fff" ? "#f0f0f0d9" : "#fff"
-    }, () => {
-      localStorage.setItem('bgColorSnapToLines', this.state.bgColorSnapToLines);
-      if(this.state.bgColorSnapToLines === "#fff"){
-        app.magnificationMode = true
+  componentDidMount() {
+    window.addEventListener("load", () => {
+      const Snap = localStorage.getItem("bgColorSnapToLines");
+      if (Snap === null) {
+        this.setState({ bgColorSnapToLines: this.state.bgColorSnapToLines });
       } else {
-        app.magnificationMode = false
+        this.setState({ bgColorSnapToLines: Snap });
+      }
+
+      if (this.state.bgColorSnapToLines === "#fff") {
+        app.magnificationMode = true;
+      } else {
+        app.magnificationMode = false;
       }
     });
+  }
 
+
+  handleClickSnapToLines = () => {
+    this.setState(
+      {
+        bgColorSnapToLines:
+          this.state.bgColorSnapToLines === "#fff" ? "#f0f0f0d9" : "#fff"
+      },
+      () => {
+        localStorage.setItem(
+          "bgColorSnapToLines",
+          this.state.bgColorSnapToLines
+        );
+        if (this.state.bgColorSnapToLines === "#fff") {
+          app.magnificationMode = true;
+        } else {
+          app.magnificationMode = false;
+        }
+      }
+    );
   };
   render() {
     return (
@@ -68,7 +69,8 @@ export default class LeftMenu extends React.Component {
         <button
           onClick={() => {
             window.app.setTool("Line");
-          }}>
+          }}
+        >
           <a href="#">
             <img
               // onClick={() => {
@@ -81,12 +83,12 @@ export default class LeftMenu extends React.Component {
           </a>
         </button>
         <button
-         onClick={() => {
-          window.app.setTool("Spline");
-        }}>
+          onClick={() => {
+            window.app.setTool("Spline");
+          }}
+        >
           <a href="#">
             <img
-             
               width="25px"
               src="images/Spline.png"
               data-tip="<span>Spline<br>Draws a special style of curve. In workarea? click to specify start point of the curve.<br>Click again at end poin. Drag the control points to define the desired curve.</span>"
@@ -95,8 +97,9 @@ export default class LeftMenu extends React.Component {
         </button>
         <button
           onClick={() => {
-                app.setTool("Rectangle");
-              }}>
+            app.setTool("Rectangle");
+          }}
+        >
           <a href="#">
             <img
               width="25px"
@@ -106,9 +109,10 @@ export default class LeftMenu extends React.Component {
           </a>
         </button>
         <button
-              onClick={() => {
-                app.setTool("Circle");
-              }}>
+          onClick={() => {
+            app.setTool("Circle");
+          }}
+        >
           <a href="#">
             <img
               width="25px"
@@ -117,9 +121,7 @@ export default class LeftMenu extends React.Component {
             />
           </a>
         </button>
-        <button 
-              onClick={() => app.setTool("Freehand")}
-              >
+        <button onClick={() => app.setTool("Freehand")}>
           <a href="#">
             <img
               width="25px"
@@ -137,7 +139,7 @@ export default class LeftMenu extends React.Component {
             />
           </a>
         </button>
-        <button onClick={() => app.setTool("Pointer")} >
+        <button onClick={() => app.setTool("Pointer")}>
           <a href="#">
             <img
               width="25px"
@@ -155,9 +157,7 @@ export default class LeftMenu extends React.Component {
             />
           </a>
         </button>
-        <button 
-              onClick={() => app.setTool("EditLine")}
-              >
+        <button onClick={() => app.setTool("EditLine")}>
           <a href="#">
             <img
               width="25px"
@@ -166,9 +166,7 @@ export default class LeftMenu extends React.Component {
             />
           </a>
         </button>
-        <button
-              onClick={() => app.setTool("Ruler")}
-              >
+        <button onClick={() => app.setTool("Ruler")}>
           <a href="#">
             <img
               width="25px"
@@ -180,7 +178,9 @@ export default class LeftMenu extends React.Component {
         <button
           onClick={this.handleClickSnapToLines}
           style={{
-            backgroundColor: this.state.bgColorSnapToLines }}>
+            backgroundColor: this.state.bgColorSnapToLines
+          }}
+        >
           <a href="#">
             <img
               width="25px"
