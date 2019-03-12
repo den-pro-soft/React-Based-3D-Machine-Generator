@@ -30,7 +30,7 @@ describe('Intersect', function() {
                 doc.addElement(line2);
 
                 let command = new IntersectElementsCommand(doc, [line2]);
-                command.execute();
+                command.executeCommand();
 
                 assert.equal(doc._elements.length, 3);
             });
@@ -47,7 +47,7 @@ describe('Intersect', function() {
                 doc.addElement(rect.toElement());
 
                 let command = new IntersectElementsCommand(doc, [line1]);
-                command.execute();
+                command.executeCommand();
 
                 assert.equal(doc._elements.length, 4);
             });
@@ -177,7 +177,7 @@ describe('Intersect', function() {
                 doc.addElement(arc);
 
                 let command = new IntersectElementsCommand(doc, [line]);
-                command.execute();
+                command.executeCommand();
 
                 assert.equal(doc._elements.length, 3);
             });
@@ -200,7 +200,7 @@ describe('Intersect', function() {
                 doc.addElement(arc);
 
                 let command = new IntersectElementsCommand(doc, [arc]);
-                command.execute();
+                command.executeCommand();
 
                 assert.equal(doc._elements.length, 3);
             });
@@ -264,7 +264,7 @@ describe('Intersect', function() {
                 doc.addElement(circle3);
 
                 let command = new IntersectElementsCommand(doc, [circle1,circle2, circle3]);
-                command.execute();
+                command.executeCommand();
 
                 assert.equal(doc._elements.length, 12);
 
@@ -282,7 +282,7 @@ describe('Intersect', function() {
         doc.addElement(rect);
 
         let command = new IntersectElementsCommand(doc, [line1, rect]);
-        command.execute();
+        command.executeCommand();
 
         assert.equal(doc._elements.length, 9);
     });

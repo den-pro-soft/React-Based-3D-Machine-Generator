@@ -398,4 +398,30 @@ export default class Arc extends GraphicElement{
 
         return res;
     }
+
+    /**
+     * Mirrors the element relative to the selected axis
+     * @param axis - the constant from {@class Trigonometric} class. [axisX|axisY]
+     * @param center {Point} 
+     */
+    mirror(axis, center){
+        let mirrorMatrix = Matrix.createMirrorMatrix(axis);
+
+        let moveMatrix = Matrix.createMoveMatrix(-center.x, -center.y);
+        let removeMatrix = Matrix.createMoveMatrix(center.x, center.y);
+
+        this.center.changeByMatrix(moveMatrix);
+        this.center.changeByMatrix(mirrorMatrix);
+        this.center.changeByMatrix(removeMatrix);
+
+        let oldStart = this.startAngle;
+        let oldEnd = this.endAngle;
+        if(axis==Trigonometric.axisX){
+            this.endAngle=180-oldStart;
+            this.startAngle=180-oldEnd;
+        }else{
+            this.endAngle=360-oldStart;
+            this.startAngle=360-oldEnd;
+        }
+    }
 }

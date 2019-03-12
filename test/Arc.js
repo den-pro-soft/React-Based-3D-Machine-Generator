@@ -37,4 +37,48 @@ describe('Arc', function() {
             assert(circle.isBelongsToTheElement(new Point(Math.cos(Math.PI/4)*5,Math.sin(Math.PI/4)*5)));
         });
     });
+
+    describe('mirror', function(){
+        it('Arc(new Point(0,0), 5) start angle=45, increment 45 after mirror by OX must be start angle=90, increment 45', function () {
+            let arc  = new Arc(new Point(), 5);
+            arc.startAngle=45;
+            arc.incrementAngle=45;
+
+            arc.mirror(Trigonometric.axisX, arc.center);
+
+            assert.equal(arc.startAngle,90);
+            assert.equal(arc.incrementAngle,45);
+        });
+        it('Arc(new Point(0,0), 5) start angle=0, increment 45 after mirror by OX must be start angle=135, increment 45', function () {
+            let arc  = new Arc(new Point(), 5);
+            arc.startAngle=0;
+            arc.incrementAngle=45;
+
+            arc.mirror(Trigonometric.axisX, arc.center);
+
+            assert.equal(arc.startAngle,135);
+            assert.equal(arc.incrementAngle,45);
+        });
+
+        it('Arc(new Point(0,0), 5) start angle=45, increment 45 after mirror by OY must be start angle=270, increment 45', function () {
+            let arc  = new Arc(new Point(), 5);
+            arc.startAngle=45;
+            arc.incrementAngle=45;
+
+            arc.mirror(Trigonometric.axisY, arc.center);
+
+            assert.equal(arc.startAngle,270);
+            assert.equal(arc.incrementAngle,45);
+        });
+        it('Arc(new Point(0,0), 5) start angle=0, increment 45 after mirror by OY must be start angle=315, increment 45', function () {
+            let arc  = new Arc(new Point(), 5);
+            arc.startAngle=0;
+            arc.incrementAngle=45;
+
+            arc.mirror(Trigonometric.axisY, arc.center);
+
+            assert.equal(arc.startAngle,315);
+            assert.equal(arc.incrementAngle,45);
+        });
+    })
 });
