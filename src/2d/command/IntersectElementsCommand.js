@@ -48,8 +48,10 @@ export default class IntersectElementsCommand extends ElementModificationCommand
      * @inheritDoc
      */
     executeCommand(){
+        let simpleElements = this._document.getListSimpleElements();
+
         for(let el of this.elements){
-            let newElements = this.intersectElement(el);
+            let newElements = this.intersectElement(el, simpleElements);
             if(newElements && newElements.length>0){
                 for(let newElement of newElements){
                     this.newElements.push(newElement);
@@ -68,12 +70,11 @@ export default class IntersectElementsCommand extends ElementModificationCommand
      * @param {GraphicElement} element
      * @return {Array.<GraphicElement>|null}
      */
-    intersectElement(element){
+    intersectElement(element, simpleElements){
         if(element instanceof Group) {
-            return this._intersectGroup(element);
+            return this._intersectGroup(element, simpleElements);
         }
 
-        let simpleElements = this._document.getListSimpleElements();
         let points = [];
         if(element instanceof LineElement) {
             for(let el of simpleElements){
@@ -140,10 +141,10 @@ export default class IntersectElementsCommand extends ElementModificationCommand
      * @return {Array.<GraphicElement>|null}
      * @private
      */
-    _intersectGroup(element){
+    _intersectGroup(element, simpleElements){
         let res = null;
         for(let el of element.elements){
-            let newElements = this.intersectElement(el);
+            let newElements = this.intersectElement(el, simpleElements);
             if(newElements){
                 if(!res) {
                     res = newElements;

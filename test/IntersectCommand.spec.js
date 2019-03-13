@@ -147,6 +147,21 @@ describe('Intersect', function() {
                     assert.equal(points.length, 0);
                 });
 
+                it(`t1 intersect Line with the Arc is two points`,function(){
+                    let line = new LineElement(new Point(-81.05284090254102, -2.6849626246029494),
+                        new Point(-30.271783528768225, -2.6849626246029494));
+                    let arc = new Arc(new Point(-55.550459666373186, -17.561351679034182), 26.84670898092727);
+
+                    let points = IntersectElementsCommand._intersectPointsLineArc(line,arc);
+                    assert.equal(points.length, 2);
+
+                    assert.equal(points[0].x.toFixed(4),(-33.2023).toFixed(4));
+                    assert.equal(points[0].y.toFixed(4),(-2.685).toFixed(4));
+
+                    assert.equal(points[1].x.toFixed(4),(-77.8986).toFixed(4));
+                    assert.equal(points[1].y.toFixed(3),(-2.685).toFixed(3));
+                });
+
             });
         });
 
@@ -180,6 +195,21 @@ describe('Intersect', function() {
                 command.executeCommand();
 
                 assert.equal(doc._elements.length, 3);
+            });
+
+            it(`after intersect Line & Arc document must contain 4 elements`,function(){
+                let line = new LineElement(new Point(-81.05284090254102, -2.6849626246029494),
+                                           new Point(-30.271783528768225, -2.6849626246029494));
+                let arc = new Arc(new Point(-55.550459666373186, -17.561351679034182), 26.84670898092727);
+
+                let doc = new Document();
+                doc.addElement(line);
+                doc.addElement(arc);
+
+                let command = new IntersectElementsCommand(doc,[line]);
+                command.executeCommand();
+
+                assert.equal(doc._elements.length, 4);
             });
 
         });
@@ -269,7 +299,38 @@ describe('Intersect', function() {
                 assert.equal(doc._elements.length, 12);
 
             });
-        })
+        });
+    });
+
+    describe('Group & Arc', function(){
+        it('after intersect Rect(Point(-4,4),Point(4,-4)) & Arc(Point(0,0), 5 document must have 20 elements', function(){
+            let arc  = new Arc(new Point(), 5);
+            let rect  = new RectElement(new Point(-4,4), new Point(4,-4)).toElement();
+
+            let doc = new Document();
+            doc.addElement(arc);
+            doc.addElement(rect);
+
+            let command = new IntersectElementsCommand(doc, [arc, rect]);
+            command.execute();
+
+            assert.equal(doc._elements.length, 20);
+        });
+
+        it('after intersect Rect & Arc document must have 20 elements', function(){
+            let arc  = new Arc(new Point(-12.859033711811408,4.293780907986459), 3.825238131061844);
+            let rect  = new RectElement(new Point(-16.398512488754154, 7.189718089121433),
+                                        new Point(-9.319554934868663, 1.3978437268514852)).toElement();
+
+            let doc = new Document();
+            doc.addElement(arc);
+            doc.addElement(rect);
+
+            let command = new IntersectElementsCommand(doc, [arc, rect]);
+            command.executeCommand();
+
+            assert.equal(doc._elements.length, 20);
+        });
     });
 
     it(`after intersect the Line(Point(-10, -10), Point(10, 10)) and the Rect(Point(-10, 5), Point(10,-5)) 

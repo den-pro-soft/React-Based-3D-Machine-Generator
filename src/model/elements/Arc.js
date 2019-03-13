@@ -329,14 +329,9 @@ export default class Arc extends GraphicElement{
 
 
         let startPoint = points[0];
-        points.splice(0,1);
 
-        points = points.sort((a, b)=>{
-            let angle1 = new Line(this.center,startPoint).toVector().getAngle(new Line(this.center,a).toVector());
-            let angle2 = new Line(this.center,startPoint).toVector().getAngle(new Line(this.center,b).toVector());
-            return angle2-angle1;
-        });
-        points.push(startPoint);
+        points = this.sortPointByTheArc(points);
+
         let baseVector = new Vector(1,0,0);
 
         let res = [];
@@ -396,6 +391,27 @@ export default class Arc extends GraphicElement{
             throw new Exception("The method doesn't have implementation!");
         }
 
+        return res;
+    }
+
+
+    /**
+     * It's work only for circle
+     * @param {Array.<Point>} points
+     * @return {Array.<Point>}
+     * @private
+     */
+    sortPointByTheArc(points){
+        let startPoint = points[0];
+        points.splice(0,1);
+
+        let baseVector = new Line(this.center,startPoint).toVector();
+        let res = points.sort((a, b)=>{
+            let angle1 = baseVector.getAngle(new Line(this.center,a).toVector());
+            let angle2 = baseVector.getAngle(new Line(this.center,b).toVector());
+            return angle2-angle1;
+        });
+        res.push(startPoint);
         return res;
     }
 
