@@ -141,8 +141,11 @@ export default class PointerTool extends DynamicChangeTool{
                 }
             }
         }else{
-            needRect= !super.mouseDown(point,e);
-            this.addedElement=!needRect;
+            let selectedElement = super.mouseDown(point,e);
+            this.addedElement=selectedElement;
+            this.transformer.mouseDown(point);
+
+            needRect= !selectedElement;
         }
 
         if(needRect){
