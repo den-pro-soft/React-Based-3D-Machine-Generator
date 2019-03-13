@@ -5,32 +5,29 @@ import { connect } from "react-redux";
 
 const options = [
   { value: "Air Inside", label: 'Air Inside'},
-
-  // { value: "Air Inside", label: labelValue1},
   { value: "Revolve", label: `Revolve` },
-  // { value: "0.05", label: this.labelValue2() },
   { value: "0.05", label: '0.005 mm' },
 
-  { value: "0.08", label: '0.08 mm' },
-  { value: "0.13", label: `0.13 mm` },
-  { value: "0.25", label: `0.25 mm` },
-  { value: "0.51", label: `0.51 mm` },
-  { value: "0.79", label: `0.79 mm` },
-  { value: "1.14", label: `1.14 mm` },
-  { value: "1.59", label: `1.59 mm` },
-  { value: "2.36", label: `2.36 mm` },
-  { value: "3.17", label: `3.17 mm` },
-  { value: "4.75", label: `4.75 mm` },
-  { value: "6.35", label: `6.35 mm` },
-  { value: "9.52", label: `9.52 mm` },
-  { value: "12.70", label: `12.70 mm` },
-  { value: "19.05", label: `19.05 mm` },
-  { value: "25.40", label: `25.40 mm` },
-  { value: "31.75", label: `31.75 mm` },
-  { value: "38.10", label: `38.10 mm` },
-  { value: "50.80", label: `50.80 mm` },
-  { value: "63.50", label: `63.50 mm` },
-  { value: "76.20", label: `76.20 mm` },
+  { value: "0.08", label: '0.080 mm' },
+  { value: "0.13", label: `0.130 mm` },
+  { value: "0.25", label: `0.250 mm` },
+  { value: "0.51", label: `0.510 mm` },
+  { value: "0.79", label: `0.790 mm` },
+  { value: "1.14", label: `1.140 mm` },
+  { value: "1.59", label: `1.590 mm` },
+  { value: "2.36", label: `2.360 mm` },
+  { value: "3.17", label: `3.170 mm` },
+  { value: "4.75", label: `4.750 mm` },
+  { value: "6.35", label: `6.350 mm` },
+  { value: "9.52", label: `9.520 mm` },
+  { value: "12.70", label: `12.700 mm` },
+  { value: "19.05", label: `19.050 mm` },
+  { value: "25.40", label: `25.400 mm` },
+  { value: "31.75", label: `31.750 mm` },
+  { value: "38.10", label: `38.100 mm` },
+  { value: "50.80", label: `50.800 mm` },
+  { value: "63.50", label: `63.500 mm` },
+  { value: "76.20", label: `76.200 mm` },
   { value: "Other", label: `Other` }
 ];
 const options_inch = [
@@ -99,24 +96,19 @@ class InputSelect extends React.Component {
       console.log(`action: ${actionMeta.action}`);
       console.groupEnd();
      
-      let newValue = options.some(el => el.value === inputValue);
-      let newValueInch = options_inch.some(el => el.value === inputValue);
+      let newValue = options.some(el => el.value === (+inputValue * 1).toFixed(3));
+      let newValueInch = options_inch.some(el => el.value === (+inputValue * 1).toFixed(3));
       console.log(newValue, 'valueList')
-
-      if (this.props.demensions === "Millimeters") {
+      if (this.props.demensions === 'Millimeters') {
         if (newValue === false && inputValue !== null && inputValue !== '') {
-
           options.push({
-            value: inputValue, label: inputValue + ' mm'
+            value: (+inputValue * 1).toFixed(3), label: (+inputValue * 1).toFixed(3) + ' mm'
           })
-     
-          }
-
+        }
       } else {
         if (newValueInch === false && inputValue !== null && inputValue !== '') {
-
           options_inch.push({
-            value: inputValue, label: inputValue + ' "'
+            value: (+inputValue * 1).toFixed(3), label: (+inputValue * 1).toFixed(3) + ' "'
           })
         }
       }
@@ -199,7 +191,7 @@ class InputSelect extends React.Component {
             onChange={this.handleChange}
             onInputChange={this.handleInputChange}
             // onKeyPress={this.handleInputChange}
-
+            // allowCreate={false}
             options={options}
             placeholder=""
           />
