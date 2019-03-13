@@ -303,7 +303,7 @@ describe('Intersect', function() {
     });
 
     describe('Group & Arc', function(){
-        it('after intersect Rect(Point(-4,4),Point(4,-4)) & Arc(Point(0,0), 5 document must have 20 elements', function(){
+        it('after intersect Rect(Point(-4,4),Point(4,-4)) & Arc(Point(0,0), 5) document must have 20 elements', function(){
             let arc  = new Arc(new Point(), 5);
             let rect  = new RectElement(new Point(-4,4), new Point(4,-4)).toElement();
 
@@ -312,7 +312,7 @@ describe('Intersect', function() {
             doc.addElement(rect);
 
             let command = new IntersectElementsCommand(doc, [arc, rect]);
-            command.execute();
+            command.executeCommand();
 
             assert.equal(doc._elements.length, 20);
         });
