@@ -11,14 +11,34 @@ import { connect } from "react-redux";
 class Confirmation extends React.Component {
   constructor(props) {
     super(props);
+    this.state={
+      // openModal:true
+    }
+    // const openConfirm = modal.modalOpenConfirmation()
+    // this.props.openConfirmModal(openConfirm)
   }
-
+  componentWillMount(){
+    // const openConfirm = modal.modalOpenConfirmation()
+    // console.log(openConfirm ,'openConfirm ')
+    // this.props.openConfirmModal(openConfirm)
+  
+  }
+  static handleYesButton = () => {
+    console.log('YES-button')
+  }
+  static handleNoButton = () => {
+    console.log('No-button')
+  }
   render() {
-    // console.log(this.props, "props-Confirm");
+    console.log(this.props, "props-Confirm");
     return (
       <Dialog
         maxWidth={false}
+        // open={this.props.openConfirm}
         open={this.props.openConfirm}
+
+        // open={this.state.openModal}
+
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
@@ -31,8 +51,8 @@ class Confirmation extends React.Component {
 
             <Button
               onClick={() =>{
-                app.config.openConfirm = !this.props.openConfirm;
-                this.props.closeConfirmModal(!this.props.openConfirm)
+                // modal.openConfirm = !this.props.openConfirm;
+                this.props.openConfirmModal(!this.props.openConfirm)
               }
               }
               style={{
@@ -78,10 +98,10 @@ class Confirmation extends React.Component {
 
           <div className="Yes-No-buttons">
             <Button
-              onClick={() =>{
-                app.config.openConfirm = !this.props.openConfirm;
-                this.props.closeConfirmModal(!this.props.openConfirm)
-              }
+              onClick={
+                ()=>{
+                  // this.props.openConfirmModal(!this.props.openConfirm);
+                  modal.handleButton1()}
               }
               style={{
                 backgroundColor: "#dddada",
@@ -95,10 +115,11 @@ class Confirmation extends React.Component {
               Yes
             </Button>
             <Button
-              onClick={() =>{
-                app.config.openConfirm = !this.props.openConfirm;
-                this.props.closeConfirmModal(!this.props.openConfirm)
-              }
+              onClick={
+               ()=>{
+                  // this.props.openConfirmModal(!this.props.openConfirm);
+                  modal.handleButton2()
+               }
               }
               style={{
                 backgroundColor: "#dddada",
@@ -116,6 +137,7 @@ class Confirmation extends React.Component {
     );
   }
 }
+
 const mapStateToProps = state => {
   return {
     openConfirm: state.confirmationReducer.openConfirm
@@ -124,9 +146,14 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    closeConfirmModal: openConfirm => {
-      dispatch({ type: "CLOSE_Confirmation", payload: openConfirm });
-    }
+    openConfirmModal: openConfirm => {
+      dispatch({ type: "OPEN_CONFIRM", payload: openConfirm });
+    },
+  
+    // closeConfirmModal: openConfirm => {
+    //   dispatch({ type: "CLOSE_Confirmation", payload: openConfirm });
+    // }
   };
-};
+}
+
 export default connect(mapStateToProps,mapDispatchToProps)(Confirmation);

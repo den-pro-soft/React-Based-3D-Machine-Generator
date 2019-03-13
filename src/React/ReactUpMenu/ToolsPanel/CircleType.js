@@ -26,6 +26,7 @@ class CircleType extends React.Component {
         }
       }
     });
+
   }
 
   componentDidUpdate(prevProps, prevState) {
