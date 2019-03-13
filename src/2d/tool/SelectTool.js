@@ -25,10 +25,13 @@ export default class SelectTool extends Tool{
     /**
      * The method need for selecting elements without using the tool
      * @param {GraphicElement} element
+     * @param {boolean} [addToApp=true]  
      */
-    selectElement(element){
+    selectElement(element, addToApp=true){
         this._selectElements.push(element);
-        app.addSelectElements([element]);
+        if(addToApp) {
+            app.addSelectElements([element]);
+        }
     }
 
     /**

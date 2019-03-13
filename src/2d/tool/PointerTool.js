@@ -79,8 +79,11 @@ export default class PointerTool extends DynamicChangeTool{
         this.transformer.addElements(elements);
     }
 
-    selectElement(element){
-        super.selectElement(element);
+    /**
+     * @inheritDoc
+     */
+    selectElement(element, addToApp=true){
+        super.selectElement(element, addToApp);
         if(!this.transformer) {
             this.transformer = new ResizeTransformer(this._document);
         }

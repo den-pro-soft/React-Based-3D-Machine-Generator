@@ -55,7 +55,7 @@ import {connect} from 'react-redux';
       // )
     // });
  
-      app.addHandler("selectElement", element => {
+      app.addHandler("selectElements", elements => {
   
     this.setState({value: app.selectElements[0]._lineType.label});
     localStorage.setItem('lineType', app.selectElements[0]._lineType.label);

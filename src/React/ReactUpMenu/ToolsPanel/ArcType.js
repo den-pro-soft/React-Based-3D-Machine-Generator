@@ -14,9 +14,9 @@ class ArcType extends React.Component {
   }
  
   componentWillMount() {
-    app.addHandler("selectElement", element => {
+    app.addHandler("selectElements", elements => {
       if (app.selectElements.length == 1) {
-        if (element.typeName === "Arc") {
+        if (elements[0].typeName === "Arc") {
 
           let startAngle = app.selectElements[0].startAngle.toFixed(3);
           let incrementAngle = app.selectElements[0].incrementAngle.toFixed(3);

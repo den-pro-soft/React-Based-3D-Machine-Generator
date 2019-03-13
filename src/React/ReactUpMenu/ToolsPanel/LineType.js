@@ -13,13 +13,13 @@ class LineType extends React.Component {
   }
 
   componentWillMount() {
-    app.addHandler("selectElement", element => {
+    app.addHandler("selectElements", elements => {
       if (app.selectElements.length == 1) {
-        if (element.typeName === "Line") {
+        if (elements[0].typeName === "Line") {
           let angle = app.selectElements[0].angle.toFixed(3);
           this.setState({ angle: angle + " deg" });
           //  console.log(angle,'angle')
-          let lengthLine = element.length().toFixed(3);
+          let lengthLine = elements[0].length().toFixed(3);
           this.props.updateLengthLine(lengthLine);
 
           if (this.props.demensions === "Millimeters") {

@@ -58,7 +58,7 @@ let idGenerator = 1;
 /**
  * The main application class is a facade for board
  * the class can generate events like as:
- * 1. selectElement - the event will call for every selected element. The event has data the data is a selected element
+ * 1. selectElements - The event has data the data is a array of selected element
  * 2. clearSelectElements - the event will call when clear select elements
  * 3. openNewFile - the event will call when change or init currentDocument. The event has data the data is a new document
  *
@@ -146,6 +146,7 @@ export default class Application extends Observable{
         for(let element of elements){
             this.addSelectElement(element);
         }
+        this._notifyHandlers('selectElements',elements);
     }
 
     /**
@@ -160,13 +161,13 @@ export default class Application extends Observable{
             }
         }
         this.selectElements.push(element);
-        this._notifyHandlers('selectElement',element);
     }
 
     selectAll(){
         this.setTool('Pointer');
+        this.addSelectElements(this.currentDocument._elements);
         for(let el of this.currentDocument._elements){
-            this._board.tool.selectElement(el);
+            this._board.tool.selectElement(el, false);
         }
         if(this._board){
             this._board.renderDocument();
