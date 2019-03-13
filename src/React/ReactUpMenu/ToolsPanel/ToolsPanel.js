@@ -42,23 +42,10 @@ import {connect} from 'react-redux';
   }
   // ---------------React Life Cycle-----------------
   componentWillMount() {
-    // window.addEventListener("load", () => {
-      // setTimeout(
-      //   ()=>{
-        //  const openConfirm = modal.modalOpenConfirmation()
-          // this.props.openConfirmModal(openConfirm);
-          // this.props.openConfirmModal(!this.props.openConfirm);
-
-          
-          console.log(this.props,'openConfirm ')
-      //   },3000
-      // )
-    // });
- 
-      app.addHandler("selectElement", element => {
+    app.addHandler("selectElement", element => {
   
-    this.setState({value: app.selectElements[0]._lineType.label});
-    localStorage.setItem('lineType', app.selectElements[0]._lineType.label);
+      this.setState({value: app.selectElements[0]._lineType.label});
+      localStorage.setItem('lineType', app.selectElements[0]._lineType.label);
 
           this.setState({ show: true });
           let text = app.selectElements.every(el => el.typeName === "Text");
@@ -97,6 +84,14 @@ import {connect} from 'react-redux';
 
     app.addHandler("clearSelectElements", () => {
       this.setState({ show: false });
+      const { _elements } = app.currentDocument;
+      if (_elements.length === 0) {
+        if (this.props.demensions === 'Millimeters') {
+          localStorage.setItem('z-value', '0.000 mm')
+        } else {
+          localStorage.setItem('z-value', '0.000 "')
+        }
+      }
     });
   
   }
@@ -321,23 +316,23 @@ import {connect} from 'react-redux';
     );
   }
 }
-const mapStateToProps = (state)=>{
-  return {
-    openConfirm: state.confirmationReducer.openConfirm,
-    // width: state.toolsPanelReducer.width,
-    // height: state.toolsPanelReducer.height,
+    const mapStateToProps = (state)=>{
+      return {
+        openConfirm: state.confirmationReducer.openConfirm,
+        demensions: state.preferencesReducer.demensions
 
-  }
-     }
+      }
+        }
 
-const mapDispatchToProps = dispatch => {
-  return {
-    updateOpenTapModal: openTapModal => {
-      dispatch({ type: "OPEN_TAP_MODAL", payload: openTapModal });
-    },
-    // openConfirmModal: openConfirm => {
-    //   dispatch({ type: "OPEN_CONFIRM", payload: openConfirm });
-    // }
-  };
-};
+    const mapDispatchToProps = dispatch => {
+      return {
+        updateOpenTapModal: openTapModal => {
+          dispatch({ type: "OPEN_TAP_MODAL", payload: openTapModal });
+        },
+        // openConfirmModal: openConfirm => {
+        //   dispatch({ type: "OPEN_CONFIRM", payload: openConfirm });
+        // }
+      };
+    }
+    
 export default connect(mapStateToProps, mapDispatchToProps)(ToolsPanel);

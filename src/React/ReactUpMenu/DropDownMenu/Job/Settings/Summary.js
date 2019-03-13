@@ -180,7 +180,7 @@ class ReactVirtualizedTable extends React.PureComponent {
       zip:'',
       quantity:100,
       material:'Unspecified',
-      value_Z:'',
+      value_Z:'0.000',
       finishing:'None',
       commentToMachinist:'None'
 
@@ -295,7 +295,7 @@ class ReactVirtualizedTable extends React.PureComponent {
 
     const ZIP = localStorage.getItem('zip');
     if(ZIP === null){
-    this.setState({zip:this.state.zip})
+      this.setState({zip:this.state.zip})
     } else{
       this.setState({zip:ZIP+', '})
     }
@@ -310,35 +310,41 @@ class ReactVirtualizedTable extends React.PureComponent {
 
     const material = localStorage.getItem('material');
     if(material === null){
-    this.setState({material:this.state.material})
+      this.setState({material:this.state.material})
     } else{
       this.setState({material:material})
-    }
-    
-    const ValueZ = localStorage.getItem('z-value');
-    if(ValueZ === null){
-    this.setState({value_Z:this.state.value_Z})
-    } else{
-      this.setState({value_Z:ValueZ})
     }
 
     const finishing = localStorage.getItem('finishing');
     if(finishing  === null){
-    this.setState({finishing :this.state.finishing })
+      this.setState({finishing :this.state.finishing })
     } else{
       this.setState({finishing :finishing })
     }
   
-  const {_elements} = app.currentDocument;
-  let text = _elements.filter(el => {return el.typeName === "Text"});
-  if(text.length===0){
-    this.setState({commentToMachinist:this.state.commentToMachinist})
+    const {_elements} = app.currentDocument;
 
-  } else {
-    this.setState({commentToMachinist:text.length})
+    const ValueZ = localStorage.getItem('z-value');
+    if(ValueZ === null){
+      this.setState({value_Z:this.state.value_Z})
+    } else{
+      if(_elements.length===0){
+        this.setState({value_Z:this.state.value_Z})
+      }else {
+        this.setState({value_Z:ValueZ})
+      }
+    }
 
-  }
-  }
+    let text = _elements.filter(el => {return el.typeName === "Text"});
+    if(text.length===0){
+      this.setState({commentToMachinist:this.state.commentToMachinist})
+
+    } else {
+      this.setState({commentToMachinist:text.length})
+
+    }
+    }
+
   render(){
     const used_lineTypes = localStorage.getItem('lineType');
     // console.log(used_lineTypes,'used_machines')
