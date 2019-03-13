@@ -80,32 +80,7 @@ class InputSelect extends React.Component {
         localStorage.setItem('z-value',selectedOption.value + ' "')
       }
       console.log(`Option selected:`, selectedOption.value);
-// ---------------------------------------------------------------
-      // let valueList = options.filter((item) => {
-      //   return item.value
-      //       })
-      // console.log(valueList,selectedOption.value,'valueList')
-      // // let newValue = valueList.some(el => el === inputValue);
-      // let newValue = valueList.includes(selectedOption.value);
 
-      // console.log(newValue, 'valueList')
-
-      // if (this.props.demensions === "Millimeters") {
-      //   if (newValue === false && selectedOption.value !== null && selectedOption.value !== '') {
-
-      //     options.push({
-      //       value: selectedOption.value, label: selectedOption.value + ' mm'
-      //     })
-      //   }
-      // } else {
-      //   if (newValue === false && selectedOption.value !== null && selectedOption.value !== '') {
-
-      //     options_inch.push({
-      //       value: selectedOption.value, label: selectedOption.value + ' "'
-      //     })
-      //   }
-      // }
-// ----------------------------------------------------------------------
       if (this.props.demensions === 'Millimeters') {
         let val = parseInt(selectedOption.value);
         app.setElementsHeight(val ? val : 0.075);
@@ -123,17 +98,10 @@ class InputSelect extends React.Component {
       console.log(inputValue);
       console.log(`action: ${actionMeta.action}`);
       console.groupEnd();
-      // let valueList = options.filter((item) => {
-      //   return item.value
-      //       })
-      // console.log(valueList,inputValue,'valueList')
+     
       let newValue = options.some(el => el.value === inputValue);
       let newValueInch = options_inch.some(el => el.value === inputValue);
-
-      // let newValue = valueList.includes(inputValue);
-
       console.log(newValue, 'valueList')
-      // if (newValue === false && inputValue !== null && inputValue !== '') {
 
       if (this.props.demensions === "Millimeters") {
         if (newValue === false && inputValue !== null && inputValue !== '') {
@@ -152,7 +120,6 @@ class InputSelect extends React.Component {
           })
         }
       }
-    // }
     };
  
     render() {
