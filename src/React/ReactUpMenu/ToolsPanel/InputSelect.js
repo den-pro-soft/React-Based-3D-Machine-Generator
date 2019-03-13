@@ -50,12 +50,12 @@ const options_inch = [
   { value: "0.375", label: `0.375 "` },
   { value: "0.500", label: `0.500 "` },
   { value: "0.750", label: `0.750 "` },
-  { value: "1.000", label: `1,000 "` },
-  { value: "1.250", label: `1,250 "` },
-  { value: "1.500", label: `1,500 "` },
-  { value: "2.000", label: `2,000 "` },
-  { value: "2.500", label: `2,500 "` },
-  { value: "3.000", label: `3,000 "` },
+  { value: "1.000", label: `1.000 "` },
+  { value: "1.250", label: `1.250 "` },
+  { value: "1.500", label: `1.500 "` },
+  { value: "2.000", label: `2.000 "` },
+  { value: "2.500", label: `2.500 "` },
+  { value: "3.000", label: `3.000 "` },
   { value: "Other", label: `Other` }
 ];
 class InputSelect extends React.Component {
@@ -80,7 +80,32 @@ class InputSelect extends React.Component {
         localStorage.setItem('z-value',selectedOption.value + ' "')
       }
       console.log(`Option selected:`, selectedOption.value);
+// ---------------------------------------------------------------
+      // let valueList = options.filter((item) => {
+      //   return item.value
+      //       })
+      // console.log(valueList,selectedOption.value,'valueList')
+      // // let newValue = valueList.some(el => el === inputValue);
+      // let newValue = valueList.includes(selectedOption.value);
 
+      // console.log(newValue, 'valueList')
+
+      // if (this.props.demensions === "Millimeters") {
+      //   if (newValue === false && selectedOption.value !== null && selectedOption.value !== '') {
+
+      //     options.push({
+      //       value: selectedOption.value, label: selectedOption.value + ' mm'
+      //     })
+      //   }
+      // } else {
+      //   if (newValue === false && selectedOption.value !== null && selectedOption.value !== '') {
+
+      //     options_inch.push({
+      //       value: selectedOption.value, label: selectedOption.value + ' "'
+      //     })
+      //   }
+      // }
+// ----------------------------------------------------------------------
       if (this.props.demensions === 'Millimeters') {
         let val = parseInt(selectedOption.value);
         app.setElementsHeight(val ? val : 0.075);
@@ -90,28 +115,44 @@ class InputSelect extends React.Component {
       }
     };
 
-    handleInputChange = (inputValue, actionMeta,event) => {
+    handleInputChange = (inputValue, actionMeta) => {
       // setState({displayInputSelect:false});
       console.group("Input Changed");
       // localStorage.setItem('z-value',inputValue);
-      console.log(inputValue,'actionMeta-event');
-      if(inputValue!==null){
-            if (this.props.demensions === "Millimeters") {
-
-              options.push({
-                value: inputValue, label: inputValue + ' mm'
-              })
-            } else {
-              options_inch.push({
-                value: inputValue, label: inputValue + ' "'
-              })
-            }
-          }
-
+      console.log(inputValue, 'actionMeta-event');
       console.log(inputValue);
       console.log(`action: ${actionMeta.action}`);
       console.groupEnd();
+      // let valueList = options.filter((item) => {
+      //   return item.value
+      //       })
+      // console.log(valueList,inputValue,'valueList')
+      let newValue = options.some(el => el.value === inputValue);
+      let newValueInch = options_inch.some(el => el.value === inputValue);
 
+      // let newValue = valueList.includes(inputValue);
+
+      console.log(newValue, 'valueList')
+      // if (newValue === false && inputValue !== null && inputValue !== '') {
+
+      if (this.props.demensions === "Millimeters") {
+        if (newValue === false && inputValue !== null && inputValue !== '') {
+
+          options.push({
+            value: inputValue, label: inputValue + ' mm'
+          })
+     
+          }
+
+      } else {
+        if (newValueInch === false && inputValue !== null && inputValue !== '') {
+
+          options_inch.push({
+            value: inputValue, label: inputValue + ' "'
+          })
+        }
+      }
+    // }
     };
  
     render() {
