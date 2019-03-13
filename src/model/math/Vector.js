@@ -33,7 +33,11 @@ export default class Vector{
             grad = 360-Trigonometric.radToGrad(rad);
         }
         if(isNaN(grad)){
-            return 0;
+            if(this.x/vector.x>0 || this.y/vector.y>0 || this.z/vector.z>0) {
+                return 0;
+            }else{
+                return 180;
+            }
         }
         return 360 - grad;
     }
