@@ -200,8 +200,6 @@ export default class Application extends Observable{
 
                 if(command instanceof ElementModificationCommand){
                     let elements = this.selectElements;
-                    console.log(elements,'elements');
-                    console.log(command.isReplacedElements(),'replace');
                     if(command.isReplacedElements()) {
                         elements = command.getElements();
                         if(command.selectOneElement) {
@@ -227,10 +225,12 @@ export default class Application extends Observable{
         if(this.commandHistory.hasRedo()){
             let command = this.commandHistory.getRedo();
             command.redo();
+            this.clearSelectElements();
             this.commandHistory.push(command);
         }
         if(this._board){
-            this._board.renderDocument();
+            this._changeTool(this._getToolInstance('Pointer'));
+            this.board.renderDocument();
         }
     }
     
@@ -241,10 +241,12 @@ export default class Application extends Observable{
         let command = this.commandHistory.pop();
         if(command){
             command.undo();
+            this.clearSelectElements();
         }
 
         if(this._board){
-            this._board.renderDocument();
+            this._changeTool(this._getToolInstance('Pointer'));
+            this.board.renderDocument();
         }
     }
     

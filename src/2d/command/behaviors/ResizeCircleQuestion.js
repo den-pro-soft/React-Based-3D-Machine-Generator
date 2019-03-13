@@ -16,13 +16,15 @@ export default class ResizeCircleQuestion extends Behavior{
     execute(command){
         return new Promise((resolve, reject)=>{
             if(this.isHasAnArc(command)){
-                if(confirm('Convert arc to splines?')) {
-                    command.convertCircleToSplines = true;
-                    resolve(true);
-                }else{
-                    command.convertCircleToSplines = false;
-                    resolve(false);
-                }
+                container.resolve('confirmChangeArcToSplinesDialog').modalOpenConfirmation(
+                    ()=>{
+                        command.convertCircleToSplines = true;
+                        resolve(true);
+                    },()=>{
+                        command.convertCircleToSplines = false;
+                        resolve(false);
+                    }
+                );
             }else{
                 command.convertCircleToSplines = false;
                 resolve(true);

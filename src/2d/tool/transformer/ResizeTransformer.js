@@ -224,12 +224,8 @@ export default class ResizeTransformer extends Transformer{
                 if(!this.activeControllPoint) {
                     app.moveSelected(this.dx, this.dy);
                 }else{
-                    try {
-                        app.executeCommand(new ResizeElementsCommand(this.board.document, this._elements,
-                            new Vector(this.dx, this.dy), this.activeControllPoint.alignX, this.activeControllPoint.alignY));
-                    }catch (e){
-
-                    }
+                    app.executeCommand(new ResizeElementsCommand(this.board.document, this._elements,
+                        new Vector(this.dx, this.dy), this.activeControllPoint.alignX, this.activeControllPoint.alignY));
                 }
                 this.dx = 0;
                 this.dy = 0;
