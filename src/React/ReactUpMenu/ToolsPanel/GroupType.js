@@ -11,7 +11,7 @@ import { connect } from "react-redux";
     };
   }
   componentWillMount() {
-    app.addHandler("selectElement", element => {
+    app.addHandler("selectElements", elements => {
    
          
       if (app.selectElements.length == 1||app.selectElements.length > 1) {
