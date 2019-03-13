@@ -100,7 +100,7 @@ class Confirmation extends React.Component {
             <Button
               onClick={
                 ()=>{
-                  // this.props.openConfirmModal(!this.props.openConfirm);
+                  this.props.openConfirmModal(!this.props.openConfirm);
                   modal.handleButton1()}
               }
               style={{
@@ -117,7 +117,7 @@ class Confirmation extends React.Component {
             <Button
               onClick={
                ()=>{
-                  // this.props.openConfirmModal(!this.props.openConfirm);
+                  this.props.openConfirmModal(!this.props.openConfirm);
                   modal.handleButton2()
                }
               }

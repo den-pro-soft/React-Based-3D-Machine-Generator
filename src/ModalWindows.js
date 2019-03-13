@@ -26,13 +26,13 @@ export default class ModalWindows {
 
     handleButton1 = () => {
         this.handly1()
-        store.dispatch({ type: "OPEN_CONFIRM", payload:false });
+        // store.dispatch({ type: "OPEN_CONFIRM", payload:false });
         console.log("Yes-from modalWindows");
     };
     
     handleButton2 = () => {
         this.handly2();
-        store.dispatch({ type: "OPEN_CONFIRM", payload:false });
+        // store.dispatch({ type: "OPEN_CONFIRM", payload:false });
         console.log("No-from modalWindows");
     };
 }

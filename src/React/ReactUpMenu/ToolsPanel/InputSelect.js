@@ -76,18 +76,10 @@ class InputSelect extends React.Component {
       console.log(this.state.selectedOption,'selectedOption ');
       if(this.props.demensions==='Millimeters'){
         localStorage.setItem('z-value',selectedOption.value + ' mm')
-        // options.push({
-        //   value: selectedOption.value, label: selectedOption.value + ' mm'
-        // })
       } else {
         localStorage.setItem('z-value',selectedOption.value + ' "')
       }
       console.log(`Option selected:`, selectedOption.value);
-      // if (e.charCode === 13) {
-      //   if (this.props.demensions === "Millimeters") {
-      //     inputValue + ' mm'
-      //   }
-      // }
 
       if (this.props.demensions === 'Millimeters') {
         let val = parseInt(selectedOption.value);
@@ -115,19 +107,11 @@ class InputSelect extends React.Component {
               })
             }
           }
-// if(actionMeta==='input-change'){
 
-//   this.setState({selectedValue:inputValue +' mm' })
-
-// }
       console.log(inputValue);
       console.log(`action: ${actionMeta.action}`);
       console.groupEnd();
-      // if (actionMeta.action.charCode === 13) {
-      //   if (this.props.demensions === "Millimeters") {
-      //     inputValue + ' mm'
-      //   }
-      // }
+
     };
  
     render() {
@@ -158,15 +142,11 @@ class InputSelect extends React.Component {
           backgroundColor: "#fff",
           border: "1px solid #808080"
         }),
-        // singleValue:()=>({
-        //   color:'blue'
-        // }),
         input: 
         // styles => ({
         //   ...styles,
         () => ({
           background: "white",
-          // height:'0px'
         }),
         option: () => ({
           borderLeft: "2px solid transparent",
@@ -208,10 +188,9 @@ class InputSelect extends React.Component {
             // isClearable
             defaultValue={this.state.selectedValue}
             // defaultValue={options[0]}
-            // value = {this.state.selectedOption}
             onChange={this.handleChange}
             onInputChange={this.handleInputChange}
-            onKeyPress={this.handleInputChange}
+            // onKeyPress={this.handleInputChange}
 
             options={options}
             placeholder=""
@@ -239,14 +218,5 @@ class InputSelect extends React.Component {
 
     };
   };
-  // const mapDispatchToProps = dispatch => {
-  //   return {
-  //     updateMouseCoordinates: (mouseX,mouseY) => {
-  //       dispatch({ type: "UPDATE_MOUSE_COORDINATES", payload: mouseX , payload1: mouseY});
-  //     }
-  //   };
-  // };
-  export default connect(
-    mapStateToProps,
-  /* mapDispatchToProps*/
-  )(InputSelect);
+
+  export default connect(mapStateToProps)(InputSelect);
