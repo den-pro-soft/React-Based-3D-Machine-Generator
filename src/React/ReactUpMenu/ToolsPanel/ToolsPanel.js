@@ -50,7 +50,7 @@ import {connect} from 'react-redux';
           this.setState({ show: true });
           let text = app.selectElements.every(el => el.typeName === "Text");
           let arc = app.selectElements.every(el => el.typeName === "Arc");
-
+       
           if (text === true && app.selectElements.length > 1) {
 
             this.setState({ line: false, arc: false,circle:false, group: true, text:true, withoutText:false });
@@ -58,7 +58,7 @@ import {connect} from 'react-redux';
 
           if (arc === true && app.selectElements.length > 1) {
               this.setState({ line: false, circle: true, group: true });
-          } 
+          } else
           if(arc=== true && app.selectElements.length === 1){
             if(app.selectElements[0].incrementAngle===360){
               this.setState({ line: false, circle: true, arc:false,  group: false, text: false });
