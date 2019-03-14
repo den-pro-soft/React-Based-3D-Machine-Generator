@@ -7,27 +7,23 @@ class MoveButtons extends React.Component {
     super(props);
     this.state = {
       bgColorCopy: "#f0f0f0d9",
-      moveStep:app.config.moveStep +' "',
-      rotateStep: app.config.rotateStep + " deg"
-     
+      moveStep:this.props.moveStep.toFixed(3) + ' mm',
+      rotateStep: app.config.rotateStep.toFixed(2) + " deg"
     };
   }
-  componentWillMount(){
-    if(this.props.demensions==='Millimeters'){
-      this.setState({moveStep: app.config.moveStep  + ' mm'})
-    } else {
-      this.setState({moveStep: (app.config.moveStep/25.4).toFixed(3) + ' "'})
-      // `${String.fromCharCode(34)}`
-    }
-  }
 
+ 
   componentDidUpdate(prevProps, prevState) {
     if (this.props.demensions !== prevProps.demensions) {
+      console.log(this.props,'this.props')
+      let moveStep = this.props.moveStep;
+
       if(this.props.demensions==='Millimeters'){
-        this.setState({moveStep: app.config.moveStep  + ' mm'})
-      } else {
-        this.setState({moveStep: (app.config.moveStep/25.4).toFixed(3) + ' "'})
-      }
+ 
+      this.setState({moveStep: (moveStep*1).toFixed(3) + ' mm'})
+    } else {
+      this.setState({moveStep: (moveStep/25.4).toFixed(3) + ' "'})
+    }
     }
   }
   handleClickCopy = () => {
@@ -77,24 +73,38 @@ class MoveButtons extends React.Component {
 
   handlyChangeInputMove = event => {
     // console.log(event.target.value, "target-move");
-    app.config.moveStep = event.target.value;
-    let move = app.config.moveStep;
+    // app.config.moveStep = event.target.value;
+    let moveStep = event.target.value;
+    let moveNumber = moveStep.replace(/[^0-9.]/g, "") ;
+    this.props.updateMoveStep((+moveNumber*1).toFixed(3))
     this.setState({
-      moveStep: move.replace(/[^0-9.]/g, "")
+      moveStep
     });
   
-
     if (event.charCode === 13) {
       if (this.props.demensions === 'Millimeters') {
-        this.setState({
-          moveStep: move.replace(/[^0-9.]/g, "") + ' mm'
-        });
+  
+          this.setState({
+          moveStep: this.props.moveStep.replace(/[^0-9.]/g, "") + ' mm'
+          })
+
+        let moveStep1 = this.state.moveStep.replace(/[^0-9.]/g, "")
+        this.props.updateMoveStep(+moveStep1);
+        app.config.moveStep = +moveStep1;
+        this.moveInput.blur();
+
       } else {
         this.setState({
-          moveStep: move.replace(/[^0-9.]/g, "") + ' "'
+          moveStep: this.props.moveStep.replace(/[^0-9.]/g, "") + ' "'
         });
-      }
+        let moveStep1 = this.state.moveStep.replace(/[^0-9.]/g, "")
 
+        this.props.updateMoveStep(+moveStep1*25.4);
+        app.config.moveStep = +moveStep1*25.4;
+        this.moveInput.blur();
+
+      }
+console.log(app.config.moveStep,this.props.moveStep,'app.config.moveStep-props')
     }
   };
 // -------------------------------------Rotate-------------------------------------------------------
@@ -120,16 +130,21 @@ rotateRight = () => {
 handlyChangeInputRotate = event => {
   // console.log(event.target.value, "target-rotate");
   app.config.rotateStep = event.target.value;
-  let rotate = app.config.rotateStep;
-
+  let rotateStep = event.target.value;
+  let rotateNumber = rotateStep.replace(/[^0-9.]/g, "") ;
+  // this.props.updateMoveStep((+rotateNumber*1).toFixed(3))
   this.setState({
-    rotateStep: rotate.replace(/[^0-9.]/g, "")
+    rotateStep 
   });
 
   if (event.charCode === 13) {
     this.setState({
-      rotateStep: rotate.replace(/[^0-9.]/g, "") + " deg"
+      rotateStep: (+rotateNumber*1).toFixed(2) + " deg"
     });
+  app.config.rotateStep = this.state.rotateStep.replace(/[^0-9.]/g, "");
+
+    this.rotateInput.blur();
+
   }
 };
 
@@ -205,10 +220,9 @@ handlyChangeInputRotate = event => {
         </button>
         <input
           type="text"
-          // defaultValue={this.state.moveStep}
-          // onChange={e => {
-          //   app.config.moveStep = e.target.value;
-          // }}
+          ref={input => {
+            this.moveInput = input;
+          }}
           value={this.state.moveStep}
           onChange={this.handlyChangeInputMove}
           onKeyPress={this.handlyChangeInputMove}
@@ -218,7 +232,6 @@ handlyChangeInputRotate = event => {
               dragging the item to a snap point on an existing line and then<br/>
               nudging without the mouse.</span>"
         />
-            {/* <RotateButtons /> */}
             <button className="btn-LeftRotate" onClick={this.rotateLeft}>
           <a href="#">
             <img
@@ -246,6 +259,9 @@ handlyChangeInputRotate = event => {
         <input
           type="text"
           className="InputRotate"
+          ref={input => {
+            this.rotateInput = input;
+          }}
           value={this.state.rotateStep}
           onChange={this.handlyChangeInputRotate}
           onKeyPress={this.handlyChangeInputRotate}
@@ -262,11 +278,18 @@ handlyChangeInputRotate = event => {
     );
   }
 }
-const mapStateToProps = (state)=>{
-return {
- demensions: state.preferencesReducer.demensions
-}
-   }
+    const mapStateToProps = (state)=>{
+      return {
+        demensions: state.preferencesReducer.demensions,
+        moveStep: state.movingReducer.moveStep,
+      }
+    }
+    const mapDispatchToProps = dispatch => {
+      return {
+        updateMoveStep: moveStep => {
+          dispatch({ type: "UPDATE_MOVE_STEP", payload: moveStep });
+        }
+      };
+    };
 
-
-export default connect(mapStateToProps)(MoveButtons)
+export default connect(mapStateToProps,mapDispatchToProps)(MoveButtons)
