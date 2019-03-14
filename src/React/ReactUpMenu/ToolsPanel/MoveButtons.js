@@ -129,7 +129,6 @@ rotateRight = () => {
 
 handlyChangeInputRotate = event => {
   // console.log(event.target.value, "target-rotate");
-  // app.config.rotateStep = event.target.value;
   let rotateStep = event.target.value;
   let rotateNumber = rotateStep.replace(/[^0-9.]/g, "") ;
   // this.props.updateMoveStep((+rotateNumber*1).toFixed(3))
