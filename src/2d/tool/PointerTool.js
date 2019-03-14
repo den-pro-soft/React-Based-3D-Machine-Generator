@@ -143,8 +143,9 @@ export default class PointerTool extends DynamicChangeTool{
         }else{
             let selectedElement = super.mouseDown(point,e);
             this.addedElement=selectedElement;
-            this.transformer.mouseDown(point);
-
+            if(selectedElement) {
+                this.transformer.mouseDown(point);
+            }
             needRect= !selectedElement;
         }
 

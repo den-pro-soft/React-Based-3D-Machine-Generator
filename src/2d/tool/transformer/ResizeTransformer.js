@@ -102,14 +102,7 @@ class ResizeRect extends RectElement{
 
     move(x,y){
         this.p1 = new Point(this.p1.x+x, this.p1.y+y);
-
-        console.log(this.p1, 'before');
         this._p1.x+=x;
-
-        console.log(this.p1, 'after');
-        // this.p2.x+=x;
-        //
-        // this.p2.y+=y;
     }
 
     _createControlPointRect(p){
