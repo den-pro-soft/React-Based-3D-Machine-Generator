@@ -8,7 +8,7 @@ const initialState = {
 };
 
 export default function toolsPanelReducer(state = initialState, action) {
-  //   console.log(state, "toolsPanel-Reducer");
+    console.log(state.diameter, "toolsPanel-Reducer");
 
   switch (action.type) {
     case "UPDATE_LENGTH_LINE":
@@ -17,8 +17,10 @@ export default function toolsPanelReducer(state = initialState, action) {
       };
     case "UPDATE_DIAMETER":
       return {
-        diameter: action.payload
-      };
+        diameter: (action.payload===undefined)? '' :  action.payload
+      }
+ 
+
     case "UPDATE_RADIUS":
       return {
         radius: action.payload

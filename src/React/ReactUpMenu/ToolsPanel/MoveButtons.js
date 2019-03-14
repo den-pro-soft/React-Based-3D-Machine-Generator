@@ -3,149 +3,144 @@ import ReactTooltip from "react-tooltip";
 import {connect} from 'react-redux';
 
 class MoveButtons extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      bgColorCopy: "#f0f0f0d9",
-      moveStep:this.props.moveStep.toFixed(3) + ' mm',
-      rotateStep: app.config.rotateStep.toFixed(2) + " deg"
+    constructor(props) {
+      super(props);
+      this.state = {
+        bgColorCopy: "#f0f0f0d9",
+        moveStep:this.props.moveStep.toFixed(3) + ' mm',
+        rotateStep: app.config.rotateStep.toFixed(2) + " deg"
+      };
+    }
+
+ 
+    componentDidUpdate(prevProps, prevState) {
+      if (this.props.demensions !== prevProps.demensions) {
+        let moveStep = this.props.moveStep;
+
+        if(this.props.demensions==='Millimeters'){  
+            this.setState({moveStep: (moveStep*1).toFixed(3) + ' mm'})
+          } else {
+            this.setState({moveStep: (moveStep/25.4).toFixed(3) + ' "'})
+          }
+      }
+    }
+
+    handleClickCopy = () => {
+      this.setState({
+        bgColorCopy: this.state.bgColorCopy === "#f0f0f0d9" ? "#fff" : "#f0f0f0d9"
+      });
+    }
+
+    /**
+     * @return {boolean}  - true if enable coppy mode
+     */
+    copyMode() {
+      return this.state.bgColorCopy === "#f0f0f0d9";
+    }
+
+    moveUp = () => {
+      if (this.copyMode()) {
+        app.moveSelected(0, app.config.moveStep);
+      } else {
+        app.copyMoveSelected(0, app.config.moveStep);
+      }
+    }
+
+    moveDown = () => {
+      if (this.copyMode()) {
+        app.moveSelected(0, -app.config.moveStep);
+      } else {
+        app.copyMoveSelected(0, -app.config.moveStep);
+      }
+    }
+
+    moveLeft = () => {
+      if (this.copyMode()) {
+        app.moveSelected(-app.config.moveStep, 0);
+      } else {
+        app.copyMoveSelected(-app.config.moveStep, 0);
+      }
+    }
+
+    moveRight = () => {
+      if (this.copyMode()) {
+        app.moveSelected(app.config.moveStep, 0);
+      } else {
+        app.copyMoveSelected(app.config.moveStep, 0);
+      }
     };
-  }
-
- 
-  componentDidUpdate(prevProps, prevState) {
-    if (this.props.demensions !== prevProps.demensions) {
-      console.log(this.props,'this.props')
-      let moveStep = this.props.moveStep;
-
-      if(this.props.demensions==='Millimeters'){
- 
-      this.setState({moveStep: (moveStep*1).toFixed(3) + ' mm'})
-    } else {
-      this.setState({moveStep: (moveStep/25.4).toFixed(3) + ' "'})
-    }
-    }
-  }
-  handleClickCopy = () => {
-    this.setState({
-      bgColorCopy: this.state.bgColorCopy === "#f0f0f0d9" ? "#fff" : "#f0f0f0d9"
-    });
-  };
-
-  /**
-   * @return {boolean}  - true if enable coppy mode
-   */
-  copyMode() {
-    return this.state.bgColorCopy === "#f0f0f0d9";
-  }
-
-  moveUp = () => {
-    if (this.copyMode()) {
-      app.moveSelected(0, app.config.moveStep);
-    } else {
-      app.copyMoveSelected(0, app.config.moveStep);
-    }
-  };
-
-  moveDown = () => {
-    if (this.copyMode()) {
-      app.moveSelected(0, -app.config.moveStep);
-    } else {
-      app.copyMoveSelected(0, -app.config.moveStep);
-    }
-  };
-
-  moveLeft = () => {
-    if (this.copyMode()) {
-      app.moveSelected(-app.config.moveStep, 0);
-    } else {
-      app.copyMoveSelected(-app.config.moveStep, 0);
-    }
-  };
-  moveRight = () => {
-    if (this.copyMode()) {
-      app.moveSelected(app.config.moveStep, 0);
-    } else {
-      app.copyMoveSelected(app.config.moveStep, 0);
-    }
-  };
 
 
-  handlyChangeInputMove = event => {
-    // console.log(event.target.value, "target-move");
-    // app.config.moveStep = event.target.value;
-    let moveStep = event.target.value;
-    let moveNumber = moveStep.replace(/[^0-9.]/g, "") ;
-    this.props.updateMoveStep((+moveNumber*1).toFixed(3))
-    this.setState({
-      moveStep
-    });
-  
-    if (event.charCode === 13) {
-      if (this.props.demensions === 'Millimeters') {
-  
+    handlyChangeInputMove = event => {
+
+      let moveStep = event.target.value;
+      let moveNumber = moveStep.replace(/[^0-9.]/g, "") ;
+      this.props.updateMoveStep((+moveNumber*1).toFixed(3))
+      this.setState({
+        moveStep
+      });
+    
+      if (event.charCode === 13) {
+        if (this.props.demensions === 'Millimeters') {
+    
+            this.setState({
+            moveStep: this.props.moveStep.replace(/[^0-9.]/g, "") + ' mm'
+            })
+
+          let moveStep1 = this.state.moveStep.replace(/[^0-9.]/g, "")
+          this.props.updateMoveStep(+moveStep1);
+          app.config.moveStep = +moveStep1;
+          this.moveInput.blur();
+
+        } else {
           this.setState({
-          moveStep: this.props.moveStep.replace(/[^0-9.]/g, "") + ' mm'
-          })
+            moveStep: this.props.moveStep.replace(/[^0-9.]/g, "") + ' "'
+          });
+          let moveStep1 = this.state.moveStep.replace(/[^0-9.]/g, "")
 
-        let moveStep1 = this.state.moveStep.replace(/[^0-9.]/g, "")
-        this.props.updateMoveStep(+moveStep1);
-        app.config.moveStep = +moveStep1;
-        this.moveInput.blur();
+          this.props.updateMoveStep(+moveStep1*25.4);
+          app.config.moveStep = +moveStep1*25.4;
+          this.moveInput.blur();
+
+        }
+      }
+    };
+// -------------------------------------Rotate-------------------------------------------------------
+    rotateLeft = () => {
+      if (this.copyMode()) {
+        app.rotateSelected(-app.config.rotateStep);
 
       } else {
-        this.setState({
-          moveStep: this.props.moveStep.replace(/[^0-9.]/g, "") + ' "'
-        });
-        let moveStep1 = this.state.moveStep.replace(/[^0-9.]/g, "")
+        app.copyRotateSelected(-app.config.rotateStep);
+      }
+    };
 
-        this.props.updateMoveStep(+moveStep1*25.4);
-        app.config.moveStep = +moveStep1*25.4;
-        this.moveInput.blur();
+    rotateRight = () => {
+      if (this.copyMode()) {
+        app.rotateSelected(app.config.rotateStep);
+
+      } else {
+        app.copyRotateSelected(app.config.rotateStep);
 
       }
-console.log(app.config.moveStep,this.props.moveStep,'app.config.moveStep-props')
-    }
-  };
-// -------------------------------------Rotate-------------------------------------------------------
-rotateLeft = () => {
-  if (this.copyMode()) {
-    app.rotateSelected(-app.config.rotateStep);
+    };
 
-  } else {
-    app.copyRotateSelected(-app.config.rotateStep);
-  }
-};
+    handlyChangeInputRotate = event => {
+      let rotateStep = event.target.value;
+      let rotateNumber = rotateStep.replace(/[^0-9.]/g, "") ;
+      this.setState({
+        rotateStep 
+      });
 
-rotateRight = () => {
-  if (this.copyMode()) {
-    app.rotateSelected(app.config.rotateStep);
+      if (event.charCode === 13) {
+        this.setState({
+          rotateStep: (+rotateNumber*1).toFixed(2) + " deg"
+        });
+        app.config.rotateStep = +this.state.rotateStep.replace(/[^0-9.]/g, "");
+        this.rotateInput.blur();
 
-  } else {
-    app.copyRotateSelected(app.config.rotateStep);
-
-  }
-};
-
-handlyChangeInputRotate = event => {
-  // console.log(event.target.value, "target-rotate");
-  let rotateStep = event.target.value;
-  let rotateNumber = rotateStep.replace(/[^0-9.]/g, "") ;
-  // this.props.updateMoveStep((+rotateNumber*1).toFixed(3))
-  this.setState({
-    rotateStep 
-  });
-
-  if (event.charCode === 13) {
-    this.setState({
-      rotateStep: (+rotateNumber*1).toFixed(2) + " deg"
-    });
-  app.config.rotateStep = +this.state.rotateStep.replace(/[^0-9.]/g, "");
-
-    this.rotateInput.blur();
-
-  }
-};
+      }
+    };
 
   render() {
     return (
