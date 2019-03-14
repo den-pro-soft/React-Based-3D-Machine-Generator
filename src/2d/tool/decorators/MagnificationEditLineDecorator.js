@@ -2,22 +2,22 @@
  * Created by dev on 05.03.19.
  */
 
-import MagnificationToolDecorator from './MagnificationToolDecorator';
+import MagnificationCreatorToolDecorator from './MagnificationCreatorToolDecorator';
 
-export default class MagnificationEditLineDecorator extends MagnificationToolDecorator{
+export default class MagnificationEditLineDecorator extends MagnificationCreatorToolDecorator{
     /**
      * @param document
-     * @param {CreatorTool} creatorTool
+     * @param {CreatorTool} tool
      */
-    constructor(document, creatorTool){
-        super(document, creatorTool);
+    constructor(document, tool){
+        super(document, tool);
     }
 
     render(){
         if(this.tool.edited){
             return super.render();
         }
-        return this._tool.render();
+        return this.tool.render();
     }
 
     getPointsList(){

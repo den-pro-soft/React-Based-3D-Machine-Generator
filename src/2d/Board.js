@@ -431,11 +431,12 @@ class InteractiveBoard extends Board{
 
     renderDocument() {
         this.clear('#ffffff');
-        if(this.tool) {
-            this.tool.render();
-        }
+
         if(this.document){
             this.document.render();
+        }
+        if(this.tool) {
+            this.tool.render();
         }
 
         for(let extension of this.boardExtensions){

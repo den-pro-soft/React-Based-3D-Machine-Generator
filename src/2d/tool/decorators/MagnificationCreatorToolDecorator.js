@@ -2,43 +2,20 @@
  * Created by dev on 31.01.19.
  */
 
-import Tool from './Tool';
-import Point from './../../model/Point';
+import MagnificationDecorator from './MagnificationDecorator';
+import Point from '../../../model/Point';
 
-export default class MagnificationToolDecorator extends Tool{
+export default class MagnificationCreatorToolDecorator extends MagnificationDecorator{
 
     /**
      * @param document
-     * @param {CreatorTool} creatorTool
+     * @param {CreatorTool} tool
      */
-    constructor(document, creatorTool){
-        super(document);
+    constructor(document, tool){
+        super(document, tool);
 
-        /** @type {Tool} */
-        this._tool = creatorTool;
+        /** @type {Point} */
         this.magnitPoint = null;
-    }
-
-    set document(doc){
-        this._tool.document=doc;
-    }
-
-    get document(){
-        return this._tool.document;
-    }
-
-    /**
-     * @return {Tool}
-     */
-    get tool(){
-        return this._tool;
-    }
-
-    /**
-     * @param {Tool} tool
-     */
-    set tool(tool){
-        this._tool = tool;
     }
 
     /**
@@ -54,40 +31,35 @@ export default class MagnificationToolDecorator extends Tool{
      * @inheritDoc
      */
     mouseDbClick(point, e){
-        return this._tool.mouseDbClick(this.magnificPoint(point), e);
+        return super.mouseDbClick(this.magnificPoint(point), e);
     }
 
     /**
      * @inheritDoc
      */
     mouseClick(point, e){
-        return this._tool.mouseClick(this.magnificPoint(point), e);
+        return super.mouseClick(this.magnificPoint(point), e);
     }
 
     /**
      * @inheritDoc
      */
     mouseDown(point, e){
-        return this._tool.mouseDown(this.magnificPoint(point), e);
+        return super.mouseDown(this.magnificPoint(point), e);
     }
 
     /**
      * @inheritDoc
      */
     mouseUp(point, e){
-        return this._tool.mouseUp(this.magnificPoint(point), e);
+        return super.mouseUp(this.magnificPoint(point), e);
     }
 
     render(){
         if(this.magnitPoint){
-            let p = app.board._convertToLocalCoordinateSystem(this.magnitPoint);
-            let d = 4;
-            let p1 = {x:p.x-d,y:p.y-d};
-            let p2 = {x:p.x+d,y:p.y+d};
-            app.board.style('fillStyle','#000000');
-            app.board._drawRect(p1,p2,true);
+            super.renderPoint(this.magnitPoint, '#000000');
         }
-        return this._tool.render();
+        return super.render();
     }
 
     selectElement(element){
@@ -149,12 +121,5 @@ export default class MagnificationToolDecorator extends Tool{
             element._renderer.setFocus(true);
         }
     }
-
-    /**
-     * @return {number}
-     */
-    get Eps(){
-        let scale = container.resolve('mainBoard')._scale; //todo: maybe set from the using place
-        return (scale>1?0.2:0.05)/scale;
-    }
+    
 }

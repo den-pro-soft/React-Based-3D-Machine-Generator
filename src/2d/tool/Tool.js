@@ -75,16 +75,6 @@ export default class Toll extends Renderable{
         throw new Exception("The method doesn't have implementation");
     }
 
-    //todo: remove. because the method contain only in SelectTool
-    selectElement(element){
-        throw new Exception("The selectElement method doesn't have implementation");
-    }
-
-    //todo: remove. because the method contain only in SelectTool
-    setSelectElements(elements){
-        throw new Exception("The setSelectElements method doesn't have implementation");
-    }
-
     /**
      * @inheritDoc
      */
