@@ -18,7 +18,7 @@ import { connect } from "react-redux";
           let ext = app.currentDocument.getExtrenum(app.selectElements);
           let width = (ext.max.x- ext.min.x).toFixed(3);
           let height = (ext.max.y- ext.min.y).toFixed(3);
-          this.props.updateWidthAndHeight(width,height);
+          this.props.updateWidthAndHeight(+width,+height);
         if (this.props.demensions === "Millimeters") {
           this.setState({
             width: width + " mm",
@@ -67,7 +67,22 @@ import { connect } from "react-redux";
       if (this.props.demensions === "Millimeters") {
         this.setState({
           width: width.replace(/[^0-9.]/g, "")  + " mm"
-        });
+          // width: width
+
+        },
+      //   ()=>{ 
+      //     // console.log(this.state.diameter,'mm-state-diameter');
+      //     let width1 = this.state.width.replace(/[^0-9.]/g, "");      
+      //   // let diameter1 = this.state.diameter.replace(/[^0-9.]/g, "");
+       
+      //     this.setState({
+      //       width: (+width1*1).toFixed(3) + " mm"
+      //     })
+      //     // this.props.updateDiameter(+diameter1);
+      //   this.props.updateWidthAndHeight(+width1,+height);
+               
+      // }      
+        );
         let width1 = width.replace(/[^0-9.]/g, ""); 
 
         this.props.updateWidthAndHeight(+width1,+height);

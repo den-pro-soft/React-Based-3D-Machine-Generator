@@ -3,135 +3,144 @@ import ReactTooltip from "react-tooltip";
 import {connect} from 'react-redux';
 
 class MoveButtons extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      bgColorCopy: "#f0f0f0d9",
-      moveStep:app.config.moveStep +' "',
-      rotateStep: app.config.rotateStep + " deg"
-     
+    constructor(props) {
+      super(props);
+      this.state = {
+        bgColorCopy: "#f0f0f0d9",
+        moveStep:this.props.moveStep.toFixed(3) + ' mm',
+        rotateStep: app.config.rotateStep.toFixed(2) + " deg"
+      };
+    }
+
+ 
+    componentDidUpdate(prevProps, prevState) {
+      if (this.props.demensions !== prevProps.demensions) {
+        let moveStep = this.props.moveStep;
+
+        if(this.props.demensions==='Millimeters'){  
+            this.setState({moveStep: (moveStep*1).toFixed(3) + ' mm'})
+          } else {
+            this.setState({moveStep: (moveStep/25.4).toFixed(3) + ' "'})
+          }
+      }
+    }
+
+    handleClickCopy = () => {
+      this.setState({
+        bgColorCopy: this.state.bgColorCopy === "#f0f0f0d9" ? "#fff" : "#f0f0f0d9"
+      });
+    }
+
+    /**
+     * @return {boolean}  - true if enable coppy mode
+     */
+    copyMode() {
+      return this.state.bgColorCopy === "#f0f0f0d9";
+    }
+
+    moveUp = () => {
+      if (this.copyMode()) {
+        app.moveSelected(0, app.config.moveStep);
+      } else {
+        app.copyMoveSelected(0, app.config.moveStep);
+      }
+    }
+
+    moveDown = () => {
+      if (this.copyMode()) {
+        app.moveSelected(0, -app.config.moveStep);
+      } else {
+        app.copyMoveSelected(0, -app.config.moveStep);
+      }
+    }
+
+    moveLeft = () => {
+      if (this.copyMode()) {
+        app.moveSelected(-app.config.moveStep, 0);
+      } else {
+        app.copyMoveSelected(-app.config.moveStep, 0);
+      }
+    }
+
+    moveRight = () => {
+      if (this.copyMode()) {
+        app.moveSelected(app.config.moveStep, 0);
+      } else {
+        app.copyMoveSelected(app.config.moveStep, 0);
+      }
     };
-  }
-  componentWillMount(){
-    if(this.props.demensions==='Millimeters'){
-      this.setState({moveStep: app.config.moveStep  + ' mm'})
-    } else {
-      this.setState({moveStep: (app.config.moveStep/25.4).toFixed(3) + ' "'})
-      // `${String.fromCharCode(34)}`
-    }
-  }
 
-  componentDidUpdate(prevProps, prevState) {
-    if (this.props.demensions !== prevProps.demensions) {
-      if(this.props.demensions==='Millimeters'){
-        this.setState({moveStep: app.config.moveStep  + ' mm'})
-      } else {
-        this.setState({moveStep: (app.config.moveStep/25.4).toFixed(3) + ' "'})
+
+    handlyChangeInputMove = event => {
+
+      let moveStep = event.target.value;
+      let moveNumber = moveStep.replace(/[^0-9.]/g, "") ;
+      this.props.updateMoveStep((+moveNumber*1).toFixed(3))
+      this.setState({
+        moveStep
+      });
+    
+      if (event.charCode === 13) {
+        if (this.props.demensions === 'Millimeters') {
+    
+            this.setState({
+            moveStep: this.props.moveStep.replace(/[^0-9.]/g, "") + ' mm'
+            })
+
+          let moveStep1 = this.state.moveStep.replace(/[^0-9.]/g, "")
+          this.props.updateMoveStep(+moveStep1);
+          app.config.moveStep = +moveStep1;
+          this.moveInput.blur();
+
+        } else {
+          this.setState({
+            moveStep: this.props.moveStep.replace(/[^0-9.]/g, "") + ' "'
+          });
+          let moveStep1 = this.state.moveStep.replace(/[^0-9.]/g, "")
+
+          this.props.updateMoveStep(+moveStep1*25.4);
+          app.config.moveStep = +moveStep1*25.4;
+          this.moveInput.blur();
+
+        }
       }
-    }
-  }
-  handleClickCopy = () => {
-    this.setState({
-      bgColorCopy: this.state.bgColorCopy === "#f0f0f0d9" ? "#fff" : "#f0f0f0d9"
-    });
-  };
-
-  /**
-   * @return {boolean}  - true if enable coppy mode
-   */
-  copyMode() {
-    return this.state.bgColorCopy === "#f0f0f0d9";
-  }
-
-  moveUp = () => {
-    if (this.copyMode()) {
-      app.moveSelected(0, app.config.moveStep);
-    } else {
-      app.copyMoveSelected(0, app.config.moveStep);
-    }
-  };
-
-  moveDown = () => {
-    if (this.copyMode()) {
-      app.moveSelected(0, -app.config.moveStep);
-    } else {
-      app.copyMoveSelected(0, -app.config.moveStep);
-    }
-  };
-
-  moveLeft = () => {
-    if (this.copyMode()) {
-      app.moveSelected(-app.config.moveStep, 0);
-    } else {
-      app.copyMoveSelected(-app.config.moveStep, 0);
-    }
-  };
-  moveRight = () => {
-    if (this.copyMode()) {
-      app.moveSelected(app.config.moveStep, 0);
-    } else {
-      app.copyMoveSelected(app.config.moveStep, 0);
-    }
-  };
-
-
-  handlyChangeInputMove = event => {
-    // console.log(event.target.value, "target-move");
-    app.config.moveStep = event.target.value;
-    let move = app.config.moveStep;
-    this.setState({
-      moveStep: move.replace(/[^0-9.]/g, "")
-    });
-  
-
-    if (event.charCode === 13) {
-      if (this.props.demensions === 'Millimeters') {
-        this.setState({
-          moveStep: move.replace(/[^0-9.]/g, "") + ' mm'
-        });
-      } else {
-        this.setState({
-          moveStep: move.replace(/[^0-9.]/g, "") + ' "'
-        });
-      }
-
-    }
-  };
+    };
 // -------------------------------------Rotate-------------------------------------------------------
-rotateLeft = () => {
-  if (this.copyMode()) {
-    app.rotateSelected(-app.config.rotateStep);
+    rotateLeft = () => {
+      if (this.copyMode()) {
+        app.rotateSelected(-app.config.rotateStep);
 
-  } else {
-    app.copyRotateSelected(-app.config.rotateStep);
-  }
-};
+      } else {
+        app.copyRotateSelected(-app.config.rotateStep);
+      }
+    };
 
-rotateRight = () => {
-  if (this.copyMode()) {
-    app.rotateSelected(app.config.rotateStep);
+    rotateRight = () => {
+      if (this.copyMode()) {
+        app.rotateSelected(app.config.rotateStep);
 
-  } else {
-    app.copyRotateSelected(app.config.rotateStep);
+      } else {
+        app.copyRotateSelected(app.config.rotateStep);
 
-  }
-};
+      }
+    };
 
-handlyChangeInputRotate = event => {
-  // console.log(event.target.value, "target-rotate");
-  app.config.rotateStep = event.target.value;
-  let rotate = app.config.rotateStep;
+    handlyChangeInputRotate = event => {
+      let rotateStep = event.target.value;
+      let rotateNumber = rotateStep.replace(/[^0-9.]/g, "") ;
+      this.setState({
+        rotateStep 
+      });
 
-  this.setState({
-    rotateStep: rotate.replace(/[^0-9.]/g, "")
-  });
+      if (event.charCode === 13) {
+        this.setState({
+          rotateStep: (+rotateNumber*1).toFixed(2) + " deg"
+        });
+        app.config.rotateStep = +this.state.rotateStep.replace(/[^0-9.]/g, "");
+        this.rotateInput.blur();
 
-  if (event.charCode === 13) {
-    this.setState({
-      rotateStep: rotate.replace(/[^0-9.]/g, "") + " deg"
-    });
-  }
-};
+      }
+    };
 
   render() {
     return (
@@ -205,10 +214,9 @@ handlyChangeInputRotate = event => {
         </button>
         <input
           type="text"
-          // defaultValue={this.state.moveStep}
-          // onChange={e => {
-          //   app.config.moveStep = e.target.value;
-          // }}
+          ref={input => {
+            this.moveInput = input;
+          }}
           value={this.state.moveStep}
           onChange={this.handlyChangeInputMove}
           onKeyPress={this.handlyChangeInputMove}
@@ -218,7 +226,6 @@ handlyChangeInputRotate = event => {
               dragging the item to a snap point on an existing line and then<br/>
               nudging without the mouse.</span>"
         />
-            {/* <RotateButtons /> */}
             <button className="btn-LeftRotate" onClick={this.rotateLeft}>
           <a href="#">
             <img
@@ -246,6 +253,9 @@ handlyChangeInputRotate = event => {
         <input
           type="text"
           className="InputRotate"
+          ref={input => {
+            this.rotateInput = input;
+          }}
           value={this.state.rotateStep}
           onChange={this.handlyChangeInputRotate}
           onKeyPress={this.handlyChangeInputRotate}
@@ -262,11 +272,18 @@ handlyChangeInputRotate = event => {
     );
   }
 }
-const mapStateToProps = (state)=>{
-return {
- demensions: state.preferencesReducer.demensions
-}
-   }
+    const mapStateToProps = (state)=>{
+      return {
+        demensions: state.preferencesReducer.demensions,
+        moveStep: state.movingReducer.moveStep,
+      }
+    }
+    const mapDispatchToProps = dispatch => {
+      return {
+        updateMoveStep: moveStep => {
+          dispatch({ type: "UPDATE_MOVE_STEP", payload: moveStep });
+        }
+      };
+    };
 
-
-export default connect(mapStateToProps)(MoveButtons)
+export default connect(mapStateToProps,mapDispatchToProps)(MoveButtons)

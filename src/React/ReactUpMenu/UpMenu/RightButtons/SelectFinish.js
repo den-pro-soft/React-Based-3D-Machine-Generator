@@ -41,6 +41,10 @@ export default class SelectFinish extends React.Component {
     localStorage.setItem("finishing", "Powder coat Metallic blue");
     this.setState({ finishing: "Powder coat Metallic blue " });
   };
+  handleClick4 = () => {
+    localStorage.setItem("finishing", "None");
+    this.setState({ finishing: "None" });
+  };
   openWindow = () => {
     window.open("https://www.emachineshop.com/");
   };
@@ -62,6 +66,10 @@ export default class SelectFinish extends React.Component {
 
             <li onClick={this.handleClick3}>
               <a href="#">Powder coat Metallic blue</a>
+            </li>
+
+            <li onClick={this.handleClick4}>
+              <a href="#">None</a>
             </li>
             <li onClick={this.openWindow}>
               <a

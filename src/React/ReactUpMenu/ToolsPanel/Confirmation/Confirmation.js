@@ -103,8 +103,10 @@ class Confirmation extends React.Component {
               onClick={
                 ()=>{
                   // this.props.openConfirmModal(!this.props.openConfirm);
-                  container.resolve('confirmChangeArcToSplinesDialog').handleButton1()}
-              }
+                  container.resolve('confirmChangeArcToSplinesDialog').handleButton1();
+                  this.props.openConfirmModal(!this.props.openConfirm);
+                  // modal.handleButton1()}
+              }}
               style={{
                 backgroundColor: "#dddada",
                 boxShadow: "2px 2px 1px #000",
@@ -120,7 +122,9 @@ class Confirmation extends React.Component {
               onClick={
                ()=>{
                   // this.props.openConfirmModal(!this.props.openConfirm);
-                  container.resolve('confirmChangeArcToSplinesDialog').handleButton2()
+                  container.resolve('confirmChangeArcToSplinesDialog').handleButton2();
+                  this.props.openConfirmModal(!this.props.openConfirm);
+                  // modal.handleButton2()
                }
               }
               style={{

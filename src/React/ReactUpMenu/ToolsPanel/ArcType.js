@@ -18,8 +18,8 @@ class ArcType extends React.Component {
       if (app.selectElements.length == 1) {
         if (elements[0].typeName === "Arc") {
 
-          let startAngle = app.selectElements[0].startAngle.toFixed(3);
-          let incrementAngle = app.selectElements[0].incrementAngle.toFixed(3);
+          let startAngle = app.selectElements[0].startAngle.toFixed(2);
+          let incrementAngle = app.selectElements[0].incrementAngle.toFixed(2);
           this.setState({
             startAngle: startAngle + " deg",
             insideAngle: incrementAngle + " deg"

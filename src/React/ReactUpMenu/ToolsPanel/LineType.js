@@ -15,8 +15,8 @@ class LineType extends React.Component {
   componentWillMount() {
     app.addHandler("selectElements", elements => {
       if (app.selectElements.length == 1) {
-        if (elements[0].typeName === "Line") {
-          let angle = app.selectElements[0].angle.toFixed(3);
+        if (element.typeName === "Line") {
+          let angle = app.selectElements[0].angle.toFixed(2);
           this.setState({ angle: angle + " deg" });
           //  console.log(angle,'angle')
           let lengthLine = elements[0].length().toFixed(3);
@@ -74,8 +74,6 @@ class LineType extends React.Component {
 
   handleChangeLineAngle = e => {
     let angle = e.target.value;
-    // console.log(angle, "angle-slice");
-    // .replace(/[^0-9.]/g, "")
 
     this.setState({
       angle
