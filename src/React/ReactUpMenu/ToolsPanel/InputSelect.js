@@ -81,13 +81,13 @@ class InputSelect extends React.Component {
           selectedOption:options[15]
 
         });
-        if (_elements.length !== 0) {
-          this.setState({
-            selectedValue: options[15],
-          })
+        // if (_elements.length !== 0) {
+        //   this.setState({
+        //     selectedValue: options[15],
+        //   })
           localStorage.setItem('z-value',options[15].label)
 
-        }
+        // }
       } else {
         this.setState({
           options: options_inch,
@@ -96,13 +96,13 @@ class InputSelect extends React.Component {
 
         });
 
-        if (_elements.length !== 0) {
-          this.setState({
-            selectedValue: options_inch[14],
-          })
+        // if (_elements.length !== 0) {
+        //   this.setState({
+        //     selectedValue: options_inch[14],
+        //   })
           localStorage.setItem('z-value',options_inch[14].label)
 
-        }
+        // }
       }
     // })
     }
@@ -114,36 +114,36 @@ class InputSelect extends React.Component {
         if (this.props.demensions === 'Millimeters') {
           this.setState({
             options: options,
-            selectedValue: options[15],
+            // selectedValue: options[15],
           selectedOption:options[15]
 
           });
-          if (_elements.length !== 0) {
-            this.setState({
-              selectedValue: options[15],
-          });
+          // if (_elements.length !== 0) {
+          //   this.setState({
+          //     selectedValue: options[15],
+          // });
           localStorage.setItem('z-value',options[15].label)
 
-        }
+        // }
         } else {
           this.setState({
             options: options_inch,
-            selectedValue: options_inch[14],
+            // selectedValue: options_inch[14],
             selectedOption:options_inch[14]
 
           });
-          if (_elements.length !== 0) {
-            this.setState({
-              selectedValue: options_inch[14].label,
-              // selectedValue: options_inch[14],
-          }
+          // if (_elements.length !== 0) {
+          //   this.setState({
+          //     selectedValue: options_inch[14].label,
+          //     // selectedValue: options_inch[14],
+          // }
           //,()=>{
           //   this.setState({selectedValue: this.state.selectedValue})
           //   console.log(this.state.selectedValue,'selectedValue-inch')}
-          )
+          // )
           localStorage.setItem('z-value',options_inch[14].label)
           
-          }
+          // }
         }
       }
     }
@@ -156,15 +156,15 @@ class InputSelect extends React.Component {
         localStorage.setItem('z-value',selectedOption.value + ' mm');
         this.setState({
           options: options,
-          selectedValue: options[15],
-          selectedOption:options[15]
+          // selectedValue: options[15],
+          selectedOption
         });
       } else {
         localStorage.setItem('z-value',selectedOption.value + ' "')
         this.setState({
           options: options_inch,
-          selectedValue: options_inch[14],
-          selectedOption:options_inch[14]
+          // selectedValue: options_inch[14],
+          selectedOption
 
         });
       }
