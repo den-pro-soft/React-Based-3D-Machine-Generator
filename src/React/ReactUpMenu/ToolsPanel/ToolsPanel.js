@@ -57,13 +57,13 @@ import {connect} from 'react-redux';
              } else
 
           if (arc === true && app.selectElements.length > 1) {
-              this.setState({ line: false, circle: true, group: true });
+              this.setState({ line: false, circle: true,  group: true });
           } else
           if(arc=== true && app.selectElements.length === 1){
             if(app.selectElements[0].incrementAngle===360){
               this.setState({ line: false, circle: true, arc:false,  group: false, text: false });
             } else {
-              this.setState({ line: false, circle: false, arc:true,  group: false, text: false })
+              this.setState({ line: false, circle: false,arc:true,  group: false, text: false })
             }
           }
           else{
@@ -77,7 +77,7 @@ import {connect} from 'react-redux';
                       case "Text":     this.setState({ line: false, circle: false, arc:false, group: false, text:true });  break;
                   }
               }else {
-                  this.setState({ line: false, circle: false,arc:false, group: true });
+                  this.setState({ line: false, circle: false, arc:false, group: true });
               }
           }   
     });
@@ -196,6 +196,7 @@ import {connect} from 'react-redux';
             )}
             {this.state.arc === true && <ArcType />}
             {this.state.circle === true && <CircleType />}
+
             {this.state.group === true && <GroupType />}
            
 
