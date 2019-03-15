@@ -8,7 +8,7 @@ import { Injectable, Container, LifeTime } from 'container-ioc';
 import Config from './Config';
 import {InteractiveBoard} from './2d/Board';
 import IdGenerator from './model/IdGenerator';
-import ModalWindows from './ModalWindows';
+import ConfirmChangeArcToSplinesDialog from './ModalWindows';
 
 
 /**
@@ -20,14 +20,12 @@ container.register([
     { token: 'mainBoard', useClass: InteractiveBoard },
     { token: 'elementIdGenerator', useClass: IdGenerator },
     { token: 'commandIdGenerator', useClass: IdGenerator },
-    { token: 'modalWindows', useClass: ModalWindows }
-
+    { token: 'confirmChangeArcToSplinesDialog', useClass: ConfirmChangeArcToSplinesDialog }
 ]);
 
 
 export default container;
 global.container = container;
-global.modal = container.resolve('modalWindows');
 
 
 

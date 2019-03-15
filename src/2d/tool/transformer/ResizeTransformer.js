@@ -3,7 +3,7 @@
  */
 
 import Transformer from './Transformer';
-import RectElementController from './../RectElementControler';
+import RectElement from '../../../model/elements/RectElement';
 import Point from './../../../model/Point';
 import Group from './../../../model/elements/Group';
 import Rect from "../../../model/math/Rect";
@@ -21,7 +21,7 @@ class ControlPoint{
 }
 
 
-class ResizeRect extends RectElementController{
+class ResizeRect extends RectElement{
     constructor(el){
         super(new Point(),new Point());
         this.board = container.resolve('mainBoard'); //todo: maybe set from the using place
@@ -102,14 +102,7 @@ class ResizeRect extends RectElementController{
 
     move(x,y){
         this.p1 = new Point(this.p1.x+x, this.p1.y+y);
-
-        console.log(this.p1, 'before');
         this._p1.x+=x;
-
-        console.log(this.p1, 'after');
-        // this.p2.x+=x;
-        //
-        // this.p2.y+=y;
     }
 
     _createControlPointRect(p){
@@ -224,12 +217,8 @@ export default class ResizeTransformer extends Transformer{
                 if(!this.activeControllPoint) {
                     app.moveSelected(this.dx, this.dy);
                 }else{
-                    try {
-                        app.executeCommand(new ResizeElementsCommand(this.board.document, this._elements,
-                            new Vector(this.dx, this.dy), this.activeControllPoint.alignX, this.activeControllPoint.alignY));
-                    }catch (e){
-
-                    }
+                    app.executeCommand(new ResizeElementsCommand(this.board.document, this._elements,
+                        new Vector(this.dx, this.dy), this.activeControllPoint.alignX, this.activeControllPoint.alignY));
                 }
                 this.dx = 0;
                 this.dy = 0;

@@ -23,7 +23,7 @@ export default class Line{
      * @constructor
      */
     get A(){
-        return this._p2.x-this._p1.x;
+        return this._p2.y-this._p1.y;
     }
 
     /**
@@ -31,7 +31,7 @@ export default class Line{
      * @constructor
      */
     get B(){
-        return this._p2.y-this._p1.y;
+        return this._p2.x-this._p1.x;
     }
 
     /**
@@ -39,18 +39,29 @@ export default class Line{
      * @constructor
      */
     get C(){
-        return this.A*this._p1.x + this.B*this._p1.y;
+        return this._p1.x*this._p2.y-this._p2.x*this._p1.y;
     }
 
     /**
      * @return {number} - the angle coefficient in  [  y=k*x+b  ]
-     * @constructor
      */
     get k(){
         if(this.A==0 || this.B==0){
             return 0;
         }
-        return this.B/this.A;
+        return this.A/this.B;
+    }
+
+    /**
+     * @return {number} - the b coefficient in  [  y=k*x+b  ]
+     */
+    get b(){
+        let b= this.B;
+        if(b==0){
+            return 0;
+        }else {
+            return -(this.C/b);
+        }
     }
 
     /**
@@ -132,7 +143,7 @@ export default class Line{
      * @return {Point}
      */
     getPointOffset(offset){
-        return new Point(this._p1.x + this.A*offset, this._p1.y + this.B*offset);
+        return new Point(this._p1.x + this.B*offset, this._p1.y + this.A*offset);
     }
 
     copy(){
@@ -147,7 +158,7 @@ export default class Line{
      * @return {Vector}
      */
     toVector(){
-        return new Vector(this.A, this.B, 0);
+        return new Vector(this.B, this.A, 0);
     }
 
     /**

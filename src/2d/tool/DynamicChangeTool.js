@@ -29,8 +29,8 @@ export default class DynamicChangeTool extends SelectTool{
      * @param {GraphicElement} element
      * @return {{original:GraphicElement, copy:GraphicElement}}
      */
-    selectElement(element){
-        super.selectElement(element);
+    selectElement(element, addToApp=true){
+        super.selectElement(element, addToApp);
         this.selectElementsPair.push({original:element, copy:element.copy()});
     }
 

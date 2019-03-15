@@ -110,6 +110,14 @@ export default class GraphicElement extends Cloneable{
     }
 
     /**
+     * @param {Point} point
+     * @return {boolean} - return true if the point is belong to the figure
+     */
+    isBelongsToTheElement(point){
+        return false;
+    }
+
+    /**
      * @abstract
      * Check if the point is near the elements by Eps.
      * @param {Point} point
@@ -192,10 +200,9 @@ export default class GraphicElement extends Cloneable{
     /**
      * Mirrors the element relative to the selected axis
      * @param axis - the constant from {@class Trigonometric} class. [axisX|axisY]
+     * @param center {Point}
      */
-    mirror(axis){
-        let center = this.getCenter();
-
+    mirror(axis, center){
         let mirrorMatrix = Matrix.createMirrorMatrix(axis);
 
         let moveMatrix = Matrix.createMoveMatrix(-center.x, -center.y);

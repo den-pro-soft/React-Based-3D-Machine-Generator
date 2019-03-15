@@ -28,6 +28,9 @@ export default class Command{
         /** @type {boolean} - if the variable equals false the command will not save in the command history.*/
         this.needSave = true;
 
+        /** @type {Array.<Behavior>} */
+        this.behaviors=[];
+
         this.name= 'Command';
     }
 
@@ -37,10 +40,20 @@ export default class Command{
      * @return {boolean} true if the command must be save in commandHistory
      */
     execute(){
-        this._snapshotBefore = this._document.getSnapshot();
-        let res = this.executeCommand();
-        this._snapshotAfter = this._document.getSnapshot();
-        return res && this.needSave;
+        return new Promise((resolve, reject)=>{
+            this.executeBehaviors().then((response)=>{
+                if(response) {
+                    this._snapshotBefore = this._document.getSnapshot();
+                    let res = this.executeCommand();
+                    this._snapshotAfter = this._document.getSnapshot();
+                    resolve(res && this.needSave);
+                }else{
+                    resolve(false);
+                }
+            }).catch((error)=>{
+                reject(error);
+            });
+        });
     }
 
     /**
@@ -98,4 +111,35 @@ export default class Command{
         throw new Exception('The method dosn\'t have implementation');
     }
 
+
+    /**
+     * the method is executing all behaviors
+     * @private
+     * @return {Promise}
+     */
+    executeBehaviors(){
+        if(this.behaviors.length>0) {
+            return this.executeBehavior(0);
+        }else{
+            return new Promise((resolve, reject)=>{ resolve(true)});
+        }
+    }
+    
+    executeBehavior(index){
+        return new Promise((resolve, reject)=>{
+            this.behaviors[index].execute(this).then((res)=>{
+                if(index==this.behaviors.length-1) {
+                    resolve(res);
+                }else{
+                    this.executeBehavior(index+1).then((resNext)=>{
+                        resolve(resNext&&res);
+                    }).catch(error=>{
+                        reject(error);
+                    });
+                }
+            }).catch((error)=>{
+                reject(error);
+            })
+        });
+    }
 }

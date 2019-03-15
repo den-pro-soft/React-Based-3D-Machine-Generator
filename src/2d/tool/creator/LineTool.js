@@ -22,7 +22,7 @@ export default class LineTool extends CreatorToolsInTwoSteps{
     }
 
     setPosition2(point){
-        if(Helper.Key.ctrlKey) {
+        if(Helper.Key.ctrlKey && !Helper.Key.shiftKey) {
             point = this._discreteBy15Degrees(point);
         }
         this.line.p2=point;

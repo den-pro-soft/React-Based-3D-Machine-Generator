@@ -11,11 +11,11 @@ class CircleType extends React.Component {
   }
 
   componentWillMount() {
-    app.addHandler("selectElement", element => {
+    app.addHandler("selectElements", elements => {
       let arc = app.selectElements.every(el => el.typeName === "Arc");
 
       if (app.selectElements.length == 1) {
-        if (element.typeName === "Arc") {
+        if (elements[0].typeName === "Arc") {
           let radius = app.selectElements[0].radius.toFixed(3);
           this.props.updateDiameter(radius * 2);
           if (this.props.demensions === "Millimeters") {

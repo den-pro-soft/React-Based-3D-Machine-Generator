@@ -20,9 +20,9 @@ class TextType extends React.Component {
   }
 
   componentWillMount() {
-    app.addHandler("selectElement", element => {
+    app.addHandler("selectElements", elements => {
       if (app.selectElements.length == 1) {
-        if (element.typeName === "Text") {
+        if (elements[0].typeName === "Text") {
           let textSize = app.selectElements[0].fontSize.toFixed(3);
           this.props.updateTextSize(textSize);
           if (this.props.demensions === "Millimeters") {

@@ -75,8 +75,15 @@ export default class Arc extends GraphicElement{
      */
     get extremePoints(){
         if(this.incrementAngle>0) {
-            let polyLinePoints = this.toPolyLines()[0].points;
-            return [polyLinePoints[0], polyLinePoints[polyLinePoints.length - 1]];
+            return [
+                new Point(
+                    this.center.x+this.radius*Math.cos(Trigonometric.gradToRad(this.startAngle)),
+                    this.center.y+this.radius*Math.sin(Trigonometric.gradToRad(this.startAngle))
+                ),
+                new Point(
+                    this.center.x+this.radius*Math.cos(Trigonometric.gradToRad(this.endAngle)),
+                    this.center.y+this.radius*Math.sin(Trigonometric.gradToRad(this.endAngle))
+                )];
         }else{
             return null;
         }
@@ -163,7 +170,7 @@ export default class Arc extends GraphicElement{
      * @inheritDoc
      */
     getMagnificationPoints(){
-        if(this.incrementAngle!=0){
+        if(this.incrementAngle!=360){
             //todo: add center of arc point
             return [this.center,...this.extremePoints];
         }
@@ -190,6 +197,31 @@ export default class Arc extends GraphicElement{
         return this._center;
     }
 
+    /**
+     * @inheritDoc
+     */
+    isBelongsToTheElement(point){
+        let l = Math.pow(point.x-this.center.x,2)+Math.pow(point.y-this.center.y,2);
+        let r = Math.pow(this.radius, 2);
+        let inTheCircle = l-1e-8<r && l+1E-8>r;
+
+        let inTheArc = false;
+        if(this.incrementAngle!=360) {
+            let line = new Line(this.center, point);
+            let angle = new Vector(1).getAngle(line.toVector());
+            if (this.endAngle > this.startAngle) {
+                inTheArc = angle >= this.startAngle && angle <= this.endAngle;
+            } else {
+                if (angle > this.startAngle || angle < this.endAngle) {
+                    inTheArc = true;
+                }
+            }
+        }else{
+            inTheArc=true;
+        }
+        return inTheCircle && inTheArc;
+    }
+    
     /**
      * @inheritDoc
      */
@@ -269,18 +301,37 @@ export default class Arc extends GraphicElement{
      * @return {Array.<GraphicElement>}
      */
     intersectByPoints(points){
-        if(points.length<2){
-            throw new Exception('Circle can be intersecting only by two points (for v1)');
-        }
-        let startPoint = points[0];
-        points.splice(0,1);
+        if(this.incrementAngle!=360){
+            let baseVector = new Vector(Math.cos(Trigonometric.gradToRad(this.startAngle)), Math.sin(Trigonometric.gradToRad(this.startAngle)));
+            points = points.sort((a, b)=>{
+                let angle1 = baseVector.getAngle(new Line(this.center,a).toVector());
+                let angle2 = baseVector.getAngle(new Line(this.center,b).toVector());
+                return angle1-angle2;
+            });
+            let res = [];
+            let tempAngle = this.startAngle;
 
-        points = points.sort((a, b)=>{
-            let angle1 = new Line(this.center,startPoint).toVector().getAngle(new Line(this.center,a).toVector());
-            let angle2 = new Line(this.center,startPoint).toVector().getAngle(new Line(this.center,b).toVector());
-            return angle2-angle1;
-        });
-        points.push(startPoint);
+            for(let i=0; i<points.length; i++){
+                let temp = this.copy();
+                temp.startAngle = tempAngle;
+                temp.endAngle = new Vector(1).getAngle(new Line(this.center,points[i]).toVector());
+                temp.generateNewId();
+                res.push(temp);
+                tempAngle=temp.endAngle;
+            }
+            let temp = this.copy();
+            temp.startAngle = tempAngle;
+            temp.endAngle = this.endAngle;
+            temp.generateNewId();
+            res.push(temp);
+            return res;
+        }
+
+
+        let startPoint = points[0];
+
+        points = this.sortPointByTheArc(points);
+
         let baseVector = new Vector(1,0,0);
 
         let res = [];
@@ -289,13 +340,10 @@ export default class Arc extends GraphicElement{
             temp = this.copy();
             temp.startAngle = baseVector.getAngle(new Line(this.center,points[i]).toVector());
             temp.endAngle = baseVector.getAngle(new Line(this.center,startPoint).toVector());
-            console.log(temp.startAngle, 'start');
-            console.log(temp.endAngle, 'end');
             temp.generateNewId();
             res.push(temp);
             startPoint=points[i];
         }
-        // temp.eAngleAngle = baseVector.getAngle(new Line(this.center,endPoint).toVector());
         return res;
     }
 
@@ -344,5 +392,52 @@ export default class Arc extends GraphicElement{
         }
 
         return res;
+    }
+
+
+    /**
+     * It's work only for circle
+     * @param {Array.<Point>} points
+     * @return {Array.<Point>}
+     * @private
+     */
+    sortPointByTheArc(points){
+        let startPoint = points[0];
+        points.splice(0,1);
+
+        let baseVector = new Line(this.center,startPoint).toVector();
+        let res = points.sort((a, b)=>{
+            let angle1 = baseVector.getAngle(new Line(this.center,a).toVector());
+            let angle2 = baseVector.getAngle(new Line(this.center,b).toVector());
+            return angle2-angle1;
+        });
+        res.push(startPoint);
+        return res;
+    }
+
+    /**
+     * Mirrors the element relative to the selected axis
+     * @param axis - the constant from {@class Trigonometric} class. [axisX|axisY]
+     * @param center {Point} 
+     */
+    mirror(axis, center){
+        let mirrorMatrix = Matrix.createMirrorMatrix(axis);
+
+        let moveMatrix = Matrix.createMoveMatrix(-center.x, -center.y);
+        let removeMatrix = Matrix.createMoveMatrix(center.x, center.y);
+
+        this.center.changeByMatrix(moveMatrix);
+        this.center.changeByMatrix(mirrorMatrix);
+        this.center.changeByMatrix(removeMatrix);
+
+        let oldStart = this.startAngle;
+        let oldEnd = this.endAngle;
+        if(axis==Trigonometric.axisX){
+            this.endAngle=180-oldStart;
+            this.startAngle=180-oldEnd;
+        }else{
+            this.endAngle=360-oldStart;
+            this.startAngle=360-oldEnd;
+        }
     }
 }

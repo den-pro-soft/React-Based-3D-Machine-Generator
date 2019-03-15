@@ -71,7 +71,7 @@ class Confirmation extends React.Component {
             paddingBottom: "0px",
             textAlign: "left",
             width: "600px",
-            height: "220px",
+            height: "180px",
             backgroundColor: "#f0ecec"
           }}
         >
@@ -89,10 +89,12 @@ class Confirmation extends React.Component {
             <p>
                 Proceed anyway?
             </p>
+
+              {/*  Not for version 1.0
             <p>
-                Tip: If you want to mirror the selection hold the CTRL key down and drag the appropriate selection handle to the 
+                Tip: If you want to mirror the selection hold the CTRL key down and drag the appropriate selection handle to the
                 opposite side of the line.
-            </p>
+            </p>*/}
             </div>
           </div>
 
@@ -101,7 +103,7 @@ class Confirmation extends React.Component {
               onClick={
                 ()=>{
                   this.props.openConfirmModal(!this.props.openConfirm);
-                  modal.handleButton1()}
+                  container.resolve('confirmChangeArcToSplinesDialog').handleButton1()}
               }
               style={{
                 backgroundColor: "#dddada",
@@ -118,7 +120,7 @@ class Confirmation extends React.Component {
               onClick={
                ()=>{
                   this.props.openConfirmModal(!this.props.openConfirm);
-                  modal.handleButton2()
+                  container.resolve('confirmChangeArcToSplinesDialog').handleButton2()
                }
               }
               style={{

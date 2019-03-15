@@ -34,14 +34,17 @@ import EraserTool from './2d/tool/EraserTool';
 import RectTool from './2d/tool/creator/RectTool';
 import SplineTool from './2d/tool/creator/SplineTool';
 import CircleTool from './2d/tool/creator/CircleTool';
-import MagnificationToolDecorator from './2d/tool/MagnificationToolDecorator';
-import MagnificationEditLineDecorator from './2d/tool/MagnificationEditLineDecorator';
 import LineTool from './2d/tool/creator/LineTool';
 import FreehandTool from './2d/tool/creator/FreehandTool';
 import CreatorTool from './2d/tool/CreatorTool';
 import TextTool from './2d/tool/creator/TextTool';
 import EditLineTool from './2d/tool/EditLineTool';
 import SelectTool from './2d/tool/SelectTool';
+
+import MagnificationDecorator from './2d/tool/decorators/MagnificationDecorator';
+import MagnificationCreatorToolDecorator from './2d/tool/decorators/MagnificationCreatorToolDecorator';
+import MagnificationEditLineDecorator from './2d/tool/decorators/MagnificationEditLineDecorator';
+import MagnificationTransformerDecorator from './2d/tool/decorators/MagnificationTransformerDecorator';
 
 import Text from './model/elements/Text';
 import Vector from './model/math/Vector';
@@ -58,7 +61,7 @@ let idGenerator = 1;
 /**
  * The main application class is a facade for board
  * the class can generate events like as:
- * 1. selectElement - the event will call for every selected element. The event has data the data is a selected element
+ * 1. selectElements - The event has data the data is a array of selected element
  * 2. clearSelectElements - the event will call when clear select elements
  * 3. openNewFile - the event will call when change or init currentDocument. The event has data the data is a new document
  *
@@ -129,7 +132,7 @@ export default class Application extends Observable{
         console.log(val, 'magnificatin mode value');
         this._magnificationMode=val;
         let tool=this.board.tool;
-        if(!val && tool instanceof MagnificationToolDecorator){
+        if(!val && tool instanceof MagnificationDecorator){
             this._changeTool(tool.tool);
         }
         if(val){
@@ -146,6 +149,7 @@ export default class Application extends Observable{
         for(let element of elements){
             this.addSelectElement(element);
         }
+        this._notifyHandlers('selectElements',elements);
     }
 
     /**
@@ -160,13 +164,13 @@ export default class Application extends Observable{
             }
         }
         this.selectElements.push(element);
-        this._notifyHandlers('selectElement',element);
     }
 
     selectAll(){
         this.setTool('Pointer');
+        this.addSelectElements(this.currentDocument._elements);
         for(let el of this.currentDocument._elements){
-            this._board.tool.selectElement(el);
+            this._board.tool.selectElement(el, false);
         }
         if(this._board){
             this._board.renderDocument();
@@ -186,39 +190,36 @@ export default class Application extends Observable{
      * @param {Command} command
      */
     executeCommand(command){
-        let res = command.execute();
-        if(res){
-            this.commandHistory.push(command);
-        }
-
-        console.log('execute some command');
-        if(this._board){
-            if(command.name == 'AddElementCommand'){
-                this.clearSelectElements();
-                this._changeTool(this._getToolInstance('Pointer'));
-                this.board.tool.selectElement(command._element);
-                this.addSelectElements([command._element]);
+        command.execute().then((res)=>{
+            if(res){
+                this.commandHistory.push(command);
             }
+            if(this._board){
+                if(command.name == 'AddElementCommand'){
+                    this.clearSelectElements();
+                    this._changeTool(this._getToolInstance('Pointer'));
+                    this.board.tool.selectElement(command._element);
+                    this.addSelectElements([command._element]);
+                }
 
-            if(command instanceof ElementModificationCommand){
-                let elements = this.selectElements;
-                console.log(elements,'elements');
-                console.log(command.isReplacedElements(),'replace');
-                if(command.isReplacedElements()) {
-                    elements = command.getElements();
-                    if(command.selectOneElement) {
-                        elements = [elements[0]];
+                if(command instanceof ElementModificationCommand){
+                    let elements = this.selectElements;
+                    if(command.isReplacedElements()) {
+                        elements = command.getElements();
+                        if(command.selectOneElement) {
+                            elements = [elements[0]];
+                        }
+                        this.addSelectElements(elements);
                     }
-                    this.addSelectElements(elements);
-                }
 
-                this.board.tool.clearSelectElements();
-                for(let el of elements){
-                    this.board.tool.selectElement(el);
+                    this.board.tool.clearSelectElements();
+                    for(let el of elements){
+                        this.board.tool.selectElement(el);
+                    }
                 }
+                this._board.renderDocument();
             }
-            this._board.renderDocument();
-        }
+        });
     }
 
     /**
@@ -228,10 +229,12 @@ export default class Application extends Observable{
         if(this.commandHistory.hasRedo()){
             let command = this.commandHistory.getRedo();
             command.redo();
+            this.clearSelectElements();
             this.commandHistory.push(command);
         }
         if(this._board){
-            this._board.renderDocument();
+            this._changeTool(this._getToolInstance('Pointer'));
+            this.board.renderDocument();
         }
     }
     
@@ -242,10 +245,12 @@ export default class Application extends Observable{
         let command = this.commandHistory.pop();
         if(command){
             command.undo();
+            this.clearSelectElements();
         }
 
         if(this._board){
-            this._board.renderDocument();
+            this._changeTool(this._getToolInstance('Pointer'));
+            this.board.renderDocument();
         }
     }
     
@@ -259,9 +264,14 @@ export default class Application extends Observable{
     }
 
     useLastTool(){
-        if(this.board.tool instanceof PointerTool) {
+        if(this.board.tool instanceof PointerTool || this.board.tool instanceof  MagnificationTransformerDecorator) {
             this.clearSelectElements();
-            this._lastTool.mousePosition = this.board.tool.mousePosition;
+            if(this.board.tool instanceof PointerTool) {
+                this._lastTool.mousePosition = this.board.tool.mousePosition;
+            }else{
+                console.log(this.board.tool);
+                this._lastTool.mousePosition = this.board.tool.tool.mousePosition;
+            }
             this._changeTool(this._lastTool);
         }else{
             this._changeTool(this._getToolInstance('Pointer'));
@@ -270,14 +280,16 @@ export default class Application extends Observable{
     }
 
     _changeTool(tool){
-        if(!(tool instanceof PointerTool) && !(tool instanceof MagnificationToolDecorator)){
+        if(!(tool instanceof PointerTool) && !(tool instanceof MagnificationTransformerDecorator)){
             this._lastTool=tool;
         }
-        if(this._magnificationMode && !(tool instanceof MagnificationToolDecorator)){
+        if(this._magnificationMode && !(tool instanceof MagnificationDecorator)){
             if(tool instanceof CreatorTool){
-                tool = new MagnificationToolDecorator(this.currentDocument, tool);
+                tool = new MagnificationCreatorToolDecorator(this.currentDocument, tool);
             } else if(tool instanceof EditLineTool){
                 tool = new MagnificationEditLineDecorator(this.currentDocument, tool);
+            } else if(tool instanceof PointerTool){
+                tool = new MagnificationTransformerDecorator(this.currentDocument, tool);
             }
         }
         this.board.setTool(tool);

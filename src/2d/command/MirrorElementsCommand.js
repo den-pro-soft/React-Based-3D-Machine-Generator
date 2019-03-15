@@ -27,7 +27,8 @@ export default class MirrorElementsCommand extends ElementModificationCommand{
         for(let el of this.elements) {
             group.addElement(el);
         }
-        group.mirror(this.axis);
+        let center = group.getCenter();
+        group.mirror(this.axis, center);
         return true;
     }
 }

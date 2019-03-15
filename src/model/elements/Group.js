@@ -85,6 +85,15 @@ export default class Group extends GraphicElement{
 
     /**
      * @inheritDoc
+     */
+    mirror(axis, center){
+        for(let element of this.elements){
+            element.mirror(axis, center);
+        }
+    }
+
+    /**
+     * @inheritDoc
      * @param {LineType} lineType
      */
     set lineType(lineType){
