@@ -63,87 +63,49 @@ class InputSelect extends React.Component {
 
       this.state = {
         selectedOption: null,
-        // selectedOption: 'Air Inside',
         options:options,
-        selectedValue:null, 
         displayInputSelect: true
       };
     }
     componentWillMount() {
-    // app.addHandler("selectElement", element => {
 
-      const { _elements } = app.currentDocument;
-      console.log(_elements, 'elements')
       if (this.props.demensions === 'Millimeters') {
         this.setState({
           options: options,
-          // selectedValue: options[15],
           selectedOption:options[15]
-
         });
-        // if (_elements.length !== 0) {
-        //   this.setState({
-        //     selectedValue: options[15],
-        //   })
+
           localStorage.setItem('z-value',options[15].label)
 
-        // }
       } else {
         this.setState({
           options: options_inch,
-          // selectedValue: options_inch[14],
           selectedOption:options_inch[14]
 
         });
-
-        // if (_elements.length !== 0) {
-        //   this.setState({
-        //     selectedValue: options_inch[14],
-        //   })
           localStorage.setItem('z-value',options_inch[14].label)
 
-        // }
       }
-    // })
     }
 
     componentDidUpdate(prevProps, prevState) {
       if (this.props.demensions !== prevProps.demensions) {
-      const { _elements } = app.currentDocument;
-        console.log(_elements, 'elements')
         if (this.props.demensions === 'Millimeters') {
           this.setState({
             options: options,
-            // selectedValue: options[15],
-          selectedOption:options[15]
-
+            selectedOption:options[15]
           });
-          // if (_elements.length !== 0) {
-          //   this.setState({
-          //     selectedValue: options[15],
-          // });
+    
           localStorage.setItem('z-value',options[15].label)
 
-        // }
         } else {
           this.setState({
             options: options_inch,
-            // selectedValue: options_inch[14],
             selectedOption:options_inch[14]
-
           });
-          // if (_elements.length !== 0) {
-          //   this.setState({
-          //     selectedValue: options_inch[14].label,
-          //     // selectedValue: options_inch[14],
-          // }
-          //,()=>{
-          //   this.setState({selectedValue: this.state.selectedValue})
-          //   console.log(this.state.selectedValue,'selectedValue-inch')}
-          // )
+    
           localStorage.setItem('z-value',options_inch[14].label)
           
-          // }
         }
       }
     }
@@ -156,14 +118,12 @@ class InputSelect extends React.Component {
         localStorage.setItem('z-value',selectedOption.value + ' mm');
         this.setState({
           options: options,
-          // selectedValue: options[15],
           selectedOption
         });
       } else {
         localStorage.setItem('z-value',selectedOption.value + ' "')
         this.setState({
           options: options_inch,
-          // selectedValue: options_inch[14],
           selectedOption
 
         });
@@ -212,8 +172,6 @@ class InputSelect extends React.Component {
       const customStyles = {
         container:(styles)=>({
             ...styles,
-            // paddinBottom:0,
-            // color:'blue'
         }),
         menuList: styles => ({
           ...styles,
@@ -273,37 +231,19 @@ class InputSelect extends React.Component {
               />
             </a>
           </button>
-        {/* {this.props.demensions==="Millimeters" &&  */}
           <CreatableSelect
             onMouseLeave={this.handleInputChange}
             styles={customStyles}
             // isClearable
             value={this.state.selectedOption}
-            // value={this.state.selectedValue}
 
-            // defaultValue={options[0]}
             onChange={this.handleChange}
             onInputChange={this.handleInputChange}
             // onKeyPress={this.handleInputChange}
             // allowCreate={false}
             options={this.state.options}
-            // options={options}
-
             placeholder=""
           />
-          {/* }   */}
-        {/* {this.props.demensions==="Inches" &&  <CreatableSelect
-            onMouseLeave={this.handleInputChange}
-            styles={customStyles}
-            // isClearable
-            defaultValue={this.state.selectedValue}
-
-            // defaultValue={options[0]}
-            onChange={this.handleChange}
-            onInputChange={this.handleInputChange}
-            options={options_inch}
-            placeholder=""
-          />}   */}
         </Fragment>
       );
     }
