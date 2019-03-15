@@ -17,7 +17,7 @@ export default function toolsPanelReducer(state = initialState, action) {
       };
     case "UPDATE_DIAMETER":
       return {
-        diameter: (action.payload===undefined)? '' :  action.payload
+        diameter: (action.payload===undefined)? 0 :  action.payload
       }
  
 

@@ -65,7 +65,7 @@ class InputSelect extends React.Component {
         selectedOption: null,
         // selectedOption: 'Air Inside',
         options:options,
-        selectedValue:options[0], 
+        selectedValue:null, 
         displayInputSelect: true
       };
     }
@@ -77,6 +77,9 @@ class InputSelect extends React.Component {
       if (this.props.demensions === 'Millimeters') {
         this.setState({
           options: options,
+          // selectedValue: options[15],
+          selectedOption:options[15]
+
         });
         if (_elements.length !== 0) {
           this.setState({
@@ -88,6 +91,9 @@ class InputSelect extends React.Component {
       } else {
         this.setState({
           options: options_inch,
+          // selectedValue: options_inch[14],
+          selectedOption:options_inch[14]
+
         });
 
         if (_elements.length !== 0) {
@@ -108,6 +114,9 @@ class InputSelect extends React.Component {
         if (this.props.demensions === 'Millimeters') {
           this.setState({
             options: options,
+            selectedValue: options[15],
+          selectedOption:options[15]
+
           });
           if (_elements.length !== 0) {
             this.setState({
@@ -119,22 +128,25 @@ class InputSelect extends React.Component {
         } else {
           this.setState({
             options: options_inch,
+            selectedValue: options_inch[14],
+            selectedOption:options_inch[14]
+
           });
           if (_elements.length !== 0) {
             this.setState({
               selectedValue: options_inch[14].label,
               // selectedValue: options_inch[14],
-          },()=>{
-            this.setState({selectedValue: this.state.selectedValue})
-            console.log(this.state.selectedValue,'selectedValue-inch')}
+          }
+          //,()=>{
+          //   this.setState({selectedValue: this.state.selectedValue})
+          //   console.log(this.state.selectedValue,'selectedValue-inch')}
           )
           localStorage.setItem('z-value',options_inch[14].label)
-
-        }
+          
           }
         }
       }
-
+    }
   //data processing from input-select - Z
     handleChange = (selectedOption,e) => {
 
@@ -142,9 +154,19 @@ class InputSelect extends React.Component {
       console.log(this.state.selectedOption,'selectedOption ');
       if(this.props.demensions==='Millimeters'){
         localStorage.setItem('z-value',selectedOption.value + ' mm');
-      
+        this.setState({
+          options: options,
+          selectedValue: options[15],
+          selectedOption:options[15]
+        });
       } else {
         localStorage.setItem('z-value',selectedOption.value + ' "')
+        this.setState({
+          options: options_inch,
+          selectedValue: options_inch[14],
+          selectedOption:options_inch[14]
+
+        });
       }
       console.log(`Option selected:`, selectedOption.value);
 
@@ -256,7 +278,9 @@ class InputSelect extends React.Component {
             onMouseLeave={this.handleInputChange}
             styles={customStyles}
             // isClearable
-            defaultValue={this.state.selectedValue}
+            value={this.state.selectedOption}
+            // value={this.state.selectedValue}
+
             // defaultValue={options[0]}
             onChange={this.handleChange}
             onInputChange={this.handleInputChange}

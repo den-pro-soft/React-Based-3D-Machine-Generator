@@ -29,7 +29,9 @@ class CircleType extends React.Component {
       } else
         if (arc === true && app.selectElements.length > 1) {
           let diameter = '';
-          this.props.updateDiameter(diameter===undefined? '':diameter);
+          // this.props.updateDiameter(diameter===undefined? 0.000 :diameter);
+          this.props.updateDiameter(diameter===undefined? 0.000 :0.000);
+
           this.setState({ diameter:this.props.diameter  });
 
           // if (this.props.demensions === "Millimeters") {
@@ -79,6 +81,8 @@ console.log(diameter,'diameter-[rops')
           this.setState({
             diameter: diameter/*.replace(/[^0-9.]/g, "")*/ + " mm"
           });
+        this.props.updateDiameter(diameter);
+
         } else {
           this.setState({
             diameter: diameter.replace(/[^0-9.]/g, "") + " mm"
