@@ -26,7 +26,6 @@ class ArcType extends React.Component {
           });
 
           let radius = (app.selectElements[0].radius).toFixed(3);
-          // console.log(radius, (2).toFixed(3),'radius');
           this.props.updateRadius(radius);
           if (this.props.demensions === "Millimeters") {
 
