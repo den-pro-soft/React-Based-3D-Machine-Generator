@@ -43,6 +43,7 @@ import {connect} from 'react-redux';
   // ---------------React Life Cycle-----------------
   componentWillMount() {
     app.addHandler("selectElements", elements => {
+      // app.setElementsHeight(75);
   
       this.setState({value: app.selectElements[0]._lineType.label});
       localStorage.setItem('lineType', app.selectElements[0]._lineType.label);

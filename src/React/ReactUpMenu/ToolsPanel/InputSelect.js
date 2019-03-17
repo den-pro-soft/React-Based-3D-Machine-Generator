@@ -2,12 +2,11 @@ import React from "react";
 import CreatableSelect from "react-select/lib/Creatable";
 import { Fragment } from "react";
 import { connect } from "react-redux";
-
+const optionsData=['Air Inside','Revolve','0.005','0.080','0.130']
 const options = [
   { value: "Air Inside", label: 'Air Inside'},
   { value: "Revolve", label: `Revolve` },
   { value: "0.05", label: '0.005 mm' },
-
   { value: "0.08", label: '0.080 mm' },
   { value: "0.13", label: `0.130 mm` },
   { value: "0.25", label: `0.250 mm` },
@@ -62,93 +61,68 @@ class InputSelect extends React.Component {
       super(props);
 
       this.state = {
-        selectedOption: null,
+        // selectedOption: null,
+        newValue:null,
         options:options,
         displayInputSelect: true
       };
     }
-    componentWillMount() {
+
+        componentWillMount() {
 
       if (this.props.demensions === 'Millimeters') {
         this.setState({
           options: options,
-          selectedOption:options[15]
+          newValue:options[15]
         });
-
+      //  let val = parseInt(options[15].value);
+      //   app.setElementsHeight(val ? val : 0.075);
           localStorage.setItem('z-value',options[15].label)
 
       } else {
         this.setState({
           options: options_inch,
-          selectedOption:options_inch[14]
+          newValue:options_inch[14]
 
         });
+        // let val = parseInt(options_inch[14].value);
+        // app.setElementsHeight(val ? val : 0.075);
           localStorage.setItem('z-value',options_inch[14].label)
 
-      }
+          }
+          app.addHandler("selectElements", elements => {
+
+            if (app.selectElements.length === 1) {
+                  let val = parseInt(options[15].value);
+                // app.setElementsHeight(val ? val : 0.075);
+            }
+          })
     }
+  
 
-    componentDidUpdate(prevProps, prevState) {
-      if (this.props.demensions !== prevProps.demensions) {
-        if (this.props.demensions === 'Millimeters') {
-          this.setState({
-            options: options,
-            selectedOption:options[15]
-          });
-    
-          localStorage.setItem('z-value',options[15].label)
+    handleChange = (newValue, actionMeta) => {
+      this.setState({newValue})
+  
+  //  let val = parseInt(newValue.value);
+        // app.setElementsHeight(val ? val : 0.075);
+        // app.setElementsHeight(75);
+      console.group('Value Changed');
+      console.log(newValue);
+      console.log(`action: ${actionMeta.action}`);
+      console.groupEnd();
 
-        } else {
-          this.setState({
-            options: options_inch,
-            selectedOption:options_inch[14]
-          });
-    
-          localStorage.setItem('z-value',options_inch[14].label)
-          
-        }
-      }
-    }
-  //data processing from input-select - Z
-    handleChange = (selectedOption,e) => {
-
-      this.setState({ selectedOption, displayInputSelect: false });
-      console.log(this.state.selectedOption,'selectedOption ');
-      if(this.props.demensions==='Millimeters'){
-        localStorage.setItem('z-value',selectedOption.value + ' mm');
-        this.setState({
-          options: options,
-          selectedOption
-        });
-      } else {
-        localStorage.setItem('z-value',selectedOption.value + ' "')
-        this.setState({
-          options: options_inch,
-          selectedOption
-
-        });
-      }
-      console.log(`Option selected:`, selectedOption.value);
-
-      if (this.props.demensions === 'Millimeters') {
-        let val = parseInt(selectedOption.value);
-        app.setElementsHeight(val ? val : 0.075);
-      } else {
-        let val = parseInt(selectedOption.value*25.4);
-        app.setElementsHeight(val ? val : 0.075);
-      }
     };
+// updateHeight=()=>{
+//           app.setElementsHeight(75);
 
+// }
     handleInputChange = (inputValue, actionMeta) => {
-      // setState({displayInputSelect:false});
-      console.group("Input Changed");
-      // localStorage.setItem('z-value',inputValue);
-      console.log(inputValue, 'actionMeta-event');
+      // app.setElementsHeight(inputValue);
+      console.group('Input Changed');
       console.log(inputValue);
       console.log(`action: ${actionMeta.action}`);
       console.groupEnd();
-     
-      let newValue = options.some(el => el.value === (+inputValue * 1).toFixed(3));
+          let newValue = options.some(el => el.value === (+inputValue * 1).toFixed(3));
       let newValueInch = options_inch.some(el => el.value === (+inputValue * 1).toFixed(3));
       console.log(newValue, 'valueList')
       if (this.props.demensions === 'Millimeters') {
@@ -164,7 +138,81 @@ class InputSelect extends React.Component {
           })
         }
       }
-    };
+    }
+ 
+
+    componentDidUpdate(prevProps, prevState) {
+      if (this.props.demensions !== prevProps.demensions) {
+        if (this.props.demensions === 'Millimeters') {
+          this.setState({
+            options: options,
+            newValue:options[15]
+          });
+    
+          localStorage.setItem('z-value',options[15].label)
+
+        } else {
+          this.setState({
+            options: options_inch,
+            newValue:options_inch[14]
+          });
+    
+          localStorage.setItem('z-value',options_inch[14].label)
+          
+        }
+      }
+    }
+  // //data processing from input-select - Z
+  //   handleChange = (selectedOption) => {
+
+  //     // this.setState({ selectedOption, displayInputSelect: false},
+  //     //   ()=>{
+  //     //     this.setState({selectedOption:this.state.selectedOption});
+  //     // console.log(this.state.selectedOption, selectedOption,'1-selectedOption ');
+
+  //     //   }
+  //     //   );
+  //     console.log(/*this.state.selectedOption, */selectedOption,'2-selectedOption ');
+  //     if(this.props.demensions==='Millimeters'){
+  //       localStorage.setItem('z-value',selectedOption.value + ' mm');
+  //       // this.setState({ selectedOption, displayInputSelect: false },
+  //       //   ()=>{
+  //       //     this.setState({selectedOption, displayInputSelect: true});
+  //       // console.log(this.state.selectedOption, selectedOption,'1-selectedOption ');
+  
+  //       //   }
+  //       //   );
+  //     console.log(this.state.selectedOption,selectedOption,'3-selectedOption ');
+
+  //       this.setState({
+  //         options: options,
+  //         selectedOption:selectedOption,
+  //         // selectedOption:this.state.selectedOption,
+
+  //         displayInputSelect: false
+  //       });
+  //     console.log(this.state.selectedOption,selectedOption,'4-selectedOption ');
+
+  //     } else {
+  //       localStorage.setItem('z-value',selectedOption.value + ' "')
+  //       this.setState({
+  //         options: options_inch,
+  //         selectedOption
+
+  //       });
+  //     }
+  //     console.log(`Option selected:`, selectedOption.value);
+
+  //     if (this.props.demensions === 'Millimeters') {
+  //       let val = parseInt(selectedOption.value);
+  //       app.setElementsHeight(val ? val : 0.075);
+  //     } else {
+  //       let val = parseInt(selectedOption.value*25.4);
+  //       app.setElementsHeight(val ? val : 0.075);
+  //     }
+  //   };
+
+
  
     render() {
     
@@ -231,17 +279,22 @@ class InputSelect extends React.Component {
               />
             </a>
           </button>
+    
           <CreatableSelect
             onMouseLeave={this.handleInputChange}
             styles={customStyles}
             // isClearable
-            value={this.state.selectedOption}
-
+            // defaultValue={this.state.selectedOption}
             onChange={this.handleChange}
             onInputChange={this.handleInputChange}
             // onKeyPress={this.handleInputChange}
             // allowCreate={false}
             options={this.state.options}
+
+            // options={this.state.options}
+            // value={this.state.selectedOption}
+            value={this.state.newValue}
+
             placeholder=""
           />
         </Fragment>
@@ -251,8 +304,10 @@ class InputSelect extends React.Component {
   const mapStateToProps = state => {
     return {
       demensions: state.preferencesReducer.demensions,
+      z_value:state.toolsPanelReducer.z_value
 
     };
   };
 
   export default connect(mapStateToProps)(InputSelect);
+

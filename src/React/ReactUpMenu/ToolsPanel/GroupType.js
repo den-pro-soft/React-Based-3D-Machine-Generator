@@ -36,14 +36,14 @@ import { connect } from "react-redux";
   }
    componentDidUpdate(prevProps, prevState) {
      if (this.props.demensions !== prevProps.demensions) {
-
-       let width = this.props.width;
-       let height = this.props.height;
+console.log(this.props.wodth,this.props.height,'width-height')
+       let width = (this.props.width*1).toFixed(3);
+       let height = (this.props.height*1).toFixed(3);;
 
        if (this.props.demensions === "Millimeters") {
          this.setState({
            width: width + " mm",
-           height: height + " mm"
+           height: height+ " mm"
          });
 
        }
@@ -65,29 +65,18 @@ import { connect } from "react-redux";
     if (e.charCode === 13) {
 
       if (this.props.demensions === "Millimeters") {
+        // let width1 = width.replace(/[^0-9.]/g, ""); 
+
         this.setState({
-          width: width.replace(/[^0-9.]/g, "")  + " mm"
+          width: width.replace(/[^0-9.]/g, "") + " mm"
           // width: width
 
-        },
-      //   ()=>{ 
-      //     // console.log(this.state.diameter,'mm-state-diameter');
-      //     let width1 = this.state.width.replace(/[^0-9.]/g, "");      
-      //   // let diameter1 = this.state.diameter.replace(/[^0-9.]/g, "");
-       
-      //     this.setState({
-      //       width: (+width1*1).toFixed(3) + " mm"
-      //     })
-      //     // this.props.updateDiameter(+diameter1);
-      //   this.props.updateWidthAndHeight(+width1,+height);
-               
-      // }      
-        );
+        });
         let width1 = width.replace(/[^0-9.]/g, ""); 
 
         this.props.updateWidthAndHeight(+width1,+height);
-    app.setSelectedElementsSize(+width1, +height);
-    this.widthInput.blur(); 
+        app.setSelectedElementsSize(+width1, +height);
+        this.widthInput.blur(); 
       } else {
         this.setState({
           width: width.replace(/[^0-9.]/g, "") + ' "'

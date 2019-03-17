@@ -36,8 +36,8 @@ export default class Config extends Observable{
         /** @type {string} [Millimeters|Inches]*/
         this._dimension= 'Millimeters';
    
-        //state for React-Redux modal window Confirmation
-        // this.openConfirm = false;
+        // for transfer state between lifecycles in CircleType.js 
+        this.diameter = '';
 
         /** @type {LineType} - the default line type*/
         this._lineType = new AutoLineType();

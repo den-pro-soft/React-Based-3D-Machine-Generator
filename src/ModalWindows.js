@@ -34,5 +34,6 @@ export default class ModalWindows {
     
     handleButton2 = () => {
         this.noCallBack();
+        store.dispatch({ type: "OPEN_CONFIRM", payload:false });
     };
 }

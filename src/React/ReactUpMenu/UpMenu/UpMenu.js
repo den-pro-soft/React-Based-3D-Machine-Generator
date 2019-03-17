@@ -146,10 +146,10 @@ class UpMenu extends React.Component {
                 </a>
               </button>
               <button 
-              // onClick={()=>{
-              //   // modal.modalOpenConfirmation();
-              //   this.props.openConfirmModal(true)
-              // }}
+                onClick={() => {
+                  app.setElementsHeight(75);
+
+                }}
               >
                 <a href="#">
                   <img width="18px" src="images/check2.png" />
