@@ -6,6 +6,7 @@
 import MagnificationDecorator from './MagnificationDecorator';
 import Point from '../../../model/Point';
 import Matrix from './../../../model/math/Matrix';
+import ResizeTransformer from './../transformer/ResizeTransformer';
 
 /**
  * The decorator shows the near points
@@ -100,7 +101,7 @@ export default class MagnificationTransformerDecorator extends MagnificationDeco
     render(){
         this.tool.render();
 
-        if(this.anotherPoint && this.selectPoint && !this.tool.transformer.activeControllPoint) {
+        if(this.anotherPoint && this.selectPoint && this.tool.transformer instanceof ResizeTransformer && !this.tool.transformer.activeControllPoint) {
             if (this.selectPoint.compare(this.anotherPoint)) {
                 this.renderPoint(this.anotherPoint, '#ff0000',5);
             } else {
