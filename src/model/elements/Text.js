@@ -8,7 +8,7 @@ import Point from './../Point';
 
 import Rect from '../math/Rect';
 import Matrix from './../math/Matrix';
-import Trigonometric from './../math/Trigonometric';
+import RectElement from './RectElement';
 import PolyLine from './../math/PolyLine';
 import CommentToSelf from './../line_types/CommentToSelf';
 
@@ -56,17 +56,29 @@ export default class Text extends GraphicElement{
         this.angle-=grad;
     }
 
+
+    /**
+     * The method need for magnification mode
+     * @return {Array.<Point>} - points that can be magnetised
+     */
+    getMagnificationPoints(){
+        let l = window.Helper.Text.textWidth(this.text,'Arial', this.fontSize);
+        let rect = new RectElement(new Point(this.position.x, this.position.y+this.fontSize),
+            new Point(this.position.x+l, this.position.y)).toElement();
+        rect.rotate(this.position,-this.angle);
+
+        return rect.getMagnificationPoints();
+    }
+
     /**
      * @inheritDoc
      */
     getExtrenum(){
         let l = window.Helper.Text.textWidth(this.text,'Arial', this.fontSize);
-        let s1 = l * Math.cos(Trigonometric.gradToRad(this.angle));
-        let s2 = this.fontSize * Math.cos(Trigonometric.gradToRad(90-this.angle));
-        let s3 = l * Math.sin(Trigonometric.gradToRad(this.angle));
-        let s4 = this.fontSize * Math.sin(Trigonometric.gradToRad(90-this.angle));
-
-        return {max:{x:this.position.x+s1, y:this.position.y+s3+s4}, min:{x:this.position.x-s2, y:this.position.y}};
+        let rect = new RectElement(new Point(this.position.x, this.position.y+this.fontSize),
+                                   new Point(this.position.x+l, this.position.y)).toElement();
+        rect.rotate(this.position,-this.angle);
+        return rect.getExtrenum();
     }
 
     /**
