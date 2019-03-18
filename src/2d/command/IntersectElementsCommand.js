@@ -86,8 +86,6 @@ export default class IntersectElementsCommand extends ElementModificationCommand
                     points.push(...IntersectElementsCommand._intersectPointsLineArc(element, el));
                 }else if(el instanceof Spline){
                     points.push(...IntersectElementsCommand._intersectPointsLineSpline(element, el));
-                }else{
-                    throw new Exception('The elements doesn\'t support intersection!', el);
                 }
             }
         }else if(element instanceof Arc) {
@@ -100,8 +98,6 @@ export default class IntersectElementsCommand extends ElementModificationCommand
                     points.push(...IntersectElementsCommand._intersectPointsArcArc(element, el));
                 }else if(el instanceof Spline){
                     points.push(...IntersectElementsCommand._intersectPointsArcSpline(element, el));
-                }else{
-                    throw new Exception('The elements doesn\'t support intersection!', el);
                 }
             }
         }else if(element instanceof Spline) {
@@ -114,8 +110,6 @@ export default class IntersectElementsCommand extends ElementModificationCommand
                     points.push(...IntersectElementsCommand._intersectPointsArcSpline(el, element));
                 }else if(el instanceof Spline){
                     points.push(...IntersectElementsCommand._intersectPointsSplineSpline(element, el));
-                }else{
-                    throw new Exception('The elements doesn\'t support intersection!', el);
                 }
             }
         }else{
@@ -150,34 +144,6 @@ export default class IntersectElementsCommand extends ElementModificationCommand
                     res = newElements;
                 }else{
                     res.push(...newElements);
-                }
-            }
-        }
-        return res;
-    }
-
-
-    /**
-     * @param {GraphicElement} element
-     * @private
-     */
-    _getIntersectPoints(element){
-        //todo: can have the errors in polygon discretization
-
-        let elPolyLine = element.toPolyLines()[0];
-        let simpleElements = this._document.getListSimpleElements();
-
-        let res = [];
-
-        for(let el of simpleElements){
-            if(!el.compare(element)){
-
-                //todo: check points by type
-
-                let polyLines = el.toPolyLines();
-                for(let polyLine of polyLines) {
-                    let points = elPolyLine.getCrossPoints(polyLine);
-                    res.push(...points);
                 }
             }
         }
@@ -276,7 +242,8 @@ export default class IntersectElementsCommand extends ElementModificationCommand
      * @private
      */
     static _intersectPointsLineSpline(line, spline){
-        throw new Exception('The _intersectPointsLineSpline method doesn\'t have implementation!', this);
+        //todo: can have the errors in polygon discretization
+        return line.toPolyLines()[0].getCrossPoints(spline.toPolyLines()[0]);
     }
 
 
@@ -356,7 +323,8 @@ export default class IntersectElementsCommand extends ElementModificationCommand
      * @private
      */
     static _intersectPointsArcSpline(arc, spline){
-        throw new Exception('The _intersectPointsArcSpline method doesn\'t have implementation!', this);
+        //todo: can have the errors in polygon discretization
+        return arc.toPolyLines()[0].getCrossPoints(spline.toPolyLines()[0]);
     }
 
     /**
@@ -369,16 +337,6 @@ export default class IntersectElementsCommand extends ElementModificationCommand
         throw new Exception('The _intersectPointsSplineSpline method doesn\'t have implementation!', this);
     }
 }
-
-// 1. Дано:
-//     Дуга задана центром (x,y), начальным углом поворота, и конечным углом попворота.
-//     Отрезок задан двумя точками
-//
-//     необходимо определить одну две или онль точек персечения.
-//
-// 2. Дано две дуги заданы центром (x,y), начальным углом поворота, и конечным углом попворота
-//
-//     необходимо найти одну или две точки пересечения
 
 
 
