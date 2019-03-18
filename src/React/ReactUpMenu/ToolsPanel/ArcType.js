@@ -39,17 +39,19 @@ class ArcType extends React.Component {
       }
     });
   }
-  componentDidUpdate(prevProps, prevState) {
-    if (this.props.demensions !== prevProps.demensions) {
+
+  componentWillReceiveProps(nextProps){
+  // componentDidUpdate(prevProps, prevState) {
+    // if (this.props.demensions !== prevProps.demensions) {
   
       let radius = this.props.radius;
 
-      if (this.props.demensions === "Millimeters") {
+      if (nextProps.demensions === "Millimeters") {
         this.setState({ radius: radius + " mm" });
       } else {
         this.setState({ radius: (radius / 25.4).toFixed(3) + ' "' });
       }
-    }
+    // }
   }
 
   handleChangeInputRadius = e => {

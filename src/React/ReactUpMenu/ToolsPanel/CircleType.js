@@ -3,104 +3,83 @@ import ReactTooltip from "react-tooltip";
 import { connect } from "react-redux";
 
 class CircleType extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      diameter: this.props.diameter
-    };
-  }
+    constructor(props) {
+      super(props);
+      this.state = {
+        diameter: this.props.diameter
+      };
+    }
 
-  componentWillMount() {
+    componentWillMount() {
 
-    const{_elements} = app.currentDocument
-    let arc = _elements.every(el => el.typeName === "Arc");
-    let arc_radius = _elements.every(el => el.radius === app.config.diameter/2);
+      const { _elements } = app.currentDocument
+      let arc = _elements.every(el => el.typeName === "Arc");
+      let arc_radius = _elements.every(el => el.radius === app.config.diameter / 2);
 
-    // let arc = _elements.every(el => el.radius === "Arc");
+      if (arc === true && arc_radius === false && app.selectElements.length > 1) {
+        let diameter = '';
+        app.config.diameter = diameter;
+        this.setState({ diameter })
 
+        console.log(arc_radius, app.config.diameter, '1-app+ark-radius')
+      } else
+        if (arc === true && arc_radius === true && app.selectElements.length > 1) {
+          app.addHandler("selectElements", elements => {
 
-    if (arc === true && arc_radius===false&&app.selectElements.length > 1) {
-      let diameter = '';
-      app.config.diameter = diameter;
-      this.setState({diameter})
-    // let arc_radius = _elements.every(el => el.radius === app.config.diameter/2);
-    // let a_radius = _elements.filter(el => el.radius === app.config.diameter/2);
+            console.log(arc_radius, app.config.diameter, '2-app+ark-radius')
 
-    console.log(arc_radius,app.config.diameter,'1-app+ark-radius')
-    } else 
-      if(arc === true && arc_radius===true&&app.selectElements.length > 1){
-      app.addHandler("selectElements", elements => {
+            if (this.props.demensions === "Millimeters") {
+              this.setState({ diameter: (app.config.diameter * 1).toFixed(3) + " mm" });
+            } else {
+              this.setState({
+                diameter: ((app.config.diameter * 1) / 25.4).toFixed(3) + ' "'
+              });
+            }
 
-      console.log(arc_radius,app.config.diameter,'2-app+ark-radius')
+          })
 
-      //   let radius = app.selectElements[0].radius.toFixed(3);
-      //   // this.props.updateDiameter(radius * 2);
-      //   app.config.diameter=radius*2;
-
-        if (this.props.demensions === "Millimeters") {
-          this.setState({ diameter: (app.config.diameter*1).toFixed(3) + " mm" });
         } else {
-          this.setState({
-            diameter: ((app.config.diameter *1) / 25.4).toFixed(3) + ' "'
+
+          app.addHandler("selectElements", elements => {
+
+            if (app.selectElements.length === 1) {
+              if (elements[0].typeName === "Arc") {
+
+                let radius = app.selectElements[0].radius.toFixed(3);
+                this.props.updateDiameter(radius * 2);
+                app.config.diameter = radius * 2;
+
+                if (this.props.demensions === "Millimeters") {
+                  this.setState({ diameter: (radius * 2).toFixed(3) + " mm" });
+                } else {
+                  this.setState({
+                    diameter: ((radius * 2) / 25.4).toFixed(3) + ' "'
+                  });
+                }
+              }
+            }
           });
         }
-      
-      })
-    
-  
-   
-    } else {
-    // } else if (app.selectElements.length === 1) {
-
-
-      app.addHandler("selectElements", elements => {
-
-        if (app.selectElements.length === 1) {
-          if (elements[0].typeName === "Arc") {
-
-          let radius = app.selectElements[0].radius.toFixed(3);
-          this.props.updateDiameter(radius * 2);
-          app.config.diameter=radius*2;
-
-          if (this.props.demensions === "Millimeters") {
-            this.setState({ diameter: (radius * 2).toFixed(3) + " mm" });
-          } else {
-            this.setState({
-              diameter: ((radius * 2) / 25.4).toFixed(3) + ' "'
-            });
-          }
-        // } else {
-        //   app.config.diameter='';
-
-        }
-      } 
-    });
-  }
-
-    // const{_elements} = app.currentDocument
-    // let arc = _elements.every(el => el.typeName === "Arc");
-
-    // if (arc === true && app.selectElements.length > 1) {
-    //   let diameter = '';
-    //   this.setState({diameter})
-   
-    // }
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    if (this.props.demensions !== prevProps.demensions) {
-      console.log(app.config.diameter,'diameter-config in update')
-
-        let diameter = app.config.diameter!==NaN?app.config.diameter:'';
-      
-        console.log(diameter,this.props.diameter,'diameter-[rops')
-        if (this.props.demensions === "Millimeters") {
-          this.setState({ diameter: (diameter*1).toFixed(3) + " mm" });
-        } else {
-          this.setState({ diameter: (diameter / 25.4).toFixed(3) + ' "' });
-        }     
     }
-  }
+
+    componentWillReceiveProps(nextProps){
+ 
+    // componentDidUpdate(prevProps, prevState) {
+    //   if (this.props.demensions !== prevProps.demensions) {
+        console.log(/*app.config.diameter,*/nextProps,'diameter-config in update')
+
+          let diameter = app.config.diameter!==NaN?app.config.diameter:'';
+        
+          // console.log(diameter,this.props.diameter,'diameter-[rops')
+          if (nextProps.demensions === 'Millimeters') {
+
+          // if (this.props.demensions === "Millimeters") {
+            this.setState({ diameter: (diameter*1).toFixed(3) + " mm" });
+          } else {
+            this.setState({ diameter: (diameter / 25.4).toFixed(3) + ' "' });
+          }     
+      // }
+    }
 
   handleChangeInputDiameter = e => {
     let diameter = e.target.value;
@@ -195,7 +174,7 @@ class CircleType extends React.Component {
 const mapStateToProps = state => {
   return {
     demensions: state.preferencesReducer.demensions,
-    diameter: state.toolsPanelReducer.diameter
+    // diameter: state.toolsPanelReducer.diameter
   };
 };
 

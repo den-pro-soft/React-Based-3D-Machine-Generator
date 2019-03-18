@@ -5,6 +5,8 @@ const initialState = {
   width: "",
   height: "",
   textSize: "",
+  z_value:null/* { value: "10.00", label: `10.000 mm` }*/,
+
 };
 
 export default function toolsPanelReducer(state = initialState, action) {
@@ -34,6 +36,10 @@ export default function toolsPanelReducer(state = initialState, action) {
     case "UPDATE_TEXT_SIZE":
       return {
         textSize: action.payload
+      };
+      case "UPDATE_Z_VALUE":
+      return {
+        z_value: action.payload
       };
 
     default:

@@ -33,15 +33,20 @@ class LineType extends React.Component {
       }
     });
   }
-  componentDidUpdate(prevProps, prevState) {
-    if (this.props.demensions !== prevProps.demensions) {
+
+  componentWillReceiveProps(nextProps){
+
+  // componentDidUpdate(prevProps, prevState) {
+    // if (this.props.demensions !== prevProps.demensions) {
       let lengthLine = this.props.lengthLine;
-      if (this.props.demensions === "Millimeters") {
+      // if (this.props.demensions === "Millimeters") {
+      if (nextProps.demensions === "Millimeters") {
+
         this.setState({ lengthLine: lengthLine  + " mm" });
       } else {
         this.setState({ lengthLine: (lengthLine / 25.4).toFixed(3) + ' "' });
       }
-    }
+    // }
   }
 
   handleChangeInputLength = e => {

@@ -12,7 +12,7 @@ class MoveButtons extends React.Component {
       };
     }
 
- 
+    // componentWillReceiveProps(nextProps){ 
     componentDidUpdate(prevProps, prevState) {
       if (this.props.demensions !== prevProps.demensions) {
         let moveStep = this.props.moveStep;

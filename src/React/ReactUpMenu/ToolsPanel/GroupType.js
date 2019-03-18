@@ -34,13 +34,16 @@ import { connect } from "react-redux";
       }
     });
   }
-   componentDidUpdate(prevProps, prevState) {
-     if (this.props.demensions !== prevProps.demensions) {
+
+  componentWillReceiveProps(nextProps){
+
+  //  componentDidUpdate(prevProps, prevState) {
+    //  if (this.props.demensions !== prevProps.demensions) {
 console.log(this.props.wodth,this.props.height,'width-height')
        let width = (this.props.width*1).toFixed(3);
        let height = (this.props.height*1).toFixed(3);;
 
-       if (this.props.demensions === "Millimeters") {
+       if (nextProps.demensions === "Millimeters") {
          this.setState({
            width: width + " mm",
            height: height+ " mm"
@@ -53,7 +56,7 @@ console.log(this.props.wodth,this.props.height,'width-height')
            height: (height / 25.4).toFixed(3) + ' "'
          });
        }
-     }
+    //  }
    }
 
   handleChangeInputWidth = e => {

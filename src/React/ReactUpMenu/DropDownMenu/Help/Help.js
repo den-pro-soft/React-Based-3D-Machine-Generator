@@ -1,7 +1,8 @@
 import React from "react";
 import "./help.scss";
 import Suggestion from "./Suggestion";
-import DialogMaterialUi from "./DialogMaterialUI";
+import TechSupport from "./TechSupport";
+
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
@@ -17,7 +18,9 @@ export default class Help extends React.Component {
       displaySubMenu: false,
       open: false,
       openSubModal: false,
-      openSuggestionModal: false
+      openSuggestionModal: false,
+      suggestion:false,
+      tech_support:false
     };
   }
  
@@ -73,21 +76,43 @@ export default class Help extends React.Component {
       document.removeEventListener("click", this.hideSubMenu);
     });
   };
+
+  // ----------------------window Tech Support------------------------------------------------
+  handleOpenTechSupport = e =>{
+    this.setState(
+      prevState => ({ openSuggestionModal: !prevState.openSuggestionModal,tech_support:true }),
+      () => {
+        this.setState({ openSuggestionModal: this.state.openSuggestionModal, tech_support:true});
+      }
+    );
+  } 
+
+  handleCloseModalTechSupport = () => {
+    this.setState(
+      prevState => ({ openSuggestionModal: prevState.openSuggestionModal,tech_support:false }),
+      () => {
+        this.setState({ openSuggestionModal: !this.state.openSuggestionModal,tech_support:false });
+      }
+    );
+  };
+  // openGuideSuggestionWindow = () => {
+  //   window.open("https://www.emachineshop.com/help/");
+  // };
   // --------------open window Suggestion---------------------
   handleOpenSuggestion = event => {
     // event.preventDefault();
     this.setState(
-      prevState => ({ openSuggestionModal: !prevState.openSuggestionModal }),
+      prevState => ({ openSuggestionModal: !prevState.openSuggestionModal,suggestion:true  }),
       () => {
-        this.setState({ openSuggestionModal: this.state.openSuggestionModal });
+        this.setState({ openSuggestionModal: this.state.openSuggestionModal,suggestion:true  });
       }
     );
   };
   handleCloseModalSuggestion = () => {
     this.setState(
-      prevState => ({ openSuggestionModal: prevState.openSuggestionModal }),
+      prevState => ({ openSuggestionModal: prevState.openSuggestionModal,suggestion:false }),
       () => {
-        this.setState({ openSuggestionModal: !this.state.openSuggestionModal });
+        this.setState({ openSuggestionModal: !this.state.openSuggestionModal,suggestion:false });
       }
     );
   };
@@ -188,7 +213,7 @@ export default class Help extends React.Component {
               <li>
                 <a href="#">Windows version</a>
               </li>
-              <li>
+              <li onClick={this.handleOpenTechSupport}>
                 <a href="#">Tech Support</a>
               </li>
               <li onClick={this.handleOpenSuggestion}>
@@ -217,44 +242,49 @@ export default class Help extends React.Component {
               src="images/icon.jpg"
               // data-tip="<span>Shows how to use numeric values.</span>"
             />
-            <span>Suggestion</span>
+         {this.state.suggestion===true&& <span style={{marginLeft:'5px'}}>Suggestion</span>}
+         {this.state.tech_support===true&&<span style={{marginLeft:'5px'}}>Tech Support</span>}
+
           </DialogTitle>
 
           <DialogContent
             style={{
               textAlign: "left",
               width: "750px",
-              height: "425px",
+              height: "400px",
               backgroundColor: "#f0ecec"
             }}
           >
-            <Suggestion />
+            {this.state.suggestion===true&& <Suggestion /> }
+            {this.state.tech_support===true&&<TechSupport/>}
           </DialogContent>
 
+            {this.state.suggestion === true && 
           <DialogActions>
-            <Button
-              onClick={this.handleCloseModalSuggestion}
-              style={{
-                backgroundColor: "#dddada",
-                boxShadow: "2px 2px 1px #000"
-              }}
-              color="primary"
-              autoFocus
-            >
-              Confirm
+
+              <Button
+                onClick={this.handleCloseModalSuggestion}
+                style={{
+                  backgroundColor: "#dddada",
+                  boxShadow: "2px 2px 1px #000"
+                }}
+                color="primary"
+                autoFocus
+              >
+                Confirm
             </Button>
-            <Button
-              onClick={this.handleCloseModalSuggestion}
-              style={{
-                backgroundColor: "#dddada",
-                boxShadow: "2px 2px 1px #000"
-              }}
-              color="primary"
-              autoFocus
-            >
-              Cancel
-            </Button>
-            <Button
+              <Button
+                onClick={this.handleCloseModalSuggestion}
+                style={{
+                  backgroundColor: "#dddada",
+                  boxShadow: "2px 2px 1px #000"
+                }}
+                color="primary"
+                autoFocus
+              >
+                Cancel
+              </Button>
+              <Button
               onClick={this.openGuideSuggestionWindow}
               style={{
                 backgroundColor: "#dddada",
@@ -266,6 +296,50 @@ export default class Help extends React.Component {
               CAD Guide
             </Button>
           </DialogActions>
+            
+            }
+            {this.state.tech_support === true && 
+          <DialogActions>
+
+              <Button
+                onClick={this.handleCloseModalTechSupport}
+                style={{
+                  backgroundColor: "#dddada",
+                  boxShadow: "2px 2px 1px #000"
+                }}
+                color="primary"
+                autoFocus
+              >
+                Send
+            </Button>
+              <Button
+                onClick={this.handleCloseModalTechSupport}
+                style={{
+                  backgroundColor: "#dddada",
+                  boxShadow: "2px 2px 1px #000"
+                }}
+                color="primary"
+                autoFocus
+              >
+                Cancel
+              </Button>
+              <Button
+              onClick={this.openGuideSuggestionWindow}
+              style={{
+                backgroundColor: "#dddada",
+                boxShadow: "2px 2px 1px #000"
+              }}
+              color="primary"
+              autoFocus
+            >
+              CAD Guide
+            </Button>
+          </DialogActions>
+            
+            }
+     
+        
+
         </Dialog>
         {/* -------------------------About window-------------------------------------------- */}
         <Dialog

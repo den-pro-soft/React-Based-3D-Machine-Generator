@@ -5,28 +5,27 @@ import Checkbox from "@material-ui/core/Checkbox";
 export default class Suggestion extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { 
-      value: "Drawing",
-      email:'jimlewis@emachineshop.com',
-      isChecked:true };
+    this.state = {
+         value: "Drawing", 
+         email:'jimlewis@emachineshop.com',         
+         isChecked:true };
   }
-
-  
+    
   handleChangeInputEmail = e => {
     console.log(e.target.value, "event");
     this.setState({ email: e.target.value });
-    if(e.charCode===13){
-      emailInput.blur()
-   }
+ if(e.charCode===13){
+    emailInput.blur()
+ }
   }
 
-  handleChangeSelect = e => {
-    console.log(e.target.value, "event");
-    this.setState({ value: e.target.value });
+  handleChangeSelect = event => {
+    console.log(event.target.value, "event");
+    this.setState({ value: event.target.value });
  
   };
 
-  handleChangeCheckbox = e => {
+  handleChangeCheckbox = event => {
     window.setTimeout(() => {
       this.setState({ isChecked: !this.state.isChecked });
     }, 0);
@@ -34,13 +33,13 @@ export default class Suggestion extends React.Component {
   render() {
     return (
       <div className="Suggestion">
-        <p>
+        {/* <p>
           Suggestions, comments and any problems you encounter (even small ones)
           will help us to bring you an even better product.
-        </p>
+        </p> */}
         <form>
         <div className="Email">
-          <label>Email:(Not Required)</label>
+          <label>Reply to:</label>
           <br />
           <input
             className="InputEmail"
@@ -73,7 +72,7 @@ export default class Suggestion extends React.Component {
           {this.state.value==="Other" && <input className="InputInSelect" type="text" />}
         </div>
         <div className="Textarea">
-          <label>Feedback:</label>
+          <label>Inquiry:</label>
           <br />
           <textarea rows="10" cols="98" />
         </div>
@@ -84,7 +83,7 @@ export default class Suggestion extends React.Component {
               checked={this.state.isChecked}
               color="primary"
             />
-            Attach current design file
+            Send my design and command log
           </label>
         </div>
         </form>

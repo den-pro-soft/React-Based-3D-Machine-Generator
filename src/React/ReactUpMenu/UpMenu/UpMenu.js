@@ -145,12 +145,7 @@ class UpMenu extends React.Component {
                   <img width="24px" src="images/3DPreview.png" />
                 </a>
               </button>
-              <button 
-                onClick={() => {
-                  app.setElementsHeight(75);
-
-                }}
-              >
+              <button >
                 <a href="#">
                   <img width="18px" src="images/check2.png" />
                 </a>

@@ -20,6 +20,8 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import {connect} from 'react-redux';
+import { withRouter } from "react-router-dom";
+
 
 //  export default 
  class ToolsPanel extends React.PureComponent {
@@ -42,8 +44,8 @@ import {connect} from 'react-redux';
   }
   // ---------------React Life Cycle-----------------
   componentWillMount() {
+
     app.addHandler("selectElements", elements => {
-      // app.setElementsHeight(75);
   
       this.setState({value: app.selectElements[0]._lineType.label});
       localStorage.setItem('lineType', app.selectElements[0]._lineType.label);
@@ -164,7 +166,9 @@ import {connect} from 'react-redux';
       <div className="ToolsPanel">
         <ReactTooltip html={true} className="tooltipBackgroundTheme" />
           <div className="Left-Tools">
-            <button className="btn-LineType" /*onClick={(e)=>{console.log(e.target,'window');this.props.updateOpenTapModal(!this.state.openTapModal)}}*/>
+            <button className="btn-LineType"
+             onClick={(e)=>{console.log(e.target,'window');
+             this.props.updateOpenTapModal(!this.state.openTapModal)}}>
               <a href="#">
                 <img
                   width="18px"
@@ -246,7 +250,7 @@ import {connect} from 'react-redux';
           <div className="Right-Tools">
             <MoveButtons />
           </div>
-        <MachineWindow />
+        <MachineWindow history={this.props.history}/>
         {/* <Confirmation /> */}
       {/* --------------------------Information-------------------- */}
         <Dialog
@@ -337,4 +341,4 @@ import {connect} from 'react-redux';
       };
     }
     
-export default connect(mapStateToProps, mapDispatchToProps)(ToolsPanel);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(ToolsPanel));

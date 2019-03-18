@@ -34,6 +34,9 @@ class TextType extends React.Component {
       }
     });
   }
+
+  // componentWillReceiveProps(nextProps){ 
+
   componentDidUpdate(prevProps, prevState) {
     if (this.props.demensions !== prevProps.demensions) {
       let textSize = this.props.textSize;

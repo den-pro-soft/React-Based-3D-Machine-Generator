@@ -7,6 +7,8 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import {connect} from 'react-redux';
+import { withRouter } from "react-router-dom";
+
 
 class MachineWindow extends React.Component {
   constructor(props) {
@@ -47,7 +49,7 @@ class MachineWindow extends React.Component {
             backgroundColor: "#f0ecec"
           }}
         >
-        <Machine/>
+        <Machine history={this.props.history}/>
         </DialogContent>
 
         <DialogActions>
@@ -93,4 +95,4 @@ const mapDispatchToProps = dispatch => {
         }
       };
     };
-  export default connect(mapStateToProps,mapDispatchToProps)(MachineWindow)
+  export default withRouter(connect(mapStateToProps,mapDispatchToProps)(MachineWindow))
