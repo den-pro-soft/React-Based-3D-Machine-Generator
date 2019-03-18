@@ -6,7 +6,7 @@ const optionsData=['Air Inside','Revolve','0.005','0.080','0.130']
 const options = [
   { value: "Air Inside",label: 'Air Inside'},
   { value: "Revolve",label: `Revolve` },
-  { value: "0.05", label: '0.005 mm' },
+  { value: "0.05", label: '0.050 mm' },
   { value: "0.08", label: '0.080 mm' },
   { value: "0.13", label: `0.130 mm` },
   { value: "0.25", label: `0.250 mm` },
@@ -34,13 +34,14 @@ const options_inch = [
   { value: "Air Inside", label: `Air Inside` },
   { value: "Revolve", label: `Revolve` },
   { value: "0.002", label: `0.002 "` },
+  { value: "0.003", label: `0.003 "` },
   { value: "0.005", label: `0.005 "` },
-  { value: "0.010", label: `0.010 "` },
-  { value: "0.031", label: `0.020 "` },
-  { value: "0.010", label: `0.031 "` },
-  { value: "0.045", label: `0.045 "` },
+  { value: "0.009", label: `0.009 "` },
+  { value: "0.020", label: `0.020 "` },
+  { value: "0.031", label: `0.031 "` },
+  { value: "0.044", label: `0.044 "` },
   { value: "0.062", label: `0.062 "` },
-  { value: "0.093", label: `0.093 "` },
+  { value: "0.092", label: `0.092 "` },
   { value: "0.125", label: `0.125 "` },
   { value: "0.187", label: `0.187 "` },
   { value: "0.250", label: `0.250 "` },
@@ -75,124 +76,130 @@ class InputSelect extends React.Component {
 
         this.setState({
           options: options,
-          // newValue:this.props.z_value
-          // newValue:this.state.options[15]
+          newValue:options[app.config.indexZ]      
         });
 
-          localStorage.setItem('z-value',options[15].label)
+          localStorage.setItem('z-value',options[app.config.indexZ].label)
       } else {
         this.setState({
           options: options_inch,
-          // newValue:null
-          // newValue:options_inch[14]
-
+          newValue:options_inch[app.config.indexZ]
         }); 
         // this.props.updateZValue(options_inch[14].label)
-
-          localStorage.setItem('z-value',options_inch[14].label)
+          localStorage.setItem('z-value',options_inch[app.config.indexZ].label)
           } 
     }
-  
+    
+    componentDidUpdate(prevProps, prevState) {
+      if (this.props.demensions !== prevProps.demensions) {
+        // let indexZ = this.props.indexZ;
+        if (this.props.demensions === 'Millimeters') {
+        console.log(app.config.indexZ,'z-update-props')
+   
+          this.setState({
+            options: options,
+            newValue:options[app.config.indexZ]
+          });
+    
+          localStorage.setItem('z-value',options[app.config.indexZ].label)
+
+        } else {
+          this.setState({
+            options: options_inch,
+            newValue:options_inch[app.config.indexZ]
+
+          });
+    
+          localStorage.setItem('z-value',options_inch[app.config.indexZ].label)
+          
+        }
+      }
+    }
 
     handleChange = (newValue, actionMeta) => {
-      this.setState({newValue})
-      console.log( newValue, '1-selectedOption ');     
-   
+
       if (this.props.demensions === 'Millimeters') {
         localStorage.setItem('z-value', newValue.value + ' mm');
 
-        console.log(this.state.newValue, newValue, '3-selectedOption ');
-
         this.setState({
-          // options: options,
+          options: options,
           newValue:newValue,
-
           displayInputSelect: true
         },
           ()=>{this.setState({
             options:this.state.options,
             newValue:this.state.newValue,
-            // newValue:newValue,
-
             displayInputSelect: true          
           });
+          let indexZ = options.findIndex(el=> {return el===newValue});
+          // this.props.updateIndexZ(indexZ)
+          app.config.indexZ = indexZ;
+         
           this.props.updateZValue(newValue)
-        console.log(this.state.newValue, newValue, newValue.value,'4-in - selectedOption ');
-         let val = parseInt(newValue.value);
-        app.setElementsHeight(val ? val : 0.075);
+          let val = parseInt(newValue.value);
+          // app.setElementsHeight(val ? val : 0.075);
+          app.setElementsHeight(val ? val : 10);
+
       }
         );
-        console.log(newValue, newValue.value,'4-out-selectedOption ');
    
       } else {
         localStorage.setItem('z-value', newValue.value + ' "')
         this.setState({
-          // options: options_inch,
+          options: options_inch,
           newValue: newValue,
           displayInputSelect: false
         });
-        console.log( newValue, newValue.value,'5-inch-selectedOption ');
+        let indexZ = options_inch.findIndex(el=> {return el===newValue});
+        // this.props.updateIndexZ(indexZ)
+        app.config.indexZ = indexZ;
         this.props.updateZValue(newValue)
 
             let val = parseInt(newValue.value*25.4);
-            app.setElementsHeight(val ? val : 0.075);
+            // app.setElementsHeight(val ? val : 0.075);
+          app.setElementsHeight(val ? val : 10);
+
       }
 
     };
 
     handleInputChange = (inputValue, actionMeta) => {
-      console.group('Input Changed');
-      console.log(inputValue);
-      console.log(`action: ${actionMeta.action}`);
-      console.groupEnd();
+      // console.group('Input Changed');
+      // console.log(inputValue);
+      // console.log(`action: ${actionMeta.action}`);
+      // console.groupEnd();
           let newValue = options.some(el => el.value === (+inputValue * 1).toFixed(3));
-      let newValueInch = options_inch.some(el => el.value === (+inputValue * 1).toFixed(3));
-      console.log(newValue, 'valueList')
+          let newValueInch = options_inch.some(el => el.value === (+inputValue * 1).toFixed(3));
+      // console.log(newValue, 'valueList')
       if (this.props.demensions === 'Millimeters') {
         if (newValue === false && inputValue !== null && inputValue !== '') {
           options.push({
             value: (+inputValue * 1).toFixed(3), label: (+inputValue * 1).toFixed(3) + ' mm'
+          });
+          options_inch.push({
+            value: (+inputValue/25.4).toFixed(3), label: (+inputValue/25.4).toFixed(3) + ' "'
           })
         }
+        let indexZ = options.findIndex(el=> {return el===inputValue});
+        // this.props.updateIndexZ(indexZ)
+        app.config.indexZ = indexZ;
       } else {
         if (newValueInch === false && inputValue !== null && inputValue !== '') {
           options_inch.push({
             value: (+inputValue * 1).toFixed(3), label: (+inputValue * 1).toFixed(3) + ' "'
           })
-        }
-      }
-    }
- 
-    componentDidUpdate(prevProps, prevState) {
-      if (this.props.demensions !== prevProps.demensions) {
-        if (this.props.demensions === 'Millimeters') {
-        console.log(this.props.z_value,'z-props')
-   
-          this.setState({
-            options: options,
-            // newValue:this.propsZ_value
-            newValue:null
-
+          options.push({
+            value: (+inputValue * 25.4).toFixed(3), label: (+inputValue * 25.4).toFixed(3) + ' mm'
           });
-    
-          localStorage.setItem('z-value',options[15].label)
-
-        } else {
-          this.setState({
-            options: options_inch,
-            // newValue:this.propsZ_value
-            newValue:null
-            // newValue:options_inch[14]
-          });
-    
-          localStorage.setItem('z-value',options_inch[14].label)
-          
         }
+        let indexZ = options_inch.findIndex(el=> {return el===inputValue});
+        // this.props.updateIndexZ(indexZ)
+        app.config.indexZ = indexZ;
       }
     }
  
     render() {
-      console.log(this.props,'props-input-select')
+      // console.log(this.props,'props-input-select')
       //Warning!!! CustomStyles for React-Select module - https://react-select.com/props#statemanager-props
       const customStyles = {
         container:(styles)=>({
@@ -213,6 +220,10 @@ class InputSelect extends React.Component {
           paddingBottom:'0px',
           height: 20,
           width: 120,
+          color:'black',
+          fontFamily:'sans-serif',
+          fontSize: '12.5px',
+          fontWeght:'bold',
           // color:'green',
           backgroundColor: "#fff",
           border: "1px solid #808080"
@@ -224,6 +235,9 @@ class InputSelect extends React.Component {
           background: "white",
         }),
         option: () => ({
+          fontFamily:'sans-serif',
+          fontSize: '12.5px',
+          fontWeght:'bold',
           borderLeft: "2px solid transparent",
           borderBottom: "1px solid #e5e5e5",
           padding: 2,
@@ -278,13 +292,17 @@ class InputSelect extends React.Component {
   const mapStateToProps = state => {
     return {
       demensions: state.preferencesReducer.demensions,
-      z_value:state.toolsPanelReducer.z_value
+      z_value:state.inputSelectReducer.z_value,
+      indexZ: state.inputSelectReducer.indexZ
     };
   };
   const mapDispatchToProps = dispatch => {
     return {
       updateZValue: z_value => {
         dispatch({ type: "UPDATE_Z_VALUE", payload: z_value });
+      },
+      updateIndexZ: indexZ => {
+        dispatch({ type: "UPDATE_INDEX_Z", payload: indexZ });
       }
    
     };

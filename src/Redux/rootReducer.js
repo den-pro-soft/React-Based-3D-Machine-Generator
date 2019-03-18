@@ -7,6 +7,8 @@ import priceReducer from './reducers/priceReducer';
 import orderWindowReducer from './reducers/orderWindowReducer';
 
 import toolsPanelReducer from './reducers/toolsPanelReducer';
+import inputSelectReducer from './reducers/inputSelectReducer';
+
 import movingReducer from './reducers/movingReducer';
 
 import summaryWindowReducer from './reducers/summaryWindowReducer';
@@ -17,5 +19,6 @@ export default combineReducers({
   machineWindowReducer, confirmationReducer,
   priceReducer,orderWindowReducer,
   toolsPanelReducer,movingReducer,
+  inputSelectReducer,
   summaryWindowReducer
 })

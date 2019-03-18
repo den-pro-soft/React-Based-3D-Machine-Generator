@@ -36,8 +36,10 @@ export default class Config extends Observable{
         /** @type {string} [Millimeters|Inches]*/
         this._dimension= 'Millimeters';
    
-        // for transfer state between lifecycles in CircleType.js 
+        // for transfer state between lifecycles in React - CircleType.js 
         this.diameter = '';
+        // for transfer state between lifecycles in React - InputSelect.js 
+        this.indexZ = 15;
 
         /** @type {LineType} - the default line type*/
         this._lineType = new AutoLineType();
