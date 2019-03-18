@@ -16,6 +16,10 @@ import Cloneable from './../Cloneable';
  */
 export default class GraphicElement extends Cloneable{
     
+    static get AirInside(){
+        return -1E8;
+    }
+
 
     constructor(){
         super();
@@ -23,7 +27,7 @@ export default class GraphicElement extends Cloneable{
         /** @var {number} - is unique identifier */
         this.id=container.resolve('elementIdGenerator').generateId();
 
-        this.height = 10;
+        this.height = GraphicElement.AirInside;
 
         /** @var {Array.<Point>} */
         this._points = [];
