@@ -27,7 +27,7 @@ export default class GraphicElement extends Cloneable{
         /** @var {number} - is unique identifier */
         this.id=container.resolve('elementIdGenerator').generateId();
 
-        this.height = GraphicElement.AirInside;
+        this.height = 1.59;
 
         /** @var {Array.<Point>} */
         this._points = [];
