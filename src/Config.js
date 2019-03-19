@@ -31,7 +31,7 @@ export default class Config extends Observable{
         this._moveStep = 10;
 
         /** @type {number} */
-        this._rotateStep = 15;
+        this._rotateStep = 0;
 
         /** @type {string} [Millimeters|Inches]*/
         this._dimension= 'Millimeters';
@@ -39,7 +39,7 @@ export default class Config extends Observable{
         // for transfer state between lifecycles in React - CircleType.js 
         this.diameter = '';
         // for transfer state between lifecycles in React - InputSelect.js 
-        this.indexZ = 15;
+        this.indexZ = 0;
 
         /** @type {LineType} - the default line type*/
         this._lineType = new AutoLineType();

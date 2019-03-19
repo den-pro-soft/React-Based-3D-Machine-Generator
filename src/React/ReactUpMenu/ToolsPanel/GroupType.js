@@ -39,7 +39,6 @@ import { connect } from "react-redux";
 
   //  componentDidUpdate(prevProps, prevState) {
     //  if (this.props.demensions !== prevProps.demensions) {
-console.log(this.props.wodth,this.props.height,'width-height')
        let width = (this.props.width*1).toFixed(3);
        let height = (this.props.height*1).toFixed(3);;
 
@@ -68,11 +67,9 @@ console.log(this.props.wodth,this.props.height,'width-height')
     if (e.charCode === 13) {
 
       if (this.props.demensions === "Millimeters") {
-        // let width1 = width.replace(/[^0-9.]/g, ""); 
 
         this.setState({
           width: width.replace(/[^0-9.]/g, "") + " mm"
-          // width: width
 
         });
         let width1 = width.replace(/[^0-9.]/g, ""); 

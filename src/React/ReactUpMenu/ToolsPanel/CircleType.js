@@ -20,13 +20,10 @@ class CircleType extends React.Component {
         let diameter = '';
         app.config.diameter = diameter;
         this.setState({ diameter })
-
-        console.log(arc_radius, app.config.diameter, '1-app+ark-radius')
+        
       } else
         if (arc === true && arc_radius === true && app.selectElements.length > 1) {
           app.addHandler("selectElements", elements => {
-
-            console.log(arc_radius, app.config.diameter, '2-app+ark-radius')
 
             if (this.props.demensions === "Millimeters") {
               this.setState({ diameter: (app.config.diameter * 1).toFixed(3) + " mm" });
@@ -66,11 +63,10 @@ class CircleType extends React.Component {
  
     // componentDidUpdate(prevProps, prevState) {
     //   if (this.props.demensions !== prevProps.demensions) {
-        console.log(/*app.config.diameter,*/nextProps,'diameter-config in update')
+        // console.log(/*app.config.diameter,*/nextProps,'diameter-config in update')
 
           let diameter = app.config.diameter!==NaN?app.config.diameter:'';
         
-          // console.log(diameter,this.props.diameter,'diameter-[rops')
           if (nextProps.demensions === 'Millimeters') {
 
           // if (this.props.demensions === "Millimeters") {

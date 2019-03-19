@@ -2,10 +2,11 @@ import React from "react";
 import CreatableSelect from "react-select/lib/Creatable";
 import { Fragment } from "react";
 import { connect } from "react-redux";
-const optionsData=['Air Inside','Revolve','0.005','0.080','0.130']
+import GraphicElement from '../../../model/GraphicElement'
+
 const options = [
   { value: "Air Inside",label: 'Air Inside'},
-  { value: "Revolve",label: `Revolve` },
+  // { value: "Revolve",label: `Revolve` },
   { value: "0.05", label: '0.050 mm' },
   { value: "0.08", label: '0.080 mm' },
   { value: "0.13", label: `0.130 mm` },
@@ -28,11 +29,12 @@ const options = [
   { value: "50.80", label: `50.800 mm` },
   { value: "63.50", label: `63.500 mm` },
   { value: "76.20", label: `76.200 mm` },
+  { value: "", label: "" },
   { value: "Other", label: `Other` }
 ];
 const options_inch = [
   { value: "Air Inside", label: `Air Inside` },
-  { value: "Revolve", label: `Revolve` },
+  // { value: "Revolve", label: `Revolve` },
   { value: "0.002", label: `0.002 "` },
   { value: "0.003", label: `0.003 "` },
   { value: "0.005", label: `0.005 "` },
@@ -55,6 +57,7 @@ const options_inch = [
   { value: "2.000", label: `2.000 "` },
   { value: "2.500", label: `2.500 "` },
   { value: "3.000", label: `3.000 "` },
+  { value: "", label: "" },
   { value: "Other", label: `Other` }
 ];
 // ---------------------------------------------------------------------------------------------------------------------------------------
@@ -70,57 +73,77 @@ class InputSelect extends React.Component {
     }
 
     componentWillMount() {
+      this.outputData();
+  
+  }
 
-      if (this.props.demensions === 'Millimeters') {
-        // this.props.updateZValue(options[15])
-
-        this.setState({
-          options: options,
-          newValue:options[app.config.indexZ]      
-        });
-
-          localStorage.setItem('z-value',options[app.config.indexZ].label)
-      } else {
-        this.setState({
-          options: options_inch,
-          newValue:options_inch[app.config.indexZ]
-        }); 
-        // this.props.updateZValue(options_inch[14].label)
-          localStorage.setItem('z-value',options_inch[app.config.indexZ].label)
-          } 
-    }
-    
     componentDidUpdate(prevProps, prevState) {
       if (this.props.demensions !== prevProps.demensions) {
-        // let indexZ = this.props.indexZ;
-        if (this.props.demensions === 'Millimeters') {
-        console.log(app.config.indexZ,'z-update-props')
-   
-          this.setState({
-            options: options,
-            newValue:options[app.config.indexZ]
-          });
-    
-          localStorage.setItem('z-value',options[app.config.indexZ].label)
-
-        } else {
-          this.setState({
-            options: options_inch,
-            newValue:options_inch[app.config.indexZ]
-
-          });
-    
-          localStorage.setItem('z-value',options_inch[app.config.indexZ].label)
-          
-        }
+        this.outputData();
+     
       }
     }
 
-    handleChange = (newValue, actionMeta) => {
+    outputData = () => {
+      let height = app.selectElements[0].height;
+      const AirInside = GraphicElement.AirInside;
+      console.log(height,AirInside,'update-height');
+      // const { _elements } = app.currentDocument;
+      // let some_Z = _elements.every(el => el.height === height);
+      let some_Z =app.selectElements.every(el => el.height === height);
 
+console.log(some_Z,'some-Z')
       if (this.props.demensions === 'Millimeters') {
-        localStorage.setItem('z-value', newValue.value + ' mm');
-
+        if(AirInside === height&&some_Z === true){
+        this.setState({
+          options: options,
+          newValue:options[0]      
+        });
+        
+      } else
+      if (some_Z === false && app.selectElements.length > 1) {
+        this.setState({
+          options: options,
+          newValue:options[23]      
+        });
+      } 
+        else {
+          this.setState({
+            options: options,
+            newValue:options[app.config.indexZ]      
+          });
+        }
+    
+          // localStorage.setItem('z-value',options[app.config.indexZ].label)
+      } else {
+          if(AirInside === height&&some_Z === true){
+            this.setState({
+              options: options_inch,
+              newValue:options_inch[0]      
+            });
+          } else
+          if (some_Z === false && app.selectElements.length > 1) {
+            this.setState({
+              options: options_inch,
+              newValue:options_inch[23]      
+            });
+          }  
+              else {
+            this.setState({
+              options: options_inch,
+              newValue:options_inch[app.config.indexZ]
+            }); 
+          }
+        // this.props.updateZValue(options_inch[14].label)
+          // localStorage.setItem('z-value',options_inch[app.config.indexZ].label)
+      } 
+    }
+    handleChange = (newValue, actionMeta) => {
+      // console.log(newValue,'1-defaultState');
+     
+      if (this.props.demensions === 'Millimeters') {
+        // localStorage.setItem('z-value', newValue.value + ' mm');
+        localStorage.setItem('z-value', newValue.label);
         this.setState({
           options: options,
           newValue:newValue,
@@ -134,17 +157,22 @@ class InputSelect extends React.Component {
           let indexZ = options.findIndex(el=> {return el===newValue});
           // this.props.updateIndexZ(indexZ)
           app.config.indexZ = indexZ;
-         
           this.props.updateZValue(newValue)
-          let val = parseInt(newValue.value);
-          // app.setElementsHeight(val ? val : 0.075);
-          app.setElementsHeight(val ? val : 10);
-
+          if(newValue.value==="Air Inside"){
+            console.log(newValue.value,'value-air')
+            // let val = parseInt( GraphicElement.AirInside);
+            app.setElementsHeight(GraphicElement.AirInside)
+          } else {
+            let val = parseInt(newValue.value);
+            app.setElementsHeight(val ? val : 0.075);
+          }    
       }
         );
    
       } else {
-        localStorage.setItem('z-value', newValue.value + ' "')
+        // localStorage.setItem('z-value', newValue.value + ' "')
+        localStorage.setItem('z-value', newValue.label)
+
         this.setState({
           options: options_inch,
           newValue: newValue,
@@ -154,10 +182,13 @@ class InputSelect extends React.Component {
         // this.props.updateIndexZ(indexZ)
         app.config.indexZ = indexZ;
         this.props.updateZValue(newValue)
-
-            let val = parseInt(newValue.value*25.4);
-            // app.setElementsHeight(val ? val : 0.075);
-          app.setElementsHeight(val ? val : 10);
+        if(newValue.value==="Air Inside"){
+          // let val = parseInt( GraphicElement.AirInside);
+          app.setElementsHeight(GraphicElement.AirInside)
+        } else {
+          let val = parseInt(newValue.value*25.4);
+          app.setElementsHeight(val ? val : 0.075);
+        } 
 
       }
 
@@ -282,7 +313,6 @@ class InputSelect extends React.Component {
             // allowCreate={false}
             options={this.state.options}
             value={this.state.newValue}
-
             placeholder=""
           />
         </Fragment>
