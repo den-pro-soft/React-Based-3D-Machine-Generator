@@ -39,7 +39,6 @@ import { withRouter } from "react-router-dom";
       value:'',
       openBendModal:false,
       openTapModal:false,
-      // openConfirm:false
     };
   }
   // ---------------React Life Cycle-----------------
@@ -206,8 +205,8 @@ import { withRouter } from "react-router-dom";
            
 
             {this.state.value === "Auto" && (
-              <InputSelect className="CreatableSelect" />
-            )}
+               <InputSelect className="CreatableSelect" />
+            )} 
 
             {/* <input
             list="browsers"
