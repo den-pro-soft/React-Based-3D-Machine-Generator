@@ -7,28 +7,28 @@ import GraphicElement from '../../../model/GraphicElement'
 const options = [
   { value: "Air Inside",label: 'Air Inside'},
   // { value: "Revolve",label: `Revolve` },
-  { value: "0.05", label: '0.050 mm' },
-  { value: "0.08", label: '0.080 mm' },
-  { value: "0.13", label: `0.130 mm` },
-  { value: "0.25", label: `0.250 mm` },
-  { value: "0.51", label: `0.510 mm` },
-  { value: "0.79", label: `0.790 mm` },
-  { value: "1.14", label: `1.140 mm` },
-  { value: "1.59", label: `1.590 mm` },
-  { value: "2.36", label: `2.360 mm` },
-  { value: "3.17", label: `3.170 mm` },
-  { value: "4.75", label: `4.750 mm` },
-  { value: "6.35", label: `6.350 mm` },
-  { value: "9.52", label: `9.520 mm` },
-  { value: "10.00", label: `10.000 mm` },
-  { value: "12.70", label: `12.700 mm` },
-  { value: "19.05", label: `19.050 mm` },
-  { value: "25.40", label: `25.400 mm` },
-  { value: "31.75", label: `31.750 mm` },
-  { value: "38.10", label: `38.100 mm` },
-  { value: "50.80", label: `50.800 mm` },
-  { value: "63.50", label: `63.500 mm` },
-  { value: "76.20", label: `76.200 mm` },
+  { value: "0.050", label: '0.050 mm' },
+  { value: "0.080", label: '0.080 mm' },
+  { value: "0.130", label: `0.130 mm` },
+  { value: "0.250", label: `0.250 mm` },
+  { value: "0.510", label: `0.510 mm` },
+  { value: "0.790", label: `0.790 mm` },
+  { value: "1.140", label: `1.140 mm` },
+  { value: "1.590", label: `1.590 mm` },
+  { value: "2.360", label: `2.360 mm` },
+  { value: "3.170", label: `3.170 mm` },
+  { value: "4.750", label: `4.750 mm` },
+  { value: "6.350", label: `6.350 mm` },
+  { value: "9.520", label: `9.520 mm` },
+  { value: "10.000", label: `10.000 mm` },
+  { value: "12.700", label: `12.700 mm` },
+  { value: "19.050", label: `19.050 mm` },
+  { value: "25.400", label: `25.400 mm` },
+  { value: "31.750", label: `31.750 mm` },
+  { value: "38.100", label: `38.100 mm` },
+  { value: "50.800", label: `50.800 mm` },
+  { value: "63.500", label: `63.500 mm` },
+  { value: "76.200", label: `76.200 mm` },
   { value: "", label: "" },
   { value: "Other", label: `Other` }
 ];
@@ -73,26 +73,68 @@ class InputSelect extends React.Component {
     }
 
     componentWillMount() {
+      // console.log(app.config.indexZ,'1-indexZ')
+      this.defaultValueFunction();
+
       this.outputData();
-  
+      // console.log(app.config.indexZ,'2-indexZ')
   }
 
-    componentDidUpdate(prevProps, prevState) {
-      if (this.props.demensions !== prevProps.demensions) {
-        this.outputData();
+  componentWillReceiveProps(nextProps){
+    // componentDidUpdate(prevProps, prevState) {
+      // if (this.props.demensions !== prevProps.demensions) {
+        // console.log(app.config.indexZ,'3-indexZ')
+   
+        if (nextProps.demensions === 'Millimeters') {    
+            this.setState({
+              options: options,
+              newValue:options[app.config.indexZ]      
+            });      
+            localStorage.setItem('z-value',options[app.config.indexZ].label)
+        } else {          
+              this.setState({
+                options: options_inch,
+                newValue:options_inch[app.config.indexZ]
+              }); 
+          
+            localStorage.setItem('z-value',options_inch[app.config.indexZ].label)
+        // console.log(app.config.indexZ,'4-indexZ')
      
       }
     }
 
+    defaultValueFunction = () => {
+      let height = app.selectElements[0].height;
+      const AirInside = GraphicElement.AirInside;
+      // console.log(height,AirInside,'update-height');
+      let defaultValue = options.some(el => {el.value === height.toFixed(3);
+        // console.log(el.value,height.toFixed(3),'defaultValue')
+      });
+      // console.log(defaultValue,'1-defaultValue');
+
+      // let defaultValueInch = options_inch.some(el => el.value === height.toFixed(3));
+      if(AirInside !== height&&defaultValue===false){
+        options.push({
+          value: height.toFixed(3), label: height.toFixed(3) + ' mm'
+        });
+        options_inch.push({
+          value: (height/25.4).toFixed(3), label: (height/25.4).toFixed(3) + ' "'
+        })
+        let indexZ = options.findIndex(el=> {
+          // console.log(el.value,height.toFixed(3),'el.value,height-indexZ')
+          return el.value===height.toFixed(3)});
+
+        app.config.indexZ = indexZ;
+      }
+    }
     outputData = () => {
       let height = app.selectElements[0].height;
       const AirInside = GraphicElement.AirInside;
-      console.log(height,AirInside,'update-height');
-      // const { _elements } = app.currentDocument;
-      // let some_Z = _elements.every(el => el.height === height);
+      // console.log(height,AirInside,'update-height');
+
       let some_Z =app.selectElements.every(el => el.height === height);
 
-console.log(some_Z,'some-Z')
+      // console.log(some_Z,'some-Z')
       if (this.props.demensions === 'Millimeters') {
         if(AirInside === height&&some_Z === true){
         this.setState({
@@ -106,6 +148,8 @@ console.log(some_Z,'some-Z')
           options: options,
           newValue:options[23]      
         });
+        app.config.indexZ = 23;
+
       } 
         else {
           this.setState({
@@ -113,8 +157,9 @@ console.log(some_Z,'some-Z')
             newValue:options[app.config.indexZ]      
           });
         }
-    
-          // localStorage.setItem('z-value',options[app.config.indexZ].label)
+        // let indexZ = options.findIndex(el=> {return el.value===height.toFixed(3)});
+        // app.config.indexZ = indexZ;
+          localStorage.setItem('z-value',options[app.config.indexZ].label)
       } else {
           if(AirInside === height&&some_Z === true){
             this.setState({
@@ -127,6 +172,7 @@ console.log(some_Z,'some-Z')
               options: options_inch,
               newValue:options_inch[23]      
             });
+            app.config.indexZ = 23;
           }  
               else {
             this.setState({
@@ -134,8 +180,8 @@ console.log(some_Z,'some-Z')
               newValue:options_inch[app.config.indexZ]
             }); 
           }
-        // this.props.updateZValue(options_inch[14].label)
-          // localStorage.setItem('z-value',options_inch[app.config.indexZ].label)
+        
+          localStorage.setItem('z-value',options_inch[app.config.indexZ].label)
       } 
     }
     handleChange = (newValue, actionMeta) => {
@@ -159,18 +205,19 @@ console.log(some_Z,'some-Z')
           app.config.indexZ = indexZ;
           this.props.updateZValue(newValue)
           if(newValue.value==="Air Inside"){
-            console.log(newValue.value,'value-air')
+            // console.log(newValue.value,'value-air')
             // let val = parseInt( GraphicElement.AirInside);
             app.setElementsHeight(GraphicElement.AirInside)
           } else {
-            let val = parseInt(newValue.value);
-            app.setElementsHeight(val ? val : 0.075);
+            // let val = parseInt(newValue.value);
+            // app.setElementsHeight(val ? val : 0.075);
+            app.setElementsHeight(+newValue.value);
+
           }    
       }
         );
    
       } else {
-        // localStorage.setItem('z-value', newValue.value + ' "')
         localStorage.setItem('z-value', newValue.label)
 
         this.setState({
@@ -186,8 +233,10 @@ console.log(some_Z,'some-Z')
           // let val = parseInt( GraphicElement.AirInside);
           app.setElementsHeight(GraphicElement.AirInside)
         } else {
-          let val = parseInt(newValue.value*25.4);
-          app.setElementsHeight(val ? val : 0.075);
+          // let val = parseInt(newValue.value*25.4);
+          // app.setElementsHeight(val ? val : 0.075);
+          app.setElementsHeight(+newValue.value*25.4);
+
         } 
 
       }
@@ -279,7 +328,7 @@ console.log(some_Z,'some-Z')
           }
         }),
         dropdownIndicator: () => ({
-          color: "orange"
+          color: "orangered"
         }),
         indicatorSeparator: () => ({
           color: "orange"
