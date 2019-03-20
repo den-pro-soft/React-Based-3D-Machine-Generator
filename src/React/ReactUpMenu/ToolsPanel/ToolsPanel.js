@@ -3,8 +3,6 @@ import "./tools-panel.scss";
 import ReactTooltip from "react-tooltip";
 
 import MachineWindow from "./Machine/MachineWindow";
-import Confirmation from "./Confirmation/Confirmation";
-
 import GroupType from "./GroupType";
 import LineType from "./LineType";
 import ArcType from "./ArcType";
@@ -255,31 +253,34 @@ import { withRouter } from "react-router-dom";
         <Dialog
           maxWidth={false}
           open={this.state.openBendModal}
+          // open={true}
+
           onChange={this.handleChangeSelect}
           aria-labelledby="alert-dialog-title"
           aria-describedby="alert-dialog-description"
         >
-
-          <DialogContent
+          <div
             style={{
               paddingBottom:'0px',
               textAlign: "left",
-              width: "500px",
+              width: "560px",
               height: "130px",
-              // backgroundColor: "#fff"
               backgroundColor:'#f0ecec'
             }}
           >
-           <div style={{display:'flex',justifyContent:"space-between"}}>
+           <div 
+           style={{
+             display:'flex',
+             justifyContent:"space-between",
+             marginTop:'5px',
+             paddingLeft:'15px'}}>
             <span>Information</span>
          
               <Button
                 onClick={this.handleCloseModalBend}
                 style={{
-                  // backgroundColor: "#fff",
                   backgroundColor:'#f0ecec',
                   padding:'0px',
-                 
                 }}
                 color="primary"
                 autoFocus
@@ -313,9 +314,8 @@ import { withRouter } from "react-router-dom";
                 OK
               </Button>
             </div>
-          </DialogContent>      
+          </div>
         </Dialog>
-        {/* <Confirmation /> */}
 
         </div>
     );
@@ -327,16 +327,13 @@ import { withRouter } from "react-router-dom";
         demensions: state.preferencesReducer.demensions
 
       }
-        }
+    }
 
     const mapDispatchToProps = dispatch => {
       return {
         updateOpenTapModal: openTapModal => {
           dispatch({ type: "OPEN_TAP_MODAL", payload: openTapModal });
-        },
-        // openConfirmModal: openConfirm => {
-        //   dispatch({ type: "OPEN_CONFIRM", payload: openConfirm });
-        // }
+        }
       };
     }
     

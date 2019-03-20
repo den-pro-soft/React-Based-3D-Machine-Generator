@@ -36,4 +36,8 @@ export default class ModalWindows {
         this.noCallBack();
         store.dispatch({ type: "OPEN_CONFIRM", payload:false });
     };
+
+    modalNonWorkFeature = () =>{
+        store.dispatch({ type: "OPEN_NON_WORK_FEATURE", payload:true });
+    }
 }

@@ -31,7 +31,6 @@ class Confirmation extends React.Component {
 
               <Button
                 onClick={() => {
-                  // modal.openConfirm = !this.props.openConfirm;
                   this.props.openConfirmModal(!this.props.openConfirm);
                 }}
                 style={{
@@ -130,14 +129,7 @@ class Confirmation extends React.Component {
       openConfirmModal: openConfirm => {
         dispatch({ type: "OPEN_CONFIRM", payload: openConfirm });
       }
-
-      // closeConfirmModal: openConfirm => {
-      //   dispatch({ type: "CLOSE_Confirmation", payload: openConfirm });
-      // }
     };
   };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Confirmation);
+export default connect(mapStateToProps,mapDispatchToProps)(Confirmation);

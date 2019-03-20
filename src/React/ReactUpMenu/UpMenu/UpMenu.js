@@ -11,7 +11,9 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import Preferences from "../DropDownMenu/Edit/Preferences";
 import { connect } from "react-redux";
 import {withRouter}from 'react-router-dom';
-import Confirmation from '../ToolsPanel/Confirmation/Confirmation'
+import Confirmation from '../InfoPopup/Confirmation/Confirmation';
+import NonWorkFeature from '../InfoPopup/NonWorkFeature';
+
 
 import { DraggablePopup } from "./../../../popup";
 import { Modal } from "@material-ui/core";
@@ -218,6 +220,7 @@ class UpMenu extends React.Component {
           </DialogActions>
         </Dialog>
         <Confirmation />
+        <NonWorkFeature/>
 
       </div>
     );
@@ -226,7 +229,7 @@ class UpMenu extends React.Component {
 const mapStateToProps = state => {
   return {
     demensions: state.preferencesReducer.demensions,
-    openConfirm: state.confirmationReducer.openConfirm,
+    // openConfirm: state.confirmationReducer.openConfirm,
 
   };
 };
@@ -235,10 +238,7 @@ const mapDispatchToProps = dispatch => {
   return {
     updateDataDemensions: value => {
       dispatch({ type: "UPDATE_DEMENSIONS_UpMenu", payload: value });
-    },
-    // openConfirmModal: openConfirm => {
-    //   dispatch({ type: "OPEN_CONFIRM", payload: openConfirm });
-    // }
+    }
   };
 };
 export default withRouter(connect(mapStateToProps,mapDispatchToProps)(UpMenu));

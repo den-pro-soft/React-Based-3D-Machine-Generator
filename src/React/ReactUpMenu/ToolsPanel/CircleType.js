@@ -63,7 +63,7 @@ class CircleType extends React.Component {
  
     // componentDidUpdate(prevProps, prevState) {
     //   if (this.props.demensions !== prevProps.demensions) {
-        console.log(app.config.diameter,nextProps,'diameter-config in update')
+        // console.log(app.config.diameter,nextProps,'diameter-config in update')
 
           let diameter = app.config.diameter!==NaN?app.config.diameter:'';
         
