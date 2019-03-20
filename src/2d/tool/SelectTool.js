@@ -49,8 +49,10 @@ export default class SelectTool extends Tool{
     /**
      * @protected
      */
-    clearSelectElements(){
-        app.clearSelectElements();
+    clearSelectElements(clearApp=true){
+        if(clearApp) {
+            app.clearSelectElements();
+        }
         this._selectElements=[];
     }
 

@@ -192,8 +192,8 @@ export default class MagnificationTransformerDecorator extends MagnificationDeco
     }
 
 
-    clearSelectElements(){
-        return this.tool.clearSelectElements();
+    clearSelectElements(clearApp=true){
+        return this.tool.clearSelectElements(clearApp);
     }
 
 }

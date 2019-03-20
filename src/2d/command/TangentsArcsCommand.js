@@ -13,6 +13,8 @@ import Arc from './../../model/elements/Arc';
 import Line from './../../model/math/Line';
 import Point from './../../model/Point';
 
+import TangentsDataValidator from './behaviors/TangentsDataValidator';
+
 import ArcArcIntersector from './../../model/math/algorithms/intersects/ArcArc';
 import LineArcIntersector from './../../model/math/algorithms/intersects/LineArc';
 
@@ -30,6 +32,8 @@ export default class TangentsArcsCommand extends ElementModificationCommand{
         this.name = 'TangentsArcsCommand';
 
         this.newElements = [];
+
+        this.behaviors.push(new TangentsDataValidator());
     }
 
     /**
@@ -53,12 +57,18 @@ export default class TangentsArcsCommand extends ElementModificationCommand{
      * @inheritDoc
      */
     executeCommand(){
-        let newEl = TangentsArcsCommand.tangentsArcs(this.elements[0], this.elements[1]);
-        this.newElements.push(...newEl);
-        for(let el of newEl){
-            this._document.addElement(el);
-        }
+        let arcs = this.elements.filter(el=>el instanceof Arc);
 
+        for(let i=0; i<arcs.length; i++){
+            for(let j=i+1; j<arcs.length; j++){
+                let newEl = TangentsArcsCommand.tangentsArcs(arcs[i], arcs[j]);
+                this.newElements.push(...newEl);
+                for(let el of newEl){
+                    this._document.addElement(el);
+                }
+            }
+        }
+        this.newElements.push(...this.elements);
         return true;
     }
 

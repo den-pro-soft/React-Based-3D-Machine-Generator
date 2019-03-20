@@ -64,8 +64,8 @@ export default class PointerTool extends DynamicChangeTool{
         }
     }
 
-    clearSelectElements(){
-        super.clearSelectElements();
+    clearSelectElements(clearApp=true){
+        super.clearSelectElements(clearApp);
         if(this.transformer){
             this.transformer.removeElemens();
         }
