@@ -191,7 +191,7 @@ export default class Application extends Observable{
      */
     executeCommand(command){
         command.execute().then((res)=>{
-            if(res){
+            if(res && command.needSave){
                 this.commandHistory.push(command);
             }
             if(this._board){

@@ -37,16 +37,20 @@ export default class Command{
     /**
      * The method create snapshot on current document and execute command.
      *
-     * @return {boolean} true if the command must be save in commandHistory
+     * @return {boolean} true if the command was correct execute
      */
     execute(){
         return new Promise((resolve, reject)=>{
             this.executeBehaviors().then((response)=>{
                 if(response) {
-                    this._snapshotBefore = this._document.getSnapshot();
+                    if(this.needSave) {
+                        this._snapshotBefore = this._document.getSnapshot();
+                    }
                     let res = this.executeCommand();
-                    this._snapshotAfter = this._document.getSnapshot();
-                    resolve(res && this.needSave);
+                    if(this.needSave) {
+                        this._snapshotAfter = this._document.getSnapshot();
+                    }
+                    resolve(res);
                 }else{
                     resolve(false);
                 }
@@ -131,11 +135,15 @@ export default class Command{
                 if(index==this.behaviors.length-1) {
                     resolve(res);
                 }else{
-                    this.executeBehavior(index+1).then((resNext)=>{
-                        resolve(resNext&&res);
-                    }).catch(error=>{
-                        reject(error);
-                    });
+                    if(res) {
+                        this.executeBehavior(index + 1).then((resNext) => {
+                            resolve(resNext && res);
+                        }).catch(error => {
+                            reject(error);
+                        });
+                    }else{
+                        resolve(res);
+                    }
                 }
             }).catch((error)=>{
                 reject(error);

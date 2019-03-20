@@ -254,23 +254,39 @@ export default class ResizeTransformer extends Transformer{
             for(let element of changeElements){
                 element.move(this.dx,this.dy);
             }
+            this.renderElements(changeElements);
         }else{
-            let command = new ResizeElementsCommand(new Document(), changeElements,
-                new Vector(this.dx, this.dy), this.activeControllPoint.alignX, this.activeControllPoint.alignY, true);
+            if(this._downPosition) {
+                let command = new ResizeElementsCommand(new Document(), changeElements,
+                    new Vector(this.dx, this.dy), this.activeControllPoint.alignX, this.activeControllPoint.alignY, true);
+                command.needSave = false;
 
-            command.executeCommand();
-
-            if(command.isReplacedElements()) {
-                changeElements = command.getElements();
+                command.execute().then((res) => {
+                    if (res) {
+                        if (command.isReplacedElements()) {
+                            changeElements = command.getElements();
+                        }
+                    } else {
+                        this._downPosition = null;
+                        this.activeControllPoint=null;
+                    }
+                    this.renderElements(changeElements);
+                });
+            }else{
+                this.renderElements(changeElements);
             }
         }
-        for(let element of changeElements){
+
+    }
+
+    renderElements(elements){
+        for(let element of elements){
             element._renderer.setFocus(true);
             element.render();
         }
 
         if(this.resizeRect){
-            this.resizeRect.elements=changeElements;
+            this.resizeRect.elements=elements;
             this.resizeRect.render();
         }
     }
