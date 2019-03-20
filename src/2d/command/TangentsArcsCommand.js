@@ -30,8 +30,6 @@ export default class TangentsArcsCommand extends ElementModificationCommand{
         this.name = 'TangentsArcsCommand';
 
         this.newElements = [];
-
-        this.selectOneElement=true;
     }
 
     /**
@@ -83,27 +81,71 @@ export default class TangentsArcsCommand extends ElementModificationCommand{
                 arc1=arc2;
                 arc2=temp;
             }
-            let addArcInCenter = new Arc(arc2.center, arc2.radius-arc1.radius);
-            let tempLine = new Line(arc1.center, arc2.center);
-            let addArcBetween = new Arc(tempLine.getPointOffset(0.5), tempLine.length()/2);
+            res.push(...TangentsArcsCommand.getOutsideTangents(arc1,arc2));
+            res.push(...TangentsArcsCommand.getInsideTangents(arc1,arc2));
+        }
+        return res;
+    }
 
-            let intersectPoints = arcArcIntersector.getIntersectPoints(addArcInCenter, addArcBetween);
-            for(let p of intersectPoints){
-                let tempLine = new Line(arc2.center.copy(), p.copy());
-                tempLine.setLength(arc2.radius+1);
+    /**
+     *
+     * @param {Arc} arc1 - the arc with smaller radius than arc2
+     * @param {Arc} arc2
+     * @returns {Array.<GraphicElement>} - new graphicElements
+     */
+    static getOutsideTangents(arc1,arc2){
+        let res = [];
+        let addArcInCenter = new Arc(arc2.center, arc2.radius-arc1.radius);
+        let tempLine = new Line(arc1.center, arc2.center);
+        let addArcBetween = new Arc(tempLine.getPointOffset(0.5), tempLine.length()/2);
 
-                let lineElement = new LineElement(tempLine._p1, tempLine._p2);
+        let intersectPoints = arcArcIntersector.getIntersectPoints(addArcInCenter, addArcBetween);
+        for(let p of intersectPoints){
+            let tempLine = new Line(arc2.center.copy(), p.copy());
+            tempLine.setLength(arc2.radius+1);
 
-                let intersectPoints = lineArcIntersector.getIntersectPoints(lineElement, arc2);
+            let lineElement = new LineElement(tempLine._p1, tempLine._p2);
+
+            let intersectPoints = lineArcIntersector.getIntersectPoints(lineElement, arc2);
+            if(intersectPoints.length==1){
+                let p1 = intersectPoints[0];
+
+                lineElement.move(arc1.center.x-arc2.center.x, arc1.center.y-arc2.center.y);
+
+                intersectPoints = lineArcIntersector.getIntersectPoints(lineElement, arc1);
                 if(intersectPoints.length==1){
-                    let p1 = intersectPoints[0];
+                    res.push(new LineElement(p1,intersectPoints[0]));
+                }
+            }
+        }
+        return res;
+    }
 
-                    lineElement.move(arc1.center.x-arc2.center.x, arc1.center.y-arc2.center.y);
 
-                    intersectPoints = lineArcIntersector.getIntersectPoints(lineElement, arc1);
-                    if(intersectPoints.length==1){
-                        res.push(new LineElement(p1,intersectPoints[0]));
-                    }
+    /**
+     *
+     * @param {Arc} arc1 - the arc with smaller radius than arc2
+     * @param {Arc} arc2
+     * @returns {Array.<GraphicElement>} - new graphicElements
+     */
+    static getInsideTangents(arc1,arc2){
+        let res = [];
+        let addArcInCenter = new Arc(arc2.center, arc2.radius+arc1.radius);
+
+        let intersectPoints = TangentsArcsCommand.getTangentByPoint(addArcInCenter, arc1.center);
+        for(let p of intersectPoints){
+            app.board.drawArc(p,2,null,null,true);
+            let lineElement = new LineElement(arc2.center.copy(), p.copy());
+
+            let intersectPoints = lineArcIntersector.getIntersectPoints(lineElement, arc2);
+            if(intersectPoints.length==1){
+                let p1 = intersectPoints[0];
+
+                lineElement.move(arc1.center.x-arc2.center.x, arc1.center.y-arc2.center.y);
+                lineElement.rotate(arc1.center, 180);
+                intersectPoints = lineArcIntersector.getIntersectPoints(lineElement, arc1);
+                if(intersectPoints.length==1){
+                    res.push(new LineElement(p1,intersectPoints[0]));
                 }
             }
         }
@@ -114,7 +156,7 @@ export default class TangentsArcsCommand extends ElementModificationCommand{
      *
      * @param {Arc} arc
      * @param {Point} point
-     * @return {Array.<Line>}
+     * @return {Array.<Point>}
      */
     static getTangentByPoint(arc, point){
         let line = new Line(arc.center, point);
@@ -126,31 +168,8 @@ export default class TangentsArcsCommand extends ElementModificationCommand{
         let tempArc = new Arc(center, line.length()/2);
 
         let intersectPoints = arcArcIntersector.getIntersectPoints(arc, tempArc);
-        let res = [];
 
-        for(let p of intersectPoints){
-            res.push(new Line(point.copy(), p.copy()));
-        }
-
-        return res;
+        return intersectPoints;
     }
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
