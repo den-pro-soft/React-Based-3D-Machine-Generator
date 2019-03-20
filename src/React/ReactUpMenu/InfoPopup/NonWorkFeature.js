@@ -10,7 +10,7 @@ class NonWorkFeature extends React.Component {
     }
 
     render() {
-    //   console.log(this.props, "props-Non-Work");
+      console.log(this.props, "props-Non-Work");
         return (
             <Dialog
             maxWidth={false}
@@ -24,8 +24,9 @@ class NonWorkFeature extends React.Component {
             style={{
                 paddingBottom:'0px',
                 textAlign: "left",
-                width: "560px",
-                height: "130px",
+                width: "580px",
+                height: "180px",
+                // height: "130px",
                 backgroundColor:'#f0ecec'
             }}
             >
@@ -55,24 +56,23 @@ class NonWorkFeature extends React.Component {
                 </i>
                 </Button>
             </div> 
+            {/* <div style={{display:'flex',flexDirection:'column',heigh}}> */}
             <div style={{ margin: "15px 15px",textAlign:'left' }}>
                 <img
                 width="25px"
                 src="images/Info.png"
                 />
-                <span style={{ position:'relative', bottom:'15px',marginLeft: "30px" }}>
-                Sorry, this feature will be realised in the next versions
-                </span>
+                <p style={{ position:'relative', bottom:'25px',marginLeft: "40px",textAlign:'left'  }}>
+                    {this.props.infoText}
+                {/* Sorry, this feature will be realised in the next versions */}
+                </p>
             </div>
-            <div style={{marginTop: "10px",marginBottom:'0px',paddingBottom:'0px',textAlign:'center'}}>
+            <div style={{position:'absolute',bottom:15,left:250,
+            textAlign:'center'}}>
                 <Button
                     onClick={() => {
                         // this.props.openNonWork(!this.props.openNonWorkFeature);
                     this.props.openNonWork(false);
-
-                        // container
-                        //     .resolve("confirmChangeArcToSplinesDialog")
-                        //     .handleButton1();
                             }}
                     style={{
                         backgroundColor: "#dddada",
@@ -87,6 +87,7 @@ class NonWorkFeature extends React.Component {
                 </Button>
             </div>
             </div>
+            {/* </div> */}
             </Dialog>
 
             );
@@ -95,17 +96,18 @@ class NonWorkFeature extends React.Component {
 
     const mapStateToProps = state => {
         return {
-            openNonWorkFeature: state.nonWorkFeatureReducer.openNonWorkFeature
-            // openNonWorkFeature: state.nonWorkFeatureReducer.openNonWorkFeature
+            openNonWorkFeature: state.nonWorkFeatureReducer.openNonWorkFeature,
+            infoText: state.nonWorkFeatureReducer.infoText
 
         };
     };
 
     const mapDispatchToProps = dispatch => {
         return {
-            openNonWork: openNonWorkFeature => {
-                dispatch({ type: "OPEN_NON_WORK_FEATURE", payload: openNonWorkFeature });
+            openNonWork: (openNonWorkFeature,infoText) => {
+                dispatch({ type: "OPEN_NON_WORK_FEATURE", payload: openNonWorkFeature, payloadText:infoText });
             }
+
         };
     };
 

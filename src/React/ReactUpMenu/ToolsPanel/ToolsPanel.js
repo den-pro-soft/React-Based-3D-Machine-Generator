@@ -31,6 +31,7 @@ import { withRouter } from "react-router-dom";
       line: false,
       arc: false,
       circle: false,
+      inputZ:false,
       group: false,
       text:false,
       withoutText:true,
@@ -57,27 +58,31 @@ import { withRouter } from "react-router-dom";
              } else
 
           if (arc === true && app.selectElements.length > 1) {
-              this.setState({ line: false, circle: true,  group: true });
+            if(app.selectElements[0].incrementAngle===360){
+              this.setState({ line: false, circle: true,  group: true, inputZ:true});
+            } else {
+              this.setState({ line: false, circle: false, arc:false,  group: true,inputZ:false, text: false })
+            }
           } else
           if(arc=== true && app.selectElements.length === 1){
             if(app.selectElements[0].incrementAngle===360){
-              this.setState({ line: false, circle: true, arc:false,  group: false, text: false });
+              this.setState({ line: false, circle: true, arc:false,  group: false,inputZ:true, text: false });
             } else {
-              this.setState({ line: false, circle: false,arc:true,  group: false, text: false })
+              this.setState({ line: false, circle: false,arc:true,  group: false,inputZ:false, text: false })
             }
           }
           else{
               if (app.selectElements.length === 1) {
                   let el = app.selectElements[0];
                   switch(el.typeName){
-                      case "Line":     this.setState({ line: true,  circle: false, arc:false, group: false, text: false });  break;
-                      case "Group":    this.setState({ line: false, circle: false, arc:false, group: true,  text: false });  break;
-                      case "Spline":   this.setState({ line: false, circle: false, arc:false, group: false, text: false });  break;
+                      case "Line":     this.setState({ line: true,  circle: false, arc:false, group: false,inputZ:true, text: false });  break;
+                      case "Group":    this.setState({ line: false, circle: false, arc:false, group: true,inputZ:true,  text: false });  break;
+                      case "Spline":   this.setState({ line: false, circle: false, arc:false, group: false, inputZ:true,text: false });  break;
                       // case "Arc":      this.setState({ line: false, circle: true,  group: false, text: false });  break;
-                      case "Text":     this.setState({ line: false, circle: false, arc:false, group: false, text:true });  break;
+                      case "Text":     this.setState({ line: false, circle: false, arc:false, group: false,inputZ:false, text:true });  break;
                   }
               }else {
-                  this.setState({ line: false, circle: false, arc:false, group: true });
+                  this.setState({ line: false, circle: false, arc:false, group: true, inputZ:true});
               }
           }   
     });
@@ -202,7 +207,7 @@ import { withRouter } from "react-router-dom";
             {this.state.group === true && <GroupType />}
            
 
-            {this.state.value === "Auto" && (
+            {this.state.value === "Auto"&&this.state.inputZ ===true && (
                <InputSelect className="CreatableSelect" />
             )} 
 

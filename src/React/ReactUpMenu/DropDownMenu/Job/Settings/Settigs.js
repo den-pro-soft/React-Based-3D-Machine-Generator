@@ -30,7 +30,7 @@ export default class Settings extends React.Component {
                   exact
                   activeStyle={{ color: "blue" }}
                   to="/settings/address"
-                  replace
+                  // replace
                 >
                   Address
                 </NavLink>

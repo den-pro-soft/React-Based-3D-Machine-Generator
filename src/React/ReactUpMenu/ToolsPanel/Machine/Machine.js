@@ -23,8 +23,10 @@ class Machine extends React.Component {
     }
    
     componentDidMount() {
-        // console.log(this.props, 'this.props-New')
-        this.props.history.push('/machine/auto') 
+        console.log(this.props, 'this.props-New')
+        // this.props.history.push('/machine/auto') 
+        this.props.history.push('/') 
+
       }
     // componentWillUnmount() {
     //     // console.log(this.props, 'this.props-New')
@@ -42,12 +44,14 @@ class Machine extends React.Component {
                   className="Auto"
                   exact
                   activeStyle={{ color: "blue" }}
-                  to="/machine/auto"
+                  // to="/machine/auto"
+                  to="/"
+
                 >
                   Auto
                 </NavLink>
               </li>
-              <li>
+              {/* <li>
                 <NavLink
                   className="Tap"
                   exact
@@ -56,7 +60,7 @@ class Machine extends React.Component {
                 >
                   Thead&Tap
                 </NavLink>
-              </li>
+              </li> */}
               <li>
                 <NavLink
                   className="Bend"
@@ -66,7 +70,7 @@ class Machine extends React.Component {
                   Bend
                 </NavLink>
               </li>
-              <li>
+              {/* <li>
                 <NavLink
                   className="LazerMark"
                   activeStyle={{ color: "blue" }}
@@ -74,7 +78,7 @@ class Machine extends React.Component {
                 >
                   Lazer Mark
                 </NavLink>
-              </li>
+              </li> */}
               <li>
                 <NavLink
                   className="ToSelf"
@@ -97,12 +101,11 @@ class Machine extends React.Component {
           </div>
           <div className="Content">
             <Switch>
-              {/* <Route path="/" exact render={() => <Auto />} /> */}
-              <Route path="/machine/auto" exact component={Auto} />
-
-              <Route path="/machine/tap" component={Tap} />
+              <Route path="/" exact render={() => <Auto />} />
+              {/* <Route path="/machine/auto" exact component={Auto} /> */}
+              {/* <Route path="/machine/tap" component={Tap} /> */}
               <Route path="/machine/bend" component={Bend} />
-              <Route path="/machine/lazer-mark" component={LazerMark} />
+              {/* <Route path="/machine/lazer-mark" component={LazerMark} /> */}
               <Route path="/machine/to-self" component={CommentsToSelf} />
               <Route path="/machine/to-machinist" component={CommentsToMachinist} />
             </Switch>
@@ -113,6 +116,6 @@ class Machine extends React.Component {
     };
   
 }
-export default Machine;
-// export default withRouter(Machine);
+// export default Machine;
+export default withRouter(Machine);
 
