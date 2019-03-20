@@ -75,6 +75,19 @@ export default class Line{
     }
 
     /**
+     * The method fir setting the length of the line when p1 is start points.
+     * @param length
+     */
+    setLength(length){
+        let angle  = new Vector(1,0,0).getAngle(this.toVector());
+        let dx = length * Math.cos(Trigonometric.gradToRad(angle));
+        let dy =length * Math.sin(Trigonometric.gradToRad(angle));
+
+        this._p2.y = this._p1.y + dy;
+        this._p2.x = this._p1.x + dx;
+    }
+
+    /**
      * http://www.cat-in-web.ru/notebook/rasstoyanie-ot-tochki-do-otrezka/
      */
     _isObtuseAngle( oppositeLine,  a,  b){
@@ -213,4 +226,20 @@ export default class Line{
             max = Math.max.apply(Math, [a, b]);
         return value+1E-5 > min && value < max+1E-5;
     };
+
+    /**
+     * @param {Point} point
+     * @return {boolean}
+     */
+    isBelongsToTheLine(point){
+        if(this.k==0 && this.B==0){
+            return this.between(point.y,this._p1.y, this._p2.y) && point.x == this._p1.x;
+        }
+        if(this.k==0 && this.A==0){
+            return this.between(point.x,this._p1.x, this._p2.x)  && point.y == this._p1.y;
+        }
+
+        return point.y==this.k*point.x+this.b
+            && this.between(point.x,this._p1.x, this._p2.x) && this.between(point.y,this._p1.y, this._p2.y);
+    }
 }

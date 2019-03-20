@@ -26,6 +26,7 @@ import ChangeLineLengthCommand from './2d/command/ChangeLineLengthCommand';
 import ChangeLineAngleCommand from './2d/command/ChangeLineAngleCommand';
 import ResizeElementsCommand from './2d/command/ResizeElementsCommand';
 import ChangeArcAngleCommand from './2d/command/ChangeArcAngleCommand';
+import TangentsArcsCommand from './2d/command/TangentsArcsCommand';
 
 import PointerTool from './2d/tool/PointerTool';
 import ZoomTool from './2d/tool/ZoomTool';
@@ -537,8 +538,11 @@ export default class Application extends Observable{
     setArcAngles(startAngle, insideAngle){
         this.executeCommand(new ChangeArcAngleCommand(this.currentDocument, this.selectElements, insideAngle, startAngle));
     }
-    
-    
+
+    tangentsSelectedArcs(){
+        this.executeCommand(new TangentsArcsCommand(this.currentDocument, this.selectElements));
+    }
+
     //</editor-fold>
 }
 

@@ -77,15 +77,7 @@ export default class LineElement extends GraphicElement{
      * @return {boolean}
      */
     isBelongsToTheElement(point){
-        if(this._line.k==0 && this._line.B==0){
-            return this._line.between(point.y,this.p1.y, this.p2.y) && point.x == this.p1.x;
-        }
-        if(this._line.k==0 && this._line.A==0){
-            return this._line.between(point.x,this.p1.x, this.p2.x)  && point.y == this.p1.y;
-        }
-
-        return point.y==this._line.k*point.x+this._line.b
-            && this._line.between(point.x,this.p1.x, this.p2.x) && this._line.between(point.y,this.p1.y, this.p2.y);
+        return this._line.isBelongsToTheLine(point);
     }
     
     /**

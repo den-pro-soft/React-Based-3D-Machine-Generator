@@ -36,15 +36,9 @@ export default class ChangeLineLengthCommand extends ElementModificationCommand{
      */
     executeCommand(){
         /** @type {Line} */
-        let line  = this.elements[0]._line;
-
-        let angle  = new Vector(1,0,0).getAngle(line.toVector());
-        let dx = this.length * Math.cos(Trigonometric.gradToRad(angle));
-        let dy = this.length * Math.sin(Trigonometric.gradToRad(angle));
-
-        this.elements[0].p2.y = this.elements[0].p1.y + dy;
-        this.elements[0].p2.x = this.elements[0].p1.x + dx;
-
+        let line  = this.elements[0]._line.copy();
+        line.setLength(this.length);
+        this.elements[0].p2 = line._p2;
         return true;
     }
 }

@@ -112,7 +112,7 @@ export default class Line extends React.Component {
               <a href="#">Corner</a>
             </li>
 
-              <li>
+              <li onClick={() => app.tangentsSelectedArcs()}>
                 <a href="#">Tangents</a>
               </li>
               <li
