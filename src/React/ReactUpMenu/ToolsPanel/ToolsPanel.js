@@ -61,14 +61,14 @@ import { withRouter } from "react-router-dom";
             if(app.selectElements[0].incrementAngle===360){
               this.setState({ line: false, circle: true,  group: true, inputZ:true});
             } else {
-              this.setState({ line: false, circle: false, arc:false,  group: true,inputZ:false, text: false })
+              this.setState({ line: false, circle: false, arc:false,  group: true,inputZ:true, text: false })
             }
           } else
           if(arc=== true && app.selectElements.length === 1){
             if(app.selectElements[0].incrementAngle===360){
               this.setState({ line: false, circle: true, arc:false,  group: false,inputZ:true, text: false });
             } else {
-              this.setState({ line: false, circle: false,arc:true,  group: false,inputZ:false, text: false })
+              this.setState({ line: false, circle: false,arc:true,  group: false,inputZ:true, text: false })
             }
           }
           else{

@@ -37,7 +37,9 @@ class Machine extends React.Component {
         <div
           className="Machine"
         >
-          <div className="Menu">
+        <p className="TitleTop">Use the selections below to assign a purpose to each line in your drawing</p>
+        <div className="MenuAndContenet">
+        <div className="Menu">
             <ul>
               <li>
                 <NavLink
@@ -111,6 +113,7 @@ class Machine extends React.Component {
             </Switch>
 
           </div>
+        </div>
         </div>
       );
     };
