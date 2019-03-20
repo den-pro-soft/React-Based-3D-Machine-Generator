@@ -5,7 +5,6 @@ export default class ModalWindows {
     constructor() {
         this.okCallBack=null;
         this.noCallBack=null;
-
     }
 
     /**
@@ -37,7 +36,7 @@ export default class ModalWindows {
         store.dispatch({ type: "OPEN_CONFIRM", payload:false });
     };
 
-    modalNonWorkFeature = () =>{
-        store.dispatch({ type: "OPEN_NON_WORK_FEATURE", payload:true });
+    modalNonWorkFeature = (infoText = 'Sorry, this feature will be realised in the next versions.') =>{
+        store.dispatch({ type: "OPEN_NON_WORK_FEATURE", payload:true,payloadText:infoText });
     }
 }

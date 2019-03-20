@@ -7,6 +7,7 @@ import ElementModificationCommand from './ElementModificationCommand';
 import Group from './../../model/elements/Group';
 import Arc from './../../model/elements/Arc';
 import ResizeCircleQuestionBehavior from './behaviors/ResizeCircleQuestion';
+import ResizeDataValidator from './behaviors/ResizeDataValidator';
 import Point from './../../model/Point';
 /**
  * The resizing command. 
@@ -67,6 +68,7 @@ export default class ResizeElementsCommand extends ElementModificationCommand{
         this.newElements = [];
 
         this.behaviors.push(
+            new ResizeDataValidator(),
             new ResizeCircleQuestionBehavior()
         );
 

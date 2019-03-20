@@ -40,7 +40,7 @@ export default class MagnificationTransformerDecorator extends MagnificationDeco
      * @inheritDoc
      */
     mouseMove(point, e){
-        if(this.isMouseDown && this.tool.transformer && !this.tool.transformer.activeControllPoint){
+        if(this.isMouseDown && this.tool.transformer && !this.tool.transformer.activeControllPoint && this.tool.transformer._downPosition){
             this.dx += point.x-this.mousePosition.x;
             this.dy += point.y-this.mousePosition.y;
 
