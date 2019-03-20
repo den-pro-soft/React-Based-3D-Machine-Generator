@@ -63,18 +63,21 @@ class CircleType extends React.Component {
  
     // componentDidUpdate(prevProps, prevState) {
     //   if (this.props.demensions !== prevProps.demensions) {
-        // console.log(/*app.config.diameter,*/nextProps,'diameter-config in update')
+        console.log(app.config.diameter,nextProps,'diameter-config in update')
 
           let diameter = app.config.diameter!==NaN?app.config.diameter:'';
         
-          if (nextProps.demensions === 'Millimeters') {
+      if(diameter===''){
+        this.setState({ diameter});
+      } else 
 
-          // if (this.props.demensions === "Millimeters") {
-            this.setState({ diameter: (diameter*1).toFixed(3) + " mm" });
-          } else {
-            this.setState({ diameter: (diameter / 25.4).toFixed(3) + ' "' });
-          }     
-      // }
+      if (nextProps.demensions === 'Millimeters') {
+              // if (this.props.demensions === "Millimeters") {
+                this.setState({ diameter: (diameter*1).toFixed(3) + " mm" });
+              } else {
+                this.setState({ diameter: (diameter / 25.4).toFixed(3) + ' "' });
+              }     
+          // }
     }
 
   handleChangeInputDiameter = e => {
