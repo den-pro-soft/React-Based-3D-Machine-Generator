@@ -86,7 +86,7 @@ export default class XmlFileLoader extends FileLoader{
                 }
                 if(newElement){
                     element.lineType = lineType.copy();
-                    element.height=height;
+                    element.height=parseInt(height);
                     doc.addElement(element);
                 }
             };
