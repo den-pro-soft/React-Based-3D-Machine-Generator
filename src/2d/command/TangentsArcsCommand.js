@@ -82,8 +82,8 @@ export default class TangentsArcsCommand extends ElementModificationCommand{
     static tangentsArcs(arc1,arc2){
         let res = [];
         if(arc1.radius==arc2.radius){
-            console.log("radiuses are equals");
-            //todo: parallel moving of the line o1,o2
+            res.push(...TangentsArcsCommand.getOutsideTangentsForEqualsArcs(arc1,arc2));
+            res.push(...TangentsArcsCommand.getInsideTangents(arc1,arc2));
         }else{
             //arc1 is smaller arc than arc2
             if(arc1.radius>arc2.radius){
@@ -131,6 +131,34 @@ export default class TangentsArcsCommand extends ElementModificationCommand{
         return res;
     }
 
+    /**
+     *
+     * @param {Arc} arc1
+     * @param {Arc} arc2
+     */
+    static getOutsideTangentsForEqualsArcs(arc1, arc2){
+        let res = [];
+        let middleLine = new LineElement(arc1.center.copy(), arc2.center.copy());
+        let intersectPoints1 = lineArcIntersector.getIntersectPoints(middleLine, new Arc(arc1.center, arc1.radius));
+        if(intersectPoints1.length==1){
+            let tempLine = new LineElement(arc1.center.copy(), intersectPoints1[0]);
+            tempLine.rotate(arc1.center.copy(), 90);
+            let tangentPoint1 = lineArcIntersector.getIntersectPoints(tempLine, arc1);
+            if(tangentPoint1.length==1){
+                let p1=tangentPoint1[0];
+                let p2 = new Point(p1.x+(arc2.center.x-arc1.center.x), p1.y+(arc2.center.y-arc1.center.y));
+                res.push(new LineElement(p1,p2));
+            }
+            tempLine.rotate(arc1.center.copy(), 180);
+            tangentPoint1 = lineArcIntersector.getIntersectPoints(tempLine, arc1);
+            if(tangentPoint1.length==1){
+                let p1=tangentPoint1[0];
+                let p2 = new Point(p1.x+(arc2.center.x-arc1.center.x), p1.y+(arc2.center.y-arc1.center.y));
+                res.push(new LineElement(p1,p2));
+            }
+        }
+        return res;
+    }
 
     /**
      *
