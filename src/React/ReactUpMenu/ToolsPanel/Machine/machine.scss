@@ -2,12 +2,19 @@
   padding: 20px;
 .TitleTop{
     text-align:left;
+    margin-bottom:10px;
 }
   .MenuAndContenet {
     display: flex;
     justify-content: flex-start;
+    .MenuTitle{
+      text-align:left;
+  margin-left:10px;
+        }
     .Menu {
       width: 20%;
+      // height:100%;
+//  border:1px solid black;
       ul {
         list-style-type: none;
         margin: 0;
