@@ -10,7 +10,7 @@ class NonWorkFeature extends React.Component {
     }
 
     render() {
-      console.log(this.props, "props-Non-Work");
+    //   console.log(this.props, "props-Non-Work");
         return (
             <Dialog
             maxWidth={false}

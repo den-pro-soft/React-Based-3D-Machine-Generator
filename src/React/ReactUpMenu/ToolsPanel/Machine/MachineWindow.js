@@ -16,17 +16,37 @@ class MachineWindow extends React.Component {
   }
 
   // -------------------------------------openLinkHelp---------------------------------------
-  openTapHelp = () => {
+  openAutoHelp = () => {
     window.open(
-      "https://www.emachineshop.com/help-line-types/#tap-and-thread"
+      "https://www.emachineshop.com/help-3d-drawing/#3D-machine-settings"
     );
-  };
+  }
+
+  openBendHelp = () => {
+    window.open(
+      "https://www.emachineshop.com/help-bend-drawing/"
+    );
+  }
+
+  openCommentToSelfHelp = () => {
+    window.open(
+      "https://www.emachineshop.com/help-2d-advanced/#comments-to-myself"
+    );
+  }
+
+  openCommentToMachinistHelp = () => {
+    window.open(
+      "https://www.emachineshop.com/help-comments/"
+    );
+  }
   render(){
+    // console.log(this.props,'machineWindiws')
 
       return(
         <Dialog
         maxWidth={false}
-        open={this.props.openTapModal}
+        open={this.props.openMachineModal}
+        // open={true}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
@@ -34,12 +54,29 @@ class MachineWindow extends React.Component {
           style={{ color: "black", textAlign: "left" }}
           id="alert-dialog-title"
         >
+        <div style={{display:'flex',justifyContent:'space-between'}}>
+        <div>
           <img
             width="25px"
             src="images/icon.jpg"
             // data-tip="<span>Shows how to use numeric values.</span>"
           />
           <span>Machine</span>
+          </div>
+          <Button
+                    onClick={()=>this.props.updateCloseMachineModal(!this.props.openMachineModal)}
+                    style={{
+                        backgroundColor:'#fff',
+                        padding:'0px',
+                    }}
+                    color="primary"
+                    autoFocus
+                >
+                <i className = "material-icons">
+                    cancel_presentation
+                </i>
+                </Button>
+              </div>
         </DialogTitle>
 
         <DialogContent
@@ -54,7 +91,7 @@ class MachineWindow extends React.Component {
 
         <DialogActions>
           <Button
-            onClick={()=>this.props.updateCloseTapModal(!this.props.openTapModal)}
+            onClick={()=>this.props.updateCloseMachineModal(!this.props.openMachineModal)}
             style={{ backgroundColor: "#f0ecec" }}
             color="primary"
             autoFocus
@@ -62,21 +99,45 @@ class MachineWindow extends React.Component {
             OK
           </Button>
           <Button
-            onClick={()=>this.props.updateCloseTapModal(!this.props.openTapModal)}
+            onClick={()=>this.props.updateCloseMachineModal(!this.props.openMachineModal)}
             style={{ backgroundColor: "#f0ecec" }}
             color="primary"
             autoFocus
           >
             Cancel
           </Button>
-          <Button
-            onClick={this.openTapHelp}
+     {this.props.location.pathname==='/'&&     <Button
+            onClick={this.openAutoHelp}
             style={{ backgroundColor: "#f0ecec" }}
             color="primary"
             autoFocus
           >
             Help
-          </Button>
+          </Button>}
+          {this.props.location.pathname==='/machine/bend'&& <Button
+            onClick={this.openBendHelp}
+            style={{ backgroundColor: "#f0ecec" }}
+            color="primary"
+            autoFocus
+          >
+            Help
+          </Button>}
+          {this.props.location.pathname==='/machine/to-self'&& <Button
+            onClick={this.openCommentToSelfHelp}
+            style={{ backgroundColor: "#f0ecec" }}
+            color="primary"
+            autoFocus
+          >
+            Help
+          </Button>}
+          {this.props.location.pathname==='/machine/to-machinist'&& <Button
+            onClick={this.openCommentToMachinistHelp}
+            style={{ backgroundColor: "#f0ecec" }}
+            color="primary"
+            autoFocus
+          >
+            Help
+          </Button>}
         </DialogActions>
       </Dialog>
       )
@@ -84,14 +145,14 @@ class MachineWindow extends React.Component {
 }
 const mapStateToProps = (state)=>{
   return {
-    openTapModal: state.machineWindowReducer.openTapModal
+    openMachineModal: state.machineWindowReducer.openMachineModal
   }
      }
      
 const mapDispatchToProps = dispatch => {
       return {
-        updateCloseTapModal: openTapModal => {
-          dispatch({ type: "CLOSE_TAP_MODAL", payload: openTapModal });
+        updateCloseMachineModal: openMachineModal => {
+          dispatch({ type: "CLOSE_MACHINE_MODAL", payload: openMachineModal });
         }
       };
     };
