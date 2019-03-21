@@ -18,11 +18,11 @@ class ExpertNotice extends React.Component {
       event.preventDefault();
   
       this.setState({ value: event.target.value });
-      console.log(this.state.value, "this.state.value");
+    //   console.log(this.state.value, "this.state.value");
     };
 
     render() {
-      console.log(this.props, "props-ExpertNoticeKU");
+    //   console.log(this.props, "props-ExpertNoticeKU");
         return (
             <Dialog
             maxWidth={false}
@@ -75,8 +75,8 @@ class ExpertNotice extends React.Component {
                 src="images/InfoIcon.png"
                 />
                 <p style={{ position:'relative', bottom:'25px',marginLeft: "40px",textAlign:'left'  }}>
-                    {/* {this.props.infoText} */}
-                Sorry, this feature will be realised in the next versions
+                    {this.props.expertNoticeText}
+                {/* Sorry, this feature will be realised in the next versions */}
                 </p>
             </div>
             <div className="RadioButton" style={{margin:'15px', border:'1px solid #000', padding:'5px'}}>
@@ -86,6 +86,11 @@ class ExpertNotice extends React.Component {
               onChange={this.handleRadioChange}
             >
         <FormControlLabel
+                onClick={() => {
+                    container
+                      .resolve("confirmChangeArcToSplinesDialog")
+                      .handleRadioButton1();
+                  }}
                 classes={{ root: "root" }}
                 // style={{border:'1px solid red',paddinTop:'0px!important'}}
                 value="radio1"
@@ -100,6 +105,11 @@ class ExpertNotice extends React.Component {
                 label={this.props.label1}
               />
               <FormControlLabel
+                  onClick={() => {
+                    container
+                      .resolve("confirmChangeArcToSplinesDialog")
+                      .handleRadioButton2();
+                  }}
                classes={{ root: "root" }}
                 value="radio2"
                 control={
@@ -112,7 +122,12 @@ class ExpertNotice extends React.Component {
                 }
                 label={this.props.label2}
               />
-            {this.props.label3!==''&&  <FormControlLabel
+            {this.props.label3!==''&&this.props.label3!==undefined&&  <FormControlLabel
+                onClick={() => {
+                    container
+                      .resolve("confirmChangeArcToSplinesDialog")
+                      .handleRadioButton3();
+                  }}
                classes={{ root: "root" }}
                 value="radio3"
                 control={
@@ -123,7 +138,12 @@ class ExpertNotice extends React.Component {
                 }
                 label={this.props.label3}
               />}
-            {this.props.label4!==''&&  <FormControlLabel
+            {this.props.label4!==''&&this.props.label4!==undefined&&  <FormControlLabel
+                  onClick={() => {
+                    container
+                      .resolve("confirmChangeArcToSplinesDialog")
+                      .handleRadioButton4();
+                  }}
                classes={{ root: "root" }}
                 value="radio4"
                 control={
@@ -135,7 +155,12 @@ class ExpertNotice extends React.Component {
                 }
                 label={this.props.label4}
               />}
-             {this.props.label5!==''&& <FormControlLabel
+             {this.props.label5!==''&&this.props.label5!==undefined&& <FormControlLabel
+                   onClick={() => {
+                    container
+                      .resolve("confirmChangeArcToSplinesDialog")
+                      .handleRadioButton5();
+                  }}
                classes={{ root: "root" }}
                 value="radio5"
                 control={
@@ -199,7 +224,7 @@ class ExpertNotice extends React.Component {
     const mapStateToProps = state => {
         return {
             openExpertNotice: state.expertNoticeReducer.openExpertNotice,
-            infoText: state.expertNoticeReducer.infoText,
+            expertNoticeText: state.expertNoticeReducer.expertNoticeText,
             label1: state.expertNoticeReducer.label1,
             label2: state.expertNoticeReducer.label2,
             label3: state.expertNoticeReducer.label3,
@@ -211,8 +236,9 @@ class ExpertNotice extends React.Component {
 
     const mapDispatchToProps = dispatch => {
         return {
-            updateExpertNotice: (openExpertNotice,infoText, label1, label2, label3, label4, label5) => {
-                dispatch({ type: "OPEN_EXPERT_NOTICE", payload: openExpertNotice, payloadText:infoText,
+            updateExpertNotice: (openExpertNotice,expertNoticeText, label1, label2, label3, label4, label5) => {
+                dispatch({ type: "OPEN_EXPERT_NOTICE", payload: openExpertNotice,
+            payloadText:expertNoticeText,
             payloadLabel1:label1,
             payloadLabel2:label2,
             payloadLabel3:label3,

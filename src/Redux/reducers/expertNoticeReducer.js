@@ -1,7 +1,7 @@
 const initialState = {
     openExpertNotice:false,
     // infoText:'Sorry, this feature will be realised in the next versions '
-    infoText:'',
+    expertNoticeText:'',
     label1:'',
     label2:'',
     label3:'',
@@ -15,7 +15,7 @@ const initialState = {
   export default function expertNoticeReducer(state = initialState, action) {
       switch (action.type) {
         case "OPEN_EXPERT_NOTICE":
-          return { openExpertNotice: action.payload, infoText:action.payloadText,
+          return { openExpertNotice: action.payload, expertNoticeText:action.payloadText,
             label1:action.payloadLabel1,
             label2:action.payloadLabel2,
             label3:action.payloadLabel3,
