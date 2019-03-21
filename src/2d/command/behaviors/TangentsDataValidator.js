@@ -16,7 +16,7 @@ export default class TangentsDataValidator extends Behavior{
     execute(command){
         return new Promise((resolve, reject)=>{
             if(!this.isHasTwoArc(command)){
-                container.resolve('confirmChangeArcToSplinesDialog').modalNonWorkFeature("For use the tangents function select please two or more Arcs!");
+                container.resolve('confirmChangeArcToSplinesDialog').modalNonWorkFeature("Error: Please select at least two circles/arcs.");
                 resolve(false)
             }else{
                 resolve(true);
