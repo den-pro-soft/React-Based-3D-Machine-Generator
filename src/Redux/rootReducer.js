@@ -10,12 +10,12 @@ import inputSelectReducer from './reducers/inputSelectReducer';
 import movingReducer from './reducers/movingReducer';
 import summaryWindowReducer from './reducers/summaryWindowReducer';
 import nonWorkFeatureReducer from './reducers/nonWorkFeatureReducer';
-
-
+import expertNoticeReducer from './reducers/expertNoticeReducer';
 
 export default combineReducers({
   preferencesReducer,mouseCoordinatesReducer, 
-  machineWindowReducer, confirmationReducer,nonWorkFeatureReducer,
+  machineWindowReducer,
+  confirmationReducer,nonWorkFeatureReducer,expertNoticeReducer,
   priceReducer,orderWindowReducer,
   toolsPanelReducer,movingReducer,
   inputSelectReducer,

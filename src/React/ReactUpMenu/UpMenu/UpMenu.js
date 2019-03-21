@@ -13,7 +13,7 @@ import { connect } from "react-redux";
 import {withRouter}from 'react-router-dom';
 import Confirmation from '../InfoPopup/Confirmation/Confirmation';
 import NonWorkFeature from '../InfoPopup/NonWorkFeature';
-
+import ExpertNotice from "../InfoPopup/ExpertNotice";
 
 import { DraggablePopup } from "./../../../popup";
 import { Modal } from "@material-ui/core";
@@ -221,7 +221,7 @@ class UpMenu extends React.Component {
         </Dialog>
         <Confirmation />
         <NonWorkFeature/>
-
+        <ExpertNotice/>
       </div>
     );
   }

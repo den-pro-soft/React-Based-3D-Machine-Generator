@@ -5,7 +5,13 @@ export default class ModalWindows {
     constructor() {
         this.okCallBack=null;
         this.noCallBack=null;
-        this.infoText = 'Sorry, this feature will be realised in the next versions.'
+        this.infoText = 'Sorry, this feature will be realised in the next versions.';
+        this.label1='labelText1';
+        this.label2='labelText2';
+        this.label3='labelText3';
+        this.label4='labelText4';
+        this.label5='';
+
     }
 
     /**
@@ -39,5 +45,15 @@ export default class ModalWindows {
 
     modalNonWorkFeature = () =>{
         store.dispatch({ type: "OPEN_NON_WORK_FEATURE", payload:true,payloadText:this.infoText });
+    }
+
+    modalExpertNotice = () =>{
+        store.dispatch({ type: "OPEN_EXPERT_NOTICE", payload:true, payloadText:this.infoText,
+        payloadLabel1:this.label1,
+        payloadLabel2:this.label2,
+        payloadLabel3:this.label3,
+        payloadLabel4:this.label4,      
+        payloadLabel5:this.label5
+    });
     }
 }
