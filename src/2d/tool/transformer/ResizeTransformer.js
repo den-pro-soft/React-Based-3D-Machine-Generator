@@ -6,6 +6,7 @@ import Transformer from './Transformer';
 import RectElement from '../../../model/elements/RectElement';
 import Point from './../../../model/Point';
 import Group from './../../../model/elements/Group';
+import Arc from './../../../model/elements/Arc';
 import Rect from "../../../model/math/Rect";
 import ResizeElementsCommand from './../../command/ResizeElementsCommand';
 import Vector from './../../../model/math/Vector';
@@ -257,21 +258,30 @@ export default class ResizeTransformer extends Transformer{
             this.renderElements(changeElements);
         }else{
             if(this._downPosition) {
+                let hasArcs = changeElements.reduce((el,res)=>res|(el instanceof Arc && el.incrementAngle!=360),false);
                 let command = new ResizeElementsCommand(new Document(), changeElements,
                     new Vector(this.dx, this.dy), this.activeControllPoint.alignX, this.activeControllPoint.alignY, true);
                 command.needSave = false;
 
-                command.execute().then((res) => {
-                    if (res) {
-                        if (command.isReplacedElements()) {
-                            changeElements = command.getElements();
+                if(hasArcs) {
+                    command.execute().then((res) => {
+                        if (res) {
+                            if (command.isReplacedElements()) {
+                                changeElements = command.getElements();
+                            }
+                        } else {
+                            this._downPosition = null;
+                            this.activeControllPoint = null;
                         }
-                    } else {
-                        this._downPosition = null;
-                        this.activeControllPoint=null;
+                        this.renderElements(changeElements);
+                    });
+                }else{
+                    command.executeCommand();
+                    if(command.isReplacedElements()) {
+                        changeElements = command.getElements();
                     }
                     this.renderElements(changeElements);
-                });
+                }
             }else{
                 this.renderElements(changeElements);
             }
