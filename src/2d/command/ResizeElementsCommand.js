@@ -6,6 +6,8 @@ import ElementModificationCommand from './ElementModificationCommand';
 
 import Group from './../../model/elements/Group';
 import Arc from './../../model/elements/Arc';
+import Line from './../../model/math/Line';
+import LineElement from './../../model/elements/LineElement';
 import ResizeCircleQuestionBehavior from './behaviors/ResizeCircleQuestion';
 import ResizeDataValidator from './behaviors/ResizeDataValidator';
 import Point from './../../model/Point';
@@ -96,26 +98,14 @@ export default class ResizeElementsCommand extends ElementModificationCommand{
      * @inheritDoc
      */
     executeCommand(){
-        let dx = this._vector.x;
-        let dy = this._vector.y;
 
-        let elements = this._changeArcsToSplines();
+        let elements = null;
 
-        this.newElements = elements;
-
-        if(this.controlPointX == ResizeElementsCommand.CONTROL_POINT_X.left){
-            dx = -dx;
-        }
-
-        if(this.controlPointY == ResizeElementsCommand.CONTROL_POINT_Y.bottom){
-            dy = -dy;
-        }
-
-        if(this.controlPointX == ResizeElementsCommand.CONTROL_POINT_X.canter){
-            dx=0;
-        }
-        if(this.controlPointY == ResizeElementsCommand.CONTROL_POINT_Y.center){
-            dy=0;
+        if(this._isCentralControlPoint()) {
+            elements = this._changeArcsToSplines();
+            this.newElements = elements;
+        }else{
+            elements=this.elements;
         }
 
         let group = new Group();
@@ -123,6 +113,13 @@ export default class ResizeElementsCommand extends ElementModificationCommand{
         for(let element of elements){
             group.addElement(element);
         }
+
+        let hasArcs = this._isHasArcs();
+        if(!this._isCentralControlPoint() && hasArcs) {
+            this._changeVector(group);
+        }
+
+        let {dx, dy} = this._calculateDelta();
 
         let center = group.getCenter();
 
@@ -140,6 +137,36 @@ export default class ResizeElementsCommand extends ElementModificationCommand{
 
         
         return true;
+    }
+
+    _changeVector(group){
+        let tempLine = new Line(new Point(), new Point());
+        let extr = group.getExtrenum();
+
+        let controlPointPosition = this._getControlPoint(extr);
+        let opositeControlPointPosition = this._getOppositeControlPoint(extr);
+        let mousePosition = new Point(controlPointPosition.x+this._vector.x, controlPointPosition.y+this._vector.y);
+        if((this.controlPointX == ResizeElementsCommand.CONTROL_POINT_X.left && this.controlPointY==ResizeElementsCommand.CONTROL_POINT_Y.top) ||
+            (this.controlPointX == ResizeElementsCommand.CONTROL_POINT_X.right && this.controlPointY==ResizeElementsCommand.CONTROL_POINT_Y.bottom)){
+            tempLine._p1 = new Point(extr.min.x, extr.max.y);
+            tempLine._p2 = new Point(extr.max.x, extr.min.y);
+        }else{
+            tempLine._p1 = new Point(extr.min.x, extr.min.y);
+            tempLine._p2 = new Point(extr.max.x, extr.max.y);
+        }
+
+        let x=tempLine.x(mousePosition.y);
+        let y=tempLine.y(mousePosition.x);
+        let l1 = new LineElement(opositeControlPointPosition.copy(), new Point(x, mousePosition.y));
+        let l2 = new LineElement(opositeControlPointPosition.copy(), new Point(mousePosition.x, y));
+
+        if(l1.length()>l2.length()){
+            this._vector.x = l2.p2.x-controlPointPosition.x;
+            this._vector.y = l2.p2.y-controlPointPosition.y;
+        }else{
+            this._vector.x = l1.p2.x-controlPointPosition.x;
+            this._vector.y = l1.p2.y-controlPointPosition.y;
+        }
     }
 
     _changeArcsToSplines(){
@@ -203,5 +230,93 @@ export default class ResizeElementsCommand extends ElementModificationCommand{
             }
         }
         return res;
+    }
+
+    _isHasArcs(){
+        for(let el of this.elements){
+            if(el instanceof Arc){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    _isCentralControlPoint(){
+        return this.controlPointX == ResizeElementsCommand.CONTROL_POINT_X.canter || this.controlPointY == ResizeElementsCommand.CONTROL_POINT_Y.center;
+    }
+
+    /**
+     *
+     * @return {{dx: *, dy: *}}
+     * @private
+     */
+    _calculateDelta(){
+        let dx = this._vector.x;
+        let dy = this._vector.y;
+        if(this.controlPointX == ResizeElementsCommand.CONTROL_POINT_X.left){
+            dx = -dx;
+        }
+
+        if(this.controlPointY == ResizeElementsCommand.CONTROL_POINT_Y.bottom){
+            dy = -dy;
+        }
+
+        if(this.controlPointX == ResizeElementsCommand.CONTROL_POINT_X.canter){
+            dx=0;
+        }
+        if(this.controlPointY == ResizeElementsCommand.CONTROL_POINT_Y.center){
+            dy=0;
+        }
+        return {dx:dx, dy:dy};
+    }
+
+    _getControlPoint(extr){
+        let mousePosition = new Point();
+        if((this.controlPointX == ResizeElementsCommand.CONTROL_POINT_X.left && this.controlPointY==ResizeElementsCommand.CONTROL_POINT_Y.top) ||
+            (this.controlPointX == ResizeElementsCommand.CONTROL_POINT_X.right && this.controlPointY==ResizeElementsCommand.CONTROL_POINT_Y.bottom)){
+
+            if(this.controlPointX != ResizeElementsCommand.CONTROL_POINT_X.right) {
+                mousePosition.x = extr.min.x;
+                mousePosition.y = extr.max.y ;
+            }else{
+                mousePosition.x = extr.max.x;
+                mousePosition.y = extr.min.y;
+            }
+
+        }else{
+            if(this.controlPointX == ResizeElementsCommand.CONTROL_POINT_X.right){
+                mousePosition.x = extr.max.x;
+                mousePosition.y = extr.max.y;
+            }else{
+                mousePosition.x = extr.min.x;
+                mousePosition.y = extr.min.y;
+            }
+        }
+        return mousePosition;
+    }
+
+    _getOppositeControlPoint(extr){
+        let mousePosition = new Point();
+        if((this.controlPointX == ResizeElementsCommand.CONTROL_POINT_X.left && this.controlPointY==ResizeElementsCommand.CONTROL_POINT_Y.top) ||
+            (this.controlPointX == ResizeElementsCommand.CONTROL_POINT_X.right && this.controlPointY==ResizeElementsCommand.CONTROL_POINT_Y.bottom)){
+
+            if(this.controlPointX == ResizeElementsCommand.CONTROL_POINT_X.right) {
+                mousePosition.x = extr.min.x;
+                mousePosition.y = extr.max.y ;
+            }else{
+                mousePosition.x = extr.max.x;
+                mousePosition.y = extr.min.y;
+            }
+
+        }else{
+            if(this.controlPointX != ResizeElementsCommand.CONTROL_POINT_X.right){
+                mousePosition.x = extr.max.x;
+                mousePosition.y = extr.max.y;
+            }else{
+                mousePosition.x = extr.min.x;
+                mousePosition.y = extr.min.y;
+            }
+        }
+        return mousePosition;
     }
 }

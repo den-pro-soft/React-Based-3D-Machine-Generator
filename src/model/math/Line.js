@@ -65,6 +65,22 @@ export default class Line{
     }
 
     /**
+     * @param x
+     * @return {number}
+     */
+    y(x){
+        return this.k*x+this.b;
+    }
+
+    /**
+     * @param y
+     * @return {number}
+     */
+    x(y){
+        return (y-this.b)/this.k;
+    }
+
+    /**
      * @return {number}
      */
     length(){

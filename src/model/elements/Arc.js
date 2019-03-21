@@ -166,6 +166,46 @@ export default class Arc extends GraphicElement{
         }
     }
 
+
+    /**
+     * @param {number} x -
+     * @param {number} y -
+     * @param {Point} point - point relative to which the object will increase or decrease
+     * @param  {{max:{x:number, y:number}, min:{x:number, y:number}}} extrenum - extrenum of all resize square
+     * @abstract
+     */
+    resize(x, y, point, extr){
+        let wX = Math.abs(extr.max.x-extr.min.x);
+
+        let wY = Math.abs(extr.max.y-extr.min.y);
+
+        let dx = 0;
+        let dy = 0;
+        if(wX!=0){
+            dx = (wX+x)/wX-1;
+        }
+
+        if(wY!=0){
+            dy = (wY+y)/wY-1;
+        }
+
+        // if(dx!=dy){
+        //     throw new Exception('The method resize doesn\'t have implementation in Arc class.');
+        // }
+
+        let resizeMatrix = Matrix.createResizeMatrix(dx,dy);
+
+        let moveMatrix = Matrix.createMoveMatrix(-point.x, -point.y);
+        let removeMatrix = Matrix.createMoveMatrix(point.x, point.y);
+        this.center.changeByMatrix(moveMatrix);
+        this.center.changeByMatrix(resizeMatrix);
+        this.center.changeByMatrix(removeMatrix);
+        
+        this.radius*=(1+dy);
+        this.radius=Math.abs(this.radius);
+
+    }
+
     /**
      * @inheritDoc
      */

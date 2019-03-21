@@ -197,8 +197,8 @@ export default class ResizeTransformer extends Transformer{
      */
     mouseDown(point){
         super.mouseDown();
-        this._downPosition = point;
         if(this.resizeRect && this.resizeRect.contain(point)){
+            this._downPosition = point;
             if (this.resizeRect.isControlPoint(point)){
                 this.activeControllPoint = this.resizeRect._getControlPointByPoint(point);
             }
@@ -233,17 +233,15 @@ export default class ResizeTransformer extends Transformer{
     mouseMove(point){
         super.mouseMove(point);
         if(this._downPosition){
-            if(this.resizeRect.contain(this._downPosition)) {
-                let dx = point.x - this._downPosition.x;
-                let dy = point.y - this._downPosition.y;
-                this.dx+=dx;
-                this.dy+=dy;
-                if(!this.activeControllPoint) {
-                    this.resizeRect.move(dx,dy);
-                }
-                this._downPosition = point;
-                return false;
+            let dx = point.x - this._downPosition.x;
+            let dy = point.y - this._downPosition.y;
+            this.dx+=dx;
+            this.dy+=dy;
+            if(!this.activeControllPoint) {
+                this.resizeRect.move(dx,dy);
             }
+            this._downPosition = point;
+            return false;
         }
 
         return true;

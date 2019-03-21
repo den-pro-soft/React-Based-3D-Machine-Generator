@@ -15,7 +15,7 @@ export default class ResizeCircleQuestion extends Behavior{
      */
     execute(command){
         return new Promise((resolve, reject)=>{
-            if(this.isHasAnArc(command)){
+            if(this.isHasAnArc(command) && command._isCentralControlPoint()){
                 container.resolve('confirmChangeArcToSplinesDialog').modalOpenConfirmation(
                     ()=>{
                         command.convertCircleToSplines = true;
