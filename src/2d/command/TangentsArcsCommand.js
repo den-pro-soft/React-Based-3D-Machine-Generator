@@ -172,7 +172,6 @@ export default class TangentsArcsCommand extends ElementModificationCommand{
 
         let intersectPoints = TangentsArcsCommand.getTangentByPoint(addArcInCenter, arc1.center);
         for(let p of intersectPoints){
-            app.board.drawArc(p,2,null,null,true);
             let lineElement = new LineElement(arc2.center.copy(), p.copy());
 
             let intersectPoints = lineArcIntersector.getIntersectPoints(lineElement, arc2);

@@ -24,8 +24,6 @@ describe('Tangents', function() {
             let arc2 = new Arc(new Point(5),4);
 
             let lines = TangentsArcsCommand.tangentsArcs(arc1, arc2);
-
-            console.log(lines);
             assert.equal(lines.length,4);
         });
     });
