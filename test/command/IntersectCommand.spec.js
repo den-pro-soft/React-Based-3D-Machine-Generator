@@ -4,14 +4,14 @@
 
 var assert = require('assert');
 
-import IntersectElementsCommand from '../src/command/IntersectElementsCommand';
+import IntersectElementsCommand from '../../src/command/IntersectElementsCommand';
 
-import Document from './../src/model/Document';
-import LineElement from './../src/model/elements/LineElement';
-import Arc from './../src/model/elements/Arc';
-import Point from './../src/model/Point';
+import Document from '../../src/model/Document';
+import LineElement from '../../src/model/elements/LineElement';
+import Arc from '../../src/model/elements/Arc';
+import Point from '../../src/model/Point';
 
-import RectElement from './../src/model/elements/RectElement';
+import RectElement from '../../src/model/elements/RectElement';
 
 
 describe('Intersect', function() {

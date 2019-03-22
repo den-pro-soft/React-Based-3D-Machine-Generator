@@ -4,8 +4,8 @@
 
 var assert = require('assert');
 
-import LineElement from './../src/model/elements/LineElement';
-import Point from './../src/model/Point';
+import LineElement from '../../src/model/elements/LineElement';
+import Point from '../../src/model/Point';
 
 describe('LineElement', function() {
     describe('angle', function(){

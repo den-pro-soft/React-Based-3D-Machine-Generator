@@ -2,7 +2,7 @@
  * Created by dev on 19.02.19.
  */
 
-import Matrix from './../src/model/math/Matrix';
+import Matrix from '../../src/model/math/Matrix';
 var assert = require('assert');
 
 
