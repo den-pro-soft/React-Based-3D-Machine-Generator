@@ -256,7 +256,7 @@ export default class ResizeTransformer extends Transformer{
             this.renderElements(changeElements);
         }else{
             if(this._downPosition) {
-                let hasArcs = changeElements.reduce((el,res)=>res|(el instanceof Arc && el.incrementAngle!=360),false);
+                let hasArcs = changeElements.reduce((el,res)=>res||(el instanceof Arc && el.incrementAngle!=360),false);
                 let command = new ResizeElementsCommand(new Document(), changeElements,
                     new Vector(this.dx, this.dy), this.activeControllPoint.alignX, this.activeControllPoint.alignY, true);
                 command.needSave = false;

@@ -15,7 +15,7 @@ export default class ResizeDataValidator extends Behavior{
      */
     execute(command){
         return new Promise((resolve, reject)=>{
-            if(this.isHasAnArc(command)){
+            if(this.isHasAnArc(command) && command._isCentralControlPoint()){
                 container.resolve('confirmChangeArcToSplinesDialog').modalNonWorkFeature("Arcs cannot be stretched currently. Please use splines.");
                 resolve(false)
             }else{
