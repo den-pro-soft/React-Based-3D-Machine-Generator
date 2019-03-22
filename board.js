@@ -571,23 +571,23 @@ function create_board(){
 			}
 
 
-							// var line1 = element('div', board).size(board.width - 20 , 1).position(10, 65).background("rgba(0, 0, 0, 0.25)");
-							// var line2 = element('div', board).size(board.width - 20 , 1).position(10, 93).background("rgba(0, 0, 0, 0.25)");
-                            //
-							//
-							// //********************************************* transform_panel ********************************************************
-							// transform_panel = element('div').size(board.width - 20, 27).position(10, 66).background("rgb(240, 240, 240)").hide();
-                            //
-							// element('div', board).size(1 , 23).position(77, 40).background("rgba(0, 0, 0, 0.25)");
-							// element('div', board).size(1 , 23).position(182, 40).background("rgba(0, 0, 0, 0.25)");
-							// element('div', board).size(1 , 23).position(426, 40).background("rgba(0, 0, 0, 0.25)");
-							//
+							var line1 = element('div', board).size(board.width - 20 , 1).position(10, 65).background("rgba(0, 0, 0, 0.25)");
+							var line2 = element('div', board).size(board.width - 20 , 1).position(10, 93).background("rgba(0, 0, 0, 0.25)");
+
+
+							//********************************************* transform_panel ********************************************************
+							transform_panel = element('div').size(board.width - 20, 27).position(10, 66).background("rgb(240, 240, 240)").hide();
+
+							element('div', board).size(1 , 23).position(77, 40).background("rgba(0, 0, 0, 0.25)");
+							element('div', board).size(1 , 23).position(182, 40).background("rgba(0, 0, 0, 0.25)");
+							element('div', board).size(1 , 23).position(426, 40).background("rgba(0, 0, 0, 0.25)");
+
 							
-						// var machineBut = element("img", transform_panel).size(20, 20).position(35, 3).pic("images/LineType.png").cursor("pointer");
-						// 	machineBut.onmouseover = function(){this.background("#fff")}
-						// 	machineBut.onmouseleave = function(){this.background("")}
-						// 	machineBut.onmousedown = function(){showLineBox()}
-                        //
+						var machineBut = element("img", transform_panel).size(20, 20).position(35, 3).pic("images/LineType.png").cursor("pointer");
+							machineBut.onmouseover = function(){this.background("#fff")}
+							machineBut.onmouseleave = function(){this.background("")}
+							machineBut.onmousedown = function(){showLineBox()}
+                        
 
 						var select_LineType = select(null, transform_panel).position(60, 3);
 							select_LineType.add_option(['Auto', 'Bend', 'Tap']);
