@@ -49,8 +49,8 @@ export default class DynamicChangeTool extends SelectTool{
     /**
      * @protected
      */
-    clearSelectElements(){
-        super.clearSelectElements();
+    clearSelectElements(clearApp=true){
+        super.clearSelectElements(clearApp);
         this.selectElementsPair=[];
     }
 

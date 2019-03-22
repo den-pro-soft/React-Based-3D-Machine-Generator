@@ -6,6 +6,7 @@ import Transformer from './Transformer';
 import RectElement from '../../../model/elements/RectElement';
 import Point from './../../../model/Point';
 import Group from './../../../model/elements/Group';
+import Arc from './../../../model/elements/Arc';
 import Rect from "../../../model/math/Rect";
 import ResizeElementsCommand from './../../command/ResizeElementsCommand';
 import Vector from './../../../model/math/Vector';
@@ -196,8 +197,8 @@ export default class ResizeTransformer extends Transformer{
      */
     mouseDown(point){
         super.mouseDown();
-        this._downPosition = point;
         if(this.resizeRect && this.resizeRect.contain(point)){
+            this._downPosition = point;
             if (this.resizeRect.isControlPoint(point)){
                 this.activeControllPoint = this.resizeRect._getControlPointByPoint(point);
             }
@@ -232,17 +233,15 @@ export default class ResizeTransformer extends Transformer{
     mouseMove(point){
         super.mouseMove(point);
         if(this._downPosition){
-            if(this.resizeRect.contain(this._downPosition)) {
-                let dx = point.x - this._downPosition.x;
-                let dy = point.y - this._downPosition.y;
-                this.dx+=dx;
-                this.dy+=dy;
-                if(!this.activeControllPoint) {
-                    this.resizeRect.move(dx,dy);
-                }
-                this._downPosition = point;
-                return false;
+            let dx = point.x - this._downPosition.x;
+            let dy = point.y - this._downPosition.y;
+            this.dx+=dx;
+            this.dy+=dy;
+            if(!this.activeControllPoint) {
+                this.resizeRect.move(dx,dy);
             }
+            this._downPosition = point;
+            return false;
         }
 
         return true;
@@ -254,23 +253,48 @@ export default class ResizeTransformer extends Transformer{
             for(let element of changeElements){
                 element.move(this.dx,this.dy);
             }
+            this.renderElements(changeElements);
         }else{
-            let command = new ResizeElementsCommand(new Document(), changeElements,
-                new Vector(this.dx, this.dy), this.activeControllPoint.alignX, this.activeControllPoint.alignY, true);
+            if(this._downPosition) {
+                let hasArcs = changeElements.reduce((el,res)=>res|(el instanceof Arc && el.incrementAngle!=360),false);
+                let command = new ResizeElementsCommand(new Document(), changeElements,
+                    new Vector(this.dx, this.dy), this.activeControllPoint.alignX, this.activeControllPoint.alignY, true);
+                command.needSave = false;
 
-            command.executeCommand();
-
-            if(command.isReplacedElements()) {
-                changeElements = command.getElements();
+                if(hasArcs) {
+                    command.execute().then((res) => {
+                        if (res) {
+                            if (command.isReplacedElements()) {
+                                changeElements = command.getElements();
+                            }
+                        } else {
+                            this._downPosition = null;
+                            this.activeControllPoint = null;
+                        }
+                        this.renderElements(changeElements);
+                    });
+                }else{
+                    command.executeCommand();
+                    if(command.isReplacedElements()) {
+                        changeElements = command.getElements();
+                    }
+                    this.renderElements(changeElements);
+                }
+            }else{
+                this.renderElements(changeElements);
             }
         }
-        for(let element of changeElements){
+
+    }
+
+    renderElements(elements){
+        for(let element of elements){
             element._renderer.setFocus(true);
             element.render();
         }
 
         if(this.resizeRect){
-            this.resizeRect.elements=changeElements;
+            this.resizeRect.elements=elements;
             this.resizeRect.render();
         }
     }

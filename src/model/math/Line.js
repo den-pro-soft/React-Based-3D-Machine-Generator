@@ -65,6 +65,22 @@ export default class Line{
     }
 
     /**
+     * @param x
+     * @return {number}
+     */
+    y(x){
+        return this.k*x+this.b;
+    }
+
+    /**
+     * @param y
+     * @return {number}
+     */
+    x(y){
+        return (y-this.b)/this.k;
+    }
+
+    /**
      * @return {number}
      */
     length(){
@@ -72,6 +88,19 @@ export default class Line{
         let p2= this._p2;
         let z = Math.pow(p1.z-p2.z,2);
         return Math.sqrt(Math.pow(this.A,2)+Math.pow(this.B,2)+z);
+    }
+
+    /**
+     * The method fir setting the length of the line when p1 is start points.
+     * @param length
+     */
+    setLength(length){
+        let angle  = new Vector(1,0,0).getAngle(this.toVector());
+        let dx = length * Math.cos(Trigonometric.gradToRad(angle));
+        let dy =length * Math.sin(Trigonometric.gradToRad(angle));
+
+        this._p2.y = this._p1.y + dy;
+        this._p2.x = this._p1.x + dx;
     }
 
     /**
@@ -213,4 +242,20 @@ export default class Line{
             max = Math.max.apply(Math, [a, b]);
         return value+1E-5 > min && value < max+1E-5;
     };
+
+    /**
+     * @param {Point} point
+     * @return {boolean}
+     */
+    isBelongsToTheLine(point){
+        if(this.k==0 && this.B==0){
+            return this.between(point.y,this._p1.y, this._p2.y) && point.x == this._p1.x;
+        }
+        if(this.k==0 && this.A==0){
+            return this.between(point.x,this._p1.x, this._p2.x)  && point.y == this._p1.y;
+        }
+
+        return point.y==this.k*point.x+this.b
+            && this.between(point.x,this._p1.x, this._p2.x) && this.between(point.y,this._p1.y, this._p2.y);
+    }
 }

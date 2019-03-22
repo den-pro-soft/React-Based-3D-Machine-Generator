@@ -6,7 +6,7 @@ import Behavior from './../Behavior';
 import Document from './../../../model/Document';
 import Arc from './../../../model/elements/Arc';
 
-export default class ResizeCircleQuestion extends Behavior{
+export default class ResizeDataValidator extends Behavior{
 
     /**
      * The method is main method of behavior. It's execute the operation
@@ -15,18 +15,10 @@ export default class ResizeCircleQuestion extends Behavior{
      */
     execute(command){
         return new Promise((resolve, reject)=>{
-            if(this.isHasAnArc(command) && command._isCentralControlPoint()){
-                container.resolve('confirmChangeArcToSplinesDialog').modalOpenConfirmation(
-                    ()=>{
-                        command.convertCircleToSplines = true;
-                        resolve(true);
-                    },()=>{
-                        command.convertCircleToSplines = false;
-                        resolve(false);
-                    }
-                );
+            if(this.isHasAnArc(command)){
+                container.resolve('confirmChangeArcToSplinesDialog').modalNonWorkFeature("Arcs cannot be stretched currently. Please use splines.");
+                resolve(false)
             }else{
-                command.convertCircleToSplines = false;
                 resolve(true);
             }
         });
@@ -41,7 +33,7 @@ export default class ResizeCircleQuestion extends Behavior{
     isHasAnArc(command){
         let elements = Document.toSimpleListElements(command.elements);
         for(let el of elements) {
-            if (el instanceof Arc) {
+            if (el instanceof Arc && el.incrementAngle!=360) {
                 return true;
             }
         }
