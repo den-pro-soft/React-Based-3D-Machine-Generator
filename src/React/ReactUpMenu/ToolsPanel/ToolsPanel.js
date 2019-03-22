@@ -152,7 +152,7 @@ import { withRouter } from "react-router-dom";
             >
               <img
                 width="18px"
-                src="images/Help.png"
+                src="resources/images/Help.png"
                 data-place="bottom"
                 data-tip="<span>Shows how to use numeric values.</span>"
               />
@@ -174,7 +174,7 @@ import { withRouter } from "react-router-dom";
               <a href="#">
                 <img
                   width="18px"
-                  src="images/LineType.png"
+                  src="resources/images/LineType.png"
                   data-place="bottom"
                   data-tip='<span>Line type.</br>Specifies whether the selected line a shape,bend,</br>thread,relation,comment,etc.Select "Auto" in most cases</br>
                 when creating the part shape.
@@ -242,7 +242,7 @@ import { withRouter } from "react-router-dom";
               >
                 <img
                   width="18px"
-                  src="images/Help.png"
+                  src="resources/images/Help.png"
                   data-place="bottom"
                   data-tip="<span>Shows how to use numeric values.</span>"
                 />
@@ -298,7 +298,7 @@ import { withRouter } from "react-router-dom";
             <div style={{ margin: "15px 15px",textAlign:'left' }}>
               <img
                 width="25px"
-                src="images/Info.png"
+                src="resources/images/Info.png"
               />
               <span style={{ position:'relative', bottom:'15px',marginLeft: "30px" }}>
                 Use only straight segments for Bend lines

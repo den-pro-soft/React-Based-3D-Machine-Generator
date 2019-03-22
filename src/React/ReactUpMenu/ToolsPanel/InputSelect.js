@@ -341,7 +341,7 @@ class InputSelect extends React.Component {
             <a href="#">
               <img
                 width="18px"
-                src="images/Z.png"
+                src="resources/images/Z.png"
                 data-place="bottom"
                 data-tip="<span>To make a 3D shape, make a 2D drawling and then set this value</br>
           to the distance material will extend perpendicular to the screen.</br>The value specifies the perpendicular

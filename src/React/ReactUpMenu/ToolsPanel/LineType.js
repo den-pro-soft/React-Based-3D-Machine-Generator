@@ -102,7 +102,7 @@ class LineType extends React.Component {
           <a href="#">
             <img
               width="18px"
-              src="images/Line.png"
+              src="resources/images/Line.png"
               data-place="bottom"
               data-tip="<span>Length<br/>Distance from the beginning of the line to the end.To change<br/>
       enter a value and press the Enter key</span>"
@@ -125,7 +125,7 @@ class LineType extends React.Component {
           <a href="#">
             <img
               width="18px"
-              src="images/Line.png"
+              src="resources/images/Line.png"
               data-place="bottom"
               data-tip="<span>Line angle<br/>Angle of the point with respect to the start point.To change,<br/>
  enter a value and press the Enter key. </span>"

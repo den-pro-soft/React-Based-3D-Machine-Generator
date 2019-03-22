@@ -26,7 +26,7 @@ export default class Help extends React.Component {
  
   outputFlat2D = () => {
     var request = new XMLHttpRequest();
-    request.open("GET", "/doc/Flat2D.emsx", true);
+    request.open("GET", "/resources/doc/Flat2D.emsx", true);
 
     request.onload = function() {
       // var out = new Blob([request.response]);
@@ -40,7 +40,7 @@ export default class Help extends React.Component {
 
   outputBend2D = () => {
     var request = new XMLHttpRequest();
-    request.open("GET", "/doc/Bend2D.emsx", true);
+    request.open("GET", "resources/doc/Bend2D.emsx", true);
 
     request.onload = function() {
       // var out = new Blob([request.response]);
@@ -239,7 +239,7 @@ export default class Help extends React.Component {
           >
             <img
               width="25px"
-              src="images/icon.jpg"
+              src="resources/images/icon.jpg"
               // data-tip="<span>Shows how to use numeric values.</span>"
             />
          {this.state.suggestion===true&& <span style={{marginLeft:'5px'}}>Suggestion</span>}
@@ -360,7 +360,7 @@ export default class Help extends React.Component {
                 className="ContentHeader"
                 style={{ display: "flex", alignItems: "flex-start" }}
               >
-                <img width="45px" src="images/icon.jpg" />
+                <img width="45px" src="resources/images/icon.jpg" />
                 <DialogContentText
                   style={{ textAlign: "center", color: "black", marginLeft:'45px' }}
                 >

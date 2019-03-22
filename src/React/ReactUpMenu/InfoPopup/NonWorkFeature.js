@@ -60,7 +60,7 @@ class NonWorkFeature extends React.Component {
             <div style={{ margin: "15px 15px",textAlign:'left' }}>
                 <img
                 width="25px"
-                src="images/Info.png"
+                src="resources/images/Info.png"
                 />
                 <p style={{ position:'relative', bottom:'25px',marginLeft: "40px",textAlign:'left'  }}>
                     {this.props.infoText}

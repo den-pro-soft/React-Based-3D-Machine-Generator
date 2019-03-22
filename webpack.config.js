@@ -4,13 +4,13 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 module.exports = {
   mode: "development", // "production" | "development" | "none"  // Chosen mode tells webpack to use its built-in optimizations accordingly.
   entry: {
-    "3Dview": "./src/3Dview.js",
-    popup: "./src/popup.js",
+    "3Dview": "./src/ui/3Dview.js",
+    popup: "./src/ui/popup.js",
     Helper: "./src/Helper.js",
     Application: "./src/Application.js",
     Container: "./src/Container.js",
     //React enry point
-    index: "./src/index.js"
+    index: "./src/ui/index.js"
   },
   output: {
     // path: path.resolve(__dirname+"/dist/"),

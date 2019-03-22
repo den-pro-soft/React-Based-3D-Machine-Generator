@@ -2,7 +2,7 @@
 The frontend part of eMachineShop CAD project.
 
 ### Compile
-For compiling 3DView.js need using <code>npm start</code> or <code>npm compile</code>  for compiling, it can be use on deployment on a production server.
+For compiling 3DView.js need using <code>npm start</code> or <code>npm run compile</code>  for compiling, it can be use on deployment on a production server.
 
 Before run the command execute <code>npm install</code> for installing all dependency.
 
@@ -12,7 +12,7 @@ For testing use <code>npm test</code>
 ##### App architecture
 
 Class diagram
-![](./doc/img/classDiagramm.png)
+![](./manual-doc/asset/img/classDiagramm.png)
 
 ##### Data structure
-Structure of data file [*.emsx](./doc/example.emsx) is in the  [file](./doc/format.dtd)
+Structure of data file [*.emsx](./manual-doc/asset/example.emsx) is in the  [file](./manual-doc/asset/format.dtd)

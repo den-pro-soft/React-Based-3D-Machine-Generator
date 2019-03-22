@@ -110,7 +110,7 @@ export default class InputSelect extends React.Component {
           <a href="#">
             <img
               width="18px"
-              src="images/Text.png"
+              src="resources/images/Text.png"
               data-place="bottom"
               data-tip="<span>Font<br/>Name of font used to draw text.To change,<br/>
  select a new value. </span>"

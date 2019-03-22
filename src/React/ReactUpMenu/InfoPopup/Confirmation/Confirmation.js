@@ -55,7 +55,7 @@ class Confirmation extends React.Component {
           >
             <div className="ConfirmContent">
               <div className="Info-Icon">
-                <img width="40px" src="images/InfoIcon.png" />
+                <img width="40px" src="resources/images/InfoIcon.png" />
               </div>
               <div className="Text">
                 <p>

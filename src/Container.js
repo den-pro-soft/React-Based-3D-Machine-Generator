@@ -6,7 +6,7 @@ import { Injectable, Container, LifeTime } from 'container-ioc';
 
 
 import Config from './Config';
-import {InteractiveBoard} from './2d/Board';
+import {InteractiveBoard} from './ui/2d/Board';
 import IdGenerator from './model/IdGenerator';
 import ConfirmChangeArcToSplinesDialog from './ModalWindows';
 

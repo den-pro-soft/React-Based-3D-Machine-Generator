@@ -571,23 +571,23 @@ function create_board(){
 			}
 
 
-							var line1 = element('div', board).size(board.width - 20 , 1).position(10, 65).background("rgba(0, 0, 0, 0.25)");
-							var line2 = element('div', board).size(board.width - 20 , 1).position(10, 93).background("rgba(0, 0, 0, 0.25)");
-
+							// var line1 = element('div', board).size(board.width - 20 , 1).position(10, 65).background("rgba(0, 0, 0, 0.25)");
+							// var line2 = element('div', board).size(board.width - 20 , 1).position(10, 93).background("rgba(0, 0, 0, 0.25)");
+                            //
+							//
+							// //********************************************* transform_panel ********************************************************
+							// transform_panel = element('div').size(board.width - 20, 27).position(10, 66).background("rgb(240, 240, 240)").hide();
+                            //
+							// element('div', board).size(1 , 23).position(77, 40).background("rgba(0, 0, 0, 0.25)");
+							// element('div', board).size(1 , 23).position(182, 40).background("rgba(0, 0, 0, 0.25)");
+							// element('div', board).size(1 , 23).position(426, 40).background("rgba(0, 0, 0, 0.25)");
+							//
 							
-							//********************************************* transform_panel ********************************************************
-							transform_panel = element('div').size(board.width - 20, 27).position(10, 66).background("rgb(240, 240, 240)").hide();
-
-							element('div', board).size(1 , 23).position(77, 40).background("rgba(0, 0, 0, 0.25)");
-							element('div', board).size(1 , 23).position(182, 40).background("rgba(0, 0, 0, 0.25)");
-							element('div', board).size(1 , 23).position(426, 40).background("rgba(0, 0, 0, 0.25)");
-							
-							
-						var machineBut = element("img", transform_panel).size(20, 20).position(35, 3).pic("images/LineType.png").cursor("pointer");
-							machineBut.onmouseover = function(){this.background("#fff")}
-							machineBut.onmouseleave = function(){this.background("")}
-							machineBut.onmousedown = function(){showLineBox()}
-
+						// var machineBut = element("img", transform_panel).size(20, 20).position(35, 3).pic("images/LineType.png").cursor("pointer");
+						// 	machineBut.onmouseover = function(){this.background("#fff")}
+						// 	machineBut.onmouseleave = function(){this.background("")}
+						// 	machineBut.onmousedown = function(){showLineBox()}
+                        //
 
 						var select_LineType = select(null, transform_panel).position(60, 3);
 							select_LineType.add_option(['Auto', 'Bend', 'Tap']);
@@ -600,119 +600,119 @@ function create_board(){
 								}
 							}
 
+                        //
+						// var input_Width = input("images/Width.png", transform_panel).position(220, 3);
+						// 	input_Width.onkeyup = function(e){
+                        //
+						// 			input_Width.changed = true;
+                        //
+						// 		if (e.keyCode != 13) return
+                        //
+						// 			//if (input_Width.value.indexOf(".") > 0) return
+						// 			var value = Math.abs(parseFloat(input_Width.value));
+						// 			input_Width.value = value + " \'\'";
+                        //
+						// 			resizeSelected(value, 0);
+                        //
+						// 			setBound();
+						// 			refresh_All();
+						// 			redraw();
+						// 	}
+                        //
 
-						var input_Width = input("images/Width.png", transform_panel).position(220, 3);
-							input_Width.onkeyup = function(e){
-
-									input_Width.changed = true;
-
-								if (e.keyCode != 13) return
-
-									//if (input_Width.value.indexOf(".") > 0) return
-									var value = Math.abs(parseFloat(input_Width.value));
-									input_Width.value = value + " \'\'";
-
-									resizeSelected(value, 0);
-
-									setBound();
-									refresh_All();
-									redraw();
-							}
-
-
-						var input_Height = input("images/Height.png", transform_panel).position(390, 3);
-							input_Height.onkeyup = function(e){
-
-									input_Height.changed = true;
-
-								if (e.keyCode != 13) return
-
-									//if (input_Width.value.indexOf(".") > 0) return
-									var value = Math.abs(parseFloat(input_Height.value));
-									input_Height.value = value + " \'\'";
-
-									resizeSelected(0, value);
-
-									setBound();
-									refresh_All();
-									redraw();
-							}
-
-
-						var select_Z = select("images/Z.png", transform_panel).position(560, 3);
-							select_Z.add_option(["Air inside",  "0.051 \'\'", "0.76 \'\'", "0.127 \'\'", "0.254 \'\'", "0.508 \'\'"," 0.794 \'\'"
-								, "1.143 \'\'", "1.588 \'\'", "2.362 \'\'", "3.175 \'\'", "4.750 \'\'", "6.350 \'\'", "9.525 \'\'", "12.700 \'\'", "19.050 \'\'", "25.400 \'\'", "31.750 \'\'", "38.100 \'\'", "50.800 \'\'", "63.500 \'\'", "76.200 \'\'", "Other"]);
-							select_Z.onclick = function(){
-								input_Z.value = select_Z.value;
-								var Z = input_Z.value;
-								if(Z=="Air inside"){
-									Z=-1E8;
-								}
-								for (var n = 1; n < E.length; n++) if (E[n].enable) if (E[n].selected) E[n].Z = parseFloat(Z);
-							}
-
-
-						var input_Z = input(null, transform_panel).position(562, 3).setsize(95, 15); //.background("#ffa");
-							input_Z.onkeyup = function(){
-								for (var n = 1; n < E.length; n++) if (E[n].enable) if (E[n].selected) E[n].Z = parseFloat(input_Z.value);
-							}
-
-
-						var button_Repeat = element('img', transform_panel).position(705, 3).size(22, 21).imagename("images/Copy.png").cursor("pointer");
-							button_Repeat.onmousedown = function(){
-								if (!button_Repeat.active) {button_Repeat.active = true} else {button_Repeat.active = false};
-								button_Repeat.imagename("images/Copy.png");
-								if (button_Repeat.active) button_Repeat.imagename("images/Copy_active.png");
-							}
-
-
-						var button_Up = element('img', transform_panel).position(740, 3).size(22, 22).imagename("images/Up.png").cursor("pointer");
-							button_Up.onmousedown = function(){
-								moveSelected(0, parseFloat(input_Length.value));
-							}
-
-
-						var button_Down = element('img', transform_panel).position(775, 3).size(22, 22).imagename("images/Down.png").cursor("pointer");
-							button_Down.onmousedown = function(){
-								moveSelected(0, -parseFloat(input_Length.value));
-							}
-
-
-						var button_Left = element('img', transform_panel).position(810, 3).size(22, 22).imagename("images/Left.png").cursor("pointer");
-							button_Left.onmousedown = function(){
-								moveSelected(-parseFloat(input_Length.value), 0);
-							}
-
-
-						var button_Right = element('img', transform_panel).position(845, 3).size(22, 22); button_Right.imagename("images/Right.png").cursor("pointer");
-							button_Right.onmousedown = function(){
-								moveSelected(parseFloat(input_Length.value), 0);
-							}
-
-
-						var input_Length = input(null, transform_panel).position(880, 3).setsize(80, 15);
-							input_Length.onkeyup = function(){
-								if (input_Length.value.indexOf(".") == input_Length.value.length-1) return
-								input_Length.value = Math.abs(parseFloat(input_Length.value));
-							}
-							input_Length.value = "10 \'\'";
-
-
-						var button_UnClock = element('img', transform_panel).position(990, 3).size(22, 22).imagename("images/Unclock.png").cursor("pointer");
-							button_UnClock.onmousedown = function(){
-								rotateSelected(parseFloat(parseFloat(input_Angle.value) * Math.PI / 180), 0);
-							}
-
-
-						var button_Clock = element('img', transform_panel).position(1025, 3).size(22, 22).imagename("images/Clock.png").cursor("pointer");
-							button_Clock.onmousedown = function(){
-								rotateSelected(parseFloat(-parseFloat(input_Angle.value) * Math.PI / 180), 0);
-							}
-
-
-						var input_Angle = input(null, transform_panel).position(1060, 3).setsize(80, 15);
-							input_Angle.value = "15 deg";
-
+						// var input_Height = input("images/Height.png", transform_panel).position(390, 3);
+						// 	input_Height.onkeyup = function(e){
+                        //
+						// 			input_Height.changed = true;
+                        //
+						// 		if (e.keyCode != 13) return
+                        //
+						// 			//if (input_Width.value.indexOf(".") > 0) return
+						// 			var value = Math.abs(parseFloat(input_Height.value));
+						// 			input_Height.value = value + " \'\'";
+                        //
+						// 			resizeSelected(0, value);
+                        //
+						// 			setBound();
+						// 			refresh_All();
+						// 			redraw();
+						// 	}
+                        //
+                        //
+						// var select_Z = select("images/Z.png", transform_panel).position(560, 3);
+						// 	select_Z.add_option(["Air inside",  "0.051 \'\'", "0.76 \'\'", "0.127 \'\'", "0.254 \'\'", "0.508 \'\'"," 0.794 \'\'"
+						// 		, "1.143 \'\'", "1.588 \'\'", "2.362 \'\'", "3.175 \'\'", "4.750 \'\'", "6.350 \'\'", "9.525 \'\'", "12.700 \'\'", "19.050 \'\'", "25.400 \'\'", "31.750 \'\'", "38.100 \'\'", "50.800 \'\'", "63.500 \'\'", "76.200 \'\'", "Other"]);
+						// 	select_Z.onclick = function(){
+						// 		input_Z.value = select_Z.value;
+						// 		var Z = input_Z.value;
+						// 		if(Z=="Air inside"){
+						// 			Z=-1E8;
+						// 		}
+						// 		for (var n = 1; n < E.length; n++) if (E[n].enable) if (E[n].selected) E[n].Z = parseFloat(Z);
+						// 	}
+                        //
+                        //
+						// var input_Z = input(null, transform_panel).position(562, 3).setsize(95, 15); //.background("#ffa");
+						// 	input_Z.onkeyup = function(){
+						// 		for (var n = 1; n < E.length; n++) if (E[n].enable) if (E[n].selected) E[n].Z = parseFloat(input_Z.value);
+						// 	}
+                        //
+                        //
+						// var button_Repeat = element('img', transform_panel).position(705, 3).size(22, 21).imagename("images/Copy.png").cursor("pointer");
+						// 	button_Repeat.onmousedown = function(){
+						// 		if (!button_Repeat.active) {button_Repeat.active = true} else {button_Repeat.active = false};
+						// 		button_Repeat.imagename("images/Copy.png");
+						// 		if (button_Repeat.active) button_Repeat.imagename("images/Copy_active.png");
+						// 	}
+                        //
+                        //
+						// var button_Up = element('img', transform_panel).position(740, 3).size(22, 22).imagename("images/Up.png").cursor("pointer");
+						// 	button_Up.onmousedown = function(){
+						// 		moveSelected(0, parseFloat(input_Length.value));
+						// 	}
+                        //
+                        //
+						// var button_Down = element('img', transform_panel).position(775, 3).size(22, 22).imagename("images/Down.png").cursor("pointer");
+						// 	button_Down.onmousedown = function(){
+						// 		moveSelected(0, -parseFloat(input_Length.value));
+						// 	}
+                        //
+                        //
+						// var button_Left = element('img', transform_panel).position(810, 3).size(22, 22).imagename("images/Left.png").cursor("pointer");
+						// 	button_Left.onmousedown = function(){
+						// 		moveSelected(-parseFloat(input_Length.value), 0);
+						// 	}
+                        //
+                        //
+						// var button_Right = element('img', transform_panel).position(845, 3).size(22, 22); button_Right.imagename("images/Right.png").cursor("pointer");
+						// 	button_Right.onmousedown = function(){
+						// 		moveSelected(parseFloat(input_Length.value), 0);
+						// 	}
+                        //
+                        //
+						// var input_Length = input(null, transform_panel).position(880, 3).setsize(80, 15);
+						// 	input_Length.onkeyup = function(){
+						// 		if (input_Length.value.indexOf(".") == input_Length.value.length-1) return
+						// 		input_Length.value = Math.abs(parseFloat(input_Length.value));
+						// 	}
+						// 	input_Length.value = "10 \'\'";
+                        //
+                        //
+						// var button_UnClock = element('img', transform_panel).position(990, 3).size(22, 22).imagename("images/Unclock.png").cursor("pointer");
+						// 	button_UnClock.onmousedown = function(){
+						// 		rotateSelected(parseFloat(parseFloat(input_Angle.value) * Math.PI / 180), 0);
+						// 	}
+                        //
+                        //
+						// var button_Clock = element('img', transform_panel).position(1025, 3).size(22, 22).imagename("images/Clock.png").cursor("pointer");
+						// 	button_Clock.onmousedown = function(){
+						// 		rotateSelected(parseFloat(-parseFloat(input_Angle.value) * Math.PI / 180), 0);
+						// 	}
+                        //
+                        //
+						// var input_Angle = input(null, transform_panel).position(1060, 3).setsize(80, 15);
+						// 	input_Angle.value = "15 deg";
+                        //
 
 
 			//***************************************** showMessage ***************************************************

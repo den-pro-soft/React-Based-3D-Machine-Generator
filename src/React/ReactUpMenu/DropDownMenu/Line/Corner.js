@@ -113,7 +113,7 @@ class Corner extends React.Component {
                 </p>
               </div>
               <div className="ImageBlock">
-                <img width="145px" src="images/Corner.jpg" />
+                <img width="145px" src="resources/images/Corner.jpg" />
               </div>
             </div>
             </>

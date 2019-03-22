@@ -4,7 +4,7 @@
 
 var assert = require('assert');
 
-import IntersectElementsCommand from './../src/2d/command/IntersectElementsCommand';
+import IntersectElementsCommand from '../src/command/IntersectElementsCommand';
 
 import Document from './../src/model/Document';
 import LineElement from './../src/model/elements/LineElement';

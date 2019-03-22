@@ -2,15 +2,15 @@
  * Created by dev on 07.02.19.
  */
 
-import GraphicElement  from './../GraphicElement';
-import TextRenderer from './../../2d/renderer/TextRenderer'
-import Point from './../Point';
+import GraphicElement  from '../GraphicElement';
+import TextRenderer from '../../ui/2d/renderer/TextRenderer'
+import Point from '../Point';
 
 import Rect from '../math/Rect';
-import Matrix from './../math/Matrix';
+import Matrix from '../math/Matrix';
 import RectElement from './RectElement';
-import PolyLine from './../math/PolyLine';
-import CommentToSelf from './../line_types/CommentToSelf';
+import PolyLine from '../math/PolyLine';
+import CommentToSelf from '../line_types/CommentToSelf';
 
 /**
  * @inheritDoc

@@ -114,7 +114,7 @@ console.log(this.state.open,'render-state.open');
                 >
                   <img
                     width="45px"
-                    src="images/icon.jpg"
+                    src="resources/images/icon.jpg"
                     // data-tip="<span>Shows how to use numeric values.</span>"
                   />
                   <DialogContentText
