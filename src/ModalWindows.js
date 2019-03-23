@@ -7,10 +7,6 @@ export default class ModalWindows {
         this.noCallBack = null;
         this.infoText =
         "Sorry, this feature will be realised in the next versions.";
-
-        this.openExpertNotice = null;
-        this.expertNoticeText = null;
-        this.expertParamArr = null;
     }
 
     /**
@@ -50,34 +46,41 @@ export default class ModalWindows {
 
        /**
      * @param {string} text - the text for output in window
-     * @param {Array} paramArr - the array of objects with keys text and callback
-     * @param {string} paramArr.text - the text for radiobutton
-     * @param {function} paramArr.callback - the callback function for handly radio-button
+     * @param {Array.<{text:string,callback:function, callbackOK:function, callbackCancel:function}>} paramArr - the array of objects 
+     * with keys text,callback,callbackOK and callbackCancel   
+     * @param {function} callbackOK - the OK button callback
+     * @param {function} callbackCancel - the Cancel button callback
      */
     modalExpertNotice(
         text = "Expert Notice Text message",
-        paramArr = [
+        options= [
         { text: "Text-button1", callback: () => console.log("param1") },
         { text: "Text-button2", callback: () => console.log("param2") },
         { text: "Text-button3", callback: () => console.log("param3") },
-        { text: "", callback: () => console.log("param4") },
-        { text: "", callback: () => console.log("param5") }
-        ]
+        { text: "Text-button4", callback: () => console.log("param4") },
+        { text: "Text-button5", callback: () => console.log("param5") }
+        ],
+        callbackOK=() => console.log("OK"),
+        callbackCancel=() => console.log("Cancel")
+     
     ) {
-        if (typeof text === "string" && text !== "") {
-        this.expertNoticeText = text;
-        this.openExpertNotice = true;
-        } else {
-        this.openExpertNotice = false;
-        }
+        // if (typeof text === "string" && text !== "") {
+        // this.expertNoticeText = text;
+        // this.openExpertNotice = true;
+        // } else {
+        // this.openExpertNotice = false;
+        // }
+        const openExpertNotice = true;
+        const expertNoticeText = text;
 
-        this.expertParamArr = paramArr;
 
         store.dispatch({
         type: "OPEN_EXPERT_NOTICE",
-        payload: this.openExpertNotice,
-        payloadText: this.expertNoticeText,
-        payloadParamArr: this.expertParamArr
+        payload: openExpertNotice,
+        payloadText: expertNoticeText,
+        payloadOptions: options,
+        payloadOK: callbackOK,
+        payloadCancel:callbackCancel
         });
     }
 }

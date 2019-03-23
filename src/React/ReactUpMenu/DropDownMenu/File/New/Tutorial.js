@@ -53,14 +53,11 @@ export default class Tutorial extends React.Component {
             >
               <FormControlLabel
                 classes={{ root: "root" }}
-                // style={{border:'1px solid red',paddinTop:'0px!important'}}
                 value="emsx1"
                 control={
                   <Radio
                   classes={{ root: "root" }}
                     color="primary"
-                    // color="default"
-                    // style={{margin:"0px"}}
                   />
                 }
                 label="Quick start - Learn eMachineShop in minute with this quick easy tutorial"
@@ -70,10 +67,8 @@ export default class Tutorial extends React.Component {
                 value="emsx2"
                 control={
                   <Radio
-                    // classes={{ root: "root" }}
                     style={{ margin: "0px" }}
                     color="primary"
-                    // color="default"
                   />
                 }
                 label="Flat shape cut from sheet material - this is the lowest cost type of part"
@@ -84,7 +79,6 @@ export default class Tutorial extends React.Component {
                 control={
                   <Radio
                     color="primary"
-                    //  color="default"
                   />
                 }
                 label="Sheet metal with bends - this economical type of part allows for more variety by bending sheet metal"
