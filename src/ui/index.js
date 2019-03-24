@@ -1,9 +1,9 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import "./index.scss";
-import LeftMenu from "../React/LeftMenu/LeftMenu";
-import ReactUp from "../React/ReactUpMenu/ReactUp";
-import BottomPanel from "../React/BottomPanel/BottomPanel";
+import LeftMenu from "./React/LeftMenu/LeftMenu";
+import ReactUp from "./React/ReactUpMenu/ReactUp";
+import BottomPanel from "./React/BottomPanel/BottomPanel";
 import {
   // BrowserRouter as Router,
   HashRouter as Router,
@@ -11,7 +11,7 @@ import {
 } from "react-router-dom";
 import { createStore } from "redux";
 import { Provider } from "react-redux";
-import rootReducer from "../Redux/rootReducer";
+import rootReducer from "./Redux/rootReducer";
 
 window.store = createStore(rootReducer);
 
