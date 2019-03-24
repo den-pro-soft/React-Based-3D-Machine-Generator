@@ -2,13 +2,13 @@
  * Created by dev on 14.01.19.
  */
 
-import GraphicElement from './../GraphicElement';
-import Point from './../Point';
-import SplineRenderer from './../../2d/renderer/SplineRenderer';
-import Line from './../math/Line';
-import PolyLine from './../math/PolyLine';
+import GraphicElement from '../GraphicElement';
+import Point from '../Point';
+import SplineRenderer from '../../ui/2d/renderer/SplineRenderer';
+import Line from '../math/Line';
+import PolyLine from '../math/PolyLine';
 
-import Matrix from './../math/Matrix';
+import Matrix from '../math/Matrix';
 
 export default class Spline extends GraphicElement{
     constructor(startPoint, endPoint){

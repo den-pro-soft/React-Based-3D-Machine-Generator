@@ -4,12 +4,12 @@
 
 import GraphicElement from '../GraphicElement';
 import Point from '../Point';
-import Line from './../math/Line';
-import Vector from './../math/Vector';
-import ArcRenderer from './../../2d/renderer/ArcRenderer';
-import PolyLine from './../math/PolyLine';
-import Trigonometric from './../math/Trigonometric';
-import Matrix from './../math/Matrix';
+import Line from '../math/Line';
+import Vector from '../math/Vector';
+import ArcRenderer from '../../ui/2d/renderer/ArcRenderer';
+import PolyLine from '../math/PolyLine';
+import Trigonometric from '../math/Trigonometric';
+import Matrix from '../math/Matrix';
 import Spline from './Spline';
 
 /**

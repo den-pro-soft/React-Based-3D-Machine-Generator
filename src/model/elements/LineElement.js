@@ -2,12 +2,12 @@
  * Created by dev on 04.01.19.
  */
 
-import GraphicElement from './../GraphicElement';
-import LineRenderer from './../../2d/renderer/LineRenderer';
+import GraphicElement from '../GraphicElement';
+import LineRenderer from '../../ui/2d/renderer/LineRenderer';
 import PolyLine from '../math/PolyLine';
-import Line from './../math/Line';
-import Matrix from './../math/Matrix';
-import Vector from './../math/Vector';
+import Line from '../math/Line';
+import Matrix from '../math/Matrix';
+import Vector from '../math/Vector';
 
 /**
  * @inheritDoc

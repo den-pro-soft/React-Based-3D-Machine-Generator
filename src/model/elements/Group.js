@@ -3,14 +3,9 @@
  */
 
 import GraphicElement from '../GraphicElement';
-import GroupRenderer from './../../2d/renderer/GroupRenderer';
-import Exception from "../../Exception";
-import Point from './../Point';
-import Line from './../math/Line';
-import Matrix from './../math/Matrix';
-
-import Spline from './Spline';
-import LineElement from './LineElement';
+import GroupRenderer from '../../ui/2d/renderer/GroupRenderer';
+import Point from '../Point';
+import Line from '../math/Line';
 
 export default class Group extends GraphicElement{
     constructor(){

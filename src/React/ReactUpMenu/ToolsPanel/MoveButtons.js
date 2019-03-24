@@ -154,7 +154,7 @@ class MoveButtons extends React.Component {
           <a href="#">
             <img
               width="18px"
-              src="images/Copy.png"
+              src="resources/images/Copy.png"
               data-place="bottom"
               data-tip="<span>Repeat (Ctrl+ D)<br/>When this button is pressed in, the nudge arrow buttons and the<br/>
               nudge rotation buttons will create copies of the selected shape.<br/>
@@ -168,7 +168,7 @@ class MoveButtons extends React.Component {
           <a href="#">
             <img
               width="18px"
-              src="images/Up.png"
+              src="resources/images/Up.png"
               data-place="bottom"
               data-tip="<span>Nudge selected line up.(Also see tip for nudge edit box.)<br/> Hold
               the Alt key for faster nudging. The state of Repeat button<br/>
@@ -180,7 +180,7 @@ class MoveButtons extends React.Component {
           <a href="#">
             <img
               width="18px"
-              src="images/Down.png"
+              src="resources/images/Down.png"
               data-place="bottom"
               data-tip="<span>Nudge selected line down.(Also see tip for nudge edit box.)<br/> Hold
               the Alt key for faster nudging. The state of Repeat button<br/>
@@ -192,7 +192,7 @@ class MoveButtons extends React.Component {
           <a href="#">
             <img
               width="18px"
-              src="images/Left.png"
+              src="resources/images/Left.png"
               data-place="bottom"
               data-tip="<span>Nudge selected line left.(Also see tip for nudge edit box.)<br/> Hold
               the Alt key for faster nudging. The state of Repeat button<br/>
@@ -204,7 +204,7 @@ class MoveButtons extends React.Component {
           <a href="#">
             <img
               width="18px"
-              src="images/Right.png"
+              src="resources/images/Right.png"
               data-place="bottom"
               data-tip="<span>Nudge selected line right.(Also see tip for nudge edit box.)<br/> Hold
               the Alt key for faster nudging. The state of Repeat button<br/>
@@ -230,7 +230,7 @@ class MoveButtons extends React.Component {
           <a href="#">
             <img
               width="18px"
-              src="images/Unclock.png"
+              src="resources/images/Unclock.png"
               data-place="bottom"
               data-tip="<span>Rotate selected line<br/> left(couterclockwise).The state of the<br/>
               Repeat button determines if lines<br/> are duplicated or simply
@@ -242,7 +242,7 @@ class MoveButtons extends React.Component {
           <a href="#">
             <img
               width="18px"
-              src="images/Clock.png"
+              src="resources/images/Clock.png"
               data-place="bottom"
               data-tip="<span>Rotate selected line<br/> right(clockwise).The state of the<br/>
               Repeat button determines if lines<br/> are duplicated or simply

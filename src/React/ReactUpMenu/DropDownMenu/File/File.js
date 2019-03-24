@@ -131,7 +131,7 @@ export default class File extends React.Component {
                     >
                         <img
                             width="25px"
-                            src="images/icon.jpg"
+                            src="resources/images/icon.jpg"
                             // data-tip="<span>Shows how to use numeric values.</span>"
                         />
                         <span>New Design</span>

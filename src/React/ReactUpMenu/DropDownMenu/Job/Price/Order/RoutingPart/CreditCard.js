@@ -66,10 +66,10 @@ export default class CreditCard extends React.Component {
             </label>
           </div>
           <div className="Cards">
-            {/* <img width="60px" src="images/Visa.png" />
-            <img width="60px" src="images/MasterCard.png" />
-            <img style={{marginBottom:'10px'}} width="60px" src="images/American.png" /> */}
-            <img width="323px" src="images/cards.png"/>
+            {/* <img width="60px" src="resources/images/Visa.png" />
+            <img width="60px" src="resources/images/MasterCard.png" />
+            <img style={{marginBottom:'10px'}} width="60px" src="resources/images/American.png" /> */}
+            <img width="323px" src="resources/images/cards.png"/>
             </div>
         </div>
       </div>

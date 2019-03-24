@@ -7,7 +7,7 @@
 
 var assert = require('assert');
 
-import TangentsArcsCommand from './../src/2d/command/TangentsArcsCommand';
+import TangentsArcsCommand from '../src/command/TangentsArcsCommand';
 
 import Document from './../src/model/Document';
 import LineElement from './../src/model/elements/LineElement';

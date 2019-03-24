@@ -29,7 +29,7 @@ class SummaryWindow extends React.Component {
         >
           <div style={{ display: "flex", justifyContent: "space-between" }}>
             <span>
-              <img width="25px" src="images/icon.jpg" />
+              <img width="25px" src="resources/images/icon.jpg" />
               <span style={{ marginLeft: "5px" }}>Summary</span>
             </span>
             <Button

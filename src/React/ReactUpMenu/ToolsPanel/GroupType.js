@@ -132,7 +132,7 @@ import { connect } from "react-redux";
       <a href="#">
         <img
           width="18px"
-          src="images/Width.png"
+          src="resources/images/Width.png"
           data-place="bottom"
           data-tip="<span>Horizontal size</span>"
         />
@@ -154,7 +154,7 @@ change, enter a value and press the Enter key. </span>"
       <a href="#">
         <img
           width="18px"
-          src="images/Height.png"
+          src="resources/images/Height.png"
           data-place="bottom"
           data-tip="<span>Vertical size</span>"
         />

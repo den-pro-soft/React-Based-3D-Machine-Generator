@@ -15,7 +15,7 @@ import Confirmation from '../InfoPopup/Confirmation/Confirmation';
 import NonWorkFeature from '../InfoPopup/NonWorkFeature';
 import ExpertNotice from "../InfoPopup/ExpertNotice";
 
-import { DraggablePopup } from "./../../../popup";
+import { DraggablePopup } from "../../../ui/popup";
 import { Modal } from "@material-ui/core";
 var popup3DView = new DraggablePopup()
   .setSize(800, 600)
@@ -89,41 +89,41 @@ class UpMenu extends React.Component {
             <div className="btn-group-two">
               <button onClick={() => app.group()}>
                 <a href="#">
-                  <img width="25px" src="images/Group.png" />
+                  <img width="25px" src="resources/images/Group.png" />
                 </a>
               </button>
               <button onClick={() => app.ungroup()}>
                 <a href="#">
-                  <img width="25px" src="images/Ungroup.png" />
+                  <img width="25px" src="resources/images/Ungroup.png" />
                 </a>
               </button>
             </div>
             <div className="btn-group-three">
               <button onClick={() => app.board.zoomToFitScreen()}>
                 <a href="#">
-                  <img width="25px" src="images/ZoomToFitScreen.png" />
+                  <img width="25px" src="resources/images/ZoomToFitScreen.png" />
                 </a>
               </button>
               <button>
                 <a href="#">
-                  <img width="25px" src="images/ZoomToActualSize.png" />
+                  <img width="25px" src="resources/images/ZoomToActualSize.png" />
                 </a>
               </button>
               <button onClick={() => app.setTool("Zoom")}>
                 <a href="#">
-                  <img width="25px" src="images/Zoom.png" />
+                  <img width="25px" src="resources/images/Zoom.png" />
                 </a>
               </button>
             </div>
             <div className="btn-group-other">
               <button onClick={() => app.deleteSelected()}>
                 <a href="#">
-                  <img width="24px" src="images/Delete.png" />
+                  <img width="24px" src="resources/images/Delete.png" />
                 </a>
               </button>
               <button onClick={this.handleOpenPreferences}>
                 <a href="#">
-                  <img width="24px" src="images/Preferences.png" />
+                  <img width="24px" src="resources/images/Preferences.png" />
                 </a>
               </button>
               <button
@@ -134,22 +134,22 @@ class UpMenu extends React.Component {
                   }}
                   >
                 <a href="#">
-                  <img width="24px" src="images/ToggleInch.png" />
+                  <img width="24px" src="resources/images/ToggleInch.png" />
                 </a>
               </button>
               <button onClick={() => app.intersectSelectedElements()}>
                 <a href="#">
-                  <img width="24px" src="images/Intersect.png" />
+                  <img width="24px" src="resources/images/Intersect.png" />
                 </a>
               </button>
               <button onClick={() => show3D()}>
                 <a href="#">
-                  <img width="24px" src="images/3DPreview.png" />
+                  <img width="24px" src="resources/images/3DPreview.png" />
                 </a>
               </button>
               <button >
                 <a href="#">
-                  <img width="18px" src="images/check2.png" />
+                  <img width="18px" src="resources/images/check2.png" />
                 </a>
               </button>
             </div>

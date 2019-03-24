@@ -2,7 +2,7 @@
  * Created by dev on 17.01.19.
  */
 
-import Command from './2d/command/Command';
+import Command from './command/Command';
 let id = 0;
 
 class Node{

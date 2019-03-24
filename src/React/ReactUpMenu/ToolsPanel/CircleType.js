@@ -143,7 +143,7 @@ class CircleType extends React.Component {
           <a href="#">
             <img
               width="18px"
-              src="images/Diameter18.png"
+              src="resources/images/Diameter18.png"
               data-place="bottom"
               data-tip="<span>Diameter.</br>Distance fully across the circle. To change, enter a value and</br>
      press the Enter key.

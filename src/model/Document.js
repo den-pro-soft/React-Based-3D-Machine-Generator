@@ -5,7 +5,7 @@
 
 import Exception from '../Exception';
 import GraphicElement from './GraphicElement';
-import Renderable from './../2d/Renderable';
+import Renderable from '../ui/2d/Renderable';
 
 export default class Document extends Renderable{
 

@@ -116,7 +116,7 @@ class Job extends React.Component {
           >
             <img
               width="25px"
-              src="images/icon.jpg"
+              src="resources/images/icon.jpg"
             />
             <span>Job settings</span>
           </DialogTitle>
