@@ -15,7 +15,7 @@ import Confirmation from '../InfoPopup/Confirmation/Confirmation';
 import NonWorkFeature from '../InfoPopup/NonWorkFeature';
 import ExpertNotice from "../InfoPopup/ExpertNotice";
 
-import { DraggablePopup } from "../../../ui/popup";
+import { DraggablePopup } from "../../../../ui/popup";
 import { Modal } from "@material-ui/core";
 var popup3DView = new DraggablePopup()
   .setSize(800, 600)

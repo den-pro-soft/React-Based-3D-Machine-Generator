@@ -2,7 +2,7 @@ import React from "react";
 import CreatableSelect from "react-select/lib/Creatable";
 import { Fragment } from "react";
 import { connect } from "react-redux";
-import GraphicElement from '../../../model/GraphicElement'
+import GraphicElement from '../../../../model/GraphicElement'
 
 const options = [
   { value: "Air Inside",label: 'Air Inside'},

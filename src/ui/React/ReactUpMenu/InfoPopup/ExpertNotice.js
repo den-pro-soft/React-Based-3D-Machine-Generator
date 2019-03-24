@@ -75,7 +75,7 @@ class ExpertNotice extends React.Component {
             className="Text"
             style={{ margin: "15px 15px", textAlign: "left" }}
           >
-            <img width="30px" src="images/InfoIcon.png" />
+            <img width="30px" src="resources/images/InfoIcon.png" />
             <p
               style={{
                 position: "relative",
