@@ -11,14 +11,21 @@ import InputSelectAuto from "./InputSelectAuto";
 import InputSelectRadius from "./InputSelectRadius";
 import InputSelectAngle from "./InputSelectAngle";
 
+import ParametersWindow from "./ParametersWindow";
+import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 
-export default class Auto extends React.Component {
+class Auto extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       value: "straight",
-      isChecked: false
+      isChecked: false,
+      angle90: true,
+      angle45: false,
+      angle135: false,
+      isCheckedGrooves: false,
+      valueFarEdge:'Drilled'
     };
   }
   handleRadioChange = event => {
@@ -36,6 +43,21 @@ export default class Auto extends React.Component {
         isChecked: !this.state.isChecked
       });
     }, 0);
+  };
+
+  handleCheckedGrooves = event => {
+    window.setTimeout(() => {
+      this.setState({
+        isCheckedGrooves: !this.state.isCheckedGrooves
+      });
+    }, 0);
+  };
+
+  handleRadioChangeFerEdge = event => {
+    event.preventDefault();
+
+    this.setState({ valueFarEdge: event.target.value });
+    // console.log(this.state.value, "this.state.value");
   };
   render() {
     return (
@@ -61,8 +83,6 @@ export default class Auto extends React.Component {
                       <Radio
                         classes={{ root: "root" }}
                         color="primary"
-                        // color="default"
-                        // style={{margin:"0px"}}
                       />
                     }
                     label="Straight"
@@ -72,10 +92,8 @@ export default class Auto extends React.Component {
                     value="chamfer"
                     control={
                       <Radio
-                        // classes={{ root: "root" }}
                         style={{ margin: "0px" }}
                         color="primary"
-                        // color="default"
                       />
                     }
                     label="Chamfer"
@@ -86,7 +104,6 @@ export default class Auto extends React.Component {
                     control={
                       <Radio
                         color="primary"
-                        //  color="default"
                       />
                     }
                     label="Round"
@@ -98,14 +115,14 @@ export default class Auto extends React.Component {
               {this.state.value === "straight" && (
                 <div className="Chamfer">
                   <div>
-                    <img src="images/straight.png" />
+                    <img src="resources/images/straight.png" />
                   </div>
                 </div>
               )}
               {this.state.value === "chamfer" && (
                 <div className="Chamfer">
                   <div>
-                    <img src="images/Chamfer.png" />
+                    <img src="resources/images/Chamfer.png" />
                   </div>
                   <div className="Inputs">
                     <div className="InputSizeGroup">
@@ -113,12 +130,10 @@ export default class Auto extends React.Component {
                       <input
                         type="text"
                         className="InputSize"
-                        // value={this.state.businessName}
-                        // onChange={this.handleBusinessNameChange}
+                    
                       />
                     </div>
                     <div className="InputSelectAngleGroup">
-                      {/* <label>Angle:</label> */}
                       <span>Angle:</span>
 
                       <span className="InputSelectAngle">
@@ -131,7 +146,7 @@ export default class Auto extends React.Component {
               {this.state.value === "round" && (
                 <div className="Chamfer">
                   <div>
-                    <img src="images/radius.png" />
+                    <img src="resources/images/radius.png" />
                   </div>
                   <div className="Inputs">
                     {/* <div className="InputSizeGroup"> */}
@@ -177,7 +192,15 @@ export default class Auto extends React.Component {
             <div className="RadioButtonsContent">
               <div className="Chamfer">
                 <div>
-                  <img src="images/angle90.png" />
+                  {this.state.angle90 === true && (
+                    <img src="resources/images/angle90.png" />
+                  )}
+                  {this.state.angle45 === true && (
+                    <img src="resources/images/angle45.png" />
+                  )}
+                  {this.state.angle135 === true && (
+                    <img src="resources/images/angle135.png" />
+                  )}
                 </div>
                 <div className="InputAngle">
                   <div className="InputSelectAngleGroup2">
@@ -190,10 +213,115 @@ export default class Auto extends React.Component {
                 </div>
               </div>
             </div>
-          </div>
+            </div>
+             <div>
+<hr />
+</div> 
+
+            <div className="RadioButtons">
+              <div className="RadioButtonsElelemt">
+                <Checkbox
+                  checked={this.state.isCheckedGrooves}
+                  onChange={this.handleCheckedGrooves}
+                  color="primary"
+                />
+                Grooves
+              </div>
+              <div className="RadioButtonsContent">
+                <div className="Chamfer">
+                  <div>
+                    <img src="resources/images/Grooves1.png" />
+                  </div>
+                <div className="InputAngle">
+                  <div className="InputSelectAngleGroup2">
+                    <Button
+                    className="Parameters"
+                      onClick={
+                    ()=> this.props.updateSetGrooves(!this.props.openSetGrooves)
+                      }
+                      style={{ backgroundColor: "#dddada" }}
+                      color="primary"
+                      autoFocus
+                    >
+                      Parameters...
+                    </Button>
+                  </div>
+                </div>
+                </div>
+              </div>
+            </div>
+      
         </fieldset>
         <fieldset className="RadioFarEdge">
           <legend>Far edge</legend>
+          <div className="RadioButtons">
+            <div className="RadioButtonsElelemt">
+              <FormControl>
+                <RadioGroup
+                  value={this.state.valueFarEdge}
+                  onChange={this.handleRadioChangeFerEdge}
+                >
+                  <FormControlLabel
+                    disabled
+                    classes={{ root: "root" }}
+                    // style={{border:'1px solid red',paddinTop:'0px!important'}}
+                    value="Drilled"
+                    control={
+                      <Radio
+                        classes={{ root: "root" }}
+                        color="primary"
+                      />
+                    }
+                    label="Drilled*"
+                  />
+                  <FormControlLabel
+                  disabled
+                    classes={{ root: "root" }}
+                    value="Round"
+                    control={
+                      <Radio
+                        style={{ margin: "0px" }}
+                        color="primary"
+                      />
+                    }
+                    label="Round"
+                  />
+                  <FormControlLabel
+                    disabled
+                    classes={{ root: "root" }}
+                    value="Straight"
+                    control={
+                      <Radio
+                        color="primary"
+                      />
+                    }
+                    label="Straight"
+                  />
+                </RadioGroup>
+              </FormControl>
+            </div>
+            <div className="RadioButtonsContent">
+            <div className="Chamfer">
+                  <div>
+                    <img src="resources/images/Grooves1.png" />
+                  </div>
+                  <div className="InputAngle">
+                    {/* <div className="InputSizeGroup"> */}
+
+                    <div className="InputFarEdge">
+                    <span className="AutoTitle" style={{color:'grey'}}>A small fillet will be applied<br/
+                    > to prevent stress cracks.<br/> Drill bottom holes are usually<br/>
+                     less expensive.</span>
+                      {/* <span>Radius:</span>*/}
+
+                      {/* <span className="InputSelectAngle2">
+                     
+                      </span>  */}
+                    </div>
+                  </div>
+                </div>
+           </div>
+          </div>
         </fieldset>
         <fieldset className="Notes">
           <legend>Notes</legend>
@@ -204,8 +332,31 @@ export default class Auto extends React.Component {
             *Drilled holes may be machined with flat bottoms.
           </p>
         </fieldset>
+        <ParametersWindow/>
       </div>
     );
   }
 }
 
+const mapStateToProps = state => {
+  return {
+    openSetGrooves: state.setGroovesReducer.openSetGrooves,
+
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    updateSetGrooves: openSetGrooves => {
+      dispatch({
+        type: "OPEN_SET_GROOVES",
+        payload: openSetGrooves,
+      });
+    }
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Auto);

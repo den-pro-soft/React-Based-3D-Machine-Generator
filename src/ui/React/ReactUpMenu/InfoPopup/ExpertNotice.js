@@ -19,12 +19,16 @@ class ExpertNotice extends React.Component {
   handleRadioChange = event => {
     event.preventDefault();
 
-    this.setState({ value: event.target.value });
-    //   console.log(this.state.value, "this.state.value");
-  };
+    this.setState({ value: event.target.value },
+      ()=>{ 
+        this.setState({ value:this.state.value});
+      // console.log(this.state.value, "1-after-this.state.value");
+
+      })
+  }
 
   render() {
-    console.log(this.props, "props-ExpertNoticeKU");
+    // console.log(this.props, this.state.value,"props-ExpertNoticeKU");
     return (
       <Dialog
         maxWidth={false}
@@ -96,7 +100,7 @@ class ExpertNotice extends React.Component {
                 value={this.state.value}
                 onChange={this.handleRadioChange}
               >              
-               {this.props.options.map((el, i) => (    <FormControlLabel
+              {this.props.options.map((el, i) => (     <FormControlLabel
                     onClick={el.callback}
                     key={i}
                     classes={{ root: "root" }}
@@ -104,10 +108,11 @@ class ExpertNotice extends React.Component {
                     control={<Radio color="primary" />}
                     label={el.text}
                   />
-             ))} 
+              ))}  
               </RadioGroup>
 
             </FormControl>
+
           </div>
           <div
             style={{
