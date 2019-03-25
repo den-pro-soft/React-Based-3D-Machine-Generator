@@ -11,6 +11,8 @@ import movingReducer from './reducers/movingReducer';
 import summaryWindowReducer from './reducers/summaryWindowReducer';
 import nonWorkFeatureReducer from './reducers/nonWorkFeatureReducer';
 import expertNoticeReducer from './reducers/expertNoticeReducer';
+import setGroovesReducer from './reducers/setGroovesReducer';
+
 
 export default combineReducers({
   preferencesReducer,mouseCoordinatesReducer, 
@@ -19,5 +21,6 @@ export default combineReducers({
   priceReducer,orderWindowReducer,
   toolsPanelReducer,movingReducer,
   inputSelectReducer,
-  summaryWindowReducer
+  summaryWindowReducer,
+  setGroovesReducer
 })
