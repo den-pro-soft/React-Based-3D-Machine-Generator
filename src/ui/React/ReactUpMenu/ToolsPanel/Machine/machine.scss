@@ -1,0 +1,43 @@
+.Machine {
+  padding: 20px;
+.TitleTop{
+    text-align:left;
+    margin-bottom:10px;
+}
+  .MenuAndContenet {
+    display: flex;
+    justify-content: flex-start;
+    .MenuTitle{
+      text-align:left;
+  margin-left:10px;
+        }
+    .Menu {
+      width: 20%;
+      // height:100%;
+//  border:1px solid black;
+      ul {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        color: orange;
+        li {
+          .Auto,
+          .Tap,
+          .Bend,
+          .LazerMark,
+          .ToSelf,
+          .ToMachinist {
+            font-size: 20px;
+            text-decoration: none;
+            color: #000;
+          }
+        }
+      }
+    }
+    .Content {
+      width: 80%;
+
+      margin-left: 80px;
+    }
+  }
+}
