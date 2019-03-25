@@ -1,5 +1,6 @@
 const initialState = {
-    openSetGrooves: true
+    openSetGrooves: false,
+
   };
   
   export default function setGroovesReducer(state = initialState, action) {
@@ -7,8 +8,7 @@ const initialState = {
     switch (action.type) {
       case "OPEN_SET_GROOVES":
         return { openSetGrooves: action.payload};
-    //   case "CLOSE_PRICE":
-    //     return { openSetGrooves: action.payload};
+
    
       default:
         return state;
