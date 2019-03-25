@@ -12,6 +12,8 @@ import summaryWindowReducer from './reducers/summaryWindowReducer';
 import nonWorkFeatureReducer from './reducers/nonWorkFeatureReducer';
 import expertNoticeReducer from './reducers/expertNoticeReducer';
 import setGroovesReducer from './reducers/setGroovesReducer';
+import groovesParametersReducer from './reducers/groovesParametersReducer';
+
 
 
 export default combineReducers({
@@ -22,5 +24,5 @@ export default combineReducers({
   toolsPanelReducer,movingReducer,
   inputSelectReducer,
   summaryWindowReducer,
-  setGroovesReducer
+  setGroovesReducer,groovesParametersReducer
 })
