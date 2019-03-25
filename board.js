@@ -583,7 +583,7 @@ function create_board(){
 							element('div', board).size(1 , 23).position(426, 40).background("rgba(0, 0, 0, 0.25)");
 
 							
-						var machineBut = element("img", transform_panel).size(20, 20).position(35, 3).pic("images/LineType.png").cursor("pointer");
+						var machineBut = element("img", transform_panel).size(20, 20).position(35, 3).pic("resources/images/LineType.png").cursor("pointer");
 							machineBut.onmouseover = function(){this.background("#fff")}
 							machineBut.onmouseleave = function(){this.background("")}
 							machineBut.onmousedown = function(){showLineBox()}
