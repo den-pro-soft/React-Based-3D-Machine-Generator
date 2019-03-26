@@ -51,6 +51,13 @@ export default class Spline extends GraphicElement{
     }
 
     /**
+     * @return {Array.<Point>} - the points are end points in a contour.
+     */
+    get extremePoints(){
+        return [this.startPoint.copy(), this.endPoint.copy()];
+    }
+
+    /**
      * @inheritDoc
      */
     toPolyLines(){

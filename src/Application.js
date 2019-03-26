@@ -27,6 +27,7 @@ import ChangeLineAngleCommand from './command/ChangeLineAngleCommand';
 import ResizeElementsCommand from './command/ResizeElementsCommand';
 import ChangeArcAngleCommand from './command/ChangeArcAngleCommand';
 import TangentsArcsCommand from './command/TangentsArcsCommand';
+import EraserNearElementsCommand from './command/EraserNearElements';
 
 import PointerTool from './ui/2d/tool/PointerTool';
 import ZoomTool from './ui/2d/tool/ZoomTool';
@@ -212,9 +213,11 @@ export default class Application extends Observable{
                         this.addSelectElements(elements);
                     }
 
-                    this.board.tool.clearSelectElements();
-                    for(let el of elements){
-                        this.board.tool.selectElement(el);
+                    if(!(command instanceof EraserNearElementsCommand)) {
+                        this.board.tool.clearSelectElements();
+                        for (let el of elements) {
+                            this.board.tool.selectElement(el);
+                        }
                     }
                 }
                 this._board.renderDocument();
