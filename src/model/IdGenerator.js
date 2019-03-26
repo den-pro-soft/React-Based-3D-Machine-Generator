@@ -3,12 +3,10 @@
  */
 
 
-import {Injectable} from 'container-ioc';
 
 /**
  * The class used for generate new unique Id`s.
  */
-@Injectable()
 export default class IdGenerator{
     constructor(){
         this.id=0;

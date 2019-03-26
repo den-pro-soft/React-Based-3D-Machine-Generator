@@ -1,6 +1,4 @@
-import { Injectable } from "container-ioc";
 
-@Injectable()
 export default class ModalWindows {
     constructor() {
         this.okCallBack = null;

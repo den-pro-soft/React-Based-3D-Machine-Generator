@@ -3,7 +3,6 @@
  */
 
 import Buffer from './Buffer';
-import {Board} from './ui/2d/Board';
 import Command from './command/Command';
 import CommandHistory from './CommandHistory';
 import Document from './model/Document';
@@ -29,16 +28,7 @@ import ChangeArcAngleCommand from './command/ChangeArcAngleCommand';
 import TangentsArcsCommand from './command/TangentsArcsCommand';
 
 import PointerTool from './ui/2d/tool/PointerTool';
-import ZoomTool from './ui/2d/tool/ZoomTool';
-import RulerTool from './ui/2d/tool/creator/RulerTool';
-import EraserTool from './ui/2d/tool/EraserTool';
-import RectTool from './ui/2d/tool/creator/RectTool';
-import SplineTool from './ui/2d/tool/creator/SplineTool';
-import CircleTool from './ui/2d/tool/creator/CircleTool';
-import LineTool from './ui/2d/tool/creator/LineTool';
-import FreehandTool from './ui/2d/tool/creator/FreehandTool';
 import CreatorTool from './ui/2d/tool/CreatorTool';
-import TextTool from './ui/2d/tool/creator/TextTool';
 import EditLineTool from './ui/2d/tool/EditLineTool';
 
 import MagnificationDecorator from './ui/2d/tool/decorators/MagnificationDecorator';
@@ -51,8 +41,6 @@ import Vector from './model/math/Vector';
 
 
 import FormatNotSupportedException from './file/FormatNotSupportedException';
-import XmlFileLoader from './file/XmlFileLoader';
-import PngFileLoader from './file/PngFileLoader';
 
 import Observable from './Observable';
 
@@ -69,6 +57,10 @@ let idGenerator = 1;
 export default class Application extends Observable{
 
 
+    /**
+     *
+     * @param {Config} config
+     */
     constructor(config){
         super();
 
@@ -84,7 +76,7 @@ export default class Application extends Observable{
         /** @type {Array.<GraphicElement>} */
         this.selectElements = [];
 
-        this.config = container.resolve('config');
+        this.config = config;
 
         this.buffer = new Buffer(this);
         this._lastTool=null;
@@ -296,42 +288,7 @@ export default class Application extends Observable{
     }
 
     _getToolInstance(name){
-        let tool;
-        switch(name){
-            case 'Line':
-                tool = new LineTool(this.currentDocument);
-                break;
-            case 'Rectangle':
-                tool = new RectTool(this.currentDocument);
-                break;
-            case 'Circle':
-                tool = new CircleTool(this.currentDocument);
-                break;
-            case 'Spline':
-                tool = new SplineTool(this.currentDocument);
-                break;
-            case 'Zoom':
-                tool = new ZoomTool(this.currentDocument);
-                break;
-            case 'Eraser':
-                tool = new EraserTool(this.currentDocument);
-                break;
-            case 'Freehand':
-                tool = new FreehandTool(this.currentDocument);
-                break;
-            case 'Ruler':
-                tool = new RulerTool(this.currentDocument);
-                break;
-            case 'Text':
-                tool = new TextTool(this.currentDocument);
-                break;
-            case 'EditLine':
-                tool = new EditLineTool(this.currentDocument);
-                break;
-            default:
-                tool = new PointerTool(this.currentDocument);
-        }
-        return tool;
+        return container.resolve('toolFactory', [name, this.currentDocument]);
     }
 
     /**
@@ -340,7 +297,7 @@ export default class Application extends Observable{
      */
     saveAs(fileFormat){
         /** @var {FileLoader} */
-        let fileLoader = this._getFileLoaderInstance(fileFormat);
+        let fileLoader = container.resolve('fileLoaderFactory', fileFormat);
         
         fileLoader.save(this.currentDocument);
     }
@@ -358,34 +315,12 @@ export default class Application extends Observable{
         format = format[format.length-1];
 
         /** @var {FileLoader} */
-        let fileLoader = this._getFileLoaderInstance(format);
+        let fileLoader = container.resolve('fileLoaderFactory', format);
 
         fileLoader.load(file).then(data=>{
             this.currentDocument=data;
         }); //todo: check exception
     }
-
-    /**
-     * @param {string} formatName - without point
-     * @return {FileLoader}
-     * @throws FormatNotSupportedException
-     */
-    _getFileLoaderInstance(formatName){
-        let fileLoader;
-        switch (formatName){
-            case 'png':
-                fileLoader = new PngFileLoader();
-                break;
-            case 'xml':
-            case 'emsx':
-                fileLoader = new XmlFileLoader();
-                break;
-            default:
-            throw new FormatNotSupportedException('The format not supported!', formatName);
-        }
-        return fileLoader;
-    }
-
 
     //<editor-fold desc="decorate methods">
 
@@ -544,5 +479,3 @@ export default class Application extends Observable{
 
     //</editor-fold>
 }
-
-window.app = new Application();
