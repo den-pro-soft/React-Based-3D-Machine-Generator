@@ -10,7 +10,9 @@ class ParametersWindow extends React.Component {
     this.state = {
       topDepth:this.props.topDepth.toFixed(3) + ' mm',
       width:this.props.width.toFixed(3) + ' mm',
-      horisontalDepth:this.props.horisontalDepth.toFixed(3) + ' mm'
+      horisontalDepth:this.props.horisontalDepth.toFixed(3) + ' mm',
+      add:false,
+      groovesData:[]
     };
   }
 
@@ -25,13 +27,19 @@ class ParametersWindow extends React.Component {
           width: (width*1).toFixed(3) + ' mm',
           horisontalDepth: (horisontalDepth*1).toFixed(3) + ' mm'
       })
-    this.props.updateGroovesData(+topDepth,width,horisontalDepth);
-
+      this.props.groovesData.map(
+        (el)=>{
+          this.setState({groovesData:[{topDepth:el.topDepth.toFixed(3)+' mm',width:el.width.toFixed(3)+' mm',
+          horisontalDepth:el.horisontalDepth.toFixed(3) +' mm'}]})
+        })
+      this.props.updateGroovesData(+topDepth,width,horisontalDepth,
+      this.props.groovesData);
+      // .push({topDepth:+topDepth,width:width,horisontalDepth:horisontalDepth})
       } else {
         this.setState({topDepth: (topDepth/25.4).toFixed(3) + ' "'}),
         this.setState({width: (width/25.4).toFixed(3) + ' "'}),
         this.setState({horisontalDepth: (horisontalDepth/25.4).toFixed(3) + ' "'})
-    this.props.updateGroovesData(+topDepth,width,horisontalDepth);
+    this.props.updateGroovesData(+topDepth,width,horisontalDepth,this.props.groovesData);
 
       }
   }
@@ -48,13 +56,13 @@ class ParametersWindow extends React.Component {
                 width: (width*1).toFixed(3) + ' mm',
                 horisontalDepth: (horisontalDepth*1).toFixed(3) + ' mm'
             })
-          this.props.updateGroovesData(+topDepth,+width,+horisontalDepth);
+          this.props.updateGroovesData(+topDepth,+width,+horisontalDepth,this.props.groovesData);
 
             } else {
               this.setState({topDepth: (topDepth/25.4).toFixed(3) + ' "'}),
               this.setState({width: (width/25.4).toFixed(3) + ' "'}),
               this.setState({horisontalDepth: (horisontalDepth/25.4).toFixed(3) + ' "'})
-          this.props.updateGroovesData(+topDepth,+width,+horisontalDepth);
+          this.props.updateGroovesData(+topDepth,+width,+horisontalDepth,this.props.groovesData);
 
             }
         }
@@ -149,9 +157,10 @@ class ParametersWindow extends React.Component {
       }
     }
     addGroovesData= ()=>{
-      let groovesData = [{topDepth:this.props.topDepth,width: this.props.width, horisontalDepth:this.props.horisontalDepth}];
+      this.setState({add:true})
+      // let groovesData = [{topDepth:this.props.topDepth,width: this.props.width, horisontalDepth:this.props.horisontalDepth}];
       console.log(groovesData ,'groovesDataArray')
-      groovesData.push()
+      // groovesData.push()
     }
 
     openGroovesHelp = () => {
@@ -159,7 +168,7 @@ class ParametersWindow extends React.Component {
     }
     
     render() {
-      // console.log(this.props, "props-Grooves");
+      console.log(this.props, "props-Grooves");
       return (
         <Dialog
           maxWidth={false}
@@ -288,8 +297,12 @@ class ParametersWindow extends React.Component {
                 marginLeft: "10px",
                 // padding: "5px"
               }}>
-              <div style={{width:'200px',height:'160px',backgroundColor:"white"}}>
-                {/* <img src="resources/images/ParametersGrooves.png" /> */}
+              <div style={{width:'230px',height:'160px',backgroundColor:"white"}}>
+              {this.state.add&&   <p style={{textAlign:'left'}}>  
+         { this.state.groovesData.map(
+                 (el,i)=>(<span><span>{i+1}</span>-<span>{el.topDepth}</span>,<span>{el.width}</span>,<span>{el.horisontalDepth}</span></span>)
+               )}
+               </p>}
               </div>
               <div  style={{
                 display: "flex",
@@ -301,7 +314,7 @@ class ParametersWindow extends React.Component {
                   <Button
             onClick={this.addGroovesData}
                 style={{
-                  width:'150px',
+                  width:'120px',
                   backgroundColor: "#dddada",
                   boxShadow: "2px 2px 1px #000",
                   // marginRight: "5px",
@@ -318,7 +331,7 @@ class ParametersWindow extends React.Component {
                       <Button
             
                 style={{
-                  width:'150px',
+                  width:'120px',
 
                   backgroundColor: "#dddada",
                   boxShadow: "2px 2px 1px #000",
@@ -337,7 +350,7 @@ class ParametersWindow extends React.Component {
                           <Button
             
                 style={{
-                  width:'150px',
+                  width:'120px',
                   backgroundColor: "#dddada",
                   boxShadow: "2px 2px 1px #000",
                   // marginRight: "5px",
@@ -419,7 +432,8 @@ class ParametersWindow extends React.Component {
         demensions: state.preferencesReducer.demensions,
         topDepth:state.groovesParametersReducer.topDepth,
         width:state.groovesParametersReducer.width,
-        horisontalDepth:state.groovesParametersReducer.horisontalDepth
+        horisontalDepth:state.groovesParametersReducer.horisontalDepth,
+        groovesData:state.groovesParametersReducer.groovesData
 
       };
     };
@@ -432,11 +446,12 @@ class ParametersWindow extends React.Component {
             payload: openSetGrooves
           });
         },
-        updateGroovesData: (topDepth,width,horisontalDepth) => {
+        updateGroovesData: (topDepth,width,horisontalDepth,groovesData) => {
           dispatch({ type: "UPDATE_GROOVES_DATA", 
           payloadTopDepth: topDepth,
           payloadWidth:width,
-          payloadHorisontalDepth: horisontalDepth });
+          payloadHorisontalDepth: horisontalDepth ,
+          payloadGrooves:groovesData});
         }
       };
     };
