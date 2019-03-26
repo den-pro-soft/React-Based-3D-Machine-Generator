@@ -4,7 +4,7 @@
 
 import { Injectable, Container, LifeTime } from 'container-ioc';
 
-
+import Exception from './Exception';
 import Config from './Config';
 import {InteractiveBoard} from './ui/2d/Board';
 import IdGenerator from './model/IdGenerator';
@@ -27,5 +27,5 @@ container.register([
 export default container;
 global.container = container;
 
-
+global.Exception = Exception;
 

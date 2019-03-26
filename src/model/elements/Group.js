@@ -29,6 +29,13 @@ export default class Group extends GraphicElement{
     set _points(points){}
 
     /**
+     * @return {null} - group can't have extreme points
+     */
+    get extremePoints(){
+        return null;
+    }
+
+    /**
      * Calculates the geometric center of the shape.
      *
      * The center of the group is the center of the line of maximum length obtained from the points of the figure.

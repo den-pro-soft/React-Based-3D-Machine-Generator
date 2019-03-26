@@ -7,14 +7,14 @@
 
 var assert = require('assert');
 
-import TangentsArcsCommand from '../src/command/TangentsArcsCommand';
+import TangentsArcsCommand from '../../src/command/TangentsArcsCommand';
 
-import Document from './../src/model/Document';
-import LineElement from './../src/model/elements/LineElement';
-import Arc from './../src/model/elements/Arc';
-import Point from './../src/model/Point';
+import Document from '../../src/model/Document';
+import LineElement from '../../src/model/elements/LineElement';
+import Arc from '../../src/model/elements/Arc';
+import Point from '../../src/model/Point';
 
-import RectElement from './../src/model/elements/RectElement';
+import RectElement from '../../src/model/elements/RectElement';
 
 
 describe('Tangents', function() {

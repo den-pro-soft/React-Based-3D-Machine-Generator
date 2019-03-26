@@ -3,8 +3,8 @@
  */
 var assert = require('assert');
 
-import Line from './../src/model/math/Line';
-import Point from './../src/model/Point';
+import Line from '../../src/model/math/Line';
+import Point from '../../src/model/Point';
 
 describe('Line', function() {
     describe('getCrossPoint with Line', function() {

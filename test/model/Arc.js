@@ -5,11 +5,11 @@
 
 var assert = require('assert');
 
-import Arc from './../src/model/elements/Arc';
-import Trigonometric from './../src/model/math/Trigonometric';
-import Point from './../src/model/Point';
+import Arc from '../../src/model/elements/Arc';
+import Trigonometric from '../../src/model/math/Trigonometric';
+import Point from '../../src/model/Point';
 
-import ChangeArcAngleCommand from '../src/command/ChangeArcAngleCommand';
+import ChangeArcAngleCommand from '../../src/command/ChangeArcAngleCommand';
 
 describe('Arc', function() {
     describe('set inside angle', function() {
