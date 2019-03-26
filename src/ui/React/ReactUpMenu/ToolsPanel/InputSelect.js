@@ -141,7 +141,7 @@ class InputSelect extends React.Component {
           options: options,
           newValue:options[0]      
         });
-        
+        app.config.indexZ = 0;
       } else
       if (some_Z === false && app.selectElements.length > 1) {
         this.setState({
@@ -149,7 +149,6 @@ class InputSelect extends React.Component {
           newValue:options[23]      
         });
         app.config.indexZ = 23;
-
       } 
         else {
           this.setState({
@@ -158,7 +157,7 @@ class InputSelect extends React.Component {
           });
         }
         // let indexZ = options.findIndex(el=> {return el.value===height.toFixed(3)});
-        // app.config.indexZ = indexZ;
+        // app.config.indexZ = indexZ;    
           localStorage.setItem('z-value',options[app.config.indexZ].label)
       } else {
           if(AirInside === height&&some_Z === true){
@@ -166,6 +165,7 @@ class InputSelect extends React.Component {
               options: options_inch,
               newValue:options_inch[0]      
             });
+            app.config.indexZ = 0;
           } else
           if (some_Z === false && app.selectElements.length > 1) {
             this.setState({

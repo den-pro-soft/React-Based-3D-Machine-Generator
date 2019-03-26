@@ -159,7 +159,7 @@ class ParametersWindow extends React.Component {
     }
     
     render() {
-      console.log(this.props, "props-Grooves");
+      // console.log(this.props, "props-Grooves");
       return (
         <Dialog
           maxWidth={false}
