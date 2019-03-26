@@ -4,8 +4,8 @@
 
 var assert = require('assert');
 
-import Vector from './../src/model/math/Vector';
-import Point from './../src/model/Point';
+import Vector from '../../src/model/math/Vector';
+import Point from '../../src/model/Point';
 
 describe('Vector', function() {
     describe('getAngle', function() {
