@@ -3,7 +3,7 @@
  */
 
 import Shape from './../model/elements/Shape';
-
+import IncidenceMatrix from './../model/math/IncidenceMatrix';
 
 class ShapePoint{
     /**
@@ -17,7 +17,7 @@ class ShapePoint{
         /** @type Array.<GraphicElement> }*/
         this.elements = [element];
 
-        this.isCrossPoint=false;
+        this.isColapsed=false;
     }
 
     removeElement(element){
@@ -52,115 +52,104 @@ export default class ShapeBuilder{
     buildShapes(){
         let res = [];
 
-        this.shapePoints=[];
-        this.fillShapePoints();
-        res.push(...this.getHangingShapes());
-        this.shapePoints = this.shapePoints.filter(point=>point.elements.length>1);
+        this.shapePoints=this.fillShapePoints(this.document);
 
-        //todo: there only circular shapePoints
+        /** @type {IncidenceMatrix} */
+        let incidenceMatrix = this.createIncidenceMatrix(this.shapePoints);
 
+        /** @type {Array.<Array.<number>>} */
+        let connectedComponents = incidenceMatrix.getConnectedComponents();
 
-        return res;
-    }
-
-
-    getHangingShapes(){
-        let endPoints = this.getEndPoints();
-        let res = [];
-        for(let endPoint of endPoints){
+        for(let i=0; i<connectedComponents.length; i++){
             let tempShape = new Shape();
-            this.buildShapeByHandingPoint(endPoint, tempShape);
+            for(let j=0; j<connectedComponents[i].length; j++){
+                for(let el of this.shapePoints[connectedComponents[i][j]].elements) {
+                    tempShape.addElement(el);
+                }
+            }
             res.push(tempShape);
         }
-        res = res.filter(shape=>shape.elements.length>0);
         return res;
-    }
-
-
-    removeShapePoint(shapePoint){
-        for(let i=0; i<this.shapePoints.length; i++){
-            if(this.shapePoints[i]==shapePoint){
-                this.shapePoints.splice(i,1);
-                return;
-            }
-        }
     }
 
     /**
-     *
-     * @param {ShapePoint} shapePoint
-     * @param {Shape} shape
+     * @param {Array.<ShapePoint>} shapePoints
+     * @return {IncidenceMatrix}
      */
-    buildShapeByHandingPoint(shapePoint, shape){
+    createIncidenceMatrix(shapePoints){
+        let res = new Array(shapePoints.length);
 
-        let element = shapePoint.elements[0];
-        if(!element){
-            return;
+        for (let i=0; i<shapePoints.length; i++){
+            res[i] = new Array(shapePoints.length);
+            for (let j=0; j<shapePoints.length; j++){
+                res[i][j]=false;
+            }
+            for(let el of shapePoints[i].elements){
+                let exPoints = el.extremePoints;
+                let anotherPoint = exPoints[0];
+                if(anotherPoint.compare(shapePoints[i].point)){
+                    anotherPoint = exPoints[1];
+                }
+
+                for (let j=0; j<shapePoints.length; j++){
+                    if(shapePoints[j].point.compare(anotherPoint)){
+                        for(let anotherElement of shapePoints[j].elements){
+                            if(anotherElement.compare(el)){
+                                res[i][j]=true;
+                            }
+                        }
+                    }
+                }
+
+
+            }
         }
-        shape.addElement(element);
-
-        let points = element.extremePoints;
-
-        if(shapePoint.point.compare(points[0])){
-            this.removeShapePoint(shapePoint);
-            shapePoint = this.getShapePointByPoint(points[1]);
-        }else{
-            shapePoint = this.getShapePointByPoint(points[0]);
-        }
-        shapePoint.removeElement(element);
-        if(shapePoint.elements.length==1 && !shapePoint.isCrossPoint){
-            this.buildShapeByHandingPoint(shapePoint, shape);
-        }else{
-            shapePoint.isCrossPoint = true;
-        }
-
+        return new IncidenceMatrix(res);
     }
 
-
-
-    /***
+    /**
+     * @param {Document} doc
      * @return {Array.<ShapePoint>}
      * @private
      */
-    getEndPoints(){
-        return this.shapePoints.filter(shapePoint=>shapePoint.elements.length==1);
-    }
-
-    /**
-     * @private
-     */
-    fillShapePoints(){
-        let simpleElements = this.document.getListSimpleElements();
-
+    fillShapePoints(doc){
+        let simpleElements = doc.getListSimpleElements();
+        let shapePoints = [];
         for(let element of simpleElements){
             let points = element.extremePoints;
             if(points){
                 for(let p of points){
-                    let shapePoint = this.getShapePointByPoint(p);
-                    if(shapePoint){
-                        shapePoint.elements.push(element);
-                    }else{
-                        shapePoint = new ShapePoint(p,element);
-                        this.shapePoints.push(shapePoint);
-                    }
+                    shapePoints.push(new ShapePoint(p,element));
                 }
             }else {
                 //todo: check type of element
             }
         }
+        let tempShapePoints = [];
+        for(let i=0; i<shapePoints.length; i++){
+            if(shapePoints[i].isColapsed){
+                continue;
+            }
+            let countPoint = 0;
+            for(let j=0; j<shapePoints.length; j++){
+                if(shapePoints[i].point.compare(shapePoints[j].point)){
+                    countPoint++;
+                }
+            }
+            if(countPoint==2){
+                let indexAnotherPoint = -1;
+                for(let j=0; j<shapePoints.length; j++){
+                    if(shapePoints[i].point.compare(shapePoints[j].point) && j!=i){
+                        indexAnotherPoint=j;
+                    }
+                }
+                shapePoints[i].elements.push(shapePoints[indexAnotherPoint].elements[0]);
+                shapePoints[indexAnotherPoint].isColapsed = true;
+                shapePoints[i].isColapsed = true;
+            }
+            tempShapePoints.push(shapePoints[i]);
+        }
+        return tempShapePoints;
     }
 
-    /**
-     * @param {Point} point
-     * @return {ShapePoint| null} - null if the builder doesn't have the ShapePint
-     * @private
-     */
-    getShapePointByPoint(point){
-        for(let p of this.shapePoints){
-            if(point.compare(p.point)){
-                return p;
-            }
-        }
-        return null;
-    }
 }
