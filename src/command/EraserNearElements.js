@@ -71,8 +71,11 @@ export default class EraserNearElements extends ElementModificationCommand{
      */
     removeLikeShape(element){
         let shape = this._buildShape(element);
+
         for(let el of shape.elements){
+
             let group = this.getGroupByElement(el);
+            // console.log(group);
             if(group){
                 this.document.removeElement(group);
             }else{
@@ -105,7 +108,12 @@ export default class EraserNearElements extends ElementModificationCommand{
     _buildShape(element){
         let builder = new ShapeBuilder(this.document);
         let shapes = builder.buildShapes();
+        console.log("DOC");
+        console.log(this.document);
+        console.log(element);
         for(let shape of shapes){
+            console.log("SHAPE", shape);
+            console.log(shape.isHas(element), 'shape has element');
             if(shape.isHas(element)){
                 return shape;
             }

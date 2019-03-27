@@ -17,6 +17,12 @@ export default class Shape{
     }
 
     addElement(element){
+        for(let el of this.elements){
+            if(el.compare(element)){
+                return;
+            }
+        }
+
         this.elements.push(element);
     }
 
