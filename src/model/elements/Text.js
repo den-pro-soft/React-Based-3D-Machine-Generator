@@ -39,6 +39,14 @@ export default class Text extends GraphicElement{
 
     }
 
+
+    /**
+     * @return {null} - text can't have extreme points
+     */
+    get extremePoints(){
+        return null;
+    }
+
     /**
      * @inheritDoc
      */

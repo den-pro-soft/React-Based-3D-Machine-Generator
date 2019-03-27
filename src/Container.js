@@ -4,7 +4,7 @@
 
 import {Container} from 'addict-ioc';
 
-
+import Exception from './Exception';
 import Config from './Config';
 import {InteractiveBoard} from './ui/2d/Board';
 import IdGenerator from './model/IdGenerator';
@@ -98,4 +98,6 @@ container.validateDependencies();
 global.container = container;
 global.app = container.resolve('app');
 
+
+global.Exception = Exception;
 

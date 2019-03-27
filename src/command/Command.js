@@ -35,6 +35,14 @@ export default class Command{
     }
 
     /**
+     * @return {Document}
+     */
+    get document(){
+        return this._document;
+    }
+
+
+    /**
      * The method create snapshot on current document and execute command.
      *
      * @return {boolean} true if the command was correct execute
