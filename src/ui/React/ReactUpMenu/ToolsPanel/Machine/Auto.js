@@ -306,17 +306,11 @@ class Auto extends React.Component {
                     <img src="resources/images/Grooves1.png" />
                   </div>
                   <div className="InputAngle">
-                    {/* <div className="InputSizeGroup"> */}
-
                     <div className="InputFarEdge">
                     <span className="AutoTitle" style={{color:'grey'}}>A small fillet will be applied<br/
                     > to prevent stress cracks.<br/> Drill bottom holes are usually<br/>
                      less expensive.</span>
-                      {/* <span>Radius:</span>*/}
-
-                      {/* <span className="InputSelectAngle2">
-                     
-                      </span>  */}
+                 
                     </div>
                   </div>
                 </div>
