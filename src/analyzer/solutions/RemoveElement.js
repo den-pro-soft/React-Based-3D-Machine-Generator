@@ -18,6 +18,7 @@ export default class RemoveElement extends Solution{
     }
 
     execute(){
+        console.log()
         app.executeCommand(new DeleteElementCommand(this.document, [this.element]));
     }
 

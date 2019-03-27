@@ -25,6 +25,8 @@ import PngFileLoader from "./file/PngFileLoader";
 import XmlFileLoader from "./file/XmlFileLoader";
 import FormatNotSupportedException from "./file/FormatNotSupportedException";
 
+import ErrorModelAnalyzer from './analyzer/analyzers/ErrorModelAnalyzer';
+
 
 /**
  * @param {string} name
@@ -101,3 +103,4 @@ global.app = container.resolve('app');
 
 global.Exception = Exception;
 
+global.analyzer = new ErrorModelAnalyzer(app.currentDocument);

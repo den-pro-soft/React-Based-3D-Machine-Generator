@@ -4,6 +4,7 @@
 
 import Rule from './../Rule';
 import RemoveElementSolution from './../solutions/RemoveElement';
+import ShapeBuilder from './../ShapeBuilder';
 
 
 let id=0;
@@ -24,7 +25,14 @@ export default class LineInNoShape extends Rule{
      */
     createSolutions(){
         let res = super.createSolutions();
-        res.push(new RemoveElementSolution(this.document));
+        this.shapeBuilder = new ShapeBuilder(this.document);
+        let shapes = this.shapeBuilder.buildShapes();
+        for(let shape of shapes){
+            if(shape.elements.length==1){
+                res.push(new RemoveElementSolution(this.document, shape.elements[0]));
+            }
+        }
+
         return res;
     }
 
@@ -33,6 +41,13 @@ export default class LineInNoShape extends Rule{
      * @return {boolean} - true if the document has an error
      */
     check(){
-        return this.document._elements.length==0;
+        this.shapeBuilder = new ShapeBuilder(this.document);
+        let shapes = this.shapeBuilder.buildShapes();
+        for(let shape of shapes){
+            if(shape.elements.length==1){
+                return true;
+            }
+        }
+        return false;
     }
 }

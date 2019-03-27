@@ -50,20 +50,42 @@ export default class Analyzer{
      */
     checkRule(index){
         return new Promise((resolve, reject)=>{
-            let hasError = !this.rules[index].check();
+            let hasError = this.rules[index].check();
 
             if(hasError){
+
                 let solutions = this.rules[index].createSolutions();
+
+                // let board = container.resolve('mainBoard');
+                // board.document=tempDoc;
+                let currentSolution = solutions[0];
+                container.resolve('confirmChangeArcToSplinesDialog').modalExpertNotice(
+                    this.rules[index].errorMessage,
+                    solutions.map(solution=>{return {text:solution.name, callback:()=>{
+                        app._currentDocument =  this.document.getSnapshot();
+                        solution.document = app._currentDocument;
+                        solution.execute();
+                        currentSolution = solution;
+                    }}}),
+                    ()=>{
+                        app._currentDocument=this.document;
+                        currentSolution.document = app._currentDocument;
+                        currentSolution.execute();
+                        console.log("OK solution");
+                        resolve(true);
+                    },
+                    ()=>{
+                        app._currentDocument=this.document;
+                        console.log("Cancel solution");
+                        resolve(false);
+                    }
+                );
                 
-                container.resolve('confirmChangeArcToSplinesDialog').modalOpenConfirmation
-                
-                solutions.execute();
-                
+
                 //todo: create a solution options
                 //todo: ask user
                 //todo: if user answered than execute list of commands and resolve(true)
                 //todo: if user cancel than resolve(false)
-                resolve(false);
             }else{
                 if(index==this.rules.length-1) {
                     resolve(true);
