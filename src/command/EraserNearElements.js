@@ -56,33 +56,35 @@ export default class EraserNearElements extends ElementModificationCommand{
      * @inheritDoc
      */
     executeCommand(){
-        let elements = this.document.getListSimpleElements();
-        for(let el of elements){
-            if(el.isNear(this.point, this.eps)) {
-                this.removeLikeShape(el);
-                return true;
+        let builder = new ShapeBuilder(this.document);
+        let shapes = builder.buildShapes();
+        let removed = false;
+
+        for(let shape of shapes){
+            if(shape.isNear(this.point, this.eps)){
+
+                /** @type {Array.<Group>} */
+                let groups = [];
+
+                for(let el of shape.elements){
+                    let group = this.getGroupByElement(el);
+                    if(group){
+                        group.removeElement(el);
+                        groups.push(group);
+                    }else{
+                        this.document.removeElement(el);
+                    }
+                }
+
+                for(let group of groups){
+                    if(group.elements.length==0){
+                        this.document.removeElement(group);
+                    }
+                }
+                removed=true;
             }
         }
-        return false;
-    }
-
-    /**
-     * @param {GraphicElement} element
-     */
-    removeLikeShape(element){
-        let shape = this._buildShape(element);
-
-        for(let el of shape.elements){
-
-            let group = this.getGroupByElement(el);
-            if(group){
-                group.removeElement(el);
-            }else{
-                this.document.removeElement(el);
-            }
-        }
-
-
+        return removed;
     }
 
     getGroupByElement(element){
@@ -97,21 +99,6 @@ export default class EraserNearElements extends ElementModificationCommand{
             }
         }
         return null;
-    }
-
-    /**
-     * @param {GraphicElement} element
-     * @return {Shape| null} - null if the element isn't part opf shape
-     * @private
-     */
-    _buildShape(element){
-        let builder = new ShapeBuilder(this.document);
-        let shapes = builder.buildShapes();
-        for(let shape of shapes){
-            if(shape.isHas(element)){
-                return shape;
-            }
-        }
     }
 
 }

@@ -40,6 +40,14 @@ export default class Shape{
         return false;
     }
 
+    isNear(point, eps){
+        let res = false;
+        for(let el of this.elements){
+            res|=el.isNear(point, eps);
+        }
+        return res;
+    }
+
     /**
      * @return {boolean}
      * @throws {Exception} - if the shape has less than two elements
