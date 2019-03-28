@@ -1,1 +1,18 @@
-About project structure
+#### List of global variables
+1. **app** - Container.js
+2. **container** - Container.js
+3. **View3D** - 3DView.js (need remove from global scope)
+4. **Popup, DialogPopup, DraggablePopup** - popup.js (need remove from global scope)
+5. **Helper** - Helper.js
+6. **Exception** - Container.js
+
+---
+board.js, popup.js and function.1.0.js - most be removed
+
+
+
+
+
+---
+_The design was carried out in the program [StarUML](http://staruml.io/) ,
+the actual project file can be found [here](./asset/UML project.mdj)_

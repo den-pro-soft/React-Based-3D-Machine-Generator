@@ -4,9 +4,7 @@
 
 import Rule from './../Rule';
 import RemoveElementSolution from './../solutions/RemoveElement';
-
-
-let id=0;
+import ShapeBuilder from './../ShapeBuilder';
 
 export default class LineInNoShape extends Rule{
 
@@ -24,7 +22,12 @@ export default class LineInNoShape extends Rule{
      */
     createSolutions(){
         let res = super.createSolutions();
-        res.push(new RemoveElementSolution(this.document));
+
+        res[0].previewDocument = this.document.getSnapshot();
+        let redElement = this.getLineByDocument(res[0].previewDocument);
+        redElement._renderer.error=true;
+
+        res.push(this.createRemoveElementSolution());
         return res;
     }
 
@@ -33,6 +36,45 @@ export default class LineInNoShape extends Rule{
      * @return {boolean} - true if the document has an error
      */
     check(){
-        return this.document._elements.length==0;
+        this.shapeBuilder = new ShapeBuilder(this.document);
+        let shapes = this.shapeBuilder.buildShapes();
+        for(let shape of shapes){
+            if(shape.elements.length==1){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * @return {Solution}
+     * @private
+     */
+    createRemoveElementSolution(){
+        let line = this.getLineByDocument(this.document);
+
+        let previewDoc = this.document.getSnapshot();
+        let line2 = this.getLineByDocument(previewDoc);
+        previewDoc.removeElement(line2);
+
+        return new RemoveElementSolution(this.document, line, previewDoc);
+    }
+
+
+    /**
+     *
+     * @param {Document} document
+     * @return {GraphicElement|null}
+     * @private
+     */
+    getLineByDocument(document){
+        this.shapeBuilder = new ShapeBuilder(document);
+        let shapes = this.shapeBuilder.buildShapes();
+        for(let shape of shapes){
+            if(shape.elements.length==1){
+                return shape.elements[0];
+            }
+        }
+        return null;
     }
 }
