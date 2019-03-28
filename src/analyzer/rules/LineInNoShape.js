@@ -16,12 +16,8 @@ export default class LineInNoShape extends Rule{
      */
     constructor(document){
         super(document);
-        this.errorMessage = `Error: The indicated line is not part of a <a href="google.gom">closed shape<a>.
-            Every line you draw must be part of a closed shape will no open ends or gaps. 
-            
-            
-        `;
-
+        this.errorMessage = `Error: The indicated line is not part of a closed shape.
+            Every line you draw must be part of a closed shape will no open ends or gaps. `;
     }
 
 
