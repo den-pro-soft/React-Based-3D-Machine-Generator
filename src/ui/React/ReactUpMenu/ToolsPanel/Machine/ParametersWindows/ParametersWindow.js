@@ -220,21 +220,17 @@ class ParametersWindow extends React.Component {
 
     }
     handleChangeSelect = e => {
-      console.log(e.target.value, 'selectValue')
+      // console.log(e.target.value, 'selectValue')
       this.setState({selectValue:e.target.value});
   //  this.removeGroovesData(e.target.value)
     }
 
     removeGroovesData = () => {
-      // this.props.updateRemoveGrooves(true)
-
-      // this.setState({add:false})
-    this.state.groovesData.splice(this.state.selectValue,1);
-    // console.log(this.state.groovesData,'remove')
-
-      this.setState({
-        grovesData:this.state.groovesData
-      })
+      this.props.updateRemoveGrooves(!this.props.openRemoveGrooves)
+    // this.state.groovesData.splice(this.state.selectValue,1);
+    //   this.setState({
+    //     grovesData:this.state.groovesData
+    //   })
 // console.log(this.state.groovesData,'remove')
     }
     openGroovesHelp = () => {
@@ -242,7 +238,7 @@ class ParametersWindow extends React.Component {
     }
     
     render() {
-      console.log(this.props, "props-Grooves");
+      // console.log(this.props, "props-Grooves");
       return (
         <>
         <Dialog
@@ -504,7 +500,7 @@ class ParametersWindow extends React.Component {
           </div>
         </Dialog>
         <ErrorGroovesWindow/>
-        <ConfirmRemoveGrooves/>
+        <ConfirmRemoveGrooves selectValue={this.state.selectValue} groovesData={this.state.groovesData}/>
         </>
       );
     }
@@ -543,14 +539,8 @@ class ParametersWindow extends React.Component {
         openErrorGroovesWindow:openErrorGrooves => {
           dispatch({ type: "OPEN_ERROR_GROOVES", payload: openErrorGrooves});
       },
-      updateRemoveGrooves: (
-        openRemoveGrooves
-    ) => {
-      dispatch({
-        type: "OPEN_REMOVE_GROOVES",
-        payload: openRemoveGrooves,
-    
-      });
+      updateRemoveGrooves: openRemoveGrooves => {
+      dispatch({type: "OPEN_REMOVE_GROOVES", payload: openRemoveGrooves});
     }
       };
     };

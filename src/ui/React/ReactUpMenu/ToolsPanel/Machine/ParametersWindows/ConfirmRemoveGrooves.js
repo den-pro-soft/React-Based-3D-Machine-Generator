@@ -10,10 +10,14 @@ class ConfirmRemoveGrooves extends React.Component {
  
   }
 
-
+  removeOK=()=>{
+    this.props.groovesData.splice(this.props.selectValue,1);
+// console.log(this.props.groovesData,'newArr-groovesremove')
+    this.props.updateRemoveGrooves(!this.props.openRemoveGrooves)
+  }
 
   render() {
-    // console.log(this.props, this.state.value,"props-ExpertNoticeKU");
+    // console.log(this.props, "props-ConfirmRemove");
     return (
       <Dialog
         maxWidth={false}
@@ -25,7 +29,7 @@ class ConfirmRemoveGrooves extends React.Component {
           style={{
             paddingBottom: "0px",
             textAlign: "left",
-            width: "300px",
+            width: "250px",
             // height: "180px",
             backgroundColor: "#f0ecec"
           }}
@@ -41,10 +45,9 @@ class ConfirmRemoveGrooves extends React.Component {
             <span>Confirm</span>
 
             <Button
-            //   onClick={() => {
-            //     this.props.updateExpertNotice(
-            
-            //   }}
+                  onClick={() => {
+                    this.props.updateRemoveGrooves(!this.props.openRemoveGrooves)
+                          }}
               style={{
                 backgroundColor: "#f0ecec",
                 padding: "0px"
@@ -59,7 +62,7 @@ class ConfirmRemoveGrooves extends React.Component {
             className="Text"
             style={{ margin: "15px 15px", textAlign: "left" }}
           >
-            <img width="30px" src="resources/images/QuestionBlue.png" />
+            <img width="30px" src="resources/images/Quest1.png" />
             <p
               style={{
                 position: "relative",
@@ -74,14 +77,12 @@ class ConfirmRemoveGrooves extends React.Component {
           <div
             style={{
               display: "flex",
-              justifyContent: "flex-end",
+              justifyContent: "center",
               margin: "10px"
             }}
           >
             <Button
-              onClick={() => {
-            this.props.updateRemoveGrooves(!this.props.openRemoveGrooves)
-              }}
+              onClick={this.removeOK}
               style={{
                 backgroundColor: "#dddada",
                 boxShadow: "2px 2px 1px #000",
@@ -94,9 +95,9 @@ class ConfirmRemoveGrooves extends React.Component {
               OK
             </Button>
             <Button
-            //   onClick={() => {
-        
-            //   }}
+              onClick={() => {
+        this.props.updateRemoveGrooves(!this.props.openRemoveGrooves)
+              }}
               style={{
                 backgroundColor: "#dddada",
                 boxShadow: "2px 2px 1px #000",

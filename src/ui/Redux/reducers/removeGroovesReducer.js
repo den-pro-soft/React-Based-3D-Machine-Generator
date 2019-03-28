@@ -6,7 +6,7 @@ const initialState = {
     // console.log(state,'priceReducer')
     switch (action.type) {
       case "OPEN_REMOVE_GROOVES":
-        return { openRemoveGroovess: action.payload};
+        return { openRemoveGrooves: action.payload};
 
    
       default:
