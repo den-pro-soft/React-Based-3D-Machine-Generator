@@ -11,7 +11,7 @@ import InputSelectAuto from "./InputSelectAuto";
 import InputSelectRadius from "./InputSelectRadius";
 import InputSelectAngle from "./InputSelectAngle";
 
-import ParametersWindow from "./ParametersWindow";
+import ParametersWindow from "./ParametersWindows/ParametersWindow";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 
