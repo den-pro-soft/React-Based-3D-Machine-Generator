@@ -6,6 +6,8 @@ import Rule from './../Rule';
 import RemoveElementSolution from './../solutions/RemoveElement';
 import ShapeBuilder from './../ShapeBuilder';
 
+import Arc from './../../model/elements/Arc';
+
 export default class LineInNoShape extends Rule{
 
     /**
@@ -14,6 +16,12 @@ export default class LineInNoShape extends Rule{
      */
     constructor(document){
         super(document);
+        this.errorMessage = `Error: The indicated line is not part of a <a href="google.gom">closed shape<a>.
+            Every line you draw must be part of a closed shape will no open ends or gaps. 
+            
+            
+        `;
+
     }
 
 
@@ -37,13 +45,7 @@ export default class LineInNoShape extends Rule{
      */
     check(){
         this.shapeBuilder = new ShapeBuilder(this.document);
-        let shapes = this.shapeBuilder.buildShapes();
-        for(let shape of shapes){
-            if(shape.elements.length==1){
-                return true;
-            }
-        }
-        return false;
+        return this.getLineByDocument(this.document)!=null;
     }
 
     /**
@@ -72,6 +74,9 @@ export default class LineInNoShape extends Rule{
         let shapes = this.shapeBuilder.buildShapes();
         for(let shape of shapes){
             if(shape.elements.length==1){
+                if(shape.elements[0] instanceof Arc && shape.elements[0].incrementAngle==360){
+                    continue;
+                }
                 return shape.elements[0];
             }
         }
