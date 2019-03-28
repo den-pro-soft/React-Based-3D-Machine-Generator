@@ -17,6 +17,12 @@ export default class Shape{
     }
 
     addElement(element){
+        for(let el of this.elements){
+            if(el.compare(element)){
+                return;
+            }
+        }
+
         this.elements.push(element);
     }
 
@@ -32,6 +38,14 @@ export default class Shape{
             }
         }
         return false;
+    }
+
+    isNear(point, eps){
+        let res = false;
+        for(let el of this.elements){
+            res|=el.isNear(point, eps);
+        }
+        return res;
     }
 
     /**

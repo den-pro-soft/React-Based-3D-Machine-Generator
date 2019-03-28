@@ -15,7 +15,17 @@ class ExpertNotice extends React.Component {
     };
   }
 
+componentWillMount(){
+  console.log('WillMount');
 
+}
+componentWillReceiveProps(nextProps){
+      if (nextProps.openExpertNotice ===!this.props.openExpertNotice) {
+        setTimeout(
+        ()=>this.setState({ value: '0'}),100
+        )
+      }
+  }
   handleRadioChange = event => {
     event.preventDefault();
 
@@ -26,7 +36,10 @@ class ExpertNotice extends React.Component {
 
       })
   }
-
+componentWillUnmount(){
+  // this.setState({ value: null })
+  console.log('UnMount');
+}
   render() {
     // console.log(this.props, this.state.value,"props-ExpertNoticeKU");
     return (
@@ -57,6 +70,7 @@ class ExpertNotice extends React.Component {
 
             <Button
               onClick={() => {
+                this.props.callbackCancel();
                 this.props.updateExpertNotice(
                   !this.props.openExpertNotice,
                   this.props.expertNoticeText,
@@ -64,6 +78,7 @@ class ExpertNotice extends React.Component {
                   this.props.callbackOK,
                   this.props.callbackCancel
                 );
+
               }}
               style={{
                 backgroundColor: "#f0ecec",
@@ -105,7 +120,8 @@ class ExpertNotice extends React.Component {
                     key={i}
                     classes={{ root: "root" }}
                     value={i.toString()}
-                    control={<Radio color="primary" />}
+                    control={<Radio color="primary"
+                    />}
                     label={el.text}
                   />
               ))}  
@@ -131,6 +147,7 @@ class ExpertNotice extends React.Component {
                     this.props.callbackOK,
                     this.props.callbackCancel
                   );
+
               }}
               style={{
                 backgroundColor: "#dddada",

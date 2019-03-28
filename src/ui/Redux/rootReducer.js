@@ -14,7 +14,7 @@ import expertNoticeReducer from './reducers/expertNoticeReducer';
 import setGroovesReducer from './reducers/setGroovesReducer';
 import groovesParametersReducer from './reducers/groovesParametersReducer';
 import errorGroovesWindowReducer from './reducers/errorGroovesWindowReducer';
-
+import removeGroovesReducer from './reducers/removeGroovesReducer';
 
 
 
@@ -27,6 +27,6 @@ export default combineReducers({
   inputSelectReducer,
   summaryWindowReducer,
   setGroovesReducer,groovesParametersReducer,
-  errorGroovesWindowReducer
+  errorGroovesWindowReducer, removeGroovesReducer
 
 })
