@@ -34,6 +34,7 @@ export default class Analyzer{
             if(this.rules.length>0){
                 this.checkRule(0).then((res)=>{
                     resolve(res);
+                    console.log("okokok");
                 }).catch(error=>{
                     reject(error);
                 });
@@ -49,33 +50,41 @@ export default class Analyzer{
      * @return {Promise}
      */
     checkRule(index){
+        console.log("check rule #"+index);
+
         return new Promise((resolve, reject)=>{
             let hasError = this.rules[index].check();
-
+            console.log("hasError ", hasError);
             if(hasError){
 
                 let solutions = this.rules[index].createSolutions();
 
-                // let board = container.resolve('mainBoard');
-                // board.document=tempDoc;
+                let board = container.resolve('mainBoard');
                 let currentSolution = solutions[0];
                 container.resolve('confirmChangeArcToSplinesDialog').modalExpertNotice(
                     this.rules[index].errorMessage,
-                    solutions.map(solution=>{return {text:solution.name, callback:()=>{
-                        app._currentDocument =  this.document.getSnapshot();
-                        solution.document = app._currentDocument;
-                        solution.execute();
-                        currentSolution = solution;
-                    }}}),
+                    solutions.map(solution=>{
+                        return {
+                            text:solution.name,
+                            callback:()=>{
+                                board.document = solution.getPreviewDocument();
+                                board.renderDocument();
+                                currentSolution = solution;
+                            }
+                        }
+                    }),
                     ()=>{
-                        app._currentDocument=this.document;
-                        currentSolution.document = app._currentDocument;
+                        board.document = this.document;
                         currentSolution.execute();
                         console.log("OK solution");
-                        resolve(true);
+                        this.checkRule(index).then((res)=>{
+                            resolve(res);
+                        }).catch((error)=>{
+                            reject(error);
+                        });
                     },
                     ()=>{
-                        app._currentDocument=this.document;
+                        board.document = this.document;
                         console.log("Cancel solution");
                         resolve(false);
                     }

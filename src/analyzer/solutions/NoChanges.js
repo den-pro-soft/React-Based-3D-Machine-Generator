@@ -16,5 +16,8 @@ export default class NoChanges extends Solution{
     execute(){
         
     }
-    
+
+    getPreviewDocument(){
+        return this.document;
+    }
 }
