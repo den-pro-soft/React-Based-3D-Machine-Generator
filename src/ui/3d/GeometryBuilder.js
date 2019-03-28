@@ -209,72 +209,9 @@ class PolygonMeshBuilder{
             }
         }
 
-        //
-        // for(let group of groups){
-        //
-        //     let height = this._getHeightByGroup(group,elements);
-        //     for(let polygon of polygons) {
-        //         if (polygon.isClosed()) {
-        //             let vertices = polygon.getConsistentlyVertex();
-        //             let geometry = this.geometryBuilder.createThreeGeometry(vertices, Math.abs(height));
-        //             let mesh = new THREE.Mesh(geometry, this.material);
-        //             if (height>0) {
-        //                 meshes.push(mesh);
-        //             }else {
-        //                 internalMeshes.push(mesh);
-        //             }
-        //         } else {
-        //             throw new Exception("Please close open shapes.",polygon);
-        //         }
-        //     }
-        // }
-        //
-
-        // for(let circle of circles){
-        //     if(!circle.Z){
-        //         circle.Z=0.76;
-        //     }
-        //     let vertices = [];
-        //
-        //     for(let point of circle.P){
-        //         vertices.push(new Vertex3(point.X,point.Y,0));
-        //     }
-        //
-        //     let geometry = this.geometryBuilder.createThreeGeometry(vertices, Math.abs(circle.Z));
-        //     let mesh = new THREE.Mesh(geometry, this.material);
-        //     if (circle.Z>0) {
-        //         meshes.push(mesh);
-        //     }else {
-        //         internalMeshes.push(mesh);
-        //     }
-        // }
-
-
         return this._groupMeshes(meshes,internalMeshes);
     }
 
-    /**
-     * @param {Array} groups
-     * @param {Array} elements
-     * @return {Array} elements
-     * @private
-     */
-    _getCirclesWithoutGroup(groups, elements){
-        let el = [];
-        e: for(let i=0; i<elements.length; i++){
-            if(elements[i].enable && elements[i].type=='circle') {
-                for (let group of groups) {
-                    for (let ind of group.E) {
-                        if (ind == i) {
-                            continue e;
-                        }
-                    }
-                }
-                el.push(elements[i]);
-            }
-        }
-        return el;
-    }
 
     /**
      * @param {Array} addMeshList
@@ -306,33 +243,6 @@ class PolygonMeshBuilder{
         return resultMesh;
     }
 
-    _getHeightByGroup(group, elements){
-        let startZ = elements[group.E[0]].Z;
-        if(!startZ){
-            startZ=0.76;
-            // throw new Exception("Please fill the  Z value for the Group 3D displaying!",group);
-        }
-        let min=startZ;
-        let max=startZ;
-        for(let i=1; i<group.E.length; i++){
-            let z = elements[group.E[i]].Z;
-            if(!z){
-                z=0.76;
-                // throw new Exception("Please fill the  Z value for the Group GraphicElement  3D displaying!",{group, i});
-            }
-            if(z>max){
-                max=z;
-            }
-            if(z<min){
-                min=z;
-            }
-        }
-
-        if(min<0){
-            return min;
-        }
-        return max;
-    }
 
     /**
      * @param group
