@@ -3,6 +3,7 @@ const initialState = {
     width:0,
     horisontalDepth:0,
     groovesData:[{topDepth:0,width:0,horisontalDepth:0}]
+
   };
   
   export default function groovesParametersReducer(state = initialState, action) {

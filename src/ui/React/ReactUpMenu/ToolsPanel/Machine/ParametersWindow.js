@@ -1,6 +1,7 @@
 import React from "react";
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
+import ErrorGroovesWindow from "./ErrorGroovesWindow";
 
 import { connect } from "react-redux";
 
@@ -156,13 +157,28 @@ class ParametersWindow extends React.Component {
         }
       }
     }
-    addGroovesData= ()=>{
-      this.setState({add:true})
+    addGroovesData = () => {
+      // this.setState({add:true})
+      this.props.groovesData.map(
+        (el) => {
+          if (el.topDepth === 0 || el.width === 0 || el.horisontalDepth === 0) {
+            this.props.openErrorGroovesWindow(!this.props.openErrorGrooves);
+          }
+        }
+
+      )
+      // this.props.updateGroovesData(this.props.topDepth, this.props.width, this.props.horisontalDepth, this.props.groovesData);
+
       // let groovesData = [{topDepth:this.props.topDepth,width: this.props.width, horisontalDepth:this.props.horisontalDepth}];
-      console.log(groovesData ,'groovesDataArray')
+      console.log(groovesData, 'groovesDataArray')
       // groovesData.push()
     }
 
+    removeGroovesData = () => {
+      console.log(groovesData ,'groovesDataArray')
+      // this.setState({add:false})
+
+    }
     openGroovesHelp = () => {
       window.open("https://www.emachineshop.com/help-3d-drawing/#grooves");
     }
@@ -170,6 +186,7 @@ class ParametersWindow extends React.Component {
     render() {
       console.log(this.props, "props-Grooves");
       return (
+        <>
         <Dialog
           maxWidth={false}
           open={this.props.openSetGrooves}
@@ -312,7 +329,7 @@ class ParametersWindow extends React.Component {
               }}>
                   {/* <div className="Input"> */}
                   <Button
-            onClick={this.addGroovesData}
+                onClick={this.addGroovesData}
                 style={{
                   width:'120px',
                   backgroundColor: "#dddada",
@@ -326,10 +343,7 @@ class ParametersWindow extends React.Component {
               >
                 Add
               </Button>
-                      {/* </div>
-                      <div className="Input"> */}
-                      <Button
-            
+              <Button
                 style={{
                   width:'120px',
 
@@ -344,10 +358,8 @@ class ParametersWindow extends React.Component {
               >
                 Replace
               </Button>
-
-                      {/* </div>
-                          <div className="Input"> */}
-                          <Button
+              <Button
+                onClick={this.removeGroovesData}
             
                 style={{
                   width:'120px',
@@ -422,6 +434,8 @@ class ParametersWindow extends React.Component {
             </div>
           </div>
         </Dialog>
+        <ErrorGroovesWindow/>
+        </>
       );
     }
 }
@@ -433,7 +447,8 @@ class ParametersWindow extends React.Component {
         topDepth:state.groovesParametersReducer.topDepth,
         width:state.groovesParametersReducer.width,
         horisontalDepth:state.groovesParametersReducer.horisontalDepth,
-        groovesData:state.groovesParametersReducer.groovesData
+        groovesData:state.groovesParametersReducer.groovesData,
+        openErrorGrooves: state.errorGroovesWindowReducer.openErrorGrooves,
 
       };
     };
@@ -452,7 +467,10 @@ class ParametersWindow extends React.Component {
           payloadWidth:width,
           payloadHorisontalDepth: horisontalDepth ,
           payloadGrooves:groovesData});
-        }
+        },
+        openErrorGroovesWindow:openErrorGrooves => {
+          dispatch({ type: "OPEN_ERROR_GROOVES", payload: openErrorGrooves});
+      }
       };
     };
 
