@@ -103,4 +103,4 @@ global.app = container.resolve('app');
 
 global.Exception = Exception;
 
-global.analyzer = new ErrorModelAnalyzer(app.currentDocument);
+container.register('analyzer',ErrorModelAnalyzer);
