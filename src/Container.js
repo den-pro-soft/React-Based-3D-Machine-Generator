@@ -27,6 +27,7 @@ import FormatNotSupportedException from "./file/FormatNotSupportedException";
 
 import ErrorModelAnalyzer from './analyzer/analyzers/ErrorModelAnalyzer';
 
+import ExpertNoticeUi from './ui/modal/ExpertNotice';
 
 /**
  * @param {string} name
@@ -95,12 +96,12 @@ container.register( 'app', Application ).dependencies('config').singleton();
 container.registerFactory('toolFactory',toolFactoryMethod);
 container.registerFactory('fileLoaderFactory',fileLoaderFactoryMethod);
 
-container.validateDependencies();
+container.register( 'expertNotice', ExpertNoticeUi);
+container.register('analyzer',ErrorModelAnalyzer);
 
+container.validateDependencies();
 global.container = container;
 global.app = container.resolve('app');
 
 
 global.Exception = Exception;
-
-container.register('analyzer',ErrorModelAnalyzer);

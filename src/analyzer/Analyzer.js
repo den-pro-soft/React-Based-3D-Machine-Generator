@@ -34,7 +34,6 @@ export default class Analyzer{
             if(this.rules.length>0){
                 this.checkRule(0).then((res)=>{
                     resolve(res);
-                    console.log("okokok");
                 }).catch(error=>{
                     reject(error);
                 });
@@ -50,18 +49,15 @@ export default class Analyzer{
      * @return {Promise}
      */
     checkRule(index){
-        console.log("check rule #"+index);
-
         return new Promise((resolve, reject)=>{
             let hasError = this.rules[index].check();
-            console.log("hasError ", hasError);
             if(hasError){
-
                 let solutions = this.rules[index].createSolutions();
-
                 let board = container.resolve('mainBoard');
                 let currentSolution = solutions[0];
-                container.resolve('confirmChangeArcToSplinesDialog').modalExpertNotice(
+                board.document = currentSolution.getPreviewDocument();
+                board.renderDocument();
+                container.resolve('expertNotice',[
                     this.rules[index].errorMessage,
                     solutions.map(solution=>{
                         return {
@@ -75,26 +71,24 @@ export default class Analyzer{
                     }),
                     ()=>{
                         board.document = this.document;
-                        currentSolution.execute();
-                        console.log("OK solution");
-                        this.checkRule(index).then((res)=>{
-                            resolve(res);
-                        }).catch((error)=>{
-                            reject(error);
-                        });
+                        if(currentSolution==solutions[0]){
+                            resolve(false);
+                        }else {
+                            currentSolution.execute();
+                            setTimeout(()=> {
+                                this.checkRule(index).then((res)=> {
+                                    resolve(res);
+                                }).catch((error)=> {
+                                    reject(error);
+                                });
+                            }, 500);
+                        }
                     },
                     ()=>{
                         board.document = this.document;
-                        console.log("Cancel solution");
                         resolve(false);
                     }
-                );
-                
-
-                //todo: create a solution options
-                //todo: ask user
-                //todo: if user answered than execute list of commands and resolve(true)
-                //todo: if user cancel than resolve(false)
+                    ]).show();
             }else{
                 if(index==this.rules.length-1) {
                     resolve(true);

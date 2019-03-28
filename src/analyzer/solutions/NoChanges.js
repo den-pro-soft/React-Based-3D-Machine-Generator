@@ -11,6 +11,7 @@ export default class NoChanges extends Solution{
         super(document);
 
         this.name = 'No changes';
+        this.previewDocument = null;
     }
 
     execute(){
@@ -18,6 +19,10 @@ export default class NoChanges extends Solution{
     }
 
     getPreviewDocument(){
-        return this.document;
+        if(!this.previewDocument) {
+            return this.document;
+        }else{
+            return this.previewDocument;
+        }
     }
 }

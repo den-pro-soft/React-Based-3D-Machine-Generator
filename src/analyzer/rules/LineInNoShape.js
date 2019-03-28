@@ -22,6 +22,11 @@ export default class LineInNoShape extends Rule{
      */
     createSolutions(){
         let res = super.createSolutions();
+
+        res[0].previewDocument = this.document.getSnapshot();
+        let redElement = this.getLineByDocument(res[0].previewDocument);
+        redElement._renderer.error=true;
+
         res.push(this.createRemoveElementSolution());
         return res;
     }

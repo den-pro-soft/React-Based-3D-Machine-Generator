@@ -123,7 +123,6 @@ class ExpertNotice extends React.Component {
           >
             <Button
               onClick={() => {
-                this.props.callbackOK();
                 this.props.updateExpertNotice(
                     !this.props.openExpertNotice,
                     this.props.expertNoticeText,
@@ -131,6 +130,7 @@ class ExpertNotice extends React.Component {
                     this.props.callbackOK,
                     this.props.callbackCancel
                   );
+                  this.props.callbackOK();
               }}
               style={{
                 backgroundColor: "#dddada",

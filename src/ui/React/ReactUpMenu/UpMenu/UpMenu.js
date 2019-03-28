@@ -27,20 +27,24 @@ var view3D = new View3D({ width: 800, height: 600 });
 popup3DView.addContent(view3D.getContent());
 
 let show3D = function() {
-  try {
-    view3D.setGeometry(app.currentDocument);
-    popup3DView.show();
-  } catch (e) {
-    if (e instanceof Exception) {
-      console.log(e.message);
-      new MessagePopup(null, e.message)
-        .setTitle("Error")
-        .moveToCenter()
-        .show();
-    } else {
-      throw e;
+  container.resolve('analyzer', app.currentDocument).analyze().then((res)=>{
+    if(res){
+      try {
+        view3D.setGeometry(app.currentDocument);
+        popup3DView.show();
+      } catch (e) {
+        if (e instanceof Exception) {
+          console.log(e.message);
+          new MessagePopup(null, e.message)
+              .setTitle("Error")
+              .moveToCenter()
+              .show();
+        } else {
+          throw e;
+        }
+      }
     }
-  }
+  });
 };
 
 class UpMenu extends React.Component {

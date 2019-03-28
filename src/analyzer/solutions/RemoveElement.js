@@ -17,6 +17,8 @@ export default class RemoveElement extends Solution{
         super(document);
         this.element = element;
         this.previewDoc=previewDoc;
+
+        this.name="Remove";
     }
 
     /**
