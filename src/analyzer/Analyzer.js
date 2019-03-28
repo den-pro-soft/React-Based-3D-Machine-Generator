@@ -77,7 +77,19 @@ export default class Analyzer{
                             currentSolution.execute();
                             setTimeout(()=> {
                                 this.checkRule(index).then((res)=> {
-                                    resolve(res);
+                                    if(res){
+                                        if(index==this.rules.length-1) {
+                                            resolve(true);
+                                        }else {
+                                            this.checkRule(index + 1).then((res1)=> {
+                                                resolve(res1);
+                                            }).catch((error1)=> {
+                                                reject(error1);
+                                            });
+                                        }
+                                    }else{
+                                        resolve(false);
+                                    }
                                 }).catch((error)=> {
                                     reject(error);
                                 });

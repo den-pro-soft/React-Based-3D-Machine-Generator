@@ -5,6 +5,7 @@
 import Analyzer from './../Analyzer';
 
 import LineInNoShapeRule from './../rules/LineInNoShape';
+import NotClosedShape from './../rules/NotClosedShape';
 
 export default class ErrorModelAnalyzer extends Analyzer{
 
@@ -15,7 +16,7 @@ export default class ErrorModelAnalyzer extends Analyzer{
         super(document);
 
         this.rules.push(new LineInNoShapeRule(document));
-        this.rules.push(new LineInNoShapeRule(document));
+        this.rules.push(new NotClosedShape(document));
     }
     
 }
