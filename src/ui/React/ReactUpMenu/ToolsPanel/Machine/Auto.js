@@ -20,12 +20,13 @@ class Auto extends React.Component {
     super(props);
     this.state = {
       value: "straight",
-      isChecked: false,
-      angle90: true,
+      isCheckedStockMaterial: false,
       angle45: false,
+      angle90: true,
       angle135: false,
       isCheckedGrooves: false,
-      valueFarEdge:'Drilled'
+      valueFarEdge:'Drilled',
+      groovesDisabled:false
     };
   }
   handleRadioChange = event => {
@@ -37,10 +38,11 @@ class Auto extends React.Component {
   // resetButton = () => {
   //     this.setState({ value: "emsx1" });
   // };
-  handleChecked = event => {
+  handleCheckedStockMaterial = event => {
     window.setTimeout(() => {
       this.setState({
-        isChecked: !this.state.isChecked
+        isCheckedStockMaterial: !this.state.isCheckedStockMaterial,
+        groovesDisabled:!this.state.groovesDisabled
       });
     }, 0);
   };
@@ -53,304 +55,318 @@ class Auto extends React.Component {
     }, 0);
   };
 
-  handleRadioChangeFerEdge = event => {
-    event.preventDefault();
+  // ---------------------functions for state angle---------------------------------
+    updateState45 = (value45) => {
+      this.setState({ angle45: value45 ,angle90:false,angle135:false})
+    }
+    updateState90 = (value90) => {
+      this.setState({ angle45:false,angle90: value90, angle135:false })
+    }
+    updateState135 = (value135) => {
+      this.setState({angle45:false,angle90:false, angle135: value135 })
+    }
+// -----------------------------------------------------------------------------------
 
-    this.setState({ valueFarEdge: event.target.value });
-    // console.log(this.state.value, "this.state.value");
-  };
-  render() {
-    return (
-      <div className="Auto">
-        <p className="AutoTitle">
-          Use this selection to design the shape of your part.
-        </p>
-        {/* <div className="RadioButton"> */}
-        <fieldset className="RadiButtonsFieldset">
-          <legend>Near edge</legend>
-          <div className="RadioButtons">
-            <div className="RadioButtonsElelemt">
-              <FormControl>
-                <RadioGroup
-                  value={this.state.value}
-                  onChange={this.handleRadioChange}
-                >
-                  <FormControlLabel
-                    classes={{ root: "root" }}
-                    // style={{border:'1px solid red',paddinTop:'0px!important'}}
-                    value="straight"
-                    control={
-                      <Radio
-                        classes={{ root: "root" }}
-                        color="primary"
-                      />
-                    }
-                    label="Straight"
-                  />
-                  <FormControlLabel
-                    classes={{ root: "root" }}
-                    value="chamfer"
-                    control={
-                      <Radio
-                        style={{ margin: "0px" }}
-                        color="primary"
-                      />
-                    }
-                    label="Chamfer"
-                  />
-                  <FormControlLabel
-                    classes={{ root: "root" }}
-                    value="round"
-                    control={
-                      <Radio
-                        color="primary"
-                      />
-                    }
-                    label="Round"
-                  />
-                </RadioGroup>
-              </FormControl>
-            </div>
-            <div className="RadioButtonsContent">
-              {this.state.value === "straight" && (
-                <div className="Chamfer">
-                  <div>
-                    <img src="resources/images/straight.png" />
-                  </div>
-                </div>
-              )}
-              {this.state.value === "chamfer" && (
-                <div className="Chamfer">
-                  <div>
-                    <img src="resources/images/Chamfer.png" />
-                  </div>
-                  <div className="Inputs">
-                    <div className="InputSizeGroup">
-                      <label>Size:</label>
-                      <input
-                        type="text"
-                        className="InputSize"
-                    
-                      />
-                    </div>
-                    <div className="InputSelectAngleGroup">
-                      <span>Angle:</span>
+    handleRadioChangeFerEdge = event => {
+      event.preventDefault();
+      this.setState({ valueFarEdge: event.target.value });
+      // console.log(this.state.value, "this.state.value");
+    }
 
-                      <span className="InputSelectAngle">
-                        <InputSelectAuto />
-                      </span>
+    render() {
+      return (
+        <div className="Auto">
+          <p className="AutoTitle">
+            Use this selection to design the shape of your part.
+          </p>
+          {/* <div className="RadioButton"> */}
+          <fieldset className="RadiButtonsFieldset">
+            <legend>Near edge</legend>
+            <div className="RadioButtons">
+              <div className="RadioButtonsElelemt">
+                <FormControl>
+                  <RadioGroup
+                    value={this.state.value}
+                    onChange={this.handleRadioChange}
+                  >
+                    <FormControlLabel
+                      classes={{ root: "root" }}
+                      // style={{border:'1px solid red',paddinTop:'0px!important'}}
+                      value="straight"
+                      control={
+                        <Radio
+                          classes={{ root: "root" }}
+                          color="primary"
+                        />
+                      }
+                      label="Straight"
+                    />
+                    <FormControlLabel
+                      classes={{ root: "root" }}
+                      value="chamfer"
+                      control={
+                        <Radio
+                          style={{ margin: "0px" }}
+                          color="primary"
+                        />
+                      }
+                      label="Chamfer"
+                    />
+                    <FormControlLabel
+                      classes={{ root: "root" }}
+                      value="round"
+                      control={
+                        <Radio
+                          color="primary"
+                        />
+                      }
+                      label="Round"
+                    />
+                  </RadioGroup>
+                </FormControl>
+              </div>
+              <div className="RadioButtonsContent">
+                {this.state.value === "straight" && (
+                  <div className="Chamfer">
+                    <div>
+                      <img src="resources/images/straight.png" />
                     </div>
                   </div>
-                </div>
-              )}
-              {this.state.value === "round" && (
-                <div className="Chamfer">
-                  <div>
-                    <img src="resources/images/radius.png" />
-                  </div>
-                  <div className="Inputs">
-                    {/* <div className="InputSizeGroup"> */}
+                )}
+                {this.state.value === "chamfer" && (
+                  <div className="Chamfer">
+                    <div>
+                      <img src="resources/images/Chamfer.png" />
+                    </div>
+                    <div className="Inputs">
+                      <div className="InputSizeGroup">
+                        <label>Size:</label>
+                        <input
+                          type="text"
+                          className="InputSize"
+                      
+                        />
+                      </div>
+                      <div className="InputSelectAngleGroup">
+                        <span>Angle:</span>
 
-                    <div className="InputSelectRadiusGroup">
-                      <span>Radius:</span>
-
-                      <span className="InputSelectRadius">
-                        <InputSelectRadius />
-                      </span>
+                        <span className="InputSelectAngle">
+                          <InputSelectAuto />
+                        </span>
+                      </div>
                     </div>
                   </div>
-                </div>
-              )}
-            </div>
-          </div>
-        </fieldset>
-        <fieldset className="Checkbox">
-          <legend>Stock material wall</legend>
-          <div className="RadioButtons">
-            <div className="RadioButtonsElelemt">
-              <Checkbox
-                checked={this.state.isChecked}
-                onChange={this.handleChecked}
-                color="primary"
-              />
-            </div>
-            <div className="RadioButtonsContent">
-              <div className="Chamfer">
-                <p className="AutoTitle">
-                  Use to specify raw material shape of tube, beam, etc. -
-                  specify vendor and part number in comments.
-                </p>
+                )}
+                {this.state.value === "round" && (
+                  <div className="Chamfer">
+                    <div>
+                      <img src="resources/images/radius.png" />
+                    </div>
+                    <div className="Inputs">
+                      {/* <div className="InputSizeGroup"> */}
+
+                      <div className="InputSelectRadiusGroup">
+                        <span>Radius:</span>
+
+                        <span className="InputSelectRadius">
+                          <InputSelectRadius />
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
-          </div>
-        </fieldset>
-
-        <fieldset className="AngleInputFieldset">
-          <legend>Side wall</legend>
-          <div className="RadioButtons">
-            <div className="RadioButtonsElelemt" />
-            <div className="RadioButtonsContent">
-              <div className="Chamfer">
-                <div>
-                  {this.state.angle90 === true && (
-                    <img src="resources/images/angle90.png" />
-                  )}
-                  {this.state.angle45 === true && (
-                    <img src="resources/images/angle45.png" />
-                  )}
-                  {this.state.angle135 === true && (
-                    <img src="resources/images/angle135.png" />
-                  )}
-                </div>
-                <div className="InputAngle">
-                  <div className="InputSelectAngleGroup2">
-                    <span>Angle:</span>
-
-                    <span className="InputSelectAngle2">
-                      <InputSelectAngle />
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </div>
-            </div>
-             <div>
-<hr />
-</div> 
-
+          </fieldset>
+          <fieldset className="Checkbox">
+            <legend>Stock material wall</legend>
             <div className="RadioButtons">
               <div className="RadioButtonsElelemt">
                 <Checkbox
-                  checked={this.state.isCheckedGrooves}
-                  onChange={this.handleCheckedGrooves}
+                  checked={this.state.isCheckedStockMaterial}
+                  onChange={this.handleCheckedStockMaterial}
                   color="primary"
                 />
-                Grooves
               </div>
               <div className="RadioButtonsContent">
                 <div className="Chamfer">
-                  <div>
-                    <img src="resources/images/Grooves1.png" />
-                  </div>
-                <div className="InputAngle">
-                  <div className="InputSelectAngleGroup2">
-                    <Button
-                    className="Parameters"
-                      onClick={
-                    ()=> this.props.updateSetGrooves(!this.props.openSetGrooves)
-                      }
-                      style={{ backgroundColor: "#dddada" }}
-                      color="primary"
-                      autoFocus
-                    >
-                      Parameters...
-                    </Button>
-                  </div>
-                </div>
+                  <p className="AutoTitle">
+                    Use to specify raw material shape of tube, beam, etc. -
+                    specify vendor and part number in comments.
+                  </p>
                 </div>
               </div>
             </div>
-      
-        </fieldset>
-        <fieldset className="RadioFarEdge">
-          <legend>Far edge</legend>
-          <div className="RadioButtons">
-            <div className="RadioButtonsElelemt">
-              <FormControl>
-                <RadioGroup
-                  value={this.state.valueFarEdge}
-                  onChange={this.handleRadioChangeFerEdge}
-                >
-                  <FormControlLabel
-                    disabled
-                    classes={{ root: "root" }}
-                    // style={{border:'1px solid red',paddinTop:'0px!important'}}
-                    value="Drilled"
-                    control={
-                      <Radio
-                        classes={{ root: "root" }}
-                        color="primary"
-                      />
-                    }
-                    label="Drilled*"
-                  />
-                  <FormControlLabel
-                  disabled
-                    classes={{ root: "root" }}
-                    value="Round"
-                    control={
-                      <Radio
-                        style={{ margin: "0px" }}
-                        color="primary"
-                      />
-                    }
-                    label="Round"
-                  />
-                  <FormControlLabel
-                    disabled
-                    classes={{ root: "root" }}
-                    value="Straight"
-                    control={
-                      <Radio
-                        color="primary"
-                      />
-                    }
-                    label="Straight"
-                  />
-                </RadioGroup>
-              </FormControl>
-            </div>
-            <div className="RadioButtonsContent">
-            <div className="Chamfer">
+          </fieldset>
+
+          <fieldset className="AngleInputFieldset">
+            <legend>Side wall</legend>
+            <div className="RadioButtons">
+              <div className="RadioButtonsElelemt" />
+              <div className="RadioButtonsContent">
+                <div className="Chamfer">
                   <div>
-                    <img src="resources/images/Grooves1.png" />
+                    {this.state.angle90 === true && (
+                      <img src="resources/images/angle90.png" />
+                    )}
+                    {this.state.angle45 === true && (
+                      <img src="resources/images/angle45.png" />
+                    )}
+                    {this.state.angle135 === true && (
+                      <img src="resources/images/angle135.png" />
+                    )}
                   </div>
                   <div className="InputAngle">
-                    <div className="InputFarEdge">
-                    <span className="AutoTitle" style={{color:'grey'}}>A small fillet will be applied<br/
-                    > to prevent stress cracks.<br/> Drill bottom holes are usually<br/>
-                     less expensive.</span>
-                 
+                    <div className="InputSelectAngleGroup2">
+                      <span style={{color:this.state.groovesDisabled===true?'grey':'black'}}>Angle:</span> 
+
+                      <span className="InputSelectAngle2">
+                        <InputSelectAngle 
+                        disabled={this.state.groovesDisabled}                        
+                        updateState45={this.updateState45} 
+                        updateState90={this.updateState90} updateState135 = {this.updateState135}/>
+                      </span>
                     </div>
                   </div>
                 </div>
-           </div>
-          </div>
-        </fieldset>
-        <fieldset className="Notes">
-          <legend>Notes</legend>
-          <p className="AutoTitle">
-            To set edge settings for the Bottom view first select View | Bottom.
-          </p>
-          <p className="AutoTitle">
-            *Drilled holes may be machined with flat bottoms.
-          </p>
-        </fieldset>
-        <ParametersWindow/>
-      </div>
-    );
-  }
+              </div>
+              </div>
+              <div>
+  <hr />
+  </div> 
+
+              <div className="RadioButtons">
+                <div className="RadioButtonsElelemt">
+                  <Checkbox
+                    checked={this.state.isCheckedGrooves}
+                    onChange={this.handleCheckedGrooves}
+                    disabled={this.state.groovesDisabled}
+                    color="primary"
+                  />
+                <span style={{color:this.state.groovesDisabled===true?'grey':'black'}}>Grooves</span> 
+                </div>
+                <div className="RadioButtonsContent">
+                  <div className="Chamfer">
+                    <div>
+                      <img src="resources/images/Grooves1.png" />
+                    </div>
+                  <div className="InputAngle">
+                    <div className="InputSelectAngleGroup2">
+                      <Button
+                        className="Parameters"
+                        disabled={this.state.groovesDisabled}
+                        onClick={
+                      ()=> this.props.updateSetGrooves(!this.props.openSetGrooves)
+                        }
+                        style={{ backgroundColor: "#dddada" }}
+                        color="primary"
+                        autoFocus
+                      >
+                        Parameters...
+                      </Button>
+                    </div>
+                  </div>
+                  </div>
+                </div>
+              </div>
+        
+          </fieldset>
+          <fieldset className="RadioFarEdge">
+            <legend>Far edge</legend>
+            <div className="RadioButtons">
+              <div className="RadioButtonsElelemt">
+                <FormControl>
+                  <RadioGroup
+                    value={this.state.valueFarEdge}
+                    onChange={this.handleRadioChangeFerEdge}
+                  >
+                    <FormControlLabel
+                      disabled
+                      classes={{ root: "root" }}
+                      // style={{border:'1px solid red',paddinTop:'0px!important'}}
+                      value="Drilled"
+                      control={
+                        <Radio
+                          classes={{ root: "root" }}
+                          color="primary"
+                        />
+                      }
+                      label="Drilled*"
+                    />
+                    <FormControlLabel
+                    disabled
+                      classes={{ root: "root" }}
+                      value="Round"
+                      control={
+                        <Radio
+                          style={{ margin: "0px" }}
+                          color="primary"
+                        />
+                      }
+                      label="Round"
+                    />
+                    <FormControlLabel
+                      disabled
+                      classes={{ root: "root" }}
+                      value="Straight"
+                      control={
+                        <Radio
+                          color="primary"
+                        />
+                      }
+                      label="Straight"
+                    />
+                  </RadioGroup>
+                </FormControl>
+              </div>
+              <div className="RadioButtonsContent">
+              <div className="Chamfer">
+                    <div>
+                      <img src="resources/images/Grooves1.png" />
+                    </div>
+                    <div className="InputAngle">
+                      <div className="InputFarEdge">
+                      <span className="AutoTitle" style={{color:'grey'}}>A small fillet will be applied<br/
+                      > to prevent stress cracks.<br/> Drill bottom holes are usually<br/>
+                      less expensive.</span>
+                  
+                      </div>
+                    </div>
+                  </div>
+            </div>
+            </div>
+          </fieldset>
+          <fieldset className="Notes">
+            <legend>Notes</legend>
+            <p className="AutoTitle">
+              To set edge settings for the Bottom view first select View | Bottom.
+            </p>
+            <p className="AutoTitle">
+              *Drilled holes may be machined with flat bottoms.
+            </p>
+          </fieldset>
+          <ParametersWindow/>
+        </div>
+      );
+    }
 }
 
-const mapStateToProps = state => {
-  return {
-    openSetGrooves: state.setGroovesReducer.openSetGrooves,
+    const mapStateToProps = state => {
+      return {
+        openSetGrooves: state.setGroovesReducer.openSetGrooves,
 
-  };
-};
+      };
+    };
 
-const mapDispatchToProps = dispatch => {
-  return {
-    updateSetGrooves: openSetGrooves => {
-      dispatch({
-        type: "OPEN_SET_GROOVES",
-        payload: openSetGrooves,
-      });
-    }
-  };
-};
+    const mapDispatchToProps = dispatch => {
+      return {
+        updateSetGrooves: openSetGrooves => {
+          dispatch({
+            type: "OPEN_SET_GROOVES",
+            payload: openSetGrooves,
+          });
+        }
+      };
+    };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Auto);
+export default connect(mapStateToProps,mapDispatchToProps)(Auto);
