@@ -3,10 +3,7 @@ import "./new.scss";
 import BlankDisign from "./BlankDisign";
 import Tutorial from "./Tutorial";
 import FrontPanel from "./FrontPanel";
-// import {browserHistory} from 'react-router';
-// browserHistory.listen(location => {
-//   browserHistory.push('/super/url');
-// });
+
 import { withRouter } from "react-router-dom";
 import {
   BrowserRouter as Router,

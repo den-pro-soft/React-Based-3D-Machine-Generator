@@ -15,7 +15,7 @@ import setGroovesReducer from './reducers/setGroovesReducer';
 import groovesParametersReducer from './reducers/groovesParametersReducer';
 import errorGroovesWindowReducer from './reducers/errorGroovesWindowReducer';
 import removeGroovesReducer from './reducers/removeGroovesReducer';
-
+import confirmSaveDesignReducer from './reducers/confirmSaveDesignReducer'
 
 
 export default combineReducers({
@@ -27,6 +27,7 @@ export default combineReducers({
   inputSelectReducer,
   summaryWindowReducer,
   setGroovesReducer,groovesParametersReducer,
-  errorGroovesWindowReducer, removeGroovesReducer
+  errorGroovesWindowReducer, removeGroovesReducer,
+  confirmSaveDesignReducer
 
 })
