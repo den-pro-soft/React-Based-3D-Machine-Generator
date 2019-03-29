@@ -11,9 +11,17 @@ class ConfirmSaveDesignModal extends React.Component {
 
         saveDesignYes=()=>{
             app.saveAs('xml');
+            this.props.updateConfirmSaveDesign(
+                !this.props.openConfirmSaveDesign
+            );
         }
         saveDesignNo = () =>{
-
+            app.selectAll();
+            app.deleteSelected();
+            this.props.updateConfirmSaveDesign(
+                !this.props.openConfirmSaveDesign
+            );
+            this.props.closeNewModalOfConfirm(false);
         }
         render() {
             // console.log(this.props, "props-ConfirmRemove");
@@ -95,12 +103,9 @@ class ConfirmSaveDesignModal extends React.Component {
                                 Yes
                 </Button>
                             <Button
-                                onClick={() => {
-                                    this.confirmSaveDesignNo
-                                    this.props.updateConfirmSaveDesign(
-                                        !this.props.openConfirmSaveDesign
-                                    );
-                                }}
+                                onClick={
+                                    this.saveDesignNo
+                                }
                                 style={{
                                     backgroundColor: "#dddada",
                                     boxShadow: "2px 2px 1px #000",

@@ -52,6 +52,10 @@ class File extends React.Component {
             }
         );
     };
+
+    closeNewModalOfConfirm = (value) => {
+        this.setState({ openNewModal: value })
+     }
 // ------------open link button Help----------
     openWindow = ()=> {
         window.open('https://www.emachineshop.com/help-wizards/')
@@ -187,7 +191,7 @@ class File extends React.Component {
                         </Button>
                     </DialogActions>
                 </Dialog>
-                <ConfirmSaveDesignModal/>
+                <ConfirmSaveDesignModal closeNewModalOfConfirm ={this.closeNewModalOfConfirm}/>
             </div>
         );
     }
