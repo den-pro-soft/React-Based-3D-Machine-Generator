@@ -14,7 +14,8 @@ class ParametersWindow extends React.Component {
       horisontalDepth:this.props.horisontalDepth.toFixed(3) + ' mm',
       add:false,
       groovesData:[],
-      selectValue:''
+      selectValue:'',
+      isDisabled:true
     };
   }
 
@@ -392,7 +393,6 @@ class ParametersWindow extends React.Component {
                 marginLeft: "10px",
           
               }}>
-                  {/* <div className="Input"> */}
                   <Button
                 onClick={this.addGroovesData}
                 style={{
@@ -411,7 +411,6 @@ class ParametersWindow extends React.Component {
               <Button
                 style={{
                   width:'130px',
-
                   backgroundColor: "#dddada",
                   boxShadow: "2px 2px 1px #000",
                   // marginRight: "5px",
@@ -420,6 +419,7 @@ class ParametersWindow extends React.Component {
                 }}
                 color="primary"
                 autoFocus
+                disabled={this.state.groovesData.length===0 ? this.state.isDisabled : !this.state.isDisabled}                
               >
                 Replace
               </Button>
@@ -436,6 +436,7 @@ class ParametersWindow extends React.Component {
                 }}
                 color="primary"
                 autoFocus
+                disabled={this.state.groovesData.length===0 ? this.state.isDisabled : !this.state.isDisabled}                
               >
                 Remove
               </Button>
@@ -462,6 +463,7 @@ class ParametersWindow extends React.Component {
                 }}
                 color="primary"
                 autoFocus
+                disabled={this.state.groovesData.length===0 ? this.state.isDisabled : !this.state.isDisabled}                
               >
                 OK
               </Button>
