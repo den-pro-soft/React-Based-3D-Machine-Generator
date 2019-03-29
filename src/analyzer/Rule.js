@@ -17,7 +17,12 @@ export default class Rule{
      * @param {Document} document
      */
     constructor(document){
+
+        /** @type {Document} */
         this.document = document;
+
+        /** @type {string} */
+        this.errorMessage = "The analyzer detected a model error. Choose one of the solutions below.";
     }
 
     /**

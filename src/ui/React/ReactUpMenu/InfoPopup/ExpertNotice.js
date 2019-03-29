@@ -139,7 +139,6 @@ componentWillUnmount(){
           >
             <Button
               onClick={() => {
-                this.props.callbackOK();
                 this.props.updateExpertNotice(
                     !this.props.openExpertNotice,
                     this.props.expertNoticeText,
@@ -147,7 +146,7 @@ componentWillUnmount(){
                     this.props.callbackOK,
                     this.props.callbackCancel
                   );
-
+                  this.props.callbackOK();
               }}
               style={{
                 backgroundColor: "#dddada",

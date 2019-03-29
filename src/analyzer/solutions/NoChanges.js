@@ -11,10 +11,18 @@ export default class NoChanges extends Solution{
         super(document);
 
         this.name = 'No changes';
+        this.previewDocument = null;
     }
 
     execute(){
         
     }
-    
+
+    getPreviewDocument(){
+        if(!this.previewDocument) {
+            return this.document;
+        }else{
+            return this.previewDocument;
+        }
+    }
 }

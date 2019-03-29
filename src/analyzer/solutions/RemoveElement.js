@@ -10,15 +10,30 @@ export default class RemoveElement extends Solution{
 
     /**
      * @param {Document} document
-     * @param {GraphicElement} element
+     * @param {Array.<GraphicElement>} elements
+     * @param {Document} previewDoc
      */
-    constructor(document, element){
+    constructor(document, elements, previewDoc){
         super(document);
-        this.element = element;
+        this.elements = elements;
+        this.previewDoc=previewDoc;
+
+        this.name="Remove";
     }
 
+    /**
+     * @inheritDoc
+     */
     execute(){
-        app.executeCommand(new DeleteElementCommand(this.document, [this.element]));
+        app.executeCommand(new DeleteElementCommand(this.document, this.elements));
+    }
+
+    /**
+     * @inheritDoc
+     * @return {Document}
+     */
+    getPreviewDocument(){
+        return this.previewDoc;
     }
 
 }

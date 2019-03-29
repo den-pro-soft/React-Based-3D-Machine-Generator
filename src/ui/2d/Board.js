@@ -3,7 +3,6 @@
  */
 
 
-import {Injectable} from 'container-ioc';
 
 import Point from '../../model/Point';
 import Observable from '../../Observable';
@@ -283,7 +282,6 @@ class Board extends Observable{
  *
  * 1. mouseMove - data is {Point} current mouse position (in virtual coordinate system)
  */
-@Injectable()
 class InteractiveBoard extends Board{
     /**
      * @inheritDoc

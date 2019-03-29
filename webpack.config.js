@@ -7,7 +7,6 @@ module.exports = {
     "3Dview": "./src/ui/3Dview.js",
     popup: "./src/ui/popup.js",
     Helper: "./src/Helper.js",
-    Application: "./src/Application.js",
     Container: "./src/Container.js",
     //React enry point
     index: "./src/ui/index.js"

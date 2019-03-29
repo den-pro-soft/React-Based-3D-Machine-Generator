@@ -22,4 +22,11 @@ export default class Solution{
     execute(){
         
     }
+
+    /**
+     * @return {Document}
+     */
+    getPreviewDocument(){
+
+    }
 }
