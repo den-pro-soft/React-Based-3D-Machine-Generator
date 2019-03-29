@@ -6,9 +6,7 @@ import Rule from './../Rule';
 import RemoveElementSolution from './../solutions/RemoveElement';
 import ShapeBuilder from './../ShapeBuilder';
 
-import Arc from './../../model/elements/Arc';
-
-export default class LineInNoShape extends Rule{
+export default class NotClosedShape extends Rule{
 
     /**
      *
@@ -16,7 +14,7 @@ export default class LineInNoShape extends Rule{
      */
     constructor(document){
         super(document);
-        this.errorMessage = `Error: The indicated line is not part of a closed shape.
+        this.errorMessage = `Error: The indicated shape is not closed.
             Every line you draw must be part of a closed shape will no open ends or gaps. `;
     }
 
@@ -28,8 +26,10 @@ export default class LineInNoShape extends Rule{
         let res = super.createSolutions();
 
         res[0].previewDocument = this.document.getSnapshot();
-        let redElement = this.getLineByDocument(res[0].previewDocument);
-        redElement._renderer.error=true;
+        let redElements = this.getLineByDocument(res[0].previewDocument);
+        for(let redElement of redElements) {
+            redElement._renderer.error = true;
+        }
 
         res.push(this.createRemoveElementSolution());
         return res;
@@ -49,31 +49,32 @@ export default class LineInNoShape extends Rule{
      * @private
      */
     createRemoveElementSolution(){
-        let line = this.getLineByDocument(this.document);
+        let elements = this.getLineByDocument(this.document);
 
         let previewDoc = this.document.getSnapshot();
-        let line2 = this.getLineByDocument(previewDoc);
-        previewDoc.removeElement(line2);
+        let removeElements = this.getLineByDocument(previewDoc);
+        for(let removeElement of removeElements) {
+            previewDoc.removeElement(removeElement);
+        }
 
-        return new RemoveElementSolution(this.document, [line], previewDoc);
+        return new RemoveElementSolution(this.document, elements, previewDoc);
     }
 
 
     /**
      *
      * @param {Document} document
-     * @return {GraphicElement|null}
+     * @return {Array.<GraphicElement>|null}
      * @private
      */
     getLineByDocument(document){
         this.shapeBuilder = new ShapeBuilder(document);
         let shapes = this.shapeBuilder.buildShapes();
-        for(let shape of shapes){
-            if(shape.elements.length==1){
-                if(shape.elements[0] instanceof Arc && shape.elements[0].incrementAngle==360){
-                    continue;
+        if(shapes.length>0){
+            for(let shape of shapes){
+                if(!shape.isClose()){
+                    return shape.elements;
                 }
-                return shape.elements[0];
             }
         }
         return null;

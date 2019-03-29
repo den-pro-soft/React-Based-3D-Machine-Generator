@@ -7,6 +7,8 @@ import Exception from '../Exception';
 import GraphicElement from './GraphicElement';
 import Renderable from '../ui/2d/Renderable';
 
+let id=0;
+
 export default class Document extends Renderable{
 
     /**
@@ -43,6 +45,8 @@ export default class Document extends Renderable{
 
     constructor(){
         super();
+
+        this.id= id++;
         /** @var {Array.<GraphicElement>}*/
         this._elements = [];
 

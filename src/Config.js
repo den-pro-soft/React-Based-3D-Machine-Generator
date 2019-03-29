@@ -3,7 +3,6 @@
  *
  */
 
-import { Injectable} from 'container-ioc';
 import AutoLineType from './model/line_types/Auto';
 import CommentToSelfLineType from './model/line_types/CommentToSelf';
 import BendLineType from './model/line_types/Bend';
@@ -22,7 +21,6 @@ import Observable from './Observable';
  * Provides events:
  * 1. change - when change some property, data is propertyName
  */
-@Injectable()
 export default class Config extends Observable{
     constructor(){
         super();

@@ -21,6 +21,7 @@ export default class Render extends Renderable{
         this.new=false;
         this.focus = false;
 
+        this.error = false;
         this.renderMagnificationPoint=true;
     }
 
@@ -42,6 +43,11 @@ export default class Render extends Renderable{
             this.board.style('strokeStyle', '#ff641a');
             this.board.style('fillStyle', '#ff641a');
         }
+        if(this.error){
+            this.board.style('strokeStyle', '#ff0000');
+            this.board.style('fillStyle', '#ff0000');
+            this.board.style('lineWidth', 2);
+        }
         
         this.drawElement();
         if(this.renderMagnificationPoint && this.focus){
@@ -60,6 +66,7 @@ export default class Render extends Renderable{
     resetConfig(){
         this.focus=false;
         this.new=false;
+        this.error=false;
         this.renderMagnificationPoint=true;
     }
 
