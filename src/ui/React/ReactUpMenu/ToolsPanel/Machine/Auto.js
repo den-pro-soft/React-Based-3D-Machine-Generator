@@ -16,44 +16,56 @@ import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 
 class Auto extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      value: "straight",
-      isCheckedStockMaterial: false,
-      angle45: false,
-      angle90: true,
-      angle135: false,
-      isCheckedGrooves: false,
-      valueFarEdge:'Drilled',
-      groovesDisabled:false
+    constructor(props) {
+      super(props);
+      this.state = {
+        value: "straight",
+        // value:this.props.value,
+        isCheckedStockMaterial: false,
+        angle45: false,
+        angle90: true,
+        angle135: false,
+        isCheckedGrooves: false,
+        valueFarEdge:'Drilled',
+        groovesDisabled:false
+      };
+    }
+
+    componentWillReceiveProps(nextProps) {
+      // console.log(nextProps,'nextProps')
+      if (nextProps.value === 'straight') {
+        this.setState({
+          value: nextProps.value,
+          isCheckedStockMaterial: !this.state.isCheckedStockMaterial,
+          groovesDisabled:!this.state.groovesDisabled
+
+        })
+      }
+    }
+
+    handleRadioChange = event => {
+      event.preventDefault();
+
+      this.setState({ value: event.target.value });
+      // console.log(this.state.value, "this.state.value");
     };
-  }
-  handleRadioChange = event => {
-    event.preventDefault();
 
-    this.setState({ value: event.target.value });
-    // console.log(this.state.value, "this.state.value");
-  };
-  // resetButton = () => {
-  //     this.setState({ value: "emsx1" });
-  // };
-  handleCheckedStockMaterial = event => {
-    window.setTimeout(() => {
-      this.setState({
-        isCheckedStockMaterial: !this.state.isCheckedStockMaterial,
-        groovesDisabled:!this.state.groovesDisabled
-      });
-    }, 0);
-  };
+    handleCheckedStockMaterial = event => {
+      window.setTimeout(() => {
+        this.setState({
+          isCheckedStockMaterial: !this.state.isCheckedStockMaterial,
+          groovesDisabled:!this.state.groovesDisabled
+        });
+      }, 0);
+    };
 
-  handleCheckedGrooves = event => {
-    window.setTimeout(() => {
-      this.setState({
-        isCheckedGrooves: !this.state.isCheckedGrooves
-      });
-    }, 0);
-  };
+    handleCheckedGrooves = event => {
+      window.setTimeout(() => {
+        this.setState({
+          isCheckedGrooves: !this.state.isCheckedGrooves
+        });
+      }, 0);
+    };
 
   // ---------------------functions for state angle---------------------------------
     updateState45 = (value45) => {
@@ -74,12 +86,12 @@ class Auto extends React.Component {
     }
 
     render() {
+      // console.log(this.props,'props-Auto')
       return (
         <div className="Auto">
           <p className="AutoTitle">
             Use this selection to design the shape of your part.
           </p>
-          {/* <div className="RadioButton"> */}
           <fieldset className="RadiButtonsFieldset">
             <legend>Near edge</legend>
             <div className="RadioButtons">
@@ -91,7 +103,9 @@ class Auto extends React.Component {
                   >
                     <FormControlLabel
                       classes={{ root: "root" }}
-                      // style={{border:'1px solid red',paddinTop:'0px!important'}}
+                      onClick={
+                        this.props.updateCloseMachineModal(this.props.openMachineModal,'straight')
+                      }
                       value="straight"
                       control={
                         <Radio
@@ -102,6 +116,9 @@ class Auto extends React.Component {
                       label="Straight"
                     />
                     <FormControlLabel
+                        onClick={
+                          this.props.updateCloseMachineModal(this.props.openMachineModal,'chamfer')
+                        }
                       classes={{ root: "root" }}
                       value="chamfer"
                       control={
@@ -113,6 +130,9 @@ class Auto extends React.Component {
                       label="Chamfer"
                     />
                     <FormControlLabel
+                       onClick={
+                        this.props.updateCloseMachineModal(this.props.openMachineModal,'round')
+                      }
                       classes={{ root: "root" }}
                       value="round"
                       control={
@@ -163,11 +183,8 @@ class Auto extends React.Component {
                       <img src="resources/images/radius.png" />
                     </div>
                     <div className="Inputs">
-                      {/* <div className="InputSizeGroup"> */}
-
                       <div className="InputSelectRadiusGroup">
                         <span>Radius:</span>
-
                         <span className="InputSelectRadius">
                           <InputSelectRadius />
                         </span>
@@ -283,7 +300,6 @@ class Auto extends React.Component {
                     <FormControlLabel
                       disabled
                       classes={{ root: "root" }}
-                      // style={{border:'1px solid red',paddinTop:'0px!important'}}
                       value="Drilled"
                       control={
                         <Radio
@@ -326,10 +342,8 @@ class Auto extends React.Component {
                     </div>
                     <div className="InputAngle">
                       <div className="InputFarEdge">
-                      <span className="AutoTitle" style={{color:'grey'}}>A small fillet will be applied<br/
-                      > to prevent stress cracks.<br/> Drill bottom holes are usually<br/>
-                      less expensive.</span>
-                  
+                      <span className="AutoTitle" style={{color:'grey'}}>A small fillet will be applied<br/> to prevent stress cracks.<br/> Drill bottom holes are usually<br/>
+                      less expensive.</span>       
                       </div>
                     </div>
                   </div>
@@ -354,7 +368,8 @@ class Auto extends React.Component {
     const mapStateToProps = state => {
       return {
         openSetGrooves: state.setGroovesReducer.openSetGrooves,
-
+        openMachineModal: state.machineWindowReducer.openMachineModal,
+        value: state.machineWindowReducer.value
       };
     };
 
@@ -365,6 +380,9 @@ class Auto extends React.Component {
             type: "OPEN_SET_GROOVES",
             payload: openSetGrooves,
           });
+        },
+        updateCloseMachineModal: (openMachineModal,value) => {
+          dispatch({ type: "CLOSE_MACHINE_MODAL", payload: openMachineModal,payloadValue:value });
         }
       };
     };
