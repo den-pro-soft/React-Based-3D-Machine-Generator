@@ -19,13 +19,13 @@ componentWillMount(){
   console.log('WillMount');
 
 }
-componentWillReceiveProps(nextProps){
-      if (nextProps.openExpertNotice ===!this.props.openExpertNotice) {
-        setTimeout(
-        ()=>this.setState({ value: '0'}),100
-        )
+    componentWillReceiveProps(nextProps){
+          if (nextProps.openExpertNotice ===!this.props.openExpertNotice) {
+            setTimeout(
+            ()=>this.setState({ value: '0'}),100
+            )
+          }
       }
-  }
   handleRadioChange = event => {
     event.preventDefault();
 

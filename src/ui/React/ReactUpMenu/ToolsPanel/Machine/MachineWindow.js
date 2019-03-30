@@ -13,6 +13,10 @@ import { withRouter } from "react-router-dom";
 class MachineWindow extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {}
+  }
+  resetToDefault = () => {
+      this.props.updateCloseMachineModal(true,'straight')
   }
 
   // -------------------------------------openLinkHelp---------------------------------------
@@ -89,10 +93,20 @@ class MachineWindow extends React.Component {
         <Machine history={this.props.history}/>
         </DialogContent>
 
-        <DialogActions>
+        <DialogActions style={{display:'flex',justifyContent:'space-between'}}>
+          {/* <div style={{display:'flex',justifyContent:'space-between'}}> */}
+        <Button
+            onClick={this.resetToDefault}
+            style={{ backgroundColor: "#dddada",textAlign:'left' }}
+            color="primary"
+            autoFocus
+          >
+            Reset to Default
+          </Button>
+          <div>
           <Button
             onClick={()=>this.props.updateCloseMachineModal(!this.props.openMachineModal)}
-            style={{ backgroundColor: "#f0ecec" }}
+            style={{ backgroundColor: "#dddada",marginRight:'10px' }}
             color="primary"
             autoFocus
           >
@@ -100,7 +114,7 @@ class MachineWindow extends React.Component {
           </Button>
           <Button
             onClick={()=>this.props.updateCloseMachineModal(!this.props.openMachineModal)}
-            style={{ backgroundColor: "#f0ecec" }}
+            style={{ backgroundColor: "#dddada", marginRight:'10px'}}
             color="primary"
             autoFocus
           >
@@ -108,7 +122,7 @@ class MachineWindow extends React.Component {
           </Button>
      {this.props.location.pathname==='/'&&     <Button
             onClick={this.openAutoHelp}
-            style={{ backgroundColor: "#f0ecec" }}
+            style={{ backgroundColor: "#dddada" }}
             color="primary"
             autoFocus
           >
@@ -116,7 +130,7 @@ class MachineWindow extends React.Component {
           </Button>}
           {this.props.location.pathname==='/machine/bend'&& <Button
             onClick={this.openBendHelp}
-            style={{ backgroundColor: "#f0ecec" }}
+            style={{ backgroundColor: "#dddada" }}
             color="primary"
             autoFocus
           >
@@ -124,7 +138,7 @@ class MachineWindow extends React.Component {
           </Button>}
           {this.props.location.pathname==='/machine/to-self'&& <Button
             onClick={this.openCommentToSelfHelp}
-            style={{ backgroundColor: "#f0ecec" }}
+            style={{ backgroundColor: "#dddada" }}
             color="primary"
             autoFocus
           >
@@ -132,12 +146,13 @@ class MachineWindow extends React.Component {
           </Button>}
           {this.props.location.pathname==='/machine/to-machinist'&& <Button
             onClick={this.openCommentToMachinistHelp}
-            style={{ backgroundColor: "#f0ecec" }}
+            style={{ backgroundColor: "#dddada" }}
             color="primary"
             autoFocus
           >
             Help
           </Button>}
+          </div>
         </DialogActions>
       </Dialog>
       )
@@ -145,15 +160,21 @@ class MachineWindow extends React.Component {
 }
 const mapStateToProps = (state)=>{
   return {
-    openMachineModal: state.machineWindowReducer.openMachineModal
+    openMachineModal: state.machineWindowReducer.openMachineModal,
+    value: state.machineWindowReducer.value
+
   }
      }
      
 const mapDispatchToProps = dispatch => {
       return {
-        updateCloseMachineModal: openMachineModal => {
-          dispatch({ type: "CLOSE_MACHINE_MODAL", payload: openMachineModal });
+        updateCloseMachineModal: (openMachineModal,value) => {
+          dispatch({ type: "CLOSE_MACHINE_MODAL", payload: openMachineModal,payloadValue:value });
         }
+        // updateValueRadioAuto: value => {
+        //   dispatch({ type: "UPDATE_VALUE_RADIO_AUTO", payload: value });
+        // }
       };
     };
+    
   export default withRouter(connect(mapStateToProps,mapDispatchToProps)(MachineWindow))

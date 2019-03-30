@@ -33,6 +33,7 @@ class Machine extends React.Component {
     //     this.props.history.push('/') 
     //   }
     render() {  
+      // console.log(this.props,'machine')
       return (
         <div
           className="Machine"
