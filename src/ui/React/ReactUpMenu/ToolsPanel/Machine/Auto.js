@@ -36,8 +36,10 @@ class Auto extends React.Component {
       if (nextProps.value === 'straight') {
         this.setState({
           value: nextProps.value,
-          isCheckedStockMaterial: !this.state.isCheckedStockMaterial,
-          groovesDisabled:!this.state.groovesDisabled
+          // isCheckedStockMaterial: !this.state.isCheckedStockMaterial,
+          // groovesDisabled:!this.state.groovesDisabled
+          isCheckedStockMaterial:false,
+          groovesDisabled:false
 
         })
       }
