@@ -2,7 +2,6 @@ const initialState = {
     topDepth:0,
     width:0,
     horisontalDepth:0,
-    // groovesData:[{topDepth:0,width:0,horisontalDepth:0}]
     groovesData:[]
 
 

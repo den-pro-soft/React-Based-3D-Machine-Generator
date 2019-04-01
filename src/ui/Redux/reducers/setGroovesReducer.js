@@ -1,5 +1,5 @@
 const initialState = {
-    openSetGrooves: false
+    openSetGrooves: true
   };
   
   export default function setGroovesReducer(state = initialState, action) {

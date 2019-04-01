@@ -6,9 +6,15 @@ import { connect } from "react-redux";
   constructor(props) {
     super(props);
     this.state = {
-      width: this.props.width,
-      height:this.props.height
+      // width: this.props.width,
+      // height:this.props.height
+      width: '',
+      height:''
     };
+    console.log(this.props,'props')
+
+    console.log(this.state,'state')
+
   }
   componentWillMount() {
     app.addHandler("selectElements", elements => {
