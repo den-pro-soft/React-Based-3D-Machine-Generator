@@ -5,6 +5,9 @@
 import Rule from './../Rule';
 import RemoveElementSolution from './../solutions/RemoveElement';
 import ShapeBuilder from './../ShapeBuilder';
+import Exception from "../../Exception";
+import LineElement from "../../model/elements/LineElement";
+import AddConnectLine from "../solutions/AddConnectLine";
 
 export default class NotClosedShape extends Rule{
 
@@ -31,6 +34,7 @@ export default class NotClosedShape extends Rule{
             redElement._renderer.error = true;
         }
 
+        res.push(this.createAddElementSolution());
         res.push(this.createRemoveElementSolution());
         return res;
     }
@@ -78,5 +82,27 @@ export default class NotClosedShape extends Rule{
             }
         }
         return null;
+    }
+
+    /**
+     * @return {Solution}
+     * @private
+     */
+    createAddElementSolution(){
+        this.shapeBuilder = new ShapeBuilder(this.document);
+        let shapes = this.shapeBuilder.buildShapes();
+        if(shapes.length>0){
+            for(let shape of shapes){
+                if(!shape.isClose()){
+                    let points = shape.getExtremePoints();
+                    if(points.length==2){
+                        let element = new LineElement(points[0], points[1]);
+                        return new AddConnectLine(this.document, element);
+                    }else{
+                        throw new Exception("Shape can't has more then two extreme points!", shape);
+                    }
+                }
+            }
+        }
     }
 }
