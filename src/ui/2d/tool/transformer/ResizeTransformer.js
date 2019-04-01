@@ -5,7 +5,7 @@
 import Transformer from './Transformer';
 import RectElement from '../../../../model/elements/RectElement';
 import Point from '../../../../model/Point';
-import Group from '../../../../model/elements/Group';
+import Text from '../../../../model/elements/Text';
 import Arc from '../../../../model/elements/Arc';
 import Rect from "../../../../model/math/Rect";
 import ResizeElementsCommand from '../../../../command/ResizeElementsCommand';
@@ -264,11 +264,12 @@ export default class ResizeTransformer extends Transformer{
         }else{
             if(this._downPosition) {
                 let hasArcs = changeElements.reduce((res, el)=>res||(el instanceof Arc && el.incrementAngle!=360),false);
+                let hasText = changeElements.reduce((res, el)=>res||(el instanceof Text),false);
                 let command = new ResizeElementsCommand(new Document(), changeElements,
                     new Vector(this.dx, this.dy), this.activeControllPoint.alignX, this.activeControllPoint.alignY, true);
                 command.needSave = false;
 
-                if(hasArcs && command._isCentralControlPoint()) {
+                if(hasText || (hasArcs && command._isCentralControlPoint())) {
                     command.execute().then((res) => {
                         if (res) {
                             if (command.isReplacedElements()) {

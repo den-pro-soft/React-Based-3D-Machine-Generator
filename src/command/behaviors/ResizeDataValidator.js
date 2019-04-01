@@ -5,6 +5,7 @@
 import Behavior from '../Behavior';
 import Document from '../../model/Document';
 import Arc from '../../model/elements/Arc';
+import Text from '../../model/elements/Text';
 
 export default class ResizeDataValidator extends Behavior{
 
@@ -15,6 +16,11 @@ export default class ResizeDataValidator extends Behavior{
      */
     execute(command){
         return new Promise((resolve, reject)=>{
+            if(this.isHasAnText(command)){
+                container.resolve('confirmChangeArcToSplinesDialog').modalNonWorkFeature("Stretching text is not currently supported. Use the font size property field, please.");
+                resolve(false)
+            }
+
             if(this.isHasAnArc(command) && command._isCentralControlPoint()){
                 container.resolve('confirmChangeArcToSplinesDialog').modalNonWorkFeature("Arcs cannot be stretched currently. Please use splines.");
                 resolve(false)
@@ -23,6 +29,23 @@ export default class ResizeDataValidator extends Behavior{
             }
         });
     }
+
+
+    /**
+     * @param {ResizeElementsCommand} command
+     * @return {boolean}
+     * @private
+     */
+    isHasAnText(command){
+        let elements = Document.toSimpleListElements(command.elements);
+        for(let el of elements) {
+            if (el instanceof Text) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 
 
     /**

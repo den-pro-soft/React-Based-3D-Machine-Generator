@@ -3,8 +3,6 @@ export default class ModalWindows {
     constructor() {
         this.okCallBack = null;
         this.noCallBack = null;
-        this.infoText =
-        "Sorry, this feature will be realised in the next versions.";
     }
 
     /**
@@ -34,11 +32,11 @@ export default class ModalWindows {
         store.dispatch({ type: "OPEN_CONFIRM", payload: false });
     };
 
-    modalNonWorkFeature = () => {
+    modalNonWorkFeature = (messsage = "Sorry, this feature will be realised in the next versions.") => {
         store.dispatch({
         type: "OPEN_NON_WORK_FEATURE",
         payload: true,
-        payloadText: this.infoText
+        payloadText: messsage
         });
     };
 
