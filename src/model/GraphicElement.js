@@ -27,7 +27,7 @@ export default class GraphicElement extends Cloneable{
         /** @var {number} - is unique identifier */
         this.id=container.resolve('elementIdGenerator').generateId();
 
-        this.height = 1.59;
+        this._height = 1.59;
 
         /** @var {Array.<Point>} */
         this._points = [];
@@ -39,6 +39,20 @@ export default class GraphicElement extends Cloneable{
         this._lineType=container.resolve('config').lineType.copy();
         
         this.typeName= "Element"; //todo: understand  instanceof and remove this shit
+    }
+
+    /**
+     * @param {number} value
+     */
+    set height(value){
+        this._height=value;
+    }
+
+    /**
+     * @return {number}
+     */
+    get height(){
+        return this._height;
     }
 
     /**

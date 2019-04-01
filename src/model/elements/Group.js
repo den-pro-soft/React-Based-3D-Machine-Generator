@@ -36,6 +36,21 @@ export default class Group extends GraphicElement{
     }
 
     /**
+     *
+     * @param {number} value
+     */
+    set height(value){
+        for(let el of this.elements){
+            el.height=value;
+        }
+    }
+
+    get height(){
+        return this._height;
+    }
+
+
+    /**
      * Calculates the geometric center of the shape.
      *
      * The center of the group is the center of the line of maximum length obtained from the points of the figure.
