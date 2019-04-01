@@ -5,7 +5,6 @@ import { connect } from "react-redux";
 
 const options = [
   { value: "45.00", label: '45.00 deg' },
-
   { value: "60.00", label: '60.00 deg' },
   { value: "90.00", label: '90.00 deg' },
   { value: "92.00", label: '92.00 deg'}, 
@@ -29,8 +28,15 @@ class InputSelectAuto extends React.Component {
 
 
     handleChange = (newValue, actionMeta) => {
-      // console.log(newValue,'1-defaultState');
-        
+      console.log(+newValue.value,'1-newValue');
+        if(+newValue.value<90){
+            this.props.updateState45(true);
+        } else if(+newValue.value > 90){
+            this.props.updateState135(true);
+        } else {
+            this.props.updateState90(true);
+        }
+
         this.setState({
           options: options,
           newValue: newValue,
@@ -42,7 +48,7 @@ class InputSelectAuto extends React.Component {
 
     handleInputChange = (inputValue, actionMeta) => {
       // console.group('Input Changed');
-      // console.log(inputValue);
+      console.log(inputValue,'inputValue');
       // console.log(`action: ${actionMeta.action}`);
       // console.groupEnd();
           let newValue = options.some(el => el.value === (+inputValue * 1).toFixed(2));
@@ -119,6 +125,7 @@ class InputSelectAuto extends React.Component {
           <CreatableSelect
             onMouseLeave={this.handleInputChange}
             styles={customStyles}
+            isDisabled={this.props.disabled}
             // isClearable
             // defaultValue={this.state.newValue}
             onChange={this.handleChange}

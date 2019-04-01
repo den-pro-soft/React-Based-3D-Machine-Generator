@@ -1,5 +1,6 @@
 const initialState = {
-  openMachineModal: false
+  openMachineModal: false,
+  value: "staright"
 };
 
 export default function machineWindowReducer(state = initialState, action) {
@@ -7,7 +8,9 @@ export default function machineWindowReducer(state = initialState, action) {
     case "OPEN_MACHINE_MODAL":
       return { openMachineModal: action.payload };
     case "CLOSE_MACHINE_MODAL":
-      return { openMachineModal: action.payload };
+      return { openMachineModal: action.payload, value: action.payloadValue };
+    case "UPDATE_VALUE_RADIO_AUTO":
+      return { value: action.payload };
     default:
       return state;
   }

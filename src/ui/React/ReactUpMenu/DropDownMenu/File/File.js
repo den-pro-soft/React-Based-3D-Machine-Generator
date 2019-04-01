@@ -7,7 +7,12 @@ import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
-export default class File extends React.Component {
+import ConfirmSaveDesignModal from "./ConfirmSaveDesignModal";
+import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
+
+
+class File extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -47,6 +52,10 @@ export default class File extends React.Component {
             }
         );
     };
+
+    closeNewModalOfConfirm = (value) => {
+        this.setState({ openNewModal: value })
+     }
 // ------------open link button Help----------
     openWindow = ()=> {
         window.open('https://www.emachineshop.com/help-wizards/')
@@ -103,7 +112,6 @@ export default class File extends React.Component {
                             <li onClick={()=> app.saveAs('xml')}>
                                 <a href="#">
                                     Save
-                                    {/* <Save/> */}
                                 </a>
                             </li>
                             <li onClick={()=> app.saveAs('png')}>
@@ -132,7 +140,6 @@ export default class File extends React.Component {
                         <img
                             width="25px"
                             src="resources/images/icon.jpg"
-                            // data-tip="<span>Shows how to use numeric values.</span>"
                         />
                         <span>New Design</span>
                     </DialogTitle>
@@ -146,7 +153,10 @@ export default class File extends React.Component {
 
                     <DialogActions>
                         <Button
-                            onClick={this.closeNewModal}
+                             onClick={() => {
+                                this.props.updateConfirmSaveDesign(!this.props.openConfirmSaveDesign);
+                                // this.closeNewModal
+                                      }}
                             style={{
                                     backgroundColor: "#dddada",
                                     boxShadow: "2px 2px 1px #000"
@@ -181,8 +191,26 @@ export default class File extends React.Component {
                         </Button>
                     </DialogActions>
                 </Dialog>
-
+                <ConfirmSaveDesignModal closeNewModalOfConfirm ={this.closeNewModalOfConfirm}/>
             </div>
         );
     }
 }
+const mapStateToProps = state => {
+    return {
+      openConfirmSaveDesign: state.confirmSaveDesignReducer.openConfirmSaveDesign
+    };
+  };
+  
+  const mapDispatchToProps = dispatch => {
+    return {
+      updateConfirmSaveDesign: openConfirmSaveDesign => {
+        dispatch({
+          type: "OPEN_CONFIRM_SAVE_DESIGN",
+          payload: openConfirmSaveDesign
+        });
+      }
+    };
+  };
+  
+  export default connect(mapStateToProps, mapDispatchToProps)(File);
