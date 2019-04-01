@@ -4,6 +4,7 @@
 
 import Shape from './../model/elements/Shape';
 import IncidenceMatrix from './../model/math/IncidenceMatrix';
+import Auto from './../model/line_types/Auto';
 
 class ShapePoint{
     /**
@@ -116,6 +117,9 @@ export default class ShapeBuilder{
         let simpleElements = doc.getListSimpleElements();
         let shapePoints = [];
         for(let element of simpleElements){
+            if(element.lineType.name != "Auto"){
+                continue;
+            }
             let points = element.extremePoints;
             if(points){
                 for(let p of points){
