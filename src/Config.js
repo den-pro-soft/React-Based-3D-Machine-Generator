@@ -86,5 +86,14 @@ export default class Config extends Observable{
         ];
     }
 
+    /**
+     * @return {number[]}
+     */
+    get defaultZValues(){
+        return [0.050, 0.080, 0.130, 0.250, 0.510, 0.790, 1.140, 1.590, 2.360, 3.170, 4.750, 6.350, 9.520, 10.000,
+            12.700, 19.050, 25.400, 31.750, 38.100, 50.800, 63.500, 76.200
+        ];
+    }
+
     get fontSize(){return this._fontSize};
 }
