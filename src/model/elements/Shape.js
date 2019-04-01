@@ -55,17 +55,46 @@ export default class Shape{
      * @throws {Exception} - if the shape has less than two elements
      */
     isClose(){
-        // if(this.elements.length<2){
-        //     throw new Exception("Shape can'\t has less than two elements!", this);
-        // }
-        console.log(this.elements , "ELEMENTS");
         if(this.elements.length==1){
             if(this.elements[0] instanceof Arc && this.elements[0].incrementAngle==360){
                 return true;
             }
         }
 
-        /** @type {Array.<{point:Point, count:number}>} */
+        let countPoints = this.groupShapePoint();
+
+        for(let cp of countPoints){
+            if(cp.count!=2){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * @returns {Array.<Point>}
+     */
+    getExtremePoints(){
+        let res = [];
+
+        let countPoints = this.groupShapePoint();
+
+        for(let cp of countPoints){
+            if(cp.count!=2){
+                res.push(cp.point);
+            }
+        }
+
+
+        return res;
+    }
+
+
+    /**
+     * @returns {Array<{point: Point, count: number}>}
+     * @private
+     */
+    groupShapePoint(){
         let countPoints = [];
 
         for(let el of this.elements){
@@ -80,14 +109,7 @@ export default class Shape{
                 countPoints.push({point:point, count:1});
             }
         }
-
-        for(let cp of countPoints){
-            if(cp.count!=2){
-                return false;
-            }
-        }
-        return true;
+        return countPoints;
     }
-
 
 }
