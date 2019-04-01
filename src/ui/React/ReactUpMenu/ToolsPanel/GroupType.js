@@ -11,15 +11,12 @@ import { connect } from "react-redux";
       width: '',
       height:''
     };
-    console.log(this.props,'props')
-
-    console.log(this.state,'state')
-
+    // console.log(this.props,'props')
+    // console.log(this.state,'state')
   }
   componentWillMount() {
     app.addHandler("selectElements", elements => {
-   
-         
+           
       if (app.selectElements.length == 1||app.selectElements.length > 1) {
           let ext = app.currentDocument.getExtrenum(app.selectElements);
           let width = (ext.max.x- ext.min.x).toFixed(3);

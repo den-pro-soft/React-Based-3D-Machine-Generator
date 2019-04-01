@@ -226,13 +226,12 @@ class ParametersWindow extends React.Component {
 
     replaceGroovesData = () => {
       // this.props.updateRemoveGrooves(!this.props.openRemoveGrooves)
-    this.state.groovesData.splice(this.state.selectValue,1);
-      this.setState({
-        grovesData:this.state.groovesData
-      })
+    // this.state.groovesData.splice(this.state.selectValue,1);
+    //   this.setState({
+    //     grovesData:this.state.groovesData
+    //   })
 // console.log(this.state.groovesData,'remove')
     }
-
 
     removeGroovesData = () => {
       this.props.updateRemoveGrooves(!this.props.openRemoveGrooves)
