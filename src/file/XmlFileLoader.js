@@ -15,6 +15,7 @@ import Text from './../model/elements/Text';
 
 import AutoLineType from './../model/line_types/Auto';
 import CommentToSelfLineType from './../model/line_types/CommentToSelf';
+import GraphicElement from "../model/GraphicElement";
 
 
 export default class XmlFileLoader extends FileLoader{
@@ -86,7 +87,11 @@ export default class XmlFileLoader extends FileLoader{
                 }
                 if(newElement){
                     element.lineType = lineType.copy();
-                    element.height=parseInt(height);
+                    if(height=='AirInside'){
+                        element.height=GraphicElement.AirInside;
+                    }else{
+                        element.height=parseInt(height);
+                    }
                     doc.addElement(element);
                 }
             };
@@ -121,7 +126,7 @@ export default class XmlFileLoader extends FileLoader{
     convertInXML(elements) {
 
         let figures = elements.map(el => {
-            return `<Region BaseHeight="0" Z="${el.height}" ThroughHole="">
+            return `<Region BaseHeight="0" Z="${el.height==GraphicElement.AirInside?'AirInside':el.height}" ThroughHole="">
                         ${this._createMachineByLineType(el.lineType)}
                         <Contour>\n
                             ${this._convertElementToXml(el)} \n
