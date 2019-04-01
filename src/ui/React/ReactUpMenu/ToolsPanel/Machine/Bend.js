@@ -32,7 +32,7 @@ class Bend extends React.Component {
     return (
       <div className="Bend">
         {app.selectElements[0].typeName !== "Line" && (
-          <p className="BendTitle">Please select a straight line(s)</p>
+          <p className="BendTitle" >Please select a straight line(s)</p>
         )}
         {app.selectElements[0].typeName === "Line" && (
           <div className="LinePart">
