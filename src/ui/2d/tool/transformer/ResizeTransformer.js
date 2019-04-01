@@ -183,6 +183,13 @@ export default class ResizeTransformer extends Transformer{
         this.dy = 0;
     }
 
+
+    removeElemens(){
+        super.removeElemens();
+        this.resizeRect=null;
+        this.activeControllPoint=null;
+    }
+
     addElements(elements){
         this._elements.push(...elements);
         if(!this.resizeRect){
