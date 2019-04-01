@@ -44,7 +44,7 @@ class MachineWindow extends React.Component {
     );
   }
   render(){
-    // console.log(this.props,'machineWindiws')
+    // console.log(this.props,'machineWindows')
 
       return(
         <Dialog
@@ -63,7 +63,6 @@ class MachineWindow extends React.Component {
           <img
             width="25px"
             src="resources/images/icon.jpg"
-            // data-tip="<span>Shows how to use numeric values.</span>"
           />
           <span>Machine</span>
           </div>
@@ -94,9 +93,9 @@ class MachineWindow extends React.Component {
         </DialogContent>
 
         <DialogActions style={{display:'flex',justifyContent:'space-between'}}>
-          {/* <div style={{display:'flex',justifyContent:'space-between'}}> */}
         <Button
             onClick={this.resetToDefault}
+    
             style={{ backgroundColor: "#dddada",textAlign:'left' }}
             color="primary"
             autoFocus
@@ -171,10 +170,7 @@ const mapDispatchToProps = dispatch => {
         updateCloseMachineModal: (openMachineModal,value) => {
           dispatch({ type: "CLOSE_MACHINE_MODAL", payload: openMachineModal,payloadValue:value });
         }
-        // updateValueRadioAuto: value => {
-        //   dispatch({ type: "UPDATE_VALUE_RADIO_AUTO", payload: value });
-        // }
       };
-    };
+    }
     
   export default withRouter(connect(mapStateToProps,mapDispatchToProps)(MachineWindow))

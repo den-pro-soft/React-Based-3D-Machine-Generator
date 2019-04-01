@@ -26,12 +26,8 @@ class Machine extends React.Component {
         // console.log(this.props, 'this.props-New')
         // this.props.history.push('/machine/auto') 
         this.props.history.push('/') 
-
       }
-    // componentWillUnmount() {
-    //     // console.log(this.props, 'this.props-New')
-    //     this.props.history.push('/') 
-    //   }
+  
     render() {  
       // console.log(this.props,'machine')
       return (

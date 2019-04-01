@@ -129,11 +129,9 @@ class InputSelectRadius extends React.Component {
             onMouseLeave={this.handleInputChange}
             styles={customStyles}
             // isClearable
-            // defaultValue={this.state.newValue}
             onChange={this.handleChange}
             onInputChange={this.handleInputChange}
             // onKeyPress={this.handleInputChange}
-            // allowCreate={false}
             options={this.state.options}
             value={this.state.newValue}
             placeholder=""
@@ -141,23 +139,5 @@ class InputSelectRadius extends React.Component {
       );
     }
   }
-//   const mapStateToProps = state => {
-//     return {
-//       demensions: state.preferencesReducer.demensions,
-//       z_value:state.inputSelectReducer.z_value,
-//       indexZ: state.inputSelectReducer.indexZ
-//     };
-//   };
-//   const mapDispatchToProps = dispatch => {
-//     return {
-//       updateZValue: z_value => {
-//         dispatch({ type: "UPDATE_Z_VALUE", payload: z_value });
-//       },
-//       updateIndexZ: indexZ => {
-//         dispatch({ type: "UPDATE_INDEX_Z", payload: indexZ });
-//       }
-   
-//     };
-//   }
-//   export default connect(mapStateToProps,mapDispatchToProps)(InputSelectAuto);
+
   export default InputSelectRadius;

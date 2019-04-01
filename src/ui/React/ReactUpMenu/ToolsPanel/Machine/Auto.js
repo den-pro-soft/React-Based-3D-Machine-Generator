@@ -32,7 +32,7 @@ class Auto extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-      // console.log(nextProps,'nextProps')
+      // console.log(nextProps.value,this.props,'nextProps')
       if (nextProps.value === 'straight') {
         this.setState({
           value: nextProps.value,
@@ -103,7 +103,8 @@ class Auto extends React.Component {
                     <FormControlLabel
                       classes={{ root: "root" }}
                       onClick={
-                        this.props.updateCloseMachineModal(this.props.openMachineModal,'straight')
+                    //  ()=>
+                      this.props.updateCloseMachineModal(this.props.openMachineModal,'straight')
                       }
                       value="straight"
                       control={
@@ -116,7 +117,8 @@ class Auto extends React.Component {
                     />
                     <FormControlLabel
                         onClick={
-                          this.props.updateCloseMachineModal(this.props.openMachineModal,'chamfer')
+                      // ()=> 
+                      this.props.updateCloseMachineModal(this.props.openMachineModal,'chamfer')
                         }
                       classes={{ root: "root" }}
                       value="chamfer"
@@ -130,7 +132,8 @@ class Auto extends React.Component {
                     />
                     <FormControlLabel
                        onClick={
-                        this.props.updateCloseMachineModal(this.props.openMachineModal,'round')
+                      // ()=> 
+                      this.props.updateCloseMachineModal(this.props.openMachineModal,'round')
                       }
                       classes={{ root: "root" }}
                       value="round"
@@ -383,6 +386,7 @@ class Auto extends React.Component {
         updateCloseMachineModal: (openMachineModal,value) => {
           dispatch({ type: "CLOSE_MACHINE_MODAL", payload: openMachineModal,payloadValue:value });
         }
+    
       };
     };
 
