@@ -36,9 +36,11 @@ class Machine extends React.Component {
         >
         <p className="TitleTop">Use the selections below to assign a purpose to each line in your drawing.</p>
         <div className="MenuAndContenet">
-          <div className="Menu">
-        <p className="MenuTitle">Relevant Items</p>
-
+          {/* <div className="Menu"> */}
+        {/* <p className="MenuTitle">Relevant Items</p> */}
+          <fieldset className="Menu">
+          <legend className="MenuTitle">Relevant Items</legend>
+<div className="Menu-UL">
               <ul>
                 <li>
                   <NavLink
@@ -99,6 +101,7 @@ class Machine extends React.Component {
                 </li>
               </ul>
             </div>
+            </fieldset>
             <div className="Content">
               <Switch>
                 <Route path="/" exact render={() => <Auto />} />

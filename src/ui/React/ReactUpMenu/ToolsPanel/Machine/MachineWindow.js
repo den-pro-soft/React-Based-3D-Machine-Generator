@@ -160,15 +160,15 @@ class MachineWindow extends React.Component {
 const mapStateToProps = (state)=>{
   return {
     openMachineModal: state.machineWindowReducer.openMachineModal,
-    value: state.machineWindowReducer.value
+    // value: state.machineWindowReducer.value
 
   }
      }
      
 const mapDispatchToProps = dispatch => {
       return {
-        updateCloseMachineModal: (openMachineModal,value) => {
-          dispatch({ type: "CLOSE_MACHINE_MODAL", payload: openMachineModal,payloadValue:value });
+        updateCloseMachineModal: (openMachineModal,value/*, isCheckedStockMaterial*/) => {
+          dispatch({ type: "CLOSE_MACHINE_MODAL", payload: openMachineModal,payloadValue:value/*, payloadIsChecked: isCheckedStockMaterial */});
         }
       };
     }

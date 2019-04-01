@@ -19,9 +19,9 @@ class Auto extends React.Component {
     constructor(props) {
       super(props);
       this.state = {
-        value: "straight",
-        // value:this.props.value,
+        value:this.props.value,
         isCheckedStockMaterial: false,
+        // isCheckedStockMaterial:this.props.isCheckedStockMaterial,
         angle45: false,
         angle90: true,
         angle135: false,
@@ -32,21 +32,24 @@ class Auto extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-      // console.log(nextProps.value,this.props,'nextProps')
+      // console.log(nextProps.value,,'nextProps')
       if (nextProps.value === 'straight') {
         this.setState({
           value: nextProps.value,
+          // isCheckedStockMaterial:nextProps.isCheckedStockMaterial,
           isCheckedStockMaterial:false,
           groovesDisabled:false
         })
       }
+  
     }
 
     handleRadioChange = event => {
       event.preventDefault();
 
       this.setState({ value: event.target.value });
-      // console.log(this.state.value, "this.state.value");
+      // this.props.updateCloseMachineModal(this.props.openMachineModal,event.target.value,this.props.isCheckedStockMaterial)
+      // console.log(this.state.value, event.target.value,"this.state.value");
     };
 
     handleCheckedStockMaterial = event => {
@@ -81,6 +84,7 @@ class Auto extends React.Component {
     handleRadioChangeFerEdge = event => {
       event.preventDefault();
       this.setState({ valueFarEdge: event.target.value });
+
       // console.log(this.state.value, "this.state.value");
     }
 
@@ -371,7 +375,8 @@ class Auto extends React.Component {
       return {
         openSetGrooves: state.setGroovesReducer.openSetGrooves,
         openMachineModal: state.machineWindowReducer.openMachineModal,
-        value: state.machineWindowReducer.value
+        value: state.machineWindowReducer.value,
+        isCheckedStockMaterial:state.machineWindowReducer.isCheckedStockMaterial
       };
     };
 
@@ -383,8 +388,8 @@ class Auto extends React.Component {
             payload: openSetGrooves,
           });
         },
-        updateCloseMachineModal: (openMachineModal,value) => {
-          dispatch({ type: "CLOSE_MACHINE_MODAL", payload: openMachineModal,payloadValue:value });
+        updateCloseMachineModal: (openMachineModal,value,isCheckedStockMaterial) => {
+          dispatch({ type: "CLOSE_MACHINE_MODAL", payload: openMachineModal,payloadValue:value, payloadIsChecked:isCheckedStockMaterial });
         }
     
       };
