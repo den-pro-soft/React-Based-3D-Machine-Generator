@@ -6,6 +6,7 @@ import confirmationReducer from './reducers/confirmationReducer';
 import priceReducer from './reducers/priceReducer';
 import orderWindowReducer from './reducers/orderWindowReducer';
 import toolsPanelReducer from './reducers/toolsPanelReducer';
+import diameterToolsReducer from './reducers/diameterToolsReducer';
 import inputSelectReducer from './reducers/inputSelectReducer';
 import movingReducer from './reducers/movingReducer';
 import summaryWindowReducer from './reducers/summaryWindowReducer';
@@ -23,7 +24,7 @@ export default combineReducers({
   machineWindowReducer,
   confirmationReducer,nonWorkFeatureReducer,expertNoticeReducer,
   priceReducer,orderWindowReducer,
-  toolsPanelReducer,movingReducer,
+  toolsPanelReducer,diameterToolsReducer,movingReducer,
   inputSelectReducer,
   summaryWindowReducer,
   setGroovesReducer,groovesParametersReducer,

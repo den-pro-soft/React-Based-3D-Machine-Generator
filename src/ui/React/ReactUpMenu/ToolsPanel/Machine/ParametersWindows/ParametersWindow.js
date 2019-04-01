@@ -195,9 +195,7 @@ class ParametersWindow extends React.Component {
       } else {
         this.props.groovesData.map(
           (el) => {
-            // if (el.topDepth === 0 || el.width === 0 || el.horisontalDepth === 0) {
-            //   this.props.openErrorGroovesWindow(!this.props.openErrorGrooves);
-            // }else {
+    
             if (this.props.demensions === 'Millimeters') {
 
               this.state.groovesData.push({ topDepth: (el.topDepth * 1).toFixed(3) + ' mm', width: (el.width * 1).toFixed(3) + ' mm', horisontalDepth: (el.horisontalDepth * 1).toFixed(3) + ' mm' })
@@ -218,13 +216,23 @@ class ParametersWindow extends React.Component {
           }
         )
       }
-
     }
+    
     handleChangeSelect = e => {
       // console.log(e.target.value, 'selectValue')
       this.setState({selectValue:e.target.value});
   //  this.removeGroovesData(e.target.value)
     }
+
+    replaceGroovesData = () => {
+      // this.props.updateRemoveGrooves(!this.props.openRemoveGrooves)
+    this.state.groovesData.splice(this.state.selectValue,1);
+      this.setState({
+        grovesData:this.state.groovesData
+      })
+// console.log(this.state.groovesData,'remove')
+    }
+
 
     removeGroovesData = () => {
       this.props.updateRemoveGrooves(!this.props.openRemoveGrooves)
@@ -399,7 +407,6 @@ class ParametersWindow extends React.Component {
                   width:'130px',
                   backgroundColor: "#dddada",
                   boxShadow: "2px 2px 1px #000",
-                  // marginRight: "5px",
                   marginBottom:'10px',
                   padding: "2px 2px"
                 }}
@@ -409,11 +416,11 @@ class ParametersWindow extends React.Component {
                 Add
               </Button>
               <Button
+                onClick={this.replaceGroovesData}            
                 style={{
                   width:'130px',
                   backgroundColor: "#dddada",
                   boxShadow: "2px 2px 1px #000",
-                  // marginRight: "5px",
                   marginBottom:'10px',
                   padding: "2px 2px"
                 }}

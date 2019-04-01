@@ -8,6 +8,7 @@ class LineType extends React.Component {
     super(props);
     this.state = {
       // lengthLine: this.props.lengthLine,
+      lengthLine:'',
       angle: ""
     };
   }
@@ -70,9 +71,8 @@ class LineType extends React.Component {
         let lengthLine1 = this.state.lengthLine.replace(/[^0-9.]/g, "");
         // console.log(lengthLine1,'leghtInch')
         this.props.updateLengthLine(lengthLine1 * 25.4);
-        this.textInput.blur();
-
         app.setLineLengthElement(lengthLine1 * 25.4);
+        this.textInput.blur();
       }
     }
   };
