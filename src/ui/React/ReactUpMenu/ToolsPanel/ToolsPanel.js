@@ -37,7 +37,7 @@ import { withRouter } from "react-router-dom";
       withoutText:true,
       value:'',
       openBendModal:false,
-      openTapModal:false,
+      // openTapModal:false,
     };
   }
   // ---------------React Life Cycle-----------------
@@ -138,7 +138,7 @@ import { withRouter } from "react-router-dom";
   };
 
   render() {
-
+// console.log(this.props.openMachineModal,'openMachineModal')
     if (this.state.show) {
       return this.getPanelHtml();
     } else {
@@ -169,9 +169,11 @@ import { withRouter } from "react-router-dom";
         <ReactTooltip html={true} className="tooltipBackgroundTheme" />
           <div className="Left-Tools">
             <button className="btn-LineType"
-             onClick={(e)=>{
-              //  console.log(e.target,'window');
-             this.props.updateOpenMachineModal(!this.state.openMachineModal)}}>
+             onClick={
+               ()=>{
+             this.props.updateOpenMachineModal(!this.props.openMachineModal,'straight')
+            }
+             }>
               <a href="#">
                 <img
                   width="18px"
@@ -332,15 +334,16 @@ import { withRouter } from "react-router-dom";
     const mapStateToProps = (state)=>{
       return {
         openConfirm: state.confirmationReducer.openConfirm,
-        demensions: state.preferencesReducer.demensions
-
+        demensions: state.preferencesReducer.demensions,
+        openMachineModal:state.machineWindowReducer.openMachineModal,
+        value:state.machineWindowReducer.value
       }
     }
 
     const mapDispatchToProps = dispatch => {
       return {
-        updateOpenMachineModal: openMachineModal => {
-          dispatch({ type: "OPEN_MACHINE_MODAL", payload: openMachineModal });
+        updateOpenMachineModal: (openMachineModal,value) => {
+          dispatch({ type: "OPEN_MACHINE_MODAL", payload: openMachineModal,payloadValue:value });
         }
       };
     }
