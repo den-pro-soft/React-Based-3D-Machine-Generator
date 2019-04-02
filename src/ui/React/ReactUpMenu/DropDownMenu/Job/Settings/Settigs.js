@@ -13,7 +13,9 @@ export default class Settings extends React.Component {
 
     componentDidMount() {
       // console.log(this.props, 'this.props-New')
-      this.props.history.push("/settings/address");
+      // this.props.history.push("/settings/address");
+
+      this.props.history.replace("/settings/address");
     }
     componentWillUnmount() {
       // console.log(this.props, 'this.props-New')

@@ -250,23 +250,23 @@ class ReactVirtualizedTable extends React.PureComponent {
     if(StateUSA === null){
     this.setState({stateUSA:this.state.stateUSA})
     } else{
-      this.setState({stateUSA:StateUSA+', ' },
-      ()=>{
-        console.log(this.state.stateUSA,'stateUSA На вході')
-      })
+      this.setState({stateUSA:StateUSA+', ' })  
     }
+
     const StateCanada = localStorage.getItem('stateCanada');
     if(StateCanada === null){
     this.setState({stateCanada:this.state.stateCanada +', '})
     } else{
       this.setState({stateCanada:StateCanada+', ' })
     }
+
     const Province = localStorage.getItem('province');
     if(Province === null){
     this.setState({province:this.state.province })
     } else{
       this.setState({province:Province })
     }
+
     const Country = localStorage.getItem('country');
     if(Country === null){
     this.setState({country:this.state.country},
@@ -347,7 +347,6 @@ class ReactVirtualizedTable extends React.PureComponent {
 
   render(){
     const used_lineTypes = localStorage.getItem('lineType');
-    // console.log(used_lineTypes,'used_machines')
    
     const data = [
       ["File name",this.state.fileName],
@@ -361,27 +360,10 @@ class ReactVirtualizedTable extends React.PureComponent {
       ["Thickness",this.state.value_Z],
       ["Used line types", used_lineTypes],
       ["Finishing", this.state.finishing],
-      // ["Packing", "Pack parts in bulk"],
       ["Comments to machinist", this.state.commentToMachinist ],
      
     ];
-    // const data_auto = [
-    //   ["File name",this.state.fileName],
-    //   ["Customer", this.state.firstName + ' '+ this.state.lastName + this.state.businessName],
-    //   ["Customer email", this.state.email],
-    //   ["Order type", this.state.order + ' '+this.state.originalOrder],
-    //   ["Shipping to",this.state.adressLine1+ this.state.city+
-    //   this.state.StateOrProvince +this.state.zip + this.state.country],
-    //   ["Quantity", 25],
-    //   ["Material", this.state.material],
-    //   ["Thickness", `0,000${String.fromCharCode(34)}, tolerance: 20,00%`],
-    //   ["Used line types", used_lineTypes],
-    //   ["Finishing", this.state.finishing],
-    //   // ["Packing", "Pack parts in bulk"],
-    //   ["Comments to machinist", this.state.commentToMachinist],
-    //   ['',''],
-    //   ['Specifications','']
-    // ];
+
     let id = 0;
     
     function createData(filename, untitled) {
@@ -390,18 +372,10 @@ class ReactVirtualizedTable extends React.PureComponent {
     }
     const rows = [];
     
-   
-    // if (used_machines === 'Auto') {
-    //   for (let i = 0; i < data.length; i += 1) {
-    //     const renderData = data_auto[i];
-    //     rows.push(createData(...renderData));
-    //   }
-    // } else {
       for (let i = 0; i < data.length; i += 1) {
         const renderData = data[i];
         rows.push(createData(...renderData));
       }
-    // } 
 
   
   return (
