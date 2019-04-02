@@ -21,6 +21,9 @@ export default class ZValueOfOuterShape extends Rule{
         /** @type {{shape:Shape, polyLine:PolyLine}} */
         let polygones = shapes.map(shape=>{return {shape:shape, polyLine:shape.toPolyLine()}});
 
+
+
+
         return false;
     }
 

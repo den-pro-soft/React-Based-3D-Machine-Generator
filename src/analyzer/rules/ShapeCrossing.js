@@ -59,7 +59,14 @@ export default class ShapeCrossing extends Rule{
                 if(i==j){
                     continue;
                 }
-                if(polygones[i].polyLine.getCrossPoints(polygones[j].polyLine).length>0){
+                let p1 = polygones[i].polyLine;
+                let p2 = polygones[j].polyLine;
+
+                console.log(p1,p2, "============================");
+
+                let res = p1.getCrossPoints(p2);
+                console.log(res, "RES");
+                if(res.length>0){
                     return [polygones[i].shape, polygones[j].shape];
                 }
             }
