@@ -13,9 +13,10 @@ class ParametersWindow extends React.Component {
       width:this.props.width.toFixed(3) + ' mm',
       horisontalDepth:this.props.horisontalDepth.toFixed(3) + ' mm',
       add:false,
-      groovesData:[],
-      selectValue:'',
-      isDisabled:true
+      // groovesData:[],
+      groovesData:this.props.groovesData,
+      selectValue:this.props.groovesData,
+      isDisabled:true,
     };
   }
 
@@ -63,12 +64,23 @@ class ParametersWindow extends React.Component {
                 width: (width*1).toFixed(3) + ' mm',
                 horisontalDepth: (horisontalDepth*1).toFixed(3) + ' mm'
             })
+                this.props.groovesData.map(
+                (el)=>{
+                  this.setState({groovesData:[{topDepth:el.topDepth.toFixed(3)+' mm',width:el.width.toFixed(3)+' mm',
+                  horisontalDepth:el.horisontalDepth.toFixed(3) +' mm'}]})
+                })
           this.props.updateGroovesData(+topDepth,+width,+horisontalDepth,this.props.groovesData);
 
             } else {
-              this.setState({topDepth: (topDepth/25.4).toFixed(3) + ' "'}),
-              this.setState({width: (width/25.4).toFixed(3) + ' "'}),
-              this.setState({horisontalDepth: (horisontalDepth/25.4).toFixed(3) + ' "'})
+              this.setState({
+                topDepth: (topDepth/25.4).toFixed(3) + ' "',
+                width: (width/25.4).toFixed(3) + ' "',
+                horisontalDepth: (horisontalDepth/25.4).toFixed(3) + ' "'})
+                this.props.groovesData.map(
+                (el)=>{
+                  this.setState({groovesData:[{topDepth:(el.topDepth/25.4).toFixed(3)+' "',width:(el.width/25.4).toFixed(3)+' "',
+                  horisontalDepth:(el.horisontalDepth/25.4).toFixed(3) +' "'}]})
+                })
           this.props.updateGroovesData(+topDepth,+width,+horisontalDepth,this.props.groovesData);
             }
         }
@@ -181,9 +193,10 @@ class ParametersWindow extends React.Component {
       if (this.props.topDepth === 0 || this.props.width === 0 || this.props.horisontalDepth === 0) {
         this.props.openErrorGroovesWindow(!this.props.openErrorGrooves);
       } else {
+   
         this.props.groovesData.map(
           (el) => {
-    
+  
             if (this.props.demensions === 'Millimeters') {
 
               this.state.groovesData.push({ topDepth: (el.topDepth * 1).toFixed(3) + ' mm', width: (el.width * 1).toFixed(3) + ' mm', horisontalDepth: (el.horisontalDepth * 1).toFixed(3) + ' mm' })
@@ -201,6 +214,7 @@ class ParametersWindow extends React.Component {
               this.setState({ add: true })
             }
           }
+        
         )
       }
     }
