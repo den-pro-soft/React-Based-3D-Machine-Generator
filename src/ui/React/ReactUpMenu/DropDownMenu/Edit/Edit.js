@@ -1,18 +1,13 @@
 import React from "react";
 import "./edit.scss";
-import Button from "@material-ui/core/Button";
-import Dialog from "@material-ui/core/Dialog";
-import DialogActions from "@material-ui/core/DialogActions";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogTitle from "@material-ui/core/DialogTitle";
-import Preferences from "./Preferences";
+import PreferencesWidow from './PreferencesWindow.js';
+import { connect } from "react-redux";
 
-export default class Edit extends React.Component {
+ class Edit extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       displayMenu: false,
-      openPreferencesModal: false
     };
 
   }
@@ -29,31 +24,7 @@ export default class Edit extends React.Component {
       document.removeEventListener("click", this.hideDropdownMenu);
     });
   };
-  // --------------open window Preferences---------------------
-  handleOpenPreferences = event => {
-    // event.preventDefault();
-    this.setState(
-      prevState => ({ openPreferencesModal: !prevState.openPreferencesModal }),
-      () => {
-        this.setState({
-          openPreferencesModal: this.state.openPreferencesModal
-        });
-      }
-    );
-  };
-  handleCloseModalPreferences = () => {
-    this.setState(
-      prevState => ({ openPreferencesModal: prevState.openPreferencesModal }),
-      () => {
-        this.setState({
-          openPreferencesModal: !this.state.openPreferencesModal
-        });
-      }
-    );
-  };
-  openHelpPreferences = () => {
-    window.open("https://www.emachineshop.com/help-preferences/#measurements");
-  };
+
   render() {
     return (
       <div className="Edit">
@@ -88,73 +59,38 @@ export default class Edit extends React.Component {
               <li onClick={() => app.selectAll()}>
                 <a href="#">Select All</a>
               </li>
-              <li onClick={this.handleOpenPreferences}>
+              <li onClick={()=>this.props.updatePreferencesModal(!this.props.openPreferencesModal)}>
                 <a href="#">Preferences</a>
               </li>
             </ul>
           ) : null}
         </div>
-        <Dialog
-          maxWidth={false}
-          open={this.state.openPreferencesModal}
-          aria-labelledby="alert-dialog-title"
-          aria-describedby="alert-dialog-description"
-        >
-          <DialogTitle
-            style={{ color: "black", textAlign: "left" }}
-            id="alert-dialog-title"
-          >
-            <span>Preferences</span>
-          </DialogTitle>
-
-          <DialogContent
-            style={{
-              textAlign: "left",
-              width: "550px",
-              height: "325px",
-              backgroundColor: "#f0ecec"
-            }}
-          >
-            <Preferences />
-          </DialogContent>
-
-          <DialogActions>
-            <Button
-              onClick={this.handleCloseModalPreferences}
-              style={{
-                backgroundColor: "#dddada",
-                boxShadow: "2px 2px 1px #000"
-              }}
-              color="primary"
-              autoFocus
-            >
-              OK
-            </Button>
-            <Button
-              onClick={this.handleCloseModalPreferences}
-              style={{
-                backgroundColor: "#dddada",
-                boxShadow: "2px 2px 1px #000"
-              }}
-              color="primary"
-              autoFocus
-            >
-              Cancel
-            </Button>
-            <Button
-              onClick={this.openHelpPreferences}
-              style={{
-                backgroundColor: "#dddada",
-                boxShadow: "2px 2px 1px #000"
-              }}
-              color="primary"
-              autoFocus
-            >
-              Help
-            </Button>
-          </DialogActions>
-        </Dialog>
+        <PreferencesWidow/>
       </div>
     );
   }
 }
+
+const mapStateToProps = state => {
+  return {
+      openPreferencesModal: state.preferencesWindowReducer.openPreferencesModal
+
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    updatePreferencesModal: openPreferencesModal => {
+      dispatch({
+        type: "OPEN_PREFERENCES_MODAL",
+        payload: openPreferencesModal,
+    
+      });
+    }
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Edit);

@@ -1,5 +1,6 @@
 import {combineReducers} from 'redux';
 import preferencesReducer from './reducers/preferencesReducer';
+import preferencesWindowReducer from './reducers/preferencesWindowReducer';
 import mouseCoordinatesReducer from './reducers/mouseCoordinatesReducer';
 import machineWindowReducer from './reducers/machineWindowReducer';
 import confirmationReducer from './reducers/confirmationReducer';
@@ -20,7 +21,8 @@ import confirmSaveDesignReducer from './reducers/confirmSaveDesignReducer'
 
 
 export default combineReducers({
-  preferencesReducer,mouseCoordinatesReducer, 
+  preferencesReducer,preferencesWindowReducer, 
+  mouseCoordinatesReducer, 
   machineWindowReducer,
   confirmationReducer,nonWorkFeatureReducer,expertNoticeReducer,
   priceReducer,orderWindowReducer,
