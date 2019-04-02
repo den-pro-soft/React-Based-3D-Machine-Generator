@@ -20,8 +20,7 @@ class Auto extends React.Component {
       super(props);
       this.state = {
         value:this.props.value,
-        isCheckedStockMaterial: false,
-        // isCheckedStockMaterial:this.props.isCheckedStockMaterial,
+        isCheckedStockMaterial:this.props.isCheckedStockMaterial,
         angle45: false,
         angle90: true,
         angle135: false,
@@ -32,12 +31,8 @@ class Auto extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-      // console.log(nextProps.value,,'nextProps')
-      if (nextProps.value === 'straight') {
+      if (nextProps.isCheckedStockMaterial === false) {
         this.setState({
-          value: nextProps.value,
-          // isCheckedStockMaterial:nextProps.isCheckedStockMaterial,
-          isCheckedStockMaterial:false,
           groovesDisabled:false
         })
       }
@@ -46,18 +41,17 @@ class Auto extends React.Component {
 
     handleRadioChange = event => {
       event.preventDefault();
-
-      this.setState({ value: event.target.value });
-      // this.props.updateCloseMachineModal(this.props.openMachineModal,event.target.value,this.props.isCheckedStockMaterial)
-      // console.log(this.state.value, event.target.value,"this.state.value");
+      this.props.updateCloseMachineModal(this.props.openMachineModal,event.target.value,this.props.isCheckedStockMaterial)
     };
 
     handleCheckedStockMaterial = event => {
       window.setTimeout(() => {
-        this.setState({
-          isCheckedStockMaterial: !this.state.isCheckedStockMaterial,
-          groovesDisabled:!this.state.groovesDisabled
-        });
+          this.props.updateCloseMachineModal(this.props.openMachineModal,this.props.value,!this.props.isCheckedStockMaterial)
+          if(this.props.isCheckedStockMaterial===true){
+          this.setState({
+            groovesDisabled:!this.state.groovesDisabled
+          });
+        } 
       }, 0);
     };
 
@@ -84,8 +78,6 @@ class Auto extends React.Component {
     handleRadioChangeFerEdge = event => {
       event.preventDefault();
       this.setState({ valueFarEdge: event.target.value });
-
-      // console.log(this.state.value, "this.state.value");
     }
 
     render() {
@@ -101,14 +93,14 @@ class Auto extends React.Component {
               <div className="RadioButtonsElelemt">
                 <FormControl>
                   <RadioGroup
-                    value={this.state.value}
+                    value={this.props.value}
                     onChange={this.handleRadioChange}
                   >
                     <FormControlLabel
                       classes={{ root: "root" }}
                       onClick={
-                    //  ()=>
-                      this.props.updateCloseMachineModal(this.props.openMachineModal,'straight')
+                     ()=>
+                      this.props.updateCloseMachineModal(this.props.openMachineModal,'straight',this.props.isCheckedStockMaterial)
                       }
                       value="straight"
                       control={
@@ -121,8 +113,8 @@ class Auto extends React.Component {
                     />
                     <FormControlLabel
                         onClick={
-                      // ()=> 
-                      this.props.updateCloseMachineModal(this.props.openMachineModal,'chamfer')
+                      ()=> 
+                      this.props.updateCloseMachineModal(this.props.openMachineModal,'chamfer',this.props.isCheckedStockMaterial)
                         }
                       classes={{ root: "root" }}
                       value="chamfer"
@@ -136,8 +128,8 @@ class Auto extends React.Component {
                     />
                     <FormControlLabel
                        onClick={
-                      // ()=> 
-                      this.props.updateCloseMachineModal(this.props.openMachineModal,'round')
+                      ()=> 
+                      this.props.updateCloseMachineModal(this.props.openMachineModal,'round',this.props.isCheckedStockMaterial)
                       }
                       classes={{ root: "root" }}
                       value="round"
@@ -152,14 +144,14 @@ class Auto extends React.Component {
                 </FormControl>
               </div>
               <div className="RadioButtonsContent">
-                {this.state.value === "straight" && (
+                {this.props.value === "straight" && (
                   <div className="Chamfer">
                     <div>
                       <img src="resources/images/straight.png" />
                     </div>
                   </div>
                 )}
-                {this.state.value === "chamfer" && (
+                {this.props.value === "chamfer" && (
                   <div className="Chamfer">
                     <div>
                       <img src="resources/images/Chamfer.png" />
@@ -183,7 +175,7 @@ class Auto extends React.Component {
                     </div>
                   </div>
                 )}
-                {this.state.value === "round" && (
+                {this.props.value === "round" && (
                   <div className="Chamfer">
                     <div>
                       <img src="resources/images/radius.png" />
@@ -206,7 +198,7 @@ class Auto extends React.Component {
             <div className="RadioButtons">
               <div className="RadioButtonsElelemt">
                 <Checkbox
-                  checked={this.state.isCheckedStockMaterial}
+                  checked={this.props.isCheckedStockMaterial}
                   onChange={this.handleCheckedStockMaterial}
                   color="primary"
                 />
@@ -389,7 +381,7 @@ class Auto extends React.Component {
           });
         },
         updateCloseMachineModal: (openMachineModal,value,isCheckedStockMaterial) => {
-          dispatch({ type: "CLOSE_MACHINE_MODAL", payload: openMachineModal,payloadValue:value, payloadIsChecked:isCheckedStockMaterial });
+          dispatch({ type: "CLOSE_MACHINE_MODAL", payload: openMachineModal,payloadValue:value,payloadIsChecked:isCheckedStockMaterial});
         }
     
       };

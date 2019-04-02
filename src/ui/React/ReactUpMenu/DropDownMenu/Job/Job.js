@@ -38,10 +38,6 @@ class Job extends React.Component {
     event.preventDefault();
     this.setState({
       openSubModal: true
-      //   prevState => ({ open: !prevState.open }),
-      // () => {
-      //   this.setState({ open: this.state.open });
-      //   console.log(this.state.open, "clickOpen-72");
     });
   };
 
@@ -175,11 +171,8 @@ const mapDispatchToProps = dispatch => {
   return {
     openPriceModal: openPrice => {
       dispatch({ type: "OPEN_PRICE", payload: openPrice });
-    },
-    // working function
-    // openOrderModal: openOrder => {
-    //   dispatch({ type: "OPEN_ORDER", payload: openOrder });
-    // }
+    }
+
   };
 };
 export default withRouter(connect(mapStateToProps,mapDispatchToProps)(Job));

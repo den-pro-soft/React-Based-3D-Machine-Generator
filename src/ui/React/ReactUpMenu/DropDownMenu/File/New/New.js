@@ -20,7 +20,9 @@ export default class New extends React.Component {
   }
   componentWillMount() {
     // console.log(this.props, 'this.props-New')
-    this.props.history.push('/new/blank-design')
+    // this.props.history.push('/new/blank-design');
+    this.props.history.replace('/new/blank-design');
+
   }
   componentWillUnmount() {
     this.props.history.push('/') 
