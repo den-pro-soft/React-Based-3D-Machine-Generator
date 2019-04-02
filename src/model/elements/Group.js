@@ -46,7 +46,7 @@ export default class Group extends GraphicElement{
     }
 
     get height(){
-        return this._height;
+        return this.elements[0]._height;
     }
 
 

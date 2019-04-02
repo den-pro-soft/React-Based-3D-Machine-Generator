@@ -7,6 +7,8 @@ import Analyzer from './../Analyzer';
 import LineInNoShapeRule from './../rules/LineInNoShape';
 import NotClosedShape from './../rules/NotClosedShape';
 import DifferentZInShape from './../rules/DifferentZInShape';
+import ZValueOfOuterShape from "../rules/ZValueOfOuterShape";
+import ShapeCrossing from "../rules/ShapeCrossing";
 
 export default class ErrorModelAnalyzer extends Analyzer{
 
@@ -19,6 +21,8 @@ export default class ErrorModelAnalyzer extends Analyzer{
         this.rules.push(new LineInNoShapeRule(document));
         this.rules.push(new NotClosedShape(document));
         this.rules.push(new DifferentZInShape(document));
+        this.rules.push(new ShapeCrossing(document));
+        this.rules.push(new ZValueOfOuterShape(document));
     }
     
 }

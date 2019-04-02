@@ -3,6 +3,7 @@
  */
 
 import Arc from './Arc';
+import PolyLine from "../math/PolyLine";
 
 
 /**
@@ -199,4 +200,7 @@ export default class Shape{
         return countPoints;
     }
 
+    toPolyLine(){
+        return new PolyLine(this.getConsistentlyPoints());
+    }
 }
