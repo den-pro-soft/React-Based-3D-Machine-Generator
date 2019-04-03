@@ -153,15 +153,17 @@ export default class Group extends GraphicElement{
      */
     removeElement(element){
         for(let i=0; i<this.elements.length; i++){
+            if (this.elements[i].compare(element)) {
+                this.elements.splice(i, 1);
+                return;
+            }
+        }
+
+        for(let i=0; i<this.elements.length; i++){
             if(this.elements[i] instanceof Group){
                 this.elements[i].removeElement(element);
                 if(this.elements[i].elements.length==0){
                     this.elements.splice(i, 1);
-                }
-            }else {
-                if (this.elements[i].compare(element)) {
-                    this.elements.splice(i, 1);
-                    return;
                 }
             }
         }

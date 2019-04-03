@@ -66,24 +66,21 @@ export default class Document extends Renderable{
     }
 
     removeElement(element){
-        // if(element instanceof GraphicElement) {
-            for(let i=0; i<this._elements.length; i++){
-                if(this._elements[i] instanceof Group){
-                    this._elements[i].removeElement(element);
-                    if(this._elements[i].elements.length==0){
-                        this._elements.splice(i, 1);
-                    }
-                }else {
-                    if (this._elements[i].compare(element)) {
-                        this._elements.splice(i, 1);
-                        return;
-                    }
+        for(let i=0; i<this._elements.length; i++){
+            if (this._elements[i].compare(element)) {
+                this._elements.splice(i, 1);
+                return;
+            }
+        }
+
+        for(let i=0; i<this._elements.length; i++){
+            if(this._elements[i] instanceof Group){
+                this._elements[i].removeElement(element);
+                if(this._elements[i].elements.length==0){
+                    this._elements.splice(i, 1);
                 }
             }
-
-        // }else{
-        //     throw new Exception("To document can be remove only elements which instances GraphicElement class.",element);
-        // }
+        }
     }
     
 
