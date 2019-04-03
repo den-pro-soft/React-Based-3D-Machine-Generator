@@ -1,6 +1,8 @@
 import Rule from "../Rule";
 import NoChangesSolution from "../solutions/NoChanges";
 import ShapeBuilder from "../ShapeBuilder";
+import GraphicElement from "../../model/GraphicElement";
+import SetZValue from "../solutions/SetZValue";
 
 export default class ZValueOfOuterShape extends Rule{
 
@@ -15,16 +17,7 @@ export default class ZValueOfOuterShape extends Rule{
      * @return {boolean} - true if the document has an error
      */
     check(){
-        let shapeBuilder = new ShapeBuilder(this.document);
-        let shapes = shapeBuilder.buildShapes();
-
-        /** @type {{shape:Shape, polyLine:PolyLine}} */
-        let polygones = shapes.map(shape=>{return {shape:shape, polyLine:shape.toPolyLine()}});
-
-
-
-
-        return false;
+        return this.getIncorrectShape(this.document)!=null;
     }
 
 
@@ -32,9 +25,47 @@ export default class ZValueOfOuterShape extends Rule{
      * @return {Array.<Solution>}
      */
     createSolutions(){
-        return [
-            new NoChangesSolution(this.document)
-        ];
+        let res = super.createSolutions();
+        let preview = this.document.getSnapshot();
+        res[0].previewDocument = preview;
+
+        let errorShape = this.getIncorrectShape(preview);
+        if(errorShape){
+            for(let el of errorShape.elements){
+                el._renderer.error=true;
+            }
+        }
+
+        let solution = new SetZValue(this.document, this.getIncorrectShape(this.document).elements, container.resolve('config').defaultZValues[0]);
+        solution.previewDoc=preview;
+
+        res.push(solution);
+        return res;
     }
 
+    /**
+     *
+     * @param {Document} doc
+     * @return {Shape|null}
+     */
+    getIncorrectShape(doc){
+        let shapeBuilder = new ShapeBuilder(doc);
+        let shapes = shapeBuilder.buildShapes().map(shape=>{return {shape:shape, out:true}});
+
+        for(let i=0; i<shapes.length; i++){
+            for(let j=1; j<shapes.length; j++){
+                if(i!=j && shapes[i].shape.isContain(shapes[j].shape)) {
+                    shapes[j].out = false;
+                }
+            }
+        }
+
+        shapes = shapes.filter(el=>el.out);
+        for(let shape of shapes){
+            if(shape.shape.height==GraphicElement.AirInside){
+                return shape.shape;
+            }
+        }
+        return null;
+    }
 }

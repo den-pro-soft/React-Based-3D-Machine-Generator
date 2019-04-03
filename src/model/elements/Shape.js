@@ -4,6 +4,8 @@
 
 import Arc from './Arc';
 import PolyLine from "../math/PolyLine";
+import Triangle from "../math/Triangle";
+import Spline from "./Spline";
 
 
 /**
@@ -162,6 +164,14 @@ export default class Shape{
                 currentElement=currentPoint.elements[0];
             }
             let points = currentElement.toPolyLines()[0].points;
+            if(currentElement instanceof Arc || currentElement instanceof Spline){
+                let temp = [];
+                for(let i=1; i<points.length-1; i+=10){
+                    temp.push(points[i]);
+                }
+                points=temp;
+            }
+
             if(points.length>2){
                 if(points[0].compare(currentPoint.point)) {
                     res.push(...points);
@@ -202,5 +212,35 @@ export default class Shape{
 
     toPolyLine(){
         return new PolyLine(this.getConsistentlyPoints());
+    }
+
+    /**
+     * @param {Point|Shape} element
+     * @return {boolean}
+     */
+    isContain(element){
+        if(element instanceof Shape){
+            let points = element.getConsistentlyPoints();
+            for(let point of points){
+                if(!this.isContain(point)){
+                    return false;
+                }
+            }
+            return true;
+        }else {
+            /** @type {TriangulationAlgorithm} */
+            let triangulation = container.resolve('triangulation');
+
+            let points = this.getConsistentlyPoints();
+            let triangles = triangulation.getTriangles(points);
+
+            for (let triangle of triangles) {
+                let temp = new Triangle(points[triangle[0]], points[triangle[1]], points[triangle[2]]);
+                if (temp.contains(element)) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }

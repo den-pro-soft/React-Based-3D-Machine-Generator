@@ -48,7 +48,6 @@ describe('ShapeBuilder', function(){
         let l3 = new LineElement(new Point(), new Point(5, 0));
         doc.addElement(l3);
         let shapes = new ShapeBuilder(doc).buildShapes();
-        console.log(shapes);
         expect(shapes).to.have.lengthOf(3);
 
         expect(shapes[0].elements, 'The 1 shape must have 1 elements').to.have.lengthOf(1);

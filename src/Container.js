@@ -28,6 +28,7 @@ import FormatNotSupportedException from "./file/FormatNotSupportedException";
 import ErrorModelAnalyzer from './analyzer/analyzers/ErrorModelAnalyzer';
 
 import ExpertNoticeUi from './ui/modal/ExpertNotice';
+import UniversalTriangulationAlgorithm from "./ui/3d/algorithms/implementation/UniversalTriangulationAlgorithm";
 
 /**
  * @param {string} name
@@ -93,6 +94,7 @@ container.register( 'elementIdGenerator', IdGenerator ).singleton();
 container.register( 'commandIdGenerator', IdGenerator ).singleton();
 container.register( 'confirmChangeArcToSplinesDialog', ConfirmChangeArcToSplinesDialog ).singleton();
 container.register( 'app', Application ).dependencies('config').singleton();
+container.register( 'triangulation', UniversalTriangulationAlgorithm ).singleton();
 container.registerFactory('toolFactory',toolFactoryMethod);
 container.registerFactory('fileLoaderFactory',fileLoaderFactoryMethod);
 
