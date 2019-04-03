@@ -21,106 +21,106 @@ class Machine extends React.Component {
     constructor(props) {
       super(props);
     }
-   
-    componentDidMount() {
-        // console.log(this.props, 'this.props-New')
-        // this.props.history.push('/machine/auto') 
-        this.props.history.push('/') 
 
-      }
-    // componentWillUnmount() {
-    //     // console.log(this.props, 'this.props-New')
-    //     this.props.history.push('/') 
-    //   }
-    render() {  
+    componentDidMount() {
+      // console.log(this.props, "this.props-New");
+      // this.props.history.replace("/machine/auto");
+      // this.props.history.push('/');
+      this.props.history.replace('/');
+
+    }
+
+    render() {
       // console.log(this.props,'machine')
       return (
-        <div
-          className="Machine"
-        >
-        <p className="TitleTop">Use the selections below to assign a purpose to each line in your drawing.</p>
-        <div className="MenuAndContenet">
-          <div className="Menu">
-        <p className="MenuTitle">Relevant Items</p>
-
-              <ul>
-                <li>
-                  <NavLink
-                    className="Auto"
-                    exact
-                    activeStyle={{ color: "blue" }}
-                    // to="/machine/auto"
-                    to="/"
-                  >
-                    Auto
-                  </NavLink>
-                </li>
-                {/* <li>
-                  <NavLink
-                    className="Tap"
-                    exact
-                    activeStyle={{ color: "blue" }}
-                    to="/machine/tap"
-                  >
-                    Thead&Tap
-                  </NavLink>
-                </li> */}
-                <li>
-                  <NavLink
-                    className="Bend"
-                    activeStyle={{ color: "blue" }}
-                    to="/machine/bend"
-                  >
-                    Bend
-                  </NavLink>
-                </li>
-                {/* <li>
-                  <NavLink
-                    className="LazerMark"
-                    activeStyle={{ color: "blue" }}
-                    to="/machine/lazer-mark"
-                  >
-                    Lazer Mark
-                  </NavLink>
-                </li> */}
-                <li>
-                  <NavLink
-                    className="ToSelf"
-                    activeStyle={{ color: "blue" }}
-                    to="/machine/to-self"
-                  >
-                    Comments to Self
-                  </NavLink>
-                </li>
-                <li>
-                  <NavLink
-                    className="ToMachinist"
-                    activeStyle={{ color: "blue" }}
-                    to="/machine/to-machinist"
-                  >
-                    Comments to Machinist
-                  </NavLink>
-                </li>
-              </ul>
-            </div>
+        <div className="Machine">
+          <p className="TitleTop">
+            Use the selections below to assign a purpose to each line in your
+            drawing.
+          </p>
+          <div className="MenuAndContenet">
+            <fieldset className="Menu">
+              <legend className="MenuTitle">Relevant Items</legend>
+              <div className="Menu-UL">
+                <ul>
+                  <li>
+                    <NavLink
+                      className="Auto"
+                      exact
+                      activeStyle={{ color: "blue" }}
+                      // to="/machine/auto"
+                      to="/"
+                    >
+                      Auto
+                    </NavLink>
+                  </li>
+                  {/* <li>
+                    <NavLink
+                      className="Tap"
+                      exact
+                      activeStyle={{ color: "blue" }}
+                      to="/machine/tap"
+                    >
+                      Thead&Tap
+                    </NavLink>
+                  </li> */}
+                  <li>
+                    <NavLink
+                      className="Bend"
+                      activeStyle={{ color: "blue" }}
+                      to="/machine/bend"
+                    >
+                      Bend
+                    </NavLink>
+                  </li>
+                  {/* <li>
+                    <NavLink
+                      className="LazerMark"
+                      activeStyle={{ color: "blue" }}
+                      to="/machine/lazer-mark"
+                    >
+                      Lazer Mark
+                    </NavLink>
+                  </li> */}
+                  <li>
+                    <NavLink
+                      className="ToSelf"
+                      activeStyle={{ color: "blue" }}
+                      to="/machine/to-self"
+                    >
+                      Comments to Self
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink
+                      className="ToMachinist"
+                      activeStyle={{ color: "blue" }}
+                      to="/machine/to-machinist"
+                    >
+                      Comments to Machinist
+                    </NavLink>
+                  </li>
+                </ul>
+              </div>
+            </fieldset>
             <div className="Content">
               <Switch>
                 <Route path="/" exact render={() => <Auto />} />
-                {/* <Route path="/machine/auto" exact component={Auto} /> */}
+                {/* <Route path="/machine/auto" exact render={() => <Auto />}  /> */}
                 {/* <Route path="/machine/tap" component={Tap} /> */}
                 <Route path="/machine/bend" component={Bend} />
                 {/* <Route path="/machine/lazer-mark" component={LazerMark} /> */}
                 <Route path="/machine/to-self" component={CommentsToSelf} />
-                <Route path="/machine/to-machinist" component={CommentsToMachinist} />
+                <Route
+                  path="/machine/to-machinist"
+                  component={CommentsToMachinist}
+                />
               </Switch>
-
             </div>
           </div>
         </div>
       );
-    };
-  
+    }
 }
-// export default Machine;
-export default withRouter(Machine);
 
+export default withRouter(Machine);

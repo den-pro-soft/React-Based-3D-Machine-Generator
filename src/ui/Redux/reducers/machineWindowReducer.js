@@ -1,16 +1,17 @@
 const initialState = {
   openMachineModal: false,
-  value: "staright"
+  value: "staright",
+  isCheckedStockMaterial:false
 };
 
 export default function machineWindowReducer(state = initialState, action) {
   switch (action.type) {
     case "OPEN_MACHINE_MODAL":
-      return { openMachineModal: action.payload };
+      return { openMachineModal: action.payload, value: action.payloadValue,
+       isCheckedStockMaterial:action.payloadIsChecked };
     case "CLOSE_MACHINE_MODAL":
-      return { openMachineModal: action.payload, value: action.payloadValue };
-    case "UPDATE_VALUE_RADIO_AUTO":
-      return { value: action.payload };
+      return { openMachineModal: action.payload, value: action.payloadValue 
+    ,isCheckedStockMaterial: action.payloadIsChecked};
     default:
       return state;
   }

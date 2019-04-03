@@ -16,7 +16,7 @@ class MachineWindow extends React.Component {
     this.state = {}
   }
   resetToDefault = () => {
-      this.props.updateCloseMachineModal(true,'straight')
+      this.props.updateCloseMachineModal(true,'straight',false);
   }
 
   // -------------------------------------openLinkHelp---------------------------------------
@@ -44,13 +44,11 @@ class MachineWindow extends React.Component {
     );
   }
   render(){
-    // console.log(this.props,'machineWindiws')
-
+    // console.log(this.props,'machineWindows')
       return(
         <Dialog
         maxWidth={false}
         open={this.props.openMachineModal}
-        // open={true}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
@@ -63,12 +61,11 @@ class MachineWindow extends React.Component {
           <img
             width="25px"
             src="resources/images/icon.jpg"
-            // data-tip="<span>Shows how to use numeric values.</span>"
           />
           <span>Machine</span>
           </div>
           <Button
-                    onClick={()=>this.props.updateCloseMachineModal(!this.props.openMachineModal)}
+                    onClick={()=>this.props.updateCloseMachineModal(!this.props.openMachineModal,this.props.value,this.props.isCheckedStockMaterial)}
                     style={{
                         backgroundColor:'#fff',
                         padding:'0px',
@@ -94,9 +91,9 @@ class MachineWindow extends React.Component {
         </DialogContent>
 
         <DialogActions style={{display:'flex',justifyContent:'space-between'}}>
-          {/* <div style={{display:'flex',justifyContent:'space-between'}}> */}
         <Button
             onClick={this.resetToDefault}
+    
             style={{ backgroundColor: "#dddada",textAlign:'left' }}
             color="primary"
             autoFocus
@@ -105,7 +102,7 @@ class MachineWindow extends React.Component {
           </Button>
           <div>
           <Button
-            onClick={()=>this.props.updateCloseMachineModal(!this.props.openMachineModal)}
+            onClick={()=>this.props.updateCloseMachineModal(!this.props.openMachineModal,this.props.value,this.props.isCheckedStockMaterial)}
             style={{ backgroundColor: "#dddada",marginRight:'10px' }}
             color="primary"
             autoFocus
@@ -113,7 +110,7 @@ class MachineWindow extends React.Component {
             OK
           </Button>
           <Button
-            onClick={()=>this.props.updateCloseMachineModal(!this.props.openMachineModal)}
+            onClick={()=>this.props.updateCloseMachineModal(!this.props.openMachineModal,this.props.value,this.props.isCheckedStockMaterial)}
             style={{ backgroundColor: "#dddada", marginRight:'10px'}}
             color="primary"
             autoFocus
@@ -161,20 +158,17 @@ class MachineWindow extends React.Component {
 const mapStateToProps = (state)=>{
   return {
     openMachineModal: state.machineWindowReducer.openMachineModal,
-    value: state.machineWindowReducer.value
-
+    value:state.machineWindowReducer.value,
+    isCheckedStockMaterial:state.machineWindowReducer.isCheckedStockMaterial
   }
      }
      
 const mapDispatchToProps = dispatch => {
       return {
-        updateCloseMachineModal: (openMachineModal,value) => {
-          dispatch({ type: "CLOSE_MACHINE_MODAL", payload: openMachineModal,payloadValue:value });
+        updateCloseMachineModal: (openMachineModal,value, isCheckedStockMaterial) => {
+          dispatch({ type: "CLOSE_MACHINE_MODAL", payload: openMachineModal,payloadValue:value, payloadIsChecked: isCheckedStockMaterial });
         }
-        // updateValueRadioAuto: value => {
-        //   dispatch({ type: "UPDATE_VALUE_RADIO_AUTO", payload: value });
-        // }
       };
-    };
+    }
     
   export default withRouter(connect(mapStateToProps,mapDispatchToProps)(MachineWindow))

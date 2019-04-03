@@ -13,9 +13,10 @@ class ParametersWindow extends React.Component {
       width:this.props.width.toFixed(3) + ' mm',
       horisontalDepth:this.props.horisontalDepth.toFixed(3) + ' mm',
       add:false,
-      groovesData:[],
-      selectValue:'',
-      isDisabled:true
+      // groovesData:[],
+      groovesData:this.props.groovesData,
+      selectValue:this.props.groovesData,
+      isDisabled:true,
     };
   }
 
@@ -29,7 +30,6 @@ class ParametersWindow extends React.Component {
           topDepth: (topDepth*1).toFixed(3) + ' mm',
           width: (width*1).toFixed(3) + ' mm',
           horisontalDepth: (horisontalDepth*1).toFixed(3) + ' mm',
-          // groovesData:[]
       })
       this.props.groovesData.map(
         (el)=>{
@@ -38,12 +38,10 @@ class ParametersWindow extends React.Component {
         })
       this.props.updateGroovesData(+topDepth,width,horisontalDepth,
       this.props.groovesData);
-      // .push({topDepth:+topDepth,width:width,horisontalDepth:horisontalDepth})
       } else {
         this.setState({topDepth: (topDepth/25.4).toFixed(3) + ' "',
        width: (width/25.4).toFixed(3) + ' "',
        horisontalDepth: (horisontalDepth/25.4).toFixed(3) + ' "',
-      //  groovesData:[]
       })
         this.props.groovesData.map(
           (el)=>{
@@ -54,7 +52,6 @@ class ParametersWindow extends React.Component {
 
       }
   }
-     // componentWillReceiveProps(nextProps){ 
       componentDidUpdate(prevProps, prevState) {
         if (this.props.demensions !== prevProps.demensions) {
           let topDepth = this.props.topDepth;
@@ -67,14 +64,24 @@ class ParametersWindow extends React.Component {
                 width: (width*1).toFixed(3) + ' mm',
                 horisontalDepth: (horisontalDepth*1).toFixed(3) + ' mm'
             })
+                this.props.groovesData.map(
+                (el)=>{
+                  this.setState({groovesData:[{topDepth:el.topDepth.toFixed(3)+' mm',width:el.width.toFixed(3)+' mm',
+                  horisontalDepth:el.horisontalDepth.toFixed(3) +' mm'}]})
+                })
           this.props.updateGroovesData(+topDepth,+width,+horisontalDepth,this.props.groovesData);
 
             } else {
-              this.setState({topDepth: (topDepth/25.4).toFixed(3) + ' "'}),
-              this.setState({width: (width/25.4).toFixed(3) + ' "'}),
-              this.setState({horisontalDepth: (horisontalDepth/25.4).toFixed(3) + ' "'})
+              this.setState({
+                topDepth: (topDepth/25.4).toFixed(3) + ' "',
+                width: (width/25.4).toFixed(3) + ' "',
+                horisontalDepth: (horisontalDepth/25.4).toFixed(3) + ' "'})
+                this.props.groovesData.map(
+                (el)=>{
+                  this.setState({groovesData:[{topDepth:(el.topDepth/25.4).toFixed(3)+' "',width:(el.width/25.4).toFixed(3)+' "',
+                  horisontalDepth:(el.horisontalDepth/25.4).toFixed(3) +' "'}]})
+                })
           this.props.updateGroovesData(+topDepth,+width,+horisontalDepth,this.props.groovesData);
-
             }
         }
       }
@@ -95,7 +102,6 @@ class ParametersWindow extends React.Component {
             })
 
           let topDepth1 = +this.state.topDepth.replace(/[^0-9.]/g, "")
-          // this.props.updateGroovesData(+topDepth1,this.props.width,this.props.horisontalDepth);
           this.props.updateGroovesData(+topDepth1,+this.props.width,+this.props.horisontalDepth,
             [{topDepth:topDepth1,width:+this.props.width,
             horisontalDepth:+this.props.horisontalDepth}]
@@ -106,7 +112,6 @@ class ParametersWindow extends React.Component {
             topDepth: this.props.topDepth.replace(/[^0-9.]/g, "") + ' "'
           });
           let topDepth1 = this.state.topDepth.replace(/[^0-9.]/g, "")
-          // this.props.updateGroovesData(+topDepth1*25.4,this.props.width,this.props.horisontalDepth);
           this.props.updateGroovesData(+topDepth1*25.4,+this.props.width,+this.props.horisontalDepth,
             [{topDepth:+topDepth1*25.4,width:this.props.width,
             horisontalDepth:+this.props.horisontalDepth}]
@@ -130,9 +135,7 @@ class ParametersWindow extends React.Component {
             this.setState({
               width: this.props.width.replace(/[^0-9.]/g, "") + ' mm'
             })
-
           let width1 = this.state.width.replace(/[^0-9.]/g, "")
-          // this.props.updateGroovesData(+this.props.topDepth,+width1,this.props.horisontalDepth);
           this.props.updateGroovesData(+this.props.topDepth,+width1,+this.props.horisontalDepth,
             [{topDepth:this.props.topDepth,width:+width1,
             horisontalDepth:+this.props.horisontalDepth}]
@@ -143,7 +146,6 @@ class ParametersWindow extends React.Component {
             width: this.props.width.replace(/[^0-9.]/g, "") + ' "'
           });
           let width1 = this.state.width.replace(/[^0-9.]/g, "")
-          // this.props.updateGroovesData(this.props.topDepth,+width1*25.4,this.props.horisontalDepth);
           this.props.updateGroovesData(+this.props.topDepth,+width1*25.4,+this.props.horisontalDepth,
             [{topDepth:this.props.topDepth,width:+width1*25.4,
             horisontalDepth:+this.props.horisontalDepth}]
@@ -161,7 +163,6 @@ class ParametersWindow extends React.Component {
       this.setState({
         horisontalDepth
       });
-      // let horisontalDepth1 = this.state.horisontalDepth.replace(/[^0-9.]/g, "")
       if (e.charCode === 13) {
         if (this.props.demensions === 'Millimeters') {
     
@@ -174,7 +175,6 @@ class ParametersWindow extends React.Component {
             horisontalDepth:+horisontalDepth1}]
             );
           this.horisontalInput.blur();
-
         } else {
           this.setState({
             horisontalDepth: this.props.horisontalDepth.replace(/[^0-9.]/g, "") + ' "'
@@ -193,9 +193,10 @@ class ParametersWindow extends React.Component {
       if (this.props.topDepth === 0 || this.props.width === 0 || this.props.horisontalDepth === 0) {
         this.props.openErrorGroovesWindow(!this.props.openErrorGrooves);
       } else {
+   
         this.props.groovesData.map(
           (el) => {
-    
+  
             if (this.props.demensions === 'Millimeters') {
 
               this.state.groovesData.push({ topDepth: (el.topDepth * 1).toFixed(3) + ' mm', width: (el.width * 1).toFixed(3) + ' mm', horisontalDepth: (el.horisontalDepth * 1).toFixed(3) + ' mm' })
@@ -212,8 +213,8 @@ class ParametersWindow extends React.Component {
               );
               this.setState({ add: true })
             }
-
           }
+        
         )
       }
     }
@@ -221,26 +222,32 @@ class ParametersWindow extends React.Component {
     handleChangeSelect = e => {
       // console.log(e.target.value, 'selectValue')
       this.setState({selectValue:e.target.value});
-  //  this.removeGroovesData(e.target.value)
     }
 
     replaceGroovesData = () => {
-      // this.props.updateRemoveGrooves(!this.props.openRemoveGrooves)
-    // this.state.groovesData.splice(this.state.selectValue,1);
-    //   this.setState({
-    //     grovesData:this.state.groovesData
-    //   })
-// console.log(this.state.groovesData,'remove')
+        this.state.groovesData.map(
+                (el,i)=>{
+              if( i==this.state.selectValue){
+                  if(el.topDepth!==this.state.topDepth){
+                    el.topDepth = this.state.topDepth;
+                  }
+                  if(el.width!==this.state.width){
+                    el.width = this.state.width;
+                  }
+                  if(el.horisontalDepth!==this.state.horisontalDepth){
+                    el.horisontalDepth = this.state.horisontalDepth;
+                  }
+            this.setState({
+              groovesData:this.state.groovesData 
+            })
+          }
+        })
     }
 
     removeGroovesData = () => {
       this.props.updateRemoveGrooves(!this.props.openRemoveGrooves)
-    // this.state.groovesData.splice(this.state.selectValue,1);
-    //   this.setState({
-    //     grovesData:this.state.groovesData
-    //   })
-// console.log(this.state.groovesData,'remove')
     }
+    
     openGroovesHelp = () => {
       window.open("https://www.emachineshop.com/help-3d-drawing/#grooves");
     }

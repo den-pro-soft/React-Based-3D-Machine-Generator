@@ -20,8 +20,6 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import {connect} from 'react-redux';
 import { withRouter } from "react-router-dom";
 
-
-//  export default 
  class ToolsPanel extends React.PureComponent {
 
   constructor(props,context) {
@@ -31,13 +29,11 @@ import { withRouter } from "react-router-dom";
       line: false,
       arc: false,
       circle: false,
-      // inputZ:false,
       group: false,
       text:false,
       withoutText:true,
       value:'',
       openBendModal:false,
-      openTapModal:false,
     };
   }
   // ---------------React Life Cycle-----------------
@@ -78,7 +74,6 @@ import { withRouter } from "react-router-dom";
                       case "Line":     this.setState({ line: true,  circle: false, arc:false, group: false, text: false });  break;
                       case "Group":    this.setState({ line: false, circle: false, arc:false, group: true,  text: false });  break;
                       case "Spline":   this.setState({ line: false, circle: false, arc:false, group: false,text: false });  break;
-                      // case "Arc":      this.setState({ line: false, circle: true,  group: false, text: false });  break;
                       case "Text":     this.setState({ line: false, circle: false, arc:false, group: false, text:true });  break;
                   }
               }else {
@@ -138,7 +133,7 @@ import { withRouter } from "react-router-dom";
   };
 
   render() {
-
+// console.log(this.props.openMachineModal,'openMachineModal')
     if (this.state.show) {
       return this.getPanelHtml();
     } else {
@@ -169,9 +164,11 @@ import { withRouter } from "react-router-dom";
         <ReactTooltip html={true} className="tooltipBackgroundTheme" />
           <div className="Left-Tools">
             <button className="btn-LineType"
-             onClick={(e)=>{
-              //  console.log(e.target,'window');
-             this.props.updateOpenMachineModal(!this.state.openMachineModal)}}>
+             onClick={
+               ()=>{
+             this.props.updateOpenMachineModal(!this.props.openMachineModal,'straight',this.props.isCheckedStockMaterial)
+            }
+             }>
               <a href="#">
                 <img
                   width="18px"
@@ -204,38 +201,11 @@ import { withRouter } from "react-router-dom";
             )}
             {this.state.arc === true && <ArcType />}
             {this.state.circle === true && <CircleType />}
-
-            {this.state.group === true && <GroupType />}
-           
-            
-            {/* {app.config.defaultLineTypes[0] === "Auto"&&( */}
+            {this.state.group === true && <GroupType />}         
             {this.state.value === "Auto"&&(
 
                <InputSelect className="CreatableSelect" />
             )} 
-
-            {/* <input
-            list="browsers"
-            name="browser"style={{width:'120px'}}
-              onChange={e=>{
-                e.preventDefault();
-                   let val = parseInt(e.target.value);
-                       app.setElementsHeight(val?val:0.075);
-              }}
-            name="browser"
-            style={{ width: "120px" }}
-            autoComplete="on"
-          />
-        <datalist id="browsers" defaultValue="Air Inside">
-            <select>
-              <option value="Air Inside" />
-              <option value="Revolve" />
-              {data.map((item, i) => (
-                <option key={i} value={item + String.fromCharCode(34)} />
-              ))}
-              <option value="Other" />
-            </select>
-          </datalist>  */}
 
             <button className="btn-Question">
               <a
@@ -256,13 +226,10 @@ import { withRouter } from "react-router-dom";
             <MoveButtons />
           </div>
         <MachineWindow history={this.props.history}/>
-        {/* <Confirmation /> */}
       {/* --------------------------Information-------------------- */}
         <Dialog
           maxWidth={false}
           open={this.state.openBendModal}
-          // open={true}
-
           onChange={this.handleChangeSelect}
           aria-labelledby="alert-dialog-title"
           aria-describedby="alert-dialog-description"
@@ -332,15 +299,17 @@ import { withRouter } from "react-router-dom";
     const mapStateToProps = (state)=>{
       return {
         openConfirm: state.confirmationReducer.openConfirm,
-        demensions: state.preferencesReducer.demensions
-
+        demensions: state.preferencesReducer.demensions,
+        openMachineModal:state.machineWindowReducer.openMachineModal,
+        value:state.machineWindowReducer.value,
+        isCheckedStockMaterial: state.machineWindowReducer.isCheckedStockMaterial
       }
     }
 
     const mapDispatchToProps = dispatch => {
       return {
-        updateOpenMachineModal: openMachineModal => {
-          dispatch({ type: "OPEN_MACHINE_MODAL", payload: openMachineModal });
+        updateOpenMachineModal: (openMachineModal,value, isCheckedStockMaterial) => {
+          dispatch({ type: "OPEN_MACHINE_MODAL", payload: openMachineModal,payloadValue:value,payloadIsChecked:isCheckedStockMaterial });
         }
       };
     }

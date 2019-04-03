@@ -8,10 +8,8 @@ class CircleType extends React.Component {
       this.state = {
         // diameter: this.props.diameter
         diameter: app.config.diameter
-        // diameter: ''
       };
-      // console.log(this.props,'props')
-      // console.log(this.state,'state')
+ 
     }
 
     componentWillMount() {
@@ -71,7 +69,6 @@ class CircleType extends React.Component {
  
     // componentDidUpdate(prevProps, prevState) {
     //   if (this.props.demensions !== prevProps.demensions) {
-        console.log(this.props.diameter,nextProps,'diameter-config in update')
 
       // let diameter = this.props.diameter!==NaN?this.props.diameter:'';
       let diameter = app.config.diameter!==NaN ? app.config.diameter : '';
@@ -92,7 +89,6 @@ class CircleType extends React.Component {
 
   handleChangeInputDiameter = e => {
     let diameter = e.target.value;
-    // console.log(e.target.value,diameter,'target.value')
 
     this.setState({
       diameter
@@ -175,7 +171,4 @@ const mapDispatchToProps = dispatch => {
     }
   };
 };
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(CircleType);
+export default connect(mapStateToProps,mapDispatchToProps)(CircleType);

@@ -28,7 +28,7 @@ class InputSelectAuto extends React.Component {
 
 
     handleChange = (newValue, actionMeta) => {
-      console.log(+newValue.value,'1-newValue');
+      // console.log(+newValue.value,'1-newValue');
         if(+newValue.value<90){
             this.props.updateState45(true);
         } else if(+newValue.value > 90){
@@ -48,7 +48,7 @@ class InputSelectAuto extends React.Component {
 
     handleInputChange = (inputValue, actionMeta) => {
       // console.group('Input Changed');
-      console.log(inputValue,'inputValue');
+      // console.log(inputValue,'inputValue');
       // console.log(`action: ${actionMeta.action}`);
       // console.groupEnd();
           let newValue = options.some(el => el.value === (+inputValue * 1).toFixed(2));
@@ -127,11 +127,9 @@ class InputSelectAuto extends React.Component {
             styles={customStyles}
             isDisabled={this.props.disabled}
             // isClearable
-            // defaultValue={this.state.newValue}
             onChange={this.handleChange}
             onInputChange={this.handleInputChange}
             // onKeyPress={this.handleInputChange}
-            // allowCreate={false}
             options={this.state.options}
             value={this.state.newValue}
             placeholder=""
@@ -139,25 +137,7 @@ class InputSelectAuto extends React.Component {
       );
     }
   }
-//   const mapStateToProps = state => {
-//     return {
-//       demensions: state.preferencesReducer.demensions,
-//       z_value:state.inputSelectReducer.z_value,
-//       indexZ: state.inputSelectReducer.indexZ
-//     };
-//   };
-//   const mapDispatchToProps = dispatch => {
-//     return {
-//       updateZValue: z_value => {
-//         dispatch({ type: "UPDATE_Z_VALUE", payload: z_value });
-//       },
-//       updateIndexZ: indexZ => {
-//         dispatch({ type: "UPDATE_INDEX_Z", payload: indexZ });
-//       }
-   
-//     };
-//   }
-//   export default connect(mapStateToProps,mapDispatchToProps)(InputSelectAuto);
+
   export default InputSelectAuto;
 
 

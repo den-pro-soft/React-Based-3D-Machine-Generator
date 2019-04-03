@@ -19,7 +19,6 @@ class File extends React.Component {
             displayMenu: false,
             openNewModal: false
         };
-// console.log(this.props,'props-File')
     }
 
     showDropdownMenu = (event) => {
@@ -213,4 +212,4 @@ const mapStateToProps = state => {
     };
   };
   
-  export default connect(mapStateToProps, mapDispatchToProps)(File);
+  export default withRouter(connect(mapStateToProps, mapDispatchToProps)(File));

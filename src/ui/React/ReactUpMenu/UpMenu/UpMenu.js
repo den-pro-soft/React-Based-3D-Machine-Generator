@@ -3,12 +3,7 @@ import "./up-menu.scss";
 import DropDownMenu from "../DropDownMenu/DropDownMenu";
 import Material from "./RightButtons/Material";
 import SelectFinish from "./RightButtons/SelectFinish";
-import Button from "@material-ui/core/Button";
-import Dialog from "@material-ui/core/Dialog";
-import DialogActions from "@material-ui/core/DialogActions";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogTitle from "@material-ui/core/DialogTitle";
-import Preferences from "../DropDownMenu/Edit/Preferences";
+import PreferencesWidow from '../DropDownMenu/Edit/PreferencesWindow';
 import { connect } from "react-redux";
 import {withRouter}from 'react-router-dom';
 import Confirmation from '../InfoPopup/Confirmation/Confirmation';
@@ -16,7 +11,6 @@ import NonWorkFeature from '../InfoPopup/NonWorkFeature';
 import ExpertNotice from "../InfoPopup/ExpertNotice";
 
 import { DraggablePopup } from "../../../../ui/popup";
-import { Modal } from "@material-ui/core";
 var popup3DView = new DraggablePopup()
   .setSize(800, 600)
   .setPosition(200, 100)
@@ -50,38 +44,9 @@ let show3D = function() {
 class UpMenu extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      openPreferencesModal: false,
-    };
-    // console.log(this.props,'props-UpMenu')
-
   }
 
-  // --------------open window Preferences---------------------
-  handleOpenPreferences = event => {
-    // event.preventDefault();
-    this.setState(
-      prevState => ({ openPreferencesModal: !prevState.openPreferencesModal }),
-      () => {
-        this.setState({
-          openPreferencesModal: this.state.openPreferencesModal
-        });
-      }
-    );
-  };
-  handleCloseModalPreferences = () => {
-    this.setState(
-      prevState => ({ openPreferencesModal: prevState.openPreferencesModal }),
-      () => {
-        this.setState({
-          openPreferencesModal: !this.state.openPreferencesModal
-        });
-      }
-    );
-  };
-  openHelpPreferences = () => {
-    window.open("https://www.emachineshop.com/help-preferences/#measurements");
-  };
+
   render() {
     return (
       <div className="UpMenu">
@@ -125,7 +90,9 @@ class UpMenu extends React.Component {
                   <img width="24px" src="resources/images/Delete.png" />
                 </a>
               </button>
-              <button onClick={this.handleOpenPreferences}>
+              <button 
+              onClick={()=>this.props.updatePreferencesModal(!this.props.openPreferencesModal)}
+              >
                 <a href="#">
                   <img width="24px" src="resources/images/Preferences.png" />
                 </a>
@@ -163,66 +130,7 @@ class UpMenu extends React.Component {
             <SelectFinish />
           </div>
         </div>
-        <Dialog
-          maxWidth={false}
-          open={this.state.openPreferencesModal}
-          aria-labelledby="alert-dialog-title"
-          aria-describedby="alert-dialog-description"
-        >
-          <DialogTitle
-            style={{ color: "black", textAlign: "left" }}
-            id="alert-dialog-title"
-          >
-            <span>Preferences</span>
-          </DialogTitle>
-
-          <DialogContent
-            style={{
-              textAlign: "left",
-              width: "550px",
-              height: "325px",
-              backgroundColor: "#f0ecec"
-            }}
-          >
-            <Preferences />
-          </DialogContent>
-
-          <DialogActions>
-            <Button
-              onClick={this.handleCloseModalPreferences}
-              style={{
-                backgroundColor: "#dddada",
-                boxShadow: "2px 2px 1px #000"
-              }}
-              color="primary"
-              autoFocus
-            >
-              OK
-            </Button>
-            <Button
-              onClick={this.handleCloseModalPreferences}
-              style={{
-                backgroundColor: "#dddada",
-                boxShadow: "2px 2px 1px #000"
-              }}
-              color="primary"
-              autoFocus
-            >
-              Cancel
-            </Button>
-            <Button
-              onClick={this.openHelpPreferences}
-              style={{
-                backgroundColor: "#dddada",
-                boxShadow: "2px 2px 1px #000"
-              }}
-              color="primary"
-              autoFocus
-            >
-              Help
-            </Button>
-          </DialogActions>
-        </Dialog>
+        <PreferencesWidow/>
         <Confirmation />
         <NonWorkFeature/>
         <ExpertNotice/>
@@ -233,8 +141,7 @@ class UpMenu extends React.Component {
 const mapStateToProps = state => {
   return {
     demensions: state.preferencesReducer.demensions,
-    // openConfirm: state.confirmationReducer.openConfirm,
-
+    openPreferencesModal: state.preferencesWindowReducer.openPreferencesModal
   };
 };
 
@@ -242,6 +149,13 @@ const mapDispatchToProps = dispatch => {
   return {
     updateDataDemensions: value => {
       dispatch({ type: "UPDATE_DEMENSIONS_UpMenu", payload: value });
+    },
+    updatePreferencesModal: openPreferencesModal => {
+      dispatch({
+        type: "OPEN_PREFERENCES_MODAL",
+        payload: openPreferencesModal,
+    
+      });
     }
   };
 };

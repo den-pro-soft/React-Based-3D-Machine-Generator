@@ -3,9 +3,7 @@ const initialState = {
     width:0,
     horisontalDepth:0,
     groovesData:[]
-
-
-  };
+  }
   
   export default function groovesParametersReducer(state = initialState, action) {
     // console.log(state,'priceReducer')
