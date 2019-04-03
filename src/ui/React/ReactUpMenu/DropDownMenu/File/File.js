@@ -113,7 +113,7 @@ class File extends React.Component {
                                     Save
                                 </a>
                             </li>
-                            <li onClick={()=> app.saveAs('png')}>
+                            <li onClick={()=> app.saveAs('xml')}>
                                 <a href="#">Save As</a>
                             </li>
                             <li onClick={this.importFile}>
