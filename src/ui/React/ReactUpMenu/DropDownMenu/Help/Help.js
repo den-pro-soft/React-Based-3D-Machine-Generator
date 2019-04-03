@@ -161,6 +161,9 @@ export default class Help extends React.Component {
   openWindow = () => {
     window.open("https://www.emachineshop.com/video-tutorials/");
   };
+    openHelpLink = ()=>{
+        window.open("https://www.emachineshop.com/help/");
+    };
   render() {
     return (
       <div className="Help">
@@ -192,7 +195,7 @@ export default class Help extends React.Component {
                   </ul>
                 ) : null}
               </li>
-              <li>
+              <li onClick={this.openHelpLink}>
                 <a
                   href="https://www.emachineshop.com/help/"
                   target="_blank"
