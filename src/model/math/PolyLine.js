@@ -37,11 +37,14 @@ export default class PolyLine{
     getCrossPoints(polyLine){
         let res = [];
         for(let i=1; i<=this.points.length; i++){
+            let icalc = i;
+
             let l1 = null;
             if(i!=this.points.length){
                 l1=new Line(this.points[i-1], this.points[i]);
             }else{
                 l1=new Line(this.points[this.points.length-1], this.points[0]);
+                icalc=0;
             }
             for(let j=1; j<=polyLine.points.length; j++){
                 let l2=null;
@@ -51,7 +54,7 @@ export default class PolyLine{
                     l2=new Line(polyLine.points[polyLine.points.length-1], polyLine.points[0]);
                 }
                 let crossPoint = l1.getCrossPoint(l2);
-                if(crossPoint && this.points[i-1].distanceTo(crossPoint)>1E-5 && this.points[i].distanceTo(crossPoint)>1E-5){
+                if(crossPoint && this.points[i-1].distanceTo(crossPoint)>1E-5 && this.points[icalc].distanceTo(crossPoint)>1E-5){
                     res.push(crossPoint);
                 }
             }
