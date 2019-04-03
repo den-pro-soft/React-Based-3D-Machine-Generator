@@ -6,6 +6,7 @@
 import Exception from '../Exception';
 import GraphicElement from './GraphicElement';
 import Renderable from '../ui/2d/Renderable';
+import Group from "./elements/Group";
 
 let id=0;
 
@@ -67,11 +68,19 @@ export default class Document extends Renderable{
     removeElement(element){
         // if(element instanceof GraphicElement) {
             for(let i=0; i<this._elements.length; i++){
-                if(this._elements[i].compare(element)){
-                    this._elements.splice(i,1);
-                    return;
+                if(this._elements[i] instanceof Group){
+                    this._elements[i].removeElement(element);
+                    if(this._elements[i].elements.length==0){
+                        this._elements.splice(i, 1);
+                    }
+                }else {
+                    if (this._elements[i].compare(element)) {
+                        this._elements.splice(i, 1);
+                        return;
+                    }
                 }
             }
+
         // }else{
         //     throw new Exception("To document can be remove only elements which instances GraphicElement class.",element);
         // }
