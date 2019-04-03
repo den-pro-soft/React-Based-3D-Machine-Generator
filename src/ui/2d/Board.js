@@ -307,7 +307,12 @@ class InteractiveBoard extends Board{
         /** @type {Array.<BoardExtension>} */
         this.boardExtensions = [new RulerBoardExtension(this), new MousePointerBoardExtension(this)];
         
-        setTimeout(()=>{this.renderDocument()}, 100);
+        setTimeout(()=>{
+            try{
+                this.renderDocument()
+            }catch (e) {
+                console.warn(e);
+            }}, 100);
 
 
         this._canvas.addEventListener('mousemove', e=>this.mouseMove(e));

@@ -52,7 +52,7 @@ export default class ZValueOfInnerShape extends Rule{
         let shapes = shapeBuilder.buildShapes().map(shape=>{return {shape:shape, out:true}});
 
         for(let i=0; i<shapes.length; i++){
-            for(let j=1; j<shapes.length; j++){
+            for(let j=0; j<shapes.length; j++){
                 if(i!=j && shapes[i].shape.isContain(shapes[j].shape)) {
                     shapes[j].out = false;
                 }

@@ -164,7 +164,12 @@ export default class UniversalTriangulationAlgorithm extends TriangulationAlgori
             if (max.length > 1) {
                 max = this._findExtremeVertexByAsix(max, 'z');
                 if (max.length > 1) {
-                    throw new Exception('Error find extreme vertex');
+                    let template = max[0]
+                    for(let vertex of max){
+                        if(!vertex.compare(template)){
+                            throw new Exception('Error find extreme vertex');
+                        }
+                    }
                 }
             }
         }

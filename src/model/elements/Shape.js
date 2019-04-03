@@ -219,26 +219,31 @@ export default class Shape{
      * @return {boolean}
      */
     isContain(element){
+        /** @type {TriangulationAlgorithm} */
+        let triangulation = container.resolve('triangulation');
+
+
+        let pointsCurrentShape = this.getConsistentlyPoints();
+        let triangles = triangulation.getTriangles(pointsCurrentShape).map(triangle=>new Triangle(pointsCurrentShape[triangle[0]], pointsCurrentShape[triangle[1]], pointsCurrentShape[triangle[2]]));
+
         if(element instanceof Shape){
             let points = element.getConsistentlyPoints();
             for(let point of points){
-                if(!this.isContain(point)){
+                if(!this.isContainPoint(point, triangles)){
                     return false;
                 }
             }
             return true;
         }else {
-            /** @type {TriangulationAlgorithm} */
-            let triangulation = container.resolve('triangulation');
+            return this.isContainPoint(element, triangles);
+        }
+        return false;
+    }
 
-            let points = this.getConsistentlyPoints();
-            let triangles = triangulation.getTriangles(points);
-
-            for (let triangle of triangles) {
-                let temp = new Triangle(points[triangle[0]], points[triangle[1]], points[triangle[2]]);
-                if (temp.contains(element)) {
-                    return true;
-                }
+    isContainPoint(point, triangles){
+        for (let triangle of triangles) {
+            if (triangle.contains(point)) {
+                return true;
             }
         }
         return false;

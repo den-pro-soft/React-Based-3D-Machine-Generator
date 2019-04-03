@@ -30,9 +30,10 @@ export default class Analyzer{
      * @return {Promise} -
      */
     analyze(){
-        container.resolve('app').clearSelectElements();
-        container.resolve('mainBoard').tool.clearSelectElements();
         return new Promise((resolve, reject)=>{
+            if(this.document._elements.length==0){
+                resolve(false);
+            }
             if(this.rules.length>0){
                 this.checkRule(0).then((res)=>{
                     resolve(res);

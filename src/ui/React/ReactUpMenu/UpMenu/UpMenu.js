@@ -21,6 +21,10 @@ var view3D = new View3D({ width: 800, height: 600 });
 popup3DView.addContent(view3D.getContent());
 
 let show3D = function() {
+    container.resolve('app').clearSelectElements();
+    if(container.resolve('mainBoard').tool) {
+        container.resolve('mainBoard').tool.clearSelectElements();
+    }
   container.resolve('analyzer', app.currentDocument).analyze().then((res)=>{
     if(res){
       try {
