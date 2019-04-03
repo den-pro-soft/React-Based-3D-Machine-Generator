@@ -9,6 +9,7 @@ import NotClosedShape from './../rules/NotClosedShape';
 import DifferentZInShape from './../rules/DifferentZInShape';
 import ZValueOfOuterShape from "../rules/ZValueOfOuterShape";
 import ShapeCrossing from "../rules/ShapeCrossing";
+import ZValueOfInnerShape from "../rules/ZValueOfInnerShape";
 
 export default class ErrorModelAnalyzer extends Analyzer{
 
@@ -23,6 +24,7 @@ export default class ErrorModelAnalyzer extends Analyzer{
         this.rules.push(new DifferentZInShape(document));
         this.rules.push(new ShapeCrossing(document));
         this.rules.push(new ZValueOfOuterShape(document));
+        this.rules.push(new ZValueOfInnerShape(document));
     }
     
 }

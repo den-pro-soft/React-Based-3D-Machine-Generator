@@ -2,6 +2,7 @@
 import Solution from './../Solution';
 
 import ChangeElementsHeightCommand from '../../command/ChangeElementsHeightCommand';
+import GraphicElement from "../../model/GraphicElement";
 
 export default class SetZValue extends Solution{
 
@@ -15,14 +16,19 @@ export default class SetZValue extends Solution{
         this.elements = elements;
         this.previewDoc=null;
 
-        let dimension = 'mm';
         this.height=height;
 
-        if(container.resolve('config').dimension != 'Millimeters'){
-            dimension="''";
-            height/=25.4;
+        if(height==GraphicElement.AirInside){
+            height="Air inside";
+        }else {
+            let dimension = 'mm';
+            if (container.resolve('config').dimension != 'Millimeters') {
+                dimension = "''";
+                height /= 25.4;
+            }
+            height = height.toFixed(3)+' '+dimension;
         }
-        this.name="Set Z to "+height.toFixed(3)+' '+dimension;
+        this.name="Set Z to "+height;
     }
 
     /**

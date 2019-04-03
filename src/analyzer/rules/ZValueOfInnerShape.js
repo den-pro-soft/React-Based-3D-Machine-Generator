@@ -3,13 +3,13 @@ import ShapeBuilder from "../ShapeBuilder";
 import GraphicElement from "../../model/GraphicElement";
 import SetZValue from "../solutions/SetZValue";
 
-export default class ZValueOfOuterShape extends Rule{
+export default class ZValueOfInnerShape extends Rule{
 
     constructor(document){
         super(document);
 
         /** @type {string} */
-        this.errorMessage = "ERROR: The highlighted outermost line(s) must have a positive Z value.";
+        this.errorMessage = "ERROR: All inner lines must have Air Inside for the Z value.";
     }
 
     /**
@@ -35,7 +35,7 @@ export default class ZValueOfOuterShape extends Rule{
             }
         }
 
-        let solution = new SetZValue(this.document, this.getIncorrectShape(this.document).elements, container.resolve('config').defaultZValues[0]);
+        let solution = new SetZValue(this.document, this.getIncorrectShape(this.document).elements, GraphicElement.AirInside);
         solution.previewDoc=preview;
 
         res.push(solution);
@@ -59,9 +59,9 @@ export default class ZValueOfOuterShape extends Rule{
             }
         }
 
-        shapes = shapes.filter(el=>el.out);
+        shapes = shapes.filter(el=>!el.out);
         for(let shape of shapes){
-            if(shape.shape.height==GraphicElement.AirInside){
+            if(shape.shape.height!=GraphicElement.AirInside){
                 return shape.shape;
             }
         }
