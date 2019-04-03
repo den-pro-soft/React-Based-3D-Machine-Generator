@@ -75,7 +75,14 @@ class Board extends Observable{
         }
 
     }
-    
+
+    /**
+     * @return {{x: number, y: number}} - pixel center
+     */
+    getCenter(){
+       return {x: this._width/2, y: this._height/2};
+    }
+
     /**
      * @param {Point} point
      * @return {{x: number, y: number}}

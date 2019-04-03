@@ -29,7 +29,7 @@ class KeyHelper{
         this.shiftKey=false;
 
         window.addEventListener('keydown',(e)=>{
-            console.log(e.keyCode);
+            console.log(e.keyCode, e.key);
             switch(e.keyCode){
                 case 46: //delete
                 if(e.target==document.body) {
@@ -123,6 +123,17 @@ class KeyHelper{
                     break;
                 case 16: //Shift
                     this.shiftKey=true;
+                    break;
+            }
+            switch (e.key) {
+                case "+":
+                    app.board._zoomAroundPoint(1.1,app.board.getCenter());
+                    break;
+                case "-":
+                    app.board._zoomAroundPoint(0.9,app.board.getCenter());
+                    break;
+                case "=":
+                    app.board.zoomToFitScreen();
                     break;
             }
         });
