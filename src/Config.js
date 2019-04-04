@@ -26,10 +26,10 @@ export default class Config extends Observable{
         super();
 
         /** @type {number} */
-        this._moveStep = 10;
+        this._moveStep = 1;
 
         /** @type {number} */
-        this._rotateStep = 0;
+        this._rotateStep = 15;
 
         /** @type {string} [Millimeters|Inches]*/
         this._dimension= 'Millimeters';

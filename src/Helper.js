@@ -117,6 +117,11 @@ class KeyHelper{
                         app.useLastTool();
                     }
                     break;
+                case 82: //Rr
+                    if(e.target==document.body){
+                        app.rotateSelected(container.resolve('config').rotateStep);
+                    }
+                    break;
                 case 17: //Ctrl
                     this.ctrlKey=true;
                     break;
