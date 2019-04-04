@@ -65,7 +65,12 @@ export default class FileLoader {
     save(document) {
         this.getBlobData(document).then(data=>{
             if(this.validate(data)) {
-                FileSaver.saveAs(data, document.fileName + this.fileSuffix);
+                let filename = document.fileName;
+                if(!document.fileName.endsWith(this.fileSuffix)){
+                    filename+=this.fileSuffix;
+                }
+
+                FileSaver.saveAs(data, filename);
             }
         }).catch(function(error){
             console.error(error);
