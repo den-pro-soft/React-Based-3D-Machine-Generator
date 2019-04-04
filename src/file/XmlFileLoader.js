@@ -16,6 +16,8 @@ import Text from './../model/elements/Text';
 import AutoLineType from './../model/line_types/Auto';
 import CommentToSelfLineType from './../model/line_types/CommentToSelf';
 import GraphicElement from "../model/GraphicElement";
+import Bend from "../model/line_types/Bend";
+import BendProcessing from "../model/line_types/processings/Bend";
 
 
 export default class XmlFileLoader extends FileLoader{
@@ -84,6 +86,13 @@ export default class XmlFileLoader extends FileLoader{
                         element = this._createTextElementByTag(tag);
                         newElement = true;
                         break;
+                    case 'Bend':
+                        let line = this._createLineElementByTag(tag);
+                        line.lineType=new Bend();
+                        doc.addElement(line);
+                        let processing = this._createBendProcessingByTag(tag);
+                        line.lineType.processing.push(processing);
+                        break;
                 }
                 if(newElement){
                     element.lineType = lineType.copy();
@@ -125,14 +134,17 @@ export default class XmlFileLoader extends FileLoader{
 
     convertInXML(elements) {
 
-        let figures = elements.map(el => {
-            return `<Region BaseHeight="0" Z="${el.height==GraphicElement.AirInside?'AirInside':el.height}" ThroughHole="">
-                        ${this._createMachineByLineType(el.lineType)}
+        let figures = [];
+
+        for(let i=0; i<elements.length; i++){
+
+            figures.push(`<Region BaseHeight="0" Z="${elements[i].height==GraphicElement.AirInside?'AirInside':elements[i].height}" ThroughHole="">
+                        ${this._createMachineByLineType(elements[i].lineType)}
                         <Contour>\n
-                            ${this._convertElementToXml(el)} \n
+                            ${this._convertElementToXml(elements[i])} \n
                         </Contour>
-                    </Region>`
-        });
+                    </Region>`);
+        }
         
         let regions = figures.join("\n") +'\n';
 
@@ -230,5 +242,21 @@ export default class XmlFileLoader extends FileLoader{
                 return new AutoLineType();
         }
     }
+
+    //============Processing=====================//
+
+    /**
+     * @param tag
+     * @return {Processing}
+     * @private
+     */
+    _createBendProcessingByTag(tag){
+        let res = new BendProcessing();
+        res.angle=parseFloat(tag.attributes.Angle);
+        res.radius=parseFloat(tag.attributes.Radius);
+        return res;
+    }
+
+
 }
    

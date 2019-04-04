@@ -2,9 +2,10 @@
  * Created by dev on 22.02.19.
  */
 
-import LineType from './LineType';
+import ProcessingLineType from './ProcessingLineType';
+import BendProcessing from "./processings/Bend";
 
-export default class Bend extends LineType{
+export default class Bend extends ProcessingLineType{
     constructor(){
         super();
         this.name='Bend';
@@ -19,7 +20,6 @@ export default class Bend extends LineType{
      */
     copy(){
         let res = new Bend();
-        res.dimension = this.dimension;
         return res;
     }
 

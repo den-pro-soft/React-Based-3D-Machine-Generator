@@ -2,9 +2,9 @@
  * Created by dev on 07.02.19.
  */
 
-import LineType from './LineType';
+import ProcessingLineType from './ProcessingLineType';
 
-export default class Auto extends LineType{
+export default class Auto extends ProcessingLineType{
     constructor(){
         super();
         this.id=41;
