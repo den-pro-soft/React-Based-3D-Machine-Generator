@@ -1,5 +1,4 @@
 import Observable from './Observable';
-import config from './Config';
 
 class WindowHelper extends Observable{
 
@@ -95,22 +94,22 @@ class KeyHelper{
                     break;
                 case 37: //left
                     if(e.target==document.body) {
-                        app.moveSelected(-config.moveStep, 0);
+                        app.moveSelected(-container.resolve('config').moveStep, 0);
                     }
                     break;
                 case 38: //up
                     if(e.target==document.body) {
-                        app.moveSelected(0, config.moveStep);
+                        app.moveSelected(0, container.resolve('config').moveStep);
                     }
                     break;
                 case 39: //right
                     if(e.target==document.body) {
-                        app.moveSelected(config.moveStep, 0);
+                        app.moveSelected(container.resolve('config').moveStep, 0);
                     }
                     break;
                 case 40: //down
                     if(e.target==document.body) {
-                        app.moveSelected(0, -config.moveStep);
+                        app.moveSelected(0, -container.resolve('config').moveStep);
                     }
                     break;
                 case 32: //Space

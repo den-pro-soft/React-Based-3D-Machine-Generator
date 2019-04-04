@@ -2014,7 +2014,7 @@ function create_board(){
 
 
 							//########################################## Mouse double click ###########################################			
-							canvas.addEventListener('dblclick', function(e){
+							// canvas.addEventListener('dblclick', function(e){
 									// console.log(edit_mode);
 								// if (edit_mode == 'Select'){
 								// 	canvas.style.cursor = "-webkit-grab";
@@ -2026,36 +2026,36 @@ function create_board(){
 								// 	edit_mode = 'Select';
 								// 	return
 								// }
-							});
+							// });
 
 
 
 							//################################################ Key down ####################################################
-							window.addEventListener('keydown', function(e){
-								button[e.keyCode] = true;
-									//console.log(e.keyCode);
-									
-									if (e.keyCode == 46){
-										for (var n = 0; n < E.length; n++) if (E[n].selected) E[n].enable = false;
-										setBound();
-									}
-									
-									if (e.keyCode == 37) moveSelected(-parseFloat(input_Length.value), 0);
-									if (e.keyCode == 38) moveSelected(0, parseFloat(input_Length.value));
-									if (e.keyCode == 39) moveSelected(parseFloat(input_Length.value), 0);
-									if (e.keyCode == 40) moveSelected(0, -parseFloat(input_Length.value));
-										
-								redraw();
-							});
+							// window.addEventListener('keydown', function(e){
+							// 	button[e.keyCode] = true;
+							// 		//console.log(e.keyCode);
+							//
+							// 		if (e.keyCode == 46){
+							// 			for (var n = 0; n < E.length; n++) if (E[n].selected) E[n].enable = false;
+							// 			setBound();
+							// 		}
+							//
+							// 		if (e.keyCode == 37) moveSelected(-parseFloat(input_Length.value), 0);
+							// 		if (e.keyCode == 38) moveSelected(0, parseFloat(input_Length.value));
+							// 		if (e.keyCode == 39) moveSelected(parseFloat(input_Length.value), 0);
+							// 		if (e.keyCode == 40) moveSelected(0, -parseFloat(input_Length.value));
+							//
+							// 	redraw();
+							// });
 
 
 
-							//################################################ Key up ######################################################
-							window.addEventListener('keyup', function(e){
-								button[e.keyCode] = false;
-								
-								if (e.keyCode == 32) if (clicked.Element) console.log(E[clicked.Element]);
-							});
+							// //################################################ Key up ######################################################
+							// window.addEventListener('keyup', function(e){
+							// 	button[e.keyCode] = false;
+							//
+							// 	if (e.keyCode == 32) if (clicked.Element) console.log(E[clicked.Element]);
+							// });
 
 
 
