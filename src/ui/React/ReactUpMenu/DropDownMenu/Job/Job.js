@@ -74,14 +74,16 @@ class Job extends React.Component {
               <li onClick={this.clickSubModal}>
                 <a href="#">Settings</a>
               </li>
-              <li   
-              onClick={() => {
-                this.props.openPriceModal(!this.props.openPrice);
-              } }
-              >
-                <a href="#">Price/Analyze</a>
-              </li>
-              <li>
+              {/*<li   */}
+              {/*onClick={() => {*/}
+                {/*this.props.openPriceModal(!this.props.openPrice);*/}
+              {/*} }*/}
+              {/*>*/}
+                {/*<a href="#">Price/Analyze</a>*/}
+              {/*</li>*/}
+              <li onClick={()=>{
+                  window.open('https://www.emachineshop.com/help-ordering/#pre-order-checklist');
+                }}>
                 <a
                   href="https://www.emachineshop.com/help-ordering/#pre-order-checklist"
                   target="_blank"

@@ -119,9 +119,9 @@ class File extends React.Component {
                             <li onClick={this.importFile}>
                                 <a href="#">Import</a>
                             </li>
-                            <li>
-                                <a href="#">Exit</a>
-                            </li>
+                            {/*<li>*/}
+                                {/*<a href="#">Exit</a>*/}
+                            {/*</li>*/}
                         </ul>
                     ) : null}
                 </div>

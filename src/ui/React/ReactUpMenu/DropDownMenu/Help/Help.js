@@ -213,7 +213,9 @@ export default class Help extends React.Component {
                   Video Tutorials
                 </a>
               </li>
-              <li>
+              <li onClick={()=>{
+                  window.open('https://www.emachineshop.com/free-download/');
+                }}>
                 <a href="#">Windows version</a>
               </li>
               <li onClick={this.handleOpenTechSupport}>
