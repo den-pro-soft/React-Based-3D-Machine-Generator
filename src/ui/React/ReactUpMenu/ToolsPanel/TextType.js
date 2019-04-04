@@ -14,12 +14,6 @@ class TextType extends React.Component {
         };
     }
 
-    componentDidMount() {
-        if(this.state.text.length==0 && this.props.withoutText) {
-            this.textInput.focus();
-        }
-    }
-
 
   componentWillMount() {
     app.addHandler("selectElements", elements => {
@@ -50,7 +44,7 @@ class TextType extends React.Component {
       }
     }
 
-      if(this.state.text.length==0 && this.props.withoutText) {
+      if(this.state.text && this.state.text.length==0 && this.props.withoutText) {
           this.textInput.focus();
       }
   }

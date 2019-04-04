@@ -45,13 +45,12 @@ class ToolsPanel extends React.PureComponent {
             this.setState({ show: true });
             let text = app.selectElements.every(el => el.typeName == "Text");
 
-            console.log(text, "TEXT");
             let arc = app.selectElements.every(el => el.typeName == "Arc");
 
             if (text === true && app.selectElements.length > 1) {
-                this.setState({ line: false, arc: false,circle:false, group: true, text:true, withoutText:false });
+                this.setState({ line: false, arc: false,circle:false, group: true, text:false, withoutText:false });
             }else if (arc === true && app.selectElements.length > 1) {
-                if(app.selectElements[0].incrementAngle===360){
+                if(app.selectElements[0].incrementAngle===360){ //todo: has error
                     this.setState({ line: false, circle: true,  group: true, });
                 }else{
                     this.setState({ line: false, circle: false, arc:false,  group: true, text: false })
@@ -72,7 +71,7 @@ class ToolsPanel extends React.PureComponent {
                         case "Text":     this.setState({ line: false, circle: false, arc:false, group: false, text:true,  withoutText:true });  break;
                     }
                 }else {
-                    this.setState({ line: false, circle: false, arc:false, group: true});
+                    this.setState({ line: false, circle: false, arc:false, text: false, group: true});
                 }
             }
     });
