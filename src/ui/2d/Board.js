@@ -411,7 +411,7 @@ class InteractiveBoard extends Board{
         let zoom = Math.min(localWidth/width,localHeight/height);
 
         console.log(this._scale*zoom);
-        this._setScale((this._scale*zoom)/2);
+        this._setScale((this._scale*zoom)/1.5);
 
 
         let leftUpPoint = this._convertToLocalCoordinateSystem(new Point(ext.min.x, ext.max.y));
