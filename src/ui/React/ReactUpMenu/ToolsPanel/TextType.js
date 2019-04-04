@@ -5,19 +5,21 @@ import TextSelect from "./TextSelect";
 import { connect } from "react-redux";
 
 class TextType extends React.Component {
-  constructor(props) {
-    super(props);
-    //todo: app.selectElements[0].text -   need take from properties
-    this.state = {
-      text: app.selectElements[0].text,
-      textSize: this.props.textSize
-    };
-  }
-  componentDidMount() {
-    {
-      this.props.withoutText && this.textInput.focus();
+    constructor(props) {
+        super(props);
+        //todo: app.selectElements[0].text -   need take from properties
+        this.state = {
+            text: app.selectElements[0].text,
+            textSize: this.props.textSize
+        };
     }
-  }
+
+    componentDidMount() {
+        if(this.state.text.length==0 && this.props.withoutText) {
+            this.textInput.focus();
+        }
+    }
+
 
   componentWillMount() {
     app.addHandler("selectElements", elements => {
@@ -47,6 +49,10 @@ class TextType extends React.Component {
         this.setState({ textSize: (textSize / 25.4).toFixed(3) + ' "' });
       }
     }
+
+      if(this.state.text.length==0 && this.props.withoutText) {
+          this.textInput.focus();
+      }
   }
   handlyChangeTextInput = e => {
     this.setState({

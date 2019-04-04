@@ -52,6 +52,8 @@ export default class Document extends Renderable{
         this._elements = [];
 
         this.fileName = 'NewDocument';
+
+        console.info("Create new document");
     }
 
     /**

@@ -97,7 +97,6 @@ export default class Application extends Observable{
         this._currentDocument=document;
         this.commandHistory = new CommandHistory();
         this.selectElements=[];
-        console.log(this._currentDocument.getExtrenum(), 'cd');
         this._changeTool(this._getToolInstance('Pointer'));
         idGenerator = 1;
         this.board.document=document;
@@ -122,7 +121,6 @@ export default class Application extends Observable{
     }
 
     set magnificationMode(val){
-        console.log(val, 'magnificatin mode value');
         this._magnificationMode=val;
         let tool=this.board.tool;
         if(!val && tool instanceof MagnificationDecorator){
@@ -173,7 +171,7 @@ export default class Application extends Observable{
     clearSelectElements(){
         this.selectElements.map(e=>e._renderer.setFocus(false));
         if(this.selectElements.length==1 && this.selectElements[0].typeName == 'Text' && this.selectElements[0].text == ""){
-            this.undo();
+            this.undo(false);
         }
         this.selectElements=[];
         this._notifyHandlers('clearSelectElements');
@@ -197,18 +195,25 @@ export default class Application extends Observable{
 
                 if(command instanceof ElementModificationCommand){
                     let elements = this.selectElements;
-                    if(command.isReplacedElements()) {
-                        elements = command.getElements();
-                        if(command.selectOneElement) {
-                            elements = [elements[0]];
-                        }
-                        this.addSelectElements(elements);
-                    }
-
-                    if(!(command instanceof EraserNearElementsCommand)) {
-                        this.board.tool.clearSelectElements();
+                    if(command instanceof ChangeTextCommand) {
+                        this.board.tool.clearSelectElements(false);
                         for (let el of elements) {
-                            this.board.tool.selectElement(el);
+                            this.board.tool.selectElement(el, false);
+                        }
+                    }else{
+                        if (command.isReplacedElements()) {
+                            elements = command.getElements();
+                            if (command.selectOneElement) {
+                                elements = [elements[0]];
+                            }
+                            this.addSelectElements(elements);
+                        }
+
+                        if (!(command instanceof EraserNearElementsCommand)) {
+                            this.board.tool.clearSelectElements();
+                            for (let el of elements) {
+                                this.board.tool.selectElement(el);
+                            }
                         }
                     }
                 }
@@ -235,12 +240,15 @@ export default class Application extends Observable{
     
     /**
      * The method need for revert last command
+     * @param [clearSelect=true]
      */
-    undo(){
+    undo(clearSelect=true){
         let command = this.commandHistory.pop();
         if(command){
             command.undo();
-            this.clearSelectElements();
+            if(clearSelect) {
+                this.clearSelectElements();
+            }
         }
 
         if(this._board){

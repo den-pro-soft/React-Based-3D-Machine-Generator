@@ -20,66 +20,61 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import {connect} from 'react-redux';
 import { withRouter } from "react-router-dom";
 
- class ToolsPanel extends React.PureComponent {
+class ToolsPanel extends React.PureComponent {
 
-  constructor(props,context) {
-    super(props,context);
-    this.state = {
-      show: false,
-      line: false,
-      arc: false,
-      circle: false,
-      group: false,
-      text:false,
-      withoutText:true,
-      value:'',
-      openBendModal:false,
-    };
-  }
-  // ---------------React Life Cycle-----------------
-  componentWillMount() {
+    constructor(props,context) {
+        super(props,context);
+        this.state = {
+          show: false,
+          line: false,
+          arc: false,
+          circle: false,
+          group: false,
+          text:false,
+          withoutText:true,
+          value:'',
+          openBendModal:false,
+        };
+    }
 
-    app.addHandler("selectElements", elements => {
-  
-      this.setState({value: app.selectElements[0]._lineType.label});
-      localStorage.setItem('lineType', app.selectElements[0]._lineType.label);
+    componentWillMount() {
+        app.addHandler("selectElements", elements => {
+            this.setState({value: app.selectElements[0]._lineType.label});
+            localStorage.setItem('lineType', app.selectElements[0]._lineType.label);
 
-          this.setState({ show: true });
-          let text = app.selectElements.every(el => el.typeName === "Text");
-          let arc = app.selectElements.every(el => el.typeName === "Arc");
-       
-          if (text === true && app.selectElements.length > 1) {
+            this.setState({ show: true });
+            let text = app.selectElements.every(el => el.typeName == "Text");
 
-            this.setState({ line: false, arc: false,circle:false, group: true, text:true, withoutText:false });
-             } else
+            console.log(text, "TEXT");
+            let arc = app.selectElements.every(el => el.typeName == "Arc");
 
-          if (arc === true && app.selectElements.length > 1) {
-            if(app.selectElements[0].incrementAngle===360){
-              this.setState({ line: false, circle: true,  group: true, });
-            } else {
-              this.setState({ line: false, circle: false, arc:false,  group: true, text: false })
+            if (text === true && app.selectElements.length > 1) {
+                this.setState({ line: false, arc: false,circle:false, group: true, text:true, withoutText:false });
+            }else if (arc === true && app.selectElements.length > 1) {
+                if(app.selectElements[0].incrementAngle===360){
+                    this.setState({ line: false, circle: true,  group: true, });
+                }else{
+                    this.setState({ line: false, circle: false, arc:false,  group: true, text: false })
+                }
+            }else if(arc=== true && app.selectElements.length === 1){
+                if(app.selectElements[0].incrementAngle===360){
+                    this.setState({ line: false, circle: true, arc:false,  group: false, text: false });
+                }else{
+                    this.setState({ line: false, circle: false,arc:true,  group: false, text: false })
+                }
+            }else{
+                if (app.selectElements.length === 1) {
+                    let el = app.selectElements[0];
+                    switch(el.typeName){
+                        case "Line":     this.setState({ line: true,  circle: false, arc:false, group: false, text: false });  break;
+                        case "Group":    this.setState({ line: false, circle: false, arc:false, group: true,  text: false });  break;
+                        case "Spline":   this.setState({ line: false, circle: false, arc:false, group: false,text: false });  break;
+                        case "Text":     this.setState({ line: false, circle: false, arc:false, group: false, text:true,  withoutText:true });  break;
+                    }
+                }else {
+                    this.setState({ line: false, circle: false, arc:false, group: true});
+                }
             }
-          } else
-          if(arc=== true && app.selectElements.length === 1){
-            if(app.selectElements[0].incrementAngle===360){
-              this.setState({ line: false, circle: true, arc:false,  group: false, text: false });
-            } else {
-              this.setState({ line: false, circle: false,arc:true,  group: false, text: false })
-            }
-          }
-          else{
-              if (app.selectElements.length === 1) {
-                  let el = app.selectElements[0];
-                  switch(el.typeName){
-                      case "Line":     this.setState({ line: true,  circle: false, arc:false, group: false, text: false });  break;
-                      case "Group":    this.setState({ line: false, circle: false, arc:false, group: true,  text: false });  break;
-                      case "Spline":   this.setState({ line: false, circle: false, arc:false, group: false,text: false });  break;
-                      case "Text":     this.setState({ line: false, circle: false, arc:false, group: false, text:true });  break;
-                  }
-              }else {
-                  this.setState({ line: false, circle: false, arc:false, group: true});
-              }
-          }   
     });
 
     app.addHandler("clearSelectElements", () => {
@@ -93,7 +88,7 @@ import { withRouter } from "react-router-dom";
         }
       }
     });
-  
+
   }
 
   // ---------------------------handleChangeSelect type Line-------------------------------------------
@@ -105,7 +100,7 @@ import { withRouter } from "react-router-dom";
     app.config.defaultLineTypes.map((item) => {
       if(event.target.value===item.label){
         localStorage.setItem('lineType', item.label);
-        app.config.lineType = item; 
+        app.config.lineType = item;
         app.setElementsLineType(item);
 
       }
@@ -190,7 +185,7 @@ import { withRouter } from "react-router-dom";
                           {typLine.label}
                         </option>
                       ))}
-         
+
             </select>
 
             {this.state.line === true && (
@@ -201,11 +196,11 @@ import { withRouter } from "react-router-dom";
             )}
             {this.state.arc === true && <ArcType />}
             {this.state.circle === true && <CircleType />}
-            {this.state.group === true && <GroupType />}         
+            {this.state.group === true && <GroupType />}
             {this.state.value === "Auto"&&(
 
                <InputSelect className="CreatableSelect" />
-            )} 
+            )}
 
             <button className="btn-Question">
               <a
@@ -243,14 +238,14 @@ import { withRouter } from "react-router-dom";
               backgroundColor:'#f0ecec'
             }}
           >
-           <div 
+           <div
            style={{
              display:'flex',
              justifyContent:"space-between",
              marginTop:'5px',
              paddingLeft:'15px'}}>
             <span>Information</span>
-         
+
               <Button
                 onClick={this.handleCloseModalBend}
                 style={{
@@ -264,7 +259,7 @@ import { withRouter } from "react-router-dom";
                   cancel_presentation
             </i>
               </Button>
-            </div> 
+            </div>
             <div style={{ margin: "15px 15px",textAlign:'left' }}>
               <img
                 width="25px"
@@ -313,5 +308,5 @@ import { withRouter } from "react-router-dom";
         }
       };
     }
-    
+
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(ToolsPanel));
