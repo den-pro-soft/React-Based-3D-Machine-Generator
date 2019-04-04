@@ -44,7 +44,7 @@ class TextType extends React.Component {
       }
     }
 
-      if(this.state.text && this.state.text.length==0 && this.props.withoutText) {
+      if(this.state.text==="" && this.props.withoutText) {
           this.textInput.focus();
       }
   }
