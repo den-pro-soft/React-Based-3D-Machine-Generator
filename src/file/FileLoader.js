@@ -70,6 +70,7 @@ export default class FileLoader {
                     let filename = document.fileName;
                     if(!document.fileName.endsWith(this.fileSuffix)){
                         filename+=this.fileSuffix;
+                        document.fileName+=this.fileSuffix;
                     }
                     FileSaver.saveAs(data, filename);
                     resolve(true);

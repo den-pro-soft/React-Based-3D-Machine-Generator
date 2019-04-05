@@ -343,6 +343,7 @@ export default class Application extends Observable{
                 if(res){
                     this.loaded=true;
                     localStorage.setItem('loaded', true);
+                    this._notifyHandlers('openNewFile', this.currentDocument)
                 }
             });
         }, ()=>{}).show();

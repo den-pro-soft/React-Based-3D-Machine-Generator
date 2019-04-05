@@ -1,8 +1,13 @@
 .BottomPanel {
-  height: 20px;
+  height: 19px;
   display: flex;
   justify-content: space-between;
   padding: 5px;
+  font: icon;
+  background-color: #e0e0e0;
+  border-top: 1px #cecece solid;
+  color: #313131;
+  align-items: center;
   .MouseCoordinates {
     margin-right: 10px;
     .MouseX {
