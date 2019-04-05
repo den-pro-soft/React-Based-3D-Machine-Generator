@@ -28,7 +28,7 @@ class KeyHelper{
         this.shiftKey=false;
 
         window.addEventListener('keydown',(e)=>{
-            console.log(e.keyCode, e.key);
+            console.log(e.keyCode, e.key, e);
             switch(e.keyCode){
                 case 46: //delete
                 if(e.target==document.body) {
@@ -49,7 +49,9 @@ class KeyHelper{
                     break;
                 case 83: //Ss
                     if(e.ctrlKey){
-                        app.saveAs('xml');
+                        if(e.shiftKey){
+                            app.saveAs('xml');
+                        }
                         e.preventDefault();
                     }
                     break;
