@@ -45,7 +45,7 @@ class Material extends React.Component {
     }
 
   openWindow = () => {
-    window.open("https://www.emachineshop.com/");
+    window.open("https://www.emachineshop.com/materials/");
   };
   render() {
     // console.log(this.props,'material-props')
