@@ -17,20 +17,30 @@ import setGroovesReducer from './reducers/setGroovesReducer';
 import groovesParametersReducer from './reducers/groovesParametersReducer';
 import errorGroovesWindowReducer from './reducers/errorGroovesWindowReducer';
 import removeGroovesReducer from './reducers/removeGroovesReducer';
-import confirmSaveDesignReducer from './reducers/confirmSaveDesignReducer'
+import confirmSaveDesignReducer from './reducers/confirmSaveDesignReducer';
+import fileNameModalReducer from './../React/modal/FileNameModalReducer';
+
 
 
 export default combineReducers({
-  preferencesReducer,preferencesWindowReducer, 
-  mouseCoordinatesReducer, 
-  machineWindowReducer,
-  confirmationReducer,nonWorkFeatureReducer,expertNoticeReducer,
-  priceReducer,orderWindowReducer,
-  toolsPanelReducer,diameterToolsReducer,movingReducer,
-  inputSelectReducer,
-  summaryWindowReducer,
-  setGroovesReducer,groovesParametersReducer,
-  errorGroovesWindowReducer, removeGroovesReducer,
-  confirmSaveDesignReducer
-
+    fileNameModalReducer,
+    preferencesReducer,
+    preferencesWindowReducer,
+    mouseCoordinatesReducer,
+    machineWindowReducer,
+    confirmationReducer,
+    nonWorkFeatureReducer,
+    expertNoticeReducer,
+    priceReducer,
+    orderWindowReducer,
+    toolsPanelReducer,
+    diameterToolsReducer,
+    movingReducer,
+    inputSelectReducer,
+    summaryWindowReducer,
+    setGroovesReducer,
+    groovesParametersReducer,
+    errorGroovesWindowReducer,
+    removeGroovesReducer,
+    confirmSaveDesignReducer
 })

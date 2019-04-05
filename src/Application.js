@@ -44,6 +44,7 @@ import Vector from './model/math/Vector';
 import FormatNotSupportedException from './file/FormatNotSupportedException';
 
 import Observable from './Observable';
+import FileName from "./ui/modal/FileName";
 
 let idGenerator = 1;
 
@@ -335,13 +336,16 @@ export default class Application extends Observable{
     saveAs(fileFormat){
         /** @var {FileLoader} */
         let fileLoader = container.resolve('fileLoaderFactory', fileFormat);
-        
-        fileLoader.save(this.currentDocument).then(res=>{
-            if(res){
-                this.loaded=true;
-                localStorage.setItem('loaded', true);
-            }
-        });
+
+        new FileName((name)=>{
+            this.currentDocument.fileName=name;
+            fileLoader.save(this.currentDocument).then(res=>{
+                if(res){
+                    this.loaded=true;
+                    localStorage.setItem('loaded', true);
+                }
+            });
+        }, ()=>{}).show();
     }
 
     /**

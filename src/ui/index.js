@@ -4,6 +4,7 @@ import "./index.scss";
 import LeftMenu from "./React/LeftMenu/LeftMenu";
 import ReactUp from "./React/ReactUpMenu/ReactUp";
 import BottomPanel from "./React/BottomPanel/BottomPanel";
+import FileNameModal from './React/modal/FileName';
 import {
   // BrowserRouter as Router,
   HashRouter as Router,
@@ -31,12 +32,19 @@ ReactDOM.render(
 );
 
 addEventListener("load", function() {
-  ReactDOM.render(
-    <Provider store={store}>
-      <BottomPanel />
-    </Provider>,
-    document.getElementById("BottomPanel")
-  );
+    ReactDOM.render(
+        <Provider store={store}>
+            <BottomPanel />
+        </Provider>,
+        document.getElementById("BottomPanel")
+    );
+
+    ReactDOM.render(
+        <Provider store={store}>
+            <FileNameModal />
+        </Provider>,
+        document.getElementById("modals")
+    );
 });
 
 
