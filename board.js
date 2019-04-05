@@ -3827,57 +3827,57 @@ function create_board(){
 
 
 			//************************************* intersectSelected ******************************************
-			function intersectSelected(){
-							var ES = []
-							for (var n = 0; n < E.length; n++) E[n].forStrike = false;
-							
-							for (n = 1; n < E.length; n++) if (E[n].selected) ES.push(E[n]);
-							
-							if (selected_groups.length > 0) for (var n = 0; n < selected_groups.length; n++) G[selected_groups[n]].enable = false;
-							
-								skipSelected();
-								
-							for (var n = 0; n < ES.length; n++) ES[n].forStrike = true;
-							
-							var INTERSECT3 = [];
-
-							for (n = 0; n < ES.length; n++){
-								INTERSECT = [];
-								Strike(ES[n]);
-								//console.log(n, ES[n]);
-								for (var i = 0; i < INTERSECT.length; i++) INTERSECT3.push(INTERSECT[i]);
-							}
-							
-							INTERSECT = INTERSECT3;
-							
-							setTimeout(function(){
-									skipSelected();
-								
-									var pos1 = {X: -100, Y: -100};
-									var pos2 = {X: 100,  Y: 100};
-								
-									pos1.x = pos1.X * scale + O.x;
-									pos1.y = pos1.Y * scale + O.y;
-									
-									pos2.x = pos2.X * scale + O.x;
-									pos2.y = pos2.Y * scale + O.y;
-									
-									//console.log(pos1, pos2);
-								
-									select_Elements_inRect(pos1, pos2);
-									refresh_All();
-									redraw();
-									
-									var extremums = getExtremums(INTERSECT);
-									//console.log(extremums);
-									
-									INTERSECT = [];
-								
-							}, 500);
-							setBound();
-							refresh_All();
-							redraw();
-			}
+			// function intersectSelected(){
+			// 				var ES = []
+			// 				for (var n = 0; n < E.length; n++) E[n].forStrike = false;
+			//
+			// 				for (n = 1; n < E.length; n++) if (E[n].selected) ES.push(E[n]);
+			//
+			// 				if (selected_groups.length > 0) for (var n = 0; n < selected_groups.length; n++) G[selected_groups[n]].enable = false;
+			//
+			// 					skipSelected();
+			//
+			// 				for (var n = 0; n < ES.length; n++) ES[n].forStrike = true;
+			//
+			// 				var INTERSECT3 = [];
+			//
+			// 				for (n = 0; n < ES.length; n++){
+			// 					INTERSECT = [];
+			// 					Strike(ES[n]);
+			// 					//console.log(n, ES[n]);
+			// 					for (var i = 0; i < INTERSECT.length; i++) INTERSECT3.push(INTERSECT[i]);
+			// 				}
+			//
+			// 				INTERSECT = INTERSECT3;
+			//
+			// 				setTimeout(function(){
+			// 						skipSelected();
+			//
+			// 						var pos1 = {X: -100, Y: -100};
+			// 						var pos2 = {X: 100,  Y: 100};
+			//
+			// 						pos1.x = pos1.X * scale + O.x;
+			// 						pos1.y = pos1.Y * scale + O.y;
+			//
+			// 						pos2.x = pos2.X * scale + O.x;
+			// 						pos2.y = pos2.Y * scale + O.y;
+			//
+			// 						//console.log(pos1, pos2);
+			//
+			// 						select_Elements_inRect(pos1, pos2);
+			// 						refresh_All();
+			// 						redraw();
+			//
+			// 						var extremums = getExtremums(INTERSECT);
+			// 						//console.log(extremums);
+			//
+			// 						INTERSECT = [];
+			//
+			// 				}, 500);
+			// 				setBound();
+			// 				refresh_All();
+			// 				redraw();
+			// }
 
 
 			//************************************* cornerSelected ******************************************
@@ -4138,223 +4138,223 @@ function create_board(){
 
 
 					//***************************************** groupSelected ******************************
-					function groupSelected(){
-							var group = {enable: true, E: []};
-							for (var n = 1; n < E.length; n++) if (E[n].selected) group.E.push(n);
-
-							G.push(group);
-
-							MUAB[0].pic.src = MUAB_A[0].pic;
-							MUAB[1].pic.src = MUAB_A[1].pic_active;
-					}
+					// function groupSelected(){
+					// 		var group = {enable: true, E: []};
+					// 		for (var n = 1; n < E.length; n++) if (E[n].selected) group.E.push(n);
+					//
+					// 		G.push(group);
+					//
+					// 		MUAB[0].pic.src = MUAB_A[0].pic;
+					// 		MUAB[1].pic.src = MUAB_A[1].pic_active;
+					// }
 
 
 					//***************************************** ungroupSelected ***************************
-					function ungroupSelected(){
-									for (var n = 0; n < selected_groups.length; n++)
-										if (G[selected_groups[n]]) G[selected_groups[n]].enable = false;
-
-										MUAB[0].pic.src = MUAB_A[0].pic_active;
-										MUAB[1].pic.src = MUAB_A[1].pic;
-
-										skipSelected();
-										setBound();
-										redraw();
-					}
+					// function ungroupSelected(){
+					// 				for (var n = 0; n < selected_groups.length; n++)
+					// 					if (G[selected_groups[n]]) G[selected_groups[n]].enable = false;
+					//
+					// 					MUAB[0].pic.src = MUAB_A[0].pic_active;
+					// 					MUAB[1].pic.src = MUAB_A[1].pic;
+					//
+					// 					skipSelected();
+					// 					setBound();
+					// 					redraw();
+					// }
 
 
 					//***********************************  moveSelected ***********************************
-					function moveSelected(DX, DY){
-
-						if (button_Repeat.active){
-							repeatSelected(DX, DY);
-							return
-						}
-
-						//*************************************************************
-						for (var n = 1; n < E.length; n++) if (E[n].selected){
-							for (var i = 0; i < E[n].CP.length; i++){
-								E[n].CP[i].X += DX;
-								E[n].CP[i].Y += DY;
-							}
-								recalculateCurve(E[n]);
-						}
-								setBound();
-								refresh_All();
-								redraw();
-					}
-
+					// function moveSelected(DX, DY){
+					//
+					// 	if (button_Repeat.active){
+					// 		repeatSelected(DX, DY);
+					// 		return
+					// 	}
+					//
+					// 	//*************************************************************
+					// 	for (var n = 1; n < E.length; n++) if (E[n].selected){
+					// 		for (var i = 0; i < E[n].CP.length; i++){
+					// 			E[n].CP[i].X += DX;
+					// 			E[n].CP[i].Y += DY;
+					// 		}
+					// 			recalculateCurve(E[n]);
+					// 	}
+					// 			setBound();
+					// 			refresh_All();
+					// 			redraw();
+					// }
+					//
 
 					//***********************************  mirrorSelected ***********************************
-					function mirrorSelected(horisontal, vertical){
-						
-									var POSARR = [];
-								for (var n = 1; n < E.length; n++) if (E[n].enable) if (E[n].selected)
-									for (var i = 0; i < E[n].P.length; i++) if (E[n].P[i]) POSARR.push(E[n].P[i]);
-
-								var extremums = getExtremums(POSARR);
-								if (!extremums) return
-
-								var AX = (extremums.max.X + extremums.min.X) / 2;
-								var AY = (extremums.max.Y + extremums.min.Y) / 2;
-
-						
-						for (var n = 1; n < E.length; n++) if (E[n].selected){
-							for (var i = 0; i < E[n].CP.length; i++){
-								if (horisontal) E[n].CP[i].X = AX - (E[n].CP[i].X - AX);
-								if (vertical)   E[n].CP[i].Y = AY - (E[n].CP[i].Y - AY);
-							}
-								recalculateCurve(E[n]);
-						}
-								setBound();
-								refresh_All();
-								redraw();
-					}
+					// function mirrorSelected(horisontal, vertical){
+					//
+					// 				var POSARR = [];
+					// 			for (var n = 1; n < E.length; n++) if (E[n].enable) if (E[n].selected)
+					// 				for (var i = 0; i < E[n].P.length; i++) if (E[n].P[i]) POSARR.push(E[n].P[i]);
+					//
+					// 			var extremums = getExtremums(POSARR);
+					// 			if (!extremums) return
+					//
+					// 			var AX = (extremums.max.X + extremums.min.X) / 2;
+					// 			var AY = (extremums.max.Y + extremums.min.Y) / 2;
+					//
+					//
+					// 	for (var n = 1; n < E.length; n++) if (E[n].selected){
+					// 		for (var i = 0; i < E[n].CP.length; i++){
+					// 			if (horisontal) E[n].CP[i].X = AX - (E[n].CP[i].X - AX);
+					// 			if (vertical)   E[n].CP[i].Y = AY - (E[n].CP[i].Y - AY);
+					// 		}
+					// 			recalculateCurve(E[n]);
+					// 	}
+					// 			setBound();
+					// 			refresh_All();
+					// 			redraw();
+					// }
 
 
 					//***********************************  resizeSelected *********************************
-					function resizeSelected(newWidth, newHeight){
-						
-										selected = [];
-									for (var n = 0; n < E.length; n ++) if (E[n].enable) if (E[n].selected) selected.push(n);
-									if (selected.length == 0) return
-
-										var POSARR = [];
-									for (var n = 0; n < selected.length; n++)
-										for (var i = 0; i < E[selected[n]].P.length; i++) if (E[selected[n]].P[i]){
-											POSARR.push(E[selected[n]].P[i]);
-										}
-
-									var extremums = getExtremums(POSARR);
-									
-									var oldWidth = extremums.max.X - extremums.min.X;
-									var oldHeight = extremums.max.Y - extremums.min.Y;
-									
-									var kx = 1;	if (newWidth)  kx = newWidth / oldWidth;
-									var ky = 1;	if (newHeight) ky = newHeight / oldHeight;
-									
-									for (var n = 0; n < E.length; n ++) if (E[n].enable) if (E[n].selected){
-										for (var i = 0; i < E[n].CP.length; i++) if (E[n].CP[i]){
-											var CCP = {X: E[n].CP[i].X, Y: E[n].CP[i].Y}
-											if (newWidth)  E[n].CP[i].X = extremums.min.X + (CCP.X - extremums.min.X) * kx;
-											if (newHeight) E[n].CP[i].Y = extremums.min.Y + (CCP.Y - extremums.min.Y) * ky;
-										}
-											recalculateCurve(E[n]);
-									}
-					}
-					
+					// function resizeSelected(newWidth, newHeight){
+					//
+					// 					selected = [];
+					// 				for (var n = 0; n < E.length; n ++) if (E[n].enable) if (E[n].selected) selected.push(n);
+					// 				if (selected.length == 0) return
+					//
+					// 					var POSARR = [];
+					// 				for (var n = 0; n < selected.length; n++)
+					// 					for (var i = 0; i < E[selected[n]].P.length; i++) if (E[selected[n]].P[i]){
+					// 						POSARR.push(E[selected[n]].P[i]);
+					// 					}
+					//
+					// 				var extremums = getExtremums(POSARR);
+					//
+					// 				var oldWidth = extremums.max.X - extremums.min.X;
+					// 				var oldHeight = extremums.max.Y - extremums.min.Y;
+					//
+					// 				var kx = 1;	if (newWidth)  kx = newWidth / oldWidth;
+					// 				var ky = 1;	if (newHeight) ky = newHeight / oldHeight;
+					//
+					// 				for (var n = 0; n < E.length; n ++) if (E[n].enable) if (E[n].selected){
+					// 					for (var i = 0; i < E[n].CP.length; i++) if (E[n].CP[i]){
+					// 						var CCP = {X: E[n].CP[i].X, Y: E[n].CP[i].Y}
+					// 						if (newWidth)  E[n].CP[i].X = extremums.min.X + (CCP.X - extremums.min.X) * kx;
+					// 						if (newHeight) E[n].CP[i].Y = extremums.min.Y + (CCP.Y - extremums.min.Y) * ky;
+					// 					}
+					// 						recalculateCurve(E[n]);
+					// 				}
+					// }
+					//
 
 					//***********************************  repeatSelected *********************************
-					function repeatSelected(DX, DY){
-
-									var SEL = [];
-							for (var n = 1; n < E.length; n++) if (E[n].selected){
-									var NCP = [];
-								for (var i = 0; i < E[n].CP.length; i++) NCP.push({X: E[n].CP[i].X + DX, Y: E[n].CP[i].Y + DY});
-								var new_E = add_Element(E[n].type, NCP, []);
-									new_E.closed = E[n].closed;
-									new_E.R = E[n].R;
-									
-									recalculateCurve(new_E);
-									SEL.push(new_E);
-									
-									E[n].clone_num = E.length-1;
-							}
-									//console.log(selected_groups)
-							
-								if (selected_groups.length > 0)
-								for (n = 0; n < selected_groups.length; n++){
-									var group = {enable: true, E: []};
-									for (var i = 0; i < G[selected_groups[n]].E.length; i++) group.E.push(E[G[selected_groups[n]].E[i]].clone_num);
-									G.push(group);
-									//console.log(group);
-								}
-							
-								for (n = 1; n < E.length; n++) E[n].selected = false;
-								for (n = 0; n < SEL.length; n++) SEL[n].selected = true;
-
-								setBound();
-								refresh_All();
-								redraw();
-					}
+					// function repeatSelected(DX, DY){
+					//
+					// 				var SEL = [];
+					// 		for (var n = 1; n < E.length; n++) if (E[n].selected){
+					// 				var NCP = [];
+					// 			for (var i = 0; i < E[n].CP.length; i++) NCP.push({X: E[n].CP[i].X + DX, Y: E[n].CP[i].Y + DY});
+					// 			var new_E = add_Element(E[n].type, NCP, []);
+					// 				new_E.closed = E[n].closed;
+					// 				new_E.R = E[n].R;
+					//
+					// 				recalculateCurve(new_E);
+					// 				SEL.push(new_E);
+					//
+					// 				E[n].clone_num = E.length-1;
+					// 		}
+					// 				//console.log(selected_groups)
+					//
+					// 			if (selected_groups.length > 0)
+					// 			for (n = 0; n < selected_groups.length; n++){
+					// 				var group = {enable: true, E: []};
+					// 				for (var i = 0; i < G[selected_groups[n]].E.length; i++) group.E.push(E[G[selected_groups[n]].E[i]].clone_num);
+					// 				G.push(group);
+					// 				//console.log(group);
+					// 			}
+					//
+					// 			for (n = 1; n < E.length; n++) E[n].selected = false;
+					// 			for (n = 0; n < SEL.length; n++) SEL[n].selected = true;
+					//
+					// 			setBound();
+					// 			refresh_All();
+					// 			redraw();
+					// }
 
 
 					//************************************ rotateSelected *********************************
-					function rotateSelected(angle){
-						for (var n = 1; n < E.length; n++) if (E[n].selected){
-							for (var i = 0; i < E[n].CP.length; i++){
-								var RC = rotate({X: E[n].CP[i].X, Y: E[n].CP[i].Y}, CR, angle);
-								E[n].CP[i].X = RC.X;
-								E[n].CP[i].Y = RC.Y;								
-							}
-								recalculateCurve(E[n]);
-						}
-								setBound();
-								refresh_All();
-								redraw();
-					}
+					// function rotateSelected(angle){
+					// 	for (var n = 1; n < E.length; n++) if (E[n].selected){
+					// 		for (var i = 0; i < E[n].CP.length; i++){
+					// 			var RC = rotate({X: E[n].CP[i].X, Y: E[n].CP[i].Y}, CR, angle);
+					// 			E[n].CP[i].X = RC.X;
+					// 			E[n].CP[i].Y = RC.Y;
+					// 		}
+					// 			recalculateCurve(E[n]);
+					// 	}
+					// 			setBound();
+					// 			refresh_All();
+					// 			redraw();
+					// }
 
 
 					//************************************ zoomToFitScreen ********************************
-					function zoomToFitScreen(){
-									var POSARR = [];
-								for (var n = 1; n < E.length; n++) if (E[n].enable)
-									for (var i = 0; i < E[n].P.length; i++) if (E[n].P[i]) POSARR.push(E[n].P[i]);
-
-								var extremums = getExtremums(POSARR);
-
-								if (!extremums){
-									scale = 1;
-									O.x = 20;
-									O.y = (canvas.height - 20);
-									refresh_All();
-									redraw();
-									return
-								}
-
-									scale = canvas.width / (extremums.max.X - extremums.min.X) * 0.9;
-									scale2 = (canvas.height - 20) / (extremums.max.Y - extremums.min.Y) * 0.9;
-									if (scale2 < scale) scale = scale2;
-
-									O.X = (extremums.max.X + extremums.min.X) / 2;
-									O.Y = (extremums.max.Y + extremums.min.Y) / 2;
-
-									O.x = canvas.width / 2 - O.X * scale;
-									O.y = (canvas.height - 20) / 2 - O.Y * scale;
-
-									refresh_All();
-									redraw();
-					}
+					// function zoomToFitScreen(){
+					// 				var POSARR = [];
+					// 			for (var n = 1; n < E.length; n++) if (E[n].enable)
+					// 				for (var i = 0; i < E[n].P.length; i++) if (E[n].P[i]) POSARR.push(E[n].P[i]);
+					//
+					// 			var extremums = getExtremums(POSARR);
+					//
+					// 			if (!extremums){
+					// 				scale = 1;
+					// 				O.x = 20;
+					// 				O.y = (canvas.height - 20);
+					// 				refresh_All();
+					// 				redraw();
+					// 				return
+					// 			}
+					//
+					// 				scale = canvas.width / (extremums.max.X - extremums.min.X) * 0.9;
+					// 				scale2 = (canvas.height - 20) / (extremums.max.Y - extremums.min.Y) * 0.9;
+					// 				if (scale2 < scale) scale = scale2;
+					//
+					// 				O.X = (extremums.max.X + extremums.min.X) / 2;
+					// 				O.Y = (extremums.max.Y + extremums.min.Y) / 2;
+					//
+					// 				O.x = canvas.width / 2 - O.X * scale;
+					// 				O.y = (canvas.height - 20) / 2 - O.Y * scale;
+					//
+					// 				refresh_All();
+					// 				redraw();
+					// }
 			
 
 					//************************************ zoomToActualSize *******************************
-					function zoomToActualSize(){
-									var POSARR = [];
-								for (var n = 1; n < E.length; n++) if (E[n].enable)
-									for (var i = 0; i < E[n].P.length; i++) if (E[n].P[i]) POSARR.push(E[n].P[i]);
-
-								var extremums = getExtremums(POSARR);
-
-								if (!extremums){
-									scale = 3.6;
-									O.x = 20;
-									O.y = (canvas.height - 20);
-									refresh_All();
-									redraw();
-									return
-								}
-
-									scale = 3.6;
-
-									O.X = (extremums.max.X + extremums.min.X) / 2;
-									O.Y = (extremums.max.Y + extremums.min.Y) / 2;
-
-									O.x = canvas.width / 2 - O.X * scale;
-									O.y = (canvas.height - 20) / 2 - O.Y * scale;
-
-									refresh_All();
-									redraw();
-					}
+					// function zoomToActualSize(){
+					// 				var POSARR = [];
+					// 			for (var n = 1; n < E.length; n++) if (E[n].enable)
+					// 				for (var i = 0; i < E[n].P.length; i++) if (E[n].P[i]) POSARR.push(E[n].P[i]);
+					//
+					// 			var extremums = getExtremums(POSARR);
+					//
+					// 			if (!extremums){
+					// 				scale = 3.6;
+					// 				O.x = 20;
+					// 				O.y = (canvas.height - 20);
+					// 				refresh_All();
+					// 				redraw();
+					// 				return
+					// 			}
+					//
+					// 				scale = 3.6;
+					//
+					// 				O.X = (extremums.max.X + extremums.min.X) / 2;
+					// 				O.Y = (extremums.max.Y + extremums.min.Y) / 2;
+					//
+					// 				O.x = canvas.width / 2 - O.X * scale;
+					// 				O.y = (canvas.height - 20) / 2 - O.Y * scale;
+					//
+					// 				refresh_All();
+					// 				redraw();
+					// }
 
 
 

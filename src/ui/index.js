@@ -49,6 +49,10 @@ if(localStorage.getItem('loaded')=="false"){
         },()=>{
             console.log("Not restore");
         },
-        "Last session was interrupted. Do you want restore data?"
+        "The last session was interrupted. Do you want to restore the data?"
     ]);
 }
+
+window.onbeforeunload = function(e) {
+    return "Do you want to save the drawing before  exit?";
+};
