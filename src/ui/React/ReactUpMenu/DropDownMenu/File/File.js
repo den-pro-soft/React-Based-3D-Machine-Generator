@@ -10,6 +10,7 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import ConfirmSaveDesignModal from "./ConfirmSaveDesignModal";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
+import Document from "../../../../../model/Document";
 
 
 class File extends React.Component {
@@ -36,9 +37,28 @@ class File extends React.Component {
     // --------------methods for NewModal Window-------------------------------------
     clickNewModal = event => {
         event.preventDefault();
-        this.setState({
-            openNewModal: true
-        });
+        if(app.loaded){
+            app.currentDocument = new Document();
+        }else {
+            let confirm = container.resolve('confirm', [
+                () => {
+                    app.saveAs('xml').then(data=>{
+                        if(data){
+                            app.currentDocument = new Document();
+                        }
+                    });
+                }, () => {
+                    app.currentDocument = new Document();
+                    app.loaded=true;
+                    localStorage.setItem('loaded', true);
+                },
+                "Do you want to save the drawing before create new document?"
+            ]);
+        }
+
+        // this.setState({
+        //     openNewModal: true
+        // });
     };
 
 

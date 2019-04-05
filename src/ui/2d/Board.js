@@ -398,6 +398,9 @@ class InteractiveBoard extends Board{
     }
 
     zoomToFitScreen(){
+        if(this.document._elements.length==0){
+            return;
+        }
         let ext = this._document.getExtrenum();
         let width = ext.max.x-ext.min.x;
         let height = ext.max.y-ext.min.y;

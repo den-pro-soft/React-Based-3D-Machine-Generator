@@ -55,6 +55,8 @@ if(localStorage.getItem('loaded')=="false"){
             app.restore();
             console.log("restore");
         },()=>{
+            app.loaded=true;
+            localStorage.setItem('loaded', true);
             console.log("Not restore");
         },
         "The last session was interrupted. Do you want to restore the data?"

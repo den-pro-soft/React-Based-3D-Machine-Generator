@@ -120,6 +120,7 @@ export default class Application extends Observable{
         this.board.document=document;
         this.board.zoomToFitScreen();
         this._notifyHandlers('openNewFile', document)
+        this.board.renderDocument();
     }
 
     /**
@@ -331,22 +332,28 @@ export default class Application extends Observable{
 
     /**
      * @param {string} fileFormat
+     * @return {Promise.<boolean>}
      * @throws {FormatNotSupportedException}
      */
     saveAs(fileFormat){
-        /** @var {FileLoader} */
-        let fileLoader = container.resolve('fileLoaderFactory', fileFormat);
+        return new Promise((resolve, reject)=>{
+            /** @var {FileLoader} */
+            let fileLoader = container.resolve('fileLoaderFactory', fileFormat);
 
-        new FileName((name)=>{
-            this.currentDocument.fileName=name;
-            fileLoader.save(this.currentDocument).then(res=>{
-                if(res){
-                    this.loaded=true;
-                    localStorage.setItem('loaded', true);
-                    this._notifyHandlers('openNewFile', this.currentDocument)
-                }
-            });
-        }, ()=>{}).show();
+            new FileName((name)=>{
+                this.currentDocument.fileName=name;
+                fileLoader.save(this.currentDocument).then(res=>{
+                    if(res){
+                        this.loaded=true;
+                        localStorage.setItem('loaded', true);
+                        this._notifyHandlers('openNewFile', this.currentDocument);
+                        resolve(true);
+                    }
+                });
+            }, ()=>{
+                resolve(false);
+            }).show();
+        });
     }
 
     /**
