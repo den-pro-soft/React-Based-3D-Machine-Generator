@@ -54,5 +54,7 @@ if(localStorage.getItem('loaded')=="false"){
 }
 
 window.onbeforeunload = function(e) {
-    return "Do you want to save the drawing before  exit?";
+    if(!app.loaded){
+        return "Do you want to save the drawing before  exit?";
+    }
 };

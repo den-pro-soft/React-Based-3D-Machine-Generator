@@ -32,7 +32,7 @@ export default class Config extends Observable{
         this._rotateStep = 15;
 
         /** @type {string} [Millimeters|Inches]*/
-        this._dimension= 'Millimeters';
+        this._dimension= 'Inches';
    
         // for transfer state between lifecycles in React - CircleType.js 
         this.diameter = '';
