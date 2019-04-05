@@ -1,6 +1,15 @@
 import React from "react";
 import "./material.scss";
 
+const materialList = [
+    'Aluminum 6061',
+    'Aluminum 5052',
+    'Steel 1018',
+    'Brass 260',
+    'Copper 110',
+    'Stainless 304'
+];
+
 class Material extends React.Component {
   constructor(props, context) {
     super(props, context);
@@ -29,36 +38,12 @@ class Material extends React.Component {
       document.removeEventListener("click", this.hideDropdownMenu);
     });
   };
-  handleClick1 = () => {
-    // this.props.updateMaterial('Aluminum 6061')
-    localStorage.setItem("material", "Aluminum 6061");
-    this.setState({ material: "Aluminum 6061" });
-  };
-  handleClick2 = () => {
-    // this.props.updateMaterial('Aluminum 5052')
-    localStorage.setItem("material", "Aluminum 5052");
-    this.setState({ material: "Aluminum 5052" });
-  };
-  handleClick3 = () => {
-    // this.props.updateMaterial('Plain Steel')
-    localStorage.setItem("material", "Plain Steel");
-    this.setState({ material: "Plain Steel" });
-  };
-  handleClick4 = () => {
-    // this.props.updateMaterial('Brass')
-    localStorage.setItem("material", "Brass");
-    this.setState({ material: "Brass" });
-  };
-  handleClick5 = () => {
-    // this.props.updateMaterial('Copper')
-    localStorage.setItem("material", "Copper");
-    this.setState({ material: "Copper" });
-  };
-  handleClick6 = () => {
-    // this.props.updateMaterial('Stainless')
-    localStorage.setItem("material", "Stainless");
-    this.setState({ material: "Stainless" });
-  };
+
+    chengeMaterial(material){
+        localStorage.setItem("material", material);
+        this.setState({ material: material });
+    }
+
   openWindow = () => {
     window.open("https://www.emachineshop.com/");
   };
@@ -73,25 +58,11 @@ class Material extends React.Component {
 
         {this.state.displayMenu ? (
           <ul className="ul-Material">
-            <li value="Aluminum 6061" onClick={this.handleClick1}>
-              <a href="#">Aluminum 6061</a>
-            </li>
-            <li value="Aluminum 5052" onClick={this.handleClick2}>
-              <a href="#">Aluminum 5052</a>
-            </li>
-
-            <li value="Plain Steel" onClick={this.handleClick3}>
-              <a href="#">Plain Steel</a>
-            </li>
-            <li value="Brass" onClick={this.handleClick4}>
-              <a href="#">Brass</a>
-            </li>
-            <li value="Copper" onClick={this.handleClick5}>
-              <a href="#">Copper</a>
-            </li>
-            <li value="Stainless" onClick={this.handleClick6}>
-              <a href="#">Stainless</a>
-            </li>
+              {materialList.map((material, i) =>(
+                  <li value={material} onClick={()=>this.chengeMaterial(material)}>
+                      <a href="#">{material}</a>
+                  </li>
+              ))}
             <li onClick={this.openWindow}>
               <a
                 href="https://www.emachineshop.com/"
