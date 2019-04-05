@@ -23,7 +23,7 @@ export default class ChangeFontSizeCommand extends ElementModificationCommand{
             }
         }
 
-        this.fontSize=fontSize;
+        this.fontSize=parseInt(fontSize);
 
         this.name= 'ChangeFontSizeCommand';
     }
