@@ -5,9 +5,17 @@ import {connect} from 'react-redux';
 class MoveButtons extends React.Component {
     constructor(props) {
       super(props);
+
+        let moveStep = '';
+        if(container.resolve('config').dimension=='Millimeters'){
+            moveStep= (this.props.moveStep*1).toFixed(3) + ' mm';
+        } else {
+            moveStep = (this.props.moveStep/25.4).toFixed(3) + ' "';
+        }
+
       this.state = {
         bgColorCopy: "#f0f0f0d9",
-        moveStep:this.props.moveStep.toFixed(3) + ' mm',
+        moveStep:moveStep,
         rotateStep: app.config.rotateStep.toFixed(2) + " deg"
       };
     }

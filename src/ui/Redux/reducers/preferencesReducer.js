@@ -1,5 +1,5 @@
 const initialState = {
-  demensions: "Millimeters",
+  demensions: container.resolve('config').demensions,
 };
 
 export default function preferencesReducer(state = initialState, action) {
