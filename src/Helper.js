@@ -159,10 +159,21 @@ class KeyHelper{
     }
 }
 
+class Request{
+
+    httpGet(theUrl){
+        var xmlHttp = new XMLHttpRequest();
+        xmlHttp.open( "GET", theUrl, false ); // false for synchronous request
+        xmlHttp.send( null );
+        return xmlHttp.responseText;
+    }
+}
+
 const Helper = {
     Window:new WindowHelper(),
     Text:TextHelper,
-    Key:new KeyHelper()
+    Key:new KeyHelper(),
+    Request:new Request()
 };
 
 window.Helper = Helper;

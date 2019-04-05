@@ -20,7 +20,8 @@ export default class Help extends React.Component {
       openSubModal: false,
       openSuggestionModal: false,
       suggestion:false,
-      tech_support:false
+      tech_support:false,
+      release:Helper.Request.httpGet('/dateLastCommit.php')
     };
   }
  
@@ -379,7 +380,7 @@ export default class Help extends React.Component {
                 }}
               >
                 <DialogContentText>
-                 Released ...
+                 Released {this.state.release}
                 </DialogContentText>
             
               </div>
