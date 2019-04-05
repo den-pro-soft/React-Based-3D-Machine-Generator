@@ -403,7 +403,7 @@ class InteractiveBoard extends Board{
         let height = ext.max.y-ext.min.y;
 
         let O = this._convertToGlobalCoordinateSystem({x:0,y:0});
-        let wh = this._convertToGlobalCoordinateSystem({x:this._width,y:this._height});
+        let wh = this._convertToGlobalCoordinateSystem({x:this._width-25,y:this._height-25});
 
         let localWidth = wh.x-O.x;
         let localHeight = O.y-wh.y;
@@ -411,14 +411,19 @@ class InteractiveBoard extends Board{
         let zoom = Math.min(localWidth/width,localHeight/height);
 
         console.log(this._scale*zoom);
-        this._setScale((this._scale*zoom)/1.5);
+        let coef = 1.2;
+        if(zoom!=localWidth/width){
+            coef=1.5;
+        }
+
+        this._setScale((this._scale*zoom)/coef);
 
 
         let leftUpPoint = this._convertToLocalCoordinateSystem(new Point(ext.min.x, ext.max.y));
         let rightDownPoint = this._convertToLocalCoordinateSystem(new Point(ext.max.x, ext.min.y));
         console.log(leftUpPoint);
         console.log(rightDownPoint);
-        this._bias.x-=leftUpPoint.x-this._width/2+(rightDownPoint.x-leftUpPoint.x)/2+50;
+        this._bias.x-=leftUpPoint.x-this._width/2+(rightDownPoint.x-leftUpPoint.x)/2+10;
         this._bias.y-=leftUpPoint.y-this._height/2+(rightDownPoint.y-leftUpPoint.y)/2+50;
 
         this.renderDocument();
