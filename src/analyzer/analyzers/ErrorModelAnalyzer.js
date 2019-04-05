@@ -12,6 +12,7 @@ import ShapeCrossing from "../rules/ShapeCrossing";
 import ZValueOfInnerShape from "../rules/ZValueOfInnerShape";
 import HoleInsideAnotherHole from "../rules/HoleInsideAnotherHole";
 import SameZValue from "../rules/SameZValue";
+import ShapeSize from "../rules/ShapeSize";
 
 export default class ErrorModelAnalyzer extends Analyzer{
 
@@ -28,6 +29,7 @@ export default class ErrorModelAnalyzer extends Analyzer{
         this.rules.push(new ZValueOfOuterShape(document));
         this.rules.push(new ZValueOfInnerShape(document));
         this.rules.push(new HoleInsideAnotherHole(document));
+        this.rules.push(new ShapeSize(document));
         this.rules.push(new SameZValue(document));
     }
     
