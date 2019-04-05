@@ -61,19 +61,24 @@ export default class FileLoader {
 
     /**
      * @param {Document} document
+     * @return {Promise}
      */
     save(document) {
-        this.getBlobData(document).then(data=>{
-            if(this.validate(data)) {
-                let filename = document.fileName;
-                if(!document.fileName.endsWith(this.fileSuffix)){
-                    filename+=this.fileSuffix;
+        return new Promise((resolve, reject)=>{
+            this.getBlobData(document).then(data=>{
+                if(this.validate(data)) {
+                    let filename = document.fileName;
+                    if(!document.fileName.endsWith(this.fileSuffix)){
+                        filename+=this.fileSuffix;
+                    }
+                    FileSaver.saveAs(data, filename);
+                    resolve(true);
+                }else{
+                    resolve(false)
                 }
-
-                FileSaver.saveAs(data, filename);
-            }
-        }).catch(function(error){
-            console.error(error);
+            }).catch(function(error){
+                reject(error);
+            });
         });
     }
 

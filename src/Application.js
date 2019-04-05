@@ -79,8 +79,22 @@ export default class Application extends Observable{
 
         this.config = config;
 
+        //todo: remove from app (configure in container)
         this.buffer = new Buffer(this);
         this._lastTool=null;
+
+        this.saved = true;
+        this.loaded = true;
+
+        setInterval(()=>{
+            if(!this.saved) {
+                /** @type {XmlFileLoader} */
+                let fileloader = container.resolve('fileLoaderFactory', 'xml');
+                let xml = fileloader.convertInXML(this.currentDocument.getListSimpleElements());
+                localStorage.setItem('backup', xml);
+                this.saved=true;
+            }
+        },500);
     }
 
     /**
@@ -94,6 +108,9 @@ export default class Application extends Observable{
      * @param {Document} document
      */
     set currentDocument(document){
+        this.saved=false;
+        this.loaded=false;
+        localStorage.setItem('loaded', false);
         this._currentDocument=document;
         this.commandHistory = new CommandHistory();
         this.selectElements=[];
@@ -183,6 +200,9 @@ export default class Application extends Observable{
     executeCommand(command){
         command.execute().then((res)=>{
             if(res && command.needSave){
+                this.saved=false;
+                this.loaded=false;
+                localStorage.setItem('loaded', false);
                 this.commandHistory.push(command);
             }
             if(this._board){
@@ -229,6 +249,9 @@ export default class Application extends Observable{
         if(this.commandHistory.hasRedo()){
             let command = this.commandHistory.getRedo();
             command.redo();
+            this.saved=false;
+            this.loaded=false;
+            localStorage.setItem('loaded', false);
             this.clearSelectElements();
             this.commandHistory.push(command);
         }
@@ -249,6 +272,9 @@ export default class Application extends Observable{
             if(clearSelect) {
                 this.clearSelectElements();
             }
+            this.saved=false;
+            this.loaded=false;
+            localStorage.setItem('loaded', false);
         }
 
         if(this._board){
@@ -310,7 +336,12 @@ export default class Application extends Observable{
         /** @var {FileLoader} */
         let fileLoader = container.resolve('fileLoaderFactory', fileFormat);
         
-        fileLoader.save(this.currentDocument);
+        fileLoader.save(this.currentDocument).then(res=>{
+            if(res){
+                this.loaded=true;
+                localStorage.setItem('loaded', true);
+            }
+        });
     }
 
     /**
@@ -331,6 +362,14 @@ export default class Application extends Observable{
         fileLoader.load(file).then(data=>{
             this.currentDocument=data;
         }); //todo: check exception
+    }
+
+    restore(){
+        /** @type {XmlFileLoader} */
+        let fileloader = container.resolve('fileLoaderFactory', 'xml');
+        fileloader.convertDataToDocument(localStorage.getItem('backup')).then(doc=>{
+            this.currentDocument = doc;
+        });
     }
 
     //<editor-fold desc="decorate methods">

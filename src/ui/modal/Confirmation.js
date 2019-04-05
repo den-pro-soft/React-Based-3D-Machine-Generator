@@ -11,7 +11,7 @@ export default class Confirmation{
      * @param {function} cancelCallback
      */
     constructor(message, okCallback, cancelCallback){
-        
+        container.resolve('confirmChangeArcToSplinesDialog').modalOpenConfirmation(message, okCallback, cancelCallback);
     }
 
     

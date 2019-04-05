@@ -29,6 +29,7 @@ import ErrorModelAnalyzer from './analyzer/analyzers/ErrorModelAnalyzer';
 
 import ExpertNoticeUi from './ui/modal/ExpertNotice';
 import UniversalTriangulationAlgorithm from "./ui/3d/algorithms/implementation/UniversalTriangulationAlgorithm";
+import Confirmation from "./ui/modal/Confirmation";
 
 /**
  * @param {string} name
@@ -99,6 +100,7 @@ container.registerFactory('toolFactory',toolFactoryMethod);
 container.registerFactory('fileLoaderFactory',fileLoaderFactoryMethod);
 
 container.register( 'expertNotice', ExpertNoticeUi);
+container.register( 'confirm', Confirmation);
 container.register('analyzer',ErrorModelAnalyzer);
 
 container.validateDependencies();

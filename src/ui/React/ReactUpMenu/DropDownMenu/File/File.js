@@ -109,15 +109,15 @@ class File extends React.Component {
                                 <a href="#">Open</a>
                             </li>
                             <li onClick={()=> app.saveAs('xml')}>
-                                <a href="#">
-                                    Save
-                                </a>
-                            </li>
-                            <li onClick={()=> app.saveAs('xml')}>
                                 <a href="#">Save As</a>
                             </li>
                             <li onClick={this.importFile}>
                                 <a href="#">Import</a>
+                            </li>
+                            <li onClick={()=>{app.restore()}}>
+                                <a href="#">
+                                    Restore
+                                </a>
                             </li>
                             {/*<li>*/}
                                 {/*<a href="#">Exit</a>*/}

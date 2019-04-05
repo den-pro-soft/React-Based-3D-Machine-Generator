@@ -9,7 +9,14 @@ export default class ModalWindows {
      * @param {function} call1 - the ok button callback
      * @param {function} call2 - the no button callback
      */
-    modalOpenConfirmation = (call1 = null, call2 = null) => {
+    modalOpenConfirmation = (call1 = null, call2 = null, message=`<p>
+                  Stretching this shape will convert arcs to splines wich may
+                  increase cost. It is usually recommended to cancel this request
+                  and instead first try clicking the left toolbar Line Edit button
+                  and dragging one of the line segments. Or consider enabling
+                  "Preferences - 2D - [ ] Preserve arcs during stretching."
+                </p>
+                <p>Proceed anyway?</p>`) => {
         if (typeof call1 === "function") {
         this.okCallBack = call1;
         } else {
@@ -20,7 +27,7 @@ export default class ModalWindows {
         } else {
         this.noCallBack = null;
         }
-        store.dispatch({ type: "OPEN_CONFIRM", payload: true });
+        store.dispatch({ type: "OPEN_CONFIRM", payload: true, message:message });
     };
 
     handleButton1 = () => {

@@ -23,7 +23,6 @@ class Confirmation extends React.Component {
           aria-describedby="alert-dialog-description"
         >
           <DialogTitle
-            style={{ color: "black", textAlign: "left" }}
             id="alert-dialog-title"
           >
             <div style={{ display: "flex", justifyContent: "space-between" }}>
@@ -46,10 +45,9 @@ class Confirmation extends React.Component {
           </DialogTitle>
           <DialogContent
             style={{
-              paddingBottom: "0px",
+              padding: "10px",
               textAlign: "left",
               width: "600px",
-              height: "180px",
               backgroundColor: "#f0ecec"
             }}
           >
@@ -57,16 +55,8 @@ class Confirmation extends React.Component {
               <div className="Info-Icon">
                 <img width="40px" src="resources/images/InfoIcon.png" />
               </div>
-              <div className="Text">
-                <p>
-                  Stretching this shape will convert arcs to splines wich may
-                  increase cost. It is usually recommended to cancel this request
-                  and instead first try clicking the left toolbar Line Edit button
-                  and dragging one of the line segments. Or consider enabling
-                  "Preferences - 2D - [ ] Preserve arcs during stretching."
-                </p>
-                <p>Proceed anyway?</p>
-
+              <div className="Text" dangerouslySetInnerHTML={{__html: this.props.message}}>
+                  {console.log(this.props.message, "data")}
                 {/*  Not for version 1.0
                   <p>
                       Tip: If you want to mirror the selection hold the CTRL key down and drag the appropriate selection handle to the
@@ -120,7 +110,8 @@ class Confirmation extends React.Component {
 
   const mapStateToProps = state => {
     return {
-      openConfirm: state.confirmationReducer.openConfirm
+      openConfirm: state.confirmationReducer.openConfirm,
+      message: state.confirmationReducer.message,
     };
   };
 

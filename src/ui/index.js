@@ -38,3 +38,17 @@ addEventListener("load", function() {
     document.getElementById("BottomPanel")
   );
 });
+
+
+if(localStorage.getItem('loaded')=="false"){
+    /** @type {Confirmation} */
+    let confirm = container.resolve('confirm', [
+        ()=>{
+            app.restore();
+            console.log("restore");
+        },()=>{
+            console.log("Not restore");
+        },
+        "Last session was interrupted. Do you want restore data?"
+    ]);
+}
