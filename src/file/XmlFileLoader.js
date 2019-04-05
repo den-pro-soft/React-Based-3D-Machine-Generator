@@ -91,7 +91,7 @@ export default class XmlFileLoader extends FileLoader{
                         line.lineType=new Bend();
                         doc.addElement(line);
                         let processing = this._createBendProcessingByTag(tag);
-                        line.lineType.processing.push(processing);
+                        line.lineType.processing = [processing];
                         break;
                 }
                 if(newElement){
@@ -172,6 +172,17 @@ export default class XmlFileLoader extends FileLoader{
             case 'Text':
                 return `<Text Position="${el.position.x},${el.position.y}" Height="${el.fontSize}" FontName="" HFlip="0" VFlip="0" Angle="${el.angle}">${el.text}</Text>`;
         }
+    }
+
+
+    /**
+     *
+     * @param {LineElement} el
+     * @return {string}
+     * @private
+     */
+    _convertLineToBentProcessing(el){
+        return `<Straight P1="${el.p1.x},${el.p1.y}" P2="${el.p2.x},${el.p2.y}" Angle="${el.lineType.processing[0].angle}" Radius="${el.lineType.processing[0].radius}"/>`;
     }
 
     /**

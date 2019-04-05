@@ -12,6 +12,7 @@ export default class Bend extends ProcessingLineType{
         this.label = "Bend";
         this.id=53;
         //todo: change to processing
+        this.processing.push(new BendProcessing())
     }
 
     /**
