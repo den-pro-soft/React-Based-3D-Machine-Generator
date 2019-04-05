@@ -170,8 +170,6 @@ export default class Help extends React.Component {
         <div
           className="btn-Help"
           onClick={this.showDropdownMenu}
-          onMouseEnter={this.showDropdownMenu}
-          onMouseLeave={this.hideDropdownMenu}
         >
           Help
           {this.state.displayMenu ? (

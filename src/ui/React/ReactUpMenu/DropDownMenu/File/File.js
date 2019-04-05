@@ -96,8 +96,6 @@ class File extends React.Component {
                 <div
                     className="btn-File"
                     onClick={this.showDropdownMenu}
-                    onMouseEnter={this.showDropdownMenu}
-                    onMouseLeave={this.hideDropdownMenu}
                 >
                     File
                     {this.state.displayMenu ? (

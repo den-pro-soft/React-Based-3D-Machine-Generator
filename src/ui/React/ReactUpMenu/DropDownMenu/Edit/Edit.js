@@ -31,8 +31,6 @@ import { connect } from "react-redux";
         <div
           className="btn-Edit"
           onClick={this.showDropdownMenu}
-          onMouseEnter={this.showDropdownMenu}
-          onMouseLeave={this.hideDropdownMenu}
         >
           Edit
           {this.state.displayMenu ? (

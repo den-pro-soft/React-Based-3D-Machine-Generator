@@ -89,8 +89,6 @@ export default class Line extends React.Component {
         <div
           className="btn-Line"
           onClick={this.showDropdownMenu}
-          onMouseEnter={this.showDropdownMenu}
-          onMouseLeave={this.hideDropdownMenu}
         >
           Line
           {this.state.displayMenu ? (

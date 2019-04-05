@@ -65,8 +65,6 @@ class Job extends React.Component {
         <div
           className="btn-Job"
           onClick={this.showDropdownMenu}
-          onMouseEnter={this.showDropdownMenu}
-          onMouseLeave={this.hideDropdownMenu}
         >
           Job
           {this.state.displayMenu ? (
