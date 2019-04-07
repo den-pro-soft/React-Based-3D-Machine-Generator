@@ -53,7 +53,6 @@ export default class Document extends Renderable{
 
         this.fileName = '';
 
-        console.info("Create new document");
     }
 
     /**

@@ -68,6 +68,17 @@ export default class SelectTool extends Tool{
      * @return {boolean} true if was selected any element
      */
     mouseDown(point, e){
+        let res = this.selectElementByMouseDown(point);
+        if(!res){
+            if(!Helper.Key.ctrlKey) {
+                this.clearSelectElements();
+            }
+        }
+
+        return res;
+    }
+
+    selectElementByMouseDown(point){
         let newSelectElements = this.getNearElements(point);
 
         if(newSelectElements.length!=0) {
@@ -88,10 +99,6 @@ export default class SelectTool extends Tool{
             if (newSelected.length > 0) {
                 this.addSelectElements(newSelected);
                 return true;
-            }
-        }else{
-            if(!Helper.Key.ctrlKey) {
-                this.clearSelectElements();
             }
         }
         return false;
