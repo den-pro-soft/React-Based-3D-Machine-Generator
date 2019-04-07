@@ -476,6 +476,10 @@ export default class Application extends Observable{
     }
 
     intersectSelectedElements(){
+        if(this.selectElements.length==0){
+            //todo: message "For intersecting select element"
+            return;
+        }
         this.executeCommand(new IntersectElementsCommand(this.currentDocument, this.selectElements));
     }
 
