@@ -5,6 +5,7 @@
 import Shape from './../model/elements/Shape';
 import IncidenceMatrix from './../model/math/IncidenceMatrix';
 import Auto from './../model/line_types/Auto';
+import Bend from "../model/line_types/Bend";
 
 class ShapePoint{
     /**
@@ -70,7 +71,29 @@ export default class ShapeBuilder{
             }
             res.push(tempShape);
         }
+
+        this.addBendsToShapes(res, this.document);
         return res;
+    }
+
+    /**
+     *
+     * @param {Array.<Shape>}shapes
+     * @param {Document} doc
+     */
+    addBendsToShapes(shapes, doc){
+        /** @type {Array.<LineElement>} */
+        let bends = doc.getListSimpleElements().filter(el=>el.lineType instanceof Bend);
+        for(let shape of shapes){
+            if(shape.isClose()){
+                for(let bend of bends) {
+                    //todo: the method adding the bent to a few shapes (can has an error)
+                    if (shape.isContain(bend.p1) && shape.isContain(bend.p2)){
+                        shape.addBend(bend);
+                    }
+                }
+            }
+        }
     }
 
     /**

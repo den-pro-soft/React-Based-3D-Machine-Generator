@@ -91,7 +91,7 @@ export default class Application extends Observable{
             if(!this.saved) {
                 /** @type {XmlFileLoader} */
                 let fileloader = container.resolve('fileLoaderFactory', 'xml');
-                let xml = fileloader.convertInXML(this.currentDocument.getListSimpleElements());
+                let xml = fileloader.convertInXML(this.currentDocument);
                 localStorage.setItem('backup', xml);
                 this.saved=true;
             }

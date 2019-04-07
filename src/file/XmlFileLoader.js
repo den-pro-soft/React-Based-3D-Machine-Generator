@@ -18,6 +18,7 @@ import CommentToSelfLineType from './../model/line_types/CommentToSelf';
 import GraphicElement from "../model/GraphicElement";
 import Bend from "../model/line_types/Bend";
 import BendProcessing from "../model/line_types/processings/Bend";
+import ShapeBuilder from "../analyzer/ShapeBuilder";
 
 
 export default class XmlFileLoader extends FileLoader{
@@ -99,7 +100,7 @@ export default class XmlFileLoader extends FileLoader{
                     if(height=='AirInside'){
                         element.height=GraphicElement.AirInside;
                     }else{
-                        element.height=parseInt(height);
+                        element.height=parseFloat(height);
                     }
                     doc.addElement(element);
                 }
@@ -123,7 +124,7 @@ export default class XmlFileLoader extends FileLoader{
      */
     getBlobData(document){
         return new Promise((resolve, reject)=>{
-            let xml = this.convertInXML(document.getListSimpleElements());
+            let xml = this.convertInXML(document);
             if(xml) {
                 resolve(new Blob([xml], {type: "text/plain;charset=utf-8"}));
             }else{
@@ -132,16 +133,55 @@ export default class XmlFileLoader extends FileLoader{
         });
     }
 
-    convertInXML(elements) {
+    convertInXML(doc) {
 
         let figures = [];
+        let shapes = new ShapeBuilder(doc).buildShapes();
 
+        let savedElements = [];
+
+        for(let shape of shapes){
+            console.log(shape);
+            let height = 0;
+            try {
+                height = shape.height;
+            }catch (e) {
+                continue;
+            }
+            let region = `\n					<Region BaseHeight="0" Z="${height==GraphicElement.AirInside?'AirInside':height}" ThroughHole="">`;
+            region+=`\n					    `+this._createMachineByLineType(shape.elements[0].lineType)+`\n`;
+            if(shape.bends.length>0) {
+                region+=`					    <Processing>\n`;
+                for (let bend of shape.bends) {
+                    region+=`					        ${this._convertElementToXml(bend)}\n`;
+                    savedElements.push(bend);
+                }
+                region+=`					    </Processing>\n`;
+            }
+            region+=`						<Contour>\n`;
+            for (let element of shape.elements) {
+                savedElements.push(element);
+                region+=`\t\t\t\t\t\t\t${this._convertElementToXml(element)} \n`
+            }
+            region+=`						</Contour>\n`;
+            region+=`					</Region>`;
+            figures.push(region);
+        }
+
+        let elements = doc.getListSimpleElements().filter(el=>{
+            for(let done of savedElements){
+                if(done.compare(el)){
+                    return false;
+                }
+            }
+            return true;
+        });
         for(let i=0; i<elements.length; i++){
 
-            figures.push(`<Region BaseHeight="0" Z="${elements[i].height==GraphicElement.AirInside?'AirInside':elements[i].height}" ThroughHole="">
+            figures.push(`					<Region BaseHeight="0" Z="${elements[i].height==GraphicElement.AirInside?'AirInside':elements[i].height}" ThroughHole="">
                         ${this._createMachineByLineType(elements[i].lineType)}
-                        <Contour>\n
-                            ${this._convertElementToXml(elements[i])} \n
+                        <Contour>
+                            ${this._convertElementToXml(elements[i])}
                         </Contour>
                     </Region>`);
         }
@@ -150,8 +190,7 @@ export default class XmlFileLoader extends FileLoader{
 
         return `<?xml version="1.0"?>
             <eMachineShop3DObjects VersionId="1.1">
-                <View Type="Top">
-                    ${regions}
+                <View Type="Top">${regions}
                 </View>
                 <QuantityOfParts Value="10"/>
             </eMachineShop3DObjects>`;
@@ -160,7 +199,11 @@ export default class XmlFileLoader extends FileLoader{
     _convertElementToXml(el){
         switch (el.typeName){
             case 'Line':
-                return `<Straight P1="${el.p1.x},${el.p1.y}" P2="${el.p2.x},${el.p2.y}"/>`;
+                if(el.lineType instanceof Bend){
+                    return `<Bend P1="${el.p1.x},${el.p1.y}" P2="${el.p2.x},${el.p2.y}" Angle="${el.lineType.processing[0].angle}" Radius="${el.lineType.processing[0].radius}"/>`;
+                }else {
+                    return `<Straight P1="${el.p1.x},${el.p1.y}" P2="${el.p2.x},${el.p2.y}"/>`;
+                }
             case 'Arc':
                 if(el.startAngle==0 && el.endAngle==0) {
                     return `<Circle Center="${el._center.x},${el._center.y}" Radius="${el.radius}"/>`;
