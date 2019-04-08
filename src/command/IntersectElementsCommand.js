@@ -37,7 +37,7 @@ export default class IntersectElementsCommand extends ElementModificationCommand
      * @return {boolean} - return true if the command replacing or adding any elements
      */
     isReplacedElements(){
-        return true;
+        return this.newElements.length>0;
     }
 
     /**

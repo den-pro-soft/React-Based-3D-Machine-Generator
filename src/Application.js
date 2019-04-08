@@ -91,7 +91,7 @@ export default class Application extends Observable{
             if(!this.saved) {
                 /** @type {XmlFileLoader} */
                 let fileloader = container.resolve('fileLoaderFactory', 'xml');
-                let xml = fileloader.convertInXML(this.currentDocument.getListSimpleElements());
+                let xml = fileloader.convertInXML(this.currentDocument);
                 localStorage.setItem('backup', xml);
                 this.saved=true;
             }
@@ -476,6 +476,10 @@ export default class Application extends Observable{
     }
 
     intersectSelectedElements(){
+        if(this.selectElements.length==0){
+            //todo: message "For intersecting select element"
+            return;
+        }
         this.executeCommand(new IntersectElementsCommand(this.currentDocument, this.selectElements));
     }
 

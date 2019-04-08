@@ -95,13 +95,13 @@ export default class PointerTool extends DynamicChangeTool{
             this.selectRect.p2=point;
         }
         else {
-            if(!this.transformer || !this.transformer.mouseMove(point)) {
-                if (!this._mouseDown && this._selectMode) {
-                    this.selectNearElements(point);
-                }
+            if(this.transformer) {
+                this.transformer.mouseMove(point)
             }
         }
-
+        if (!this._mouseDown && this._selectMode) {
+            this.selectNearElements(point);
+        }
         if(this._mouseDown){
             this._mouseDown=point;
         }
@@ -139,6 +139,8 @@ export default class PointerTool extends DynamicChangeTool{
                 if(!Helper.Key.ctrlKey && needRect) {
                     this.transformer = null;
                 }
+            }else{
+                this.addedElement= this.selectElementByMouseDown(point);
             }
         }else{
             let selectedElement = super.mouseDown(point,e);

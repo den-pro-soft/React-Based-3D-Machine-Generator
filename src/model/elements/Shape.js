@@ -6,6 +6,7 @@ import Arc from './Arc';
 import PolyLine from "../math/PolyLine";
 import Triangle from "../math/Triangle";
 import Spline from "./Spline";
+import Bend from "../line_types/Bend";
 
 
 /**
@@ -19,6 +20,8 @@ export default class Shape{
         /** @type Array.<GraphicElement>} */
         this.elements = [];
 
+        /** @type {Array.<LineElement>}> - elements with bend line type*/
+        this.bends=[];
     }
 
 
@@ -38,13 +41,19 @@ export default class Shape{
     }
 
     addElement(element){
-        for(let el of this.elements){
-            if(el.compare(element)){
-                return;
-            }
+        if(this.isHas(element)){
+            return;
         }
-
         this.elements.push(element);
+    }
+
+    /**
+     * @param {LineElement} bend - with Bend line type
+     */
+    addBend(bend){
+        if(bend.lineType instanceof Bend) {
+            this.bends.push(bend);
+        }
     }
 
 
