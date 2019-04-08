@@ -11,6 +11,7 @@ import NonWorkFeature from '../InfoPopup/NonWorkFeature';
 import ExpertNotice from "../InfoPopup/ExpertNotice";
 
 import { DraggablePopup } from "../../../../ui/popup";
+import Group from "../../../../model/elements/Group";
 var popup3DView = new DraggablePopup()
   .setSize(800, 600)
   .setPosition(200, 100)
@@ -46,10 +47,60 @@ let show3D = function() {
 };
 
 class UpMenu extends React.Component {
-  constructor(props) {
-    super(props);
-  }
+    constructor(props) {
+        super(props);
+        this.state={
+            group:false,
+            ungroup:false
+        }
+    }
 
+
+    componentDidMount(){
+        app.addHandler('selectElements', ()=>{
+            let group = false;
+            let ungroup = false;
+            if(app.selectElements.length>1){
+                group=true;
+            }
+            for(let el of app.selectElements){
+                if(el.typeName=="Group"){
+                    ungroup=true;
+                    break;
+                }
+            }
+            this.setState({
+                group:group,
+                ungroup:ungroup
+            });
+        });
+        app.addHandler('clearSelectElements',()=>{
+            this.setState({
+                group:false,
+                ungroup:false
+            })
+        })
+    }
+
+    get groupImgPath(){
+        let path = "resources/images/";
+        if(this.state.group){
+            path+='group_active.jpg';
+        }else{
+            path+='Group.png';
+        }
+        return path;
+    }
+
+    get ungroupImgPath(){
+        let path = "resources/images/";
+        if(this.state.ungroup){
+            path+='ungroup_active.jpg';
+        }else{
+            path+='Ungroup.png';
+        }
+        return path;
+    }
 
   render() {
     return (
@@ -60,18 +111,18 @@ class UpMenu extends React.Component {
         <div className="Buttons">
           <div className="LeftButtonGroup">
             <div className="btn-group-two">
-              <button onClick={() => app.group()}
+              <button onClick={() => this.state.group && app.group()}
                       data-tip={container.resolve("tips").getTip('group')} data-html={true}
               >
                 <a href="#">
-                  <img width="25px" src="resources/images/Group.png" />
+                  <img width="25px" src={this.groupImgPath} />
                 </a>
               </button>
-              <button onClick={() => app.ungroup()}
+              <button onClick={() => this.state.ungroup && app.ungroup()}
                       data-tip={container.resolve("tips").getTip('ungroup')} data-html={true}
               >
                 <a href="#">
-                  <img width="25px" src="resources/images/Ungroup.png" />
+                  <img width="25px" src={this.ungroupImgPath} />
                 </a>
               </button>
             </div>
