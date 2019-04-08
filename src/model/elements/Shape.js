@@ -73,7 +73,7 @@ export default class Shape{
     isNear(point, eps){
         let res = false;
         for(let el of this.elements){
-            res|=el.isNear(point, eps);
+            res = res||el.isNear(point, eps);
         }
         return res;
     }
@@ -199,6 +199,20 @@ export default class Shape{
 
         return res;
     }
+
+    getElementsEndPoints(){
+        let res = [];
+
+        for(let el of this.elements){
+            let points = el.extremePoints;
+            if(!points){
+                continue;
+            }
+            res.push(...points);
+        }
+        return res;
+    }
+
 
     /**
      * @returns {Array<{point: Point, count: number}>}

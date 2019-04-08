@@ -266,15 +266,33 @@ export default class Arc extends GraphicElement{
      * @inheritDoc
      */
     isNear(point, eps){
-        let points = this.toPolyLines()[0].points;
+        let res = true;
 
-        let res = false;
-        for(let i=1; i<points.length; i++){
-            res|=new Line(points[i-1], points[i]).isNear(point,eps);
+        res&=new Arc(this.center, this.radius+eps).isContain(point);
+        res&=!new Arc(this.center, this.radius-eps).isContain(point);
+
+        let start = this.startAngle;
+        let end = this.endAngle;
+        if(start!=end) {
+            let angle = new Vector(1).getAngle(new Line(this.center, point).toVector());
+
+            if (start > end) {
+                res &= (angle > start && angle < 360) || angle < end
+            } else {
+                res &= angle > start && angle < end;
+            }
         }
         return res;
     }
 
+
+    /**
+     * @param {Point} point
+     * @return {boolean} - tru if the Circle contain the point
+     */
+    isContain(point){
+        return this.radius>new Line(this.center, point).length();
+    }
 
     /**
      * @inheritDoc

@@ -7,6 +7,7 @@ import IncidenceMatrix from './../model/math/IncidenceMatrix';
 import Auto from './../model/line_types/Auto';
 import Bend from "../model/line_types/Bend";
 import Intersect from "../model/math/algorithms/intersects/Intersect";
+import Arc from "../model/elements/Arc";
 
 class ShapePoint{
     /**
@@ -83,7 +84,7 @@ export default class ShapeBuilder{
     getIntersectPoints(shape, intersect){
         let points = [];
 
-        let shapePoints = shape.getConsistentlyPoints();
+        let shapePoints = shape.getElementsEndPoints();
         for(let el of shape.elements){
             let temp = intersect.getIntersectPoints(el);
             m: for(let point of temp){
