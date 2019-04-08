@@ -60,42 +60,55 @@ class UpMenu extends React.Component {
         <div className="Buttons">
           <div className="LeftButtonGroup">
             <div className="btn-group-two">
-              <button onClick={() => app.group()}>
+              <button onClick={() => app.group()}
+                      data-tip={container.resolve("tips").getTip('group')} data-html={true}
+              >
                 <a href="#">
                   <img width="25px" src="resources/images/Group.png" />
                 </a>
               </button>
-              <button onClick={() => app.ungroup()}>
+              <button onClick={() => app.ungroup()}
+                      data-tip={container.resolve("tips").getTip('ungroup')} data-html={true}
+              >
                 <a href="#">
                   <img width="25px" src="resources/images/Ungroup.png" />
                 </a>
               </button>
             </div>
             <div className="btn-group-three">
-              <button onClick={() => app.board.zoomToFitScreen()}>
+              <button onClick={() => app.board.zoomToFitScreen()}
+                      data-tip={container.resolve("tips").getTip('fitScreen')} data-html={true}
+              >
                 <a href="#">
                   <img width="25px" src="resources/images/ZoomToFitScreen.png" />
                 </a>
               </button>
-              <button>
+              <button
+                  data-tip={container.resolve("tips").getTip('actualSize')} data-html={true}
+              >
                 <a href="#">
                   <img width="25px" src="resources/images/ZoomToActualSize.png" />
                 </a>
               </button>
-              <button onClick={() => app.setTool("Zoom")}>
+              <button onClick={() => app.setTool("Zoom")}
+                      data-tip={container.resolve("tips").getTip('zoomTool')} data-html={true}
+              >
                 <a href="#">
                   <img width="25px" src="resources/images/Zoom.png" />
                 </a>
               </button>
             </div>
             <div className="btn-group-other">
-              <button onClick={() => app.deleteSelected()}>
+              <button onClick={() => app.deleteSelected()}
+                      data-tip={container.resolve("tips").getTip('delete')} data-html={true}
+              >
                 <a href="#">
                   <img width="24px" src="resources/images/Delete.png" />
                 </a>
               </button>
               <button 
               onClick={()=>this.props.updatePreferencesModal(!this.props.openPreferencesModal)}
+              data-tip={container.resolve("tips").getTip('preferences')} data-html={true}
               >
                 <a href="#">
                   <img width="24px" src="resources/images/Preferences.png" />
@@ -107,22 +120,29 @@ class UpMenu extends React.Component {
                       this.props.demensions === "Millimeters"?"Inches":"Millimeters" 
                     );
                   }}
+                   data-tip={container.resolve("tips").getTip('toggle')} data-html={true}
                   >
                 <a href="#">
                   <img width="24px" src="resources/images/ToggleInch.png" />
                 </a>
               </button>
-              <button onClick={() => app.intersectSelectedElements()}>
+              <button onClick={() => app.intersectSelectedElements()}
+                      data-tip={container.resolve("tips").getTip('intersect')} data-html={true}
+              >
                 <a href="#">
                   <img width="24px" src="resources/images/Intersect.png" />
                 </a>
               </button>
-              <button onClick={() => show3D()}>
+              <button onClick={() => show3D()}
+                      data-tip={container.resolve("tips").getTip('3D')} data-html={true}
+              >
                 <a href="#">
                   <img width="24px" src="resources/images/3DPreview.png" />
                 </a>
               </button>
-              <button >
+              <button
+                  data-tip={container.resolve("tips").getTip('price-analyze')} data-html={true}
+              >
                 <a href="#">
                   <img width="18px" src="resources/images/check2.png" />
                 </a>

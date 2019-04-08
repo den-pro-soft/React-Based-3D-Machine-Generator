@@ -30,6 +30,7 @@ import ErrorModelAnalyzer from './analyzer/analyzers/ErrorModelAnalyzer';
 import ExpertNoticeUi from './ui/modal/ExpertNotice';
 import UniversalTriangulationAlgorithm from "./ui/3d/algorithms/implementation/UniversalTriangulationAlgorithm";
 import Confirmation from "./ui/modal/Confirmation";
+import Tips from "./ui/React/Tips";
 
 /**
  * @param {string} name
@@ -96,6 +97,7 @@ container.register( 'commandIdGenerator', IdGenerator ).singleton();
 container.register( 'confirmChangeArcToSplinesDialog', ConfirmChangeArcToSplinesDialog ).singleton();
 container.register( 'app', Application ).dependencies('config').singleton();
 container.register( 'triangulation', UniversalTriangulationAlgorithm ).singleton();
+container.register( 'tips', Tips ).singleton();
 container.registerFactory('toolFactory',toolFactoryMethod);
 container.registerFactory('fileLoaderFactory',fileLoaderFactoryMethod);
 
