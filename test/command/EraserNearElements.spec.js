@@ -1,6 +1,7 @@
 /**
  * Created by dev on 26.03.19.
  */
+import Arc from "../../src/model/elements/Arc";
 
 var chai = require('chai');
 var expect = chai.expect;
@@ -67,6 +68,20 @@ describe('EraserNearElements', function(){
             return expect(doc._elements).to.have.lengthOf(2);
         });
 
+    });
+
+    describe('remove with intersect', function(){
+        it('eraser arc by line', function(){
+            let doc = new Document();
+            doc.addElement(new LineElement(new Point(0,5), new Point(0,-5)));
+            doc.addElement(new Arc(new Point(), 2.5));
+
+            let point = new Point(2.5,0);
+            let eps = 0.0001;
+            let command = new EraserNearElementsCommand(doc, point, eps);
+            command.executeCommand();
+            return expect(doc._elements).to.have.lengthOf(2);
+        });
     });
 
 });

@@ -98,13 +98,13 @@ describe('ShapeBuilder', function(){
     });
 
 
-    describe('buildShapesByIntersect',function(){
+    describe('separateShapesByIntersect',function(){
         it('one line', function () {
             let doc = new Document();
             doc.addElement(new LineElement(new Point(-5,-5), new Point(5, 5)));
             let builder = new ShapeBuilder(doc)
             let shapes = builder.buildShapes();
-            shapes = builder.buildShapesByIntersect(shapes[0]);
+            shapes = builder.separateShapesByIntersect(shapes[0]);
             expect(shapes).to.have.lengthOf(1);
             return expect(shapes[0].elements, 'The shape must have 1 element').to.have.lengthOf(1);
         });
@@ -122,7 +122,7 @@ describe('ShapeBuilder', function(){
                 shape.addElement(el);
             }
 
-            let shapes = new ShapeBuilder(doc).buildShapesByIntersect(shape);
+            let shapes = new ShapeBuilder(doc).separateShapesByIntersect(shape);
             return expect(shapes).to.have.lengthOf(2);
         });
 

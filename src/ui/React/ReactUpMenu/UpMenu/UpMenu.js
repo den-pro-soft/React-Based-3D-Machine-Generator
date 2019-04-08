@@ -23,7 +23,7 @@ popup3DView.addContent(view3D.getContent());
 
 let show3D = function() {
     container.resolve('app').clearSelectElements();
-    if(container.resolve('mainBoard').tool) {
+    if(container.resolve('mainBoard').tool && container.resolve('mainBoard').tool['clearSelectElements']!=undefined) {
         container.resolve('mainBoard').tool.clearSelectElements();
     }
   container.resolve('analyzer', app.currentDocument).analyze().then((res)=>{

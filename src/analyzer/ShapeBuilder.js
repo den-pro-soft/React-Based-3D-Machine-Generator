@@ -62,7 +62,7 @@ export default class ShapeBuilder{
      * @param {Shape} shape
      * @return {Array.<Shape>}
      */
-    buildShapesByIntersect(shape){
+    separateShapesByIntersect(shape){
         let intersect = new Intersect(this.document);
 
         let intersection = intersect.intersectElements(shape.elements);

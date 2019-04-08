@@ -62,7 +62,7 @@ export default class EraserNearElements extends ElementModificationCommand{
 
         for(let shape of shapes){
             if(shape.isNear(this.point, this.eps)){
-                let intersectShapes = builder.buildShapesByIntersect(shape);
+                let intersectShapes = builder.separateShapesByIntersect(shape);
                 if(intersectShapes.length>1) {
                     for(let ishape of intersectShapes){
                         if(!ishape.isNear(this.point, this.eps)){
