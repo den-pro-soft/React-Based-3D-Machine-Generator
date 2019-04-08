@@ -51,7 +51,11 @@ export default class ShapeBuilder{
      * @return {Array.<Shape>}
      */
     buildShapes(){
-        return this.buildShapesByElements(this.document.getListSimpleElements());
+        let elements = this.document.getListSimpleElements();
+        if(elements.length==0){
+            return [];
+        }
+        return this.buildShapesByElements(elements);
     }
 
     /**
