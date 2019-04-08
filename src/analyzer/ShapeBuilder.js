@@ -6,6 +6,7 @@ import Shape from './../model/elements/Shape';
 import IncidenceMatrix from './../model/math/IncidenceMatrix';
 import Auto from './../model/line_types/Auto';
 import Bend from "../model/line_types/Bend";
+import Intersect from "../model/math/algorithms/intersects/Intersect";
 
 class ShapePoint{
     /**
@@ -44,20 +45,89 @@ export default class ShapeBuilder{
     constructor(document){
         this.document=document;
 
-        /**  @type Array.<ShapePoint>} */
-        this.shapePoints= [];
     }
 
     /**
      * @return {Array.<Shape>}
      */
     buildShapes(){
-        let res = [];
+        return this.buildShapesByElements(this.document.getListSimpleElements());
+    }
 
-        this.shapePoints=this.fillShapePoints(this.document);
+    /**
+     * @param {Shape} shape
+     * @return {Array.<Shape>}
+     */
+    buildShapesByIntersect(shape){
+        let intersect = new Intersect(this.document);
+
+        let intersection = intersect.intersectElements(shape.elements);
+
+        let elements = [];
+        for(let i of intersection){
+            elements.push(...i.newElements);
+        }
+
+
+        let points = this.getIntersectPoints(shape, intersect);
+
+        let shapes = this.buildShapesByElements(elements, points);
+
+        return shapes;
+    }
+
+    getIntersectPoints(shape, intersect){
+        let points = [];
+
+        let shapePoints = shape.getConsistentlyPoints();
+        for(let el of shape.elements){
+            let temp = intersect.getIntersectPoints(el);
+            m: for(let point of temp){
+                for(let p of points){
+                    if(p.compare(point)){
+                        continue m;
+                    }
+                }
+                for(let p of shapePoints){
+                    if(p.compare(point)){
+                        continue m;
+                    }
+                }
+                points.push(point);
+            }
+        }
+
+        return points;
+    }
+
+    /**
+     *
+     * @param {Array.<GraphicElement>} elements
+     * @param {Array.<Point>} [separatePoints=[]]
+     * @return {Array.<Shape>}
+     */
+    buildShapesByElements(elements, separatePoints=[]){
+        let res = [];
+        let shapePoints=this.fillShapePoints(elements);
+
+        if(separatePoints.length>0){
+            let temp = [];
+            m: for(let shapePoint of shapePoints){
+                for(let separatePoint of separatePoints){
+                    if(shapePoint.point.compare(separatePoint)){
+                        for(let element of shapePoint.elements){
+                            temp.push(new ShapePoint(shapePoint.point, element));
+                        }
+                        continue m;
+                    }
+                }
+                temp.push(shapePoint);
+            }
+            shapePoints=temp;
+        }
 
         /** @type {IncidenceMatrix} */
-        let incidenceMatrix = this.createIncidenceMatrix(this.shapePoints);
+        let incidenceMatrix = this.createIncidenceMatrix(shapePoints);
 
         /** @type {Array.<Array.<number>>} */
         let connectedComponents = incidenceMatrix.getConnectedComponents();
@@ -65,7 +135,7 @@ export default class ShapeBuilder{
         for(let i=0; i<connectedComponents.length; i++){
             let tempShape = new Shape();
             for(let j=0; j<connectedComponents[i].length; j++){
-                for(let el of this.shapePoints[connectedComponents[i][j]].elements) {
+                for(let el of shapePoints[connectedComponents[i][j]].elements) {
                     tempShape.addElement(el);
                 }
             }
@@ -132,12 +202,11 @@ export default class ShapeBuilder{
     }
 
     /**
-     * @param {Document} doc
+     * @param {Array.<GraphicElement>} simpleElements
      * @return {Array.<ShapePoint>}
      * @private
      */
-    fillShapePoints(doc){
-        let simpleElements = doc.getListSimpleElements();
+    fillShapePoints(simpleElements){
         let shapePoints = [];
         for(let element of simpleElements){
             if(element.lineType.name != "Auto"){

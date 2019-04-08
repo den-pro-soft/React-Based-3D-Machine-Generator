@@ -62,29 +62,42 @@ export default class EraserNearElements extends ElementModificationCommand{
 
         for(let shape of shapes){
             if(shape.isNear(this.point, this.eps)){
-
-                /** @type {Array.<Group>} */
-                let groups = [];
-
-                for(let el of shape.elements){
-                    let group = this.getGroupByElement(el);
-                    if(group){
-                        group.removeElement(el);
-                        groups.push(group);
-                    }else{
-                        this.document.removeElement(el);
+                let intersectShapes = builder.buildShapesByIntersect(shape);
+                if(intersectShapes.length>1) {
+                    for(let ishape of intersectShapes){
+                        if(!ishape.isNear(this.point, this.eps)){
+                            for(let el of ishape.elements){
+                                this.document.addElement(el);
+                            }
+                        }
                     }
                 }
-
-                for(let group of groups){
-                    if(group.elements.length==0){
-                        this.document.removeElement(group);
-                    }
-                }
+                this.removeShape(shape);
                 removed=true;
             }
         }
         return removed;
+    }
+
+    removeShape(shape){
+        /** @type {Array.<Group>} */
+        let groups = [];
+
+        for (let el of shape.elements) {
+            let group = this.getGroupByElement(el);
+            if (group) {
+                group.removeElement(el);
+                groups.push(group);
+            } else {
+                this.document.removeElement(el);
+            }
+        }
+
+        for (let group of groups) {
+            if (group.elements.length == 0) {
+                this.document.removeElement(group);
+            }
+        }
     }
 
     getGroupByElement(element){

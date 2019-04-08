@@ -160,7 +160,6 @@ export default class Shape{
 
         let res = [];
 
-
         let startPoint = pointsByElement[0];
         let nextPoint = pointsByElement[0];
         let currentPoint = pointsByElement[0];
@@ -169,6 +168,10 @@ export default class Shape{
             currentPoint=nextPoint;
             if(currentPoint.elements[0].compare(currentElement)){
                 currentElement=currentPoint.elements[1];
+                if(!currentElement){
+                    res.push(currentPoint.point);
+                    break;
+                }
             }else{
                 currentElement=currentPoint.elements[0];
             }
@@ -192,7 +195,7 @@ export default class Shape{
             }
 
             nextPoint = findPointWithElement(currentElement, currentPoint);
-        }while(!nextPoint.point.compare(startPoint.point));
+        }while(nextPoint!=null && !nextPoint.point.compare(startPoint.point));
 
         return res;
     }
@@ -225,7 +228,7 @@ export default class Shape{
 
     /**
      * @param {Point|Shape} element
-     * @return {boolean}
+     * @return {boolean} - true is the point is into the shape or if all points of shape into the shape
      */
     isContain(element){
         /** @type {TriangulationAlgorithm} */
@@ -249,6 +252,12 @@ export default class Shape{
         return false;
     }
 
+    /**
+     * @param {Point} point
+     * @param triangles
+     * @return {boolean}
+     * @private
+     */
     isContainPoint(point, triangles){
         for (let triangle of triangles) {
             if (triangle.contains(point)) {
@@ -256,5 +265,13 @@ export default class Shape{
             }
         }
         return false;
+    }
+
+    /**
+     * @param {Shape} shape
+     * @return {Array.<Point>}
+     */
+    getCrossPoint(shape){
+        
     }
 }
