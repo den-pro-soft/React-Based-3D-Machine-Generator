@@ -41,7 +41,7 @@ export default class Help extends React.Component {
 
     outputTutorial = ()=>{
         var request = new XMLHttpRequest();
-        request.open("GET", "/resources/doc/tutorial.emsx", true);
+        request.open("GET", "/resources/doc/tutorial.new.emsx", true);
 
         request.onload = function() {
             // var out = new Blob([request.response]);
