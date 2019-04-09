@@ -39,6 +39,20 @@ export default class Help extends React.Component {
     request.send();
   };
 
+    outputTutorial = ()=>{
+        var request = new XMLHttpRequest();
+        request.open("GET", "/resources/doc/tutorial.emsx", true);
+
+        request.onload = function() {
+            // var out = new Blob([request.response]);
+            var file = new File([request.response], "Flat2D.emsx");
+            // console.log(file, "Flat2D");
+            app.open(file);
+        };
+
+        request.send();
+    };
+
   outputBend2D = () => {
     var request = new XMLHttpRequest();
     request.open("GET", "resources/doc/Bend2D.emsx", true);
@@ -176,23 +190,23 @@ export default class Help extends React.Component {
           {this.state.displayMenu ? (
             <ul>
               <li
-                onMouseEnter={this.showSubMenu}
-                onMouseLeave={this.hideSubMenu}
+                // onMouseEnter={this.showSubMenu}
+                // onMouseLeave={this.hideSubMenu}
               >
-                <a href="#">
-                  <span>Drawing Tutorials</span>
-                  <span>&#x25BA;</span>
+                <a href="#" onClick={this.outputTutorial}>
+                  <span>Drawing Tutorial</span>
+                  {/*<span>&#x25BA;</span>*/}
                 </a>
-                {this.state.displaySubMenu ? (
-                  <ul className="Submenu">
-                    <li onClick={this.outputFlat2D}>
-                      <a href="#">Flat 2D</a>
-                    </li>
-                    <li onClick={this.outputBend2D}>
-                      <a href="#">Bend 2D</a>
-                    </li>
-                  </ul>
-                ) : null}
+                {/*{this.state.displaySubMenu ? (*/}
+                  {/*<ul className="Submenu">*/}
+                    {/*<li onClick={this.outputFlat2D}>*/}
+                      {/*<a href="#">Flat 2D</a>*/}
+                    {/*</li>*/}
+                    {/*<li onClick={this.outputBend2D}>*/}
+                      {/*<a href="#">Bend 2D</a>*/}
+                    {/*</li>*/}
+                  {/*</ul>*/}
+                {/*) : null}*/}
               </li>
               <li onClick={this.openHelpLink}>
                 <a

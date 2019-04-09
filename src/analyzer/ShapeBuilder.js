@@ -53,7 +53,7 @@ export default class ShapeBuilder{
      */
     buildShapes(){
         let elements = this.document.getListSimpleElements().filter(el=>{
-            return el.lineType instanceof Auto
+            return el.lineType.name=='Auto'
         });
         if(elements.length==0){
             return [];
