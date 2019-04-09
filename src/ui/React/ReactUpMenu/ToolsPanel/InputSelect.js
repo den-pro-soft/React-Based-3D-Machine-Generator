@@ -349,10 +349,7 @@ class InputSelect extends React.Component {
                 width="18px"
                 src="resources/images/Z.png"
                 data-place="bottom"
-                data-tip="<span>To make a 3D shape, make a 2D drawling and then set this value</br>
-            to the distance material will extend perpendicular to the screen.</br>The value specifies the perpendicular
-            distance for the material<br> inside the associated line, relative to the material
-              </span>"
+                data-tip={container.resolve("tips").getTip('numeric-Z')} data-html={true}
               />
             </a>
           </button>

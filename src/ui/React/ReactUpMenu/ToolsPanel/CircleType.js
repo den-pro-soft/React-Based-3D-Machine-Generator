@@ -132,9 +132,7 @@ class CircleType extends React.Component {
               width="18px"
               src="resources/images/Diameter18.png"
               data-place="bottom"
-              data-tip="<span>Diameter.</br>Distance fully across the circle. To change, enter a value and</br>
-     press the Enter key.
-    </span>"
+              data-tip={container.resolve("tips").getTip('numeric-diameter')} data-html={true}
             />
           </a>
         </button>
@@ -147,9 +145,7 @@ class CircleType extends React.Component {
             this.diameterInput = input;
           }}
           data-place="bottom"
-          data-tip="<span>Diameter.</br>Distance fully across the circle. To change, enter a value and</br>
-   press the Enter key.
-  </span>"
+          data-tip={container.resolve("tips").getTip('numeric-diameter')} data-html={true}
         />
       </>
     );

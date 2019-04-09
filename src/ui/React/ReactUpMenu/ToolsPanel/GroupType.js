@@ -150,8 +150,7 @@ import { connect } from "react-redux";
         this.widthInput = input;
       }}
       data-place="bottom"
-      data-tip="<span>Horizontal size<br/>Horizontal size of imaginary rectangle enclosing the line.To<br/>
-change, enter a value and press the Enter key. </span>"
+      data-tip={container.resolve("tips").getTip('numeric-horizontal-size')} data-html={true}
     />
     <button className="btn-Vertical">
       <a href="#">
@@ -172,8 +171,7 @@ change, enter a value and press the Enter key. </span>"
         this.heightInput = input;
       }}
       data-place="bottom"
-      data-tip="<span>Vertical size<br/>Vertical size of imaginary rectangle enclosing the line.To<br/>
-change, enter a value and press the Enter key. </span>"
+      data-tip={container.resolve("tips").getTip('numeric-vertical-size')} data-html={true}
     />
   </>)}
 

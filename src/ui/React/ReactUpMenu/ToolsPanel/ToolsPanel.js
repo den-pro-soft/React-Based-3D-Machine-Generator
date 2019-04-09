@@ -168,10 +168,8 @@ class ToolsPanel extends React.PureComponent {
                   width="18px"
                   src="resources/images/LineType.png"
                   data-place="bottom"
-                  data-tip='<span>Line type.</br>Specifies whether the selected line a shape,bend,</br>thread,relation,comment,etc.Select "Auto" in most cases</br>
-                when creating the part shape.
-                </span>'
-                />
+                  data-tip={container.resolve("tips").getTip('numeric-line-type')} data-html={true}
+                  />
               </a>
             </button>
             <select

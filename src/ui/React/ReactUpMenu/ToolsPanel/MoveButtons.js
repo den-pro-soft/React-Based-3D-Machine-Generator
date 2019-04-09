@@ -164,11 +164,7 @@ class MoveButtons extends React.Component {
               width="18px"
               src="resources/images/Copy.png"
               data-place="bottom"
-              data-tip="<span>Repeat (Ctrl+ D)<br/>When this button is pressed in, the nudge arrow buttons and the<br/>
-              nudge rotation buttons will create copies of the selected shape.<br/>
-              For example, to create 3 copies to the right of an existing shape,<br/>
-              select the shape, press in this Repeat button and press the right<br/>
-              arrow button or key 3 times. </span>"
+              data-tip={container.resolve("tips").getTip('numeric-repeat')} data-html={true}
             />
           </a>
         </button>
@@ -178,9 +174,7 @@ class MoveButtons extends React.Component {
               width="18px"
               src="resources/images/Up.png"
               data-place="bottom"
-              data-tip="<span>Nudge selected line up.(Also see tip for nudge edit box.)<br/> Hold
-              the Alt key for faster nudging. The state of Repeat button<br/>
-              determines if lines are duplicated or simply moved.</span>"
+              data-tip={container.resolve("tips").getTip('numeric-nudge')} data-html={true}
             />
           </a>
         </button>
@@ -190,9 +184,7 @@ class MoveButtons extends React.Component {
               width="18px"
               src="resources/images/Down.png"
               data-place="bottom"
-              data-tip="<span>Nudge selected line down.(Also see tip for nudge edit box.)<br/> Hold
-              the Alt key for faster nudging. The state of Repeat button<br/>
-              determines if lines are duplicated or simply moved.</span>"
+              data-tip={container.resolve("tips").getTip('numeric-nudge')} data-html={true}
             />
           </a>
         </button>
@@ -202,9 +194,7 @@ class MoveButtons extends React.Component {
               width="18px"
               src="resources/images/Left.png"
               data-place="bottom"
-              data-tip="<span>Nudge selected line left.(Also see tip for nudge edit box.)<br/> Hold
-              the Alt key for faster nudging. The state of Repeat button<br/>
-              determines if lines are duplicated or simply moved.</span>"
+              data-tip={container.resolve("tips").getTip('numeric-nudge')} data-html={true}
             />
           </a>
         </button>
@@ -214,9 +204,7 @@ class MoveButtons extends React.Component {
               width="18px"
               src="resources/images/Right.png"
               data-place="bottom"
-              data-tip="<span>Nudge selected line right.(Also see tip for nudge edit box.)<br/> Hold
-              the Alt key for faster nudging. The state of Repeat button<br/>
-              determines if lines are duplicated or simply moved.</span>"
+              data-tip={container.resolve("tips").getTip('numeric-nudge')} data-html={true}
             />
           </a>
         </button>
@@ -229,10 +217,7 @@ class MoveButtons extends React.Component {
           onChange={this.handlyChangeInputMove}
           onKeyPress={this.handlyChangeInputMove}
           data-place="bottom"
-          data-tip="<span>Nudge step.<br/>The distance an object will move when an arrow button or key<br/>
-              is pressed.It is generally recommended to move an item by first<br/>
-              dragging the item to a snap point on an existing line and then<br/>
-              nudging without the mouse.</span>"
+          data-tip={container.resolve("tips").getTip('numeric-nudge-step')} data-html={true}
         />
             <button className="btn-LeftRotate" onClick={this.rotateLeft}>
           <a href="#">
@@ -240,9 +225,7 @@ class MoveButtons extends React.Component {
               width="18px"
               src="resources/images/Unclock.png"
               data-place="bottom"
-              data-tip="<span>Rotate selected line<br/> left(couterclockwise).The state of the<br/>
-              Repeat button determines if lines<br/> are duplicated or simply
-              rotated. </span>"
+              data-tip={container.resolve("tips").getTip('numeric-rotate-counterclockwise')} data-html={true}
             />
           </a>
         </button>
@@ -252,9 +235,7 @@ class MoveButtons extends React.Component {
               width="18px"
               src="resources/images/Clock.png"
               data-place="bottom"
-              data-tip="<span>Rotate selected line<br/> right(clockwise).The state of the<br/>
-              Repeat button determines if lines<br/> are duplicated or simply
-              rotated. </span>"
+              data-tip={container.resolve("tips").getTip('numeric-rotate-clockwise')} data-html={true}
             />
           </a>
         </button>
@@ -268,12 +249,7 @@ class MoveButtons extends React.Component {
           onChange={this.handlyChangeInputRotate}
           onKeyPress={this.handlyChangeInputRotate}
 
-          // data-place="bottom"
-          // data-tip="<span>Rotation step angle.<br/> The angle a selected line will rotate<br/> when you press the L or R<br/>
-          // keyboard keys.You can set the center<br/> of rotation
-          // by dragging the center icon.Hold<br/> Ctrl key
-          // during rotation via mouse to rotate<br/>
-          // in multiples of this angle. </span>"
+          data-tip={container.resolve("tips").getTip('numeric-rotate-step')} data-html={true}
         />
       
       </Fragment>

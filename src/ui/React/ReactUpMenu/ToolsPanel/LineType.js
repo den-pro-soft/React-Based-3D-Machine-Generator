@@ -102,10 +102,9 @@ class LineType extends React.Component {
           <a href="#">
             <img
               width="18px"
-              src="resources/images/Line.png"
+              src="resources/images/Line-length.jpg"
               data-place="bottom"
-              data-tip="<span>Length<br/>Distance from the beginning of the line to the end.To change<br/>
-      enter a value and press the Enter key</span>"
+              data-tip={container.resolve("tips").getTip('numeric-line-length')} data-html={true}
             />
           </a>
         </button>
@@ -118,17 +117,15 @@ class LineType extends React.Component {
             this.textInput = input;
           }}
           data-place="bottom"
-          data-tip="<span>Length<br/>Distance from the beginning of the line to the end.To change<br/>
-      enter a value and press the Enter key</span>"
+          data-tip={container.resolve("tips").getTip('numeric-line-length')} data-html={true}
         />
         <button className="btn-LineAngle">
           <a href="#">
             <img
               width="18px"
-              src="resources/images/Line.png"
+              src="resources/images/Line-angle.jpg"
               data-place="bottom"
-              data-tip="<span>Line angle<br/>Angle of the point with respect to the start point.To change,<br/>
- enter a value and press the Enter key. </span>"
+              data-tip={container.resolve("tips").getTip('numeric-line-angle')} data-html={true}
             />
           </a>
         </button>
@@ -141,8 +138,7 @@ class LineType extends React.Component {
             this.angleInput = input;
           }}
           data-place="bottom"
-          data-tip="<span>Line angle<br/>Angle of the point with respect to the start point.To change,<br/>
- enter a value and press the Enter key. </span>"
+          data-tip={container.resolve("tips").getTip('numeric-line-angle')} data-html={true}
         />
       </Fragment>
     );

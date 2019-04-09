@@ -111,7 +111,6 @@ export default class SelectTool extends Tool{
                 newSelected.push(el);
             }
 
-            //todo: check if the element is selected remove the element from selected elements list (will not call the addSelectelements method)
             if (newSelected.length > 0) {
                 this.addSelectElements(newSelected);
                 if(newUnselected.length>0){
