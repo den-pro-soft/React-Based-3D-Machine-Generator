@@ -7,6 +7,8 @@ import Exception from '../Exception';
 import GraphicElement from './GraphicElement';
 import Renderable from '../ui/2d/Renderable';
 import Group from "./elements/Group";
+import LineElement from "./elements/LineElement";
+import Vector from "./math/Vector";
 
 let id=0;
 
@@ -171,6 +173,35 @@ export default class Document extends Renderable{
     load(snapshot){
         this._elements = snapshot._elements;
     }
+
+    // /**
+    //  * This is a modifier method.
+    //  * It finds lines that overlap each other and merge them into one line.
+    //  */
+    // mergeLines(){
+    //     /** @type {Array.<LineElement>} */
+    //     let lines = this._elements.filter(el=>el instanceof LineElement);
+    //     let baseVector = new Vector(1);
+    //
+    //
+    //     for(let i=0; i<lines.length; i++){
+    //         for(let j=0; j<lines.length; j++){
+    //             if(i==j){
+    //                 continue;
+    //             }
+    //             let angle = lines[i]._line.toVector().getAngle(lines[j]._line.toVector());
+    //
+    //             angle = parseFloat(angle.toFixed(4));
+    //
+    //             console.log(angle);
+    //             if(angle==0 || angle==180){
+    //                 //merge
+    //                 //mark i & j like merged
+    //             }
+    //         }
+    //     }
+    //
+    // }
 
     /**
      * @param elements

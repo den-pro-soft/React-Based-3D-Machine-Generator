@@ -112,6 +112,9 @@ export default class ShapeBuilder{
      * @return {Array.<Shape>}
      */
     buildShapesByElements(elements, separatePoints=[]){
+        if(elements.length==0){
+            return [];
+        }
         let res = [];
         let shapePoints=this.fillShapePoints(elements);
 

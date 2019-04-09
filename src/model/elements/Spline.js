@@ -9,6 +9,10 @@ import Line from '../math/Line';
 import PolyLine from '../math/PolyLine';
 
 import Matrix from '../math/Matrix';
+import LineElement from "./LineElement";
+import Bend from "../line_types/Bend";
+import CommentToMachine from "../line_types/CommentToMachine";
+import CommentToSelf from "../line_types/CommentToSelf";
 
 export default class Spline extends GraphicElement{
     constructor(startPoint, endPoint){
@@ -58,13 +62,14 @@ export default class Spline extends GraphicElement{
     }
 
     /**
+     * @param {number} [step=1E-2]
      * @inheritDoc
      */
-    toPolyLines(){
+    toPolyLines(step=1E-2){
         let res = new PolyLine();
         let point = this.startPoint.copy();
 
-        for(let t=0; t<=1; t+=1E-2){
+        for(let t=0; t<=1; t+=step){
             res.addPoint(point);
             point = this.getPointOffset(t);
         }
@@ -189,5 +194,88 @@ export default class Spline extends GraphicElement{
      */
     getCenter(){
         return this.getPointOffset(0.5);
+    }
+
+    /**
+     * The method return list of elements which was made by intersection current element
+     * @param {Array.<Point>} points  - the points must be in current element
+     * @return {Array.<GraphicElement>}
+     */
+    intersectByPoints(points){
+        let eps = 0.003;
+        let tStep = 0.00001;
+        let splinePoints = this.toPolyLines(tStep)[0].points;
+
+
+        let checkPoints = new Array(points.length);
+        for(let i=0; i<points.length; i++){
+            checkPoints[i]=true;
+        }
+
+        let t = [];
+        for(let i=1; i<splinePoints.length; i++){
+            let line = new Line(splinePoints[i-1], splinePoints[i]);
+            for(let j=0; j<points.length; j++){
+                if(checkPoints[j] && line.isNear(points[j], eps)){
+                    t.push(tStep*i);
+                    checkPoints[j]=false;
+                    console.log(j, tStep*i);
+                }
+            }
+        }
+
+        if(t.length==0){
+            return [this];
+        }
+        let res = [];
+        let currentSpline = this;
+        let ti = [t[0]];
+        for(let i=1; i<t.length; i++){
+            ti[i]=(t[i]-t[i-1])/(1-t[i-1]);
+        }
+        for(let i=0; i<ti.length; i++){
+            let splines = currentSpline.intersectByT(ti[i]);
+            res.push(splines[0]);
+            currentSpline=splines[1];
+        }
+        res.push(currentSpline);
+        return res;
+    }
+
+    /**
+     *
+     * @param {number} tIntersection - 0..1
+     * @return {Array.<Spline>}
+     */
+    intersectByT(tIntersection){
+        let t=[0,tIntersection,1];
+        let l1 = new Line(this.startPoint, this.controlPoint1);
+        let l2 = new Line(this.controlPoint1, this.controlPoint2);
+        let l3 = new Line(this.controlPoint2, this.endPoint);
+
+        let res = [];
+        for(let i=1; i<t.length; i++){
+            let newStart = this.getPointOffset(t[i-1]);
+            let newEnd = this.getPointOffset(t[i]);
+            let spline = new Spline(newStart, newEnd);
+            if(i-1==0){
+                spline.controlPoint1= l1.getPointOffset(t[i]);
+            }else{
+                let p2 = l2.getPointOffset(t[i-1]);
+                let p3 = l3.getPointOffset(t[i-1]);
+                spline.controlPoint1 = new Line(p2,p3).getPointOffset(t[i-1]);
+
+            }
+
+            if(i==t.length-1){
+                spline.controlPoint2= l3.getPointOffset(t[i-1]);
+            }else{
+                let p1 = l1.getPointOffset(t[i]);
+                let p2 = l2.getPointOffset(t[i]);
+                spline.controlPoint2 = new Line(p1,p2).getPointOffset(t[i]);
+            }
+            res.push(spline);
+        }
+        return res;
     }
 }

@@ -76,6 +76,7 @@ export default class EraserNearElements extends ElementModificationCommand{
                 removed=true;
             }
         }
+        // this.document.mergeLines();
         return removed;
     }
 

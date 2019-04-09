@@ -4,6 +4,7 @@ import Arc from "../../../elements/Arc";
 import Spline from "../../../elements/Spline";
 import LineArcIntersector from "./LineArc";
 import ArcArcIntersector from "./ArcArc";
+import Auto from "../../../line_types/Auto";
 
 
 let lineArcIntersector = new LineArcIntersector();
@@ -18,7 +19,7 @@ export default class Intersect{
 
         this.document = document;
 
-        this.simpleElements = document.getListSimpleElements();
+        this.simpleElements = document.getListSimpleElements().filter(el=>el.lineType instanceof Auto);
     }
 
 
@@ -111,7 +112,11 @@ export default class Intersect{
 
         let points = this.getIntersectPoints(element);
 
-        return element.intersectByPoints(points);
+        if(points.length==0){
+            return null;
+        }else {
+            return element.intersectByPoints(points);
+        }
     }
 
 
@@ -182,7 +187,8 @@ export default class Intersect{
      * @private
      */
     static _intersectPointsSplineSpline(spline1, spline2){
-        throw new Exception('The _intersectPointsSplineSpline method doesn\'t have implementation!', this);
+        //todo: can have the errors in polygon discretization
+        return spline1.toPolyLines()[0].getCrossPoints(spline2.toPolyLines()[0]);
     }
 
 }

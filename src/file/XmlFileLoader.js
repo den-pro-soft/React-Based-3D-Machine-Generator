@@ -141,7 +141,6 @@ export default class XmlFileLoader extends FileLoader{
         let savedElements = [];
 
         for(let shape of shapes){
-            console.log(shape);
             let height = 0;
             try {
                 height = shape.height;

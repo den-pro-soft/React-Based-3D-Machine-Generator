@@ -88,6 +88,23 @@ describe('EraserNearElements', function(){
             console.log(doc._elements);
             return expect(doc._elements[1].incrementAngle, "increment angle must be 180").to.equal(180);
         });
+
+        it('three rectangles', function(){
+            let doc = new Document();
+            doc.addElement(new RectElement(new Point(-5,5), new Point(5,-5)).toElement());
+            doc.addElement(new RectElement(new Point(-9,-2), new Point(2,-9)).toElement());
+            doc.addElement(new RectElement(new Point(2,-2), new Point(10,-9)).toElement());
+
+            let point = new Point(0,5);
+            let eps = 0.0001;
+            let command = new EraserNearElementsCommand(doc, point, eps);
+            command.executeCommand();
+
+            for(let el of doc._elements){
+                console.log(el ,el._points);
+            }
+            return expect(doc._elements).to.have.lengthOf(5)
+        })
     });
 
 });
