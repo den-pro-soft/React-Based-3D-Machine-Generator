@@ -194,7 +194,7 @@ export default class Help extends React.Component {
                 // onMouseLeave={this.hideSubMenu}
               >
                 <a href="#" onClick={this.outputTutorial}>
-                  <span>Drawing Tutorial</span>
+                    Drawing tutorial
                   {/*<span>&#x25BA;</span>*/}
                 </a>
                 {/*{this.state.displaySubMenu ? (*/}
