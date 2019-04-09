@@ -52,11 +52,17 @@ export default class ShapeBuilder{
      * @return {Array.<Shape>}
      */
     buildShapes(){
-        let elements = this.document.getListSimpleElements();
+        let elements = this.document.getListSimpleElements().filter(el=>{
+            return el.lineType instanceof Auto
+        });
         if(elements.length==0){
             return [];
         }
-        return this.buildShapesByElements(elements);
+        try {
+            return this.buildShapesByElements(elements);
+        }catch (e) {
+            console.error(elements);
+        }
     }
 
     /**

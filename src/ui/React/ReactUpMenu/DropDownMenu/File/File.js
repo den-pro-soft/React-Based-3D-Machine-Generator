@@ -81,15 +81,19 @@ class File extends React.Component {
     };
 
     openFile = e =>{
+        console.log("openFile elvent", "180736");
         //todo: the code have copy in Helper Ctrl+O key handler
         var newInput = document.createElement('input');
         newInput.setAttribute('type','file');
         // newInput.setAttribute('accept',this.accept);
         newInput.setAttribute('accept','.emsx');
 
+        window.document.getElementsByTagName('body')[0].appendChild(newInput);
         newInput.onchange = function(){
+            console.log("file input was change ", "180736");
             //todo: check count files
             app.open(this.files[0]);
+
             newInput.remove();
         };
         newInput.click();
