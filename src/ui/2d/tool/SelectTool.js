@@ -56,6 +56,22 @@ export default class SelectTool extends Tool{
         this._selectElements=[];
     }
 
+    unselectElements(elements){
+        let selected = app.selectElements;
+        let newSelect = [];
+
+        m: for(let el of selected){
+            for(let element of elements){
+                if(el.compare(element)) {
+                    continue m;
+                }
+            }
+            newSelect.push(el);
+        }
+        this.clearSelectElements();
+        this.addSelectElements(newSelect);
+    }
+
 
     mouseMove(point, e){
         return super.mouseMove(point, e);
@@ -98,7 +114,17 @@ export default class SelectTool extends Tool{
             //todo: check if the element is selected remove the element from selected elements list (will not call the addSelectelements method)
             if (newSelected.length > 0) {
                 this.addSelectElements(newSelected);
+                if(newUnselected.length>0){
+                    console.log(newUnselected);
+                    this.unselectElements(newUnselected);
+                }
                 return true;
+            }else {
+                if (newUnselected.length > 0) {
+                    console.log(newUnselected);
+                    this.unselectElements(newUnselected);
+                    return true;
+                }
             }
         }
         return false;
