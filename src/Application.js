@@ -224,6 +224,11 @@ export default class Application extends Observable{
                             for (let el of elements) {
                                 this.board.tool.selectElement(el, false);
                             }
+                        }else if(command instanceof MoveElementsCommand){ //hack for performance. The nudge was too slow
+                            this.board.tool.clearSelectElements(false);
+                            for (let el of elements) {
+                                this.board.tool.selectElement(el, false);
+                            }
                         }else{
                             if (command.isReplacedElements()) {
                                 elements = command.getElements();
