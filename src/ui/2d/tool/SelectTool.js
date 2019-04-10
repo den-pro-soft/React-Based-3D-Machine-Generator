@@ -113,14 +113,13 @@ export default class SelectTool extends Tool{
 
             if (newSelected.length > 0) {
                 this.addSelectElements(newSelected);
-                if(newUnselected.length>0){
+                if(newUnselected.length>1){
                     console.log(newUnselected);
                     this.unselectElements(newUnselected);
                 }
                 return true;
             }else {
-                if (newUnselected.length > 0) {
-                    console.log(newUnselected);
+                if (newUnselected.length > 1) {
                     this.unselectElements(newUnselected);
                     return true;
                 }
