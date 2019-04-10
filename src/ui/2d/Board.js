@@ -437,6 +437,12 @@ class InteractiveBoard extends Board{
 
         let zoom = ppm/this._pixelPerOne;
         this._setScale(zoom);
+
+        let leftUpPoint = this._convertToLocalCoordinateSystem(new Point(ext.min.x, ext.max.y));
+        let rightDownPoint = this._convertToLocalCoordinateSystem(new Point(ext.max.x, ext.min.y));
+        this._bias.x-=leftUpPoint.x-this._width/2+(rightDownPoint.x-leftUpPoint.x)/2+10;
+        this._bias.y-=leftUpPoint.y-this._height/2+(rightDownPoint.y-leftUpPoint.y)/2+50;
+
         this.renderDocument();
     }
 

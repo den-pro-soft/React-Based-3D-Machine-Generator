@@ -69,7 +69,7 @@ class Preferences extends React.Component {
             </fieldset>
             <fieldset>
                 <legend>Calibrate Screen</legend>
-                <Button variant="contained" onClick={app.screenCalibrate()}>Calibrate</Button>
+                <Button variant="contained" onClick={()=>{app.screenCalibrate()}}>Calibrate</Button>
             </fieldset>
           </form>
         </div>
