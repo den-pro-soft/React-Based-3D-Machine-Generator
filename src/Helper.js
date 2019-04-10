@@ -28,8 +28,13 @@ class KeyHelper{
         this.shiftKey=false;
 
         window.addEventListener('keydown',(e)=>{
-            // console.log(e.keyCode, e.key, e);
+            console.log(e.keyCode, e.key, e);
             switch(e.keyCode){
+                case 49://1
+                    if(e.target==document.body) {
+                        app.board.zoomToActualSize();
+                    }
+                    break;
                 case 46: //delete
                 if(e.target==document.body) {
                     app.deleteSelected();

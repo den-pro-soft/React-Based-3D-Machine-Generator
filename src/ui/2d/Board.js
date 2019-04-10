@@ -21,7 +21,7 @@ import InteractiveBoardExtension from './board-extensions/InteractiveBoardExtens
 class Board extends Observable{
     constructor() {
         super();
-        this._scale = 0.2;
+        this._scale = 1;
         this._bias = {x: 0, y: 0}; // pixel
         this._initCenterPosition = {x: 0, y: 0}; //pixel
 
@@ -426,6 +426,17 @@ class InteractiveBoard extends Board{
         this._bias.x-=leftUpPoint.x-this._width/2+(rightDownPoint.x-leftUpPoint.x)/2+10;
         this._bias.y-=leftUpPoint.y-this._height/2+(rightDownPoint.y-leftUpPoint.y)/2+50;
 
+        this.renderDocument();
+    }
+
+    /**
+     * @param PPI
+     */
+    zoomToActualSize(PPI){
+        let ppm = 3.55;
+
+        let zoom = ppm/this._pixelPerOne;
+        this._setScale(zoom);
         this.renderDocument();
     }
 
