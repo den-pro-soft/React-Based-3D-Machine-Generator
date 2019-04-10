@@ -392,9 +392,8 @@ export default class Application extends Observable{
     appZoomToActualSize(){
         let ppi = localStorage.getItem('PPI');
         if(!ppi){
-            container.resolve('confirmChangeArcToSplinesDialog').modalNonWorkFeature("To calibrate your screen, please draw a line. " +
-                "On the property bar set length to 5 inches. Zoom so it measures the same with a ruler. Select the line. " +
-                "Choose Edit | Preferences | Calibrate Screen");
+            container.resolve('confirmChangeArcToSplinesDialog').modalNonWorkFeature("Please calibrate your screen." +
+                " Draw a five-inch line with  a real ruler. Select the line. Choose Edit | Preferences | Calibrate.");
         }else{
             this.board.zoomToActualSize(ppi);
         }
@@ -410,9 +409,9 @@ export default class Application extends Observable{
             let pixels = Math.sqrt(Math.pow(p2.x-p1.x,2)+Math.pow(p2.y-p1.y,2));
             let ppi = pixels/5;
             localStorage.setItem('PPI', ppi);
-            container.resolve('confirmChangeArcToSplinesDialog').modalNonWorkFeature("The screen was calibrated.");
+            container.resolve('confirmChangeArcToSplinesDialog').modalNonWorkFeature("Calibration completed.");
         }else{
-            container.resolve('confirmChangeArcToSplinesDialog').modalNonWorkFeature("Can't calibrate!");
+            container.resolve('confirmChangeArcToSplinesDialog').modalNonWorkFeature("Please select a straight line.");
         }
     }
 
