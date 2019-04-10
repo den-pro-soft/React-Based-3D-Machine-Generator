@@ -2,7 +2,7 @@
  * Created by dev on 17.01.19.
  */
 
-import Buffer from './Buffer';
+import Buffer from './Buffer/Buffer';
 import Command from './command/Command';
 import CommandHistory from './CommandHistory';
 import Document from './model/Document';
@@ -80,8 +80,6 @@ export default class Application extends Observable{
 
         this.config = config;
 
-        //todo: remove from app (configure in container)
-        this.buffer = new Buffer(this);
         this._lastTool=null;
 
         this.saved = true;

@@ -31,6 +31,7 @@ import ExpertNoticeUi from './ui/modal/ExpertNotice';
 import UniversalTriangulationAlgorithm from "./ui/3d/algorithms/implementation/UniversalTriangulationAlgorithm";
 import Confirmation from "./ui/modal/Confirmation";
 import Tips from "./ui/React/Tips";
+import LocalStorageBuffer from "./Buffer/LocalStorageBuffer";
 
 /**
  * @param {string} name
@@ -96,6 +97,7 @@ container.register( 'elementIdGenerator', IdGenerator ).singleton();
 container.register( 'commandIdGenerator', IdGenerator ).singleton();
 container.register( 'confirmChangeArcToSplinesDialog', ConfirmChangeArcToSplinesDialog ).singleton();
 container.register( 'app', Application ).dependencies('config').singleton();
+container.register( 'buffer', LocalStorageBuffer ).dependencies('app').singleton();
 container.register( 'triangulation', UniversalTriangulationAlgorithm ).singleton();
 container.register( 'tips', Tips ).singleton();
 container.registerFactory('toolFactory',toolFactoryMethod);

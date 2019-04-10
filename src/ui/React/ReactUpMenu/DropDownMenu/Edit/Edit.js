@@ -41,13 +41,13 @@ import { connect } from "react-redux";
               <li onClick={() => app.redo()}>
                 <a href="#">Redo</a>
               </li>
-              <li onClick={() => app.buffer.cut()}>
+              <li onClick={() => container.resolve('buffer').cut()}>
                 <a href="#">Cut</a>
               </li>
-              <li onClick={() => app.buffer.copy()}>
+              <li onClick={() => container.resolve('buffer').copy()}>
                 <a href="#">Copy</a>
               </li>
-              <li onClick={() => app.buffer.paste()}>
+              <li onClick={() => container.resolve('buffer').paste()}>
                 <a href="#">Paste</a>
               </li>
 

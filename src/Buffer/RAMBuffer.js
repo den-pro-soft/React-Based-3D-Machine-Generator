@@ -1,15 +1,14 @@
-/**
- * Created by dev on 11.02.19.
- */
 
-export default class Buffer{
+
+import Buffer from './Buffer';
+
+export default class RAMBuffer extends Buffer{
     constructor(app){
+        super(app);
+
         this.buffer;
 
-        this.app=app;
         this.countPastOperation = 0;
-
-        //todo use clipboard module
     }
 
     copy(){

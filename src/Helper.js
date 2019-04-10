@@ -81,17 +81,17 @@ class KeyHelper{
                     break;
                 case 86: //Vv
                     if(e.ctrlKey && e.target==document.body){
-                        app.buffer.paste();
+                        container.resolve('buffer').paste();
                     }
                     break;
                 case 67: //Cc
                     if(e.ctrlKey && e.target==document.body){
-                        app.buffer.copy();
+                        container.resolve('buffer').copy();
                     }
                     break;
                 case 88: //Xx
                     if(e.ctrlKey && e.target==document.body){
-                        app.buffer.cut();
+                        container.resolve('buffer').cut();
                     }
                     break;
                 case 37: //left
