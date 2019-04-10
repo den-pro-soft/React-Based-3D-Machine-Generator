@@ -196,49 +196,53 @@ export default class Application extends Observable{
 
     /**
      * @param {Command} command
+     * @return {Promise.<boolean>}
      */
     executeCommand(command){
-        command.execute().then((res)=>{
-            if(res && command.needSave){
-                this.saved=false;
-                this.loaded=false;
-                localStorage.setItem('loaded', false);
-                this.commandHistory.push(command);
-            }
-            if(this._board){
-                if(command.name == 'AddElementCommand'){
-                    this.clearSelectElements();
-                    this._changeTool(this._getToolInstance('Pointer'));
-                    this.board.tool.selectElement(command._element);
-                    this.addSelectElements([command._element]);
+        return new Promise(resolve=>{
+            command.execute().then((res)=>{
+                if(res && command.needSave){
+                    this.saved=false;
+                    this.loaded=false;
+                    localStorage.setItem('loaded', false);
+                    this.commandHistory.push(command);
                 }
+                if(this._board){
+                    if(command.name == 'AddElementCommand'){
+                        this.clearSelectElements();
+                        this._changeTool(this._getToolInstance('Pointer'));
+                        this.board.tool.selectElement(command._element);
+                        this.addSelectElements([command._element]);
+                    }
 
-                if(command instanceof ElementModificationCommand){
-                    let elements = this.selectElements;
-                    if(command instanceof ChangeTextCommand) {
-                        this.board.tool.clearSelectElements(false);
-                        for (let el of elements) {
-                            this.board.tool.selectElement(el, false);
-                        }
-                    }else{
-                        if (command.isReplacedElements()) {
-                            elements = command.getElements();
-                            if (command.selectOneElement) {
-                                elements = [elements[0]];
-                            }
-                            this.addSelectElements(elements);
-                        }
-
-                        if (!(command instanceof EraserNearElementsCommand)) {
-                            this.board.tool.clearSelectElements();
+                    if(command instanceof ElementModificationCommand){
+                        let elements = this.selectElements;
+                        if(command instanceof ChangeTextCommand) {
+                            this.board.tool.clearSelectElements(false);
                             for (let el of elements) {
-                                this.board.tool.selectElement(el);
+                                this.board.tool.selectElement(el, false);
+                            }
+                        }else{
+                            if (command.isReplacedElements()) {
+                                elements = command.getElements();
+                                if (command.selectOneElement) {
+                                    elements = [elements[0]];
+                                }
+                                this.addSelectElements(elements);
+                            }
+
+                            if (!(command instanceof EraserNearElementsCommand)) {
+                                this.board.tool.clearSelectElements();
+                                for (let el of elements) {
+                                    this.board.tool.selectElement(el);
+                                }
                             }
                         }
                     }
+                    this._board.renderDocument();
+                    resolve(true);
                 }
-                this._board.renderDocument();
-            }
+            });
         });
     }
 
@@ -452,10 +456,21 @@ export default class Application extends Observable{
         this.executeCommand(command);
     }
 
+    /**
+     *
+     * @param {Array.<GraphicElement>} elements
+     * @param {number} x
+     * @param {number} y
+     * @return {Promise<boolean>}
+     */
     pasteElements(elements, x, y){
-        let moveCommand = new MoveElementsCommand(app.currentDocument, [], x, y);
-        let command = new CopyDecorator(app.currentDocument, elements, moveCommand);
-        this.executeCommand(command);
+        return new Promise(resolve=>{
+            let moveCommand = new MoveElementsCommand(app.currentDocument, [], x, y);
+            let command = new CopyDecorator(app.currentDocument, elements, moveCommand);
+            this.executeCommand(command).then(res=>{
+                resolve(res);
+            });
+        });
     }
     
     /**

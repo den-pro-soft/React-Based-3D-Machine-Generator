@@ -28,7 +28,11 @@ export default class LocalStorageBuffer extends Buffer{
             this.countPastOperation++;
             let loader  = new XmlFileLoader();
             loader.convertDataToDocument(data).then(doc=>{
-                this.app.pasteElements(doc._elements, this.app.config.moveStep*this.countPastOperation, 0);
+                this.app.pasteElements(doc._elements, this.app.config.moveStep*this.countPastOperation, 0).then(res=>{
+                    if(res){
+                        container.resolve('mainBoard').zoomToFitScreen();
+                    }
+                });
             });
         }
     }
