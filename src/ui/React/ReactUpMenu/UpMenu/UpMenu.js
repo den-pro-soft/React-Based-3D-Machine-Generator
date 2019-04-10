@@ -135,7 +135,7 @@ class UpMenu extends React.Component {
                 </a>
               </button>
               <button
-                  onClick={() => app.board.zoomToActualSize()}
+                  onClick={() => app.appZoomToActualSize()}
                   data-tip={container.resolve("tips").getTip('actualSize')} data-html={true}
               >
                 <a href="#">

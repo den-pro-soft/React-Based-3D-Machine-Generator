@@ -1,5 +1,6 @@
 import React from "react";
 import Radio from "@material-ui/core/Radio";
+import Button from "@material-ui/core/Button";
 import RadioGroup from "@material-ui/core/RadioGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormControl from "@material-ui/core/FormControl";
@@ -65,6 +66,10 @@ class Preferences extends React.Component {
                   />
                 </RadioGroup>
               </FormControl>
+            </fieldset>
+            <fieldset>
+                <legend>Calibrate Screen</legend>
+                <Button variant="contained" onClick={app.screenCalibrate()}>Calibrate</Button>
             </fieldset>
           </form>
         </div>

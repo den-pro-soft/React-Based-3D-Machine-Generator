@@ -433,7 +433,7 @@ class InteractiveBoard extends Board{
      * @param PPI
      */
     zoomToActualSize(PPI){
-        let ppm = 3.55;
+        let ppm = PPI/25.4;
 
         let zoom = ppm/this._pixelPerOne;
         this._setScale(zoom);

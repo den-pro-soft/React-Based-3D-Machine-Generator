@@ -32,7 +32,7 @@ class KeyHelper{
             switch(e.keyCode){
                 case 49://1
                     if(e.target==document.body) {
-                        app.board.zoomToActualSize();
+                        app.appZoomToActualSize();
                     }
                     break;
                 case 46: //delete

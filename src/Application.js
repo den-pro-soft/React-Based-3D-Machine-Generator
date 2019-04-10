@@ -45,6 +45,7 @@ import FormatNotSupportedException from './file/FormatNotSupportedException';
 
 import Observable from './Observable';
 import FileNameModal from "./ui/modal/FileName";
+import LineElement from "./model/elements/LineElement";
 
 let idGenerator = 1;
 
@@ -385,6 +386,28 @@ export default class Application extends Observable{
         fileloader.convertDataToDocument(localStorage.getItem('backup')).then(doc=>{
             this.currentDocument = doc;
         });
+    }
+
+    appZoomToActualSize(){
+        let ppi = localStorage.getItem('PPI');
+        if(!ppi){
+
+        }else{
+            this.board.zoomToActualSize(ppi);
+        }
+    }
+
+    screenCalibrate(){
+        if(this.selectElements.length==1 && this.selectElements[0] instanceof LineElement) {
+            /** @type {LineElement} */
+            let line = this.selectElements[0];
+
+            let p1 = this.board._convertToLocalCoordinateSystem(line.p1);
+            let p2 = this.board._convertToLocalCoordinateSystem(line.p2);
+            let pixels = Math.sqrt(Math.pow(p2.x-p1.x,2)+Math.pow(p2.y-p1.y,2))*this.board._scale;
+            let ppi = pixels/5;
+            localStorage.setItem('PPI', ppi);
+        }
     }
 
     //<editor-fold desc="decorate methods">
