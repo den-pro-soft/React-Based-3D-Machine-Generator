@@ -45,7 +45,7 @@ export default class Help extends React.Component {
 
         request.onload = function() {
             // var out = new Blob([request.response]);
-            var file = new File([request.response], "Flat2D.emsx");
+            var file = new File([request.response], "tutorial.emsx");
             // console.log(file, "Flat2D");
             app.open(file);
         };

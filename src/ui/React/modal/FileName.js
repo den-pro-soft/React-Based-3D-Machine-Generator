@@ -12,11 +12,26 @@ class FileName extends React.Component {
         super(props);
 
         this.state={
-            name:app.currentDocument.fileName
+            name:name
         }
     }
 
+    componentWillReceiveProps(nextProps){
+        let name = app.currentDocument.fileName;
+        if(app.currentDocument.fileName==""){
+            name = localStorage.getItem('lastFileName');
+            if(!name){
+                name= "";
+            }
+        }
+
+        this.setState({
+            name:name
+        });
+    }
+
     changeName(e){
+        localStorage.setItem('lastFileName', e.target.value);
         this.setState({name:e.target.value});
     }
 

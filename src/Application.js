@@ -44,7 +44,7 @@ import Vector from './model/math/Vector';
 import FormatNotSupportedException from './file/FormatNotSupportedException';
 
 import Observable from './Observable';
-import FileName from "./ui/modal/FileName";
+import FileNameModal from "./ui/modal/FileName";
 
 let idGenerator = 1;
 
@@ -342,7 +342,7 @@ export default class Application extends Observable{
             /** @var {FileLoader} */
             let fileLoader = container.resolve('fileLoaderFactory', fileFormat);
 
-            new FileName((name)=>{
+            new FileNameModal((name)=>{
                 this.currentDocument.fileName=name;
                 fileLoader.save(this.currentDocument).then(res=>{
                     if(res){
