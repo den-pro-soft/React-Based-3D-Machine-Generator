@@ -422,7 +422,7 @@ class InteractiveBoard extends Board{
             k=200;
         }
         let dScale = e.deltaY / k;
-        this._zoomAroundPoint(1+dScale,{x:e.offsetX, y:e.offsetY});
+        this._zoomAroundPoint(1-dScale,{x:e.offsetX, y:e.offsetY});
     }
 
     mouseDbClick(e) {

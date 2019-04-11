@@ -1,291 +1,284 @@
 <?xml version="1.0"?>
-            <eMachineShop3DObjects VersionId="1.1">
-                <View Type="Top">
-					<Region BaseHeight="0" Z="AirInside" ThroughHole="">
-					    <Machine Id="41" Name="Auto"/>
-						<Contour>
-							<Circle Center="57.39639300000003,-35.245492" Radius="3.175"/> 
-						</Contour>
-					</Region>
-
-					<Region BaseHeight="0" Z="AirInside" ThroughHole="">
-					    <Machine Id="41" Name="Auto"/>
-						<Contour>
-							<Circle Center="216.896393,-35.245492" Radius="3.175"/> 
-						</Contour>
-					</Region>
-
-					<Region BaseHeight="0" Z="AirInside" ThroughHole="">
-					    <Machine Id="41" Name="Auto"/>
-						<Contour>
-							<Straight P1="130.99955016716146,-60.27173383060068" P2="130.99955016716146,-51.408202291056114"/> 
-							<Straight P1="144.20011295946426,-60.271733830600795" P2="130.99955016716143,-60.27173383060074"/> 
-							<Straight P1="130.99955016716146,-51.408202291056114" P2="144.20011295946424,-51.408202291056085"/> 
-							<Arc Center="151.04986379450847,-55.839968060828426" Radius="8.15840881179135" StartAngle="212.90273144285499" IncAngle="294.1945371142903"/> 
-						</Contour>
-					</Region>
-
-					<Region BaseHeight="0" Z="AirInside" ThroughHole="">
-					    <Machine Id="41" Name="Auto"/>
-						<Contour>
-							<Circle Center="174.89639300000002,-35.245492" Radius="3.175"/> 
-						</Contour>
-					</Region>
-
-					<Region BaseHeight="0" Z="AirInside" ThroughHole="">
-					    <Machine Id="41" Name="Auto"/>
-						<Contour>
-							<Straight P1="77.38238162727095,-55.47061043621734" P2="68.09972537727094,-55.47061043621734"/> 
-							<Straight P1="77.38238162727095,-47.504869588592" P2="77.38238162727095,-55.47061043621734"/> 
-							<Straight P1="68.09972537727094,-47.504869588592" P2="77.38238162727095,-47.504869588592"/> 
-							<Straight P1="68.09972537727094,-55.47061043621734" P2="68.09972537727094,-47.504869588592"/> 
-						</Contour>
-					</Region>
-
-					<Region BaseHeight="0" Z="2.36" ThroughHole="">
-					    <Machine Id="41" Name="Auto"/>
-					    <Processing>
-					        <Bend P1="64.51676256667032,-79.27140134582096" P2="64.51676256667027,-29.27588881204288" Angle="90" Radius="0.1"/>
-					    </Processing>
-						<Contour>
-							<Straight P1="80.05819309786231,-28.895491999999994" P2="57.34108050000005,-28.895491999999997"/> 
-							<Arc Center="57.34108050000005,-35.245492" Radius="6.35" StartAngle="90" IncAngle="90"/> 
-							<Straight P1="113.23077540352345,-28.895491999999997" P2="80.05819309786231,-28.895491999999994"/> 
-							<Arc Center="137.17246910488132,-5.895491999999997" Radius="33.199468328418156" StartAngle="223.85074793279696" IncAngle="92.2985041344061"/> 
-							<Straight P1="208.4016943598407,-28.895491999999997" P2="161.1141628062392,-28.895491999999997"/> 
-							<Straight P1="216.84108050000003,-28.895491999999997" P2="208.4016943598407,-28.895491999999997"/> 
-							<Arc Center="216.84108050000003,-35.245492" Radius="6.35" StartAngle="0" IncAngle="90"/> 
-							<Straight P1="223.19108050000003,-73.345492" P2="223.19108050000003,-35.245492"/> 
-							<Arc Center="216.8410805,-73.345492" Radius="6.35" StartAngle="270" IncAngle="90"/> 
-							<Straight P1="57.34108050000002,-79.69549199999999" P2="216.8410805,-79.69549199999999"/> 
-							<Arc Center="57.34108050000002,-73.345492" Radius="6.35" StartAngle="180" IncAngle="90"/> 
-							<Straight P1="51.04639300000002,-73.345492" P2="50.99108050000002,-73.345492"/> 
-							<Straight P1="50.991080500000045,-35.245492" P2="51.04639300000002,-73.345492"/> 
-						</Contour>
-					</Region>
-					<Region BaseHeight="0" Z="1" ThroughHole="">
-                        <Machine Id="53" Name="Bend"/>
-                        <Contour>
-                            <Bend P1="208.45700685984062,-28.809779252658497" P2="208.45700685984065,-79.88154178643654" Angle="90" Radius="0.1"/>
-                        </Contour>
-                    </Region>
-					<Region BaseHeight="0" Z="0" ThroughHole="">
-                        <Machine Id="14" Name="Comment"/>
-                        <Contour>
-                            <Straight P1="80.11350559786229,-28.870075965543904" P2="80.11350559786229,-31.588703023592544"/>
-                        </Contour>
-                    </Region>
-					<Region BaseHeight="0" Z="1" ThroughHole="">
-                        <Machine Id="14" Name="Comment"/>
-                        <Contour>
-                            <Text Position="68.09972537727094,-34.59531813740466" Height="2" FontName="" HFlip="0" VFlip="0" Angle="0">Try clicking this line. Notice that the Z value on the</Text>
-                        </Contour>
-                    </Region>
-					<Region BaseHeight="0" Z="1" ThroughHole="">
-                        <Machine Id="14" Name="Comment"/>
-                        <Contour>
-                            <Text Position="130.08658214619737,-43.13557834689067" Height="2" FontName="" HFlip="0" VFlip="0" Angle="0">Click the shape below and notice</Text>
-                        </Contour>
-                    </Region>
-					<Region BaseHeight="0" Z="1" ThroughHole="">
-                        <Machine Id="14" Name="Comment"/>
-                        <Contour>
-                            <Text Position="68.09972537727094,-41.59531813740466" Height="2" FontName="" HFlip="0" VFlip="0" Angle="0">Try clicking the pyramid button to see a 3D view.</Text>
-                        </Contour>
-                    </Region>
-					<Region BaseHeight="0" Z="0" ThroughHole="">
-                        <Machine Id="14" Name="Comment"/>
-                        <Contour>
-                            <Straight P1="64.4065368480496,-74.46100043803294" P2="67.29789218002156,-74.46100043803294"/>
-                        </Contour>
-                    </Region>
-					<Region BaseHeight="0" Z="1" ThroughHole="">
-                        <Machine Id="14" Name="Comment"/>
-                        <Contour>
-                            <Text Position="68.09972537727094,-75.59531813740466" Height="2" FontName="" HFlip="0" VFlip="0" Angle="0">Try creating a bend line: draw a straight line and select Bend on the numeric bar.</Text>
-                        </Contour>
-                    </Region>
-					<Region BaseHeight="0" Z="1" ThroughHole="">
-                        <Machine Id="14" Name="Comment"/>
-                        <Contour>
-                            <Text Position="123.87814986599486,-22.457058445455676" Height="3" FontName="" HFlip="0" VFlip="0" Angle="0">Quick Start Tutorial</Text>
-                        </Contour>
-                    </Region>
-					<Region BaseHeight="0" Z="1" ThroughHole="">
-                        <Machine Id="14" Name="Comment"/>
-                        <Contour>
-                            <Text Position="87.54851020692857,-26.457058445455676" Height="3" FontName="" HFlip="0" VFlip="0" Angle="0">The online version of eMachineShop CAD supports 2D shapes and bends</Text>
-                        </Contour>
-                    </Region>
-					<Region BaseHeight="0" Z="1" ThroughHole="">
-                        <Machine Id="14" Name="Comment"/>
-                        <Contour>
-                            <Text Position="122.00881646931637,-32.544974012737995" Height="2" FontName="" HFlip="0" VFlip="0" Angle="0">Also see our 3D CAD for Windows</Text>
-                        </Contour>
-                    </Region>
-					<Region BaseHeight="0" Z="1" ThroughHole="">
-                        <Machine Id="14" Name="Comment"/>
-                        <Contour>
-                            <Text Position="130.08658214619737,-45.13557834689067" Height="2" FontName="" HFlip="0" VFlip="0" Angle="0">that the Z value is Air Inside which </Text>
-                        </Contour>
-                    </Region>
-					<Region BaseHeight="0" Z="1" ThroughHole="">
-                        <Machine Id="14" Name="Comment"/>
-                        <Contour>
-                            <Text Position="132.33884939051404,-54.846831327135746" Height="2" FontName="" HFlip="0" VFlip="0" Angle="0">Try drawing this shape.</Text>
-                        </Contour>
-                    </Region>
-					<Region BaseHeight="0" Z="1" ThroughHole="">
-                        <Machine Id="14" Name="Comment"/>
-                        <Contour>
-                            <Text Position="132.33884939051404,-56.846831327135746" Height="2" FontName="" HFlip="0" VFlip="0" Angle="0">Draw a circle and rectangle.</Text>
-                        </Contour>
-                    </Region>
-					<Region BaseHeight="0" Z="1" ThroughHole="">
-                        <Machine Id="14" Name="Comment"/>
-                        <Contour>
-                            <Text Position="68.09972537727094,-36.59531813740466" Height="2" FontName="" HFlip="0" VFlip="0" Angle="0">numeric bar is set to .125 for 1/8" sheet thickness.</Text>
-                        </Contour>
-                    </Region>
-					<Region BaseHeight="0" Z="1" ThroughHole="">
-                        <Machine Id="14" Name="Comment"/>
-                        <Contour>
-                            <Text Position="79.24563047639728,-49.31900842604634" Height="2" FontName="" HFlip="0" VFlip="0" Angle="0">To position lines accurately, drag to a snap</Text>
-                        </Contour>
-                    </Region>
-					<Region BaseHeight="0" Z="1" ThroughHole="">
-                        <Machine Id="14" Name="Comment"/>
-                        <Contour>
-                            <Text Position="79.24563047639728,-51.31900842604634" Height="2" FontName="" HFlip="0" VFlip="0" Angle="0">point and then use the arrow buttons to nudge </Text>
-                        </Contour>
-                    </Region>
-					<Region BaseHeight="0" Z="1" ThroughHole="">
-                        <Machine Id="14" Name="Comment"/>
-                        <Contour>
-                            <Text Position="79.41205406934635,-53.62212711951941" Height="2" FontName="" HFlip="0" VFlip="0" Angle="0">to another position. Try with this small rectangle.</Text>
-                        </Contour>
-                    </Region>
-					<Region BaseHeight="0" Z="1" ThroughHole="">
-                        <Machine Id="14" Name="Comment"/>
-                        <Contour>
-                            <Text Position="68.09972537727094,-61.59531813740466" Height="2" FontName="" HFlip="0" VFlip="0" Angle="0">Try drawing a rectangle and </Text>
-                        </Contour>
-                    </Region>
-					<Region BaseHeight="0" Z="1" ThroughHole="">
-                        <Machine Id="14" Name="Comment"/>
-                        <Contour>
-                            <Text Position="68.09972537727094,-63.59531813740466" Height="2" FontName="" HFlip="0" VFlip="0" Angle="0">using the round corner button.</Text>
-                        </Contour>
-                    </Region>
-					<Region BaseHeight="0" Z="1" ThroughHole="">
-                        <Machine Id="14" Name="Comment"/>
-                        <Contour>
-                            <Text Position="171.8820384039271,-40.94053963742167" Height="2" FontName="" HFlip="0" VFlip="0" Angle="0">Try making 3 copies of this hole. Select it </Text>
-                        </Contour>
-                    </Region>
-					<Region BaseHeight="0" Z="1" ThroughHole="">
-                        <Machine Id="14" Name="Comment"/>
-                        <Contour>
-                            <Text Position="171.8820384039271,-42.94053963742167" Height="2" FontName="" HFlip="0" VFlip="0" Angle="0">and click the Repeat (OO) button. Then</Text>
-                        </Contour>
-                    </Region>
-					<Region BaseHeight="0" Z="1" ThroughHole="">
-                        <Machine Id="14" Name="Comment"/>
-                        <Contour>
-                            <Text Position="171.8820384039271,-49.94053963742167" Height="2" FontName="" HFlip="0" VFlip="0" Angle="0">Try changing the diameter of a circle by selecting it</Text>
-                        </Contour>
-                    </Region>
-					<Region BaseHeight="0" Z="1" ThroughHole="">
-                        <Machine Id="14" Name="Comment"/>
-                        <Contour>
-                            <Text Position="171.8820384039271,-51.94053963742167" Height="2" FontName="" HFlip="0" VFlip="0" Angle="0">and setting the new value on the numeric bar.</Text>
-                        </Contour>
-                    </Region>
-					<Region BaseHeight="0" Z="1" ThroughHole="">
-                        <Machine Id="14" Name="Comment"/>
-                        <Contour>
-                            <Text Position="171.8820384039271,-57.94053963742167" Height="2" FontName="" HFlip="0" VFlip="0" Angle="0">Try tapping (threading) a hole by selecting it and </Text>
-                        </Contour>
-                    </Region>
-					<Region BaseHeight="0" Z="1" ThroughHole="">
-                        <Machine Id="14" Name="Comment"/>
-                        <Contour>
-                            <Text Position="171.8820384039271,-59.94053963742167" Height="2" FontName="" HFlip="0" VFlip="0" Angle="0">selecting Tap in the line type droplist.</Text>
-                        </Contour>
-                    </Region>
-					<Region BaseHeight="0" Z="1" ThroughHole="">
-                        <Machine Id="14" Name="Comment"/>
-                        <Contour>
-                            <Text Position="171.8820384039271,-65.94053963742167" Height="2" FontName="" HFlip="0" VFlip="0" Angle="0">Try creating a comment to yourself or to the machinist: </Text>
-                        </Contour>
-                    </Region>
-					<Region BaseHeight="0" Z="1" ThroughHole="">
-                        <Machine Id="14" Name="Comment"/>
-                        <Contour>
-                            <Text Position="171.8820384039271,-67.94053963742167" Height="2" FontName="" HFlip="0" VFlip="0" Angle="0">click the text "A" button; click in the workspace; </Text>
-                        </Contour>
-                    </Region>
-					<Region BaseHeight="0" Z="1" ThroughHole="">
-                        <Machine Id="14" Name="Comment"/>
-                        <Contour>
-                            <Text Position="171.8820384039271,-69.94053963742167" Height="2" FontName="" HFlip="0" VFlip="0" Angle="0">type the text; and select the comment type in the</Text>
-                        </Contour>
-                    </Region>
-					<Region BaseHeight="0" Z="1" ThroughHole="">
-                        <Machine Id="14" Name="Comment"/>
-                        <Contour>
-                            <Text Position="68.09972537727094,-68.59531813740466" Height="2" FontName="" HFlip="0" VFlip="0" Angle="0">Try rotating the rectangle by clicking it </Text>
-                        </Contour>
-                    </Region>
-					<Region BaseHeight="0" Z="1" ThroughHole="">
-                        <Machine Id="14" Name="Comment"/>
-                        <Contour>
-                            <Text Position="68.7251742256229,-70.59531813740466" Height="2" FontName="" HFlip="0" VFlip="0" Angle="0">twice and dragging a rotation handle.</Text>
-                        </Contour>
-                    </Region>
-					<Region BaseHeight="0" Z="1" ThroughHole="">
-                        <Machine Id="14" Name="Comment"/>
-                        <Contour>
-                            <Text Position="97.29252534087338,-84.86057706894908" Height="3" FontName="" HFlip="0" VFlip="0" Angle="0">Congratulations ... you are now ready to make your own custom parts!</Text>
-                        </Contour>
-                    </Region>
-					<Region BaseHeight="0" Z="1" ThroughHole="">
-                        <Machine Id="14" Name="Comment"/>
-                        <Contour>
-                            <Text Position="171.8820384039271,-44.94053963742167" Height="2" FontName="" HFlip="0" VFlip="0" Angle="0">an arrow button 3 times.</Text>
-                        </Contour>
-                    </Region>
-					<Region BaseHeight="0" Z="1" ThroughHole="">
-                        <Machine Id="14" Name="Comment"/>
-                        <Contour>
-                            <Text Position="171.8820384039271,-71.94053963742167" Height="2" FontName="" HFlip="0" VFlip="0" Angle="0">line type drop list.</Text>
-                        </Contour>
-                    </Region>
-					<Region BaseHeight="0" Z="1" ThroughHole="">
-                        <Machine Id="14" Name="Comment"/>
-                        <Contour>
-                            <Text Position="79.41205406934635,-55.62212711951941" Height="2" FontName="" HFlip="0" VFlip="0" Angle="0">You can change the nudge step on the numeric bar.</Text>
-                        </Contour>
-                    </Region>
-					<Region BaseHeight="0" Z="1" ThroughHole="">
-                        <Machine Id="14" Name="Comment"/>
-                        <Contour>
-                            <Text Position="132.33884939051404,-58.846831327135746" Height="2" FontName="" HFlip="0" VFlip="0" Angle="0">Finish with the Eraser tool.</Text>
-                        </Contour>
-                    </Region>
-					<Region BaseHeight="0" Z="1" ThroughHole="">
-                        <Machine Id="14" Name="Comment"/>
-                        <Contour>
-                            <Text Position="130.08658214619737,-47.13557834689067" Height="2" FontName="" HFlip="0" VFlip="0" Angle="0">creates a hole or cutout.</Text>
-                        </Contour>
-                    </Region>
-					<Region BaseHeight="0" Z="1" ThroughHole="">
-                        <Machine Id="14" Name="Comment"/>
-                        <Contour>
-                            <Text Position="116.01979586651399,-69.0079371859408" Height="2" FontName="" HFlip="0" VFlip="0" Angle="0">Try selecting a material for your part via the toolbar.</Text>
-                        </Contour>
-                    </Region>
-
-                </View>
-                <QuantityOfParts Value="10"/>
-            </eMachineShop3DObjects>
+<eMachineShop3DObjects VersionId="1.1">
+    <View Type="Top">
+        <Region BaseHeight="0" Z="AirInside" ThroughHole="">
+            <Machine Id="41" Name="Auto"/>
+            <Contour>
+                <Circle Center="57.39639300000003,-35.245492" Radius="3.175"/>
+			</Contour>
+		</Region>
+		<Region BaseHeight="0" Z="AirInside" ThroughHole="">
+		    <Machine Id="41" Name="Auto"/>
+			<Contour>
+			    <Circle Center="216.896393,-35.245492" Radius="3.175"/>
+			</Contour>
+		</Region>
+		<Region BaseHeight="0" Z="AirInside" ThroughHole="">
+		    <Machine Id="41" Name="Auto"/>
+			<Contour>
+			    <Straight P1="144.20011295946426,-60.271733830600795" P2="130.99955016716143,-60.27173383060074"/>
+			    <Arc Center="151.04986379450847,-55.839968060828426" Radius="8.15840881179135" StartAngle="212.90273144285499" IncAngle="294.1945371142903"/>
+			    <Straight P1="130.99955016716146,-51.408202291056114" P2="144.20011295946424,-51.408202291056085"/>
+			    <Straight P1="130.99955016716146,-60.27173383060068" P2="130.99955016716146,-51.408202291056114"/>
+			</Contour>
+		</Region>
+		<Region BaseHeight="0" Z="AirInside" ThroughHole="">
+		    <Machine Id="41" Name="Auto"/>
+			<Contour>
+				<Circle Center="174.89639300000002,-35.245492" Radius="3.175"/>
+			</Contour>
+		</Region>
+		<Region BaseHeight="0" Z="AirInside" ThroughHole="">
+		    <Machine Id="41" Name="Auto"/>
+			<Contour>
+				<Straight P1="77.38238162727095,-47.504869588592" P2="77.38238162727095,-55.47061043621734"/>
+				<Straight P1="68.09972537727094,-47.504869588592" P2="77.38238162727095,-47.504869588592"/>
+				<Straight P1="68.09972537727094,-55.47061043621734" P2="68.09972537727094,-47.504869588592"/>
+				<Straight P1="77.38238162727095,-55.47061043621734" P2="68.09972537727094,-55.47061043621734"/>
+			</Contour>
+		</Region>
+		<Region BaseHeight="0" Z="3.17" ThroughHole="">
+		    <Machine Id="41" Name="Auto"/>
+		    <Processing>
+		        <Bend P1="64.51676256667032,-79.27140134582096" P2="64.51676256667027,-29.27588881204288" Angle="90" Radius="0.1"/>
+		    </Processing>
+			<Contour>
+				<Straight P1="113.23728225081965,-28.889222745281554" P2="80.06470109523413,-28.88048764631058"/>
+				<Arc Center="137.18503154772094,-5.8955279377391605" Radius="33.199468328418156" StartAngle="223.83566064457085" IncAngle="92.29850413440613"/>
+				<Straight P1="208.40819790761225,-28.91428342306001" P2="161.12066799344407,-28.901831535401477"/>
+				<Straight P1="216.84758375518263,-28.916505706285033" P2="208.40819790761225,-28.91428342306001"/>
+				<Arc Center="216.84591165507433,-35.26650548613395" Radius="6.35" StartAngle="359.9849127117739" IncAngle="89.99999999999999"/>
+				<Straight P1="223.19108050000003,-73.345492" P2="223.19583300767366,-35.268235586156976"/>
+				<Arc Center="216.8410805,-73.345492" Radius="6.35" StartAngle="270" IncAngle="90"/>
+				<Straight P1="57.34108050000002,-79.69549199999999" P2="216.8410805,-79.69549199999999"/>
+				<Arc Center="57.34108050000002,-73.345492" Radius="6.35" StartAngle="180" IncAngle="90"/>
+				<Straight P1="50.99591740500473,-35.22283339117955" P2="50.99108050000002,-73.345492"/>
+				<Arc Center="57.34591718485365,-35.22450549128784" Radius="6.35" StartAngle="89.9849127117739" IncAngle="90.00000000000001"/>
+				<Straight P1="80.06470109523413,-28.88048764631058" P2="57.34758928496194,-28.87450571143893"/>
+			</Contour>
+		</Region>
+		<Region BaseHeight="0" Z="1.59" ThroughHole="">
+            <Machine Id="53" Name="Bend"/>
+            <Contour>
+                <Bend P1="208.45700685984062,-28.809779252658497" P2="208.45700685984065,-79.88154178643654" Angle="90" Radius="0.1"/>
+            </Contour>
+        </Region>
+		<Region BaseHeight="0" Z="0" ThroughHole="">
+            <Machine Id="14" Name="Comment"/>
+            <Contour>
+                <Straight P1="80.11350559786229,-28.870075965543904" P2="80.11350559786229,-31.588703023592544"/>
+            </Contour>
+        </Region>
+		<Region BaseHeight="0" Z="1" ThroughHole="">
+            <Machine Id="14" Name="Comment"/>
+            <Contour>
+                <Text Position="68.09972537727094,-34.59531813740466" Height="2" FontName="" HFlip="0" VFlip="0" Angle="0">Try clicking this line. Notice that the Z value on the</Text>
+            </Contour>
+        </Region>
+		<Region BaseHeight="0" Z="1" ThroughHole="">
+            <Machine Id="14" Name="Comment"/>
+            <Contour>
+                <Text Position="130.08658214619737,-43.13557834689067" Height="2" FontName="" HFlip="0" VFlip="0" Angle="0">Click the shape below and notice</Text>
+            </Contour>
+        </Region>
+		<Region BaseHeight="0" Z="1" ThroughHole="">
+            <Machine Id="14" Name="Comment"/>
+            <Contour>
+                <Text Position="68.09972537727094,-41.59531813740466" Height="2" FontName="" HFlip="0" VFlip="0" Angle="0">Try clicking the pyramid button to see a 3D view.</Text>
+            </Contour>
+        </Region>
+		<Region BaseHeight="0" Z="0" ThroughHole="">
+            <Machine Id="14" Name="Comment"/>
+            <Contour>
+                <Straight P1="64.4065368480496,-74.46100043803294" P2="67.29789218002156,-74.46100043803294"/>
+            </Contour>
+        </Region>
+		<Region BaseHeight="0" Z="1" ThroughHole="">
+            <Machine Id="14" Name="Comment"/>
+            <Contour>
+                <Text Position="68.09972537727094,-75.59531813740466" Height="2" FontName="" HFlip="0" VFlip="0" Angle="0">Try creating a bend line: draw a straight line and select Bend on the numeric bar.</Text>
+            </Contour>
+        </Region>
+		<Region BaseHeight="0" Z="1" ThroughHole="">
+            <Machine Id="14" Name="Comment"/>
+            <Contour>
+                <Text Position="123.87814986599486,-22.457058445455676" Height="3" FontName="" HFlip="0" VFlip="0" Angle="0">Quick Start Tutorial</Text>
+            </Contour>
+        </Region>
+		<Region BaseHeight="0" Z="1" ThroughHole="">
+            <Machine Id="14" Name="Comment"/>
+            <Contour>
+                <Text Position="87.54851020692857,-26.457058445455676" Height="3" FontName="" HFlip="0" VFlip="0" Angle="0">The online version of eMachineShop CAD supports 2D shapes and bends</Text>
+            </Contour>
+        </Region>
+		<Region BaseHeight="0" Z="1" ThroughHole="">
+            <Machine Id="14" Name="Comment"/>
+            <Contour>
+                <Text Position="122.00881646931637,-32.544974012737995" Height="2" FontName="" HFlip="0" VFlip="0" Angle="0">Also see our 3D CAD for Windows</Text>
+            </Contour>
+        </Region>
+		<Region BaseHeight="0" Z="1" ThroughHole="">
+            <Machine Id="14" Name="Comment"/>
+            <Contour>
+                <Text Position="130.08658214619737,-45.13557834689067" Height="2" FontName="" HFlip="0" VFlip="0" Angle="0">that the Z value is Air Inside which </Text>
+            </Contour>
+        </Region>
+		<Region BaseHeight="0" Z="1" ThroughHole="">
+            <Machine Id="14" Name="Comment"/>
+            <Contour>
+                <Text Position="132.33884939051404,-54.846831327135746" Height="2" FontName="" HFlip="0" VFlip="0" Angle="0">Try drawing this shape.</Text>
+            </Contour>
+        </Region>
+		<Region BaseHeight="0" Z="1" ThroughHole="">
+            <Machine Id="14" Name="Comment"/>
+            <Contour>
+                <Text Position="132.33884939051404,-56.846831327135746" Height="2" FontName="" HFlip="0" VFlip="0" Angle="0">Draw a circle and rectangle.</Text>
+            </Contour>
+        </Region>
+		<Region BaseHeight="0" Z="1" ThroughHole="">
+            <Machine Id="14" Name="Comment"/>
+            <Contour>
+                <Text Position="68.09972537727094,-36.59531813740466" Height="2" FontName="" HFlip="0" VFlip="0" Angle="0">numeric bar is set to .125 for 1/8" sheet thickness.</Text>
+            </Contour>
+        </Region>
+		<Region BaseHeight="0" Z="1" ThroughHole="">
+            <Machine Id="14" Name="Comment"/>
+            <Contour>
+                <Text Position="79.24563047639728,-49.31900842604634" Height="2" FontName="" HFlip="0" VFlip="0" Angle="0">To position lines accurately, drag to a snap</Text>
+            </Contour>
+        </Region>
+		<Region BaseHeight="0" Z="1" ThroughHole="">
+            <Machine Id="14" Name="Comment"/>
+            <Contour>
+                <Text Position="79.24563047639728,-51.31900842604634" Height="2" FontName="" HFlip="0" VFlip="0" Angle="0">point and then use the arrow buttons to nudge </Text>
+            </Contour>
+        </Region>
+		<Region BaseHeight="0" Z="1" ThroughHole="">
+            <Machine Id="14" Name="Comment"/>
+            <Contour>
+                <Text Position="79.41205406934635,-53.62212711951941" Height="2" FontName="" HFlip="0" VFlip="0" Angle="0">to another position. Try with this small rectangle.</Text>
+            </Contour>
+        </Region>
+		<Region BaseHeight="0" Z="1" ThroughHole="">
+            <Machine Id="14" Name="Comment"/>
+            <Contour>
+                <Text Position="68.09972537727094,-61.59531813740466" Height="2" FontName="" HFlip="0" VFlip="0" Angle="0">Try drawing a rectangle and </Text>
+            </Contour>
+        </Region>
+		<Region BaseHeight="0" Z="1" ThroughHole="">
+            <Machine Id="14" Name="Comment"/>
+            <Contour>
+                <Text Position="68.09972537727094,-63.59531813740466" Height="2" FontName="" HFlip="0" VFlip="0" Angle="0">using the round corner button.</Text>
+            </Contour>
+        </Region>
+		<Region BaseHeight="0" Z="1" ThroughHole="">
+            <Machine Id="14" Name="Comment"/>
+            <Contour>
+                <Text Position="171.8820384039271,-40.94053963742167" Height="2" FontName="" HFlip="0" VFlip="0" Angle="0">Try making 3 copies of this hole. Select it </Text>
+            </Contour>
+        </Region>
+		<Region BaseHeight="0" Z="1" ThroughHole="">
+            <Machine Id="14" Name="Comment"/>
+            <Contour>
+                <Text Position="171.8820384039271,-42.94053963742167" Height="2" FontName="" HFlip="0" VFlip="0" Angle="0">and click the Repeat (OO) button. Then</Text>
+            </Contour>
+        </Region>
+		<Region BaseHeight="0" Z="1" ThroughHole="">
+            <Machine Id="14" Name="Comment"/>
+            <Contour>
+                <Text Position="171.8820384039271,-49.94053963742167" Height="2" FontName="" HFlip="0" VFlip="0" Angle="0">Try changing the diameter of a circle by selecting it</Text>
+            </Contour>
+        </Region>
+		<Region BaseHeight="0" Z="1" ThroughHole="">
+            <Machine Id="14" Name="Comment"/>
+            <Contour>
+                <Text Position="171.8820384039271,-51.94053963742167" Height="2" FontName="" HFlip="0" VFlip="0" Angle="0">and setting the new value on the numeric bar.</Text>
+            </Contour>
+        </Region>
+		<Region BaseHeight="0" Z="1" ThroughHole="">
+            <Machine Id="14" Name="Comment"/>
+            <Contour>
+                <Text Position="171.8820384039271,-57.94053963742167" Height="2" FontName="" HFlip="0" VFlip="0" Angle="0">Try tapping (threading) a hole by selecting it and </Text>
+            </Contour>
+        </Region>
+		<Region BaseHeight="0" Z="1" ThroughHole="">
+            <Machine Id="14" Name="Comment"/>
+            <Contour>
+                <Text Position="171.8820384039271,-59.94053963742167" Height="2" FontName="" HFlip="0" VFlip="0" Angle="0">selecting Tap in the line type droplist.</Text>
+            </Contour>
+        </Region>
+		<Region BaseHeight="0" Z="1" ThroughHole="">
+            <Machine Id="14" Name="Comment"/>
+            <Contour>
+                <Text Position="171.8820384039271,-65.94053963742167" Height="2" FontName="" HFlip="0" VFlip="0" Angle="0">Try creating a comment to yourself or to the machinist: </Text>
+            </Contour>
+        </Region>
+		<Region BaseHeight="0" Z="1" ThroughHole="">
+            <Machine Id="14" Name="Comment"/>
+            <Contour>
+                <Text Position="171.8820384039271,-67.94053963742167" Height="2" FontName="" HFlip="0" VFlip="0" Angle="0">click the text "A" button; click in the workspace; </Text>
+            </Contour>
+        </Region>
+		<Region BaseHeight="0" Z="1" ThroughHole="">
+            <Machine Id="14" Name="Comment"/>
+            <Contour>
+                <Text Position="171.8820384039271,-69.94053963742167" Height="2" FontName="" HFlip="0" VFlip="0" Angle="0">type the text; and select the comment type in the</Text>
+            </Contour>
+        </Region>
+		<Region BaseHeight="0" Z="1" ThroughHole="">
+            <Machine Id="14" Name="Comment"/>
+            <Contour>
+                <Text Position="68.09972537727094,-68.59531813740466" Height="2" FontName="" HFlip="0" VFlip="0" Angle="0">Try rotating the rectangle by clicking it </Text>
+            </Contour>
+        </Region>
+		<Region BaseHeight="0" Z="1" ThroughHole="">
+            <Machine Id="14" Name="Comment"/>
+            <Contour>
+                <Text Position="68.7251742256229,-70.59531813740466" Height="2" FontName="" HFlip="0" VFlip="0" Angle="0">twice and dragging a rotation handle.</Text>
+            </Contour>
+        </Region>
+		<Region BaseHeight="0" Z="1" ThroughHole="">
+            <Machine Id="14" Name="Comment"/>
+            <Contour>
+                <Text Position="97.29252534087338,-84.86057706894908" Height="3" FontName="" HFlip="0" VFlip="0" Angle="0">Congratulations ... you are now ready to make your own custom parts!</Text>
+            </Contour>
+        </Region>
+		<Region BaseHeight="0" Z="1" ThroughHole="">
+            <Machine Id="14" Name="Comment"/>
+            <Contour>
+                <Text Position="171.8820384039271,-44.94053963742167" Height="2" FontName="" HFlip="0" VFlip="0" Angle="0">an arrow button 3 times.</Text>
+            </Contour>
+        </Region>
+		<Region BaseHeight="0" Z="1" ThroughHole="">
+            <Machine Id="14" Name="Comment"/>
+            <Contour>
+                <Text Position="171.8820384039271,-71.94053963742167" Height="2" FontName="" HFlip="0" VFlip="0" Angle="0">line type drop list.</Text>
+            </Contour>
+        </Region>
+		<Region BaseHeight="0" Z="1" ThroughHole="">
+            <Machine Id="14" Name="Comment"/>
+            <Contour>
+                <Text Position="79.41205406934635,-55.62212711951941" Height="2" FontName="" HFlip="0" VFlip="0" Angle="0">You can change the nudge step on the numeric bar.</Text>
+            </Contour>
+        </Region>
+		<Region BaseHeight="0" Z="1" ThroughHole="">
+            <Machine Id="14" Name="Comment"/>
+            <Contour>
+                <Text Position="132.33884939051404,-58.846831327135746" Height="2" FontName="" HFlip="0" VFlip="0" Angle="0">Finish with the Eraser tool.</Text>
+            </Contour>
+        </Region>
+		<Region BaseHeight="0" Z="1" ThroughHole="">
+            <Machine Id="14" Name="Comment"/>
+            <Contour>
+                <Text Position="130.08658214619737,-47.13557834689067" Height="2" FontName="" HFlip="0" VFlip="0" Angle="0">creates a hole or cutout.</Text>
+            </Contour>
+        </Region>
+		<Region BaseHeight="0" Z="1" ThroughHole="">
+            <Machine Id="14" Name="Comment"/>
+            <Contour>
+                <Text Position="116.01979586651399,-69.0079371859408" Height="2" FontName="" HFlip="0" VFlip="0" Angle="0">Try selecting a material for your part via the toolbar.</Text>
+            </Contour>
+        </Region>
+    </View>
+    <QuantityOfParts Value="10"/>
+</eMachineShop3DObjects>
