@@ -314,7 +314,11 @@ class InteractiveBoard extends Board{
 
         /** @type {Array.<BoardExtension>} */
         this.boardExtensions = [new RulerBoardExtension(this), new MousePointerBoardExtension(this)];
-        
+        if(ENV =='dev'){
+            this.boardExtensions.push(new RealMousePosition(this))
+        }
+
+
         setTimeout(()=>{
             try{
                 this.renderDocument()

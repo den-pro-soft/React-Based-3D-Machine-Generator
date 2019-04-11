@@ -1,5 +1,21 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const dotenv = require('dotenv').config({path: __dirname + '/.env'});
+const webpack  = require('webpack');
+
+let getProps = function(name){
+    if(dotenv.parsed && dotenv.parsed[name]!=undefined){
+        return dotenv.parsed[name];
+    }else {
+        switch (name) {
+            case "ENV":
+                return "prod"; // prod|dev
+            default:
+                return "";
+        }
+    }
+};
+
 
 module.exports = {
   mode: "development", // "production" | "development" | "none"  // Chosen mode tells webpack to use its built-in optimizations accordingly.
@@ -63,6 +79,9 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       template: "./index.html"
-    })
+    }),
+      new webpack.DefinePlugin({
+          ENV:JSON.stringify(getProps('ENV')),
+      })
   ]
 };

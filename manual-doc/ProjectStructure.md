@@ -9,6 +9,12 @@
 ---
 board.js, popup.js and function.1.0.js - most be removed
 
+---
+The project has environment variables. The default values define in the webpack.config.json file.  
+You can override the variables in the ./.env file. 
+
+All the environment variables are global.
+
 
 
 
