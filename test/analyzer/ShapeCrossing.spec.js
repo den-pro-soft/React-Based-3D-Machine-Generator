@@ -10,6 +10,7 @@ import LineElement from "../../src/model/elements/LineElement";
 import Group from "../../src/model/elements/Group";
 import Point from "../../src/model/Point";
 import ShapeCrossing from "../../src/analyzer/rules/ShapeCrossing";
+import Arc from "../../src/model/elements/Arc";
 
 
 describe("ShapeCrossing", function(){
@@ -33,6 +34,32 @@ describe("ShapeCrossing", function(){
         let res = rule.check();
 
         return expect(res).to.be.true;
+    });
+
+    it('circle inside shape', function(){
+        let doc = new Document();
+
+        doc.addElement(new LineElement(new Point(0,-5), new Point(12,-5)));
+        doc.addElement(new LineElement(new Point(0,5), new Point(12,5)));
+        let arc= new Arc(new Point(), 5);
+        arc.startAngle=90;
+        arc.incrementAngle=180;
+        doc.addElement(arc);
+
+
+        arc= new Arc(new Point(12), 5);
+        arc.startAngle=270;
+        arc.incrementAngle=180;
+        doc.addElement(arc);
+
+        arc= new Arc(new Point(), 4);
+        doc.addElement(arc);
+
+        let rule = new ShapeCrossing(doc);
+
+        let res = rule.check();
+
+        return expect(res).to.be.false;
     });
 
 });

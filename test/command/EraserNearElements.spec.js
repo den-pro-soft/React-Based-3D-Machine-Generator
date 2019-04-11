@@ -85,7 +85,6 @@ describe('EraserNearElements', function(){
 
             expect(doc._elements[1].startAngle, "start angle must be 90").to.equal(90);
 
-            console.log(doc._elements);
             return expect(doc._elements[1].incrementAngle, "increment angle must be 180").to.equal(180);
         });
 
@@ -100,9 +99,6 @@ describe('EraserNearElements', function(){
             let command = new EraserNearElementsCommand(doc, point, eps);
             command.executeCommand();
 
-            for(let el of doc._elements){
-                console.log(el ,el._points);
-            }
             return expect(doc._elements).to.have.lengthOf(5)
         })
     });

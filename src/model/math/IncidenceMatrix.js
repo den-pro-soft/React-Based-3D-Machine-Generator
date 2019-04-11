@@ -61,4 +61,15 @@ export default class IncidenceMatrix extends Matrix{
 
     }
 
+
+    toString(){
+        let temp = "";
+        for(let i=0; i<this.array.length; i++){
+            for(let j=0; j<this.array[i].length; j++){
+                temp +=this.array[i][j]?"1  ":"0  ";
+            }
+            temp+='\n';
+        }
+        return temp;
+    }
 }

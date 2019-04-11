@@ -123,7 +123,7 @@ export default class Shape{
      */
     getConsistentlyPoints(){
         if(this.elements.length==1){
-            if(this.elements[0].typeName == 'Arc' && this.elements[0].incrementAngle==360){
+            if(this.elements[0].typeName == 'Arc'){
                 return this.elements[0].toPolyLines()[0].points;
             }
         }

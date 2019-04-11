@@ -142,7 +142,7 @@ export default class Group extends GraphicElement{
     }
 
     /**
-     * @param {Element} element
+     * @param {GraphicElement} element
      */
     addElement(element){
         this.elements.push(element);

@@ -58,11 +58,7 @@ export default class ShapeBuilder{
         if(elements.length==0){
             return [];
         }
-        try {
-            return this.buildShapesByElements(elements);
-        }catch (e) {
-            console.error(elements);
-        }
+        return this.buildShapesByElements(elements);
     }
 
     /**
@@ -140,8 +136,14 @@ export default class ShapeBuilder{
             shapePoints=temp;
         }
 
+        for(let p of shapePoints){
+            console.log(p.point);
+        }
         /** @type {IncidenceMatrix} */
         let incidenceMatrix = this.createIncidenceMatrix(shapePoints);
+
+
+        console.log(incidenceMatrix.toString());
 
         /** @type {Array.<Array.<number>>} */
         let connectedComponents = incidenceMatrix.getConnectedComponents();
@@ -222,6 +224,7 @@ export default class ShapeBuilder{
      */
     fillShapePoints(simpleElements){
         let shapePoints = [];
+        console.log(simpleElements.length, "LIMPLE ELEMENTS ======================");
         for(let element of simpleElements){
             if(element.lineType.name != "Auto"){
                 continue;
@@ -229,7 +232,9 @@ export default class ShapeBuilder{
             let points = element.extremePoints;
             if(points){
                 for(let p of points){
-                    shapePoints.push(new ShapePoint(p,element));
+                    let shapePoint = new ShapePoint(p,element);
+                    shapePoints.push(shapePoint);
+                    console.log(p, "POINT");
                 }
             }else {
                 //todo: check type of element

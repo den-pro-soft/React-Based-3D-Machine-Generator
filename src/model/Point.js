@@ -79,7 +79,7 @@ export default class Point extends Cloneable{
      * @return {number}
      */
     distanceTo(point){
-        return Math.sqrt(Math.pow(point.x - this.x,2) + Math.pow(point.y - this.y,2)+ Math.pow(point.z - this.z,2));
+        return parseFloat(Math.sqrt(Math.pow(point.x - this.x,2) + Math.pow(point.y - this.y,2)+ Math.pow(point.z - this.z,2)).toFixed(7));
     }
 
     /**

@@ -339,13 +339,13 @@ export default class Arc extends GraphicElement{
         }
         var a = start;
         if(this.startAngle>this.endAngle){
-            for (; a<=(2*Math.PI); a += Math.PI / 100) {
+            for (; a<=(2*Math.PI); a += Math.PI / 10) {
                 let p = new Point(this._center.x + this.radius * Math.cos(a), this._center.y + this.radius * Math.sin(a));
                 res.addPoint(p);
             }
             a=0;
         }
-        for (; a <= end; a += Math.PI / 100) {
+        for (; a <= end; a += Math.PI / 10) {
             let p = new Point(this._center.x + this.radius * Math.cos(a), this._center.y + this.radius * Math.sin(a));
             res.addPoint(p);
         }
