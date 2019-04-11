@@ -203,7 +203,7 @@ class MoveButtons extends React.Component {
             <img
               width="18px"
               src="resources/images/Right.png"
-              data-place="bottom"
+              data-place="left"
               data-tip={container.resolve("tips").getTip('numeric-nudge')} data-html={true}
             />
           </a>
@@ -216,7 +216,7 @@ class MoveButtons extends React.Component {
           value={this.state.moveStep}
           onChange={this.handlyChangeInputMove}
           onKeyPress={this.handlyChangeInputMove}
-          data-place="bottom"
+          data-place="left"
           data-tip={container.resolve("tips").getTip('numeric-nudge-step')} data-html={true}
         />
             <button className="btn-LeftRotate" onClick={this.rotateLeft}>
@@ -224,7 +224,7 @@ class MoveButtons extends React.Component {
             <img
               width="18px"
               src="resources/images/Unclock.png"
-              data-place="bottom"
+              data-place="left"
               data-tip={container.resolve("tips").getTip('numeric-rotate-counterclockwise')} data-html={true}
             />
           </a>
@@ -234,7 +234,7 @@ class MoveButtons extends React.Component {
             <img
               width="18px"
               src="resources/images/Clock.png"
-              data-place="bottom"
+              data-place="left"
               data-tip={container.resolve("tips").getTip('numeric-rotate-clockwise')} data-html={true}
             />
           </a>
@@ -248,7 +248,7 @@ class MoveButtons extends React.Component {
           value={this.state.rotateStep}
           onChange={this.handlyChangeInputRotate}
           onKeyPress={this.handlyChangeInputRotate}
-
+          data-place="left"
           data-tip={container.resolve("tips").getTip('numeric-rotate-step')} data-html={true}
         />
       
