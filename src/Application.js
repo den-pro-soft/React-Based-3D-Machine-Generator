@@ -397,8 +397,8 @@ export default class Application extends Observable{
     appZoomToActualSize(){
         let ppi = localStorage.getItem('PPI');
         if(!ppi){
-            container.resolve('confirmChangeArcToSplinesDialog').modalNonWorkFeature("Please calibrate your screen." +
-                " Draw a five-inch line with  a real ruler. Select the line. Choose Edit | Preferences | Calibrate.");
+            container.resolve('confirmChangeArcToSplinesDialog').modalNonWorkFeature("Please calibrate your screen. " +
+                "Draw a five-inch line and zoom so it measures the same with a ruler. Select the line. Choose Edit | Preferences | Calibrate.");
         }else{
             this.board.zoomToActualSize(ppi);
         }

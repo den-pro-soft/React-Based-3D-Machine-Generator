@@ -12,6 +12,7 @@ import Tool from './tool/Tool';
 import RulerBoardExtension from './board-extensions/RulerBoardExtension'
 import MousePointerBoardExtension from './board-extensions/MousePointerBoardExtension'
 import InteractiveBoardExtension from './board-extensions/InteractiveBoardExtension'
+import RealMousePosition from "./board-extensions/RealMousePosition";
 
 /**
  * The class need for drawing simple graphic elements with using abstract coordinate system (not in pixel).
@@ -177,7 +178,7 @@ class Board extends Observable{
      * @param {number} angle - in degrees.
      * @param {boolean} fill
      */
-    _drawText(position,text, angle, fill){
+    _drawText(position,text, angle=0, fill){
         let radianAngle = Trigonometric.gradToRad(angle);
 
         this._context.save();
@@ -325,16 +326,35 @@ class InteractiveBoard extends Board{
         this._canvas.addEventListener('mousemove', e=>this.mouseMove(e));
         this._canvas.addEventListener('mousedown', e=>this.mouseDown(e));
         this._canvas.addEventListener('mouseup', e=>this.mouseUp(e));
+
+        let lastWheel=0;
         if (this._canvas.addEventListener) {
             if ('onwheel' in document) {
-                this._canvas.addEventListener("wheel", e=>this.mouseWheel(e));
+                this._canvas.addEventListener("wheel", e=>{
+                    let delay = new Date().getTime()-lastWheel;
+                    this.mouseWheel(e, delay);
+                    lastWheel=new Date().getTime();
+                });
             } else if ('onmousewheel' in document) {
-                this._canvas.addEventListener("mousewheel", e=>this.mouseWheel(e));
+                this._canvas.addEventListener("mousewheel", e=>{
+                    let delay = new Date().getTime()-lastWheel;
+                    this.mouseWheel(e, delay);
+                    lastWheel=new Date().getTime();
+                });
             } else {
-                this._canvas.addEventListener("MozMousePixelScroll", e=>this.mouseWheel(e));
+                this._canvas.addEventListener("MozMousePixelScroll", e=>{
+                    let delay = new Date().getTime()-lastWheel;
+                    this.mouseWheel(e, delay);
+                    lastWheel=new Date().getTime();
+                });
             }
         } else {
-            this._canvas.attachEvent("onmousewheel", e=>this.mouseWheel(e));
+
+            this._canvas.attachEvent("onmousewheel", e=>{
+                let delay = new Date().getTime()-lastWheel;
+                this.mouseWheel(e, delay);
+                lastWheel=new Date().getTime();
+            });
         }
         this._canvas.addEventListener('click',  e=>this.mouseClick(e));
         this._canvas.addEventListener('dblclick',  e=>this.mouseDbClick(e));
@@ -386,9 +406,18 @@ class InteractiveBoard extends Board{
         this.tool.mouseClick(this._convertToGlobalCoordinateSystem({x:e.offsetX, y:e.offsetY}), e);
     }
 
-    mouseWheel(e) {
+    mouseWheel(e, delay) {
         this._document.resetRendererConfig();
-        let dScale = e.deltaY / 500;
+
+        let k = 0;
+        if(delay>500){
+            k=1000;
+        }else if(delay>50){
+            k=500;
+        }else{
+            k=200;
+        }
+        let dScale = e.deltaY / k;
         this._zoomAroundPoint(1+dScale,{x:e.offsetX, y:e.offsetY});
     }
 
@@ -438,10 +467,17 @@ class InteractiveBoard extends Board{
         let zoom = ppm/this._pixelPerOne;
         this._setScale(zoom);
 
-        let leftUpPoint = this._convertToLocalCoordinateSystem(new Point(ext.min.x, ext.max.y));
-        let rightDownPoint = this._convertToLocalCoordinateSystem(new Point(ext.max.x, ext.min.y));
-        this._bias.x-=leftUpPoint.x-this._width/2+(rightDownPoint.x-leftUpPoint.x)/2+10;
-        this._bias.y-=leftUpPoint.y-this._height/2+(rightDownPoint.y-leftUpPoint.y)/2+50;
+
+        if(this.document._elements.length==0){
+            return;
+        }
+        let ext = this._document.getExtrenum();
+        let centerDoc  = this._convertToLocalCoordinateSystem(new Point(ext.min.x+(ext.max.x-ext.min.x)/2, ext.min.y+(ext.max.y-ext.min.y)/2));
+        let realCenter = this.getCenter();
+
+        this._bias.x+=(realCenter.x-centerDoc.x);
+        this._bias.y+=(realCenter.y-centerDoc.y);
+
 
         this.renderDocument();
     }
