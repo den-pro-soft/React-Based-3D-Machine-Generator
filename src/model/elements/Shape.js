@@ -22,6 +22,8 @@ export default class Shape{
 
         /** @type {Array.<LineElement>}> - elements with bend line type*/
         this.bends=[];
+
+        this.triangles = null; //performance hack
     }
 
 
@@ -45,6 +47,7 @@ export default class Shape{
             return;
         }
         this.elements.push(element);
+        this.triangles=null;
     }
 
     /**
@@ -255,18 +258,19 @@ export default class Shape{
 
         let pointsCurrentShape = this.getConsistentlyPoints();
         if(pointsCurrentShape.length>2) {
-            let triangles = triangulation.getTriangles(pointsCurrentShape).map(triangle => new Triangle(pointsCurrentShape[triangle[0]], pointsCurrentShape[triangle[1]], pointsCurrentShape[triangle[2]]));
-
+            if(!this.triangles) {
+                this.triangles = triangulation.getTriangles(pointsCurrentShape).map(triangle => new Triangle(pointsCurrentShape[triangle[0]], pointsCurrentShape[triangle[1]], pointsCurrentShape[triangle[2]]));
+            }
             if (element instanceof Shape) {
                 let points = element.getConsistentlyPoints();
                 for (let point of points) {
-                    if (!this.isContainPoint(point, triangles)) {
+                    if (!this.isContainPoint(point, this.triangles)) {
                         return false;
                     }
                 }
                 return true;
             } else {
-                return this.isContainPoint(element, triangles);
+                return this.isContainPoint(element, this.triangles);
             }
         }
         return false;

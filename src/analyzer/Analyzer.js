@@ -53,8 +53,12 @@ export default class Analyzer{
      */
     checkRule(index){
         return new Promise((resolve, reject)=>{
+            let t0 = performance.now();
             let hasError = this.rules[index].check();
+            var t1 = performance.now();
+            console.log("Call to doSomething took " + (t1 - t0) + " milliseconds.");
             console.log(this.rules[index].errorMessage, hasError, "Analyzer::checkRule");
+
             if(hasError){
                 let solutions = this.rules[index].createSolutions();
                 let board = container.resolve('mainBoard');
