@@ -5,6 +5,7 @@ import Spline from "../../../elements/Spline";
 import LineArcIntersector from "./LineArc";
 import ArcArcIntersector from "./ArcArc";
 import Auto from "../../../line_types/Auto";
+import Bend from "../../../line_types/Bend";
 
 
 let lineArcIntersector = new LineArcIntersector();
@@ -14,12 +15,13 @@ export default class Intersect{
 
     /**
      * @param {Document} document
+     * @param {boolean} [withBend=false]
      */
-    constructor(document){
+    constructor(document, withBend=false){
 
         this.document = document;
 
-        this.simpleElements = document.getListSimpleElements().filter(el=>el.lineType instanceof Auto);
+        this.simpleElements = document.getListSimpleElements().filter(el=>el.lineType instanceof Auto || (withBend && el.lineType instanceof Bend));
     }
 
 

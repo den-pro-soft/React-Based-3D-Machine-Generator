@@ -95,4 +95,11 @@ describe('Shape', function() {
 
     });
 
+    describe("IsClose", function(){
+        it('one Line', function(){
+            let shape = new Shape();
+            shape.addElement(new LineElement(new Point(), new Point(5,5)));
+            return expect(shape.isClose()).to.be.false;
+        })
+    })
 });

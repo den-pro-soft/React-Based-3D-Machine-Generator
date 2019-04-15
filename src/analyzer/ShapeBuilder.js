@@ -53,7 +53,7 @@ export default class ShapeBuilder{
      */
     buildShapes(){
         let elements = this.document.getListSimpleElements().filter(el=>{
-            return el.lineType.name=='Auto'
+            return el.lineType.name=='Auto' || el.lineType.name=='Bend'
         });
         if(elements.length==0){
             return [];
@@ -63,10 +63,11 @@ export default class ShapeBuilder{
 
     /**
      * @param {Shape} shape
+     * @param {boolean} [withBend=false]
      * @return {Array.<Shape>}
      */
-    separateShapesByIntersect(shape){
-        let intersect = new Intersect(this.document);
+    separateShapesByIntersect(shape, withBend=false){
+        let intersect = new Intersect(this.document, withBend);
 
         let intersection = intersect.intersectElements(shape.elements);
 
@@ -77,7 +78,6 @@ export default class ShapeBuilder{
 
 
         let points = this.getIntersectPoints(shape, intersect);
-
         let shapes = this.buildShapesByElements(elements, points);
 
         return shapes;
@@ -220,7 +220,7 @@ export default class ShapeBuilder{
     fillShapePoints(simpleElements){
         let shapePoints = [];
         for(let element of simpleElements){
-            if(element.lineType.name != "Auto"){
+            if(element.lineType.name != "Auto" && element.lineType.name != "Bend"){
                 continue;
             }
             let points = element.extremePoints;

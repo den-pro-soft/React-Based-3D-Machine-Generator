@@ -57,12 +57,12 @@ export default class EraserNearElements extends ElementModificationCommand{
      */
     executeCommand(){
         let builder = new ShapeBuilder(this.document);
-        let shapes = builder.buildShapes();
+        let shapes = builder.buildShapes(true);
         let removed = false;
 
         for(let shape of shapes){
             if(shape.isNear(this.point, this.eps)){
-                let intersectShapes = builder.separateShapesByIntersect(shape);
+                let intersectShapes = builder.separateShapesByIntersect(shape, true);
                 if(intersectShapes.length>1) {
                     for(let ishape of intersectShapes){
                         if(!ishape.isNear(this.point, this.eps)){
@@ -76,7 +76,20 @@ export default class EraserNearElements extends ElementModificationCommand{
                 removed=true;
             }
         }
-        // this.document.mergeLines();
+
+        let elements = this._document.getNearElements(this.point, this.eps);
+        m: for(let el of elements){
+            for(let shape of shapes){
+                for(let shapeEl of shape.elements){
+                    if(shapeEl.compare(el)){
+                        continue m;
+                    }
+                }
+            }
+            this.document.removeElement(el);
+            removed=true;
+        }
+
         return removed;
     }
 
