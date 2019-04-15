@@ -114,5 +114,6 @@ describe('Arc', function() {
             assert.equal(arc.startAngle,315);
             assert.equal(arc.incrementAngle,45);
         });
-    })
+    });
+
 });

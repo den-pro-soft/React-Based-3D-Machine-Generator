@@ -23,7 +23,7 @@ class PolygonGeometryBuilder{
 
         var extrudeSettings = {
             steps: 1,
-            amount: height,
+            depth: height,
             bevelEnabled: false
         };
 

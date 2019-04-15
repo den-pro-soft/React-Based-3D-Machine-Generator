@@ -123,7 +123,7 @@ export default class Shape{
      */
     getConsistentlyPoints(){
         if(this.elements.length==1){
-            if(this.elements[0].typeName == 'Arc' && this.elements[0].incrementAngle==360){
+            if(this.elements[0].typeName == 'Arc'){
                 return this.elements[0].toPolyLines()[0].points;
             }
         }
@@ -177,12 +177,17 @@ export default class Shape{
             }
             let points = currentElement.toPolyLines()[0].points;
             if(currentElement instanceof Arc || currentElement instanceof Spline){
-                let temp = [];
-                for(let i=1; i<points.length-1; i+=10){
+                let temp = [points[0]];
+                let i=0;
+                for(i=1; i<points.length-1; i+=10){
                     temp.push(points[i]);
+                }
+                if(i!=points.length-1) {
+                    temp.push(points[points.length - 1]);
                 }
                 points=temp;
             }
+
 
             if(points.length>2){
                 if(points[0].compare(currentPoint.point)) {
@@ -196,7 +201,6 @@ export default class Shape{
 
             nextPoint = findPointWithElement(currentElement, currentPoint);
         }while(nextPoint!=null && !nextPoint.point.compare(startPoint.point));
-
         return res;
     }
 

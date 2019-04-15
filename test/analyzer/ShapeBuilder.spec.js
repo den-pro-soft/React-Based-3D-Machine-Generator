@@ -13,6 +13,7 @@ import Point from './../../src/model/Point';
 import LineElement from './../../src/model/elements/LineElement';
 import Arc from './../../src/model/elements/Arc';
 import RectElement from './../../src/model/elements/RectElement';
+import ShapeCrossing from "../../src/analyzer/rules/ShapeCrossing";
 
 
 describe('ShapeBuilder', function(){
@@ -94,6 +95,31 @@ describe('ShapeBuilder', function(){
 
             let shapes = new ShapeBuilder(doc).buildShapes();
             return expect(shapes).to.have.lengthOf(3);
+        });
+
+        it('circle inside shape', function(){
+            let doc = new Document();
+
+            doc.addElement(new LineElement(new Point(0,-5), new Point(12,-5)));
+            doc.addElement(new LineElement(new Point(0,5), new Point(12,5)));
+            let arc= new Arc(new Point(), 5);
+            arc.startAngle=90;
+            arc.incrementAngle=180;
+            doc.addElement(arc);
+
+            arc= new Arc(new Point(12), 5);
+            arc.startAngle=270;
+            arc.incrementAngle=180;
+            doc.addElement(arc);
+
+            arc= new Arc(new Point(), 4);
+            doc.addElement(arc);
+
+            let builder = new ShapeBuilder(doc);
+
+            let shapes = builder.buildShapes();
+
+            return expect(shapes).to.have.lengthOf(2);
         });
     });
 
