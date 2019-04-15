@@ -240,10 +240,10 @@ export default class Arc extends GraphicElement{
     /**
      * @inheritDoc
      */
-    isBelongsToTheElement(point){
+    isBelongsToTheElement(point, Eps=1e-8){
         let l = Math.pow(point.x-this.center.x,2)+Math.pow(point.y-this.center.y,2);
         let r = Math.pow(this.radius, 2);
-        let inTheCircle = l-1e-8<r && l+1E-8>r;
+        let inTheCircle = l-Eps<r && l+Eps>r;
 
         let inTheArc = false;
         if(this.incrementAngle!=360) {
@@ -252,7 +252,7 @@ export default class Arc extends GraphicElement{
             if (this.endAngle > this.startAngle) {
                 inTheArc = angle >= this.startAngle && angle <= this.endAngle;
             } else {
-                if (angle > this.startAngle || angle < this.endAngle) {
+                if (angle+Eps > this.startAngle || angle-Eps < this.endAngle) {
                     inTheArc = true;
                 }
             }

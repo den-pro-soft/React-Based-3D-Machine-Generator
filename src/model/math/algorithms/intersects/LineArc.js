@@ -74,7 +74,7 @@ export default class LineArc extends IntersectCalculator{
             }
 
         }
-        return res.filter(point => line.isBelongsToTheElement(point) && arc.isBelongsToTheElement(point));
+        return res.filter(point => line.isBelongsToTheElement(point) && arc.isBelongsToTheElement(point, 0.1));
     }
     
 }
