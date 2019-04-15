@@ -135,15 +135,10 @@ export default class ShapeBuilder{
             }
             shapePoints=temp;
         }
-
-        for(let p of shapePoints){
-            console.log(p.point);
-        }
+        
         /** @type {IncidenceMatrix} */
         let incidenceMatrix = this.createIncidenceMatrix(shapePoints);
 
-
-        console.log(incidenceMatrix.toString());
 
         /** @type {Array.<Array.<number>>} */
         let connectedComponents = incidenceMatrix.getConnectedComponents();
@@ -224,7 +219,6 @@ export default class ShapeBuilder{
      */
     fillShapePoints(simpleElements){
         let shapePoints = [];
-        console.log(simpleElements.length, "LIMPLE ELEMENTS ======================");
         for(let element of simpleElements){
             if(element.lineType.name != "Auto"){
                 continue;
@@ -234,7 +228,6 @@ export default class ShapeBuilder{
                 for(let p of points){
                     let shapePoint = new ShapePoint(p,element);
                     shapePoints.push(shapePoint);
-                    console.log(p, "POINT");
                 }
             }else {
                 //todo: check type of element

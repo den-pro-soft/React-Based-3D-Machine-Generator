@@ -54,6 +54,7 @@ export default class Analyzer{
     checkRule(index){
         return new Promise((resolve, reject)=>{
             let hasError = this.rules[index].check();
+            console.log(this.rules[index].errorMessage, hasError, "Analyzer::checkRule");
             if(hasError){
                 let solutions = this.rules[index].createSolutions();
                 let board = container.resolve('mainBoard');

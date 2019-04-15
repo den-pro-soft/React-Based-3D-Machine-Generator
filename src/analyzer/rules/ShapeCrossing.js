@@ -19,6 +19,7 @@ export default class ShapeCrossing extends Rule{
      */
     check(){
         let shapes = this.getCrossingShapes(this.document);
+        console.log(shapes, shapes.length>0, "ShapeCrossing::check");
         return shapes.length>0;
     }
 
@@ -55,10 +56,6 @@ export default class ShapeCrossing extends Rule{
         console.log(shapes);
         /** @type {Array.<{shape:Shape, polyLine:PolyLine}>} */
         let polygones = shapes.map(shape=>{return {shape:shape, polyLine:shape.toPolyLine()}});
-
-        for(let i=0; i<shapes.length; i++) {
-            console.log(shapes[i].elements, "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-        }
 
         for(let i=0; i<polygones.length-1; i++){
             for(let j=i+1; j<polygones.length; j++){

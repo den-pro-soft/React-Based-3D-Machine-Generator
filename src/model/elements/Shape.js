@@ -176,13 +176,18 @@ export default class Shape{
                 currentElement=currentPoint.elements[0];
             }
             let points = currentElement.toPolyLines()[0].points;
-            if(currentElement instanceof Arc || currentElement instanceof Spline){
-                let temp = [];
-                for(let i=1; i<points.length-1; i+=10){
+            if(currentElement instanceof Spline){
+                let temp = [points[0]];
+                let i=0;
+                for(i=1; i<points.length-1; i+=10){
                     temp.push(points[i]);
+                }
+                if(i!=points.length-1) {
+                    temp.push(points[points.length - 1]);
                 }
                 points=temp;
             }
+
 
             if(points.length>2){
                 if(points[0].compare(currentPoint.point)) {
@@ -196,7 +201,6 @@ export default class Shape{
 
             nextPoint = findPointWithElement(currentElement, currentPoint);
         }while(nextPoint!=null && !nextPoint.point.compare(startPoint.point));
-
         return res;
     }
 
