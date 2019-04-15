@@ -8,6 +8,7 @@ import ShapeBuilder from './../ShapeBuilder';
 import Exception from "../../Exception";
 import LineElement from "../../model/elements/LineElement";
 import AddConnectLine from "../solutions/AddConnectLine";
+import Line from "../../model/math/Line";
 
 export default class NotClosedShape extends Rule{
 
@@ -90,19 +91,35 @@ export default class NotClosedShape extends Rule{
      */
     createAddElementSolution(){
         this.shapeBuilder = new ShapeBuilder(this.document);
-        let shapes = this.shapeBuilder.buildShapes();
+        let shapes = this.shapeBuilder.buildShapes().filter(shape=>!shape.isClose());
         if(shapes.length>0){
-            for(let shape of shapes){
-                if(!shape.isClose()){
-                    let points = shape.getExtremePoints();
-                    if(points.length==2){
-                        let element = new LineElement(points[0], points[1]);
-                        return new AddConnectLine(this.document, element);
-                    }else{
-                        throw new Exception("Shape can't has more then two extreme points!", shape);
+            if(shapes.length>1){
+                let points = [];
+                for(let shape of shapes) {
+                    points.push(...shape.getExtremePoints());
+                }
+                let minLength = new Line(points[0], points[1]).length();
+                let element = new LineElement(points[0], points[1]);
+                for(let i=0; i<points.length-1; i++){
+                    for(let j=i+1; j<points.length; j++){
+                        let tempLength = new Line(points[i], points[j]).length();
+                        if(minLength>tempLength){
+                            minLength=tempLength;
+                            element = new LineElement(points[i], points[j]);
+                        }
                     }
+                }
+                return new AddConnectLine(this.document, element);
+            }else{
+                let points = shapes[0].getExtremePoints();
+                if(points.length==2){
+                    let element = new LineElement(points[0], points[1]);
+                    return new AddConnectLine(this.document, element);
+                }else{
+                    throw new Exception("Shape can't has more then two extreme points!", shape);
                 }
             }
         }
+        throw new Exception("The document hasn't not closed shapes!", this.document);
     }
 }

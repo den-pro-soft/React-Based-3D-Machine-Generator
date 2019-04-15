@@ -39,6 +39,9 @@ export default class Vector{
                 return 180;
             }
         }
+        if(grad==0){
+            return 0;
+        }
         return 360 - grad;
     }
 
