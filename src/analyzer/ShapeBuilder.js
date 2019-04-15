@@ -49,16 +49,17 @@ export default class ShapeBuilder{
     }
 
     /**
+     * @param {boolean} [withBend = false]
      * @return {Array.<Shape>}
      */
-    buildShapes(){
+    buildShapes(withBend = false){
         let elements = this.document.getListSimpleElements().filter(el=>{
-            return el.lineType.name=='Auto' || el.lineType.name=='Bend'
+            return el.lineType.name=='Auto' || (withBend && el.lineType.name=='Bend')
         });
         if(elements.length==0){
             return [];
         }
-        return this.buildShapesByElements(elements);
+        return this.buildShapesByElements(elements, [], withBend);
     }
 
     /**
@@ -111,14 +112,15 @@ export default class ShapeBuilder{
      *
      * @param {Array.<GraphicElement>} elements
      * @param {Array.<Point>} [separatePoints=[]]
+     * @param {boolean} [withBend=false]
      * @return {Array.<Shape>}
      */
-    buildShapesByElements(elements, separatePoints=[]){
+    buildShapesByElements(elements, separatePoints=[], withBend=false){
         if(elements.length==0){
             return [];
         }
         let res = [];
-        let shapePoints=this.fillShapePoints(elements);
+        let shapePoints=this.fillShapePoints(elements, withBend);
 
         if(separatePoints.length>0){
             let temp = [];
@@ -214,13 +216,14 @@ export default class ShapeBuilder{
 
     /**
      * @param {Array.<GraphicElement>} simpleElements
+     * @param {boolean} [withBend=false]
      * @return {Array.<ShapePoint>}
      * @private
      */
-    fillShapePoints(simpleElements){
+    fillShapePoints(simpleElements, withBend=false){
         let shapePoints = [];
         for(let element of simpleElements){
-            if(element.lineType.name != "Auto" && element.lineType.name != "Bend"){
+            if(!(element.lineType.name == "Auto" || (withBend && element.lineType.name != "Bend"))){
                 continue;
             }
             let points = element.extremePoints;
