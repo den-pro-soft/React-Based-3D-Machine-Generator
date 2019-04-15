@@ -176,7 +176,7 @@ export default class Shape{
                 currentElement=currentPoint.elements[0];
             }
             let points = currentElement.toPolyLines()[0].points;
-            if(currentElement instanceof Spline){
+            if(currentElement instanceof Arc || currentElement instanceof Spline){
                 let temp = [points[0]];
                 let i=0;
                 for(i=1; i<points.length-1; i+=10){
