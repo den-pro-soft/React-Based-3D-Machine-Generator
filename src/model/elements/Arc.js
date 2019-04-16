@@ -360,6 +360,19 @@ export default class Arc extends GraphicElement{
      */
     intersectByPoints(points){
         if(this.incrementAngle!=360){
+
+            let temp1 = [];
+            let extremePoints = this.extremePoints;
+            nextPoint: for (let p of points) {
+                for (let extreme of extremePoints) {
+                    if (p.distanceTo(extreme) < 0.1) {
+                        continue nextPoint;
+                    }
+                }
+                temp1.push(p);
+            }
+            points = temp1;
+
             let baseVector = new Vector(Math.cos(Trigonometric.gradToRad(this.startAngle)), Math.sin(Trigonometric.gradToRad(this.startAngle)));
             points = points.sort((a, b)=>{
                 let angle1 = baseVector.getAngle(new Line(this.center,a).toVector());

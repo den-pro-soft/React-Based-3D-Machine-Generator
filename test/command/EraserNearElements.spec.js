@@ -68,6 +68,20 @@ describe('EraserNearElements', function(){
             return expect(doc._elements).to.have.lengthOf(2);
         });
 
+        it('delete line with arc shape', function(){
+            let doc = new Document();
+            doc.addElement(new LineElement(new Point(0, 5), new Point(10, 5)));
+            doc.addElement(new LineElement(new Point(10, 5), new Point(10, -5)));
+            doc.addElement(new LineElement(new Point(10, -5), new Point(0, -5)));
+            let arc = new Arc(new Point(), 5);
+            arc.startAngle=90;
+            arc.incrementAngle=180;
+            doc.addElement(arc);
+            let point = new Point(5, 5);
+            let command = new EraserNearElementsCommand(doc, point, eps);
+            command.executeCommand();
+            return expect(doc._elements).to.be.empty;
+        });
     });
 
     describe('remove with intersect', function(){
@@ -80,7 +94,7 @@ describe('EraserNearElements', function(){
             let eps = 0.0001;
             let command = new EraserNearElementsCommand(doc, point, eps);
             command.executeCommand();
-            expect(doc._elements).to.have.lengthOf(2)
+            expect(doc._elements).to.have.lengthOf(2);
 
 
             expect(doc._elements[1].startAngle, "start angle must be 90").to.equal(90);
@@ -99,7 +113,7 @@ describe('EraserNearElements', function(){
             let command = new EraserNearElementsCommand(doc, point, eps);
             command.executeCommand();
 
-            return expect(doc._elements).to.have.lengthOf(5)
+            return expect(doc._elements).to.have.lengthOf(5);
         })
     });
 

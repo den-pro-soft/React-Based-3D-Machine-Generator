@@ -28,9 +28,10 @@ export default class Intersect{
     /**
      *
      * @param {GraphicElement} element
+     * @param {number} Eps
      * @return {Array.<Point>}
      */
-    getIntersectPoints(element){
+    getIntersectPoints(element, Eps=0.0001){
         let points = [];
         if(element instanceof LineElement) {
             for(let el of this.simpleElements){
@@ -96,6 +97,8 @@ export default class Intersect{
             let newElements = this.intersectElement(el);
             if(newElements && newElements.length>0){
                 res.push({originElement:el, newElements:newElements});
+            }else{
+                res.push({originElement:el, newElements:[el]});
             }
         }
         return res;
