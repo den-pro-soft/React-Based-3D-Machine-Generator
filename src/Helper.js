@@ -176,6 +176,18 @@ class Request{
             return "none";
         }
     }
+
+    httpPost(URL, data, callback){
+        var xhr = new XMLHttpRequest();
+
+        xhr.open("POST", URL, false);
+        xhr.setRequestHeader('Content-type', 'application/xml; charset=utf-8');
+
+        xhr.onreadystatechange = callback;
+
+        xhr.send(data);
+
+    }
 }
 
 const Helper = {

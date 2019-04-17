@@ -594,5 +594,15 @@ export default class Application extends Observable{
         this.executeCommand(new RoundCornerCommand(this.currentDocument, this.selectElements));
     }
 
+    priceAnalyze(){
+        Helper.Request.httpPost(
+            'https://www.emachineshop.com/instant-quote-test/',
+            "",
+            (response)=>{
+                console.log(response);
+            }
+        );
+    }
+
     //</editor-fold>
 }
