@@ -2,7 +2,6 @@
  * Created by dev on 17.01.19.
  */
 
-import Buffer from './Buffer/Buffer';
 import Command from './command/Command';
 import CommandHistory from './CommandHistory';
 import Document from './model/Document';
@@ -27,6 +26,7 @@ import ResizeElementsCommand from './command/ResizeElementsCommand';
 import ChangeArcAngleCommand from './command/ChangeArcAngleCommand';
 import TangentsArcsCommand from './command/TangentsArcsCommand';
 import EraserNearElementsCommand from './command/EraserNearElements';
+import RoundCornerCommand from "./command/Corner";
 
 import PointerTool from './ui/2d/tool/PointerTool';
 import CreatorTool from './ui/2d/tool/CreatorTool';
@@ -588,6 +588,10 @@ export default class Application extends Observable{
 
     tangentsSelectedArcs(){
         this.executeCommand(new TangentsArcsCommand(this.currentDocument, this.selectElements));
+    }
+
+    corner(){
+        this.executeCommand(new RoundCornerCommand(this.currentDocument, this.selectElements));
     }
 
     //</editor-fold>

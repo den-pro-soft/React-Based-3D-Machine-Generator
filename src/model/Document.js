@@ -62,7 +62,13 @@ export default class Document extends Renderable{
      */
     addElement(element){
         // if(element instanceof GraphicElement) {
-            this._elements.push(element);
+
+        for(let i=0; i<this._elements.length; i++){
+            if (this._elements[i].compare(element)) {
+                return;
+            }
+        }
+        this._elements.push(element);
         // }else{
         //     throw new Exception("To document can be added only elements which instances GraphicElement class.",element);
         // }

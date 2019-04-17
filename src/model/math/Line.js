@@ -237,10 +237,10 @@ export default class Line{
         return null;
     }
 
-    between(value, a, b) {
+    between(value, a, b, Eps=1E-3) {
         var min = Math.min.apply(Math, [a, b]),
             max = Math.max.apply(Math, [a, b]);
-        return value+1E-5 > min && value < max+1E-5;
+        return value+Eps > min && value < max+Eps;
     };
 
     /**
