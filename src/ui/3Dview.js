@@ -12,7 +12,7 @@ class View3D{
         this.scene = new THREE.Scene();
         this.scene.background = new THREE.Color(0x121212);
         this.camera = new THREE.PerspectiveCamera(45, size.width / size.height, 0.1, 10000);
-        this.moveCamera(0,400,300);
+        this.moveCamera(0,300,0);
 
         this.renderer = new THREE.WebGLRenderer();
         this.renderer.shadowMap.enabled = true;
@@ -71,7 +71,9 @@ class View3D{
             this.scene.remove(this.scene.children[0]);
         }
         this.scene.add(this.spotLight);
-        this.scene.add(this.asix);
+        if(ENV =='dev'){
+            this.scene.add(this.asix);
+        }
     };
 
     /**
@@ -91,6 +93,15 @@ class View3D{
         let mesh = this.meshBuilder.getMeshes(document);
         if(mesh){
             mesh.rotateX(-90* Math.PI/180);
+
+            let extrenum = document.getExtrenum();
+            let dx = extrenum.min.x+(extrenum.max.x-extrenum.min.x)/2;
+            let dy = extrenum.min.y +(extrenum.max.y-extrenum.min.y)/2;
+            console.log(dx, dy);
+            mesh.translateX(-dx);
+            mesh.translateY(-dy);
+            // mesh.scale.set(2,2,2);
+
             this.scene.add(mesh);
             let p = mesh.position;
             mesh = new THREE.Mesh(mesh.geometry,new THREE.MeshLambertMaterial( {
