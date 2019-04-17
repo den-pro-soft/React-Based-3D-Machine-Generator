@@ -30,9 +30,7 @@ export default class Tips{
             "Show 3D view of the current design.</br> " +
             "Use frequently during creating of your drawing.";
         this.tips['price-analyze'] = "Price/Analyze (F9)</br>" +
-            "Check design validity and compute cost. You can also use this button </br>" +
-            " to guide you thru the steps. For example, if you click this button </br>" +
-            "with a blank screen you will be advised to draw a line";
+            "Check design validity and compute cost.";
 
         this.tips['select-tool'] = "Select</br>" +
             "Chooses a line to which you want to issue a command or make a change.</br>" +
