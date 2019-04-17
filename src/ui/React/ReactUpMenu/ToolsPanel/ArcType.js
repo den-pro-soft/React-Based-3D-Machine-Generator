@@ -121,7 +121,7 @@ class ArcType extends React.Component {
           <a href="#">
             <img
               width="18px"
-              src="resources/images/Circle.png"
+              src="resources/images/radius.jpg"
               data-place="bottom"
               data-tip={container.resolve("tips").getTip('numeric-radius')} data-html={true}
             />
@@ -142,7 +142,7 @@ class ArcType extends React.Component {
           <a href="#">
             <img
               width="18px"
-              src="resources/images/Circle.png"
+              src="resources/images/start_angle.jpg"
               data-place="bottom"
               data-tip={container.resolve("tips").getTip('numeric-start-angle')} data-html={true}
             />
@@ -163,7 +163,7 @@ class ArcType extends React.Component {
           <a href="#">
             <img
               width="18px"
-              src="resources/images/Circle.png"
+              src="resources/images/increment_angle.jpg"
               data-place="bottom"
               data-tip={container.resolve("tips").getTip('numeric-inside-angle')} data-html={true}
             />
