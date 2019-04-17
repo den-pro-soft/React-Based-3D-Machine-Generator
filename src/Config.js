@@ -32,7 +32,10 @@ export default class Config extends Observable{
         this._rotateStep = 15;
 
         /** @type {string} [Millimeters|Inches]*/
-        this._dimension= 'Inches';
+        this._dimension= localStorage.getItem('dimension');
+        if(!this._dimension){
+            this._dimension='Inches';
+        }
    
         // for transfer state between lifecycles in React - CircleType.js 
         this.diameter = '';
@@ -64,6 +67,7 @@ export default class Config extends Observable{
     get demensions(){return this._dimension};
     set demensions(value){
         this._dimension=value;
+        localStorage.setItem('dimension', this._dimension);
         this._notifyHandlers('change', 'dimension');
     };
 
