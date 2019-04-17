@@ -315,9 +315,9 @@ class InteractiveBoard extends Board{
         /** @type {Array.<BoardExtension>} */
         this.boardExtensions = [new RulerBoardExtension(this), new MousePointerBoardExtension(this)];
         //todo: move to container (has error for testing)
-        // if(ENV =='dev'){
-        //     this.boardExtensions.push(new RealMousePosition(this))
-        // }
+        if(ENV =='dev'){
+            this.boardExtensions.push(new RealMousePosition(this))
+        }
 
 
         setTimeout(()=>{

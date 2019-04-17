@@ -28,7 +28,7 @@ class KeyHelper{
         this.shiftKey=false;
 
         window.addEventListener('keydown',(e)=>{
-            // console.log(e.keyCode, e.key, e);
+            console.log(e.keyCode, e.key, e);
             switch(e.keyCode){
                 case 49://1
                     if(e.target==document.body) {
@@ -125,8 +125,17 @@ class KeyHelper{
                     }
                     break;
                 case 82: //Rr
-                    if(e.target==document.body){
+                    if(this.ctrlKey) {
+                        console.log("sdfsdf");
+                        container.resolve('3dView').show3D();
+                        e.preventDefault();
+                    }else if(e.target==document.body){
                         app.rotateSelected(container.resolve('config').rotateStep);
+                    }
+                    break;
+                case 76:
+                    if(e.target==document.body){
+                        app.rotateSelected(-container.resolve('config').rotateStep);
                     }
                     break;
                 case 17: //Ctrl
@@ -134,6 +143,18 @@ class KeyHelper{
                     break;
                 case 16: //Shift
                     this.shiftKey=true;
+                    break;
+                case 71: //Gg
+                    if(this.ctrlKey) {
+                        app.group();
+                        e.preventDefault();
+                    }
+                    break;
+                case 85: //Uu
+                    if(this.ctrlKey) {
+                        app.ungroup();
+                        e.preventDefault();
+                    }
                     break;
             }
             switch (e.key) {

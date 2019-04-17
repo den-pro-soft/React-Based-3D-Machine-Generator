@@ -32,6 +32,7 @@ import UniversalTriangulationAlgorithm from "./ui/3d/algorithms/implementation/U
 import Confirmation from "./ui/modal/Confirmation";
 import Tips from "./ui/React/Tips";
 import LocalStorageBuffer from "./Buffer/LocalStorageBuffer";
+import ThreeDView from "./ui/modal/3DView";
 
 /**
  * @param {string} name
@@ -99,6 +100,7 @@ container.register( 'confirmChangeArcToSplinesDialog', ConfirmChangeArcToSplines
 container.register( 'app', Application ).dependencies('config').singleton();
 container.register( 'buffer', LocalStorageBuffer ).dependencies('app').singleton();
 container.register( 'triangulation', UniversalTriangulationAlgorithm ).singleton();
+container.register( '3dView', ThreeDView ).dependencies('mainBoard', 'app').singleton();
 container.register( 'tips', Tips ).singleton();
 container.registerFactory('toolFactory',toolFactoryMethod);
 container.registerFactory('fileLoaderFactory',fileLoaderFactoryMethod);

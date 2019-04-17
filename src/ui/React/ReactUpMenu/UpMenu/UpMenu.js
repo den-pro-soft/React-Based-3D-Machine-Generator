@@ -10,41 +10,8 @@ import Confirmation from '../InfoPopup/Confirmation/Confirmation';
 import NonWorkFeature from '../InfoPopup/NonWorkFeature';
 import ExpertNotice from "../InfoPopup/ExpertNotice";
 
-import { DraggablePopup } from "../../../../ui/popup";
 import Group from "../../../../model/elements/Group";
-var popup3DView = new DraggablePopup()
-  .setSize(800, 600)
-  .setPosition(200, 100)
-  .moveToCenter()
-  .setTitle("3D view")
-  .hide();
-var view3D = new View3D({ width: 800, height: 600 });
-popup3DView.addContent(view3D.getContent());
 
-let show3D = function() {
-    container.resolve('app').clearSelectElements();
-    if(container.resolve('mainBoard').tool && container.resolve('mainBoard').tool['clearSelectElements']!=undefined) {
-        container.resolve('mainBoard').tool.clearSelectElements();
-    }
-  container.resolve('analyzer', app.currentDocument).analyze().then((res)=>{
-    if(res){
-      try {
-        view3D.setGeometry(app.currentDocument);
-        popup3DView.show();
-      } catch (e) {
-        if (e instanceof Exception) {
-          console.log(e.message);
-          new MessagePopup(null, e.message)
-              .setTitle("Error")
-              .moveToCenter()
-              .show();
-        } else {
-          throw e;
-        }
-      }
-    }
-  });
-};
 
 class UpMenu extends React.Component {
     constructor(props) {
@@ -185,7 +152,7 @@ class UpMenu extends React.Component {
                   <img width="24px" src="resources/images/Intersect.png" />
                 </a>
               </button>
-              <button onClick={() => show3D()}
+              <button onClick={() => container.resolve('3dView').show3D()}
                       data-tip={container.resolve("tips").getTip('3D')} data-html={true}
               >
                 <a href="#">
