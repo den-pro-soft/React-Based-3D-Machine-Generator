@@ -143,7 +143,7 @@ class UpMenu extends React.Component {
                 </a>
               </button>
               <button onClick={() => app.setTool("Zoom")}
-                      data-tip={container.resolve("tips").getTip('zoomTool')} data-html={true}
+                      data-tip={container.resolve("tips").getTip('zoomTool')} data-html={true} data-place="bottom"
               >
                 <a href="#">
                   <img width="25px" src="resources/images/Zoom.png" />
