@@ -2,6 +2,7 @@
  * Created by dev on 27.02.19.
  */
 import Tool from './Tool';
+import ShapeBuilder from "../../../analyzer/ShapeBuilder";
 
 /**
  * The class need for selected elements by click
@@ -111,6 +112,24 @@ export default class SelectTool extends Tool{
                 newSelected.push(el);
             }
 
+            if(Helper.Key.shiftKey) {
+                let cleared = false;
+
+                let shapeBuilder = new ShapeBuilder(this._document);
+                let shapes = shapeBuilder.buildShapes();
+                for(let shape of shapes){
+                    if(shape.isNear(point,this.Eps)){
+                        if(!cleared){
+                            cleared=true;
+                            newSelected=[];
+                        }
+                        for(let el of shape.elements){
+                            newSelected.push(el);
+                        }
+                    }
+                }
+            }
+
             if (newSelected.length > 0) {
                 if(newUnselected.length>0 && (app.selectElements.length-newUnselected.length)>0){
                     console.log(newUnselected);
@@ -133,14 +152,18 @@ export default class SelectTool extends Tool{
         return true;
     }
 
+    get Eps(){
+        let scale = container.resolve('mainBoard')._scale; //todo: maybe set from the using place
+        return  (scale>1?0.2:0.05)/scale;
+    }
+
     /**
      * @param {Point} point
      * @return {*|Array.<GraphicElement>}
      * @protected
      */
     getNearElements(point){
-        let scale = container.resolve('mainBoard')._scale; //todo: maybe set from the using place
-        return this._document.getNearElements(point, (scale>1?0.2:0.05)/scale);
+        return this._document.getNearElements(point, this.Eps);
     }
 }
 
