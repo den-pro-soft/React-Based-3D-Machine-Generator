@@ -138,7 +138,7 @@ export default class LeftMenu extends React.Component {
             />
           </a>
         </button>
-        <button onClick={() => app.setTool("Pointer")}>
+        <button onClick={() => app.corner()}>
           <a href="#">
             <img
               width="25px"
