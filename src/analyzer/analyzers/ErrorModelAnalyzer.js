@@ -13,6 +13,8 @@ import ZValueOfInnerShape from "../rules/ZValueOfInnerShape";
 import HoleInsideAnotherHole from "../rules/HoleInsideAnotherHole";
 import SameZValue from "../rules/SameZValue";
 import ShapeSize from "../rules/ShapeSize";
+import ShapeBuilder from "../ShapeBuilder";
+import Group from "../../model/elements/Group";
 
 export default class ErrorModelAnalyzer extends Analyzer{
 
@@ -32,5 +34,37 @@ export default class ErrorModelAnalyzer extends Analyzer{
         this.rules.push(new ShapeSize(document));
         this.rules.push(new SameZValue(document));
     }
-    
+
+
+    analyze(){
+        return new Promise((resolve, reject)=>{
+            super.analyze().then((res)=>{
+                this.groupShapes();
+                resolve(res);
+            }).catch(error=>{
+                reject(error);
+            });
+        });
+    }
+
+    /**
+     * @private
+     */
+    groupShapes(){
+        let shapeBuilder = new ShapeBuilder(this.document);
+        let shapes = shapeBuilder.buildShapes();
+
+        for(let shape of shapes){
+            let elements = shape.elements;
+            if(elements.length<2){
+                continue;
+            }
+            let group = new Group();
+            for(let el of elements){
+                this.document.removeElement(el);
+                group.addElement(el);
+            }
+            this.document.addElement(group);
+        }
+    }
 }
