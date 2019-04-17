@@ -7,28 +7,28 @@ export default class Tips{
 
         this.tips = [];
         this.tips['group'] = "Group (Ctrl +G) </br> " +
-                            "Combine selected lines into one group to allow selection in </br> " +
-                            "one click. Hold the SHIFT key while selecting multiple lines, </br>" +
-                            "then click this button. To select a series of connected lines in</br>" +
-                            "one step - hold CTRL while clicking on one of the lines.";
+            "Combine selected lines into one group to allow selection in </br>" +
+            "one click. Hold the SHIFT key; select multiple lines, then </br>" +
+            "click this button. To select a series of connected lines </br>" +
+            "in one step - hold CTRL while clicking on one of the lines.";
         this.tips['ungroup'] = "Ungroup (Ctrl+U)</br>Separates a group into its component lines."
         this.tips['fitScreen'] = "Zoom to fit screen (=)</br>Set magnification to show the full design.";
         this.tips['actualSize'] = "Zoom actual size (1)</br>Show design approximately in real-life size.";
         this.tips['zoomTool'] = "Zoom</br>" +
-            "To modify a specific area, in workspace drag a rectangle</br> " +
-            "around the area. To set center of magnification and increase</br>" +
-            "magnification, click at desired new center of drawing.</br>" +
-            "To set center of magnification and decrease magnification,</br> " +
-            "right click at desired new center of drawing.";
+            "To magnify a specific area, in workspace drag a rectangle </br>" +
+            "around the area. To set center of magnification and increase </br>" +
+            "magnification, click at desired new center of drawing. To set </br>" +
+            "center of magnification and decrease magnification, right click </br>" +
+            "at desired new center of drawing.";
         this.tips['delete'] = "Delete (Del)</br>" +
-            "Remover part of your drawing. Click the selection (arrow)</br>" +
-            "button, then click the line to remove, then click the button.";
-        this.tips['preferences'] = "Preferences (F2)</br> Set preference options.";
-        this.tips['toggle'] = "Toggle inch/metric mode</br> Show all dimensions on inches or in millimeters";
-        this.tips['intersect'] = "Intersect (Ctrl+I)</br> Split lines where they cross.";
+            "Removes lines in drawing. Click the selection (arrow) button.</br>" +
+            "Then click the line to remove and then click this button.";
+        this.tips['preferences'] = "Preferences (F2)</br> Set preference options such as inch/metric mode.";
+        this.tips['toggle'] = "Inch / mm</br> Show all dimensions on inches or in millimeters.";
+        this.tips['intersect'] = "Intersect (Ctrl+I)</br> Split lines where they cross. First select one or more relevant lines.";
         this.tips['3D'] = "3D Preview (Ctrl+R)</br> " +
             "Show 3D view of the current design.</br> " +
-            "Use frequently during creating of your drawing.";
+            "Use frequently while creating of your design.";
         this.tips['price-analyze'] = "Price/Analyze (F9)</br>" +
             "Check design validity and compute cost.";
 

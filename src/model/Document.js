@@ -63,11 +63,11 @@ export default class Document extends Renderable{
     addElement(element){
         // if(element instanceof GraphicElement) {
 
-        for(let i=0; i<this._elements.length; i++){
-            if (this._elements[i].compare(element)) {
-                return;
-            }
-        }
+        // for(let i=0; i<this._elements.length; i++){
+        //     if (this._elements[i].compare(element)) {
+        //         return;
+        //     }
+        // } //todo: without it the corner round function has an error
         this._elements.push(element);
         // }else{
         //     throw new Exception("To document can be added only elements which instances GraphicElement class.",element);
