@@ -8,9 +8,9 @@ export default class Tips{
         this.tips = [];
         this.tips['group'] = "Group (Ctrl +G) </br> " +
             "Combine selected lines into one group to allow selection in </br>" +
-            "one click. Hold the SHIFT key; select multiple lines, then </br>" +
+            "one click. Hold the CTRL key; select multiple lines, then </br>" +
             "click this button. To select a series of connected lines </br>" +
-            "in one step - hold CTRL while clicking on one of the lines.";
+            "in one step - hold SHIFT while clicking on one of the lines.";
         this.tips['ungroup'] = "Ungroup (Ctrl+U)</br>Separates a group into its component lines."
         this.tips['fitScreen'] = "Zoom to fit screen (=)</br>Set magnification to show the full design.";
         this.tips['actualSize'] = "Zoom actual size (1)</br>Show design approximately in real-life size.";
