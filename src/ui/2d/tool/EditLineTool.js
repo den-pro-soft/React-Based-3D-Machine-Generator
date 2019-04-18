@@ -18,9 +18,6 @@ export default class EditLineTool extends DynamicChangeTool{
 
         this.doc = new Document();
 
-        let scale = container.resolve('mainBoard')._scale; //todo: maybe set from the using place
-        this.Eps = (scale>1?0.2:0.05)/scale;
-
         this.editVector = new Vector();
     }
 
@@ -114,13 +111,11 @@ export default class EditLineTool extends DynamicChangeTool{
 
     _isNearMagnitPoint(pointArg){
         let simpleElements = Document.toSimpleListElements(this.selectElementsPair.map(e=>e.copy));
-        let scale = container.resolve('mainBoard')._scale; //todo: maybe set from the using place
-        let Eps = (scale>1?0.2:0.05)/scale;
 
         for(let element of simpleElements){
             let points = element.getMagnificationPoints();
             for(let point of points){
-                if(point.isNear(pointArg, Eps)){
+                if(point.isNear(pointArg, this.Eps)){
                     return true;
                 }
             }

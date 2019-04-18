@@ -28,7 +28,7 @@ class KeyHelper{
         this.shiftKey=false;
 
         window.addEventListener('keydown',(e)=>{
-            console.log(e.keyCode, e.key, e);
+            // console.log(e.keyCode, e.key, e);
             switch(e.keyCode){
                 case 49://1
                     if(e.target==document.body) {
