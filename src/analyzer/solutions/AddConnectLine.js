@@ -26,7 +26,13 @@ export default class AddConnectLine extends Solution{
      * @inheritDoc
      */
     execute(){
-        app.executeCommand(new AddElementCommand(this.document, this.element));
+        return new Promise((resolve, reject)=>{
+            app.executeCommand(new AddElementCommand(this.document, this.element)).then(res=>{
+                resolve(res);
+            }).catch(e=>{
+                reject(e);
+            });
+        });
     }
 
     /**

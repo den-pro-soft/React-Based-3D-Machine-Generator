@@ -105,7 +105,7 @@ export default class NotClosedShape extends Rule{
                         let tempLength = new Line(points[i], points[j]).length();
                         if(minLength>tempLength){
                             minLength=tempLength;
-                            element = new LineElement(points[i], points[j]);
+                            element = new LineElement(points[i].copy(), points[j].copy());
                         }
                     }
                 }
@@ -113,7 +113,7 @@ export default class NotClosedShape extends Rule{
             }else{
                 let points = shapes[0].getExtremePoints();
                 if(points.length==2){
-                    let element = new LineElement(points[0], points[1]);
+                    let element = new LineElement(points[0].copy(), points[1].copy());
                     return new AddConnectLine(this.document, element);
                 }else{
                     throw new Exception("Shape can't has more then two extreme points!", shape);

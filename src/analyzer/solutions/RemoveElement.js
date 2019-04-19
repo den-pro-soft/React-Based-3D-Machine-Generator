@@ -5,6 +5,7 @@
 import Solution from './../Solution';
 
 import DeleteElementCommand from '../../command/DeleteElementCommand';
+import AddElementCommand from "../../command/AddElementCommand";
 
 export default class RemoveElement extends Solution{
 
@@ -25,7 +26,13 @@ export default class RemoveElement extends Solution{
      * @inheritDoc
      */
     execute(){
-        app.executeCommand(new DeleteElementCommand(this.document, this.elements));
+        return new Promise((resolve, reject)=>{
+            app.executeCommand(new DeleteElementCommand(this.document, this.elements)).then(res=>{
+                resolve(res);
+            }).catch(e=>{
+                reject(e);
+            });
+        });
     }
 
     /**

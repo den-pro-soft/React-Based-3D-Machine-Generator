@@ -3,6 +3,7 @@ import Solution from './../Solution';
 
 import ChangeElementsHeightCommand from '../../command/ChangeElementsHeightCommand';
 import GraphicElement from "../../model/GraphicElement";
+import DeleteElementCommand from "../../command/DeleteElementCommand";
 
 export default class SetZValue extends Solution{
 
@@ -35,7 +36,13 @@ export default class SetZValue extends Solution{
      * @inheritDoc
      */
     execute(){
-        app.executeCommand(new ChangeElementsHeightCommand(this.document, this.elements, this.height));
+        return new Promise((resolve, reject)=>{
+            app.executeCommand(new ChangeElementsHeightCommand(this.document, this.elements, this.height)).then(res=>{
+                resolve(res);
+            }).catch(e=>{
+                reject(e);
+            });
+        });
     }
 
     /**

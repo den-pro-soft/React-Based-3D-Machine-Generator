@@ -213,6 +213,7 @@ export default class Application extends Observable{
                     if(command.name == 'AddElementCommand'){
                         this.clearSelectElements();
                         this._changeTool(this._getToolInstance('Pointer'));
+                        this.board.tool.clearSelectElements(false);
                         this.board.tool.selectElement(command._element);
                         this.addSelectElements([command._element]);
                     }

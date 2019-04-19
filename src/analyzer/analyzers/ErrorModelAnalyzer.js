@@ -15,6 +15,8 @@ import SameZValue from "../rules/SameZValue";
 import ShapeSize from "../rules/ShapeSize";
 import ShapeBuilder from "../ShapeBuilder";
 import Group from "../../model/elements/Group";
+import SelectTool from "../../ui/2d/tool/SelectTool";
+import MagnificationDecorator from "../../ui/2d/tool/decorators/MagnificationDecorator";
 
 export default class ErrorModelAnalyzer extends Analyzer{
 
@@ -51,6 +53,8 @@ export default class ErrorModelAnalyzer extends Analyzer{
      * @private
      */
     groupShapes(){
+        let vasGroup = false;
+
         let shapeBuilder = new ShapeBuilder(this.document);
         let shapes = shapeBuilder.buildShapes();
 
@@ -64,7 +68,15 @@ export default class ErrorModelAnalyzer extends Analyzer{
                 this.document.removeElement(el);
                 group.addElement(el);
             }
+            vasGroup=true;
             this.document.addElement(group);
+        }
+        if(vasGroup){
+            let board = container.resolve('mainBoard');
+            let isSelectedTool = board.tool instanceof SelectTool || (board.tool instanceof MagnificationDecorator && board.tool._tool instanceof SelectTool);
+            if(isSelectedTool){
+                board.tool.clearSelectElements();
+            }
         }
     }
 }

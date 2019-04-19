@@ -53,11 +53,7 @@ export default class Analyzer{
      */
     checkRule(index){
         return new Promise((resolve, reject)=>{
-            // let t0 = performance.now();
             let hasError = this.rules[index].check();
-            // var t1 = performance.now();
-            // console.log("Call to doSomething took " + (t1 - t0) + " milliseconds.");
-            // console.log(this.rules[index].errorMessage, hasError, "Analyzer::checkRule");
 
             if(hasError){
                 let solutions = this.rules[index].createSolutions();
@@ -82,26 +78,31 @@ export default class Analyzer{
                         if(currentSolution==solutions[0]){
                             resolve(false);
                         }else {
-                            currentSolution.execute();
-                            setTimeout(()=> {
-                                this.checkRule(index).then((res)=> {
-                                    if(res){
-                                        if(index==this.rules.length-1) {
-                                            resolve(true);
-                                        }else {
-                                            this.checkRule(index + 1).then((res1)=> {
-                                                resolve(res1);
-                                            }).catch((error1)=> {
-                                                reject(error1);
-                                            });
+                            currentSolution.execute().then((resExecute)=>{
+                                if(resExecute) {
+                                    this.checkRule(index).then((res) => {
+                                        if (res) {
+                                            if (index == this.rules.length - 1) {
+                                                resolve(true);
+                                            } else {
+                                                this.checkRule(index + 1).then((res1) => {
+                                                    resolve(res1);
+                                                }).catch((error1) => {
+                                                    reject(error1);
+                                                });
+                                            }
+                                        } else {
+                                            resolve(false);
                                         }
-                                    }else{
-                                        resolve(false);
-                                    }
-                                }).catch((error)=> {
-                                    reject(error);
-                                });
-                            }, 500);
+                                    }).catch((error) => {
+                                        reject(error);
+                                    });
+                                }else{
+                                    //todo: show some system error
+                                }
+                            }).catch(error=>{
+                                reject(error);
+                            });
                         }
                     },
                     ()=>{

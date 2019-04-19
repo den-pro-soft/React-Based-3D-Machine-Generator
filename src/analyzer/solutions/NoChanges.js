@@ -15,7 +15,9 @@ export default class NoChanges extends Solution{
     }
 
     execute(){
-        
+        return new Promise(resolve=>{
+            resolve(true);
+        })
     }
 
     getPreviewDocument(){

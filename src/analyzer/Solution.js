@@ -17,7 +17,8 @@ export default class Solution{
     }
 
     /**
-     * The method change the document with using a {@class Command} 
+     * The method change the document with using a {@class Command}
+     * @return {Promise.<boolean>}
      */
     execute(){
         
