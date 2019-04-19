@@ -327,7 +327,7 @@ export default class Arc extends GraphicElement{
         let res = new PolyLine();
 
         var start = this.startAngle;
-        var end = this.endAngle;
+        var end = start+this.incrementAngle;
 
         if(start!=0){
             start = Trigonometric.gradToRad(start);
@@ -337,15 +337,8 @@ export default class Arc extends GraphicElement{
         }else{
             end=2 * Math.PI;
         }
-        var a = start;
-        if(this.startAngle>this.endAngle){
-            for (; a<=(2*Math.PI); a += Math.PI / 100) {
-                let p = new Point(this._center.x + this.radius * Math.cos(a), this._center.y + this.radius * Math.sin(a));
-                res.addPoint(p);
-            }
-            a=0;
-        }
-        for (; a <= end; a += Math.PI / 100) {
+
+        for (let a = start; a <= end; a += Math.PI / 100) {
             let p = new Point(this._center.x + this.radius * Math.cos(a), this._center.y + this.radius * Math.sin(a));
             res.addPoint(p);
         }

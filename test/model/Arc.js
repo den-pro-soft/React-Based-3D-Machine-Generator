@@ -4,6 +4,9 @@
 
 
 var assert = require('assert');
+var chai = require('chai');
+var expect = chai.expect;
+
 
 import Arc from '../../src/model/elements/Arc';
 import Trigonometric from '../../src/model/math/Trigonometric';
@@ -116,4 +119,18 @@ describe('Arc', function() {
         });
     });
 
+    describe('getExtrenum', function(){
+        it('Arc(Point(0,0), 5) startAngle=270 insideAngle=90', function(){
+            let arc = new Arc(new Point(), 5);
+            arc.startAngle=270;
+            arc.incrementAngle=90;
+
+            let extrenum = arc.getExtrenum();
+
+            expect(extrenum.max.x, "extrenum max x is invalid").to.be.closeTo(5, 2);
+            expect(extrenum.max.y, "extrenum max y is invalid").to.be.closeTo(0, 2);
+            expect(extrenum.min.x, "extrenum min x is invalid").to.be.closeTo(0, 2);
+            expect(extrenum.min.y, "extrenum min y is invalid").to.be.closeTo(-5, 2);
+        })
+    })
 });
