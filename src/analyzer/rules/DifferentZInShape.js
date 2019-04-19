@@ -42,22 +42,26 @@ export default class DifferentZInShape extends Rule{
      * @return number
      */
     getDafaultZ(elements){
-        let minIndex = 0;
+        /** @type Array.<{value:number, count:number}> */
+        let temp = [];
 
-        let values = app.config.defaultZValues;
-        let average = 0;
-        for(let el of elements){
-            average+=el.height;
+        m: for(let el of elements){
+            let Z = el.height;
+            for(let t of temp){
+                if(t.value==Z){
+                    t.count++;
+                    continue m;
+                }
+            }
+            temp.push({value:Z, count:1});
         }
-        average/=elements.length;
-
-        for(let i=0; i<values.length; i++){
-            if(Math.abs(average-values[i])< Math.abs(average-values[minIndex])){
-                minIndex=i;
+        let imax = 0;
+        for(let i=1; i<temp.length; i++){
+            if(temp[i].count>temp[imax].count){
+                imax=i;
             }
         }
-
-        return values[minIndex];
+        return temp[imax].value;
     }
 
     /**
