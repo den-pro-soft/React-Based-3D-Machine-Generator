@@ -1,11 +1,24 @@
 import React from "react";
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
+import Paper from '@material-ui/core/Paper';
 import Radio from "@material-ui/core/Radio";
 import RadioGroup from "@material-ui/core/RadioGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormControl from "@material-ui/core/FormControl";
+import Draggable from 'react-draggable';
 import { connect } from "react-redux";
+
+
+function PaperComponent(props) {
+    return (
+        <Draggable>
+            <Paper {...props} />
+        </Draggable>
+    );
+}
+
+
 
 class ExpertNotice extends React.Component {
   constructor(props) {
@@ -44,6 +57,7 @@ class ExpertNotice extends React.Component {
           open={this.props.openExpertNotice}
           aria-labelledby="alert-dialog-title"
           aria-describedby="alert-dialog-description"
+          PaperComponent={PaperComponent}
         >
           <div
             style={{

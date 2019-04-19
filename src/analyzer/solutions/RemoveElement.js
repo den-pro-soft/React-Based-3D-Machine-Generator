@@ -5,7 +5,6 @@
 import Solution from './../Solution';
 
 import DeleteElementCommand from '../../command/DeleteElementCommand';
-import AddElementCommand from "../../command/AddElementCommand";
 
 export default class RemoveElement extends Solution{
 
