@@ -1,7 +1,12 @@
 /**
  * The class need for addition processing model. Applies to element or shape.
  */
-export default class Processing{
+import Cloneable from "../../Cloneable";
+
+/**
+ * @abstract
+ */
+export default class Processing extends Cloneable{
     
 
 }

@@ -4,10 +4,22 @@
 
 import ProcessingLineType from './ProcessingLineType';
 
+/**
+ * The class can contain this processing:
+ * 1. Bend
+ * 2. NearEdge of childes classes
+ * 3. Groove
+ * 4. FarEdge
+ */
 export default class Auto extends ProcessingLineType{
     constructor(){
         super();
         this.id=41;
+
+        this.sideWallAgle = 90;
+
+        this.stockMaterialWall = false;
+
     }
 
     /**
@@ -15,6 +27,12 @@ export default class Auto extends ProcessingLineType{
      * @return {Auto}
      */
     copy(){
-        return new Auto();
+        let res = new Auto();
+        res.sideWallAgle=this.sideWallAgle;
+        res.stockMaterialWall=this.stockMaterialWall;
+        for(let processing of this.processing){
+            res.addProcessing(processing.copy());
+        }
+        return res;
     }
 }

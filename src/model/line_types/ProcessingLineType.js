@@ -9,5 +9,8 @@ export default class ProcessingLineType extends  LineType{
     }
 
 
+    addProcessing(processing){
+        this.processing.push(processing);
+    }
 
 }

@@ -10,4 +10,10 @@ export default class Bend extends Processing{
         this.radius = 0.1;
     }
 
+    copy(){
+        let res = new Bend();
+        res.angle=this.angle;
+        res.radius=this.radius;
+        return res;
+    }
 }
