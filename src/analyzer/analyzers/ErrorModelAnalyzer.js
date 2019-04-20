@@ -17,6 +17,7 @@ import ShapeBuilder from "../ShapeBuilder";
 import Group from "../../model/elements/Group";
 import SelectTool from "../../ui/2d/tool/SelectTool";
 import MagnificationDecorator from "../../ui/2d/tool/decorators/MagnificationDecorator";
+import CrossItself from "../rules/CrossItself";
 
 export default class ErrorModelAnalyzer extends Analyzer{
 
@@ -28,6 +29,7 @@ export default class ErrorModelAnalyzer extends Analyzer{
 
         this.rules.push(new LineInNoShapeRule(document));
         this.rules.push(new NotClosedShape(document));
+        this.rules.push(new CrossItself(document));
         this.rules.push(new DifferentZInShape(document));
         this.rules.push(new ShapeCrossing(document));
         this.rules.push(new ZValueOfOuterShape(document));

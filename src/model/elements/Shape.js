@@ -7,6 +7,8 @@ import PolyLine from "../math/PolyLine";
 import Triangle from "../math/Triangle";
 import Spline from "./Spline";
 import Bend from "../line_types/Bend";
+import IntersectCalculator from "../math/algorithms/intersects/IntersectCalculator";
+import Intersect from "../math/algorithms/intersects/Intersect";
 
 
 /**
@@ -291,11 +293,12 @@ export default class Shape{
         return false;
     }
 
-    /**
-     * @param {Shape} shape
-     * @return {Array.<Point>}
-     */
-    getCrossPoint(shape){
-        
+    isCrossesItself(){
+        let elements = this.elements;
+        for(let i=0; i< elements.length; i++){
+            if(Intersect.getIntersectPointsWithElements(elements[i], elements)){
+                return true;
+            }
+        }
     }
 }

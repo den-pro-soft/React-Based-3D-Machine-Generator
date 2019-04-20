@@ -32,9 +32,13 @@ export default class Intersect{
      * @return {Array.<Point>}
      */
     getIntersectPoints(element, Eps=0.0001){
+        return Intersect.getIntersectPointsWithElements(element, this.simpleElements);
+    }
+
+    static getIntersectPointsWithElements(element, elements){
         let points = [];
         if(element instanceof LineElement) {
-            for(let el of this.simpleElements){
+            for(let el of elements){
                 if(el.compare(element)){
                     continue;
                 }else if(el instanceof LineElement) {
@@ -46,7 +50,7 @@ export default class Intersect{
                 }
             }
         }else if(element instanceof Arc) {
-            for(let el of this.simpleElements){
+            for(let el of elements){
                 if(el.compare(element)){
                     continue;
                 }else if(el instanceof LineElement) {
@@ -58,7 +62,7 @@ export default class Intersect{
                 }
             }
         }else if(element instanceof Spline) {
-            for(let el of this.simpleElements){
+            for(let el of elements){
                 if(el.compare(element)){
                     continue;
                 }else if(el instanceof LineElement) {
