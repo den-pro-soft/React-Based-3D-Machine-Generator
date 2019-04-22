@@ -112,7 +112,9 @@ describe('EraserNearElements', function(){
             let eps = 0.0001;
             let command = new EraserNearElementsCommand(doc, point, eps);
             command.executeCommand();
-
+            for(let el of doc._elements){
+                console.log(el.typeName, el._points);
+            }
             return expect(doc._elements).to.have.lengthOf(5);
         })
     });

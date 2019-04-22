@@ -65,7 +65,7 @@ export default class ShapeBuilder{
     /**
      * @param {Shape} shape
      * @param {boolean} [withBend=false]
-     * @return {Array.<Shape>}
+     * @return {Array.<{shape:Shape, sourceElements:Array.<GraphicElement>}>}
      */
     separateShapesByIntersect(shape, withBend=false){
         let intersect = new Intersect(this.document, withBend);
@@ -80,6 +80,23 @@ export default class ShapeBuilder{
 
         let points = this.getIntersectPoints(shape, intersect);
         let shapes = this.buildShapesByElements(elements, points);
+
+        // let res = [];
+        //
+        // for(let shape of shapes){
+        //     let temp = {shape:shape, sourceElements:[]};
+        //     for(let shapeElement of shape.elements){
+        //         for(let i of intersection){
+        //             for(let iElement of i.newElements){
+        //                 if(iElement.compare(shapeElement)){
+        //                     temp.sourceElements.push(i.originElement);
+        //                 }
+        //             }
+        //
+        //         }
+        //     }
+        //     res.push(temp);
+        // }
 
         return shapes;
     }
