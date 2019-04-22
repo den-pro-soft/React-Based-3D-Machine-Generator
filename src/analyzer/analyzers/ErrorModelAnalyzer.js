@@ -40,6 +40,10 @@ export default class ErrorModelAnalyzer extends Analyzer{
     }
 
 
+    /**
+     * @inheritDoc
+     * @return {Promise.<boolean>}
+     */
     analyze(){
         return new Promise((resolve, reject)=>{
             super.analyze().then((res)=>{

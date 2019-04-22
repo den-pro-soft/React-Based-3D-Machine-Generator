@@ -27,7 +27,7 @@ export default class Analyzer{
 
     /**
      * @async
-     * @return {Promise} -
+     * @return {Promise.<boolean>}
      */
     analyze(){
         return new Promise((resolve, reject)=>{
@@ -56,6 +56,10 @@ export default class Analyzer{
             let hasError = this.rules[index].check();
 
             if(hasError){
+                if(ENV=='test'){
+                    console.log(this.rules[index].errorMessage);
+                    resolve(false);
+                }
                 let solutions = this.rules[index].createSolutions();
                 let board = container.resolve('mainBoard');
                 let currentSolution = solutions[0];

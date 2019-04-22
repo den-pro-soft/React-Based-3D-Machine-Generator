@@ -11,7 +11,7 @@ const win = doc.defaultView;
 global.document = doc;
 global.window = win;
 
-global.ENV='dev';
+global.ENV='test';
 
 Object.keys(window).forEach((key) => {
     if (!(key in global)) {

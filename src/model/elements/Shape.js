@@ -296,9 +296,23 @@ export default class Shape{
     isCrossesItself(){
         let elements = this.elements;
         for(let i=0; i< elements.length; i++){
-            if(Intersect.getIntersectPointsWithElements(elements[i], elements)){
+            let points = Intersect.getIntersectPointsWithElements(elements[i], elements);
+            if(!points){
+                return false;
+            }
+            console.log(points, "INTERSECT POINTS");
+            m: for(let point of points){
+                for(let el of this.elements){
+                    let elPoints = el.extremePoints;
+                    for(let elPoint of elPoints){
+                        if(elPoint.compare(point)){
+                            continue m;
+                        }
+                    }
+                }
                 return true;
             }
         }
+        return false;
     }
 }

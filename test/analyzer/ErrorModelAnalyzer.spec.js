@@ -17,7 +17,7 @@ import Point from "../../src/model/Point";
 
 
 describe('ErrorModelAnalyzer', function(){
-    it('first test', function () {
+    it('correct data structure test', function () {
         let doc = new Document();
         doc.addElement(new RectElement(new Point(-5,5), new Point(5, -5)).toElement());
         let analyzer = new ErrorModelAnalyzer(doc);
