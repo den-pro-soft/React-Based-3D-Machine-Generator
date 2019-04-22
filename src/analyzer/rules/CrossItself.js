@@ -11,7 +11,7 @@ export default class CrossItself extends Rule{
      */
     constructor(document){
         super(document);
-        this.errorMessage = `Error: The highlighted shape crosses itself. Please fix it manually.`;
+        this.errorMessage = `Error: The highlighted shape crosses itself. Please use separate shapes.`;
     }
 
 

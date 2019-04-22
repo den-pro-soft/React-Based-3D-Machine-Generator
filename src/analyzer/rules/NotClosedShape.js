@@ -19,7 +19,7 @@ export default class NotClosedShape extends Rule{
     constructor(document){
         super(document);
         this.errorMessage = `Error: The indicated shape is not closed.
-            Every line you draw must be part of a closed shape will no open ends or gaps. `;
+        Please draw only closed shapes with no open ends or gaps. `;
     }
 
 

@@ -9,7 +9,7 @@ export default class DifferentZInShape extends Rule{
     constructor(document){
         super(document);
 
-        this.errorMessage = `Error: The selected lines have multiple Z values.`;
+        this.errorMessage = `Error: The selected lines have multiple Z values. Please use one value.`;
     }
 
 

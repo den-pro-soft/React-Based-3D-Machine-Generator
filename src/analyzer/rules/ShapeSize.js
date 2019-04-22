@@ -13,7 +13,7 @@ export default class ShapeSize extends Rule{
         super(document);
 
         /** @type {string} */
-        this.errorMessage = "The highlighted shape is too large - please reduce to at most 47 x 23 inch.";
+        this.errorMessage = "Error: The highlighted shape is too large. Please reduce to at most 47 x 23 inch.";
     }
 
 

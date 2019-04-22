@@ -16,8 +16,8 @@ export default class LineInNoShape extends Rule{
      */
     constructor(document){
         super(document);
-        this.errorMessage = `Error: The indicated line is not part of a closed shape.
-            Every line you draw must be part of a closed shape will no open ends or gaps. `;
+        this.errorMessage = `Error: The indicated shape is not closed. Please draw only closed shapes with no open ends or gaps.
+         If the problem is not visible, select one of the lines and nudge it via an arrow key or zoom in to find a gap.`;
     }
 
 

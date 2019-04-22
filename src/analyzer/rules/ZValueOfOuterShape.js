@@ -9,7 +9,7 @@ export default class ZValueOfOuterShape extends Rule{
         super(document);
 
         /** @type {string} */
-        this.errorMessage = "ERROR: The highlighted outermost line(s) must have a positive Z value.";
+        this.errorMessage = "Error: The highlighted line(s) do not have a positive Z value. Please select a positive Z value.";
     }
 
     /**

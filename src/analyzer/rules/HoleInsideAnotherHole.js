@@ -9,7 +9,7 @@ export default class HoleInsideAnotherHole extends Rule{
         super(document);
 
         /** @type {string} */
-        this.errorMessage = "ERROR: The highlighted hole or cutout is inside another hole or cutout.";
+        this.errorMessage = "Error: The highlighted hole or cutout is inside another hole or cutout. Please remove it.";
     }
 
     /**

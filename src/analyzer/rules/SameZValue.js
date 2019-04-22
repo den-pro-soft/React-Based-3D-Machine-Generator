@@ -9,7 +9,7 @@ export default class SameZValue extends Rule{
         super(document);
 
         /** @type {string} */
-        this.errorMessage = "ERROR: All outer lines must have the same Z value.";
+        this.errorMessage = "Error: All outer lines must have the same Z value.";
     }
 
     /**

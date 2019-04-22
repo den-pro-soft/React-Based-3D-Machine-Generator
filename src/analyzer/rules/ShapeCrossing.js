@@ -11,7 +11,7 @@ export default class ShapeCrossing extends Rule{
         super(document);
 
         /** @type {string} */
-        this.errorMessage = "ERROR: The highlighted shapes are intersecting - please separate them manually.";
+        this.errorMessage = "Error: The highlighted shapes intersect. Please separate them.";
     }
 
     /**

@@ -9,7 +9,7 @@ export default class ZValueOfInnerShape extends Rule{
         super(document);
 
         /** @type {string} */
-        this.errorMessage = "ERROR: All inner lines must have Air Inside for the Z value.";
+        this.errorMessage = "Error: The highlighted inner lines do not have Air Inside for the Z value. Please set Z to Air Inside.";
     }
 
     /**
