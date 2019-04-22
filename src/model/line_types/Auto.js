@@ -20,6 +20,8 @@ export default class Auto extends ProcessingLineType{
 
         this.stockMaterialWall = false;
 
+        this.helpURL="https://www.emachineshop.com/help-3d-drawing/#3D-machine-settings";
+
     }
 
     /**

@@ -18,7 +18,7 @@ import groovesParametersReducer from './reducers/groovesParametersReducer';
 import errorGroovesWindowReducer from './reducers/errorGroovesWindowReducer';
 import removeGroovesReducer from './reducers/removeGroovesReducer';
 import confirmSaveDesignReducer from './reducers/confirmSaveDesignReducer';
-import fileNameModalReducer from './../React/modal/FileNameModalReducer';
+import fileNameModalReducer from '../React/modal/FileName/FileNameModalReducer';
 
 
 

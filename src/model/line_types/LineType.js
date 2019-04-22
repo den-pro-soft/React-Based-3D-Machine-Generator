@@ -8,6 +8,8 @@ export default class LineType extends Cloneable{
         super();
         this.name ='Auto';
         this.label = "Auto";
+
+        this.helpURL = "";
         this.id=14;
     }
 
