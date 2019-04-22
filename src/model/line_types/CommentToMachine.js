@@ -8,6 +8,9 @@ export default class CommentToMachine extends CommentToSelf{
     constructor(){
         super();
         this.label = "Comment to Machinist";
+
+        this.helpURL="https://www.emachineshop.com/help-comments/";
+
     }
 
     /**

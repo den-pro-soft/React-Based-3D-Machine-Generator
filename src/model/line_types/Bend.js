@@ -11,8 +11,9 @@ export default class Bend extends ProcessingLineType{
         this.name='Bend';
         this.label = "Bend";
         this.id=53;
-        //todo: change to processing
-        this.processing.push(new BendProcessing())
+        this.processing.push(new BendProcessing());
+
+        this.helpURL="https://www.emachineshop.com/help-bend-drawing/";
     }
 
     /**

@@ -12,6 +12,8 @@ export default class CommentToSelf extends LineType{
         this.id=14;
 
         this.dimension = false;
+
+        this.helpURL="https://www.emachineshop.com/help-2d-advanced/#comments-to-myself";
     }
 
     /**
