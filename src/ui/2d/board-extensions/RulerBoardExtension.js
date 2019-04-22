@@ -70,19 +70,20 @@ export default class RulerBoardExtension extends BoardExtension{
         }
         else {
             if(this.board._scale<0.0002)       divider = 10000;
-            else if(this.board._scale<0.0004)  divider = 5000;
-            else if(this.board._scale<0.0005)  divider = 2000;
+            else if(this.board._scale<0.0005)  divider = 5000;
+            else if(this.board._scale<0.001)  divider = 2000;
             else if(this.board._scale<0.002)  divider = 1E3;
-            else if(this.board._scale<0.003)  divider = 500;
-            else if(this.board._scale<0.005)  divider = 200;
-            else if(this.board._scale<0.01)   divider = 100;
+            else if(this.board._scale<0.005)  divider = 500;
+            else if(this.board._scale<0.01)  divider = 200;
+            else if(this.board._scale<0.02)   divider = 100;
             else if(this.board._scale<0.03)   divider = 50;
-            else if(this.board._scale<0.05)   divider = 25;
+            else if(this.board._scale<0.1)   divider = 25;
             else if(this.board._scale<0.2)    divider = 10;
             else if(this.board._scale<1)      divider = 5;
             else if(this.board._scale>500)     divider = 0.005;
             else if(this.board._scale>100)     divider = 0.01;
-            else if(this.board._scale>15)     divider = 0.05;
+            else if(this.board._scale>40)     divider = 0.05;
+            else if(this.board._scale>15)     divider = 0.1;
             else if(this.board._scale>7)     divider = 0.2;
             else if(this.board._scale>2)      divider = 0.5;
         }
@@ -114,17 +115,9 @@ export default class RulerBoardExtension extends BoardExtension{
             }
         }
 
-        let minX = this.board._convertToGlobalCoordinateSystem({x:0,y:0}).x;
-        let maxX = this.board._convertToGlobalCoordinateSystem({x:this.board._width+rulerWidth,y:0}).x;
-        if(container.resolve('config').dimension == 'Inches'){
-            minX = minX/dimension - delta*2;
-            minX = Math.floor(minX/divider)*divider;
-            maxX = maxX/dimension + delta*2;
-            maxX = Math.floor(maxX/divider)*divider+divider;
-        } else {
-            minX = minX - 1;
-            maxX = maxX + 1;
-        }
+        let minX = this.board._convertToGlobalCoordinateSystem({x:0,y:0}).x/dimension - delta*2;
+        let maxX = this.board._convertToGlobalCoordinateSystem({x:this.board._width+rulerWidth,y:0}).x/dimension + delta*2;
+        minX = Math.floor(minX/divider)*divider;
         if(maxX<=0 || minX>0){
             for (let x = minX; x < maxX; x+=delta) drawDivision(x);
         }else{
@@ -152,17 +145,9 @@ export default class RulerBoardExtension extends BoardExtension{
             }
             this.board._context.fillRect(-localX,rulerWidth-l, 1,l);
         };
-        let maxY = this.board._convertToGlobalCoordinateSystem({x:0,y:rulerWidth}).y;
-        let minY = this.board._convertToGlobalCoordinateSystem({x:0,y:this.board._height}).y;
-        if(container.resolve('config').dimension == 'Inches'){
-            maxY = maxY/dimension + delta*2;
-            maxY = Math.floor(maxY/divider)*divider+divider;
-            minY = minY/dimension - delta*2;
-            minY = Math.floor(minY/divider)*divider;
-        } else {
-            maxY = maxY + 1;
-            minY = minY - 1;
-        }
+        let maxY = this.board._convertToGlobalCoordinateSystem({x:0,y:rulerWidth}).y/dimension + delta*2;
+        let minY = this.board._convertToGlobalCoordinateSystem({x:0,y:this.board._height}).y - delta*2;
+        minY = Math.floor(minY/divider)*divider;
         if(maxY<=0 || minY>0){
             for (let y = minY; y < maxY; y+=delta) drawDivisionY(y);
         }else{
