@@ -2,16 +2,15 @@
  * Created by dev on 07.02.19.
  */
 
-import LineType from './LineType';
+import Comment from './Comment';
 
-export default class CommentToSelf extends LineType{
+export default class CommentToSelf extends Comment{
     constructor(){
         super();
         this.name='Comment';
         this.label = "Comment to Self";
         this.id=14;
 
-        this.dimension = false;
     }
 
     /**
@@ -20,7 +19,7 @@ export default class CommentToSelf extends LineType{
      */
     copy(){
         let res = new CommentToSelf();
-        res.dimension = this.dimension;
+        res.type=this.type;
         return res;
     }
 

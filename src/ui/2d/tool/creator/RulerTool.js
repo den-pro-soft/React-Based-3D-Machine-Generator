@@ -5,6 +5,7 @@
 import LineTool from './LineTool';
 
 import CommentToSelf from '../../../../model/line_types/CommentToSelf';
+import Comment from "../../../../model/line_types/Comment";
 
 export default class RulerTool extends LineTool{
     constructor(document){
@@ -13,7 +14,7 @@ export default class RulerTool extends LineTool{
     createElement(point){
         let line = super.createElement(point);
         line.lineType = new CommentToSelf();
-        line.lineType.dimension=true;
+        line.lineType.type=Comment.TYPE_DIMENSION;
         return line;
     }
 }

@@ -300,7 +300,6 @@ export default class Shape{
             if(!points){
                 return false;
             }
-            console.log(points, "INTERSECT POINTS");
             m: for(let point of points){
                 for(let el of this.elements){
                     let elPoints = el.extremePoints;

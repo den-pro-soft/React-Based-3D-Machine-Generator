@@ -8,6 +8,10 @@ import Render from './Render';
 import Trigonometric from '../../../model/math/Trigonometric';
 
 import CommentToSelf from '../../../model/line_types/CommentToSelf'
+import LineArc from "../../../model/math/algorithms/intersects/LineArc";
+import Comment from "../../../model/line_types/Comment";
+
+let lineArcIntersector = new LineArc();
 
 export default class LineRenderer extends Render{
     /**
@@ -26,57 +30,95 @@ export default class LineRenderer extends Render{
     drawElement(){
         this.board.drawLine(this.element.p1, this.element.p2);
 
-        if(this.element.lineType instanceof CommentToSelf && this.element.lineType.dimension) {
+        if(this.element.lineType instanceof Comment && (this.element.lineType.type== Comment.TYPE_DIMENSION || this.element.lineType.type== Comment.TYPE_ARROW)) {
             this._renderPointers();
         }
     }
     
     
     _renderPointers(){
-        let vector = this.element.copy();
-
-        let center = vector.getCenter();
-        vector.rotate(center,90);
-        vector.move(-vector._line.A/2,vector._line.B/2);
-
-        let circle = new Arc(this.element.p2.copy(), 1);
-        let crossPoints = vector.toPolyLines()[0].getCrossPoints(circle.toPolyLines()[0]);
-        //todo: fix horizontal and vertical line
-        if(crossPoints.length==2){
-            vector.p1 = crossPoints[0];
-            vector.p2 = crossPoints[1];
-            this.board.drawLine(vector.p1, vector.p2);
-            vector.move(-this.element._line.B,-this.element._line.A);
-            this.board.drawLine(vector.p1, vector.p2);
-            vector.rotate(vector.getCenter(), 65);
-            if(this.element._line.B>0) {
-                vector.p2 = vector.getCenter();
-            }else{
-                vector.p1 = vector.getCenter();
-            }
-            this.board.drawLine(vector.p1, vector.p2);
-            if(this.element._line.B>0) {
-                vector.rotate(vector.p2, 50);
-            }else{
-                vector.rotate(vector.p1, 50);
-            }
-            this.board.drawLine(vector.p1, vector.p2);
-
-            vector.move(this.element._line.B,this.element._line.A);
-            if(this.element._line.B>0) {
-                vector.rotate(vector.p2, 180);
-            }else{
-                vector.rotate(vector.p1, 180);
-            }
-            this.board.drawLine(vector.p1, vector.p2);
-            if(this.element._line.B>0) {
-                vector.rotate(vector.p2, -50);
-            }else{
-                vector.rotate(vector.p1, -50);
-            }
-            this.board.drawLine(vector.p1, vector.p2);
-
+        if(this.element.length()<2){
+            return;
         }
+
+        switch (this.element.lineType.type) {
+            case Comment.TYPE_DIMENSION:
+                this.drawDimensionText();
+                let vector = this.element.copy();
+                vector.rotate(vector.p2, 35);
+                let circle = new Arc(vector.p2, 1);
+                let crossPoint = lineArcIntersector.getIntersectPoints(vector, circle);
+                if (crossPoint) {
+                    this.board.drawLine(vector.p2, crossPoint[0]);
+                }
+
+                vector = this.element.copy();
+                vector.rotate(vector.p2, -35);
+                circle = new Arc(vector.p2, 1);
+                crossPoint = lineArcIntersector.getIntersectPoints(vector, circle);
+                if (crossPoint) {
+                    this.board.drawLine(vector.p2, crossPoint[0]);
+                }
+
+                vector = this.element.copy();
+                vector.rotate(vector.p2, -89.9);
+                circle = new Arc(vector.p2, 1);
+                crossPoint = lineArcIntersector.getIntersectPoints(vector, circle);
+                if (crossPoint) {
+                    this.board.drawLine(vector.p2, crossPoint[0]);
+                }
+
+
+                vector = this.element.copy();
+                vector.rotate(vector.p2, 89.9);
+                circle = new Arc(vector.p2, 1);
+                crossPoint = lineArcIntersector.getIntersectPoints(vector, circle);
+                if (crossPoint) {
+                    this.board.drawLine(vector.p2, crossPoint[0]);
+                }
+
+
+                vector = this.element.copy();
+                vector.rotate(vector.p1, -89.9);
+                circle = new Arc(vector.p1, 1);
+                crossPoint = lineArcIntersector.getIntersectPoints(vector, circle);
+                if (crossPoint) {
+                    this.board.drawLine(vector.p1, crossPoint[0]);
+                }
+
+                vector = this.element.copy();
+                vector.rotate(vector.p1, 89.9);
+                circle = new Arc(vector.p1, 1);
+                crossPoint = lineArcIntersector.getIntersectPoints(vector, circle);
+                if (crossPoint) {
+                    this.board.drawLine(vector.p1, crossPoint[0]);
+                }
+
+
+            case Comment.TYPE_ARROW:
+                let vector1 = this.element.copy();
+                vector1.rotate(vector1.p1, 35);
+                let circle1 = new Arc(vector1.p1, 1);
+                let crossPoint1 = lineArcIntersector.getIntersectPoints(vector1, circle1);
+                if (crossPoint1) {
+                    this.board.drawLine(vector1.p1, crossPoint1[0]);
+                }
+
+                vector1 = this.element.copy();
+                vector1.rotate(vector1.p1, -35);
+                circle1 = new Arc(vector1.p1, 1);
+                crossPoint1 = lineArcIntersector.getIntersectPoints(vector1, circle1);
+                if (crossPoint1) {
+                    this.board.drawLine(vector1.p1, crossPoint1[0]);
+                }
+        }
+    }
+
+
+    /**
+     * @private
+     */
+    drawDimensionText(){
         let grad = Trigonometric.radToGrad(Math.atan(this.element._line.k));
         let height = 2 * this.board._pixelPerOne*this.board._scale;
         this.board.style('font',height + 'px Arial');

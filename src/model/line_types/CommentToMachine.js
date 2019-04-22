@@ -16,7 +16,7 @@ export default class CommentToMachine extends CommentToSelf{
      */
     copy(){
         let res = new CommentToMachine();
-        res.dimension = this.dimension;
+        res.type=this.type;
         return res;
     }
 
