@@ -124,6 +124,32 @@ export default class Shape{
 
 
     /**
+     *
+     * @param {Array.<GraphicElement>} elements
+     * @return {Array.<{point:Point, elements:Array.<GraphicElement>}>}
+     * @private
+     */
+    groupElementsByPoint(elements){
+        /** @type {Array.<{point:Point, elements:Array.<GraphicElement>}>} */
+        let res = [];
+
+        for(let el of elements){
+            let points = el.extremePoints;
+            m: for(let point of points){
+                for(let cp of res){
+                    if(cp.point.compare(point)){
+                        cp.elements.push(el);
+                        continue m;
+                    }
+                }
+                res.push({point:point, elements:[el]});
+            }
+        }
+
+        return res;
+    }
+
+    /**
      * @return {Array.<Point>} - the list of points
      */
     getConsistentlyPoints(){
@@ -134,7 +160,7 @@ export default class Shape{
         }
 
         /** @type {Array.<{point:Point, elements:Array.<GraphicElement>}>} */
-        let pointsByElement = [];
+        let pointsByElement = this.groupElementsByPoint(this.elements);
 
         let findPointWithElement = (element, currentPoint)=>{
             for(let point of pointsByElement){
@@ -149,19 +175,6 @@ export default class Shape{
             return null;
         };
 
-
-        for(let el of this.elements){
-            let points = el.extremePoints;
-            m: for(let point of points){
-                for(let cp of pointsByElement){
-                    if(cp.point.compare(point)){
-                        cp.elements.push(el);
-                        continue m;
-                    }
-                }
-                pointsByElement.push({point:point, elements:[el]});
-            }
-        }
 
         let res = [];
 
@@ -193,20 +206,36 @@ export default class Shape{
                 points=temp;
             }
 
-
             if(points.length>2){
                 if(points[0].compare(currentPoint.point)) {
                     res.push(...points);
+                    res.splice(res.length-2,1);
                 }else{
-                    res.push(...points.reverse());
+                    if(points[points.length-1].compare(currentPoint.point)) {
+                        res.push(...points.reverse());
+                        res.splice(res.length-2,1);
+                    }else{
+                        console.error("The points is not extreme point!");
+                    }
                 }
             }else {
                 res.push(currentPoint.point);
             }
-
             nextPoint = findPointWithElement(currentElement, currentPoint);
         }while(nextPoint!=null && !nextPoint.point.compare(startPoint.point));
-        return res;
+
+
+        let temp = [];
+        m: for(let i=0; i<res.length; i++){
+            for(let j=i; j<res.length-1; j++){
+                if(res[i].compare(res[j+1])){
+                    continue m;
+                }
+            }
+            temp.push(res[i]);
+        }
+
+        return temp;
     }
 
     getElementsEndPoints(){
