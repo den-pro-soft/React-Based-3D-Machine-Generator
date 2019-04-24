@@ -3,11 +3,16 @@
  */
 import Cloneable from './../../Cloneable';
 
+/**
+ * @abstract
+ */
 export default class LineType extends Cloneable{
     constructor(){
         super();
         this.name ='Auto';
         this.label = "Auto";
+
+        this.helpURL = "";
         this.id=14;
     }
 
