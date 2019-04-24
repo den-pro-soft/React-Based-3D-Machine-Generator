@@ -159,7 +159,7 @@ class UpMenu extends React.Component {
                   <img width="24px" src="resources/images/3DPreview.png" />
                 </a>
               </button>
-              <button
+              <button onClick={() => container.resolve('app').priceAnalyze()}
                   data-tip={container.resolve("tips").getTip('price-analyze')} data-html={true}
               >
                 <a href="#">

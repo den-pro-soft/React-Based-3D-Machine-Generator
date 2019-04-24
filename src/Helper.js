@@ -202,10 +202,11 @@ class Request{
         var xhr = new XMLHttpRequest();
 
         xhr.open("POST", URL, false);
-        xhr.setRequestHeader('Content-type', 'application/xml; charset=utf-8');
+        xhr.setRequestHeader('Content-type', 'multipart/form-data');
 
-        xhr.onreadystatechange = callback;
-
+        xhr.onload = (res)=>{
+            callback(res.srcElement.response);
+        };
         xhr.send(data);
 
     }
