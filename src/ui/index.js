@@ -4,7 +4,7 @@ import "./index.scss";
 import LeftMenu from "./React/LeftMenu/LeftMenu";
 import ReactUp from "./React/ReactUpMenu/ReactUp";
 import BottomPanel from "./React/BottomPanel/BottomPanel";
-import FileNameModal from './React/modal/FileName';
+import FileNameModal from './React/modal/FileName/FileName';
 import {
   // BrowserRouter as Router,
   HashRouter as Router,

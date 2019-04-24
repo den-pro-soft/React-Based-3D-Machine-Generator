@@ -161,7 +161,9 @@ export default class LineElement extends GraphicElement{
 
         for(let i=1; i<points.length; i++){
             if(!points[i-1].compare(points[i])) {
-                res.push(new LineElement(points[i - 1].copy(), points[i].copy()));
+                let line = new LineElement(points[i - 1].copy(), points[i].copy());
+                line._lineType=this._lineType.copy();
+                res.push(line);
             }
         }
         return res;

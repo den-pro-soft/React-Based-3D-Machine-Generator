@@ -258,6 +258,7 @@ export default class Spline extends GraphicElement{
             let newStart = this.getPointOffset(t[i-1]);
             let newEnd = this.getPointOffset(t[i]);
             let spline = new Spline(newStart, newEnd);
+            spline.lineType=this.lineType.copy();
             if(i-1==0){
                 spline.controlPoint1= l1.getPointOffset(t[i]);
             }else{

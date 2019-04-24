@@ -7,6 +7,11 @@ import LazerMark from "./LazerMark";
 import CommentsToSelf from "./CommentsToSelf";
 import CommentsToMachinist from "./CommentsToMachinist";
 
+import AutoLineType from './../../../../../model/line_types/Auto';
+import BendLineType from './../../../../../model/line_types/Bend';
+import CommentToSelfLineType from './../../../../../model/line_types/CommentToSelf';
+import CommentToMachinistLineType from './../../../../../model/line_types/CommentToMachine';
+
 import { withRouter } from "react-router-dom";
 import {
   HashRouter as Router,
@@ -26,8 +31,36 @@ class Machine extends React.Component {
       // console.log(this.props, "this.props-New");
       // this.props.history.replace("/machine/auto");
       // this.props.history.push('/');
-      this.props.history.replace('/');
+        if(this.props.lineType instanceof Bend){
+            this.props.history.replace('/machine/bend');
+        }else{
+            this.props.history.replace('/');
+        }
 
+    }
+
+    componentWillReceiveProps(nextProps){
+        if(nextProps.lineType instanceof Bend){
+            console.log("Bend props");
+        }
+    }
+
+    changeLineType(typeName){
+        let newLineType = null;
+        switch (typeName) {
+            case "Bend":
+                newLineType = new BendLineType();
+                break;
+            case "CommentToSelf":
+                newLineType = new CommentToSelfLineType();
+                break;
+            case "CommentToMachinist":
+                newLineType = new CommentToMachinistLineType();
+                break;
+            default:
+                newLineType = new AutoLineType();
+        }
+        this.props.changeLineType(newLineType);
     }
 
     render() {
@@ -43,7 +76,7 @@ class Machine extends React.Component {
               <legend className="MenuTitle">Relevant Items</legend>
               <div className="Menu-UL">
                 <ul>
-                  <li>
+                  <li onClick={()=>{this.changeLineType('Auto')}}>
                     <NavLink
                       className="Auto"
                       exact
@@ -54,7 +87,7 @@ class Machine extends React.Component {
                       Auto
                     </NavLink>
                   </li>
-                  {/* <li>
+                    <li>
                     <NavLink
                       className="Tap"
                       exact
@@ -63,8 +96,8 @@ class Machine extends React.Component {
                     >
                       Thead&Tap
                     </NavLink>
-                  </li> */}
-                  <li>
+                  </li>
+                  <li onClick={()=>{this.changeLineType('Bend')}}>
                     <NavLink
                       className="Bend"
                       activeStyle={{ color: "blue" }}
@@ -82,7 +115,7 @@ class Machine extends React.Component {
                       Lazer Mark
                     </NavLink>
                   </li> */}
-                  <li>
+                  <li onClick={()=>{this.changeLineType('CommentToSelf')}}>
                     <NavLink
                       className="ToSelf"
                       activeStyle={{ color: "blue" }}
@@ -91,7 +124,7 @@ class Machine extends React.Component {
                       Comments to Self
                     </NavLink>
                   </li>
-                  <li>
+                  <li onClick={()=>{this.changeLineType('CommentToMachinist')}}>
                     <NavLink
                       className="ToMachinist"
                       activeStyle={{ color: "blue" }}

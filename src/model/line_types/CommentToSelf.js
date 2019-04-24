@@ -11,6 +11,7 @@ export default class CommentToSelf extends Comment{
         this.label = "Comment to Self";
         this.id=14;
 
+        this.helpURL="https://www.emachineshop.com/help-2d-advanced/#comments-to-myself";
     }
 
     /**
