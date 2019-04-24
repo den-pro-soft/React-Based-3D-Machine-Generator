@@ -3,6 +3,9 @@
  */
 import Cloneable from './../../Cloneable';
 
+/**
+ * @abstract
+ */
 export default class LineType extends Cloneable{
     constructor(){
         super();
