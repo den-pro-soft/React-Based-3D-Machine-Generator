@@ -1,5 +1,7 @@
 import {DraggablePopup} from "../popup";
 
+import View3D from './../3Dview';
+
 export default class ThreeDView{
     constructor(board, app){
         this.popup3DView = new DraggablePopup()

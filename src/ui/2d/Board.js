@@ -319,14 +319,15 @@ class InteractiveBoard extends Board{
             this.boardExtensions.push(new RealMousePosition(this))
         }
 
-
-        setTimeout(()=>{
-            try{
-                this.renderDocument()
-            }catch (e) {
-                console.warn(e);
-            }}, 100);
-
+        if(ENV !='test') {
+            setTimeout(() => {
+                try {
+                    this.renderDocument()
+                } catch (e) {
+                    console.warn(e);
+                }
+            }, 100);
+        }
 
         this._canvas.addEventListener('mousemove', e=>this.mouseMove(e));
         this._canvas.addEventListener('mousedown', e=>this.mouseDown(e));

@@ -211,14 +211,28 @@ class Request{
     }
 }
 
-const Helper = {
+
+class MathHelper{
+    /**
+     * @param {number} n1
+     * @param {number} n2
+     * @param {number} accuracy
+     * @return {boolean}
+     */
+    static equals(n1,n2, accuracy=1E-5){
+        return n1+accuracy>=n2 && n1-accuracy<=n2;
+    }
+
+}
+
+export default {
     Window:new WindowHelper(),
     Text:TextHelper,
     Key:new KeyHelper(),
-    Request:new Request()
+    Request:new Request(),
+    Math:MathHelper
 };
 
-window.Helper = Helper;
 
 
 

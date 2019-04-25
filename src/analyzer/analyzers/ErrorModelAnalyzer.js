@@ -18,6 +18,7 @@ import Group from "../../model/elements/Group";
 import SelectTool from "../../ui/2d/tool/SelectTool";
 import MagnificationDecorator from "../../ui/2d/tool/decorators/MagnificationDecorator";
 import CrossItself from "../rules/CrossItself";
+import OverlappingLine from "../rules/OverlappingLine";
 
 export default class ErrorModelAnalyzer extends Analyzer{
 
@@ -27,6 +28,7 @@ export default class ErrorModelAnalyzer extends Analyzer{
     constructor(document){
         super(document);
 
+        this.rules.push(new OverlappingLine(document));
         this.rules.push(new LineInNoShapeRule(document));
         this.rules.push(new NotClosedShape(document));
         this.rules.push(new CrossItself(document));
@@ -47,7 +49,9 @@ export default class ErrorModelAnalyzer extends Analyzer{
     analyze(){
         return new Promise((resolve, reject)=>{
             super.analyze().then((res)=>{
-                this.groupShapes();
+                if(res) {
+                    this.groupShapes();
+                }
                 resolve(res);
             }).catch(error=>{
                 reject(error);

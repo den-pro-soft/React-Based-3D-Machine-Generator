@@ -1,9 +1,8 @@
 #### List of global variables
 1. **app** - Container.js
 2. **container** - Container.js
-3. **View3D** - 3DView.js (need remove from global scope)
 4. **Popup, DialogPopup, DraggablePopup** - popup.js (need remove from global scope)
-5. **Helper** - Helper.js
+5. **Helper** - Container.js
 6. **Exception** - Container.js
 
 ---

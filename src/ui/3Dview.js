@@ -7,7 +7,7 @@ import {PolygonMeshBuilder} from './3d/GeometryBuilder';
  * @param {Object} canvas
  * @param {Object} size -  {width:width, height:height}
  */
-class View3D{
+export default class View3D{
     constructor(size){
         this.scene = new THREE.Scene();
         this.scene.background = new THREE.Color(0x121212);
@@ -119,5 +119,3 @@ class View3D{
         }
     }
 };
-
-global.View3D = View3D;

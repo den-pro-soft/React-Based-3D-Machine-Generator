@@ -7,6 +7,7 @@ import Point from "./../Point";
 import Exception from './../../Exception';
 import Vector from './Vector';
 import Matrix from './Matrix';
+import Helper from "../../Helper";
 
 export default class Line{
     /**
@@ -46,7 +47,7 @@ export default class Line{
      * @return {number} - the angle coefficient in  [  y=k*x+b  ]
      */
     get k(){
-        if(this.A==0 || this.B==0){
+        if(Helper.Math.equals(this.A, 0)|| Helper.Math.equals(this.B, 0)){
             return 0;
         }
         return this.A/this.B;
@@ -57,7 +58,7 @@ export default class Line{
      */
     get b(){
         let b= this.B;
-        if(b==0){
+        if(Helper.Math.equals(b, 0)){
             return 0;
         }else {
             return -(this.C/b);
@@ -77,6 +78,12 @@ export default class Line{
      * @return {number}
      */
     x(y){
+        if(Helper.Math.equals(this.k,0)){
+            if(Helper.Math.equals(this.B, 0)){
+                return this._p1.x;
+            }
+            return this.b;
+        }
         return (y-this.b)/this.k;
     }
 
@@ -237,6 +244,7 @@ export default class Line{
         return null;
     }
 
+    //todo: move the method to Math Helper
     between(value, a, b, Eps=1E-3) {
         var min = Math.min.apply(Math, [a, b]),
             max = Math.max.apply(Math, [a, b]);
@@ -257,5 +265,26 @@ export default class Line{
 
         return point.y==this.k*point.x+this.b
             && this.between(point.x,this._p1.x, this._p2.x) && this.between(point.y,this._p1.y, this._p2.y);
+    }
+
+    /**
+     * @param {Line} line
+     * @return {number}
+     */
+    isParallel(line){
+        return (this.A * line.B - line.A * this.B)==0;
+    }
+
+    /**
+     * @param {Line} line
+     * @return {boolean}
+     */
+    isOverlapping(line){
+        let res = true;
+        res&=Helper.Math.equals(this.b,line.b);
+        res&=Helper.Math.equals(this.k,line.k);
+        res&=Helper.Math.equals(this.y(this._p1.x), line.y(this._p1.x));
+        res&=Helper.Math.equals(this.x(this._p1.y), line.x(this._p1.y));
+        return res;
     }
 }

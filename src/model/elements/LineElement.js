@@ -79,6 +79,14 @@ export default class LineElement extends GraphicElement{
     isBelongsToTheElement(point){
         return this._line.isBelongsToTheLine(point);
     }
+
+    /**
+     * @param {LineElement} lineElement
+     * @return {boolean}
+     */
+    isOverlapping(lineElement){
+        return this._line.isOverlapping(lineElement._line);
+    }
     
     /**
      * @inheritDoc

@@ -1,4 +1,5 @@
 {
+  "_comment":"//todo: (node:8339) DeprecationWarning: [--compilers] will be removed in a future version of Mocha; see https://git.io/vdcSr for more info",
   "name": "cad",
   "version": "1.0.0",
   "description": "",

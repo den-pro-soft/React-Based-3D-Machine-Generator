@@ -2,6 +2,7 @@ import Exception from "../Exception";
 import Matrix from "./math/Matrix";
 import Vector from "./math/Vector";
 import Cloneable from './../Cloneable';
+import Helper from "../Helper";
 
 /**
  * @type {number} - need for generation unique identifier
@@ -112,7 +113,7 @@ export default class Point extends Cloneable{
      * @return {boolean} - true if the point is near
      */
     isNear(point, eps){
-        return this.x-eps<point.x && this.x+eps>point.x && this.y-eps<point.y && this.y+eps>point.y && this.z-eps<point.z && this.z+eps>point.z;
+        return Helper.Math.equals(this.x, point.x, eps) && Helper.Math.equals(this.y, point.y, eps) && Helper.Math.equals(this.z, point.z, eps);
     }
 
     /**

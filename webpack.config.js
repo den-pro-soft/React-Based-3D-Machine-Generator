@@ -9,7 +9,7 @@ let getProps = function(name){
     }else {
         switch (name) {
             case "ENV":
-                return "prod"; // prod|dev
+                return "prod"; // prod|dev|test
             default:
                 return "";
         }
@@ -20,9 +20,7 @@ let getProps = function(name){
 module.exports = {
   mode: "development", // "production" | "development" | "none"  // Chosen mode tells webpack to use its built-in optimizations accordingly.
   entry: {
-    "3Dview": "./src/ui/3Dview.js",
     popup: "./src/ui/popup.js",
-    Helper: "./src/Helper.js",
     Container: "./src/Container.js",
     //React enry point
     index: "./src/ui/index.js"
@@ -31,7 +29,6 @@ module.exports = {
     // path: path.resolve(__dirname+"/dist/"),
     filename: "[name].js",
     publicPath: "assets/", // string    // the url to the output directory resolved relative to the HTML page
-    library: "3DView",
     libraryTarget: "umd" // universal module definition    // the type of the exported library
     /* Advanced output configuration (click to show) */
   },

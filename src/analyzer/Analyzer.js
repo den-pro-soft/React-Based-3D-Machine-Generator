@@ -84,6 +84,12 @@ export default class Analyzer{
                         }else {
                             currentSolution.execute().then((resExecute)=>{
                                 if(resExecute) {
+
+                                    if(board.tool['clearSelectElements']!=undefined){
+                                        board.tool.clearSelectElements();
+                                    }
+                                    index=0;
+
                                     this.checkRule(index).then((res) => {
                                         if (res) {
                                             if (index == this.rules.length - 1) {

@@ -4,6 +4,8 @@
 
 import {Container} from 'addict-ioc';
 
+import Helper from './Helper';
+
 import Exception from './Exception';
 import Config from './Config';
 import {InteractiveBoard} from './ui/2d/Board';
@@ -33,6 +35,7 @@ import Confirmation from "./ui/modal/Confirmation";
 import Tips from "./ui/React/Tips";
 import LocalStorageBuffer from "./Buffer/LocalStorageBuffer";
 import ThreeDView from "./ui/modal/3DView";
+
 
 /**
  * @param {string} name
@@ -115,3 +118,5 @@ global.app = container.resolve('app');
 
 
 global.Exception = Exception;
+
+global.Helper = Helper;
