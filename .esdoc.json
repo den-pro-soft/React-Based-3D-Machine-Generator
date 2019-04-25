@@ -29,7 +29,9 @@
                 "asset": "./manual-doc/asset",
                 "files": [
                     "./CHANGELOG.md",
-                    "./manual-doc/ProjectStructure.md"
+                    "./manual-doc/ProjectStructure.md",
+                    "./manual-doc/BoardToolSpecification.md",
+                    "./manual-doc/Deployment.md"
                 ]
             }
         }

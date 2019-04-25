@@ -321,10 +321,12 @@ export default class Application extends Observable{
     }
 
     _changeTool(tool){
-        if(!(tool instanceof PointerTool) && !(tool instanceof MagnificationTransformerDecorator)){
+        console.log(tool);
+        if(!(tool instanceof PointerTool)){
             this._lastTool=tool;
         }
         if(this._magnificationMode && !(tool instanceof MagnificationDecorator)){
+
             if(tool instanceof CreatorTool){
                 tool = new MagnificationCreatorToolDecorator(this.currentDocument, tool);
             } else if(tool instanceof EditLineTool){

@@ -15,6 +15,8 @@ You can override the variables in the ./.env file.
 All the environment variables are global.
 
 
+---
+Structure of data file [*.emsx](./manual-doc/asset/example.emsx) is in the  [data_structure.dtd](./manual-doc/asset/format.dtd) file.
 
 
 
