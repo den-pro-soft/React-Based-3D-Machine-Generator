@@ -209,14 +209,14 @@ export default class Shape{
             if(points.length>2){
                 if(points[0].compare(currentPoint.point)) {
                     res.push(...points);
-                    res.splice(res.length-2,1);
+                    // res.splice(res.length-2,1);
                 }else{
-                    if(points[points.length-1].compare(currentPoint.point)) {
+                    // if(points[points.length-1].compare(currentPoint.point)) {
                         res.push(...points.reverse());
-                        res.splice(res.length-2,1);
-                    }else{
-                        console.error("The points is not extreme point!");
-                    }
+                        // res.splice(res.length-2,1);
+                    // }else{
+                    //     console.error("The points is not extreme point!");
+                    // }
                 }
             }else {
                 res.push(currentPoint.point);
