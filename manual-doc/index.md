@@ -1,11 +1,11 @@
 ### About
 The frontend part of web eMachineShop CAD project.
 
-##Specifications
+## Specifications
 [Board Tool Specification](./manual/BoardToolSpecification.html)
 
 
-##Appendices
+## Appendices
 [CHANGELOG](./manual/CHANGELOG.html)
 
 

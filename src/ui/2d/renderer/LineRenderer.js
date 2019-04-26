@@ -120,7 +120,7 @@ export default class LineRenderer extends Render{
      */
     drawDimensionText(){
         let grad = Trigonometric.radToGrad(Math.atan(this.element._line.k));
-        let height = 3.53 * this.board._pixelPerOne*this.board._scale;
+        let height = 14 ;//3.53 * this.board._pixelPerOne*this.board._scale;
         this.board.style('font',height + 'px Arial');
         this.board.style('textAlign','center');
         this.board.style('textBaseline','bottom');
