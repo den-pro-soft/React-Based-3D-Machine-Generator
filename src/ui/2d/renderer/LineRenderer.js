@@ -44,9 +44,12 @@ export default class LineRenderer extends Render{
         switch (this.element.lineType.type) {
             case Comment.TYPE_DIMENSION:
                 this.drawDimensionText();
+
+                let circleRadius = 14/(this.board._pixelPerOne*this.board._scale);
+
                 let vector = this.element.copy();
                 vector.rotate(vector.p2, 35);
-                let circle = new Arc(vector.p2, 1);
+                let circle = new Arc(vector.p2, circleRadius);
                 let crossPoint = lineArcIntersector.getIntersectPoints(vector, circle);
                 if (crossPoint) {
                     this.board.drawLine(vector.p2, crossPoint[0]);
@@ -54,7 +57,7 @@ export default class LineRenderer extends Render{
 
                 vector = this.element.copy();
                 vector.rotate(vector.p2, -35);
-                circle = new Arc(vector.p2, 1);
+                circle = new Arc(vector.p2, circleRadius);
                 crossPoint = lineArcIntersector.getIntersectPoints(vector, circle);
                 if (crossPoint) {
                     this.board.drawLine(vector.p2, crossPoint[0]);
@@ -62,7 +65,7 @@ export default class LineRenderer extends Render{
 
                 vector = this.element.copy();
                 vector.rotate(vector.p2, -89.9);
-                circle = new Arc(vector.p2, 1);
+                circle = new Arc(vector.p2, circleRadius);
                 crossPoint = lineArcIntersector.getIntersectPoints(vector, circle);
                 if (crossPoint) {
                     this.board.drawLine(vector.p2, crossPoint[0]);
@@ -71,7 +74,7 @@ export default class LineRenderer extends Render{
 
                 vector = this.element.copy();
                 vector.rotate(vector.p2, 89.9);
-                circle = new Arc(vector.p2, 1);
+                circle = new Arc(vector.p2, circleRadius);
                 crossPoint = lineArcIntersector.getIntersectPoints(vector, circle);
                 if (crossPoint) {
                     this.board.drawLine(vector.p2, crossPoint[0]);
@@ -80,7 +83,7 @@ export default class LineRenderer extends Render{
 
                 vector = this.element.copy();
                 vector.rotate(vector.p1, -89.9);
-                circle = new Arc(vector.p1, 1);
+                circle = new Arc(vector.p1, circleRadius);
                 crossPoint = lineArcIntersector.getIntersectPoints(vector, circle);
                 if (crossPoint) {
                     this.board.drawLine(vector.p1, crossPoint[0]);
@@ -88,7 +91,7 @@ export default class LineRenderer extends Render{
 
                 vector = this.element.copy();
                 vector.rotate(vector.p1, 89.9);
-                circle = new Arc(vector.p1, 1);
+                circle = new Arc(vector.p1, circleRadius);
                 crossPoint = lineArcIntersector.getIntersectPoints(vector, circle);
                 if (crossPoint) {
                     this.board.drawLine(vector.p1, crossPoint[0]);
@@ -98,7 +101,7 @@ export default class LineRenderer extends Render{
             case Comment.TYPE_ARROW:
                 let vector1 = this.element.copy();
                 vector1.rotate(vector1.p1, 35);
-                let circle1 = new Arc(vector1.p1, 1);
+                let circle1 = new Arc(vector1.p1, circleRadius);
                 let crossPoint1 = lineArcIntersector.getIntersectPoints(vector1, circle1);
                 if (crossPoint1) {
                     this.board.drawLine(vector1.p1, crossPoint1[0]);
@@ -106,7 +109,7 @@ export default class LineRenderer extends Render{
 
                 vector1 = this.element.copy();
                 vector1.rotate(vector1.p1, -35);
-                circle1 = new Arc(vector1.p1, 1);
+                circle1 = new Arc(vector1.p1, circleRadius);
                 crossPoint1 = lineArcIntersector.getIntersectPoints(vector1, circle1);
                 if (crossPoint1) {
                     this.board.drawLine(vector1.p1, crossPoint1[0]);
