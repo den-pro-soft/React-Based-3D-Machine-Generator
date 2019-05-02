@@ -2,7 +2,6 @@ import Exception from "../Exception";
 import Matrix from "./math/Matrix";
 import Vector from "./math/Vector";
 import Cloneable from './../Cloneable';
-import Helper from "../Helper";
 
 /**
  * @type {number} - need for generation unique identifier

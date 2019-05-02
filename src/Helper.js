@@ -24,6 +24,7 @@ class TextHelper{
 
 class KeyHelper{
     constructor(){
+        console.log("Kay hepler 1");
         this.ctrlKey = false;
         this.shiftKey=false;
 
@@ -84,21 +85,6 @@ class KeyHelper{
                         }
                     }
                     break;
-                case 86: //Vv
-                    if(e.ctrlKey && e.target==document.body){
-                        container.resolve('buffer').paste();
-                    }
-                    break;
-                case 67: //Cc
-                    if(e.ctrlKey && e.target==document.body){
-                        container.resolve('buffer').copy();
-                    }
-                    break;
-                case 88: //Xx
-                    if(e.ctrlKey && e.target==document.body){
-                        container.resolve('buffer').cut();
-                    }
-                    break;
                 case 37: //left
                     if(e.target==document.body) {
                         app.moveSelected(-container.resolve('config').moveStep, 0);
@@ -126,7 +112,6 @@ class KeyHelper{
                     break;
                 case 82: //Rr
                     if(this.ctrlKey) {
-                        console.log("sdfsdf");
                         container.resolve('3dView').show3D();
                         e.preventDefault();
                     }else if(e.target==document.body){
@@ -177,6 +162,22 @@ class KeyHelper{
                     break;
                 case 16: //Shift
                     this.shiftKey=false;
+                    break;
+                case 86: //Vv
+                    if(e.ctrlKey && e.target==document.body){
+                        console.log("sdfsdf");
+                        container.resolve('buffer').paste();
+                    }
+                    break;
+                case 67: //Cc
+                    if(e.ctrlKey && e.target==document.body){
+                        container.resolve('buffer').copy();
+                    }
+                    break;
+                case 88: //Xx
+                    if(e.ctrlKey && e.target==document.body){
+                        container.resolve('buffer').cut();
+                    }
                     break;
             }
 
@@ -240,13 +241,15 @@ class MathHelper{
 
 }
 
-export default {
+const Helper = {
     Window:new WindowHelper(),
     Text:TextHelper,
     Key:new KeyHelper(),
     Request:new Request(),
     Math:MathHelper
 };
+
+export default Helper;
 
 
 

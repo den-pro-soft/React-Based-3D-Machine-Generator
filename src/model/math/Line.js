@@ -7,7 +7,6 @@ import Point from "./../Point";
 import Exception from './../../Exception';
 import Vector from './Vector';
 import Matrix from './Matrix';
-import Helper from "../../Helper";
 
 export default class Line{
     /**
