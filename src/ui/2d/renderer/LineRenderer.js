@@ -41,11 +41,10 @@ export default class LineRenderer extends Render{
             return;
         }
 
+        let circleRadius = 14/(this.board._pixelPerOne*this.board._scale);
         switch (this.element.lineType.type) {
             case Comment.TYPE_DIMENSION:
                 this.drawDimensionText();
-
-                let circleRadius = 14/(this.board._pixelPerOne*this.board._scale);
 
                 let vector = this.element.copy();
                 vector.rotate(vector.p2, 35);
