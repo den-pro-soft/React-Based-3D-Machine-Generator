@@ -598,13 +598,44 @@ export default class Application extends Observable{
     }
 
     priceAnalyze(){
-        Helper.Request.httpPost(
-            'https://www.emachineshop.com/instant-quote-test/',
-            "",
-            (response)=>{
-                console.log(response);
-            }
-        );
+        /** @type {FileLoader} */
+        let loader = container.resolve('fileLoaderFactory', 'xml');
+
+        let xml = loader.getBlobData(this.currentDocument).then((design)=>{
+            let fd = new FormData();
+            fd.append('password','price');
+            fd.append('design', design, this.currentDocument.fileName==""?"NewDocument.emsx":this.currentDocument.fileName);
+            fd.append('pquantity',1);
+            fd.append('pmaterial','Aluminum 2024');
+            fd.append('pmaterialid',131);
+            fd.append('pfinish','As Machined (0)');
+            fd.append('pcountry-field','Sweden');
+            fd.append('pstate','');
+            fd.append('pusername','webesmcad');
+            fd.append('puseremail','webemscad@emachineshop.com');
+
+            Helper.Request.httpPost(
+                'https://www.emachineshop.com/irfqserver',
+                fd,
+                (response)=>{
+                    let json = JSON.parse(response);
+                    let formData = new FormData();
+                    formData.append("prfqid",parseInt(json.server_rfqid));
+                    formData.append('prequest_type','result');
+                    formData.append('password','price');
+                    setTimeout(()=> {
+                        Helper.Request.httpPost(
+                            'https://www.emachineshop.com/irfqserver',
+                            formData,
+                            (prices) => {
+                                let pricesJSON = JSON.parse(prices);
+                                console.log(pricesJSON);
+                            }
+                        );
+                    }, 10000);
+                }
+            );
+        });
     }
 
     //</editor-fold>
