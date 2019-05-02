@@ -3,6 +3,7 @@
  */
 
 import GraphicElement from '../../../../model/GraphicElement';
+import Exception from "../../../../Exception";
 
 /**
  * The class need for changing elements
@@ -62,5 +63,12 @@ export default class Transformer{
             el._renderer.setFocus(true);
             el.render();
         }
+    }
+
+    /**
+     * @return {Promise.<Array.<GraphicElement>>}
+     */
+    getTransformElements(){
+        throw new Exception(`The method doesn't have implementation`);
     }
 }

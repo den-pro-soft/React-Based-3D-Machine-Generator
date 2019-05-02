@@ -255,44 +255,9 @@ export default class ResizeTransformer extends Transformer{
     }
 
     render(){
-        let changeElements = this._elements.map(e=>e.copy());
-        if(!this.activeControllPoint){
-            for(let element of changeElements){
-                element.move(this.dx,this.dy);
-            }
-            this.renderElements(changeElements);
-        }else{
-            if(this._downPosition) {
-                let hasArcs = changeElements.reduce((res, el)=>res||(el instanceof Arc && el.incrementAngle!=360),false);
-                let hasText = changeElements.reduce((res, el)=>res||(el instanceof Text),false);
-                let command = new ResizeElementsCommand(new Document(), changeElements,
-                    new Vector(this.dx, this.dy), this.activeControllPoint.alignX, this.activeControllPoint.alignY, true);
-                command.needSave = false;
-
-                if(hasText || (hasArcs && command._isCentralControlPoint())) {
-                    command.execute().then((res) => {
-                        if (res) {
-                            if (command.isReplacedElements()) {
-                                changeElements = command.getElements();
-                            }
-                        } else {
-                            this._downPosition = null;
-                            this.activeControllPoint = null;
-                        }
-                        this.renderElements(changeElements);
-                    });
-                }else{
-                    command.executeCommand();
-                    if(command.isReplacedElements()) {
-                        changeElements = command.getElements();
-                    }
-                    this.renderElements(changeElements);
-                }
-            }else{
-                this.renderElements(changeElements);
-            }
-        }
-
+        this.getTransformElements().then((elements)=>{
+            this.renderElements(elements);
+        });
     }
 
     renderElements(elements){
@@ -307,4 +272,48 @@ export default class ResizeTransformer extends Transformer{
         }
     }
 
+    /**
+     * @return {Promise.<Array.<GraphicElement>>}
+     */
+    getTransformElements(){
+        return new Promise((resolve, reject)=>{
+            let changeElements = this._elements.map(e=>e.copy());
+            if(!this.activeControllPoint){
+                for(let element of changeElements){
+                    element.move(this.dx,this.dy);
+                }
+                resolve(changeElements);
+            }else{
+                if(this._downPosition) {
+                    let hasArcs = changeElements.reduce((res, el)=>res||(el instanceof Arc && el.incrementAngle!=360),false);
+                    let hasText = changeElements.reduce((res, el)=>res||(el instanceof Text),false);
+                    let command = new ResizeElementsCommand(new Document(), changeElements,
+                        new Vector(this.dx, this.dy), this.activeControllPoint.alignX, this.activeControllPoint.alignY, true);
+                    command.needSave = false;
+
+                    if(hasText || (hasArcs && command._isCentralControlPoint())) {
+                        command.execute().then((res) => {
+                            if (res) {
+                                if (command.isReplacedElements()) {
+                                    changeElements = command.getElements();
+                                }
+                            } else {
+                                this._downPosition = null;
+                                this.activeControllPoint = null;
+                            }
+                            resolve(changeElements);
+                        }).catch(reject);
+                    }else{
+                        command.executeCommand();
+                        if(command.isReplacedElements()) {
+                            changeElements = command.getElements();
+                        }
+                        resolve(changeElements);
+                    }
+                }else{
+                    resolve(changeElements);
+                }
+            }
+        });
+    }
 }
