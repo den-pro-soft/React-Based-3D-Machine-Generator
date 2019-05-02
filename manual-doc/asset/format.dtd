@@ -37,6 +37,7 @@
 				Id      integer #IMPLIED
 				Name    CDATA   #IMPLIED
 				CTM     (0 | 1) #IMPLIED
+				LineType (Solid | Striple | Font | Arrow | Dimension) #IMPLIED -- for Comment machine lines, "Solid" if attribute is missing --
 				>
 
 		<!ELEMENT LaserMark EMPTY>

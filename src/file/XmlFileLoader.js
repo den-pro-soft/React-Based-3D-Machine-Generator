@@ -19,6 +19,8 @@ import GraphicElement from "../model/GraphicElement";
 import Bend from "../model/line_types/Bend";
 import BendProcessing from "../model/line_types/processings/Bend";
 import ShapeBuilder from "../analyzer/ShapeBuilder";
+import CommentsToMachinist from "./../model/line_types/CommentToMachine";
+import Comment from "./../model/line_types/Comment";
 
 
 export default class XmlFileLoader extends FileLoader{
@@ -65,7 +67,7 @@ export default class XmlFileLoader extends FileLoader{
                 newElement = false;
                 switch (tag.name){
                     case 'Machine':
-                        lineType = this._getLineTypeByIndex(parseInt(tag.attributes.Id));
+                        lineType = this._getLineTypeByTag(tag);
                         break;
                     case 'Region':
                         height = tag.attributes.Z;
@@ -233,6 +235,14 @@ export default class XmlFileLoader extends FileLoader{
      * @private
      */
     _createMachineByLineType(lineType){
+        if(lineType instanceof Comment){
+            let CTM=0;
+            if(lineType instanceof CommentsToMachinist){
+                CTM=1;
+            }
+            return `<Machine Id="${lineType.id}" Name="${lineType.name}" CTM="${CTM}" LineType="${lineType.type}"/>`;
+        }
+
         return `<Machine Id="${lineType.id}" Name="${lineType.name}"/>`;
     }
 
@@ -287,10 +297,17 @@ export default class XmlFileLoader extends FileLoader{
         return element;
     }
 
-    _getLineTypeByIndex(index){
-        switch(index){
+    _getLineTypeByTag(tag){
+        let res = null;
+        switch(parseInt(tag.attributes.Id)){
             case 14:
-                return new CommentToSelfLineType();
+                if(tag.attributes.CTM=="1"){
+                    res= new CommentsToMachinist()
+                }else {
+                    res= new CommentToSelfLineType();
+                }
+                res.type=tag.attributes.LineType;
+                return res;
             default:
                 return new AutoLineType();
         }

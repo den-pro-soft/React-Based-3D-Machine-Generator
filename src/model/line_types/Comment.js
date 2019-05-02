@@ -9,16 +9,18 @@ import LineType from './LineType';
  */
 export default class Comment extends LineType{
 
-    static TYPE_SOLID = "solid";
-    static TYPE_DASHES = "dashes";
-    static TYPE_FONT = "font";
-    static TYPE_ARROW = "arrow";
-    static TYPE_DIMENSION = "dimension";
+    static TYPE_SOLID = "Solid";
+    static TYPE_DASHES = "Striple";
+    static TYPE_FONT = "Font";
+    static TYPE_ARROW = "Arrow";
+    static TYPE_DIMENSION = "Dimension";
 
     constructor(){
         super();
 
         this.type = Comment.TYPE_SOLID;
+
+        this.name='Comment';
     }
 
 

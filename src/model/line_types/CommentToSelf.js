@@ -7,7 +7,6 @@ import Comment from './Comment';
 export default class CommentToSelf extends Comment{
     constructor(){
         super();
-        this.name='Comment';
         this.label = "Comment to Self";
         this.id=14;
 

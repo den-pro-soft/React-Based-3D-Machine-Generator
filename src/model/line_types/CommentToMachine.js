@@ -2,9 +2,9 @@
  * Created by dev on 22.02.19.
  */
 
-import CommentToSelf from './CommentToSelf';
+import Comment from './Comment';
 
-export default class CommentToMachine extends CommentToSelf{
+export default class CommentToMachine extends Comment{
     constructor(){
         super();
         this.label = "Comment to Machinist";
