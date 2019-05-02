@@ -223,6 +223,20 @@ class MathHelper{
         return n1+accuracy>=n2 && n1-accuracy<=n2;
     }
 
+    /**
+     *
+     * @param {number} value
+     * @param {number} a
+     * @param {number} b
+     * @param {number} [Eps=1E-3]
+     * @return {boolean}
+     */
+    static between(value, a, b, Eps=1E-3) {
+        var min = Math.min.apply(Math, [a, b]),
+            max = Math.max.apply(Math, [a, b]);
+        return value+Eps > min && value < max+Eps;
+    };
+
 }
 
 export default {

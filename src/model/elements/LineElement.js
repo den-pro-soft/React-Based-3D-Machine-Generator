@@ -85,7 +85,9 @@ export default class LineElement extends GraphicElement{
      * @return {boolean}
      */
     isOverlapping(lineElement){
-        return this._line.isOverlapping(lineElement._line);
+        return this._line.isOverlapping(lineElement._line) &&
+            (Helper.Math.between(this.p1.x, lineElement.p1.x, lineElement.p2.x) || Helper.Math.between(this.p2.x, lineElement.p1.x, lineElement.p2.x)) &&
+            (Helper.Math.between(this.p1.y, lineElement.p1.y, lineElement.p2.y) || Helper.Math.between(this.p2.y, lineElement.p1.y, lineElement.p2.y)) ;
     }
     
     /**
