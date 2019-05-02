@@ -42,6 +42,9 @@ export default class LineRenderer extends Render{
         }
 
         let circleRadius = 14/(this.board._pixelPerOne*this.board._scale);
+        if(this.element.length()/2<circleRadius){
+            return;
+        }
         switch (this.element.lineType.type) {
             case Comment.TYPE_DIMENSION:
                 this.drawDimensionText();
