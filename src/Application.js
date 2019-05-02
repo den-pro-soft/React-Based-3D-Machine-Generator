@@ -310,7 +310,6 @@ export default class Application extends Observable{
             if(this.board.tool instanceof PointerTool) {
                 this._lastTool.mousePosition = this.board.tool.mousePosition;
             }else{
-                console.log(this.board.tool);
                 this._lastTool.mousePosition = this.board.tool.tool.mousePosition;
             }
             this._changeTool(this._lastTool);
@@ -321,7 +320,6 @@ export default class Application extends Observable{
     }
 
     _changeTool(tool){
-        console.log(tool);
         if(!(tool instanceof PointerTool)){
             this._lastTool=tool;
         }

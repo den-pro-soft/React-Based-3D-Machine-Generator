@@ -12,7 +12,7 @@ export default class Merge extends Solution{
      */
     constructor(document, lines){
         super(document);
-        this.name = "To merge";
+        this.name = "Merge";
 
         this.lines = lines;
 

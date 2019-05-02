@@ -32,7 +32,6 @@ export default class OverlappingLine extends Rule{
         res[0].previewDocument = this.document.getSnapshot();
         let elements = this.getOverlappingLineByDocument(res[0].previewDocument);
         for(let el of elements){
-            console.log(el._points);
             el._renderer.error = true;
 
         }
@@ -77,7 +76,6 @@ export default class OverlappingLine extends Rule{
         for(let i=0; i<lines.length; i++){
             for(let j=0; j<lines.length; j++){
                 if(i!=j && lines[i].isOverlapping(lines[j])){
-                    console.log(i,j,"==============================");
                     return [lines[i], lines[j]];
                 }
             }

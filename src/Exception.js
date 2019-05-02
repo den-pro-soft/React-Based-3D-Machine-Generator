@@ -5,7 +5,7 @@ export default class Exception{
     constructor(massage, data){
         this.data = data;
         this.message = massage;
-        console.error(this.toString());
+        // console.error(this.toString());
     }
 
     toString(){

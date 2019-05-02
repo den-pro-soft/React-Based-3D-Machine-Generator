@@ -23,6 +23,8 @@ export default class Analyzer{
 
         /** @type {Array.<Rule>} */
         this.rules = [];
+
+        this.recheck = false;
     }
 
     /**
@@ -35,11 +37,16 @@ export default class Analyzer{
                 resolve(false);
             }
             if(this.rules.length>0){
-                this.checkRule(0).then((res)=>{
-                    resolve(res);
-                }).catch(error=>{
-                    reject(error);
-                });
+                    this.checkRule(0).then((res) => {
+                        if(!res && this.recheck){
+                            this.recheck=false;
+                            return this.analyze().then(resolve).catch(reject);
+                        }else {
+                            resolve(res);
+                        }
+                    }).catch(error => {
+                        reject(error);
+                    });
             }else{
                 reject(new Exception(`The analyzer doesn't have any rules!`, this));
             }
@@ -54,7 +61,7 @@ export default class Analyzer{
     checkRule(index){
         return new Promise((resolve, reject)=>{
             let hasError = this.rules[index].check();
-
+            console.log(index, this.rules[index].errorMessage);
             if(hasError){
                 if(ENV=='test'){
                     console.log(this.rules[index].errorMessage);
@@ -84,35 +91,17 @@ export default class Analyzer{
                         }else {
                             currentSolution.execute().then((resExecute)=>{
                                 if(resExecute) {
-
                                     if(board.tool['clearSelectElements']!=undefined){
                                         board.tool.clearSelectElements();
                                     }
-                                    index=0;
-
-                                    this.checkRule(index).then((res) => {
-                                        if (res) {
-                                            if (index == this.rules.length - 1) {
-                                                resolve(true);
-                                            } else {
-                                                this.checkRule(index + 1).then((res1) => {
-                                                    resolve(res1);
-                                                }).catch((error1) => {
-                                                    reject(error1);
-                                                });
-                                            }
-                                        } else {
-                                            resolve(false);
-                                        }
-                                    }).catch((error) => {
-                                        reject(error);
-                                    });
+                                    setTimeout(()=>{
+                                        this.recheck=true;
+                                        resolve(false);
+                                    },500);
                                 }else{
                                     //todo: show some system error
                                 }
-                            }).catch(error=>{
-                                reject(error);
-                            });
+                            }).catch(reject);
                         }
                     },
                     ()=>{
@@ -124,11 +113,7 @@ export default class Analyzer{
                 if(index==this.rules.length-1) {
                     resolve(true);
                 }else{
-                    this.checkRule(index+1).then((res)=>{
-                        resolve(res);
-                    }).catch((error)=>{
-                        reject(error);
-                    });
+                    this.checkRule(index+1).then(resolve).catch(reject);
                 }
             }
         });
