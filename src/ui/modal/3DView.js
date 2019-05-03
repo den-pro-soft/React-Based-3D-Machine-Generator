@@ -27,8 +27,9 @@ export default class ThreeDView{
         container.resolve('analyzer', this.app.currentDocument).analyze().then((res)=>{
             if(res){
                 try {
-                    this.view3D.setGeometry(app.currentDocument);
-                    this.popup3DView.show();
+                    this.view3D.setGeometry(app.currentDocument).then(res=>{
+                        this.popup3DView.show();
+                    });
                 } catch (e) {
                     if (e instanceof Exception) {
                         console.log(e.message);

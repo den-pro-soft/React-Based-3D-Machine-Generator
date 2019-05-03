@@ -35,6 +35,7 @@ import Confirmation from "./ui/modal/Confirmation";
 import Tips from "./ui/React/Tips";
 import LocalStorageBuffer from "./Buffer/LocalStorageBuffer";
 import ThreeDView from "./ui/modal/3DView";
+import ProgressBarImpl from "./ui/React/contractImplementations/ProgressBarImpl";
 
 
 /**
@@ -105,6 +106,7 @@ container.register( 'buffer', LocalStorageBuffer ).dependencies('app').singleton
 container.register( 'triangulation', UniversalTriangulationAlgorithm ).singleton();
 container.register( '3dView', ThreeDView ).dependencies('mainBoard', 'app').singleton();
 container.register( 'tips', Tips ).singleton();
+container.register( 'progressBar', ProgressBarImpl ).singleton();
 container.registerFactory('toolFactory',toolFactoryMethod);
 container.registerFactory('fileLoaderFactory',fileLoaderFactoryMethod);
 

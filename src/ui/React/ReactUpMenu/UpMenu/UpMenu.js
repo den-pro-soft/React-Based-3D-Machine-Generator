@@ -81,14 +81,14 @@ class UpMenu extends React.Component {
               <button onClick={() => this.state.group && app.group()}
                       data-tip={container.resolve("tips").getTip('group')} data-html={true}
               >
-                <a href="#">
+                <a>
                   <img width="25px" src={this.groupImgPath} />
                 </a>
               </button>
               <button onClick={() => this.state.ungroup && app.ungroup()}
                       data-tip={container.resolve("tips").getTip('ungroup')} data-html={true}
               >
-                <a href="#">
+                <a>
                   <img width="25px" src={this.ungroupImgPath} />
                 </a>
               </button>
@@ -97,7 +97,7 @@ class UpMenu extends React.Component {
               <button onClick={() => app.board.zoomToFitScreen()}
                       data-tip={container.resolve("tips").getTip('fitScreen')} data-html={true}
               >
-                <a href="#">
+                <a>
                   <img width="25px" src="resources/images/ZoomToFitScreen.png" />
                 </a>
               </button>
@@ -105,14 +105,14 @@ class UpMenu extends React.Component {
                   onClick={() => app.appZoomToActualSize()}
                   data-tip={container.resolve("tips").getTip('actualSize')} data-html={true}
               >
-                <a href="#">
+                <a>
                   <img width="25px" src="resources/images/ZoomToActualSize.png" />
                 </a>
               </button>
               <button onClick={() => app.setTool("Zoom")}
                       data-tip={container.resolve("tips").getTip('zoomTool')} data-html={true} data-place="bottom"
               >
-                <a href="#">
+                <a>
                   <img width="25px" src="resources/images/Zoom.png" />
                 </a>
               </button>
@@ -121,7 +121,7 @@ class UpMenu extends React.Component {
               <button onClick={() => app.deleteSelected()}
                       data-tip={container.resolve("tips").getTip('delete')} data-html={true}
               >
-                <a href="#">
+                <a>
                   <img width="24px" src="resources/images/Delete.png" />
                 </a>
               </button>
@@ -129,7 +129,7 @@ class UpMenu extends React.Component {
               onClick={()=>this.props.updatePreferencesModal(!this.props.openPreferencesModal)}
               data-tip={container.resolve("tips").getTip('preferences')} data-html={true}
               >
-                <a href="#">
+                <a>
                   <img width="24px" src="resources/images/Preferences.png" />
                 </a>
               </button>
@@ -141,28 +141,28 @@ class UpMenu extends React.Component {
                   }}
                    data-tip={container.resolve("tips").getTip('toggle')} data-html={true}
                   >
-                <a href="#">
+                <a>
                   <img width="24px" src="resources/images/ToggleInch.png" />
                 </a>
               </button>
               <button onClick={() => app.intersectSelectedElements()}
                       data-tip={container.resolve("tips").getTip('intersect')} data-html={true}
               >
-                <a href="#">
+                <a>
                   <img width="24px" src="resources/images/Intersect.png" />
                 </a>
               </button>
               <button onClick={() => container.resolve('3dView').show3D()}
                       data-tip={container.resolve("tips").getTip('3D')} data-html={true}
               >
-                <a href="#">
+                <a>
                   <img width="24px" src="resources/images/3DPreview.png" />
                 </a>
               </button>
               <button onClick={() => container.resolve('app').priceAnalyze()}
                   data-tip={container.resolve("tips").getTip('price-analyze')} data-html={true}
               >
-                <a href="#">
+                <a>
                   <img width="18px" src="resources/images/check2.png" />
                 </a>
               </button>

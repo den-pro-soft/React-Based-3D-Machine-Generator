@@ -25,6 +25,9 @@ export default class Analyzer{
         this.rules = [];
 
         this.recheck = false;
+
+        /** @type {ProgressBar} */
+        this.progresBar = container.resolve("progressBar");
     }
 
     /**
@@ -37,12 +40,16 @@ export default class Analyzer{
                 resolve(false);
             }
             if(this.rules.length>0){
+                this.progresBar.show("Analyzing...");
                     this.checkRule(0).then((res) => {
                         if(!res && this.recheck){
                             this.recheck=false;
                             return this.analyze().then(resolve).catch(reject);
                         }else {
-                            resolve(res);
+                            this.progresBar.hide();
+                            setTimeout(()=>{
+                                resolve(res);
+                            },20); //for browser renderer
                         }
                     }).catch(error => {
                         reject(error);
@@ -59,9 +66,9 @@ export default class Analyzer{
      * @return {Promise}
      */
     checkRule(index){
+        this.progresBar.setValue((index*100)/(this.rules.length-1));
         return new Promise((resolve, reject)=>{
             let hasError = this.rules[index].check();
-            console.log(index, this.rules[index].errorMessage);
             if(hasError){
                 if(ENV=='test'){
                     console.log(this.rules[index].errorMessage);
@@ -113,7 +120,9 @@ export default class Analyzer{
                 if(index==this.rules.length-1) {
                     resolve(true);
                 }else{
-                    this.checkRule(index+1).then(resolve).catch(reject);
+                    setTimeout(()=>{
+                        this.checkRule(index+1).then(resolve).catch(reject);
+                    },0); //for browser renderer
                 }
             }
         });

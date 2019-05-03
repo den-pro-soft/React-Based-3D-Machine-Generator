@@ -39,11 +39,13 @@ class PolygonMeshBuilder{
     constructor(material){
         this.material = material;
         this.geometryBuilder = new PolygonGeometryBuilder();
+
+        this.progressBar = container.resolve('progressBar');
     }
 
     /**
      * @param document
-     * @return {THREE.Mesh}
+     * @return {Promise.<THREE.Mesh>}
      */
     getMeshes(document){
         let meshes = [];
@@ -62,39 +64,81 @@ class PolygonMeshBuilder{
             }
         }
 
-        return this._groupMeshes(meshes,internalMeshes);
+        this.progressBar.show("Rendering 3D ...");
+
+        let res = this._groupMeshes(meshes,internalMeshes);
+
+        return res;
     }
 
 
     /**
      * @param {Array} addMeshList
      * @param {Array} intersectMeshList
-     * @return {Mesh|null}
+     * @return {Promise.<Mesh|null>}
      * @private
      */
     _groupMeshes(addMeshList,intersectMeshList){
-        let resultMesh = null;
-        if(addMeshList.length>0) {
-            let res = new ThreeBSP(addMeshList[0]);
-            for (var i = 1; i < addMeshList.length; i++) {
-                res =res.union(new ThreeBSP(addMeshList[i]));
-            }
-            resultMesh = new THREE.Mesh(res.toGeometry(),this.material);
-        }else{
-            if(addMeshList.length==1) {
-                resultMesh = addMeshList[0];
-            }
-        }
+        return new Promise((resolve, reject)=>{
+            let n = addMeshList.length+intersectMeshList.length-1;
+            this.union(addMeshList, n).then(resultMesh=>{
+                console.log(resultMesh);
+                if(resultMesh!=null){
+                    if(intersectMeshList.length>0){
+                        let res = new ThreeBSP(resultMesh);
 
-        if(resultMesh && intersectMeshList.length>0){
-            let res = new ThreeBSP(resultMesh);
-            for (let internalMesh of intersectMeshList) {
-                res = res.subtract(new ThreeBSP(internalMesh));
-            }
-            resultMesh = new THREE.Mesh(res.toGeometry(),this.material);
-        }
-        return resultMesh;
+                        console.log(res);
+                        let index =0;
+                        let interval = setInterval(()=>{
+                            this.progressBar.setValue(((addMeshList.length+index)*100)/n);
+                            res = res.subtract(new ThreeBSP(intersectMeshList[index++]));
+                            if(index==intersectMeshList.length){
+                                clearInterval(interval);
+                                this.progressBar.hide();
+                                resolve(new THREE.Mesh(res.toGeometry(),this.material));
+                            }
+                        },20);
+                    }else{
+                        resolve(new THREE.Mesh(res.toGeometry(),this.material));
+                    }
+                }else{
+                    resolve(null);
+                }
+            });
+        });
     }
+
+    /**
+     * @param {Array} addMeshList
+     * @param {number} n
+     * @return {Promise.<Mesh>}
+     */
+    union(addMeshList, n){
+        return new Promise((resolve, reject)=>{
+            let resultMesh = null;
+            if(addMeshList.length>1) {
+                let res = new ThreeBSP(addMeshList[0]);
+                let index =0;
+                let interval = setInterval(()=>{
+                    if(index==addMeshList.length){
+                        console.log(index, addMeshList.length);
+                        resolve(new THREE.Mesh(res.toGeometry(),this.material));
+                        clearInterval(interval);
+                        return;
+                    }
+                    this.progressBar.setValue((index*100)/n);
+                    res =res.union(new ThreeBSP(addMeshList[index++]));
+                },20);
+            }else{
+                if(addMeshList.length==1) {
+                    resolve(addMeshList[0]);
+                }else {
+                    resolve(null); //todo: throw some Exception
+                }
+            }
+        });
+    }
+
 }
 
 

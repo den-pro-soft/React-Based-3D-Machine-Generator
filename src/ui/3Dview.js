@@ -89,33 +89,37 @@ export default class View3D{
      * @param {Document} document
      */
     setGeometry(document){
-        this.resetScene();
-        let mesh = this.meshBuilder.getMeshes(document);
-        if(mesh){
-            mesh.rotateX(-90* Math.PI/180);
+        return new Promise((resolve, reject)=>{
+            this.resetScene();
+            let mesh = this.meshBuilder.getMeshes(document).then((mesh)=>{
+                if(mesh){
+                    mesh.rotateX(-90* Math.PI/180);
 
-            let extrenum = document.getExtrenum();
-            let dx = extrenum.min.x+(extrenum.max.x-extrenum.min.x)/2;
-            let dy = extrenum.min.y +(extrenum.max.y-extrenum.min.y)/2;
-            console.log(dx, dy);
-            mesh.translateX(-dx);
-            mesh.translateY(-dy);
-            // mesh.scale.set(2,2,2);
+                    let extrenum = document.getExtrenum();
+                    let dx = extrenum.min.x+(extrenum.max.x-extrenum.min.x)/2;
+                    let dy = extrenum.min.y +(extrenum.max.y-extrenum.min.y)/2;
+                    console.log(dx, dy);
+                    mesh.translateX(-dx);
+                    mesh.translateY(-dy);
+                    // mesh.scale.set(2,2,2);
 
-            this.scene.add(mesh);
-            let p = mesh.position;
-            mesh = new THREE.Mesh(mesh.geometry,new THREE.MeshLambertMaterial( {
-                opacity:1,
-                color: 0x000000,
-                transparent:false,
-                wireframe: true,
-                side:THREE.DoubleSide,
-                emissive: 0x444444,
-                emissiveIntensity: 1
-            }));
-            mesh.position.set(p.x,p.y,p.z);
-            mesh.rotateX(-90* Math.PI/180);
-            // this.scene.add(mesh);
-        }
+                    this.scene.add(mesh);
+                    let p = mesh.position;
+                    mesh = new THREE.Mesh(mesh.geometry,new THREE.MeshLambertMaterial( {
+                        opacity:1,
+                        color: 0x000000,
+                        transparent:false,
+                        wireframe: true,
+                        side:THREE.DoubleSide,
+                        emissive: 0x444444,
+                        emissiveIntensity: 1
+                    }));
+                    mesh.position.set(p.x,p.y,p.z);
+                    mesh.rotateX(-90* Math.PI/180);
+                    // this.scene.add(mesh);
+                }
+                resolve(true);
+            });
+        });
     }
 };
