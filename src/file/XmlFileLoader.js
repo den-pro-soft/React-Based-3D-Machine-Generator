@@ -21,6 +21,7 @@ import BendProcessing from "../model/line_types/processings/Bend";
 import ShapeBuilder from "../analyzer/ShapeBuilder";
 import CommentsToMachinist from "./../model/line_types/CommentToMachine";
 import Comment from "./../model/line_types/Comment";
+import GroupShapesHandler from "../model/handlers/GroupShapes";
 
 
 export default class XmlFileLoader extends FileLoader{
@@ -113,6 +114,7 @@ export default class XmlFileLoader extends FileLoader{
                 }
             };
             parser.onend = function () {
+                new GroupShapesHandler().handle(doc);
                 resolve(doc);
             };
 

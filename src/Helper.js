@@ -24,7 +24,6 @@ class TextHelper{
 
 class KeyHelper{
     constructor(){
-        console.log("Kay hepler 1");
         this.ctrlKey = false;
         this.shiftKey=false;
 

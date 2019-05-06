@@ -90,7 +90,6 @@ class File extends React.Component {
 
         window.document.getElementsByTagName('body')[0].appendChild(newInput);
         newInput.onchange = function(){
-            console.log("file input was change ", "180736");
             //todo: check count files
             app.open(this.files[0]);
 

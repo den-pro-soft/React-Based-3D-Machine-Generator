@@ -10,7 +10,6 @@ export default class BottomPanel extends React.Component {
       };
 
       app.addHandler('openNewFile',(doc)=>{
-          console.log(doc, "open new file");
           this.setState({fileName:doc.fileName});
       });
     }

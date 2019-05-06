@@ -1,4 +1,5 @@
 import FileSaver from 'file-saver';
+import GroupShapesHandler from "../model/handlers/GroupShapes";
 
 export default class FileLoader {
     constructor() {

@@ -371,7 +371,6 @@ export default class Application extends Observable{
      * @throws {FormatNotSupportedException}
      */
     open(file){
-        console.log("app open file ", "180736", file);
         if (!file) {
             return;
         }

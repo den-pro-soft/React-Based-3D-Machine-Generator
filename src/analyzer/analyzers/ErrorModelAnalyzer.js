@@ -19,6 +19,7 @@ import SelectTool from "../../ui/2d/tool/SelectTool";
 import MagnificationDecorator from "../../ui/2d/tool/decorators/MagnificationDecorator";
 import CrossItself from "../rules/CrossItself";
 import OverlappingLine from "../rules/OverlappingLine";
+import GroupShapesHandler from "../../model/handlers/GroupShapes";
 
 export default class ErrorModelAnalyzer extends Analyzer{
 
@@ -39,6 +40,10 @@ export default class ErrorModelAnalyzer extends Analyzer{
         this.rules.push(new HoleInsideAnotherHole(document));
         this.rules.push(new ShapeSize(document));
         this.rules.push(new SameZValue(document));
+
+        /** @type {Array.<DataHandler>} */
+        this.postHandlers= [new GroupShapesHandler()];
+
     }
 
 
@@ -50,7 +55,7 @@ export default class ErrorModelAnalyzer extends Analyzer{
         return new Promise((resolve, reject)=>{
             super.analyze().then((res)=>{
                 if(res) {
-                    this.groupShapes();
+                    this.postHandling();
                 }
                 resolve(res);
             }).catch(error=>{
@@ -62,26 +67,14 @@ export default class ErrorModelAnalyzer extends Analyzer{
     /**
      * @private
      */
-    groupShapes(){
-        let vasGroup = false;
+    postHandling(){
+        let isDocumentChanged = false;
 
-        let shapeBuilder = new ShapeBuilder(this.document);
-        let shapes = shapeBuilder.buildShapes();
-
-        for(let shape of shapes){
-            let elements = shape.elements;
-            if(elements.length<2){
-                continue;
-            }
-            let group = new Group();
-            for(let el of elements){
-                this.document.removeElement(el);
-                group.addElement(el);
-            }
-            vasGroup=true;
-            this.document.addElement(group);
+        for(let handler of this.postHandlers){
+            isDocumentChanged |= handler.handle(this.document);
         }
-        if(vasGroup){
+
+        if(isDocumentChanged){
             let board = container.resolve('mainBoard');
             let isSelectedTool = board.tool instanceof SelectTool || (board.tool instanceof MagnificationDecorator && board.tool._tool instanceof SelectTool);
             if(isSelectedTool){

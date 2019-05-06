@@ -56,7 +56,6 @@ class Confirmation extends React.Component {
                 <img width="40px" src="resources/images/InfoIcon.png" />
               </div>
               <div className="Text" dangerouslySetInnerHTML={{__html: this.props.message}}>
-                  {console.log(this.props.message, "data")}
                 {/*  Not for version 1.0
                   <p>
                       Tip: If you want to mirror the selection hold the CTRL key down and drag the appropriate selection handle to the
