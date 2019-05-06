@@ -4,9 +4,11 @@
 
 import Behavior from '../Behavior';
 import Document from '../../model/Document';
-import Arc from '../../model/elements/Arc';
 import Text from '../../model/elements/Text';
 import LineElement from "../../model/elements/LineElement";
+import Bend from "../../model/line_types/Bend";
+import CommentToSelf from "../../model/line_types/CommentToSelf";
+import CommentToMachine from "../../model/line_types/CommentToMachine";
 
 export default class ChangeLineTypeDataValidator extends Behavior{
 
@@ -17,10 +19,13 @@ export default class ChangeLineTypeDataValidator extends Behavior{
      */
     execute(command){
         return new Promise((resolve, reject)=>{
-            if(this.isHasNotLineElements(command)){
-                container.resolve('confirmChangeArcToSplinesDialog').modalNonWorkFeature("Use only straight segments for Bend lines");
-                resolve(false)
-            }else{
+            if(this.isHashText(command) && !(command.lineType instanceof CommentToMachine || command.lineType instanceof CommentToSelf)) {
+                container.resolve('confirmChangeArcToSplinesDialog').modalNonWorkFeature("Please choose  Comment to Self or Comment to Machinist for the Text.");
+                resolve(false);
+            }else if(this.isHasNotLineElements(command) && command.lineType instanceof Bend){
+                container.resolve('confirmChangeArcToSplinesDialog').modalNonWorkFeature("Use only straight lines for bend.");
+                resolve(false);
+            }else {
                 resolve(true);
             }
         });
@@ -36,6 +41,21 @@ export default class ChangeLineTypeDataValidator extends Behavior{
         let elements = command.elements;
         for(let el of elements) {
             if (!(el instanceof LineElement)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * @param {ChangeLineTypeCommand} command
+     * @return {boolean}
+     * @private
+     */
+    isHashText(command){
+        let elements = command.elements;
+        for(let el of elements) {
+            if (el instanceof Text) {
                 return true;
             }
         }
