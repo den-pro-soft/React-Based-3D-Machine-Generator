@@ -3,6 +3,7 @@
  */
 
 import ElementModificationCommand from './ElementModificationCommand';
+import ChangeLineTypeDataValidator from "./behaviors/ChangeLineTypeDataValidator";
 
 
 export default class ChangeLineTypeCommand extends ElementModificationCommand{
@@ -17,6 +18,8 @@ export default class ChangeLineTypeCommand extends ElementModificationCommand{
         this.lineType=lineType;
 
         this.name= 'ChangeLineTypeCommand';
+
+        this.behaviors.push(new ChangeLineTypeDataValidator(this));
     }
 
     /**

@@ -33,7 +33,6 @@ class ToolsPanel extends React.PureComponent {
           text:false,
           withoutText:true,
           value:'',
-          openBendModal:false,
         };
     }
 
@@ -92,9 +91,6 @@ class ToolsPanel extends React.PureComponent {
 
   // ---------------------------handleChangeSelect type Line-------------------------------------------
   handleChangeSelect =(event)=> {
-    if(event.target.value==="Bend" &&this.state.line===false){
-      this.setState({openBendModal:true})
-    }
     this.setState({value:event.target.value});
     app.config.defaultLineTypes.map((item) => {
       if(event.target.value===item.label){
@@ -106,25 +102,6 @@ class ToolsPanel extends React.PureComponent {
     })
 
 }
-
-  handleCloseModalBend = () => {
-    this.setState(
-      prevState => ({ openBendModal: prevState.openBendModal }),
-      () => {
-        if (this.state.text === true) {
-          this.setState({
-            value: "Machinist",
-            openBendModal: !this.state.openBendModal
-          });
-        } else {
-          this.setState({
-            value: "Auto",
-            openBendModal: !this.state.openBendModal
-          });
-        }
-      }
-    );
-  };
 
   render() {
 // console.log(this.props.openMachineModal,'openMachineModal')
@@ -218,72 +195,6 @@ class ToolsPanel extends React.PureComponent {
             <MoveButtons />
           </div>
         <MachineWindow history={this.props.history}/>
-      {/* --------------------------Information-------------------- */}
-        <Dialog
-          maxWidth={false}
-          open={this.state.openBendModal}
-          onChange={this.handleChangeSelect}
-          aria-labelledby="alert-dialog-title"
-          aria-describedby="alert-dialog-description"
-        >
-          <div
-            style={{
-              paddingBottom:'0px',
-              textAlign: "left",
-              width: "560px",
-              height: "130px",
-              backgroundColor:'#f0ecec'
-            }}
-          >
-           <div
-           style={{
-             display:'flex',
-             justifyContent:"space-between",
-             marginTop:'5px',
-             paddingLeft:'15px'}}>
-            <span>Information</span>
-
-              <Button
-                onClick={this.handleCloseModalBend}
-                style={{
-                  backgroundColor:'#f0ecec',
-                  padding:'0px',
-                }}
-                color="primary"
-                autoFocus
-              >
-                <i className = "material-icons">
-                  cancel_presentation
-            </i>
-              </Button>
-            </div>
-            <div style={{ margin: "15px 15px",textAlign:'left' }}>
-              <img
-                width="25px"
-                src="resources/images/Info.png"
-              />
-              <span style={{ position:'relative', bottom:'15px',marginLeft: "30px" }}>
-                Use only straight segments for Bend lines
-              </span>
-            </div>
-            <div style={{marginTop: "10px",marginBottom:'0px',paddingBottom:'0px',textAlign:'center'}}>
-              <Button
-                onClick={this.handleCloseModalBend}
-                style={{
-                  backgroundColor: "#dddada",
-                  boxShadow: "2px 2px 1px #000",
-                  margin: "0 auto",
-                  padding:'2px 2px',
-                }}
-                color="primary"
-                autoFocus
-              >
-                OK
-              </Button>
-            </div>
-          </div>
-        </Dialog>
-
         </div>
     );
   }

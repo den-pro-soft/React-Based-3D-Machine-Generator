@@ -4,11 +4,14 @@
 
 import Command from './Command';
 import GraphicElement from '../model/GraphicElement'
+import LineElement from "../model/elements/LineElement";
+import Bend from "../model/line_types/Bend";
+import Auto from "../model/line_types/Auto";
 
 export default class AddElementCommand extends Command{
     /**
      * @param {Document} document
-     * @param {Element} element
+     * @param {GraphicElement} element
      */
     constructor(document, element){
         super(document);
@@ -22,6 +25,10 @@ export default class AddElementCommand extends Command{
      * @inheritDoc
      */
     executeCommand(){
+        if(!(this._element instanceof LineElement) && (this._element.lineType instanceof Bend)){
+            this._element.lineType = new Auto();
+        }
+
         this._document.addElement(this._element);
         return true;
     }
