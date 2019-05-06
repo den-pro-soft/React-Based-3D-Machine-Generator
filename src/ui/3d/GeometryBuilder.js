@@ -82,12 +82,9 @@ class PolygonMeshBuilder{
         return new Promise((resolve, reject)=>{
             let n = addMeshList.length+intersectMeshList.length-1;
             this.union(addMeshList, n).then(resultMesh=>{
-                console.log(resultMesh);
                 if(resultMesh!=null){
+                    let res = new ThreeBSP(resultMesh);
                     if(intersectMeshList.length>0){
-                        let res = new ThreeBSP(resultMesh);
-
-                        console.log(res);
                         let index =0;
                         let interval = setInterval(()=>{
                             this.progressBar.setValue(((addMeshList.length+index)*100)/n);
@@ -121,7 +118,6 @@ class PolygonMeshBuilder{
                 let index =0;
                 let interval = setInterval(()=>{
                     if(index==addMeshList.length){
-                        console.log(index, addMeshList.length);
                         resolve(new THREE.Mesh(res.toGeometry(),this.material));
                         clearInterval(interval);
                         return;

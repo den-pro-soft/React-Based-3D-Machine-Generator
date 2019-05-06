@@ -62,6 +62,7 @@ export default class MergeElementsCommand extends ElementModificationCommand{
             this.document.removeElement(el);
         }
         let newline = new LineElement(p1,p2);
+        newline.lineType=this.elements[0].lineType.copy();
         this.newElements.push(newline);
         this.document.addElement(newline);
         return true;
