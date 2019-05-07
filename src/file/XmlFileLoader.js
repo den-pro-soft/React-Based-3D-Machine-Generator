@@ -99,7 +99,12 @@ export default class XmlFileLoader extends FileLoader{
                         break;
                 }
                 if(newElement){
-                    element.lineType = lineType.copy();
+                    if(lineType){
+                        element.lineType = lineType.copy();
+                    }else{
+                        element.lineType = new AutoLineType();
+                    }
+
                     if(height=='AirInside'){
                         element.height=GraphicElement.AirInside;
                     }else{
@@ -266,9 +271,14 @@ export default class XmlFileLoader extends FileLoader{
         let element = new Arc(center,parseFloat(_radius));
         if(tag.name=='Arc') {
             let _startAngle = tag.attributes.StartAngle;
-            let _incAngle = tag.attributes.IncAngle;
+            let _incAngle = parseFloat(tag.attributes.IncAngle);
+            if(_incAngle<0){
+                _incAngle=Math.abs(_incAngle);
+                _startAngle-=_incAngle;
+            }
+
             element.startAngle = parseFloat(_startAngle);
-            element.endAngle = (parseFloat(_startAngle) + parseFloat(_incAngle)) % 360;
+            element.endAngle = (parseFloat(_startAngle) + _incAngle) % 360;
         }
         return element;
     }
