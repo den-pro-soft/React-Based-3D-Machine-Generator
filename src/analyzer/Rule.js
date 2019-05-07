@@ -27,6 +27,7 @@ export default class Rule{
 
     /**
      * @return {boolean} - true if the document has an error
+     * @abstract
      */
     check(){
         throw new Exception(`The method doesn't have implementation.`);

@@ -20,6 +20,8 @@ import MagnificationDecorator from "../../ui/2d/tool/decorators/MagnificationDec
 import CrossItself from "../rules/CrossItself";
 import OverlappingLine from "../rules/OverlappingLine";
 import GroupShapesHandler from "../../model/handlers/GroupShapes";
+import CrossBends from "../rules/CrossBends";
+import TooCloseBends from "../rules/TooCloseBends";
 
 export default class ErrorModelAnalyzer extends Analyzer{
 
@@ -40,6 +42,8 @@ export default class ErrorModelAnalyzer extends Analyzer{
         this.rules.push(new HoleInsideAnotherHole(document));
         this.rules.push(new ShapeSize(document));
         this.rules.push(new SameZValue(document));
+        this.rules.push(new CrossBends(document));
+        this.rules.push(new TooCloseBends(document));
 
         /** @type {Array.<DataHandler>} */
         this.postHandlers= [new GroupShapesHandler()];

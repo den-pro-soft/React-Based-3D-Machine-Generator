@@ -94,11 +94,13 @@ class PolygonMeshBuilder{
                                 this.progressBar.hide();
                                 resolve(new THREE.Mesh(res.toGeometry(),this.material));
                             }
-                        },20);
+                        },200);
                     }else{
+                        this.progressBar.hide();
                         resolve(new THREE.Mesh(res.toGeometry(),this.material));
                     }
                 }else{
+                    this.progressBar.hide();
                     resolve(null);
                 }
             });
