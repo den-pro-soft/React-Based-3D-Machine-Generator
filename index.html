@@ -5,106 +5,21 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <link href="resources/images/favicon.png" rel="shortcut icon" />
 
-    <!-- <link
-      href="https://fonts.googleapis.com/css?family=Ubuntu"
-      rel="stylesheet"
-    /> -->
-    <!-- Material Icons -->
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/icon?family=Material+Icons"
-    />
-    <!-- Material Fonts Roboto -->
-    <!-- <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" /> -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
 
     <link href="resources/css/popup.css" rel="stylesheet" />
 
-    <style>
-      .button {
-        width: 80px;
-        /* width: 150px; */
-
-        height: 20px;
-        position: absolute;
-        background: linear-gradient(
-          0deg,
-          rgb(100, 100, 100) 0px,
-          rgb(140, 140, 140) 35px
-        );
-        /* box-shadow: 0px 0px 4px #ccc; */
-        font-family: Arial;
-        color: #fff;
-        font-size: 12px;
-        line-height: 20px;
-        cursor: pointer;
-        font-weight: 500;
-        transition: 0.4s;
-        text-align: center;
-        /* border-radius: 4px; */
-      }
-
-      /*  .button:hover {
-        //background: linear-gradient(0deg, rgb(50, 50, 50) 0px, rgb(75, 75, 75) 35px);
-      }*/
-
-      .menu_panel {
-        width: 150px;
-        height: 100px;
-        position: absolute;
-        background: linear-gradient(
-          0deg,
-          rgb(245, 245, 245) 0px,
-          rgb(255, 255, 255) 125px
-        );
-        box-shadow: 2px 4px 12px rgba(0, 0, 0, 0.25);
-        font-family: Arial;
-        /* color: #fa5; */
-        color: blue;
-
-        font-size: 12px;
-        line-height: 20px;
-        cursor: pointer;
-        font-weight: 500;
-        /* transition: 0.25s; */
-        text-align: center;
-      }
-
-    </style>
   </head>
 
-  <body style="padding: 0px; margin: 0px;height:100vh; background: rgb(255, 255, 255)">
-    <!-- style="padding: 0px; margin: 0px;height:100%; -->
-      <div id="UpMenu" style="position:absolute;z-index:100; "></div>
-      <div id="BottomPanel" style="width: 100vw;
-          position: absolute;
-          bottom: 0;
-          z-index: 80;
-          height: 30px;"></div>
-    <div id="LeftMenu" style="position: absolute;z-index:90"></div>
+  <body>
+      <div id="app"></div>
 
-    <div id="modals"></div>
-    <script type="text/javascript" src="functions.1.0.js"></script>
+      <script type="text/javascript" src="functions.1.0.js"></script>
 
-    <script src="dist/Container.js"></script>
+      <script src="dist/Container.js"></script>
 
-    <script type="text/javascript" src="dist/popup.js"></script>
-    <!-- <script type="text/javascript" src="src/board.js"></script> -->
-    <script type="text/javascript" src="board.js"></script>
+      <script type="text/javascript" src="dist/popup.js"></script>
 
-    <!--depended from function.1.0.js-->
-    <script>
-      document.body.onload = 
-      function () {
-        var PORT_1 = create_board()
-          .setPosition(0, 0)
-          .setSize(innerWidth, innerHeight);
-        Helper.Window.addHandler("resize", function() {
-          PORT_1.setSize(innerWidth, innerHeight);
-        });
-      };
-    </script>
-  
- 
     
       <!-- React connection-script -->
       <script src="dist/index.js"></script>

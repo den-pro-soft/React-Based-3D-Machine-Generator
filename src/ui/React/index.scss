@@ -1,0 +1,28 @@
+
+body, #app, .appContainer{
+  padding: 0px;
+  margin: 0px;
+  height:100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: #efefef;
+}
+
+.appContainer{
+
+  section{
+    display: flex;
+    flex: 1 0 auto;
+
+    .mainCanvas{
+      display: flex;
+      flex: 1 0 auto;
+    }
+  }
+}
+
+.root-LeftMenu {
+  position: relative;
+  z-index: 90;
+  top: 100px;
+}

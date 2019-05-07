@@ -101,7 +101,7 @@ container.register( 'mainBoard', InteractiveBoard ).singleton();
 container.register( 'elementIdGenerator', IdGenerator ).singleton();
 container.register( 'commandIdGenerator', IdGenerator ).singleton();
 container.register( 'confirmChangeArcToSplinesDialog', ConfirmChangeArcToSplinesDialog ).singleton();
-container.register( 'app', Application ).dependencies('config').singleton();
+container.register( 'app', Application ).dependencies('config', 'mainBoard').singleton();
 container.register( 'buffer', LocalStorageBuffer ).dependencies('app').singleton();
 container.register( 'triangulation', UniversalTriangulationAlgorithm ).singleton();
 container.register( '3dView', ThreeDView ).dependencies('mainBoard', 'app').singleton();

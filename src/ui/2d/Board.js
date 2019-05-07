@@ -47,6 +47,8 @@ class Board extends Observable{
     setSize(width, height) {
         this._width = width;
         this._height = height;
+        this._context.canvas.width  = width;
+        this._context.canvas.height = height;
         this._initCenterPosition.x=width/2;
         this._initCenterPosition.y=height/2;
     }

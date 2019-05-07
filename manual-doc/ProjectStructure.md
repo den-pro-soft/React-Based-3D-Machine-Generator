@@ -6,7 +6,7 @@
 6. **Exception** - Container.js
 
 ---
-board.js, popup.js and function.1.0.js - most be removed
+popup.js and function.1.0.js - most be removed
 
 ---
 The project has environment variables. The default values define in the webpack.config.json file.  

@@ -5,22 +5,11 @@ export default class Order{
 
     constructor(){
 
-        /** @type {string} - the name of costumer */
-        this.name = "";
+        /** @type {User} */
+        this.costomer = null;
 
-        /** @type {Address} - the address of costumer */
-        this.customerAddress = null;
-
-        this.phone = "";
-
-        this.email = "";
-
-        this.shippingname = "";
-
-        /** @type {Address} - the address of shipping */
-        this.shippingAddress = null;
-
-        this.shippingPhone = "";
+        /** @type {User} */
+        this.shipping = null;
 
         /** @type {number} */
         this.quantity=0;
@@ -37,11 +26,8 @@ export default class Order{
         /** @type {string} */
         this.additionalInstructions = "TEST";
 
-        this.shippingMethod = "Ground";
-
-        this.shippingPrice = "";
-
-        this.shippingMethidId = 4;
+        /** @type {Shipping} */
+        this.shipping=null;
 
         this.totalCost = "$310.92";
 

@@ -37,10 +37,10 @@ export default class Config extends Observable{
             this._dimension='Inches';
         }
    
-        // for transfer state between lifecycles in React - CircleType.js 
+        // for transfer state between lifecycles in React - CircleType.js  //todo: must be remove
         this.diameter = '';
-        // for transfer state between lifecycles in React - InputSelect.js 
-        this.indexZ = 0;
+        // for transfer state between lifecycles in React - InputSelect.js //todo: must be remove
+        this.indexZ = 0; //todo: must be remove
 
         /** @type {LineType} - the default line type*/
         this._lineType = new AutoLineType();
@@ -100,4 +100,12 @@ export default class Config extends Observable{
     }
 
     get fontSize(){return this._fontSize};
+
+    get userInfo(){
+        return JSON.parse(localStorage.getItem('userInfo'));
+    }
+
+    set userInfo(user){
+        localStorage.setItem('userInfo', JSON.stringify(user));
+    }
 }
