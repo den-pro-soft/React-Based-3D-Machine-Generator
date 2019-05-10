@@ -62,8 +62,8 @@ export default class TooCloseBends extends Rule{
 
             for(let i=0; i<bends.length; i++){
                 for(let j=i+1; j<bends.length; j++){
-                    if(bends[i]._line.distanceTo(bends[j].p1)>height || bends[i]._line.distanceTo(bends[j].p2)>height ||
-                        bends[j]._line.distanceTo(bends[i].p1)>height || bends[j]._line.distanceTo(bends[i].p2)>height){
+                    if(bends[i]._line.distanceTo(bends[j].p1)<height || bends[i]._line.distanceTo(bends[j].p2)<height ||
+                        bends[j]._line.distanceTo(bends[i].p1)<height || bends[j]._line.distanceTo(bends[i].p2)<height){
                         this.height=height;
                         return [bends[i], bends[j]];
                     }

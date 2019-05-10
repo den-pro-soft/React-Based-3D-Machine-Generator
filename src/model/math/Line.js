@@ -118,6 +118,7 @@ export default class Line{
     }
 
     /**
+     * @param {Point} point
      * http://www.cat-in-web.ru/notebook/rasstoyanie-ot-tochki-do-otrezka/
      * @return {number} - distance to current segment
      */

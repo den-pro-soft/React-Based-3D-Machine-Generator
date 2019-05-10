@@ -51,9 +51,12 @@ class PolygonMeshBuilder{
         let meshes = [];
         let internalMeshes = [];
 
-        let shapes = new ShapeBuilder(document).buildShapes();
+        let builder = new ShapeBuilder(document);
+        let shapes = builder.buildShapes(true);
 
         for(let shape of shapes){
+            console.log(builder.separateShapesByIntersect(shape, true));
+
             let points = shape.getConsistentlyPoints();
             let geometry = this.geometryBuilder.createThreeGeometry(points, Math.abs(shape.height));
             let mesh = new THREE.Mesh(geometry, this.material);

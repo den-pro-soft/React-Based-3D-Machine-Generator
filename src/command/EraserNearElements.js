@@ -58,6 +58,7 @@ export default class EraserNearElements extends ElementModificationCommand{
     executeCommand(){
         let builder = new ShapeBuilder(this.document);
         let shapes = builder.buildShapes(true);
+        console.log(shapes);
         let removed = false;
 
         for(let shape of shapes){
