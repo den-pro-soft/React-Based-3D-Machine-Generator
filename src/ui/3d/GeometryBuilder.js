@@ -6,15 +6,80 @@ import * as THREE from 'three';
 var ThreeBSP = require('three-js-csg')(THREE);
 
 import ShapeBuilder from "../../analyzer/ShapeBuilder";
+import Trigonometric from "../../model/math/Trigonometric";
+import Matrix from "../../model/math/Matrix";
+import Point from "../../model/Point";
 
 class PolygonGeometryBuilder{
 
     /**
-     * @param {Array} vertices of Vertex3
-     * @param {int} height
+     * @param {Shape} shapeModel
      * @return {THREE.Geometry}
      */
-    createThreeGeometry(vertices, height){
+    createThreeGeometry(shapeModel){
+
+        let bends = shapeModel.bends;
+
+        let bend = bends[0];
+
+        let vertices = shapeModel.getConsistentlyPoints();
+        let height =  Math.abs(shapeModel.height);
+
+
+        let allShape = this._createThreeGeometryByPoints(vertices, height);
+
+        if(bend) {
+            let cutGeometry1 = this._createCutCubeGeometry(bend.angle+180, bend.getCenter());
+            let cutGeometry2 = this._createCutCubeGeometry(bend.angle, bend.getCenter());
+
+            let res1 = new ThreeBSP(allShape).subtract(new ThreeBSP(cutGeometry1)).toGeometry();
+            res1.translate(-0.5, -0.1, 0);
+
+
+            let res2 = new ThreeBSP(allShape).subtract(new ThreeBSP(cutGeometry2)).toGeometry();
+
+
+            let res = new ThreeBSP(res1).union(new ThreeBSP(res2)).toGeometry();
+
+            // return cutGeometry;
+            if(res.vertices.length==0){
+                return null;
+            }else {
+                return res;
+            }
+        }else{
+            return allShape;
+        }
+    }
+
+
+    /**
+     *
+     * @param {LineElement} bend
+     * @return {Mesh}
+     * @private
+     */
+    _createCutCubeGeometry(angle, center){
+        let cubesize = 1000;
+
+        // let tPoint = new Point(cubesize/2,0,0);
+        //
+        // tPoint.changeByMatrix(Matrix.createRotateMatrix(angle*2));
+
+
+
+
+        let geometry = new THREE.BoxGeometry( cubesize, cubesize, cubesize );
+        geometry.rotateZ(Trigonometric.gradToRad(angle));
+
+        geometry.translate(center.x+(cubesize/2)*Math.sin(Trigonometric.gradToRad(angle)), center.y-(cubesize/2)*Math.cos(Trigonometric.gradToRad(angle)), 0);
+
+
+
+        return geometry;
+    }
+
+    _createThreeGeometryByPoints(vertices, height){
         var shape = new THREE.Shape();
         shape.moveTo( vertices[0].x, vertices[0].y );
         for(let i=1; i<vertices.length; i++){
@@ -31,6 +96,8 @@ class PolygonGeometryBuilder{
         geometry.computeVertexNormals();
         return geometry;
     }
+
+
 }
 
 
@@ -55,10 +122,10 @@ class PolygonMeshBuilder{
         let shapes = builder.buildShapes(true);
 
         for(let shape of shapes){
-            console.log(builder.separateShapesByIntersect(shape, true));
-
-            let points = shape.getConsistentlyPoints();
-            let geometry = this.geometryBuilder.createThreeGeometry(points, Math.abs(shape.height));
+            let geometry = this.geometryBuilder.createThreeGeometry(shape);
+            if(!geometry){
+                continue;
+            }
             let mesh = new THREE.Mesh(geometry, this.material);
             if (shape.height>0) {
                 meshes.push(mesh);
