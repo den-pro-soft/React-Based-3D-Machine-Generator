@@ -197,7 +197,7 @@ export default class Shape{
             if(currentElement instanceof Spline){
                 let temp = [points[0]];
                 let i=0;
-                for(i=1; i<points.length-1; i+=10){
+                for(i=1; i<points.length-1; i+=2){
                     temp.push(points[i]);
                 }
                 if(i!=points.length-1) {

@@ -58,7 +58,7 @@ export default class BendProcessNode{
         /** @type {BendProcessNode} */
         this.right = null;
 
-        this._insideRadius=0;
+        this._insideRadius=0.5;
 
         this.bendSectoinGeometry = null;
     }
@@ -85,13 +85,23 @@ export default class BendProcessNode{
 
     generateBendSections(){
         if(!this.geometry) {
-            var geometry = new THREE.CylinderGeometry(this._insideRadius + this.height, this._insideRadius + this.height,
-                this.bendLine.length(), 36, 1, false);
-            this.bendSectoinGeometry = geometry;
+            let geometry = new THREE.CylinderGeometry(this.height,this.height,
+                this.bendLine.length(), 100, 1, false);
+            let geometryInside = new THREE.CylinderGeometry(this.height,this.height,
+                this.bendLine.length()+5, 100, 1, false);
+            geometryInside.translate(this.height, 0, -this.height);
+            geometry = new ThreeBSP(geometry).subtract(new ThreeBSP(geometryInside)).toGeometry();
+
+
+
+
+
 
             let center = this.bendLine.getCenter();
+
             geometry.rotateZ(Trigonometric.gradToRad(this.bendLine.angle-90));
-            geometry.translate(center.x-this.height/2, center.y+1, this._insideRadius+this.height);
+            geometry.translate(center.x, center.y, 0);
+            this.bendSectoinGeometry = geometry;
 
             this.left.generateBendSections();
             this.right.generateBendSections();
@@ -152,13 +162,13 @@ export default class BendProcessNode{
             let center = this.bendLine.getCenter();
             right.translate(-center.x, -center.y, 0);
             right.rotateZ(-Trigonometric.gradToRad(this.bendLine.angle));
-            right.rotateX(Trigonometric.gradToRad(this.bendLine.lineType.processing[0].angle));
+            right.rotateX(-Trigonometric.gradToRad(this.bendLine.lineType.processing[0].angle));
             right.rotateZ(Trigonometric.gradToRad(this.bendLine.angle));
             right.translate(center.x, center.y, 0);
 
             res = new ThreeBSP(left);
             res = res.union(new ThreeBSP(right));
-            // res = res.union(new ThreeBSP(this.bendSectoinGeometry));
+            res = res.union(new ThreeBSP(this.bendSectoinGeometry));
             res = res.toGeometry();
         }
         return res;
