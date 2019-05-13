@@ -20,35 +20,53 @@ class PolygonGeometryBuilder{
 
         let bends = shapeModel.bends;
 
-        let bend = bends[0];
 
         let vertices = shapeModel.getConsistentlyPoints();
         let height =  Math.abs(shapeModel.height);
+        let sourceShape = this._createThreeGeometryByPoints(vertices, height);
 
+        let shapes = [sourceShape];
 
-        let allShape = this._createThreeGeometryByPoints(vertices, height);
+        for(let bend of bends){
+            let temp = [];
+            for(let i=0; i<shapes.length; i++) {
+                let shape = shapes[i];
 
-        if(bend) {
-            let cutGeometry1 = this._createCutCubeGeometry(bend.angle+180, bend.getCenter());
-            let cutGeometry2 = this._createCutCubeGeometry(bend.angle, bend.getCenter());
+                let cutGeometry1 = this._createCutCubeGeometry(bend.angle + 180, bend.getCenter());
+                let cutGeometry2 = this._createCutCubeGeometry(bend.angle, bend.getCenter());
 
-            let res1 = new ThreeBSP(allShape).subtract(new ThreeBSP(cutGeometry1)).toGeometry();
-            res1.translate(-0.5, -0.1, 0);
+                let res1 = new ThreeBSP(shape).subtract(new ThreeBSP(cutGeometry1)).toGeometry();
 
+                let res2 = new ThreeBSP(shape).subtract(new ThreeBSP(cutGeometry2)).toGeometry();
 
-            let res2 = new ThreeBSP(allShape).subtract(new ThreeBSP(cutGeometry2)).toGeometry();
+                if(res1.vertices.length!=0 && res2.vertices.length!=0){
+                    temp.push(res1);
+                    temp.push(res2);
+                    //todo: rotate
+                }else{
+                    temp.push(shape);
+                }
+            }
+            shapes = temp;
+        }
+        if(shapes.length>1) {
 
+            let res = new ThreeBSP(shapes[0]);
 
-            let res = new ThreeBSP(res1).union(new ThreeBSP(res2)).toGeometry();
+            for(let i=1; i<shapes.length; i++){
+                shapes[i].translate(0.3*i,0.3*i,0);
+                res = res.union(new ThreeBSP(shapes[i]));
+            }
 
-            // return cutGeometry;
+            res = res.toGeometry();
+
             if(res.vertices.length==0){
                 return null;
             }else {
                 return res;
             }
         }else{
-            return allShape;
+            return sourceShape;
         }
     }
 
@@ -62,19 +80,10 @@ class PolygonGeometryBuilder{
     _createCutCubeGeometry(angle, center){
         let cubesize = 1000;
 
-        // let tPoint = new Point(cubesize/2,0,0);
-        //
-        // tPoint.changeByMatrix(Matrix.createRotateMatrix(angle*2));
-
-
-
-
         let geometry = new THREE.BoxGeometry( cubesize, cubesize, cubesize );
         geometry.rotateZ(Trigonometric.gradToRad(angle));
 
         geometry.translate(center.x+(cubesize/2)*Math.sin(Trigonometric.gradToRad(angle)), center.y-(cubesize/2)*Math.cos(Trigonometric.gradToRad(angle)), 0);
-
-
 
         return geometry;
     }
@@ -156,7 +165,7 @@ class PolygonMeshBuilder{
                     let res = new ThreeBSP(resultMesh);
                     if(intersectMeshList.length>0){
                         let index =0;
-                        let interval = setInterval(()=>{
+                        let interval = setInterval(()=>{ //todo: the method can has error. Need use recursive function with promisses(for progress br)
                             this.progressBar.setValue(((addMeshList.length+index)*100)/n);
                             res = res.subtract(new ThreeBSP(intersectMeshList[index++]));
                             if(index==intersectMeshList.length){
