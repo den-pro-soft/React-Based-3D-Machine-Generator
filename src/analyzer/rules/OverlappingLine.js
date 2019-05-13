@@ -10,6 +10,7 @@ import Arc from './../../model/elements/Arc';
 import LineElement from "../../model/elements/LineElement";
 import Merge from "../solutions/Merge";
 import Vector from "../../model/math/Vector";
+import Auto from "../../model/line_types/Auto";
 
 export default class OverlappingLine extends Rule{
 
@@ -71,7 +72,7 @@ export default class OverlappingLine extends Rule{
      * @private
      */
     getOverlappingLineByDocument(document){
-        let lines = document.getListSimpleElements().filter((el)=>(el instanceof LineElement));
+        let lines = document.getListSimpleElements().filter((el)=>(el instanceof LineElement) && (el.lineType instanceof Auto));
 
         for(let i=0; i<lines.length; i++){
             for(let j=0; j<lines.length; j++){
