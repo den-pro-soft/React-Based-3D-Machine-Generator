@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 var OrbitControls = require('three-orbit-controls')(THREE);
 import {PolygonMeshBuilder} from './3d/GeometryBuilder';
+import Point from './../model/Point';
 
 /**
  * Created by dev on 03.12.18.
@@ -91,16 +92,20 @@ export default class View3D{
     setGeometry(document){
         return new Promise((resolve, reject)=>{
             this.resetScene();
+            /** @type {THREE.Mesh} */
             let mesh = this.meshBuilder.getMeshes(document).then((mesh)=>{
                 if(mesh){
                     mesh.rotateX(-90* Math.PI/180);
 
-                    let extrenum = document.getExtrenum();
+                    let extrenum = Point.getExtrenum(mesh.geometry.vertices.map(v=>new Point(v.x, v.y, v.z)));
+
                     let dx = extrenum.min.x+(extrenum.max.x-extrenum.min.x)/2;
                     let dy = extrenum.min.y +(extrenum.max.y-extrenum.min.y)/2;
+                    let dz = extrenum.min.z +(extrenum.max.z-extrenum.min.z)/2;
                     console.log(dx, dy);
                     mesh.translateX(-dx);
                     mesh.translateY(-dy);
+                    mesh.translateZ(-dz);
                     // mesh.scale.set(2,2,2);
 
                     this.scene.add(mesh);

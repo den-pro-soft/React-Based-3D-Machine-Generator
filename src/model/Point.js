@@ -17,12 +17,12 @@ let id=0;
 export default class Point extends Cloneable{
     
     /**
-     * Find and return max and min values by x and y in all points
+     * Find and return max and min values by x, y and z in all points
      * @param {Array.<Point>} points
-     * @returns {{max:{x:number, y:number}, min:{x:number, y:number}}}
+     * @returns {{max:{x:number, y:number, z:number}, min:{x:number, y:number, z:number}}}
      */
     static getExtrenum(points){
-        let extrenum = {max:{x:points[0].x, y:points[0].y}, min:{x:points[0].x, y:points[0].y}};
+        let extrenum = {max:{x:points[0].x, y:points[0].y, z:points[0].z}, min:{x:points[0].x, y:points[0].y, z:points[0].z}};
         for(let i=1; i<points.length; i++){
             if(!points[i] instanceof Point){
                 throw new Exception('Array have not Point object', points[i]);
@@ -39,6 +39,13 @@ export default class Point extends Cloneable{
             if(points[i].y<extrenum.min.y){
                 extrenum.min.y = points[i].y;
             }
+            if(points[i].z>extrenum.max.z){
+                extrenum.max.z = points[i].z;
+            }
+            if(points[i].z<extrenum.min.z){
+                extrenum.min.z = points[i].z;
+            }
+
         }
         return extrenum;
     }
