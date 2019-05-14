@@ -13,7 +13,6 @@ import {
 import { createStore } from "redux";
 import { Provider } from "react-redux";
 import rootReducer from "./../Redux/rootReducer";
-import Helper from "../../Helper";
 
 
 window.store = createStore(rootReducer);
