@@ -65,7 +65,7 @@ export default class Application extends Observable{
      *
      * @param {Config} config
      */
-    constructor(config){
+    constructor(config, board){
         super();
 
         /** @param {Document} */
@@ -86,6 +86,9 @@ export default class Application extends Observable{
 
         this.saved = true;
         this.loaded = true;
+
+        this.board=board;
+        this.magnificationMode = config.magnificationMode;
 
         setInterval(()=>{
             if(!this.saved) {

@@ -63,7 +63,6 @@ export default class Config extends Observable{
     };
 
     get dimension(){return this._dimension};
-
     get demensions(){return this._dimension};
     set demensions(value){
         this._dimension=value;
@@ -101,10 +100,19 @@ export default class Config extends Observable{
 
     get fontSize(){return this._fontSize};
 
+    get magnificationMode(){
+        let color = localStorage.getItem("bgColorSnapToLines"); //todo: save as boolean
+
+        if (color === "#fff") {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     get userInfo(){
         return JSON.parse(localStorage.getItem('userInfo'));
     }
-
     set userInfo(user){
         localStorage.setItem('userInfo', JSON.stringify(user));
     }
