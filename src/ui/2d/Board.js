@@ -29,6 +29,7 @@ class Board extends Observable{
         this._pixelPerOne=50;
 
         this._canvas= document.createElement('canvas');
+        this._canvas.addEventListener('contextmenu', event => event.preventDefault());
         this._context = this._canvas.getContext('2d');
 
         this._width = 500;
