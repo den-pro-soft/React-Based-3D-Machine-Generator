@@ -14,7 +14,9 @@ export default class ThreeDView{
 
         this.view3D = new View3D({ width: 800, height: 600 });
         this.popup3DView.addContent(this.view3D.getContent());
-
+        this.popup3DView.addHandler('hide', ()=>{
+            this.view3D.clearMemory();
+        });
         this.board =board;
         this.app=app;
     }

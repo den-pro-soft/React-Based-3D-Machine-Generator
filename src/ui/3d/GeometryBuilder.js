@@ -11,6 +11,7 @@ import Matrix from "../../model/math/Matrix";
 import Point from "../../model/Point";
 import BendProcessNode from "./bend/BendProcessNode";
 import ShapeGeometryBuilder from "./ShapeGeometryBuilder";
+import GraphicElement from "../../model/GraphicElement";
 
 class PolygonGeometryBuilder{
 
@@ -24,12 +25,17 @@ class PolygonGeometryBuilder{
         let sourceShape = ShapeGeometryBuilder.getGeometry(vertices, height);
 
         let tree = BendProcessNode.buildTree(sourceShape, shapeModel.height, shapeModel.bends);
+        console.log("three generated");
         tree.generateBendSections();
 
+        console.log("generated bend sections");
+
         if(airInside) {
+            airInside.translate(0,0,GraphicElement.AirInside/2);
             tree.addAirInside(airInside);
         }
-        console.log(tree);
+
+        console.log("After tree creator");
         return tree.getGeometry();
     }
 
@@ -51,6 +57,7 @@ class PolygonMeshBuilder{
      * @return {Promise.<THREE.Mesh>}
      */
     getMeshes(document){
+        this.progressBar.show("Rendering 3D ...");
         let meshes = [];
 
         let builder = new ShapeBuilder(document);
@@ -60,6 +67,7 @@ class PolygonMeshBuilder{
 
         let holes = shapes.filter(shape=>shape.height<=0);
         for(let hole of holes){
+            console.log("GeometryBuilder 64");
             let heigth = Math.abs(hole.height);
             if(!airInside){
                 airInside=ShapeGeometryBuilder.getGeometry(hole.getConsistentlyPoints(), heigth);
@@ -69,19 +77,24 @@ class PolygonMeshBuilder{
             }
         }
 
+        this.progressBar.show(10);
+
         shapes = shapes.filter(shape=>shape.height>0);
         for(let shape of shapes){
+            console.log("GeometruBuilder, 76");
             let geometry = this.geometryBuilder.createThreeGeometry(shape, airInside);
             if(!geometry){
                 continue;
             }
+            console.log("start create mesh");
             let mesh = new THREE.Mesh(geometry, this.material);
+            console.log("after create mesh");
             meshes.push(mesh);
         }
 
-        this.progressBar.show("Rendering 3D ...");
 
-        let res = this._groupMeshes(meshes,[]);
+        console.log("Start group mesh");
+        let res = this._groupMeshes(meshes);
         return res;
     }
 
@@ -92,41 +105,7 @@ class PolygonMeshBuilder{
      * @return {Promise.<Mesh|null>}
      * @private
      */
-    _groupMeshes(addMeshList,intersectMeshList){
-        return new Promise((resolve, reject)=>{
-            let n = addMeshList.length+intersectMeshList.length-1;
-            this.union(addMeshList, n).then(resultMesh=>{
-                if(resultMesh!=null){
-                    let res = new ThreeBSP(resultMesh);
-                    if(intersectMeshList.length>0){
-                        let index =0;
-                        let interval = setInterval(()=>{ //todo: the method can has error. Need use recursive function with promisses(for progress br)
-                            this.progressBar.setValue(((addMeshList.length+index)*100)/n);
-                            res = res.subtract(new ThreeBSP(intersectMeshList[index++]));
-                            if(index==intersectMeshList.length){
-                                clearInterval(interval);
-                                this.progressBar.hide();
-                                resolve(new THREE.Mesh(res.toGeometry(),this.material));
-                            }
-                        },200);
-                    }else{
-                        this.progressBar.hide();
-                        resolve(new THREE.Mesh(res.toGeometry(),this.material));
-                    }
-                }else{
-                    this.progressBar.hide();
-                    resolve(null);
-                }
-            });
-        });
-    }
-
-    /**
-     * @param {Array} addMeshList
-     * @param {number} n
-     * @return {Promise.<Mesh>}
-     */
-    union(addMeshList, n){
+    _groupMeshes(addMeshList){
         return new Promise((resolve, reject)=>{
             let resultMesh = null;
             if(addMeshList.length>1) {
@@ -138,7 +117,6 @@ class PolygonMeshBuilder{
                         clearInterval(interval);
                         return;
                     }
-                    this.progressBar.setValue((index*100)/n);
                     res =res.union(new ThreeBSP(addMeshList[index++]));
                 },20);
             }else{

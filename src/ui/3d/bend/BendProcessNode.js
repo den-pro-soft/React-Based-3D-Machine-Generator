@@ -33,6 +33,7 @@ export default class BendProcessNode{
 
 
         for(let bend of bends){
+            console.log("added bend");
             res.addBend(bend);
         }
         return res;
@@ -74,8 +75,10 @@ export default class BendProcessNode{
 
     addAirInside(geometry){
         if(this.geometry){
+            console.log("AI G");
             this.geometry = new ThreeBSP(this.geometry).subtract(new ThreeBSP(geometry)).toGeometry();
         }else{
+            console.log("AI N");
             this.bendSectoinGeometry = new ThreeBSP(this.bendSectoinGeometry).subtract(new ThreeBSP(geometry)).toGeometry();
             this.left.addAirInside(geometry);
             this.right.addAirInside(geometry);
@@ -152,6 +155,7 @@ export default class BendProcessNode{
      * @public
      */
     getGeometry(){
+        console.log("Tree getGeometry");
         let res = null;
         if(this.geometry){
             res = this.geometry;
@@ -171,6 +175,8 @@ export default class BendProcessNode{
             res = res.union(new ThreeBSP(this.bendSectoinGeometry));
             res = res.toGeometry();
         }
+        container.resolve('progressBar').setValue(70);
+        console.log("three getGeometry end");
         return res;
     }
 
