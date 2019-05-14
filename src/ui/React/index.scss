@@ -6,6 +6,7 @@ body, #app, .appContainer{
   display: flex;
   flex-direction: column;
   background-color: #efefef;
+  overflow: hidden;
 }
 
 .appContainer{

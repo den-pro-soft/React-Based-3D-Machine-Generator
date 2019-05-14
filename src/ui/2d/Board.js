@@ -336,6 +336,10 @@ class InteractiveBoard extends Board{
         this._canvas.addEventListener('mousedown', e=>this.mouseDown(e));
         this._canvas.addEventListener('mouseup', e=>this.mouseUp(e));
 
+        this._canvas.addEventListener("touchmove", e=>this.mouseMove({offsetX:e.touches[0].pageX - e.touches[0].target.offsetLeft, offsetY:e.touches[0].pageY - e.touches[0].target.offsetTop}));
+        this._canvas.addEventListener("touchstart", e=>this.mouseDown({offsetX:e.touches[0].pageX - e.touches[0].target.offsetLeft, offsetY:e.touches[0].pageY - e.touches[0].target.offsetTop}));
+        this._canvas.addEventListener("touchend", e=>this.mouseUp({offsetX:e.changedTouches[0].pageX - e.changedTouches[0].target.offsetLeft, offsetY:e.changedTouches[0].pageY - e.changedTouches[0].target.offsetTop}));
+
         let lastWheel=0;
         if (this._canvas.addEventListener) {
             if ('onwheel' in document) {
